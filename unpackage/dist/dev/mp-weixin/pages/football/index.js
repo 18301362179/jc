@@ -125,6 +125,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var m0 = !(_vm.selectedMatchCount === 0) ? _vm.getComboDisplayText() : null
   var l0 = _vm.__map(_vm.typesList, function (typeText, __i0__) {
     var $orig = _vm.__get_orig(typeText)
     var g0 = _vm.selectedType.includes(typeText)
@@ -144,6 +145,7 @@ var render = function () {
     {},
     {
       $root: {
+        m0: m0,
         l0: l0,
       },
     }

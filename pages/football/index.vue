@@ -73,51 +73,46 @@
     </scroll-view>
 
     <!-- 底部投注栏（核心修正） -->
-<!-- 底部投注栏（修改后） -->
-<view class="bet-bar">
-  <view class="bet-bar-top">
-    <!-- 左侧：已选场次 + 清空按钮 -->
-    <view class="top-left">
-      <text class="selected-count">已选{{ selectedMatchCount }}场</text>
-      <!-- 垃圾桶清空按钮 -->
-      <image 
-        class="clear-icon" 
-        src="/static/clear.png" 
-        mode="widthFix"
-        @click="clearAllSelection"
-        :class="{ disabled: selectedMatchCount === 0 }"
-      ></image>
-      <!-- 风险提示 -->
-      <text class="risk-tip">页面固定奖金仅供参考，请以出票时固定奖金为准</text>
-    </view>
+    <view class="bet-bar">
+      <view class="bet-bar-top">
+        <view class="top-left">
+          <text>
+            {{ selectedMatchCount === 0 ? '过关方式' : getComboDisplayText() }}
+          </text>
+        </view>
 
-    <!-- 中间：倍数调整（保留原有逻辑） -->
-    <view class="top-middle">
-      投
-      <button class="multi-btn minus" @click="handleMinus" :disabled="selectedMatchCount < 1">-</button>
-      <view 
-        class="multi-input" 
-        @tap="showNumberKeyboard = true"
-        :class="{ 'disabled': selectedMatchCount < 1 }"
-      >
-        {{ betCount }}
+        <view class="top-middle">
+          投
+          <button class="multi-btn minus" @click="handleMinus" :disabled="selectedMatchCount < 1">-</button>
+          <view 
+            class="multi-input" 
+            @tap="showNumberKeyboard = true"
+            :class="{ 'disabled': selectedMatchCount < 1 }"
+          >
+            {{ betCount }}
+          </view>
+          <button class="multi-btn plus" @click="handlePlus" :disabled="selectedMatchCount < 1 || betCount >= 50">+</button>
+          倍
+        </view>
+
+        <view class="top-right">
+          <button class="confirm-btn" @click="goToSchemeEdit">预览</button>
+        </view>
       </view>
-      <button class="multi-btn plus" @click="handlePlus" :disabled="selectedMatchCount < 1 || betCount >= 50">+</button>
-      倍
-    </view>
 
-    <!-- 右侧：选好了（预览）按钮 -->
-    <view class="top-right">
-      <button 
-        class="confirm-btn" 
-        @click="goToSchemeEdit"
-        :disabled="selectedMatchCount === 0"
-      >选好了</button>
+      <!-- 串关选择区：展开+有选中场次才显示 -->
+      <view class="bet-bar-bottom" v-if="!collapseStatus && selectedMatchCount > 0">
+        <view 
+          class="combo-item" 
+          v-for="(item, idx) in comboList" 
+          :key="idx"
+          :class="{ 'active': selectedCombo === item.value, 'disabled': !item.enabled }"
+          @click="handleComboSelect(item)"
+        >
+          {{ item.label }}
+        </view>
+      </view>
     </view>
-  </view>
-
-  <!-- 移除：串关选择区（几串几相关） -->
-</view>
 
     <!-- 玩法切换弹窗 -->
     <view class="type-popup" :class="{ show: isPopupShowType }">
