@@ -1,0 +1,670 @@
+<template>
+  <view @touchstart="onTouchStart" 
+    @touchend="onTouchEnd"
+    style="width: 100%; height: 100vh; box-sizing: border-box;">
+    <!-- 顶部导航 -->
+    <CustomHeader
+      :title="'6场半全场'"
+      :showBack="true"
+      :isIndex="false"
+      :showIcon="false"
+      :isSelected="false"
+      :selectedPlay="''"
+      @funnel-click="handleFunnel"
+      @back-click="onBackClick"
+    />
+    <!-- 🌟 新增：期数选择组件（和4球父组件一致） -->
+    <DrawNumSelector
+      :draw-num-list="drawNumList"
+      :current-draw-num="currentDrawNum"
+      :nav-bar-total-height="navBarTotalHeight"
+      @draw-num-change="onDrawNumChange"
+      @rule-click="handleFunnel"/>
+
+    <!-- 滚动列表区域：修改top样式，和4球一致 -->
+    <scroll-view 
+      class="match-scroll" 
+      scroll-y
+      :style="{ 
+        top: (navBarTotalHeight + 70 ) + 'rpx', // 动态适配期数选择器下方位置
+        bottom: '90rpx' 
+      }"
+    >
+      <List
+        ref="spfRef"
+        :drawer-list="drawerList"
+        :status-bar-height="statusBarHeight"
+        @toggle-select="toggleSelect"
+        :go-to-ai-analysis="goToAiAnalysis"
+      />
+    </scroll-view>
+
+    <!-- 底部投注栏组件：保持6球原有逻辑（min-match-count=6） -->
+    <BetBar
+      :min-match-count="6"
+      title="6场半全场"       
+      :show-clear-btn="true"
+      :confirmBtnEnabled="true"
+      :confirm-btn-enabled="selectedMatchCount >= 6"
+      :selected-count="selectedMatchCount"
+      @clear="handleClearAll"
+      @confirm="goToSchemeEdit"
+    />
+
+    <!-- 必要的弹窗组件：保持原有 -->
+    <TipsPopup
+      :visible.sync="isPopupShow"
+      :title="tipsTitle"
+      :content-list="tipsContentList"
+      :header-height="headerHeight"
+      :popup-width="700"
+      border-color="#07c160"
+      @close="handlePopupClose"
+      :max-height="popupMaxHeight"
+    />
+    <EmptyStop 
+      :hasData="!hasData" 
+    />
+    <ReminderDialog :isShow="isDialogShow" @cancel="handleCancel" @exchange="handleRecharge" />
+  </view>
+</template>
+
+<script>
+// 核心组件引入：🌟 新增DrawNumSelector
+import List from "@/pages/sixIndex/list.vue";
+import CustomHeader from "@/components/CustomHeader.vue";
+import ReminderDialog from "@/pages/commn/ReminderDialog.vue";
+import TipsPopup from "@/pages/commn/playTip";
+import EmptyStop from '@/pages/commn/emptyStop.vue';
+import BetBar from "@/pages/commn/betBar/index.vue";
+import DrawNumSelector from '@/pages/commn/DrawNumSelector/index.vue' // 🌟 新增
+
+// API和工具函数引入：🌟 新增footballLotteryTraditionDrawNum
+import { footballLotteryTradition, checkSelect, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
+import { formatTimeToMDWeekHM } from "@/utils/data";
+
+export default {
+  components: {
+    List,
+    CustomHeader,
+    ReminderDialog,
+    TipsPopup,
+    EmptyStop,
+    BetBar,
+    DrawNumSelector // 🌟 注册期数组件
+  },
+  data() {
+    return {
+      // 🌟 新增期数相关变量（和4球一致）
+      currentDrawNum: '', 
+      drawNumList: [], 
+      navBarTotalHeight: 88, // 兜底默认值，和4球一致
+      
+      currentPlay: "半全场", 
+      isPopupShow: false,
+      drawerList: [],
+      isLoading: false,
+      headerHeight: 0,
+      isDialogShow: false,
+      statusBarHeight: 0,
+      playTypeMap: {
+        "半全场": "bqzc" 
+      },
+      isRefreshing: false,
+      tipsTitle: "重要提示",
+      tipsContentList: [
+        "1、挑选胜率差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。",
+        "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。",
+        "3、本软件提供竞彩足球、竞彩篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。",
+        "4、本系统预测数据仅供参考，无准确率保证。",
+        "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。",
+        "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。",
+        "7、关于体彩相关玩法、规则请到中国体育彩票网站或app自行参阅。",
+        "8、每天上午11点10分后本应用正式可用。"
+      ],
+      windowHeight: 0,
+      windowWidth: 0,
+      popupMaxHeight: 0,
+      touchStartX: 0,
+      swipeThreshold: 50,
+      hasData: false
+    };
+  },
+  async onPullDownRefresh() {
+    try {
+      this.isRefreshing = true;
+      await this.loadMatchData();
+    } catch (err) {
+      console.error("下拉刷新失败：", err);
+      uni.showToast({ title: "刷新失败", icon: "none" });
+    } finally {
+      this.isRefreshing = false;
+      uni.stopPullDownRefresh();
+    }
+  },
+  computed: {
+    targetLotteryType() {
+      return this.playTypeMap[this.currentPlay] || "bqzc";
+    },
+    // 保留6球原有选中计数逻辑
+    selectedMatchCount() {
+      let count = 0;
+      this.drawerList.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
+          const isHalfSelected = item.halfHomeSelected || item.halfVsSelected || item.halfAwaySelected;
+          const isFullSelected = item.fullHomeSelected || item.fullVsSelected || item.fullAwaySelected;
+          if (isHalfSelected || isFullSelected) count++;
+        });
+      });
+      return count;
+    }
+  },
+  watch: {
+    currentPlay(newVal) {
+      this.loadMatchData();
+    }
+  },
+  created() {
+    // 统一获取系统信息，兼容多端
+    const systemInfo = uni.getSystemInfoSync();
+    this.statusBarHeight = systemInfo.statusBarHeight;
+    this.windowWidth = systemInfo.windowWidth;
+    this.windowHeight = systemInfo.windowHeight;
+    // 🌟 新增：计算导航栏总高度（和4球一致）
+    this.calcNavBarTotalHeight();
+  },
+  mounted() {
+    this.calcHeaderHeight();
+    this.calcPopupMaxHeight();
+  },
+  onShow() {
+    const editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      let parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      // 初始化清空期数，重新请求最新数据（和4球一致）
+      this.drawNumList = [];
+      this.currentDrawNum = '';
+      this.loadMatchData();
+    }
+  },
+  methods: {
+    // 🌟 新增：计算导航栏总高度（和4球完全一致）
+    calcNavBarTotalHeight() {
+      const systemInfo = uni.getSystemInfoSync();
+      const statusBarHeight = systemInfo.statusBarHeight || 0;
+      const navBarHeight = 44;
+      const totalHeightPx = statusBarHeight + navBarHeight;
+      const totalHeightRpx = Math.round(totalHeightPx * 750 / (systemInfo.windowWidth || 375));
+      this.navBarTotalHeight = totalHeightRpx;
+    },
+    // 🌟 新增：期数切换回调（和4球逻辑一致）
+    onDrawNumChange(num) {
+      if (!num || num.trim() === "") return;
+      
+      this.currentDrawNum = num;
+      
+      uni.showToast({
+        title: "切换至" + num + "期",
+        icon: "none",
+        duration: 800
+      });
+
+      this.loadMatchData(num)
+        .catch(function(err) {
+          console.error("切换期数失败：", err);
+          uni.showToast({
+            title: "加载" + num + "期数据失败",
+            icon: "none"
+          });
+          if (this.drawNumList.length > 0) {
+            this.currentDrawNum = this.drawNumList[0];
+          }
+        }.bind(this));
+    },
+    onBackClick(){
+      uni.navigateBack({
+        delta: 1
+      });
+    },
+    // 保留6球原有清空逻辑
+    handleClearAll() {
+      this.drawerList.forEach((drawer, drawerIdx) => {
+        drawer.lotteryList.forEach((item, matchIdx) => {
+          this.$set(drawer.lotteryList[matchIdx], "halfHomeSelected", false);
+          this.$set(drawer.lotteryList[matchIdx], "halfVsSelected", false);
+          this.$set(drawer.lotteryList[matchIdx], "halfAwaySelected", false);
+          this.$set(drawer.lotteryList[matchIdx], "fullHomeSelected", false);
+          this.$set(drawer.lotteryList[matchIdx], "fullVsSelected", false);
+          this.$set(drawer.lotteryList[matchIdx], "fullAwaySelected", false);
+        });
+      });
+      uni.showToast({
+        title: "已清空选择",
+        icon: "success"
+      });
+    },
+    onTouchStart(e) {
+      this.touchStartX = e.changedTouches[0].clientX;
+    },
+    onTouchEnd(e) {
+      const touchEndX = e.changedTouches[0].clientX;
+      const diffX = touchEndX - this.touchStartX;
+      if (Math.abs(diffX) < this.swipeThreshold) return;
+    },
+    calcPopupMaxHeight() {
+      const systemInfo = uni.getSystemInfoSync();
+      let windowHeight = systemInfo.windowHeight;
+      let safeAreaInsets = systemInfo.safeAreaInsets || { bottom: 0 };
+      let safeAreaBottom = safeAreaInsets.bottom || 0;
+      this.popupMaxHeight = windowHeight - safeAreaBottom - this.headerHeight - 90;
+      // #ifdef MP-WEIXIN
+      let safeArea = systemInfo.safeArea || { height: 0 };
+      let safeAreaHeight = safeArea.height || this.popupMaxHeight;
+      this.popupMaxHeight = Math.min(this.popupMaxHeight, safeAreaHeight - 90);
+      // #endif
+    },
+    handlePopupClose() {
+      this.isPopupShow = false;
+    },
+    // 保留6球原有获取选中赛事逻辑
+    getSelectedMatches() {
+      const selected = [];
+      this.drawerList.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
+          const isHalfSelected = item.halfHomeSelected || item.halfVsSelected || item.halfAwaySelected;
+          const isFullSelected = item.fullHomeSelected || item.fullVsSelected || item.fullAwaySelected;
+          if (isHalfSelected || isFullSelected) {
+            selected.push({
+              ...item,
+              halfHomeSelected: item.halfHomeSelected,
+              halfVsSelected: item.halfVsSelected,
+              halfAwaySelected: item.halfAwaySelected,
+              fullHomeSelected: item.fullHomeSelected,
+              fullVsSelected: item.fullVsSelected,
+              fullAwaySelected: item.fullAwaySelected
+            });
+          }
+        });
+      });
+      return selected;
+    },
+    // 保留6球原有方案编辑跳转逻辑
+    async goToSchemeEdit() {
+      try {
+        const selectedMatches = this.getSelectedMatches();
+        const totalSelectedCount = selectedMatches.length;
+        
+        if (totalSelectedCount !== 6) {
+          uni.showToast({ title: "请选择6场赛事", icon: "none" });
+          return;
+        }
+
+        const matchIds = selectedMatches.map((item) => item.id).join(",");
+        this.showLoading();
+        const res = await checkSelect({ lotteryIds: matchIds });
+        let isNeedUserPhone = 1;
+        if (res.data && res.data.isNeedUserPhone !== undefined) {
+          isNeedUserPhone = res.data.isNeedUserPhone;
+        }
+        
+        if (res.data) {
+          await uni.navigateTo({
+            url: "/pages/edit/football/index",
+            events: { updateSelectedMatches: (updatedData) => this.syncUpdatedMatches(updatedData) },
+            success: (res) => {
+              res.eventChannel.emit("selectedData", { 
+                matches: selectedMatches, 
+                isNeedUserPhone,
+                comboText: "6串1",
+                playType: "半全场"
+              });
+            },
+          });
+        } else {
+          uni.showModal({
+            title: "提示",
+            content: "抱歉存在停场次，请重新选择！",
+            showCancel: false,
+            confirmText: "我知道了",
+            success: (modalRes) => {
+              if (modalRes.confirm) {
+                this.drawerList = [];
+                this.loadMatchData();
+              }
+            },
+          });
+        }
+      } catch (error) {
+        console.error("checkSelect接口调用失败:", error);
+        uni.showModal({
+          title: "错误",
+          content: "验证失败，请稍后重试",
+          showCancel: false,
+          confirmText: "我知道了",
+          success: (modalRes) => {
+            if (modalRes.confirm) {
+              this.drawerList = [];
+              this.loadMatchData();
+            }
+          },
+        });
+      } finally {
+        this.hideLoading();
+      }
+    },
+    // 保留6球原有同步选中状态逻辑
+    syncUpdatedMatches(updatedData) {
+      if (!updatedData || !updatedData.matches) return;
+      this.drawerList.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
+          this.$set(item, "halfHomeSelected", false);
+          this.$set(item, "halfVsSelected", false);
+          this.$set(item, "halfAwaySelected", false);
+          this.$set(item, "fullHomeSelected", false);
+          this.$set(item, "fullVsSelected", false);
+          this.$set(item, "fullAwaySelected", false);
+        });
+      });
+      updatedData.matches.forEach((updatedItem) => {
+        this.drawerList.forEach((drawer) => {
+          const targetMatchIdx = drawer.lotteryList.findIndex((item) => item.id === updatedItem.id);
+          if (targetMatchIdx !== -1) {
+            this.$set(drawer.lotteryList[targetMatchIdx], "halfHomeSelected", updatedItem.halfHomeSelected || false);
+            this.$set(drawer.lotteryList[targetMatchIdx], "halfVsSelected", updatedItem.halfVsSelected || false);
+            this.$set(drawer.lotteryList[targetMatchIdx], "halfAwaySelected", updatedItem.halfAwaySelected || false);
+            this.$set(drawer.lotteryList[targetMatchIdx], "fullHomeSelected", updatedItem.fullHomeSelected || false);
+            this.$set(drawer.lotteryList[targetMatchIdx], "fullVsSelected", updatedItem.fullVsSelected || false);
+            this.$set(drawer.lotteryList[targetMatchIdx], "fullAwaySelected", updatedItem.fullAwaySelected || false);
+          }
+        });
+      });
+    },
+    // 保留6球原有选中同步逻辑
+    toggleSelect(targetItem, key) {
+      this.drawerList.forEach((drawer) => {
+        const matchIdx = drawer.lotteryList.findIndex((item) => item.id === targetItem.id);
+        if (matchIdx !== -1) {
+          this.$set(drawer.lotteryList[matchIdx], key, targetItem[key]);
+        }
+      });
+    },
+    handleRecharge() {
+      uni.navigateTo({ 
+        url: `/pages/recharge/recharge?beFrom=football&isLottery=1`
+      });
+      this.isDialogShow = false;
+    },
+    handleCancel() {
+      this.isDialogShow = false;
+    },
+    // 🌟 核心修改：loadMatchData兼容期数参数（和4球逻辑一致）
+    async loadMatchData(drawNum = '') {
+      try {
+        this.drawerList = [];
+        this.isLoading = true;
+        this.showLoading();
+        // 请求参数：传递期数，兼容无传入的情况
+        const reqParams = { playMethod: 6 };
+        
+        // 1. 请求期数列表并过滤空值（和4球一致）
+        const resNum =  await footballLotteryTraditionDrawNum({playMethod: 6});
+        this.drawNumList = (resNum && resNum.data ? resNum.data : []).filter(function(num) {
+          return num && num.trim() !== "";
+        });
+        
+        // 2. 赋值请求期数（优先用传入的，无则用过滤后的第一个有效期数）
+        let targetDrawNum = drawNum || this.currentDrawNum;
+        if (!targetDrawNum && this.drawNumList.length > 0) {
+          targetDrawNum = this.drawNumList[0];
+        }
+        if (targetDrawNum) {
+          reqParams.drawNum = targetDrawNum;
+          this.currentDrawNum = targetDrawNum;
+        }
+
+        // 3. 请求赛事列表（兼容返回数组的情况，和4球一致）
+        const res = await footballLotteryTradition(reqParams);
+        let matchData = [];
+        if (Array.isArray(res)) {
+          matchData = res;
+        } else if (res && res.data) {
+          matchData = res.data.dataList || res.data || [];
+        }
+        
+        // 4. 格式化赛事列表（保持6球原有初始化逻辑，仅对齐格式）
+        this.drawerList = this.formatDrawerList(matchData, this.currentDrawNum);
+        this.hasData = this.drawerList.length > 0;
+        if (!this.hasData) {
+          uni.showToast({ title: "暂无赛事数据", icon: "none" });
+        }
+      } catch (err) {
+        console.error("加载赛事失败:", err);
+        uni.showToast({ title: "加载失败，请重试", icon: "none" });
+        this.hasData = false;
+      } finally {
+        this.isLoading = false;
+        this.hideLoading();
+      }
+    },
+    // 🌟 调整formatDrawerList，对齐4球的参数和格式
+    formatDrawerList(matchArray, drawNum) {
+      if (!Array.isArray(matchArray) || matchArray.length === 0) return [];
+      
+      // 1. 拼接统一的Title（和4球格式一致）
+      const totalCount = matchArray.length;
+      let endTime = "";
+      if (matchArray[0] && matchArray[0].sale_end_time) {
+        endTime = matchArray[0].sale_end_time;
+      }
+      const unifiedTitle = drawNum + "期 |  共" + totalCount + "场比赛 " + "截止时间：" + endTime;
+
+      // 2. 处理所有比赛数据，保留6球原有半全场初始化逻辑
+      const allMatches = matchArray.map(item => ({
+        ...item,
+        halfHomeSelected: false,
+        halfVsSelected: false,
+        halfAwaySelected: false,
+        fullHomeSelected: false,
+        fullVsSelected: false,
+        fullAwaySelected: false
+      }));
+
+      // 3. 返回单抽屉结构（和4球一致）
+      return [{
+        title: unifiedTitle,
+        lotteryList: allMatches
+      }];
+    },
+    calcHeaderHeight() {
+      const systemInfo = uni.getSystemInfoSync();
+      const statusBarHeight = systemInfo.statusBarHeight;
+      const customHeaderHeight = (88 / 750) * systemInfo.windowWidth;
+      this.headerHeight = statusBarHeight + customHeaderHeight;
+    },
+    handleFunnel() {
+      this.isPopupShow = true;
+    },
+    // 保留6球原有AI分析逻辑
+    async goToAiAnalysis(item) {
+      try {
+        this.showLoading();
+        const reqParams = {
+          id: item.id,
+          beFrom: 'football',
+          serialNumber: item.serial_number || '',
+          isLottery: 1,
+          playType: '半全场'
+        };
+        const res = await recharge(reqParams);
+        if (res.data) {
+          this.isDialogShow = true;
+          this.hideLoading();
+          return;
+        }
+        await uni.navigateTo({ 
+          url: `/pages/test/index?id=${item.id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}&playType=${reqParams.playType}`
+        });
+      } catch (err) {
+        console.error('[AI分析] 失败:', err);
+        uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
+      } finally {
+        this.hideLoading();
+      }
+    },
+    showLoading() {
+      uni.showLoading({
+        title: "加载中...",
+        mask: true,
+      });
+    },
+    hideLoading() {
+      uni.hideLoading();
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+page {
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+::v-deep .custom-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 10 !important;
+}
+
+// 🌟 修改scroll-view样式，对齐4球的样式（删除原有多端适配的top/bottom，改用动态绑定）
+.match-scroll {
+  touch-action: pan-y;
+  position: absolute !important;
+  left: 0;
+  right: 0;
+  width: 100% !important;
+  overflow-y: auto !important;
+  background-color: #f5f5f5;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  // 隐藏滚动条
+  ::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+// 提示弹窗样式
+::v-deep .tips-container {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10rpx 0;
+}
+::v-deep .tips-title {
+  font-size: 32rpx;
+  color: #d92929;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+::v-deep .tips-list {
+  width: 100%;
+}
+::v-deep .tips-item {
+  font-size: 26rpx;
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 16rpx;
+  text-align: justify;
+  padding: 0 10rpx;
+  word-break: break-all;
+}
+::v-deep .tips-item:last-child {
+  margin-bottom: 0;
+}
+
+// 弹窗按钮栏
+.popup-btn-bar {
+  display: flex;
+  padding: 20rpx 24rpx;
+  gap: 20rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+  box-sizing: border-box;
+
+  .popup-btn {
+    flex: 1;
+    height: 80rpx;
+    border-radius: 8rpx;
+    font-size: 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: all 0.2s ease;
+  }
+  .cancel-btn {
+    background-color: #fff;
+    color: #666;
+    border: 1rpx solid #ddd;
+    &:hover { background-color: #f5f5f5; }
+    &:active { background-color: #eee; }
+  }
+  .confirm-btn {
+    background-color: #d92929;
+    color: #fff;
+    border: none;
+    &:hover { background-color: #c62828; }
+    &:active { background-color: #b71c1c; }
+  }
+}
+
+// 原生tabbar适配
+::v-deep .native-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9;
+}
+
+// 隐藏滚动条
+::-webkit-scrollbar {
+  display: none;
+}
+
+// 模态框样式
+.uni-modal-wrapper .uni-modal {
+  border-radius: 20rpx !important;
+  background-color: #fff !important;
+}
+.uni-modal-wrapper .uni-modal-header {
+  font-size: 32rpx !important;
+  color: #d92929 !important;
+  font-weight: bold !important;
+}
+.uni-modal-wrapper .uni-modal-body {
+  font-size: 28rpx !important;
+  color: #666 !important;
+  padding: 30rpx 20rpx !important;
+}
+.uni-modal-wrapper .uni-modal-footer .uni-modal-btn {
+  border-radius: 40rpx !important;
+}
+.uni-modal-wrapper .uni-modal-footer .uni-modal-btn.uni-modal-confirm {
+  background-color: #d92929 !important;
+  color: #fff !important;
+}
+</style>

@@ -1,0 +1,18 @@
+{
+  "navigationBarTitleText": "胜负游戏",
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#31926e",
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
+  "onReachBottomDistance": 50,
+  "disableScroll": true,
+  "usingComponents": {
+    "list": "/pages/fourteenIndex/list",
+    "custom-header": "/components/CustomHeader",
+    "reminder-dialog": "/pages/commn/ReminderDialog",
+    "tips-popup": "/pages/commn/playTip",
+    "empty-stop": "/pages/commn/emptyStop",
+    "bet-bar": "/pages/commn/betBar/index",
+    "draw-num-selector": "/pages/commn/DrawNumSelector/index"
+  }
+}

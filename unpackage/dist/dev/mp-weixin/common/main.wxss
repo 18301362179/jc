@@ -1,0 +1,219 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 全局样式：统一全项目页面样式，H5 环境保持不变 */
+uni-toast {
+  z-index: 99999999 !important;
+}
+page {
+  font-family: "SF Pro Display", "Roboto", "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 0 !important;
+  box-sizing: border-box;
+  --status-bar-height: 0rpx;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+}
+/* App 环境状态栏高度适配 */
+
+
+
+
+
+/* 微信小程序环境状态栏高度适配 */
+page {
+  --status-bar-height: 20rpx;
+}
+
+/* 全局弹窗层级保障，避免被遮挡 */
+uni-modal {
+  z-index: 99999999 !important;
+}
+.uni-mask {
+  z-index: 99999999 !important;
+}
+.uni-tabbar {
+  z-index: 998 !important;
+}
+.uni-modal {
+  z-index: 99999999 !important;
+}
+/* 首页专属样式，保持原有逻辑 */
+page.pages-index-index uni-page-body {
+  font-family: "SF Pro Display", "Roboto", "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 0 !important;
+  box-sizing: border-box;
+  --status-bar-height: 0rpx;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+

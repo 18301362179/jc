@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "灵石兑换",
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#31926e",
+  "enablePullDownRefresh": false,
+  "usingComponents": {}
+}

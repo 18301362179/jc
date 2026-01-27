@@ -1,0 +1,415 @@
+{
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"navigationBarTitleText": "让球胜平负",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	}, {
+		"path": "pages/football/index",
+		"style": {
+			"navigationBarTitleText": "让球胜平负",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	},{
+		"path": "pages/nineIndex/index",
+		"style": {
+			"navigationBarTitleText": "任选9场",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	},{
+		"path": "pages/fourteenIndex/index",
+		"style": {
+			"navigationBarTitleText": "胜负游戏",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	}, {
+		"path": "pages/sixIndex/index",
+		"style": {
+			"navigationBarTitleText": "6场半全场",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	},{
+		"path": "pages/fourIndex/index",
+		"style": {
+			"navigationBarTitleText": "4场进球",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	},{
+		"path": "pages/basketball/index",
+		"style": {
+			"navigationBarTitleText": "让球胜平负",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	},{
+		"path": "pages/recharge/recharge",
+		"style": {
+			"navigationBarTitleText": "灵石兑换",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": false
+		}
+	},  {
+		"path": "pages/analysisForecast/index",
+		"style": {
+			"navigationBarTitleText": "足球数据",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/user/index",
+		"style": {
+			"navigationBarTitleText": "我的",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": false
+		},
+		"app-plus": {
+			"titleNView": true
+		}
+	}],
+	"subPackages": [{
+		"root": "pages/edit/football",
+		"pages": [{
+			"path": "index",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		}, {
+			"path": "editScore",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		}, {
+			"path": "editHalfFull",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		}, {
+			"path": "editTotalGoals",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		}, {
+			"path": "editHandicap",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		}, {
+			"path": "editHhgg",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		}]
+	}, {
+		"root": "pages/edit/basketball",
+		"pages": [{
+			"path": "editHalfFull",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true
+				}
+			}
+		}, {
+			"path": "editHandicap",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		}, {
+			"path": "editScore",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		}, {
+			"path": "index",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		}]
+	}, {
+		"root": "pages/test",
+		"pages": [{
+			"path": "index",
+			"style": {
+				"navigationBarTitleText": "预测分析",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e"
+			}
+		}, {
+			"path": "basketballAi",
+			"style": {
+				"navigationBarTitleText": "预测分析",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e"
+			}
+		}]
+	}, {
+		"root": "pages/user/sub",
+		"pages": [{
+			"path": "buyDetail",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "scoreDetail",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "halfTimeDetail",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "totalGoalsDetail",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "basketballSf",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "basketballSfc",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "basketballHandicapDetail",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "overUnderDetail",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}]
+	}],
+	// #ifdef MP-WEIXIN
+	"tabBar": {
+		"color": "#555",
+		"selectedColor": "#d92929",
+		"backgroundColor": "#fff",
+		"borderStyle": "white",
+		"list": [{
+			"pagePath": "pages/index/index"
+		}, {
+			"pagePath": "pages/analysisForecast/index"
+		}, {
+			"pagePath": "pages/user/index"
+		}]
+	},
+	// #endif
+	"preloadRule": {
+		"pages/index/index": {
+			"network": "all",
+			"packages": ["pages/edit/football"]
+		},
+		"pages/basketball/index": {
+			"network": "all",
+			"packages": ["pages/edit/basketball"]
+		}
+	},
+	"uniIdRouter": {}
+}

@@ -1,0 +1,408 @@
+<template>
+  <!---胜平负-->
+  <view class="match-list" :style="{ paddingTop: paddingTopVal + 'rpx' }">
+    <!-- 抽屉循环容器 -->
+    <view v-for="(drawer, drawerIdx) in finalDrawerList" :key="drawerIdx" class="drawer-wrapper">
+      <!-- 修复 sticky 定位兼容：改用更稳定的定位方案 + 统一 rpx 单位 -->
+      <view class="date-title sticky-header" :style="{ top: stickyHeaderTop + 'rpx' }" @click="toggleDrawer(drawerIdx)">
+        <text>{{ drawer.title }}</text>
+        <view class="arrow-icon" :class="{ rotated: expandedDrawers[drawerIdx] }">↓</view>
+      </view>
+
+      <!-- 抽屉内容 -->
+      <view class="drawer-content" v-show="expandedDrawers[drawerIdx]">
+        <!-- 原有赛事列表：内部新增状态行 -->
+        <view v-for="(item, index) in drawer.lotteryList" :key="index" class="match-row" style="background: #F6F6F6;">
+          <!-- 新增：match-row 内部的状态行（第一行） -->
+          <view class="match-status-row">
+            <view class="status-left">
+              <!-- 单场标签：无停时，根据is_spf_single显示 -->
+              <text class="tag single" v-if="item.is_spf_single == 1 && item.is_stop == 0">单场</text>
+            </view>
+            <view class="status-right">
+              <!-- 右侧分析按钮：仅在有胜率数据时显示 -->
+              <!-- 兼容事件：统一用 @click.stop 适配多端 -->
+              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> 分析 </view>
+            </view>
+          </view>
+
+          <!-- 原有赛事内容（第二行） -->
+          <view class="match-content-row">
+            <!-- 赛事分类信息 -->
+            <view class="match-category">
+              <view class="league-name">
+                {{ item.league_name }}
+              </view>
+              <view class="league-name">{{ item.serial_number }}</view>
+              <view class="match-time">{{ item.race_date }}</view>
+            </view>
+            <!-- 胜平负玩法单元格 -->
+            <view class="match-cells">
+              <!-- 主队单元格 -->
+              <view class="match-cell home" :class="{ selected: item.homeSelected }" @click="() => checkAndSelect(item, 'homeSelected')">
+                <view class="team-name">{{ item.home_name }}</view>
+                <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
+                <!-- 拆分文字：只让百分比数值变绿 -->
+                <text class="odds rate" v-if="item.home_win_rate">
+                  胜率
+                  <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.homeSelected) }">{{ item.home_win_rate || "" }}</text>
+                </text>
+              </view>
+
+              <!-- 平局单元格 -->
+              <view class="match-cell vs" :class="{ selected: item.vsSelected }" @click="() => checkAndSelect(item, 'vsSelected')">
+                <text class="vs-text">VS</text>
+                <text class="vs-odds" v-if="item.draw_multiplier">平{{ item.draw_multiplier }}</text>
+                <!-- 拆分文字：只让平率数值变绿 -->
+                <text class="vs-odds" v-if="item.draw_rate">
+                  平率
+                  <text :style="{ color: getRateColor(item.draw_rate, 'draw',item.vsSelected) }">{{ item.draw_rate }}</text>
+                </text>
+              </view>
+
+              <!-- 客队单元格 -->
+              <view class="match-cell away" :class="{ selected: item.awaySelected }" @click="() => checkAndSelect(item, 'awaySelected')">
+                <text class="team-name">{{ item.visiting_name }}</text>
+                <text class="odds" v-if="item.loss_multiplier">客胜{{ item.loss_multiplier }}</text>
+                <!-- 拆分文字：只让百分比数值变绿 -->
+                <text class="odds rate" v-if="item.visiting_win_rate">
+                  胜率
+                  <text :style="{ color: getRateColor(item.visiting_win_rate, 'away', item.awaySelected) }">{{ item.visiting_win_rate || "" }}</text>
+                </text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import { getRateColor } from '@/utils/index.js';
+export default {
+  props: {
+    matchList: { type: Array, default: () => [] },
+    statusBarHeight: { type: Number, default: 0 },
+    goToAiAnalysis: { type: Function, required: true },
+    drawerList: { type: Array, default: () => [] },
+  },
+  data() {
+    return {
+      expandedDrawers: [],
+      // 缓存转换后的状态栏高度（px转rpx，适配多端）
+      statusBarHeightRpx: 0,
+       windowWidth: 0
+    };
+  },
+  computed: {
+    finalDrawerList() {
+      if (this.drawerList.length > 0) {
+        return this.drawerList;
+      }
+      return this.matchList.length > 0 ? [{ title: `未知日期 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] : [];
+    },
+    // 实时统计：已选中的比赛数量
+    selectedMatchCount() {
+      let count = 0;
+      this.finalDrawerList.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
+          if (item.homeSelected || item.vsSelected || item.awaySelected) {
+            count++;
+          }
+        });
+      });
+      return count;
+    },
+    // 修复：统一用rpx计算paddingTop，避免px/rpx混用
+    paddingTopVal() {
+      // statusBarHeight是px，转成rpx（1px = 2rpx 是uni-app默认换算，也可动态计算）
+      return this.statusBarHeightRpx + 88 ; // 44px=88rpx，8px=16rpx
+    },
+    // sticky-header的top值（统一rpx）
+    stickyHeaderTop() {
+      return this.statusBarHeightRpx + 88; // 44px=88rpx，7px=14rpx
+    },
+  },
+  watch: {
+    finalDrawerList(newVal) {
+      this.expandedDrawers = newVal.map(() => true);
+    },
+    // 监听状态栏高度变化，实时转换单位
+    statusBarHeight(newVal) {
+      this.statusBarHeightRpx = this.pxToRpx(newVal);
+    },
+  },
+created() {
+  // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
+  this.initWindowInfo();
+  this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
+  this.expandedDrawers = this.finalDrawerList.map(() => true);
+},
+  methods: {
+// 新增：初始化窗口信息（替代废弃API）
+initWindowInfo() {
+  try {
+    // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
+    const windowInfo = wx.getWindowInfo();
+    this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
+  } catch (e) {
+    // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
+    const systemInfo = uni.getSystemInfoSync();
+    this.windowWidth = systemInfo.windowWidth || 375;
+    console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
+  }
+},
+// 修正后的px转rpx：使用新API获取的windowWidth，优化精度
+pxToRpx(px) {
+  if (!px || !this.windowWidth) return 0;
+  // 计算后四舍五入，减少1-2px的机型偏差
+  return Math.round((px / this.windowWidth) * 750 + 0.5);
+},
+    getRateColor: getRateColor,
+    toggleDrawer(drawerIdx) {
+      this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
+    },
+    checkAndSelect(item, selectType) {
+      const isCancel = item[selectType];
+      const isAdd = !isCancel;
+
+      if (isAdd) {
+        const isCurrentMatchSelected = item.homeSelected || item.vsSelected || item.awaySelected;
+        if (!isCurrentMatchSelected && this.selectedMatchCount >= 8) {
+          uni.showToast({
+            title: "最多只能选择8场比赛",
+            icon: "none",
+            duration: 2000,
+          });
+          return;
+        }
+      }
+      this.$emit("toggle-select", item, selectType);
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+// 统一重置盒模型，解决布局兼容
+* {
+  box-sizing: border-box;
+}
+
+.match-list {
+  background-color: #f5f5f5;
+  padding-bottom: 140rpx;
+  // 小程序端额外适配
+  // #ifdef MP-WEIXIN
+  padding-bottom: 230rpx;
+  // #endif
+}
+
+.drawer-wrapper { width: 100%; margin-bottom: 8rpx; background: #f5f5f5 }
+
+// 修复sticky定位兼容：移除高版本属性，增强层级和兼容性
+.sticky-header {
+  position: sticky;
+  z-index: 999; // 仅改：从999999999降为999
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 8rpx 20rpx 12rpx 20rpx;
+  background-color: #f5f5f5;
+  border-bottom: 1rpx solid #eee;
+  font-size: 26rpx;
+  color: #333;
+
+  .arrow-icon {
+    transition: transform 0.2s ease;
+    font-size: 24rpx;
+  }
+  .rotated {
+    transform: rotate(180deg);
+  }
+}
+
+.drawer-content {
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.match-row {
+  display: flex;
+  flex-direction: column; // 改为纵向布局，容纳状态行+内容行
+  background-color: #fff;
+  border-bottom: 1rpx solid #f1f1f1;
+  padding: 0rpx 20rpx;
+
+  // 新增：match-row 内部的状态行
+  .match-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1rpx solid #f5f5f5;
+    .status-left {
+      width: 200rpx;
+      display: flex;
+      align-items: center;
+    }
+
+    // 统一标签样式，解决尺寸兼容
+    .tag {
+      display: inline-block;
+      font-size: 22rpx;
+      color: #fff;
+      border-radius: 4rpx;
+      margin-right: 10rpx;
+      padding: 2rpx 8rpx;
+      box-sizing: border-box;
+    }
+
+    .stop-sale {
+      background: #999;
+    }
+
+    .single {
+      background: #b71c1c;
+      width: 60rpx;
+      text-align: left;
+      padding-left: 6rpx;
+      border-top-right-radius: 15rpx;
+      border-bottom-right-radius: 16rpx;
+    }
+
+    .status-right {
+      .ai-analysis-btn {
+        font-size: 24rpx;
+        color: #06f;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        letter-spacing: 4rpx;
+        &:active {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  // 原有赛事内容行（横向布局）
+  .match-content-row {
+    display: flex;
+    width: 100%;
+    .match-category {
+      width: 180rpx;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center; // 垂直居中，兼容不同内容高度
+
+      .league-name {
+        font-size: 24rpx;
+        color: #777;
+        margin-bottom: 6rpx;
+        // 修复宽度兼容：移除硬编码width
+        display: flex;
+        justify-content: center;
+      }
+
+      .match-time {
+        font-size: 22rpx;
+        color: #999;
+      }
+    }
+
+    .match-cells {
+      flex: 1;
+      display: flex;
+      border: 1rpx solid #f1f1f1;
+      border-radius: 8rpx;
+      overflow: hidden;
+      background: #fff; // 移到这里，统一背景色
+
+      .match-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 6rpx 10rpx 18rpx 10rpx;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &.home {
+          width: 38%;
+          border-right: 1rpx solid #eee;
+        }
+
+        &.vs {
+          width: 20%;
+          gap: 4rpx;
+
+          .vs-text {
+            font-size: 24rpx;
+            font-weight: 400;
+            color: #333;
+            margin-bottom: 0;
+          }
+          .vs-odds {
+            font-weight: 400;
+            font-size: 24rpx;
+            color: #999;
+          }
+        }
+        &.away {
+          width: 38%;
+          border-left: 1rpx solid #eee;
+          position: relative;
+        }
+
+        &.selected {
+          background-color: #d92929;
+          color: #fff;
+          // 修复样式穿透：增加!important保证优先级
+          .vs-text,
+          .team-name,
+          .vs-odds,
+          .odds {
+            color: #fff !important;
+          }
+        }
+
+        .team-name {
+          font-size: 24rpx;
+          color: #666;
+          margin-bottom: 8rpx;
+          font-weight: 400;
+          text-align: center;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .odds {
+          font-size: 24rpx;
+          color: #999;
+          margin-bottom: 4rpx;
+
+          &.rate {
+            color: #999;
+            font-size: 22rpx;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 隐藏滚动条，兼容多端
+::-webkit-scrollbar {
+  display: none;
+}
+// 小程序端隐藏滚动条
+page {
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+}
+</style>

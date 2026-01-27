@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "让球胜平负",
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#31926e",
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
+  "onReachBottomDistance": 50,
+  "disableScroll": true,
+  "usingComponents": {
+    "custom-header": "/components/CustomHeader",
+    "native-tabbar": "/components/tabbar",
+    "tips-popup": "/pages/commn/playTip"
+  }
+}

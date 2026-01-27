@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "足球数据",
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#31926e",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "native-tabbar": "/components/tabbar",
+    "no-data": "/pages/commn/noData",
+    "sai-cheng": "/pages/commn/saiCheng",
+    "ji-fen": "/pages/commn/jiFen",
+    "she-shou": "/pages/commn/sheShou",
+    "reminder-dialog": "/pages/commn/ReminderDialog",
+    "word-ranking": "/pages/commn/WordRanking"
+  }
+}
