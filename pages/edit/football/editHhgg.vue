@@ -1,61 +1,81 @@
 <template>
+  <!-- 模板部分保持不变 -->
   <view class="scheme-edit-page">
-    <!-- 顶部导航：仅改标题为混合过关，其余不动 -->
     <CustomHeader 
-     :ballTitle="'竞彩足球'"
+      :ballTitle="'竞彩足球'"
       title="混合过关" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
-    ></CustomHeader>
+    />
 
-    <!-- 核心优化：按胜平负页面规则，基于sysinfo计算top/bottom -->
-    <scroll-view class="match-scroll" scroll-y :style="{ 
-      top: headerTotalHeight + 'px',    
-      bottom: betBarTotalHeight + 'px'  
-    }">
+    <scroll-view 
+      class="match-scroll" 
+      scroll-y 
+      :style="{ 
+        top: headerTotalHeight + 'px',    
+        bottom: betBarTotalHeight + 'px'  
+      }"
+    >
       <view class="match-list">
-        <!-- 赛事行：上下结构（保留原有业务内容） -->
-        <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
-          <!-- 上排：编号 + 队名VS队名 -->
+        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无已选赛事</view>
+        
+        <view v-for="(item,index) in selectedMatchList" :key="index" class="match-row">
           <view class="match-header">
             <text class="serial-number">{{ item.serial_number }}</text>
             <text class="team-name">
               {{ item.home_name }} <span class="vs-text">VS</span> {{ item.visiting_name }}
             </text>
           </view>
-          <!-- 下排：选中的内容（适配所有玩法） -->
-          <view class="selected-content">
-            <!-- 先显示玩法类型，再显示选中内容 -->
-            <text style="display: block; font-size: 24rpx; color: #666; margin-bottom: 4rpx;">
-              {{ item.playType || '未知玩法' }}
-            </text>
-            {{ (item.selectedScores && item.selectedScores.length > 0) 
-              ? item.selectedScores.map(val => getOptionLabel(item.playType, val)).join(',') 
-              : '无选中投注内容' }}
-          </view>
-        </view>
 
-        <view class="empty-tip" v-if="selectedMatchList.length === 0">
-          暂无已选赛事
+          <view class="selected-content">
+            <!-- 胜平负 -->
+            <view class="bet-item" v-if="getBetItem('spf', item)">
+              <text class="bet-label">胜平负：</text>
+              <text class="bet-value highlight">{{ getBetItem('spf', item) }}</text>
+            </view>
+            <!-- 让球胜平负 -->
+            <view class="bet-item" v-if="getBetItem('rspf', item)">
+              <text class="bet-label">让球胜平负：</text>
+              <text class="bet-value highlight">{{ getBetItem('rspf', item) }}</text>
+            </view>
+            <!-- 比分 -->
+            <view class="bet-item" v-if="getBetItem('bf', item)">
+              <text class="bet-label">比分：</text>
+              <text class="bet-value highlight">{{ getBetItem('bf', item) }}</text>
+            </view>
+            <!-- 总进球 -->
+            <view class="bet-item" v-if="getBetItem('zjq', item)">
+              <text class="bet-label">总进球：</text>
+              <text class="bet-value highlight">{{ getBetItem('zjq', item) }}</text>
+            </view>
+            <!-- 半全场 -->
+            <view class="bet-item" v-if="getBetItem('bqc', item)">
+              <text class="bet-label">半全场：</text>
+              <text class="bet-value highlight">{{ getBetItem('bqc', item) }}</text>
+            </view>
+
+            <view v-if="!hasAnyBetItem(item)" class="empty-bet">
+              <text class="trigger-tip">无选中投注内容</text>
+            </view>
+          </view>
         </view>
       </view>
     </scroll-view>
 
-    <!-- 底部投注栏：样式完全不动，仅保留原有逻辑 -->
+    <!-- 底部投注栏 -->
     <view class="bet-bar" :style="{ 
       height: betBarFixedPx + 'px',
-      // 核心：仅App端添加安全区padding，小程序端为0
       paddingBottom: (isApp ? safeAreaBottom : 0) + 'px' 
     }">
       <view class="bet-bar-top">
         <view class="top-left">
-          {{ selectedCombo === 'single' ? '单关' : (selectedCombo || '').replace('c1', '串1') }}
+          {{selectedMatchCount == 1 ? '单关': selectedMatchCount + '串1'}}
         </view>
         <view class="collapse-area">
           <view class="multi-group">
             <text class="multi-label">投</text>
-            <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
+            <button class="multi-btn minus" @click="handleMinus" hover-class="none">-</button>
             <view 
               class="multi-input" 
               @tap="showNumberKeyboard = true"
@@ -63,36 +83,35 @@
             >
               {{ betCount }}
             </view>
-            <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
+            <button class="multi-btn plus" @click="handlePlus" hover-class="none">+</button>
             <text class="multi-unit">倍</text>
           </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="select-tip">共{{betNotes}}注 {{betCount}}倍  {{totalBetAmount}}</text>
-          <text class="bonus-tip">{{calculateBonus()}}</text>
+          <text class="select-tip">共{{betNotes}}注 {{betCount}}倍  {{totalBetAmount}}元</text>
+          <text class="bonus-tip">{{calculateBonusText()}}</text>
         </view>
       </view>
     </view>
 
-    <!-- 手机号弹窗：保留 -->
+    <!-- 手机号弹窗+数字键盘 -->
     <view class="phone-modal" v-if="showPhoneModal">
-      <view class="modal-mask" @click="showPhoneModal = false"></view>
+      <view class="modal-mask" @click="showPhoneModal = false" hover-class="none"></view>
       <view class="modal-content">
-        <view class="modal-desc">
-          <text>业务人员通过微信与您联系付款及打印彩票后给您发送图片留作兑奖凭证等后续流程</text>
-        </view>
+        <view class="modal-desc">业务人员通过微信与您联系付款及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
         <view class="input-wrap">
-          <label><text>微信手机号：</text></label>
+          <label>微信手机号：</label>
           <input type="number" v-model="userPhone" placeholder="请输入手机号（必填）" maxlength="11" />
         </view>
         <view class="modal-btns">
-          <button class="cancel-btn" @click="showPhoneModal = false"><text>取消</text></button>
-          <button class="confirm-btn" @click="confirmPhone"><text>提交</text></button>
+          <button class="cancel-btn" @click="showPhoneModal = false" hover-class="none">取消</button>
+          <button class="confirm-btn" @click="confirmPhone" hover-class="none">提交</button>
         </view>
       </view>
     </view>
+    
     <UniNumberKeyboard
       :show.sync="showNumberKeyboard"
       :value="betCount + ''"
@@ -102,273 +121,264 @@
       :max="50"
       @input="handleKeyboardInput"
       @confirm="handleKeyboardConfirm"
-    ></UniNumberKeyboard>
+    />
   </view>
 </template>
 
 <script>
-// 集成胜平负页面的高度计算逻辑 + 适配所有玩法的展示逻辑
 import CustomHeader from "@/components/CustomHeader.vue";
 import { purchasingLotteryApply } from "@/api/demo";
-import { validateBetInput  } from '@/utils/validate';
+
 export default {
   components: { CustomHeader },
   data() {
     return {
-      selectedMatchList: [], // 接收首页传递的所有赛事数据
-      betCount: 1, // 接收首页传递的倍数
+      selectedMatchList: [],
+      betCount: 1,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: '',
       isSubmitSuccess: false,
-      statusBarHeight: 0,       // 状态栏高度
-      safeAreaBottom: 0,        // 底部安全区高度
-      headerTotalHeight: 0,     // 导航栏总高度
-      betBarFixedPx: 0,         // 投注栏固定高度（200rpx转px）
-      betBarTotalHeight: 0,     // 投注栏总高度（仅固定高度）
-      isApp: false,             // App端标记
-      isMp: false,              // 小程序端标记
-      selectedCombo: "",        // 接收首页传递的串关类型
+      statusBarHeight: 0,
+      safeAreaBottom: 0,
+      headerTotalHeight: 0,
+      betBarFixedPx: 0,
+      betBarTotalHeight: 0,
+      isApp: false,
+      isMp: false,
+      selectedCombo: "",
       showNumberKeyboard: false,
-      // 核心修复：匹配首页传递的value格式（首页传3/1/0等数字）
-      allPlayOptions: {
-        // 胜平负（匹配首页传递的3/1/0）
-        '胜平负': [
-          { label: "主胜", value: "3" },
-          { label: "平", value: "1" },
-          { label: "客胜", value: "0" }
-        ],
-        // 让球胜平负（匹配首页传递的3/1/0）
-        '让球胜平负': [
-          { label: "主胜【让】", value: "3" },
-          { label: "平【让】", value: "1" },
-          { label: "客胜【让】", value: "0" }
-        ],
-        // 半全场（匹配首页传递的33/31/30等）
-        '半全场': [
-          { label: "胜胜", value: "33" },
-          { label: "胜平", value: "31" },
-          { label: "胜负", value: "30" },
-          { label: "平平", value: "11" },
-          { label: "负负", value: "00" }
-        ],
-        // 比分（匹配首页传递的1:0/2:0等）
-        '比分': [
-          { label: "1:0", value: "1:0" },
-          { label: "2:0", value: "2:0" },
-          { label: "2:1", value: "2:1" },
-          { label: "0:0", value: "0:0" },
-          { label: "1:1", value: "1:1" },
-          { label: "2:2", value: "2:2" }
-        ],
-        // 总进球（匹配首页传递的0/1/2/3/4+等）
-        '总进球': [
-          { label: "0", value: "0" },
-          { label: "1", value: "1" },
-          { label: "2", value: "2" },
-          { label: "3", value: "3" },
-          { label: "4+", value: "4+" }
-        ]
+      // 映射表保持不变
+      spfTextMap: {
+        'home_0': '主胜',
+        'draw_0': '平',
+        'away_0': '客胜',
+        '3': '主胜',
+        '1': '平',
+        '0': '客胜'
+      },
+      rspfTextMap: {
+        'home_-1': '主胜',
+        'draw_-1': '平',
+        'away_-1': '客胜',
+        '3': '主胜',
+        '1': '平',
+        '0': '客胜'
+      },
+      zjqTextMap: {
+        '0': '0',
+        '1': '1',
+        '2': '2',
+        '3': '3',
+        '4': '4',
+        '5': '5',
+        '6': '6',
+        '4+': '7+',
+        '5+': '7+',
+        '6+': '7+',
+        '7+': '7+',
+        '总进球_0': '0',
+        '总进球_1': '1',
+        '总进球_2': '2',
+        '总进球_3': '3',
+        '总进球_4': '4',
+        '总进球_5': '5',
+        '总进球_6': '6',
+        '总进球_7+': '7+'
+      },
+      bqcTextMap: {
+        '33': '胜胜',
+        '31': '胜平',
+        '30': '胜负',
+        '13': '平胜',
+        '11': '平平',
+        '10': '平负',
+        '03': '负胜',
+        '01': '负平',
+        '00': '负负',
+        '半全场_胜胜': '胜胜',
+        '半全场_胜平': '胜平',
+        '半全场_胜负': '胜负',
+        '半全场_平胜': '平胜',
+        '半全场_平平': '平平',
+        '半全场_平负': '平负',
+        '半全场_负胜': '负胜',
+        '半全场_负平': '负平',
+        '半全场_负负': '负负'
       }
     };
   },
   computed: {
-    // 选中赛事数：过滤有选中内容的赛事
     selectedMatchCount() {
-      return this.selectedMatchList.filter(item => {
-        return item.selectedScores && item.selectedScores.length > 0;
-      }).length;
+      return this.selectedMatchList.filter(item => this.hasAnyBetItem(item)).length;
     },
-    // 注数计算：基于选中内容数量
     betNotes() {
-      const selectedRows = this.selectedMatchList.filter(item => 
-        item.selectedScores && Array.isArray(item.selectedScores) && item.selectedScores.length > 0
-      );
-
-      if (selectedRows.length === 0) return 0;
-
-      return selectedRows.reduce((total, row) => {
-        const rowSelectedCount = row.selectedScores.length;
-        return total * rowSelectedCount;
+      if (this.selectedMatchCount === 0) return 0;
+      const validMatches = this.selectedMatchList.filter(item => this.hasAnyBetItem(item));
+      if (validMatches.length === 0) return 0;
+      
+      return validMatches.reduce((total, item) => {
+        let itemCount = 0;
+        if (item.spfList && Array.isArray(item.spfList)) itemCount += item.spfList.length;
+        if (item.rspfList && Array.isArray(item.rspfList)) itemCount += item.rspfList.length;
+        if (item.zjqList && Array.isArray(item.zjqList)) itemCount += item.zjqList.length;
+        if (item.bqcList && Array.isArray(item.bqcList)) itemCount += item.bqcList.length;
+        if (item.bfList && Array.isArray(item.bfList)) itemCount += item.bfList.length;
+        return total * (itemCount > 0 ? itemCount : 1);
       }, 1);
     },
-    // 投注总额：保留原有计算逻辑
     totalBetAmount() {
-      return this.betNotes * this.betCount * 2;
+      return (this.betNotes * this.betCount * 2).toFixed(2);
     }
   },
-  methods: {
-    // 核心修复：兼容首页传递的value格式，确保能匹配到标签
-    getOptionLabel(playType, value) {
-      // 转成字符串匹配（避免数字/字符串类型问题）
-      const valStr = String(value);
-      // 如果没有匹配的玩法，直接返回原值
-      if (!this.allPlayOptions[playType]) return valStr;
-      // 查找对应玩法的标签
-      const opt = this.allPlayOptions[playType].find(item => String(item.value) === valStr);
-      return opt ? opt.label : valStr;
-    },
+  onShow() {
+    uni.setTabBarStyle({ height: '0px' });
+    this.calcAllHeights();
+  },
+  created() {
+    const sys = uni.getSystemInfoSync();
+    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
+    this.isMp = sys.platform === 'mp-weixin';
+    this.calcAllHeights();
+  },
+  onLoad() {
+    const eventChannel = this.getOpenerEventChannel();
+    if (eventChannel) {
+      eventChannel.on("selectedData", (data) => {
+        try {
+          const rawMatches = JSON.parse(JSON.stringify(data.matches || [])); 
+          this.selectedMatchList = rawMatches.map(item => {
+            const newItem = { ...item };
+            // 1. 拆分胜平负/让球胜平负（保持不变）
+            newItem.spfList = [];
+            newItem.rspfList = [];
+            const allSpfValues = item.selectedSpf || item.selectedAll || [];
+            allSpfValues.forEach(val => {
+              if (val.includes('_0')) {
+                newItem.spfList.push(val);
+              } else if (val.includes('_')) {
+                newItem.rspfList.push(val);
+              }
+            });
 
-    // 保留原有键盘处理逻辑
+            // 2. 修复：拆分比分（核心修改部分）
+            newItem.bfList = [];
+            // 优先从selectedAll获取，再补充selectedBf（反转优先级）
+            const allPossibleBf = [...(item.selectedAll || []), ...(item.selectedBf || [])];   
+            // 增加类型校验+去空格，避免startsWith报错
+            const bfValues = allPossibleBf.filter(val => {
+              const valStr = String(val).trim(); // 转字符串+去空格
+              return valStr.startsWith('比分_');
+            }).map(val => {
+              const valStr = String(val).trim();
+              const pureBf = valStr.replace('比分_', ''); // 去掉前缀
+              return pureBf;
+            });
+            
+            newItem.bfList = bfValues;
+            // 3. 拆分总进球（保持不变）
+            newItem.zjqList = (item.selectedZjq || item.selectedAll || []).filter(val => {
+              return String(val).trim().startsWith('总进球_');
+            });
+
+            // 4. 拆分半全场（保持不变）
+            newItem.bqcList = (item.selectedBqc || item.selectedAll || []).filter(val => {
+              return String(val).trim().startsWith('半全场_');
+            });
+
+            return newItem;
+          });
+        } catch (e) {
+          this.selectedMatchList = [];
+        }
+        this.betCount = Math.max(1, parseInt(data.betCount || 1));
+        this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        this.selectedCombo = data.combo || "";
+      });
+    }
+  },
+  onUnload() {
+    if (!this.isSubmitSuccess) this.saveEditedData();
+    uni.setTabBarStyle({ height: 'auto' });
+  },
+  methods: {
+    hasAnyBetItem(item) {
+      if (!item) return false;
+      const hasSpf = item.spfList && Array.isArray(item.spfList) && item.spfList.length > 0;
+      const hasRspf = item.rspfList && Array.isArray(item.rspfList) && item.rspfList.length > 0;
+      const hasZjq = item.zjqList && Array.isArray(item.zjqList) && item.zjqList.length > 0;
+      const hasBqc = item.bqcList && Array.isArray(item.bqcList) && item.bqcList.length > 0;
+      const hasBf = item.bfList && Array.isArray(item.bfList) && item.bfList.length > 0;
+      return hasSpf || hasRspf || hasZjq || hasBqc || hasBf;
+    },
+    getBetItem(type, item) {
+      if (!item) return '';
+      switch (type) {
+        case 'spf': {
+          const list = item.spfList || [];
+          return list.map(t => this.spfTextMap[t] || t).filter(Boolean).join(',');
+        }
+        case 'rspf': {
+          const list = item.rspfList || [];
+          return list.map(t => this.rspfTextMap[t] || t).filter(Boolean).join(',');
+        }
+        case 'zjq': {
+          const list = item.zjqList || [];
+          return list.map(t => this.zjqTextMap[t] || t.replace('总进球_', '')).filter(Boolean).join(',');
+        }
+        case 'bqc': {
+          const list = item.bqcList || [];
+          return list.map(t => this.bqcTextMap[t] || t.replace('半全场_', '')).filter(Boolean).join(',');
+        }
+        case 'bf': {
+          const list = item.bfList || [];
+          return list.filter(Boolean).join(',');
+        }
+        default: return '';
+      }
+    },
     handleKeyboardInput(val) {
       const num = parseInt(val) || 1;
-      if (num < 1) {
-        this.betCount = 1;
-      } else if (num > 50) {
-        this.betCount = 50;
-      } else {
-        this.betCount = num;
-      }
+      this.betCount = Math.min(Math.max(num, 1), 50);
     },
     handleKeyboardConfirm(val) {
       const num = parseInt(val) || 1;
       this.betCount = Math.min(Math.max(num, 1), 50);
       this.showNumberKeyboard = false;
     },
-
-    // 通用奖金计算（适配所有玩法）
-    calculateBonus() {
-      if (this.selectedMatchCount === 0 || this.betNotes === 0) {
-        return "0.00元 ~ 0.00元";
-      }
-
-      const rowOddsList = [];
-      this.selectedMatchList.forEach((item) => {
-        const currentRowOdds = [];
-        const selectedScores = item.selectedScores || [];
-        const playType = item.playType || '';
-
-        // 不同玩法的赔率字段映射
-        const oddsKeyMap = {
-          '胜平负': {
-            '3': 'win_multiplier',
-            '1': 'draw_multiplier',
-            '0': 'loss_multiplier'
-          },
-          '让球胜平负': {
-            '3': 'r_win_multiplier',
-            '1': 'r_draw_multiplier',
-            '0': 'r_loss_multiplier'
-          },
-          '半全场': {
-            '33': 'ss', '31': 'sp', '30': 'sf',
-            '11': 'pp'
-          },
-          '总进球': {
-            '0': 'zjq_ling',
-            '1': 'zjq_yi',
-            '2': 'zjq_er',
-            '3': 'zjq_san',
-            '4+': 'zjq_si_jia'
-          }
-        };
-
-        selectedScores.forEach(scoreValue => {
-          let odd = 0;
-          // 比分玩法特殊处理（从data2取赔率）
-          if (playType === '比分') {
-            const oddsKey = scoreValue;
-            const data2KeyMap = {
-              '1:0': 'ybl', '2:0': 'ebl', '2:1': 'eby',
-              '0:0': 'lwl', '1:1': 'yby', '2:2': 'ebs'
-            };
-            const key = data2KeyMap[oddsKey] || '';
-            odd = Number(item.data2? item.data2[key]:'');
-          } 
-          // 其他玩法
-          else if (oddsKeyMap[playType] && oddsKeyMap[playType][scoreValue]) {
-            const key = oddsKeyMap[playType][scoreValue];
-            odd = Number(item[key]) || 0;
-          }
-
-          if (!isNaN(odd) && odd > 0) {
-            currentRowOdds.push(odd);
-          }
-        });
-
-        if (currentRowOdds.length > 0) {
-          rowOddsList.push(currentRowOdds);
-        }
-      });
-
-      if (rowOddsList.length === 0) {
-        return "0.00元 ~ 0.00元";
-      }
-
-      let minOddsProduct = 1;
-      let maxOddsProduct = 1;
-
-      rowOddsList.forEach(oddsArr => {
-        const currentMin = oddsArr.length > 0 ? Math.min(...oddsArr) : 1;
-        const currentMax = oddsArr.length > 0 ? Math.max(...oddsArr) : 1;
-
-        minOddsProduct *= currentMin;
-        maxOddsProduct *= currentMax;
-      });
-
-      const base = 2 * this.betCount;
-      const minBonus = minOddsProduct * base;
-      const maxBonus = maxOddsProduct * base;
-
-      const formatBonus = (bonus) => {
-        const num = Number(bonus);
-        if (isNaN(num) || num <= 0) {
-          return "0.00";
-        }
-        return num.toFixed(2);
-      };
-
-      const minBonusText = formatBonus(minBonus);
-      const maxBonusText = formatBonus(maxBonus);
-
-      return `${minBonusText} ~ ${maxBonusText}`;
+    calcAllHeights() {
+      const sys = uni.getSystemInfoSync();
+      this.statusBarHeight = sys.statusBarHeight || 20;
+      this.safeAreaBottom = (sys.safeAreaInsets?.bottom) || 0;
+      const navBarFixedRpx = 80;
+      const betBarFixedRpx = 200;
+      const pxPerRpx = sys.screenWidth / 750;
+      this.headerTotalHeight = this.statusBarHeight + navBarFixedRpx * pxPerRpx;
+      this.betBarFixedPx = betBarFixedRpx * pxPerRpx;
+      this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
     },
-
-    // 保留原有方法：手机号确认
+    calculateBonusText() {
+      if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
+      return "预计奖金：以实际出票为准";
+    },
     confirmPhone() {
-      if (this.isNeedUserPhone == 1) {
-        const reg = /^1[3-9]\d{9}$/;
-        if (!this.userPhone) {
-          uni.showToast({ title: "手机号不能为空！", icon: "none", duration: 1500 });
-          return;
-        }
-        if (!reg.test(this.userPhone)) {
-          uni.showToast({ title: "请输入正确的手机号", icon: "none", duration: 1500 });
-          return;
-        }
+      const reg = /^1[3-9]\d{9}$/;
+      if (!this.userPhone) {
+        uni.showToast({ title: "手机号不能为空！", icon: "none" });
+        return;
+      }
+      if (!reg.test(this.userPhone)) {
+        uni.showToast({ title: "请输入正确的手机号", icon: "none" });
+        return;
       }
       this.showPhoneModal = false;
       this.handleConfirmBet(true);
     },
-
-    // 保留原有方法：高度计算
-    calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
-      this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = sys.safeAreaInsets?sys.safeAreaInsets.bottom:0;
-      const navBarFixedRpx = 80;
-      const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
-      this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      const betBarFixedRpx = 200;
-      this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-      this.betBarTotalHeight = this.betBarFixedPx;
-    },
-
-    // 保留原有方法：返回保存
     handleBack() {
       this.saveEditedData();
       uni.navigateBack({ delta: 1 });
     },
-    saveEditedData() {
-      const deepCopyData = JSON.parse(JSON.stringify({
-        matches: this.selectedMatchList,
-        betCount: this.betCount
-      }));
-      uni.setStorageSync("editedMatchData", JSON.stringify(deepCopyData));
-    },
-
-    // 保留原有方法：倍数加减
     handleMinus() {
       if (this.betCount > 1) this.betCount--;
     },
@@ -380,191 +390,83 @@ export default {
         uni.showToast({ title: "倍数最多50倍", icon: "none" });
       }
     },
-
-    // 保留原有方法：投注确认（样式不动，逻辑保留）
     async handleConfirmBet(fromPhoneModal) {
       if (this.selectedMatchCount === 0) {
-        uni.showToast({ title: "请先选择至少一场赛事的投注内容", icon: "none", duration: 1500 });
+        uni.showToast({ title: "请先选择至少一场赛事的投注内容", icon: "none" });
         return;
       }
-      if (!fromPhoneModal) {
-        await this.doConfirmBetLogic();
-      }
-    },
-    async doConfirmBetLogic() {
-      if (this.isNeedUserPhone == 1 && !this.userPhone) {
+      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
         this.showPhoneModal = true;
         return;
       }
-
       this.isPayLoading = true;
       const list = this.selectedMatchList.map(item => ({
         courseId: item.id,
         serialNumber: item.serial_number,
-        leagueName: item.league_name,
-        homeName: item.home_name,
-        visitingName: item.visiting_name,
-        raceDate: item.race_date,
-        dateStr: item.date_str,
-        selectedScores: item.selectedScores || [],
-        playType: item.playType || '未知玩法'
+        leagueName: item.league_name || '',
+        homeName: item.home_name || '',
+        visitingName: item.visiting_name || '',
+        raceDate: item.race_date || '',
+        selectedSpf: item.spfList || [],
+        selectedRspf: item.rspfList || [],
+        selectedZjq: item.zjqList || [],
+        selectedBqc: item.bqcList || [],
+        selectedBf: item.bfList || [],
+        playType: "足球混合过关",
+        entityType: "足球混合过关"
       }));
-
       const payRequestData = {
         contentJson: JSON.stringify(list),
-        entityType: "混合过关",
+        entityType: "足球混合过关",
         multiple: this.betNotes,
         bet: this.betCount,
         payment: this.totalBetAmount,
         payType: "wechat",
         userPhone: this.userPhone
       };
-
       try {
         const res = await purchasingLotteryApply(payRequestData);
         if (res.code == 200) {
           this.isPayLoading = false;
           this.isSubmitSuccess = true;
-          uni.showToast({
-            title: "投注成功！",
-            icon: "success",
-            duration: 2000,
-            mask: true
-          });
-          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
-          setTimeout(() => {
-            uni.navigateBack({ delta: 1 });
-          }, 2000);
+          uni.showToast({ title: "投注成功！", icon: "success", duration: 2000, mask: true });
+          uni.removeStorageSync("editedMatchData");
+          this.selectedMatchList = [];
+          setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
         } else {
           this.isPayLoading = false;
-          uni.showToast({ title: res.message || "获取支付信息失败", icon: "none", duration: 1500 });
+          uni.showToast({ title: res.message || "获取支付信息失败", icon: "none" });
         }
       } catch (error) {
         this.isPayLoading = false;
-        uni.showToast({ title: "网络异常，请稍后重试", icon: "none", duration: 1500 });
+        uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
+        console.error("足球混合过关投注报错：", error);
       }
     },
-    invokeWxPayment(payParams) {
-      const { timeStamp, nonceStr, package: prepayPackage, signType, paySign, orderId } = payParams;
-
-      uni.requestPayment({
-        provider: "wxpay",
-        timeStamp: timeStamp + "",
-        nonceStr: nonceStr,
-        package: prepayPackage,
-        signType: signType,
-        paySign: paySign,
-        success: (res) => {
-          this.isPayLoading = false;
-          uni.showToast({ title: "支付成功", icon: "success", duration: 1500 });
-          setTimeout(() => {
-            uni.navigateTo({ url: `/pages/orderDetail/orderDetail?orderId=${orderId}` });
-            this.selectedMatchList = [];
-            this.betCount = 1;
-          }, 1500);
-        },
-        fail: (err) => {
-          this.isPayLoading = false;
-          if (err.errMsg.includes("cancel")) {
-            uni.showToast({ title: "已取消支付", icon: "none", duration: 1500 });
-          } else {
-            uni.showToast({ title: "支付失败，请重试", icon: "none", duration: 1500 });
-          }
-        },
-        complete: () => {
-          this.isPayLoading = false;
-        }
-      });
-    },
-    // 新增：统一数据接收方法
-    receiveMatchData(data) {
-      console.log('✅ 编辑页接收数据：', data);
-      if (data) {
-        this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
-        this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone || 1;
-        this.selectedCombo = data.combo || "";
-        // 确保每个赛事项都有必要字段
-        this.selectedMatchList.forEach(item => {
-          if (!item.playType) item.playType = '胜平负'; // 默认玩法
-          if (!item.selectedScores) item.selectedScores = [];
-          if (!item.serial_number) item.serial_number = `场次${item.id || Math.random().toString(36).substr(2, 6)}`;
-          if (!item.home_name) item.home_name = '未知主队';
-          if (!item.visiting_name) item.visiting_name = '未知客队';
-        });
-        console.log('✅ 编辑页处理后数据：', this.selectedMatchList);
-      }
+    saveEditedData() {
+      const editedData = JSON.parse(JSON.stringify({
+        matches: this.selectedMatchList,
+        betCount: this.betCount
+      }));
+      uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
     }
-  },
-  created() {
-    const sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
-    this.calcAllHeights();
-  },
-  onLoad() {
-    // 核心修复1：先监听eventChannel（优先接收实时数据）
-    const eventChannel = this.getOpenerEventChannel();
-    if (eventChannel) {
-      console.log('✅ 编辑页监听eventChannel');
-      eventChannel.on("selectedData", (data) => {
-        console.log('✅ eventChannel接收数据：', data);
-        this.receiveMatchData(data);
-        // 同步存储到本地（兜底）
-        uni.setStorageSync("mixedPassSelectedData", JSON.stringify(data));
-      });
-    }
-
-    // 核心修复2：安全解析本地存储数据（解决JSON解析错误）
-    try {
-      const mixPassDataStr = uni.getStorageSync("mixedPassSelectedData");
-      console.log('✅ 本地存储读取的原始数据：', mixPassDataStr);
-      
-      // 只有是字符串且非空时才解析
-      if (mixPassDataStr && typeof mixPassDataStr === 'string') {
-        const data = JSON.parse(mixPassDataStr);
-        this.receiveMatchData(data);
-      } else if (typeof mixPassDataStr === 'object') {
-        // 兼容已经是对象的情况
-        this.receiveMatchData(mixPassDataStr);
-      } else {
-        console.warn('⚠️ 未读取到任何数据');
-      }
-    } catch (e) {
-      console.error('❌ 本地存储数据解析失败：', e);
-      // 解析失败时清空错误数据
-      uni.removeStorageSync("mixedPassSelectedData");
-    }
-  },
-  onShow() {
-    uni.setTabBarStyle({ height: '0px' });
-  },
-  onUnload() {
-    if (this.isSubmitSuccess) return;
-    const editedData = {
-      matches: this.selectedMatchList,
-      betCount: this.betCount
-    };
-    uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
   }
 };
 </script>
 
 <style scoped lang="scss">
-/* 样式代码完全保留，一行不动 */
+/* 样式部分保持不变 */
 .scheme-edit-page {
   background-color: #f5f5f5;
   box-sizing: border-box;
   height: 100vh;
   margin: 0;
   padding: 0;
-  // 兼容H5端滚动穿透
-  // #ifdef H5
+  /* #ifdef H5 */
   overflow: hidden;
-  // #endif
+  /* #endif */
 }
 
-// 滚动区样式：和胜平负页面完全一致
 .match-scroll {
   position: absolute !important;
   left: 0 !important;
@@ -576,7 +478,6 @@ export default {
   box-sizing: border-box;
   padding: 10rpx 20rpx 20rpx;
 
-  // 隐藏滚动条
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -590,7 +491,6 @@ export default {
   width: 100%;
   box-sizing: border-box;
 
-  /* 赛事行：保留原有业务样式，仅微调布局 */
   .match-row {
     background-color: #fff;
     margin-bottom: 15rpx;
@@ -598,7 +498,6 @@ export default {
     box-shadow: 0 2rpx 5rpx rgba(0,0,0,0.05);
     border-radius: 8rpx;
 
-    /* 上排：编号 + 队名VS队名 */
     .match-header {
       display: flex;
       align-items: center;
@@ -617,21 +516,52 @@ export default {
         text-align: center;
 
         .vs-text {
-          margin: 0 10rpx;
+          margin: 0 10rpx!important;
           color: #999;
         }
       }
     }
 
-    /* 下排：选中内容（一整行） */
     .selected-content {
-      text-align: center;
-      font-size: 32rpx;
-      color: #d92929;
-      font-weight: 500;
-      background: #f1f1f1;
-      border-radius: 10rpx;
-      padding: 16rpx 0;
+      background: #f9f9f9;
+      border-radius: 4rpx;
+      padding: 12rpx;
+      
+      .bet-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8rpx;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
+        .bet-label {
+          font-size: 24rpx;
+          color: #666;
+          width: 180rpx;
+        }
+        
+        .bet-value {
+          font-size: 24rpx;
+          color: #333;
+          flex: 1;
+        }
+        
+        .highlight {
+          color: #d92929;
+          font-weight: 500;
+        }
+      }
+
+      .empty-bet {
+        text-align: center;
+        padding: 10rpx 0;
+        .trigger-tip {
+          font-size: 24rpx;
+          color: #999;
+        }
+      }
     }
   }
 
@@ -646,7 +576,6 @@ export default {
   }
 }
 
-// 核心优化：投注栏强制固定高度，解决两端溢出/空白问题
 .bet-bar {
   position: fixed !important;
   width: 100% !important;
@@ -656,30 +585,16 @@ export default {
   box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
   padding-bottom: 0 !important;
   box-sizing: border-box !important;
-  height: 80rpx !important;
-  
-  // #ifdef MP-WEIXIN
-  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
-  // #endif
-  
-  // #ifdef APP-PLUS
-  bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;
-  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
-  // #endif
-  
-  // #ifdef H5
-  bottom: calc(102rpx + env(safe-area-inset-bottom)) !important;
-  // #endif
-
+  height: auto !important;
+  bottom: 0 !important;
 
   .bet-bar-top {
-    background: #fff;
-    // 新增：给 bet-bar-top 加 flex 布局，让 top-left 和 collapse-area 左右排列
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    
-    // 仅新增这一段 top-left 样式
+    justify-content: space-around;
+    height: 80rpx;
+    padding: 10rpx 20rpx;
+    border-bottom: 2rpx solid #eee;
     .top-left {
       font-size: 28rpx;
       color: #333;
@@ -690,61 +605,50 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .collapse-area {
+    .multi-group {
       display: flex;
       align-items: center;
-      justify-content: space-around;
-      height: 80rpx;
-      box-sizing: border-box;
-      padding: 10rpx 20rpx;
-      border-bottom: 2rpx solid #eee;
-
-      .multi-group {
+      gap: 10rpx;
+      
+      .multi-label {
+        font-size: 30rpx;
+        color: #333;
+      }
+      
+      .multi-btn {
+        width: 52rpx;
+        height: 52rpx;
+        background: #ddd;
+        color: #333;
+        font-size: 32rpx;
         display: flex;
         align-items: center;
-        gap: 10rpx;
-
-        .multi-label {
-          height: 100%;
-          font-size: 30rpx;
-          color: #333;
-        }
-
-        .multi-btn {
-          width: 52rpx;
-          height: 52rpx;
-          background-color: #ddd;
-          color: #333;
-          font-size: 32rpx;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1rpx solid #ccc;
-          padding: 0;
-          margin: 0;
-          border-radius: 0;
-          // 小程序按钮样式兼容
-          // #ifdef MP-WEIXIN
-          line-height: 1;
-          // #endif
-        }
-
-        .multi-input {
-          width: 180rpx;
-          height: 52rpx;
-          background-color: #fff;
-          color: #333;
-          text-align: center;
-          font-size: 30rpx;
-          border: 1rpx solid #ccc;
-          padding: 0;
-          box-sizing: border-box;
-          border-radius: 0;
-          // H5输入框样式兼容
-          // #ifdef H5
-          outline: none;
-          // #endif
-        }
+        justify-content: center;
+        border: 1rpx solid #ccc;
+        padding: 0;
+        margin: 0;
+        border-radius: 4rpx;
+      }
+      
+      .multi-input {
+        width: 180rpx;
+        height: 52rpx;
+        background: #fff;
+        color: #333;
+        text-align: center;
+        font-size: 30rpx;
+        border: 1rpx solid #ccc;
+        padding: 0;
+        box-sizing: border-box;
+        border-radius: 4rpx;
+        // #ifdef H5
+        outline: none;
+        // #endif
+      }
+      
+      .multi-unit {
+        font-size: 30rpx;
+        color: #333;
       }
     }
   }
@@ -752,67 +656,34 @@ export default {
   .bet-bar-bottom {
     display: flex;
     align-items: center;
-    height: 100rpx; // 和bet-bar-top合计200rpx，匹配固定高度
-    background-color: #232323;
+    height: 100rpx;
+    background: #232323;
     color: #fff;
-    box-sizing: border-box;
-    padding: 0 20rpx;
-
+    padding: 0 40rpx;
+    
     .bottom-middle {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
       margin: 0 20rpx;
-      height: 100%;
-
+      
       .select-tip {
-        height: 50rpx;
         font-size: 28rpx;
         color: #fff;
         text-align: center;
       }
-
+      
       .bonus-tip {
         font-size: 18rpx;
         color: #999;
-        line-height: 1.2;
         text-align: center;
-      }
-    }
-
-    .bottom-right {
-      width: 200rpx;
-
-      .confirm-btn {
-        width: 100%;
-        height: 76rpx;
-        background-color: #d92929;
-        color: #fff;
-        border-radius: 8rpx;
-        font-size: 28rpx;
-        border: none;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &[disabled] {
-          background-color: #666;
-          color: #aaa;
-          cursor: not-allowed;
-        }
-        // 小程序按钮点击态
-        // #ifdef MP-WEIXIN
-        &:active {
-          opacity: 0.8;
-        }
-        // #endif
+        line-height: 1.2;
       }
     }
   }
 }
-/* 手机号弹窗：保留原有样式，和胜平负页面一致 */
+
 .phone-modal {
   position: fixed;
   top: 0;
@@ -890,8 +761,16 @@ export default {
   }
 }
 
-// 隐藏滚动条（全端兼容）
 ::-webkit-scrollbar {
   display: none;
+}
+
+button::after {
+  border: none;
+}
+
+.disabled {
+  color: #999 !important;
+  border-color: #eee !important;
 }
 </style>

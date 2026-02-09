@@ -101,7 +101,7 @@ export const checkToken = async () => {
 	const token = getToken();
 	// 简单校验：本地存在 Token 即视为有效（复杂校验可后续对接后端 Token 验证接口）
 	if (!token) {
-		console.warn("本地无有效 Token");
+		
 		return false;
 	}
 	console.log("本地存在有效 Token");

@@ -72,8 +72,8 @@
 }
 /* ========== 核心重构：比赛行样式（和其他组件完全统一） ========== */
 .match-row.data-v-48611921 {
-  background-color: #F6F6F6;
-  border-bottom: 1rpx solid #DEDEDE;
+  background-color: #f6f6f6;
+  border-bottom: 1rpx solid #dedede;
   box-sizing: border-box;
   padding: 0rpx 20rpx;
   display: flex;
@@ -170,14 +170,12 @@
   gap: 2rpx;
   width: 100%;
 }
-.serial-number.data-v-48611921, .match-time.data-v-48611921 {
+.serial-number.data-v-48611921,
+.match-time.data-v-48611921 {
   width: 100%;
   font-size: 20rpx;
   color: #999;
   text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .serial-number.data-v-48611921 {
   margin-bottom: 10rpx;
@@ -251,7 +249,7 @@
   padding-left: 10rpx;
 }
 .rate-row .vs-text.data-v-48611921 {
-  width: 20rpx;
+  width: 140rpx;
   text-align: center;
   flex-shrink: 0;
   color: #999;
@@ -268,7 +266,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1rpx solid #DEDEDE;
+  border: 1rpx solid #dedede;
   border-radius: 8rpx;
   padding: 16rpx 10rpx;
   background-color: #f9f9f9;
@@ -425,7 +423,8 @@
   width: 100%;
   box-sizing: border-box;
 }
-.cancel-btn.data-v-48611921, .confirm-btn.data-v-48611921 {
+.cancel-btn.data-v-48611921,
+.confirm-btn.data-v-48611921 {
   flex: 1;
   height: 76rpx;
   border-radius: 8rpx;
@@ -454,5 +453,16 @@
 }
 button.data-v-48611921::after {
   border: none;
+}
+.stop-bg.data-v-48611921 {
+  background-color: #dedede;
+}
+.disabled-trigger.data-v-48611921 {
+  pointer-events: none;
+  opacity: 0.8;
+  background-color: #f5f5f5 !important;
+}
+.disabled-trigger .trigger-tip.data-v-48611921 {
+  color: #666 !important;
 }
 

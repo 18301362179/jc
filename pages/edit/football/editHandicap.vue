@@ -65,8 +65,8 @@
       paddingBottom: (isApp ? safeAreaBottom : 0) + 'px' 
     }">
       <view class="bet-bar-top">
-                <view class="top-left">
-          {{ selectedCombo === 'single' ? '单关' : (selectedCombo || '').replace('c1', '串1') }}
+        <view class="top-left">
+          {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
         </view>
         <view class="collapse-area">
           <view class="multi-group">
@@ -562,7 +562,7 @@ export default {
   .match-row {
     display: flex;
     background-color: #fff;
-    border-bottom: 1rpx solid #3cb371;
+    border-bottom: 1rpx solid#DEDEDE;
     padding: 8rpx 20rpx 8rpx 20rpx;
     margin-bottom: 10rpx;
     border-radius: 8rpx;
@@ -601,7 +601,7 @@ export default {
     .match-cells {
       flex: 1;
       display: flex;
-      border: 1rpx solid #66cdaa;
+      border: 1rpx solid #DEDEDE;
       border-radius: 8rpx;
       overflow: hidden;
 

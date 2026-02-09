@@ -6,22 +6,19 @@
     <view v-for="(drawer, drawerIdx) in finalDrawerList" :key="drawerIdx" class="drawer-wrapper">
       <!-- 吸顶标题栏（适配statusBarHeight，点击展开/收起） -->
       <!-- 仅改：top 值从 px 计算改为 rpx 计算（stickyHeaderTop） -->
-      <view class="date-title sticky-header" 
-        :style="{ top: stickyHeaderTop + 'rpx'  }"
-        @click="toggleDrawer(drawerIdx)"
-        hover-class="none"
-      >
+      <view class="date-title sticky-header" :style="{ top: stickyHeaderTop + 'rpx' }" @click="toggleDrawer(drawerIdx)" hover-class="none">
         <view class="drawer-title-text">{{ drawer.title }}</view>
         <view class="arrow-icon" :class="{ rotated: expandedDrawers[drawerIdx] }">↓</view>
       </view>
 
       <!-- 抽屉内容：比分列表（复刻半全场的布局逻辑） -->
       <view v-show="expandedDrawers[drawerIdx]" class="drawer-content">
-        <view v-for="(item, index) in drawer.lotteryList" :key="index" class="match-row" style="background: #F6F6F6;">
+        <view v-for="(item, index) in drawer.lotteryList" :key="index" class="match-row">
           <!-- ========== 第一行状态行（和半全场完全一致） ========== -->
           <view class="match-status-row">
             <view class="status-left">
               <text class="single-tag" v-if="item.is_stop == 0 && item.is_bf_single == 1">单场</text>
+              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
             </view>
             <view class="status-right">
               <!-- 仅改：@tap.stop 改为 @click.stop -->
@@ -34,7 +31,7 @@
             <!-- 左侧区域：和半全场完全一致（固定宽度+flex:none） -->
             <view class="main-left">
               <view class="top-left">
-                  <text class="league-name">{{ item.league_name }}</text>
+                <text class="league-name">{{ item.league_name }}</text>
               </view>
               <view class="bottom-left">
                 <text class="serial-number">{{ item.serial_number }}</text>
@@ -51,23 +48,26 @@
                   <text class="team-name away">{{ item.visiting_name }}</text>
                 </view>
                 <view class="rate-row" v-if="item.home_win_rate || item.visiting_win_rate">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || '' }}%</text>
-                  <text class="vs-text"></text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || '' }}%</text>
+                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                  <text class="vs-text">{{ item.draw_rate ? "平率" + item.draw_rate : "" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
                 </view>
               </view>
               <!-- 复刻半全场的bottom-right：仅保留宽度+溢出约束 -->
-              <view class="bottom-right">
-                <view 
-                  class="odds-trigger-area" 
-                  @click="openScorePopup(item)"
-                  :class="{ 'selected-trigger': item.selectedScores && item.selectedScores.length > 0 }"
+              <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
+                <view
+                  class="odds-trigger-area"
+                  @click="item.is_stop != 1 && openScorePopup(item)"
+                  :class="{
+                    'selected-trigger': item.selectedScores && item.selectedScores.length > 0,
+                    'disabled-trigger': item.is_stop == 1,
+                  }"
                   hover-class="none"
                 >
-                  <!-- 核心修改：移除多余的text-wrapper，直接用text标签（和半全场一致） -->
                   <text v-if="item.selectedScores && item.selectedScores.length > 0" class="selected-text">
                     {{ item.selectedScores.join(",").replace(/\n|\r/g, "") }}
                   </text>
+                  <!-- 停售时替换提示文字为“已停售” -->
                   <text v-else class="trigger-tip">请选择投注内容</text>
                 </view>
               </view>
@@ -77,15 +77,15 @@
       </view>
     </view>
 
-    <!-- 弹框部分：保持不变 -->
+    <!-- 弹框部分：保持不变，仅统一单位 -->
     <view class="score-popup-mask" v-show="isPopupShow" @click="closePopup" hover-class="none"></view>
     <view class="score-popup" v-show="isPopupShow">
       <view v-if="isLoading" class="popup-loading">加载中...</view>
       <view v-else>
-        <view class="popup-title"> 
-          {{ currentMatch && currentMatch.home_name }}(主) 
-          <text class="vs-text">VS</text> 
-          {{ currentMatch && currentMatch.visiting_name }}(客) 
+        <view class="popup-title">
+          {{ currentMatch && currentMatch.home_name }}(主)
+          <text class="vs-text">VS</text>
+          {{ currentMatch && currentMatch.visiting_name }}(客)
         </view>
         <view class="score-section">
           <view class="section-label main-win">主胜比分</view>
@@ -96,7 +96,7 @@
             </view>
             <view class="score-option other" :class="{ selected: selectedScores.includes('胜其它') }" @click="toggleScore('胜其它')" hover-class="none">
               <text class="score-text">胜其它</text>
-              <text class="score-odds">{{ currentMatch && currentMatch.score_odds && currentMatch.score_odds.winOther || "" }}</text>
+              <text class="score-odds">{{ (currentMatch && currentMatch.score_odds && currentMatch.score_odds.winOther) || "" }}</text>
             </view>
           </view>
         </view>
@@ -109,7 +109,7 @@
             </view>
             <view class="score-option other" :class="{ selected: selectedScores.includes('平其它') }" @click="toggleScore('平其它')" hover-class="none">
               <text class="score-text">平其它</text>
-              <text class="score-odds">{{ currentMatch && currentMatch.score_odds && currentMatch.score_odds.drawOther || "" }}</text>
+              <text class="score-odds">{{ (currentMatch && currentMatch.score_odds && currentMatch.score_odds.drawOther) || "" }}</text>
             </view>
           </view>
         </view>
@@ -122,7 +122,7 @@
             </view>
             <view class="score-option other" :class="{ selected: selectedScores.includes('负其它') }" @click="toggleScore('负其它')" hover-class="none">
               <text class="score-text">负其它</text>
-              <text class="score-odds">{{ currentMatch && currentMatch.score_odds && currentMatch.score_odds.loseOther || "" }}</text>
+              <text class="score-odds">{{ (currentMatch && currentMatch.score_odds && currentMatch.score_odds.loseOther) || "" }}</text>
             </view>
           </view>
         </view>
@@ -136,7 +136,7 @@
 </template>
 
 <script>
-// script部分完全复用原有逻辑，仅保留注释
+// script部分完全复用原有逻辑，仅补全注释和优化单位转换逻辑
 import { queryHomeAndVisitingGoalOdds } from "@/api/demo";
 export default {
   props: {
@@ -153,6 +153,7 @@ export default {
       MAX_SELECT_COUNT: 10,
       isLoading: false,
       currentOddsData: null,
+      // 比分选项配置（统一维护）
       mainWinScores: [
         { label: "1:0", value: "1:0", odds: "" },
         { label: "2:0", value: "2:0", odds: "" },
@@ -190,22 +191,22 @@ export default {
       expandedDrawers: [],
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
-       windowWidth: 0
+      windowWidth: 0, // 设备窗口宽度（用于px转rpx）
     };
   },
   computed: {
+    // 最终抽屉列表（兼容原有matchList和drawerList）
     finalDrawerList() {
       if (this.drawerList.length > 0) {
         return this.drawerList;
       }
-      return this.matchList.length > 0 
-        ? [{ title: `周四 2025-12-04 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] 
-        : [];
+      return this.matchList.length > 0 ? [{ title: `周四 2025-12-04 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] : [];
     },
+    // 已选择的比赛数量
     selectedMatchCount() {
       let count = 0;
-      this.finalDrawerList.forEach(drawer => {
-        drawer.lotteryList.forEach(item => {
+      this.finalDrawerList.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
           if (item.selectedScores && item.selectedScores.length > 0) {
             count++;
           }
@@ -213,60 +214,71 @@ export default {
       });
       return count;
     },
-    // 仅新增：计算rpx版paddingTop（按你要求只加88）
+    // 计算rpx版paddingTop（状态栏高度+88rpx）
     paddingTopVal() {
       return this.statusBarHeightRpx + 88;
     },
-    // 仅新增：计算rpx版sticky header top值（按你要求只加88）
+    // 计算rpx版sticky header top值（状态栏高度+88rpx-10rpx微调）
     stickyHeaderTop() {
-      return this.statusBarHeightRpx + 88;
-    }
+      return this.statusBarHeightRpx + 78; // 简化计算：88-10=78
+    },
   },
   watch: {
+    // 监听抽屉列表变化，初始化展开状态
     finalDrawerList(newVal) {
       this.expandedDrawers = newVal.map(() => true);
     },
-    // 仅新增：监听状态栏高度变化，转换单位
+    // 监听状态栏高度变化，实时转换单位
     statusBarHeight(newVal) {
       this.statusBarHeightRpx = this.pxToRpx(newVal);
-    }
+    },
   },
-created() {
-  // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
-  this.initWindowInfo();
-  this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
-  this.expandedDrawers = this.finalDrawerList.map(() => true);
-},
+  created() {
+    // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
+    this.initWindowInfo();
+    // 初始化状态栏高度（rpx）
+    this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
+    // 初始化抽屉展开状态
+    this.expandedDrawers = this.finalDrawerList.map(() => true);
+  },
   methods: {
-// 新增：初始化窗口信息（替代废弃API）
-initWindowInfo() {
-  try {
-    // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
-    const windowInfo = wx.getWindowInfo();
-    this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
-  } catch (e) {
-    // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
-    const systemInfo = uni.getSystemInfoSync();
-    this.windowWidth = systemInfo.windowWidth || 375;
-    console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
-  }
-},
-// 修正后的px转rpx：使用新API获取的windowWidth，优化精度
-pxToRpx(px) {
-  if (!px || !this.windowWidth) return 0;
-  // 计算后四舍五入，减少1-2px的机型偏差
-  return Math.round((px / this.windowWidth) * 750 + 0.5);
-},
-    // 以下所有方法：完全保留你原代码，无任何修改
-    handleAiAnalysis(item) { console.log('AI分析', item); },
-    toggleDrawer(drawerIdx) { this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]); },
+    // 新增：初始化窗口信息（兼容新旧微信版本）
+    initWindowInfo() {
+      try {
+        // 微信最新API：获取窗口信息
+        const windowInfo = wx.getWindowInfo();
+        this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
+      } catch (e) {
+        // 兼容旧版本微信：降级使用uni.getSystemInfo
+        const systemInfo = uni.getSystemInfoSync();
+        this.windowWidth = systemInfo.windowWidth || 375;
+        console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
+      }
+    },
+    // 修正后的px转rpx：高精度转换，适配所有机型
+    pxToRpx(px) {
+      if (!px || !this.windowWidth) return 0;
+      // 计算后四舍五入，减少机型偏差
+      return Math.round((px / this.windowWidth) * 750 + 0.5);
+    },
+    // AI分析占位方法
+    handleAiAnalysis(item) {
+      console.log("AI分析", item);
+    },
+    // 切换抽屉展开/收起状态
+    toggleDrawer(drawerIdx) {
+      this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
+    },
+    // 打开比分选择弹窗
     async openScorePopup(match) {
+      // 校验最多选择8场比赛
       const isCurrentMatchUnselected = !match.selectedScores || match.selectedScores.length === 0;
       if (isCurrentMatchUnselected && this.selectedMatchCount >= 8) {
-        uni.showToast({ title: '最多只能选择8场比赛', icon: 'none', duration: 2000 });
+        uni.showToast({ title: "最多只能选择8场比赛", icon: "none", duration: 2000 });
         return;
       }
 
+      // 初始化弹窗状态
       this.isLoading = true;
       this.selectedScores = Array.isArray(match.selectedScores) ? [...match.selectedScores] : [];
       this.currentMatch = match;
@@ -274,6 +286,7 @@ pxToRpx(px) {
       this.currentOddsData = match.oddsData || null;
 
       try {
+        // 未缓存赔率数据时，请求接口获取
         if (!this.currentOddsData) {
           const res = await queryHomeAndVisitingGoalOdds({
             serialNumber: match.serial_number,
@@ -284,64 +297,128 @@ pxToRpx(px) {
           }
         }
 
+        // 填充赔率数据到比分选项
         if (this.currentOddsData) {
           const oddsData = this.currentOddsData;
+          // 主胜比分赔率
           this.mainWinScores = this.mainWinScores.map((item) => {
             let odds = item.odds;
             switch (item.value) {
-              case "1:0": odds = oddsData.ybl?.toString() || ""; break;
-              case "2:0": odds = oddsData.ebl?.toString() || ""; break;
-              case "2:1": odds = oddsData.eby?.toString() || ""; break;
-              case "3:0": odds = oddsData.sbl?.toString() || ""; break;
-              case "3:1": odds = oddsData.sby?.toString() || ""; break;
-              case "3:2": odds = oddsData.sbe?.toString() || ""; break;
-              case "4:0": odds = oddsData.sibl?.toString() || ""; break;
-              case "4:1": odds = oddsData.siby?.toString() || ""; break;
-              case "4:2": odds = oddsData.sibe?.toString() || ""; break;
-              case "5:0": odds = oddsData.wbl?.toString() || ""; break;
-              case "5:1": odds = oddsData.wby?.toString() || ""; break;
-              case "5:2": odds = oddsData.wbe?.toString() || ""; break;
-              default: odds = "";
+              case "1:0":
+                odds = oddsData.ybl?.toString() || "";
+                break;
+              case "2:0":
+                odds = oddsData.ebl?.toString() || "";
+                break;
+              case "2:1":
+                odds = oddsData.eby?.toString() || "";
+                break;
+              case "3:0":
+                odds = oddsData.sbl?.toString() || "";
+                break;
+              case "3:1":
+                odds = oddsData.sby?.toString() || "";
+                break;
+              case "3:2":
+                odds = oddsData.sbe?.toString() || "";
+                break;
+              case "4:0":
+                odds = oddsData.sibl?.toString() || "";
+                break;
+              case "4:1":
+                odds = oddsData.siby?.toString() || "";
+                break;
+              case "4:2":
+                odds = oddsData.sibe?.toString() || "";
+                break;
+              case "5:0":
+                odds = oddsData.wbl?.toString() || "";
+                break;
+              case "5:1":
+                odds = oddsData.wby?.toString() || "";
+                break;
+              case "5:2":
+                odds = oddsData.wbe?.toString() || "";
+                break;
+              default:
+                odds = "";
             }
             return { ...item, odds };
           });
 
+          // 平比分赔率
           this.drawScores = this.drawScores.map((item) => {
             let odds = item.odds;
             switch (item.value) {
-              case "0:0": odds = oddsData.lbl?.toString() || ""; break;
-              case "1:1": odds = oddsData.yby?.toString() || ""; break;
-              case "2:2": odds = oddsData.ebe?.toString() || ""; break;
-              case "3:3": odds = oddsData.sbs?.toString() || ""; break;
-              default: odds = "";
+              case "0:0":
+                odds = oddsData.lbl?.toString() || "";
+                break;
+              case "1:1":
+                odds = oddsData.yby?.toString() || "";
+                break;
+              case "2:2":
+                odds = oddsData.ebe?.toString() || "";
+                break;
+              case "3:3":
+                odds = oddsData.sbs?.toString() || "";
+                break;
+              default:
+                odds = "";
             }
             return { ...item, odds };
           });
 
+          // 客胜比分赔率
           this.awayWinScores = this.awayWinScores.map((item) => {
             let odds = item.odds;
             switch (item.value) {
-              case "0:1": odds = oddsData.lby?.toString() || ""; break;
-              case "0:2": odds = oddsData.lbe?.toString() || ""; break;
-              case "1:2": odds = oddsData.ybe?.toString() || ""; break;
-              case "0:3": odds = oddsData.lbs?.toString() || ""; break;
-              case "1:3": odds = oddsData.ybs?.toString() || ""; break;
-              case "2:3": odds = oddsData.ebs?.toString() || ""; break;
-              case "0:4": odds = oddsData.lbsi?.toString() || ""; break;
-              case "1:4": odds = oddsData.ybsi?.toString() || ""; break;
-              case "2:4": odds = oddsData.ebsi?.toString() || ""; break;
-              case "0:5": odds = oddsData.lbw?.toString() || ""; break;
-              case "1:5": odds = oddsData.ybw?.toString() || ""; break;
-              case "2:5": odds = oddsData.ebw?.toString() || ""; break;
-              default: odds = "";
+              case "0:1":
+                odds = oddsData.lby?.toString() || "";
+                break;
+              case "0:2":
+                odds = oddsData.lbe?.toString() || "";
+                break;
+              case "1:2":
+                odds = oddsData.ybe?.toString() || "";
+                break;
+              case "0:3":
+                odds = oddsData.lbs?.toString() || "";
+                break;
+              case "1:3":
+                odds = oddsData.ybs?.toString() || "";
+                break;
+              case "2:3":
+                odds = oddsData.ebs?.toString() || "";
+                break;
+              case "0:4":
+                odds = oddsData.lbsi?.toString() || "";
+                break;
+              case "1:4":
+                odds = oddsData.ybsi?.toString() || "";
+                break;
+              case "2:4":
+                odds = oddsData.ebsi?.toString() || "";
+                break;
+              case "0:5":
+                odds = oddsData.lbw?.toString() || "";
+                break;
+              case "1:5":
+                odds = oddsData.ybw?.toString() || "";
+                break;
+              case "2:5":
+                odds = oddsData.ebw?.toString() || "";
+                break;
+              default:
+                odds = "";
             }
             return { ...item, odds };
           });
 
+          // 其它比分赔率
           this.currentMatch.score_odds = {
             winOther: oddsData.sqt?.toString() || "",
             drawOther: oddsData.pqt?.toString() || "",
-            loseOther: oddsData.fqt?.toString() || ""
+            loseOther: oddsData.fqt?.toString() || "",
           };
         }
       } catch (err) {
@@ -351,6 +428,7 @@ pxToRpx(px) {
         this.isLoading = false;
       }
     },
+    // 切换比分选择状态
     toggleScore(scoreValue) {
       if (this.isLoading) return;
       const index = this.selectedScores.indexOf(scoreValue);
@@ -360,9 +438,11 @@ pxToRpx(px) {
         this.selectedScores.splice(index, 1);
       }
     },
+    // 确认比分选择
     confirmSelection() {
       if (!this.currentMatch || this.isLoading) return;
 
+      // 查找当前选中的比赛项
       let targetItem = null;
       let targetDrawerIdx = -1;
       let targetItemIdx = -1;
@@ -376,48 +456,57 @@ pxToRpx(px) {
         }
       });
 
+      // 更新选中的比分数据
       if (targetItem) {
         const updatedMatch = {
           ...targetItem,
           selectedScores: [...this.selectedScores],
           oddsData: this.currentOddsData,
-          score_odds: this.currentMatch.score_odds || { winOther: "", drawOther: "", loseOther: "" }
+          score_odds: this.currentMatch.score_odds || { winOther: "", drawOther: "", loseOther: "" },
         };
 
+        // 响应式更新数据
         this.$set(this.finalDrawerList[targetDrawerIdx].lotteryList, targetItemIdx, updatedMatch);
+        // 向外派发选中事件
         this.$emit("on-score-selected", this.finalDrawerList);
       }
 
+      // 关闭弹窗
       this.closePopup();
     },
+    // 关闭比分选择弹窗
     closePopup() {
       this.isPopupShow = false;
       this.selectedScores = [];
       this.currentMatch = null;
       this.currentOddsData = null;
       this.isLoading = false;
-    }
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
-/* 全局样式：复刻半全场的基础样式 */
+/* 全局样式：复刻半全场的基础样式，统一rpx单位 */
 .match-list {
   background-color: #f5f5f5;
   box-sizing: border-box;
   padding-bottom: 140rpx;
-// #ifdef MP-WEIXIN
+  // #ifdef MP-WEIXIN
   padding-bottom: 230rpx;
-// #endif
+  // #endif
 }
 
-.drawer-wrapper { width: 100%; margin-bottom: 8rpx; background: #f5f5f5 }
+.drawer-wrapper {
+  width: 100%;
+  margin-bottom: 8rpx;
+  background: #f5f5f5;
+}
 
-/* 吸顶标题栏：和半全场一致 */
+/* 吸顶标题栏：和半全场一致，统一rpx单位 */
 .sticky-header {
   position: sticky;
-  z-index: 999; // 仅改：从999999999降为999
+  z-index: 999; // 合理的层级，避免过高导致遮挡
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -428,17 +517,29 @@ pxToRpx(px) {
   font-size: 26rpx;
   color: #333;
 
-  .drawer-title-text { font-size: 24rpx; color: #333; }
-  .arrow-icon { transition: transform 0.2s ease; font-size: 24rpx; color: #666; }
-  .rotated { transform: rotate(180deg); }
+  .drawer-title-text {
+    font-size: 24rpx;
+    color: #333;
+  }
+  .arrow-icon {
+    transition: transform 0.2s ease;
+    font-size: 24rpx;
+    color: #666;
+  }
+  .rotated {
+    transform: rotate(180deg);
+  }
 }
 
-.drawer-content { width: 100%; transition: all 0.2s ease; }
+.drawer-content {
+  width: 100%;
+  transition: all 0.2s ease;
+}
 
-/* 比赛行：复刻半全场的约束 */
+/* 比赛行：复刻半全场的约束，统一rpx单位 */
 .match-row {
   background-color: #fff;
-  border-bottom: 1rpx solid #DEDEDE;
+  border-bottom: 1rpx solid #dedede;
   box-sizing: border-box;
   padding: 0rpx 20rpx;
   display: flex;
@@ -446,19 +547,19 @@ pxToRpx(px) {
   gap: 0;
   margin-bottom: 4rpx;
   border-radius: 8rpx;
-  box-shadow: 0 2rpx 5rpx rgba(0,0,0,0.05);
+  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
   width: 100%;
   overflow: hidden; // 新增：和半全场一致
 }
 
-/* 状态行：完全复刻半全场 */
+/* 状态行：完全复刻半全场，统一rpx单位 */
 .match-status-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   border-bottom: 1rpx solid #f5f5f5;
-  
+
   .status-left {
     width: 200rpx;
     display: flex;
@@ -466,16 +567,16 @@ pxToRpx(px) {
   }
 
   .single-tag {
-      display: inline-block;
-      padding-left: 6rpx;
-      width: 60rpx;
-      background: #b71c1c;
-      color: #fff;
-      text-align: left;
-      font-size: 22rpx;
-      border-top-right-radius: 15rpx;
-      border-bottom-right-radius: 16rpx;
-      margin-right: 10rpx;
+    display: inline-block;
+    padding-left: 6rpx;
+    width: 60rpx;
+    background: #b71c1c;
+    color: #fff;
+    text-align: left;
+    font-size: 22rpx;
+    border-top-right-radius: 15rpx;
+    border-bottom-right-radius: 16rpx;
+    margin-right: 10rpx;
   }
 
   .status-right .ai-analysis-btn {
@@ -484,11 +585,13 @@ pxToRpx(px) {
     cursor: pointer;
     transition: opacity 0.2s;
     letter-spacing: 4rpx;
-    &:active { opacity: 0.8; }
+    &:active {
+      opacity: 0.8;
+    }
   }
 }
 
-/* ========== 核心：复刻半全场的左右布局 ========== */
+/* ========== 核心：复刻半全场的左右布局，统一rpx单位 ========== */
 .main-content-row {
   box-sizing: border-box;
   display: flex;
@@ -519,7 +622,7 @@ pxToRpx(px) {
   overflow: hidden; // 复刻半全场：第二层溢出约束
 }
 
-/* 左侧子元素：和半全场一致 */
+/* 左侧子元素：和半全场一致，统一rpx单位 */
 .top-left {
   margin-top: 8rpx;
   display: flex;
@@ -543,7 +646,8 @@ pxToRpx(px) {
   text-overflow: ellipsis; // 复刻半全场：联赛名省略
 }
 
-.serial-number, .match-time {
+.serial-number,
+.match-time {
   width: 100%;
   font-size: 20rpx;
   color: #999;
@@ -553,9 +657,11 @@ pxToRpx(px) {
   text-overflow: ellipsis; // 复刻半全场：编号/时间省略
 }
 
-.serial-number { margin-bottom: 10rpx; }
+.serial-number {
+  margin-bottom: 10rpx;
+}
 
-/* 右侧子元素：复刻半全场 */
+/* 右侧子元素：复刻半全场，统一rpx单位 */
 .top-right {
   flex: 1;
   text-align: center;
@@ -567,7 +673,7 @@ pxToRpx(px) {
   overflow: hidden; // 复刻半全场：第三层溢出约束
 }
 
-/* 胜率行：完全复刻半全场 */
+/* 胜率行：完全复刻半全场，统一rpx单位 */
 .rate-row {
   width: 100%;
   display: flex;
@@ -582,10 +688,16 @@ pxToRpx(px) {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .rate-text.home { text-align: right; padding-right: 10rpx; }
-  .rate-text.away { text-align: left; padding-left: 10rpx; }
+  .rate-text.home {
+    text-align: right;
+    padding-right: 10rpx;
+  }
+  .rate-text.away {
+    text-align: left;
+    padding-left: 10rpx;
+  }
   .vs-text {
-    width: 40rpx;
+    width: 140rpx;
     text-align: center;
     flex-shrink: 0;
     color: #999;
@@ -593,14 +705,27 @@ pxToRpx(px) {
   }
 }
 
-/* bottom-right：完全复刻半全场 */
+/* bottom-right：完全复刻半全场，统一rpx单位 */
 .bottom-right {
   width: 100%;
   box-sizing: border-box;
   overflow: hidden; // 复刻半全场：第四层溢出约束
 }
-
-/* 队名VS：复刻半全场的省略逻辑 */
+.stop-bg {
+  background-color: #dedede;
+}
+// 停售时触发区禁用样式（禁止点击反馈+灰化）
+.disabled-trigger {
+  pointer-events: none; // 彻底禁止点击事件
+  opacity: 0.8;
+  background-color: #f5f5f5 !important;
+}
+// 停售时触发区文字颜色适配
+.disabled-trigger .trigger-tip {
+  height: 41rpx !important;
+  color: #666 !important;
+}
+/* 队名VS：复刻半全场的省略逻辑，统一rpx单位 */
 .team-vs {
   font-size: 24rpx;
   color: #333;
@@ -613,7 +738,10 @@ pxToRpx(px) {
   cursor: pointer;
   transition: all 0.2s ease;
 
-  &:active { color: #d92929; opacity: 0.8; }
+  &:active {
+    color: #d92929;
+    opacity: 0.8;
+  }
 
   .team-name {
     flex: 1;
@@ -623,8 +751,14 @@ pxToRpx(px) {
     text-overflow: ellipsis; // 复刻半全场：队名省略
   }
 
-  .team-name.home { text-align: right; padding-right: 10rpx; }
-  .team-name.away { text-align: left; padding-left: 10rpx; }
+  .team-name.home {
+    text-align: right;
+    padding-right: 10rpx;
+  }
+  .team-name.away {
+    text-align: left;
+    padding-left: 10rpx;
+  }
   .vs-text {
     width: 40rpx;
     text-align: center;
@@ -633,18 +767,18 @@ pxToRpx(px) {
   }
 }
 
-/* ========== 核心：复刻半全场的触发区样式 ========== */
+/* ========== 核心：复刻半全场的触发区样式，统一rpx单位 ========== */
 .odds-trigger-area {
   // 仅保留半全场的必要属性，移除所有多余flex属性
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1rpx solid #DEDEDE;
+  border: 1rpx solid #dedede;
   border-radius: 8rpx;
   padding: 16rpx 10rpx;
   background-color: #f9f9f9;
   cursor: pointer;
-  width: 100%; 
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease;
@@ -663,7 +797,9 @@ pxToRpx(px) {
     box-sizing: border-box;
   }
 
-  &:active { background-color: #f0f0f0; }
+  &:active {
+    background-color: #f0f0f0;
+  }
 }
 
 // 复刻半全场的selected-trigger样式（无!important，精准生效）
@@ -685,7 +821,7 @@ pxToRpx(px) {
   }
 }
 
-/* 弹窗样式：保持不变 */
+/* 弹窗样式：统一rpx单位，优化适配 */
 .score-popup-mask {
   position: fixed;
   top: 0;
@@ -722,7 +858,11 @@ pxToRpx(px) {
     justify-content: center;
     gap: 8rpx;
 
-    .vs-text { font-size: 24rpx; font-weight: 500; color: #666; }
+    .vs-text {
+      font-size: 24rpx;
+      font-weight: 500;
+      color: #666;
+    }
   }
 
   .popup-loading {
@@ -758,9 +898,15 @@ pxToRpx(px) {
   box-sizing: border-box;
 }
 
-.main-win { background: #6FBDBD; }
-.draw { background: #6AB284; }
-.away-win { background: #6FBDBD; }
+.main-win {
+  background: #6fbdbd;
+}
+.draw {
+  background: #6ab284;
+}
+.away-win {
+  background: #6fbdbd;
+}
 
 .score-options {
   flex: 1;
@@ -780,12 +926,24 @@ pxToRpx(px) {
   color: #999;
   transition: all 0.2s ease;
 
-  .score-text { font-size: 22rpx; display: block; }
-  .score-odds { font-size: 18rpx; }
+  .score-text {
+    font-size: 22rpx;
+    display: block;
+  }
+  .score-odds {
+    font-size: 18rpx;
+  }
 
-  &.selected { background: #d92929; color: #fff !important; }
-  &:active { background: #f0f0f0; }
-  &.selected:active { background: #c62828; }
+  &.selected {
+    background: #d92929;
+    color: #fff !important;
+  }
+  &:active {
+    background: #f0f0f0;
+  }
+  &.selected:active {
+    background: #c62828;
+  }
 }
 
 .popup-btn-bar {
@@ -794,7 +952,8 @@ pxToRpx(px) {
   padding: 12rpx 16rpx 24rpx;
   box-sizing: border-box;
 
-  .cancel-btn, .confirm-btn {
+  .cancel-btn,
+  .confirm-btn {
     flex: 1;
     height: 70rpx;
     border-radius: 8rpx;
@@ -817,17 +976,23 @@ pxToRpx(px) {
     background: #d92929;
     color: #fff;
     border: none;
-    &:active { background: #c62828; }
+    &:active {
+      background: #c62828;
+    }
   }
 }
 
 /* 兼容优化：和半全场一致 */
-::-webkit-scrollbar { display: none; }
+::-webkit-scrollbar {
+  display: none;
+}
 /* #ifdef APP-PLUS */
 .score-popup {
-  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom)); 
-  padding-bottom: calc(20rpx + env(safe-area-inset-bottom)); 
+  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
 }
 /* #endif */
-button::after { border: none; }
+button::after {
+  border: none;
+}
 </style>

@@ -53,7 +53,7 @@
     >
       <view class="bet-bar-top">
         <view class="top-left">
-          {{ selectedCombo === "single" ? "单关" : (selectedCombo || "").replace("c1", "串1") }}
+          {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
         </view>
 
         <view class="collapse-area">
@@ -159,8 +159,19 @@ export default {
   created() {
     const sys = uni.getSystemInfoSync();
     // 识别运行环境：App端（android/ios）、小程序端（mp-weixin）
-    this.isApp = sys.platform === "android" || sys.platform === "ios";
-    this.isMp = sys.platform === "mp-weixin";
+// 初始化默认值，保证所有平台变量都有定义
+this.isApp = false;
+this.isMp = false;
+
+// #ifdef APP-PLUS
+// 仅在 App 平台（安卓/iOS）编译执行
+this.isApp = true;
+// #endif
+
+// #ifdef MP-WEIXIN
+// 仅在微信小程序平台编译执行
+this.isMp = true;
+// #endif
     // 计算所有高度
     this.calcAllHeights();
   },
@@ -169,6 +180,7 @@ export default {
     if (eventChannel) {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
+        console.log(data, 'list------------------')
         this.betCount = data.betCount || 1;
         this.isNeedUserPhone = data.isNeedUserPhone;
         this.selectedCombo = data.combo || "";
@@ -183,6 +195,7 @@ export default {
       matches: this.selectedMatchList,
       betCount: this.betCount,
     };
+    
     uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
   },
   methods: {
@@ -476,7 +489,7 @@ export default {
   .match-row {
     display: flex;
     background-color: #fff;
-    border-bottom: 1rpx solid #3cb371;
+    border-bottom: 1rpx solid#DEDEDE;
     padding: 8rpx 20rpx 8rpx 20rpx;
     margin-bottom: 10rpx;
     border-radius: 8rpx;
@@ -515,7 +528,7 @@ export default {
     .match-cells {
       flex: 1;
       display: flex;
-      border: 1rpx solid #66cdaa;
+      border: 1rpx solid #DEDEDE;
       border-radius: 8rpx;
       overflow: hidden;
 

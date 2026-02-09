@@ -1,15 +1,13 @@
 <template>
-  <view @touchstart="onTouchStart" 
-    @touchend="onTouchEnd"
+  <view
     style="width: 100%; height: 100vh; box-sizing: border-box;">
     <CustomHeader
       :showBack="false"
       :ballTitle="''"
+      :title="' 云竞慧博'"
       :isIndex="true"
       :showIcon="true"
-      :isSelected="!!currentPlay"
-      :selectedPlay="currentPlay"
-      @trigger-select="togglePopup"
+      :isSelected="false"
       @funnel-click="handleFunnel"
     />
 
@@ -42,15 +40,15 @@
             <text class="game-name">胜负游戏</text>
           </view>
           <!-- 第二行（3个） -->
-          <view class="game-item" @click="goToGame('nineIndex/index')">
+          <view class="game-item two" @click="goToGame('nineIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">任选9场</text>
           </view>
-          <view class="game-item" @click="goToGame('sixIndex/index')">
+          <view class="game-item two" @click="goToGame('sixIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">6场半全场</text>
           </view>
-          <view class="game-item" @click="goToGame('fourIndex/index')">
+          <view class="game-item two" @click="goToGame('fourIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">4场进球</text>
           </view>
@@ -136,24 +134,6 @@ export default {
       );
       // #endif
     },
-    onTouchStart(e) {
-      this.touchStartX = e.changedTouches[0].clientX;
-    },
-    onTouchEnd(e) {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diffX = touchEndX - this.touchStartX;
-      
-      if (Math.abs(diffX) < this.swipeThreshold) return;
-      
-      const tabbar = this.$refs.nativeTabbar;
-      if (!tabbar) return;
-      
-      if (diffX < 0) {
-        tabbar.switchTabBySwipe('left');
-      } else {
-        tabbar.switchTabBySwipe('right');
-      }
-    },
     togglePopup() {
       this.isPopupShow = !this.isPopupShow;
     },
@@ -178,7 +158,6 @@ export default {
     },
     // 跳转对应游戏页面
     goToGame(gameName) {
-      console.log('11111111')
       uni.navigateTo({ url: `/pages/${gameName}` });
     }
   }
@@ -236,7 +215,7 @@ page {
   font-size: 32rpx;
   font-weight: bold;
   color: #333;
-  margin-bottom: 24rpx;
+  margin-bottom: 50rpx;
   padding-left: 8rpx;
   border-left: 4rpx solid #d92929;
 }
@@ -255,12 +234,23 @@ page {
   flex-direction: column;
   align-items: center;
   // 宽度计算：(100% - 2个间距) / 3 = (100% - 40rpx) / 3
-  width: calc((100% - 40rpx) / 3); 
-  margin-bottom: 20rpx; // 行间距
+  width: calc((100% - 40rpx) / 3);
+  margin-top: 40rpx;
+  margin-bottom: 40rpx; // 行间距
   cursor: pointer;
   box-sizing: border-box;
 }
-
+.two {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // 宽度计算：(100% - 2个间距) / 3 = (100% - 40rpx) / 3
+  width: calc((100% - 40rpx) / 3);
+  margin-top: 40rpx;
+  margin-bottom: 90rpx!important; // 行间距
+  cursor: pointer;
+  box-sizing: border-box;
+}
 .game-icon {
   width: 80rpx;
   height: 80rpx;

@@ -6,11 +6,9 @@
       <!-- 吸顶标题栏 -->
       <view class="date-title sticky-header" 
         :style="{ top: 0 + 'rpx'  }"
-        @click="toggleDrawer(drawerIdx)"
         hover-class="none"
       >
         <view class="drawer-title-text">{{ drawer.title }}</view>
-        <view class="arrow-icon" :class="{ rotated: expandedDrawers[drawerIdx] }">↓</view>
       </view>
 
       <!-- 抽屉内容：比赛列表 -->
@@ -197,8 +195,6 @@ export default {
       if (!px || !this.windowWidth) return 0;
       return Math.round((px / this.windowWidth) * 750 + 0.5);
     },
-    handleAiAnalysis(item) { console.log('AI分析', item); },
-    toggleDrawer(drawerIdx) { this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]); },
     // 核心：比分多选逻辑（切换选中/取消状态）
     toggleScoreSelect(item, key, value) {
       this.finalDrawerList.forEach((drawer, dIdx) => {

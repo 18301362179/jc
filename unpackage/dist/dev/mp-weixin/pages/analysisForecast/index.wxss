@@ -439,4 +439,8 @@ button.data-v-55c5c073 {
   padding: 0;
   margin: 0;
 }
+.con uni-modal.data-v-55c5c073,
+.con .uni-mask.data-v-55c5c073 {
+  z-index: 99 !important;
+}
 

@@ -292,7 +292,7 @@ export default {
         let isNeedUserPhone = res.data?.isNeedUserPhone || 1;
         if (res.data) {
           await uni.navigateTo({
-            url: `/pages/edit/football/index`,
+            url: `/pages/fourteenIndex/editFourteen`,
             events: { updateSelectedMatches: (updatedData) => this.syncUpdatedMatches(updatedData) },
             success: (res) => {
               res.eventChannel.emit("selectedData", { 
@@ -463,25 +463,28 @@ export default {
         this.showLoading();
         const reqParams = {
           id: item.id,
-          beFrom: 'football',
-          serialNumber: item.serial_number || '',
-          isLottery: 1
+          isLottery: 1,
+          isTradition: 1
         };
-        const res = await recharge(reqParams);
-        if (res.data) {
-          this.isDialogShow = true;
-          this.hideLoading();
-          return;
-        }
-        await uni.navigateTo({ 
-          url: `/pages/test/index?id=${item.id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}`
-        });
-      } catch (err) {
-        console.error('[AI分析] 失败:', err);
-        uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
-      } finally {
+    // 调用recharge接口
+    const res = await recharge(reqParams);
+    if (res.data.status == 'fail') {
+      // isLottery=1 表示无灵石，显示充值弹窗
+        this.isDialogShow = true;
         this.hideLoading();
-      }
+        return;
+    } else {
+            // 有灵石，正常跳转分析页
+          await uni.navigateTo({
+            url: `/pages/test/index?id=${item.id}&isLottery=1&isTradition=1`,
+          });
+    }
+  } catch (err) {
+    console.error('[AI分析] 失败:', err);
+    uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
+  } finally {
+    this.hideLoading();
+  }
     },
     showLoading() {
       uni.showLoading({

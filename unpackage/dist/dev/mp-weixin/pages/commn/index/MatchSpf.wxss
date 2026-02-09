@@ -47,6 +47,7 @@
   border-bottom: 1rpx solid #eee;
   font-size: 26rpx;
   color: #333;
+  border-top: 5rpx solid #fff;
 }
 .sticky-header .arrow-icon.data-v-521f8e27 {
   transition: -webkit-transform 0.2s ease;
@@ -81,25 +82,17 @@
   display: flex;
   align-items: center;
 }
-.match-row .match-status-row .tag.data-v-521f8e27 {
+.match-row .match-status-row .single-tag.data-v-521f8e27 {
   display: inline-block;
-  font-size: 22rpx;
-  color: #fff;
-  border-radius: 4rpx;
-  margin-right: 10rpx;
-  padding: 2rpx 8rpx;
-  box-sizing: border-box;
-}
-.match-row .match-status-row .stop-sale.data-v-521f8e27 {
-  background: #999;
-}
-.match-row .match-status-row .single.data-v-521f8e27 {
-  background: #b71c1c;
-  width: 60rpx;
-  text-align: left;
   padding-left: 6rpx;
+  width: 60rpx;
+  background: #b71c1c;
+  color: #fff;
+  text-align: left;
+  font-size: 22rpx;
   border-top-right-radius: 15rpx;
   border-bottom-right-radius: 16rpx;
+  margin-right: 10rpx;
 }
 .match-row .match-status-row .status-right .ai-analysis-btn.data-v-521f8e27 {
   font-size: 24rpx;
@@ -149,6 +142,17 @@
   padding: 6rpx 10rpx 18rpx 10rpx;
   cursor: pointer;
   transition: background-color 0.2s;
+}
+.match-row .match-content-row .match-cells .match-cell.disabled.data-v-521f8e27 {
+  background-color: #dedede !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.match-row .match-content-row .match-cells .match-cell.disabled .team-name.data-v-521f8e27,
+.match-row .match-content-row .match-cells .match-cell.disabled .vs-text.data-v-521f8e27,
+.match-row .match-content-row .match-cells .match-cell.disabled .odds.data-v-521f8e27,
+.match-row .match-content-row .match-cells .match-cell.disabled .vs-odds.data-v-521f8e27 {
+  color: #999 !important;
 }
 .match-row .match-content-row .match-cells .match-cell.home.data-v-521f8e27 {
   width: 38%;

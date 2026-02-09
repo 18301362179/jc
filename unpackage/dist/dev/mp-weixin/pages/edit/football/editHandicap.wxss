@@ -56,7 +56,7 @@
 .match-list .match-row.data-v-20bb80b8 {
   display: flex;
   background-color: #fff;
-  border-bottom: 1rpx solid #3cb371;
+  border-bottom: 1rpx solid #DEDEDE;
   padding: 8rpx 20rpx 8rpx 20rpx;
   margin-bottom: 10rpx;
   border-radius: 8rpx;
@@ -92,7 +92,7 @@
 .match-list .match-row .match-cells.data-v-20bb80b8 {
   flex: 1;
   display: flex;
-  border: 1rpx solid #66cdaa;
+  border: 1rpx solid #DEDEDE;
   border-radius: 8rpx;
   overflow: hidden;
 }

@@ -56,7 +56,7 @@ page.data-v-df9e872e {
   width: 0;
   height: 0;
 }
-/* 底部投注栏最终样式 */
+/* 替换为足球同款bet-bar样式 */
 .bet-bar.data-v-df9e872e {
   position: fixed !important;
   width: 100% !important;
@@ -65,68 +65,50 @@ page.data-v-df9e872e {
   background-color: #fff;
   box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   box-sizing: border-box !important;
-  padding: 20rpx 0;
+  padding: 10rpx 20rpx;
   bottom: calc(env(safe-area-inset-bottom)) !important;
 }
-.bet-bar .bet-bar-top.data-v-df9e872e {
+.bet-bar .bet-bar-inner.data-v-df9e872e {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20rpx;
-  margin-bottom: 10rpx;
+  height: 80rpx;
 }
-.bet-bar .bet-bar-top .top-left.data-v-df9e872e {
+.bet-bar .left-section.data-v-df9e872e {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex: 1;
+  padding: 10rpx 0rpx 10rpx 20rpx;
+}
+.bet-bar .clear-icon.data-v-df9e872e {
+  width: 42rpx;
+  height: 42rpx;
+  opacity: 1;
+}
+.bet-bar .clear-icon.disabled.data-v-df9e872e {
+  opacity: 0.2;
+  pointer-events: none;
+}
+.bet-bar .text-group.data-v-df9e872e {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.bet-bar .selected-text.data-v-df9e872e {
   font-size: 28rpx;
-  color: #333;
-  cursor: pointer;
-  padding: 8rpx 12rpx;
-  max-width: 200rpx;
+  color: #666;
+  font-weight: 400;
+}
+.bet-bar .risk-tip.data-v-df9e872e {
+  font-size: 20rpx;
+  color: #999;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.bet-bar .bet-bar-top .top-middle.data-v-df9e872e {
-  display: flex;
-  align-items: center;
-  gap: 10rpx;
-  font-size: 28rpx;
-}
-.bet-bar .bet-bar-top .top-middle .multi-btn.data-v-df9e872e {
-  width: 52rpx;
-  height: 52rpx;
-  background-color: #ddd;
-  color: #333;
-  font-size: 32rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1rpx solid #ccc;
-  padding: 0;
-  margin: 0;
-  border-radius: 8rpx;
-}
-.bet-bar .bet-bar-top .top-middle .multi-btn.data-v-df9e872e:disabled {
-  background-color: #f5f5f5;
-  color: #ccc;
-}
-.bet-bar .bet-bar-top .top-middle .multi-input.data-v-df9e872e {
-  width: 180rpx;
-  height: 52rpx;
-  background-color: #fff;
-  color: #333;
-  text-align: center;
-  font-size: 30rpx;
-  border: 1rpx solid #ccc;
-  padding: 0;
-  box-sizing: border-box;
-  border-radius: 8rpx;
-}
-.bet-bar .bet-bar-top .top-right.data-v-df9e872e {
-  width: 120rpx;
-}
-.bet-bar .bet-bar-top .top-right .confirm-btn.data-v-df9e872e {
-  width: 100%;
-  height: 52rpx;
+.bet-bar .confirm-btn.data-v-df9e872e {
+  width: 140rpx;
   background-color: #d92929;
   color: #fff;
   border-radius: 8rpx;
@@ -136,36 +118,13 @@ page.data-v-df9e872e {
   align-items: center;
   justify-content: center;
 }
-.bet-bar .bet-bar-top .top-right .confirm-btn.data-v-df9e872e:disabled {
-  background-color: #666;
-  color: #aaa;
-  cursor: not-allowed;
+.bet-bar .confirm-btn.data-v-df9e872e:disabled {
+  background-color: #ccc;
+  color: #999;
 }
-.bet-bar .bet-bar-bottom.data-v-df9e872e {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12rpx;
-  box-sizing: border-box;
-  padding: 0 20rpx 10rpx;
-}
-.bet-bar .bet-bar-bottom .combo-item.data-v-df9e872e {
-  padding: 10rpx 22rpx;
-  border: 1rpx solid #d92929;
-  border-radius: 8rpx;
-  font-size: 28rpx;
-  color: #d92929;
-  cursor: pointer;
-  background-color: #fff5f5;
-}
-.bet-bar .bet-bar-bottom .combo-item.active.data-v-df9e872e {
-  background-color: #d92929;
-  color: #fff;
-}
-.bet-bar .bet-bar-bottom .combo-item.disabled.data-v-df9e872e {
-  border-color: #ccc;
-  color: #ccc;
-  background-color: #f5f5f5;
-  cursor: not-allowed;
+/* 彻底删除原有串关和倍数相关样式 */
+.bet-bar-top.data-v-df9e872e, .bet-bar-bottom.data-v-df9e872e, .top-middle.data-v-df9e872e {
+  display: none !important;
 }
 .type-popup.data-v-df9e872e {
   position: fixed;

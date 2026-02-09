@@ -69,7 +69,7 @@ page.data-v-57280228 {
   font-size: 32rpx;
   font-weight: bold;
   color: #333;
-  margin-bottom: 24rpx;
+  margin-bottom: 50rpx;
   padding-left: 8rpx;
   border-left: 4rpx solid #d92929;
 }
@@ -84,7 +84,18 @@ page.data-v-57280228 {
   flex-direction: column;
   align-items: center;
   width: calc((100% - 40rpx) / 3);
-  margin-bottom: 20rpx;
+  margin-top: 40rpx;
+  margin-bottom: 40rpx;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.two.data-v-57280228 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc((100% - 40rpx) / 3);
+  margin-top: 40rpx;
+  margin-bottom: 90rpx !important;
   cursor: pointer;
   box-sizing: border-box;
 }

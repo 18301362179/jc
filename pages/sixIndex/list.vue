@@ -6,11 +6,9 @@
       <!-- 吸顶标题栏 -->
       <view class="date-title sticky-header" 
         :style="{ top: 0 + 'rpx'  }"
-        @click="toggleDrawer(drawerIdx)"
         hover-class="none"
       >
         <view class="drawer-title-text">{{ drawer.title }}</view>
-        <view class="arrow-icon" :class="{ rotated: expandedDrawers[drawerIdx] }">↓</view>
       </view>
 
       <!-- 抽屉内容：比赛列表 -->
@@ -210,9 +208,6 @@ export default {
       return Math.round((px / this.windowWidth) * 750 + 0.5);
     },
     handleAiAnalysis(item) { console.log('AI分析', item); },
-    toggleDrawer(drawerIdx) { 
-      this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]); 
-    },
     // 保留6球原有半全场按钮切换逻辑
     toggleScoreBtn(item, key) {
       this.finalDrawerList.forEach((drawer, dIdx) => {

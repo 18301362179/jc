@@ -1,33 +1,29 @@
 <template>
   <!-- 胜负页面：重构布局样式，统一视觉风格 -->
   <!-- 仅改：paddingTop 从 px 计算改为 rpx 计算（paddingTopVal） -->
-  <view class="match-list" :style="{ paddingTop: paddingTopVal + 'rpx'  }">
+  <view class="match-list" :style="{ paddingTop: paddingTopVal + 'rpx' }">
     <!-- 抽屉循环容器（逻辑完全保留） -->
     <view v-for="(drawer, drawerIdx) in finalDrawerList" :key="drawerIdx" class="drawer-wrapper">
-      <view 
-        class="date-title sticky-header" 
-        :style="{ top: stickyHeaderTop + 'rpx'  }"
-        @click="toggleDrawer(drawerIdx)"
-      >
+      <view class="date-title sticky-header" :style="{ top: stickyHeaderTop + 'rpx' }" @click="toggleDrawer(drawerIdx)">
         <text>{{ drawer.title }}</text>
         <view class="arrow-icon" :class="{ rotated: expandedDrawers[drawerIdx] }">↓</view>
       </view>
 
       <!-- 抽屉内容（逻辑完全保留，布局重构） -->
       <view class="drawer-content" v-show="expandedDrawers[drawerIdx]">
-        <view v-for="(item, index) in drawer.lotteryList" :key="index" class="match-row" style="background: #F6F6F6;">
+        <view v-for="(item, index) in drawer.lotteryList" :key="index" class="match-row" style="background: #f6f6f6">
           <!-- ========== 新增：状态行（和其他组件完全统一） ========== -->
           <view class="match-status-row">
             <view class="status-left">
               <!-- 单场标签：样式统一 -->
               <!-- 单场标签：无停时，根据is_sf_single显示 -->
               <text class="single-tag" v-if="item.is_sf_single == 1 && item.is_stop == 0">单场</text>
+              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
             </view>
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-              <view class="ai-analysis-btn"                 v-if="item.home_win_rate && item.visiting_win_rate"
-                @click.stop="() => toDetail(item)">分析</view>
+              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)">分析</view>
             </view>
           </view>
 
@@ -36,7 +32,7 @@
             <!-- 左侧：固定宽度，垂直排列联赛名+编号+时间 -->
             <view class="main-left">
               <view class="top-left">
-                  <text class="league-name">{{ item.league_name }}</text>
+                <text class="league-name">{{ item.league_name }}</text>
               </view>
               <view class="bottom-left">
                 <text class="serial-number">{{ item.serial_number }}</text>
@@ -53,24 +49,21 @@
                   <text class="vs-text">VS</text>
                   <text class="team-name home">{{ item.home_name }}</text>
                 </view>
-                
+
                 <!-- 胜率行：样式统一 -->
                 <view class="rate-row">
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率<text :style="{ color: getRateColor(item.visiting_win_rate, 'away', 'basketball') }">{{ item.visiting_win_rate || '--' }}</text> </text>
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率<text :style="{ color: getRateColor(item.home_win_rate, 'home', 'basketball') }">{{ item.home_win_rate || '--' }}</text> </text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+                  <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
                 </view>
               </view>
-              
+
               <!-- 胜负选项：样式统一 -->
               <view class="bottom-right">
                 <view class="odds-trigger-area">
                   <view class="odds-row">
-                    <view class="match-cell away" :class="{ selected: item.awaySelected }" @click="() => checkAndSelect(item, 'awaySelected')">
-                      客胜{{ item.loss_multiplier || '--' }}
-                    </view>
-                    <view class="match-cell home" :class="{ selected: item.homeSelected }" @click="() => checkAndSelect(item, 'homeSelected')">
-                      主胜{{ item.win_multiplier || '--' }}
-                    </view>
+                    <view class="match-cell away" :class="{ selected: item.awaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'awaySelected')"> 客胜{{ item.loss_multiplier || "--" }} </view>
+                    <view class="match-cell home" :class="{ selected: item.homeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'homeSelected')"> 主胜{{ item.win_multiplier || "--" }} </view>
                   </view>
                 </view>
               </view>
@@ -83,21 +76,21 @@
 </template>
 
 <script>
-import { getRateColor } from '@/utils/index.js';
+import { getRateColor } from "@/utils/index.js";
 // 逻辑代码完全保留，无任何修改
 export default {
   props: {
     matchList: { type: Array, default: () => [] },
     statusBarHeight: { type: Number, default: 0 },
     goToAiAnalysis: { type: Function, required: true },
-    drawerList: { type: Array, default: () => [] }
+    drawerList: { type: Array, default: () => [] },
   },
   data() {
     return {
       expandedDrawers: [],
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
-       windowWidth: 0
+      windowWidth: 0,
     };
   },
   computed: {
@@ -105,14 +98,12 @@ export default {
       if (this.drawerList.length > 0) {
         return this.drawerList;
       }
-      return this.matchList.length > 0 
-        ? [{ title: `未知日期 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] 
-        : [];
+      return this.matchList.length > 0 ? [{ title: `未知日期 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] : [];
     },
     selectedMatchCount() {
       let count = 0;
-      this.finalDrawerList.forEach(drawer => {
-        drawer.lotteryList.forEach(item => {
+      this.finalDrawerList.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
           if (item.homeSelected || item.vsSelected || item.awaySelected) {
             count++;
           }
@@ -126,8 +117,8 @@ export default {
     },
     // 仅新增：计算rpx版sticky header top值（按你要求只加88）
     stickyHeaderTop() {
-      return this.statusBarHeightRpx + 88;
-    }
+      return this.statusBarHeightRpx + 88 - 10; // 3rpx是通用微调值，可按实际偏移动2/4
+    },
   },
   watch: {
     finalDrawerList(newVal) {
@@ -136,43 +127,36 @@ export default {
     // 仅新增：监听状态栏高度变化，转换单位
     statusBarHeight(newVal) {
       this.statusBarHeightRpx = this.pxToRpx(newVal);
-    }
+    },
   },
-created() {
-  // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
-  this.initWindowInfo();
-  this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
-  this.expandedDrawers = this.finalDrawerList.map(() => true);
-},
+  created() {
+    // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
+    this.initWindowInfo();
+    this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
+    this.expandedDrawers = this.finalDrawerList.map(() => true);
+  },
   methods: {
-// 新增：初始化窗口信息（替代废弃API）
-initWindowInfo() {
-  try {
-    // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
-    const windowInfo = wx.getWindowInfo();
-    this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
-  } catch (e) {
-    // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
-    const systemInfo = uni.getSystemInfoSync();
-    this.windowWidth = systemInfo.windowWidth || 375;
-    console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
-  }
-},
-// 修正后的px转rpx：使用新API获取的windowWidth，优化精度
-pxToRpx(px) {
-  if (!px || !this.windowWidth) return 0;
-  // 计算后四舍五入，减少1-2px的机型偏差
-  return Math.round((px / this.windowWidth) * 750 + 0.5);
-},
-    // 以下所有方法：完全保留你原代码，无任何修改
-    getRateColor:getRateColor,
-    async toDetail(item) {
+    // 新增：初始化窗口信息（替代废弃API）
+    initWindowInfo() {
       try {
-        uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
-      } catch (err) {
-        console.error("跳转AI分析失败:", err);
+        // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
+        const windowInfo = wx.getWindowInfo();
+        this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
+      } catch (e) {
+        // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
+        const systemInfo = uni.getSystemInfoSync();
+        this.windowWidth = systemInfo.windowWidth || 375;
+        console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
     },
+    // 修正后的px转rpx：使用新API获取的windowWidth，优化精度
+    pxToRpx(px) {
+      if (!px || !this.windowWidth) return 0;
+      // 计算后四舍五入，减少1-2px的机型偏差
+      return Math.round((px / this.windowWidth) * 750 + 0.5);
+    },
+    // 以下所有方法：完全保留你原代码，无任何修改
+    getRateColor: getRateColor,
     toggleDrawer(drawerIdx) {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
@@ -184,16 +168,16 @@ pxToRpx(px) {
         const isCurrentMatchSelected = item.homeSelected || item.vsSelected || item.awaySelected;
         if (!isCurrentMatchSelected && this.selectedMatchCount >= 8) {
           uni.showToast({
-            title: '最多只能选择8场比赛',
-            icon: 'none',
-            duration: 2000
+            title: "最多只能选择8场比赛",
+            icon: "none",
+            duration: 2000,
           });
           return;
         }
       }
-      this.$emit("toggle-select",item, selectType)
-    }
-  }
+      this.$emit("toggle-select", item, selectType);
+    },
+  },
 };
 </script>
 
@@ -203,12 +187,16 @@ pxToRpx(px) {
   background-color: #f5f5f5;
   box-sizing: border-box;
   padding-bottom: 140rpx;
-// #ifdef MP-WEIXIN
+  // #ifdef MP-WEIXIN
   padding-bottom: 230rpx;
-// #endif
+  // #endif
 }
 
-.drawer-wrapper { width: 100%; margin-bottom: 8rpx; background: #f5f5f5 }
+.drawer-wrapper {
+  width: 100%;
+  margin-bottom: 8rpx;
+  background: #f5f5f5;
+}
 
 .sticky-header {
   position: sticky;
@@ -238,14 +226,14 @@ pxToRpx(px) {
 /* ========== 核心重构：比赛行样式（和其他组件完全统一） ========== */
 .match-row {
   background-color: #fff;
-  border-bottom: 1rpx solid #DEDEDE;
+  border-bottom: 1rpx solid #dedede;
   padding: 0rpx 20rpx;
   display: flex;
   flex-direction: column;
   gap: 0;
   margin-bottom: 4rpx;
   border-radius: 8rpx;
-  box-shadow: 0 2rpx 5rpx rgba(0,0,0,0.05);
+  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
 }
 
 /* 状态行：和其他组件完全一致 */
@@ -262,16 +250,16 @@ pxToRpx(px) {
   }
 
   .single-tag {
-      display: inline-block;
-      padding-left: 6rpx;
-      width: 60rpx;
-      background: #b71c1c;
-      color: #fff;
-      text-align: left;
-      font-size: 22rpx;
-      border-top-right-radius: 15rpx;
-      border-bottom-right-radius: 16rpx;
-      margin-right: 10rpx;
+    display: inline-block;
+    padding-left: 6rpx;
+    width: 60rpx;
+    background: #b71c1c;
+    color: #fff;
+    text-align: left;
+    font-size: 22rpx;
+    border-top-right-radius: 15rpx;
+    border-bottom-right-radius: 16rpx;
+    margin-right: 10rpx;
   }
 
   .status-right {
@@ -341,7 +329,8 @@ pxToRpx(px) {
   gap: 2rpx;
 }
 
-.serial-number, .match-time {
+.serial-number,
+.match-time {
   width: 100%;
   font-size: 20rpx;
   color: #999;
@@ -416,6 +405,9 @@ pxToRpx(px) {
     text-align: left;
     padding-left: 10rpx;
   }
+  .vs-text {
+    width: 140rpx;
+  }
 }
 /* 胜负选项区：样式统一 */
 .bottom-right {
@@ -426,7 +418,7 @@ pxToRpx(px) {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1rpx solid #DEDEDE;
+  border: 1rpx solid #dedede;
   border-radius: 8rpx;
   padding: 8rpx 0;
   background-color: #f9f9f9;
@@ -468,5 +460,30 @@ pxToRpx(px) {
 /* 全局样式：隐藏滚动条 */
 ::-webkit-scrollbar {
   display: none;
+}
+.stop-bg {
+  background-color: #dedede;
+}
+
+// 停售时触发区禁用样式（禁止点击反馈）
+.disabled-trigger {
+  pointer-events: none; // 彻底禁止点击事件
+  opacity: 0.8;
+}
+
+// 停售时match-cell样式（背景色#DEDEDE+禁用交互）
+.stop-cell {
+  background-color: #dedede !important;
+  color: #999 !important;
+  cursor: not-allowed;
+  &:active {
+    background-color: #dedede !important; // 取消点击反馈
+  }
+}
+
+// 选中状态叠加停售时，强制显示停售样式
+.stop-cell.selected {
+  background-color: #dedede !important;
+  color: #999 !important;
 }
 </style>

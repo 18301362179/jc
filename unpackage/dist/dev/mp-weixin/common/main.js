@@ -23,7 +23,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var _uniIcons = function _uniIcons() {
   Promise.all(/*! require.ensure | node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons")]).then((function () {
-    return resolve(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-icons/uni-icons */ 289));
+    return resolve(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-icons/uni-icons */ 329));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 // @ts-ignore
@@ -35,7 +35,7 @@ _vue.default.prototype.$bus = new _vue.default();
 // 引入全局软键盘组件
 var UniNumberKeyboard = function UniNumberKeyboard() {
   __webpack_require__.e(/*! require.ensure | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then((function () {
-    return resolve(__webpack_require__(/*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 297));
+    return resolve(__webpack_require__(/*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 337));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 // 全局注册组件
@@ -141,7 +141,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni, wx) {
+/* WEBPACK VAR INJECTION */(function(uni) {
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
@@ -155,12 +155,11 @@ var _auth = __webpack_require__(/*! @/utils/auth */ 33);
 var _storage = __webpack_require__(/*! @/utils/storage */ 34);
 // 补充 Vue 引入，避免组件注册相关报错
 // 引入登录/Token 工具方法
-// 引入全局配置（统一 baseUrl，避免硬编码）
 var _default = {
   // 全局共享数据，全项目可通过 getApp().globalData 访问
   globalData: {
     baseUrl: 'https://www.tianjifu.com/qwxt',
-    token: '' // 移除兜底 Token，仅目标环境自动填充有效 Token
+    token: '' // 移除兜底 Token，按环境差异化配置
   },
   data: function data() {
     return {};
@@ -168,7 +167,7 @@ var _default = {
   // 应用启动时执行（仅一次），async 支持 await 异步操作
   onLaunch: function () {
     var _onLaunch = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-      var systemInfo, deviceInfo, windowInfo, targetEnvs, isTargetEnv, isTokenValid, validToken, loginResult, newToken;
+      var isTokenValid, loginResult;
       return _regenerator.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -178,72 +177,44 @@ var _default = {
 
               // ========== App 环境专属配置（锁定竖屏 + 屏蔽广告）==========
 
-              // ========== 环境隔离：仅小程序/App 执行 Token 校验与自动登录，H5 跳过 ==========
+              // ========== 核心：按环境差异化处理 Token ==========
               _context.prev = 1;
-              // ========== 核心修改1：替换 uni.getSystemInfoSync() 为跨端兼容的 API ==========
-              systemInfo = {}; // 优先使用微信最新 API（小程序端）
-              if (wx && wx.getDeviceInfo) {
-                deviceInfo = wx.getDeviceInfo();
-                windowInfo = wx.getWindowInfo(); // 映射原有字段，保证逻辑不变
-                systemInfo = {
-                  uniPlatform: deviceInfo.platform || '',
-                  // 对应原 uniPlatform
-                  platform: deviceInfo.platform || '',
-                  // 兼容 updateGlobalToken 里的 platform 判断
-                  windowWidth: windowInfo.windowWidth,
-                  windowHeight: windowInfo.windowHeight
-                };
-              } else {
-                // 降级兼容（App/H5/低版本小程序）
-                systemInfo = uni.getSystemInfoSync();
-              }
-
-              // 标记目标环境（微信小程序 / Android App / iOS App）
-              targetEnvs = ['mp-weixin', 'android', 'ios'];
-              isTargetEnv = targetEnvs.includes(systemInfo.uniPlatform.toLowerCase()); // H5 等非目标环境：直接返回，保持原有逻辑不变
-              if (isTargetEnv) {
+              _context.next = 4;
+              return (0, _auth.checkToken)();
+            case 4:
+              isTokenValid = _context.sent;
+              if (!isTokenValid) {
                 _context.next = 8;
                 break;
               }
+              this.globalData.token = (0, _storage.getToken)();
               return _context.abrupt("return");
             case 8:
               _context.next = 10;
-              return (0, _auth.checkToken)();
-            case 10:
-              isTokenValid = _context.sent;
-              if (!isTokenValid) {
-                _context.next = 15;
-                break;
-              }
-              validToken = (0, _storage.getToken)(); // 同步有效 Token 到全局数据
-              this.globalData.token = validToken;
-              return _context.abrupt("return");
-            case 15:
-              _context.next = 17;
               return (0, _auth.login)();
-            case 17:
+            case 10:
               loginResult = _context.sent;
               if (loginResult.success) {
-                newToken = (0, _storage.getToken)(); // 同步新 Token 到全局数据
-                this.globalData.token = newToken;
-              } else {}
-              _context.next = 24;
+                this.globalData.token = (0, _storage.getToken)();
+              }
+
+              // 3. APP 环境：预留独立获取 Token 的空逻辑（你后续填接口即可）
+              _context.next = 17;
               break;
-            case 21:
-              _context.prev = 21;
+            case 14:
+              _context.prev = 14;
               _context.t0 = _context["catch"](1);
-              // 给用户友好提示
               uni.showToast({
-                title: "初始化登录失败，部分功能受限",
+                title: "初始化失败，部分功能受限",
                 icon: "none",
                 duration: 3000
               });
-            case 24:
+            case 17:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, this, [[1, 21]]);
+      }, _callee, this, [[1, 14]]);
     }));
     function onLaunch() {
       return _onLaunch.apply(this, arguments);
@@ -252,42 +223,27 @@ var _default = {
   }(),
   // 应用切换到前台时执行
   onShow: function onShow() {},
-  // 应用切换到后台时执行
   onHide: function onHide() {},
   methods: {
-    // 全局 Token 更新方法（供其他页面调用，同步更新本地存储与全局数据）
+    // 全局 Token 更新方法（供其他页面调用）
     updateGlobalToken: function updateGlobalToken(newToken) {
       if (!newToken || typeof newToken !== 'string') {
         console.warn("全局 Token 更新失败：无效的 Token 格式");
         return;
       }
 
-      // ========== 核心修改2：替换 uni.getSystemInfoSync() 为跨端兼容的 API ==========
-      var systemInfo = {};
-      // 优先使用微信最新 API（小程序端）
-      if (wx && wx.getDeviceInfo) {
-        var deviceInfo = wx.getDeviceInfo();
-        systemInfo = {
-          platform: deviceInfo.platform || '' // 仅保留需要的 platform 字段
-        };
-      } else {
-        // 降级兼容（App/H5/低版本小程序）
-        systemInfo = uni.getSystemInfoSync();
-      }
+      // H5 环境更新死 Token
 
-      // 仅目标环境执行更新操作
-      var targetEnvs = ['mp-weixin', 'android', 'ios'];
-      var isTargetEnv = targetEnvs.includes(systemInfo.platform.toLowerCase());
-      if (isTargetEnv) {
-        this.globalData.token = newToken;
-        (0, _storage.setToken)(newToken); // 同步更新本地存储，保证 request.js 能读取到最新值
-        console.log("App/小程序 全局 Token 已手动更新并存储");
-      }
+      // 小程序/APP 环境更新 Token
+
+      this.globalData.token = newToken;
+      (0, _storage.setToken)(newToken);
+      console.log("Token 已手动更新并存储");
     }
   }
 };
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
 

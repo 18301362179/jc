@@ -24,7 +24,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-/* 全局样式：复刻半全场的基础样式 */
+/* 全局样式：复刻半全场的基础样式，统一rpx单位 */
 .match-list.data-v-51177110 {
   background-color: #f5f5f5;
   box-sizing: border-box;
@@ -36,7 +36,7 @@
   margin-bottom: 8rpx;
   background: #f5f5f5;
 }
-/* 吸顶标题栏：和半全场一致 */
+/* 吸顶标题栏：和半全场一致，统一rpx单位 */
 .sticky-header.data-v-51177110 {
   position: -webkit-sticky;
   position: sticky;
@@ -70,10 +70,10 @@
   width: 100%;
   transition: all 0.2s ease;
 }
-/* 比赛行：复刻半全场的约束 */
+/* 比赛行：复刻半全场的约束，统一rpx单位 */
 .match-row.data-v-51177110 {
   background-color: #fff;
-  border-bottom: 1rpx solid #DEDEDE;
+  border-bottom: 1rpx solid #dedede;
   box-sizing: border-box;
   padding: 0rpx 20rpx;
   display: flex;
@@ -85,7 +85,7 @@
   width: 100%;
   overflow: hidden;
 }
-/* 状态行：完全复刻半全场 */
+/* 状态行：完全复刻半全场，统一rpx单位 */
 .match-status-row.data-v-51177110 {
   display: flex;
   justify-content: space-between;
@@ -120,7 +120,7 @@
 .match-status-row .status-right .ai-analysis-btn.data-v-51177110:active {
   opacity: 0.8;
 }
-/* ========== 核心：复刻半全场的左右布局 ========== */
+/* ========== 核心：复刻半全场的左右布局，统一rpx单位 ========== */
 .main-content-row.data-v-51177110 {
   box-sizing: border-box;
   display: flex;
@@ -148,7 +148,7 @@
   box-sizing: border-box;
   overflow: hidden;
 }
-/* 左侧子元素：和半全场一致 */
+/* 左侧子元素：和半全场一致，统一rpx单位 */
 .top-left.data-v-51177110 {
   margin-top: 8rpx;
   display: flex;
@@ -169,7 +169,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.serial-number.data-v-51177110, .match-time.data-v-51177110 {
+.serial-number.data-v-51177110,
+.match-time.data-v-51177110 {
   width: 100%;
   font-size: 20rpx;
   color: #999;
@@ -181,7 +182,7 @@
 .serial-number.data-v-51177110 {
   margin-bottom: 10rpx;
 }
-/* 右侧子元素：复刻半全场 */
+/* 右侧子元素：复刻半全场，统一rpx单位 */
 .top-right.data-v-51177110 {
   flex: 1;
   text-align: center;
@@ -192,7 +193,7 @@
   box-sizing: border-box;
   overflow: hidden;
 }
-/* 胜率行：完全复刻半全场 */
+/* 胜率行：完全复刻半全场，统一rpx单位 */
 .rate-row.data-v-51177110 {
   width: 100%;
   display: flex;
@@ -216,19 +217,31 @@
   padding-left: 10rpx;
 }
 .rate-row .vs-text.data-v-51177110 {
-  width: 40rpx;
+  width: 140rpx;
   text-align: center;
   flex-shrink: 0;
   color: #999;
   font-size: 20rpx;
 }
-/* bottom-right：完全复刻半全场 */
+/* bottom-right：完全复刻半全场，统一rpx单位 */
 .bottom-right.data-v-51177110 {
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
 }
-/* 队名VS：复刻半全场的省略逻辑 */
+.stop-bg.data-v-51177110 {
+  background-color: #dedede;
+}
+.disabled-trigger.data-v-51177110 {
+  pointer-events: none;
+  opacity: 0.8;
+  background-color: #f5f5f5 !important;
+}
+.disabled-trigger .trigger-tip.data-v-51177110 {
+  height: 41rpx !important;
+  color: #666 !important;
+}
+/* 队名VS：复刻半全场的省略逻辑，统一rpx单位 */
 .team-vs.data-v-51177110 {
   font-size: 24rpx;
   color: #333;
@@ -266,12 +279,12 @@
   flex-shrink: 0;
   font-weight: 500;
 }
-/* ========== 核心：复刻半全场的触发区样式 ========== */
+/* ========== 核心：复刻半全场的触发区样式，统一rpx单位 ========== */
 .odds-trigger-area.data-v-51177110 {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1rpx solid #DEDEDE;
+  border: 1rpx solid #dedede;
   border-radius: 8rpx;
   padding: 16rpx 10rpx;
   background-color: #f9f9f9;
@@ -312,7 +325,7 @@
   text-align: center;
   box-sizing: border-box;
 }
-/* 弹窗样式：保持不变 */
+/* 弹窗样式：统一rpx单位，优化适配 */
 .score-popup-mask.data-v-51177110 {
   position: fixed;
   top: 0;
@@ -385,13 +398,13 @@
   box-sizing: border-box;
 }
 .main-win.data-v-51177110 {
-  background: #6FBDBD;
+  background: #6fbdbd;
 }
 .draw.data-v-51177110 {
-  background: #6AB284;
+  background: #6ab284;
 }
 .away-win.data-v-51177110 {
-  background: #6FBDBD;
+  background: #6fbdbd;
 }
 .score-options.data-v-51177110 {
   flex: 1;
@@ -433,7 +446,8 @@
   padding: 12rpx 16rpx 24rpx;
   box-sizing: border-box;
 }
-.popup-btn-bar .cancel-btn.data-v-51177110, .popup-btn-bar .confirm-btn.data-v-51177110 {
+.popup-btn-bar .cancel-btn.data-v-51177110,
+.popup-btn-bar .confirm-btn.data-v-51177110 {
   flex: 1;
   height: 70rpx;
   border-radius: 8rpx;

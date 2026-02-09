@@ -12,12 +12,14 @@
       <!-- 抽屉内容 -->
       <view class="drawer-content" v-show="expandedDrawers[drawerIdx]">
         <!-- 原有赛事列表：内部新增状态行 -->
-        <view v-for="(item, index) in drawer.lotteryList" :key="index" class="match-row" style="background: #F6F6F6;">
+        <view v-for="(item, index) in drawer.lotteryList" :key="index" class="match-row" style="background: #f6f6f6">
           <!-- 新增：match-row 内部的状态行（第一行） -->
           <view class="match-status-row">
             <view class="status-left">
               <!-- 单场标签：无停时，根据is_spf_single显示 -->
-              <text class="tag single" v-if="item.is_spf_single == 1 && item.is_stop == 0">单场</text>
+              <text class="single-tag" v-if="item.is_spf_single == 1 && item.is_stop == 0">单场</text>
+              <!-- 新增：停售标签 -->
+              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜率数据时显示 -->
@@ -39,7 +41,14 @@
             <!-- 胜平负玩法单元格 -->
             <view class="match-cells">
               <!-- 主队单元格 -->
-              <view class="match-cell home" :class="{ selected: item.homeSelected }" @click="() => checkAndSelect(item, 'homeSelected')">
+              <view
+                class="match-cell home"
+                :class="{
+                  selected: item.homeSelected,
+                  disabled: item.is_stop == 1, // 新增：停售时添加disabled类
+                }"
+                @click="() => checkAndSelect(item, 'homeSelected')"
+              >
                 <view class="team-name">{{ item.home_name }}</view>
                 <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
@@ -50,18 +59,32 @@
               </view>
 
               <!-- 平局单元格 -->
-              <view class="match-cell vs" :class="{ selected: item.vsSelected }" @click="() => checkAndSelect(item, 'vsSelected')">
+              <view
+                class="match-cell vs"
+                :class="{
+                  selected: item.vsSelected,
+                  disabled: item.is_stop == 1, // 新增：停售时添加disabled类
+                }"
+                @click="() => checkAndSelect(item, 'vsSelected')"
+              >
                 <text class="vs-text">VS</text>
                 <text class="vs-odds" v-if="item.draw_multiplier">平{{ item.draw_multiplier }}</text>
                 <!-- 拆分文字：只让平率数值变绿 -->
                 <text class="vs-odds" v-if="item.draw_rate">
                   平率
-                  <text :style="{ color: getRateColor(item.draw_rate, 'draw',item.vsSelected) }">{{ item.draw_rate }}</text>
+                  <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.vsSelected) }">{{ item.draw_rate }}</text>
                 </text>
               </view>
 
               <!-- 客队单元格 -->
-              <view class="match-cell away" :class="{ selected: item.awaySelected }" @click="() => checkAndSelect(item, 'awaySelected')">
+              <view
+                class="match-cell away"
+                :class="{
+                  selected: item.awaySelected,
+                  disabled: item.is_stop == 1, // 新增：停售时添加disabled类
+                }"
+                @click="() => checkAndSelect(item, 'awaySelected')"
+              >
                 <text class="team-name">{{ item.visiting_name }}</text>
                 <text class="odds" v-if="item.loss_multiplier">客胜{{ item.loss_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
@@ -79,7 +102,7 @@
 </template>
 
 <script>
-import { getRateColor } from '@/utils/index.js';
+import { getRateColor } from "@/utils/index.js";
 export default {
   props: {
     matchList: { type: Array, default: () => [] },
@@ -92,7 +115,7 @@ export default {
       expandedDrawers: [],
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
-       windowWidth: 0
+      windowWidth: 0,
     };
   },
   computed: {
@@ -116,12 +139,11 @@ export default {
     },
     // 修复：统一用rpx计算paddingTop，避免px/rpx混用
     paddingTopVal() {
-      // statusBarHeight是px，转成rpx（1px = 2rpx 是uni-app默认换算，也可动态计算）
-      return this.statusBarHeightRpx + 88 ; // 44px=88rpx，8px=16rpx
+      return this.statusBarHeightRpx + 88; // 原始值不变
     },
-    // sticky-header的top值（统一rpx）
+    // 仅改这1行：加一个固定微调值（3rpx），解决偏移，定位不失效
     stickyHeaderTop() {
-      return this.statusBarHeightRpx + 88; // 44px=88rpx，7px=14rpx
+      return this.statusBarHeightRpx + 88 - 10; // 3rpx是通用微调值，可按实际偏移动2/4
     },
   },
   watch: {
@@ -133,37 +155,42 @@ export default {
       this.statusBarHeightRpx = this.pxToRpx(newVal);
     },
   },
-created() {
-  // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
-  this.initWindowInfo();
-  this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
-  this.expandedDrawers = this.finalDrawerList.map(() => true);
-},
+  created() {
+    // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
+    this.initWindowInfo();
+    this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
+    this.expandedDrawers = this.finalDrawerList.map(() => true);
+  },
   methods: {
-// 新增：初始化窗口信息（替代废弃API）
-initWindowInfo() {
-  try {
-    // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
-    const windowInfo = wx.getWindowInfo();
-    this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
-  } catch (e) {
-    // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
-    const systemInfo = uni.getSystemInfoSync();
-    this.windowWidth = systemInfo.windowWidth || 375;
-    console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
-  }
-},
-// 修正后的px转rpx：使用新API获取的windowWidth，优化精度
-pxToRpx(px) {
-  if (!px || !this.windowWidth) return 0;
-  // 计算后四舍五入，减少1-2px的机型偏差
-  return Math.round((px / this.windowWidth) * 750 + 0.5);
-},
+    // 新增：初始化窗口信息（替代废弃API）
+    initWindowInfo() {
+      try {
+        // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
+        const windowInfo = wx.getWindowInfo();
+        this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
+      } catch (e) {
+        // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
+        const systemInfo = uni.getSystemInfoSync();
+        this.windowWidth = systemInfo.windowWidth || 375;
+        console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
+      }
+    },
+    // 修正后的px转rpx：使用新API获取的windowWidth，优化精度
+    pxToRpx(px) {
+      if (!px || !this.windowWidth) return 0;
+      // 计算后四舍五入，减少1-2px的机型偏差
+      return Math.round((px / this.windowWidth) * 750 + 0.5);
+    },
     getRateColor: getRateColor,
     toggleDrawer(drawerIdx) {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
     checkAndSelect(item, selectType) {
+      // 新增：停售状态下直接返回，不执行选择逻辑
+      if (item.is_stop == 1) {
+        return;
+      }
+
       const isCancel = item[selectType];
       const isAdd = !isCancel;
 
@@ -199,7 +226,11 @@ pxToRpx(px) {
   // #endif
 }
 
-.drawer-wrapper { width: 100%; margin-bottom: 8rpx; background: #f5f5f5 }
+.drawer-wrapper {
+  width: 100%;
+  margin-bottom: 8rpx;
+  background: #f5f5f5;
+}
 
 // 修复sticky定位兼容：移除高版本属性，增强层级和兼容性
 .sticky-header {
@@ -214,7 +245,7 @@ pxToRpx(px) {
   border-bottom: 1rpx solid #eee;
   font-size: 26rpx;
   color: #333;
-
+  border-top: 5rpx solid #fff;
   .arrow-icon {
     transition: transform 0.2s ease;
     font-size: 24rpx;
@@ -249,28 +280,17 @@ pxToRpx(px) {
       align-items: center;
     }
 
-    // 统一标签样式，解决尺寸兼容
-    .tag {
+    .single-tag {
       display: inline-block;
-      font-size: 22rpx;
-      color: #fff;
-      border-radius: 4rpx;
-      margin-right: 10rpx;
-      padding: 2rpx 8rpx;
-      box-sizing: border-box;
-    }
-
-    .stop-sale {
-      background: #999;
-    }
-
-    .single {
-      background: #b71c1c;
-      width: 60rpx;
-      text-align: left;
       padding-left: 6rpx;
+      width: 60rpx;
+      background: #b71c1c;
+      color: #fff;
+      text-align: left;
+      font-size: 22rpx;
       border-top-right-radius: 15rpx;
       border-bottom-right-radius: 16rpx;
+      margin-right: 10rpx;
     }
 
     .status-right {
@@ -329,6 +349,21 @@ pxToRpx(px) {
         padding: 6rpx 10rpx 18rpx 10rpx;
         cursor: pointer;
         transition: background-color 0.2s;
+
+        // 新增：停售状态样式
+        &.disabled {
+          background-color: #dedede !important;
+          cursor: not-allowed; // 鼠标样式改为禁止
+          pointer-events: none; // 禁用所有点击事件
+
+          // 停售状态下文字颜色调整
+          .team-name,
+          .vs-text,
+          .odds,
+          .vs-odds {
+            color: #999 !important;
+          }
+        }
 
         &.home {
           width: 38%;

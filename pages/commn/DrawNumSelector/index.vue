@@ -2,25 +2,16 @@
   <!-- 核心改：行内绑定top值，小程序唯一兼容的动态样式方式 -->
   <view class="draw-num-selector" :style="{ top: navBarTotalHeight + 'rpx' }">
     <!-- 左侧游戏规则按钮 -->
-    <view class="rule-btn" @click="handleRuleClick">游戏规则</view>
+    <view class="rule-btn">游戏规则</view>
     <!-- 右侧期数选择器：增加空数据兜底 -->
     <view class="selector-wrap" @click="toggleDropdown">
-      <text class="current-num">{{ currentDrawNum || '暂无' }}期</text>
+      <text class="current-num">{{ currentDrawNum || "暂无" }}期</text>
       <text class="arrow-icon" :class="{ 'arrow-rotate': isDropdownShow }">▼</text>
     </view>
     <!-- 下拉弹窗：空数据提示 -->
     <view v-if="isDropdownShow" class="dropdown-menu" @click.stop>
       <view v-if="drawNumList.length === 0" class="empty-item">暂无可选期数</view>
-      <view
-        v-else
-        v-for="(num, idx) in drawNumList"
-        :key="num"
-        class="dropdown-item"
-        :class="{ active: num === currentDrawNum }"
-        @click="selectDrawNum(num)"
-      >
-        {{ num }}期
-      </view>
+      <view v-else v-for="(num) in drawNumList" :key="num" class="dropdown-item" :class="{ active: num === currentDrawNum }" @click="selectDrawNum(num)"> {{ num }}期 </view>
     </view>
   </view>
 </template>
@@ -30,22 +21,22 @@ export default {
   props: {
     drawNumList: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     currentDrawNum: {
       type: [String, Number], // 兼容数字类型的期数
-      default: ''
+      default: "",
     },
     // 接收父组件传递的导航栏总高度（rpx单位）
     navBarTotalHeight: {
       type: Number,
-      default: 88 // 兜底默认值
-    }
+      default: 88, // 兜底默认值
+    },
   },
   data() {
     return {
-      isDropdownShow: false
-    }
+      isDropdownShow: false,
+    };
   },
   methods: {
     toggleDropdown() {
@@ -53,13 +44,10 @@ export default {
     },
     selectDrawNum(num) {
       this.isDropdownShow = false;
-      this.$emit('draw-num-change', num);
+      this.$emit("draw-num-change", num);
     },
-    handleRuleClick() {
-      this.$emit('rule-click');
-    }
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="scss">

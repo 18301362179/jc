@@ -1,6 +1,5 @@
 <template>
-  <view @touchstart="onTouchStart" 
-    @touchend="onTouchEnd"
+  <view
     style="width: 100%; height: 100vh; box-sizing: border-box;">
     <!-- 顶部导航 -->
     <CustomHeader
@@ -249,14 +248,6 @@ export default {
         icon: "success"
       });
     },
-    onTouchStart(e) {
-      this.touchStartX = e.changedTouches[0].clientX;
-    },
-    onTouchEnd(e) {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diffX = touchEndX - this.touchStartX;
-      if (Math.abs(diffX) < this.swipeThreshold) return;
-    },
     calcPopupMaxHeight() {
       const systemInfo = uni.getSystemInfoSync();
       let windowHeight = systemInfo.windowHeight;
@@ -315,7 +306,7 @@ export default {
         
         if (res.data) {
           await uni.navigateTo({
-            url: "/pages/edit/football/index",
+            url: "/pages/sixIndex/editSix",
             events: { updateSelectedMatches: (updatedData) => this.syncUpdatedMatches(updatedData) },
             success: (res) => {
               res.eventChannel.emit("selectedData", { 
@@ -499,23 +490,28 @@ export default {
           beFrom: 'football',
           serialNumber: item.serial_number || '',
           isLottery: 1,
-          playType: '半全场'
+          playType: '半全场',
+          
         };
-        const res = await recharge(reqParams);
-        if (res.data) {
-          this.isDialogShow = true;
-          this.hideLoading();
-          return;
-        }
-        await uni.navigateTo({ 
-          url: `/pages/test/index?id=${item.id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}&playType=${reqParams.playType}`
-        });
-      } catch (err) {
-        console.error('[AI分析] 失败:', err);
-        uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
-      } finally {
+    // 调用recharge接口
+    const res = await recharge(reqParams);
+    console.log(res, 'res------')
+    if (res.data.status == 'fail') {
+      // isLottery=1 表示无灵石，显示充值弹窗
+        this.isDialogShow = true;
         this.hideLoading();
-      }
+        return;
+    } else {
+          await uni.navigateTo({
+            url: `/pages/test/index?id=${item.id}&isLottery=1&isTradition=1`,
+          });
+    }
+  } catch (err) {
+    console.error('[AI分析] 失败:', err);
+    uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
+  } finally {
+    this.hideLoading();
+  }
     },
     showLoading() {
       uni.showLoading({

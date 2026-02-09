@@ -19,6 +19,7 @@
             <view class="status-left">
               <!-- 单场标签：无停时，根据is_rspf_single显示 -->
               <text class="single" v-if="item.is_rspf_single == 1 && item.is_stop == 0">单场</text>
+              <text class="single" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜率数据时显示 -->
@@ -39,7 +40,7 @@
             </view>
             <!-- 让胜平负玩法单元格（保留原有字段，点击事件替换为校验方法） -->
             <view class="match-cells" style="background: #fff">
-              <view class="match-cell home" :class="{ selected: item.handicapHomeSelected }" @click="() => checkAndSelect(item, 'handicapHomeSelected')">
+              <view class="match-cell home" :class="{ selected: item.handicapHomeSelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapHomeSelected')">
                 <view class="team-name">
                   {{ item.home_name }}
                   <text v-if="item.r_goal && item.r_goal !== ''" class="handicap-num">
@@ -62,7 +63,7 @@
                   <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.handicapHomeSelected) }">{{ item.home_win_rate || "" }}</text>
                 </text>
               </view>
-              <view class="match-cell vs" :class="{ selected: item.handicapVsSelected }" @click="() => checkAndSelect(item, 'handicapVsSelected')">
+              <view class="match-cell vs" :class="{ selected: item.handicapVsSelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapVsSelected')">
                 <text class="vs-text">VS</text>
                 <text class="vs-odds" v-if="item.r_draw_multiplier">平{{ item.r_draw_multiplier }}</text>
                 <text class="vs-odds" v-if="item.draw_rate">
@@ -70,7 +71,7 @@
                   <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.vsSelected) }">{{ item.draw_rate }}</text>
                 </text>
               </view>
-              <view class="match-cell away" :class="{ selected: item.handicapAwaySelected }" @click="() => checkAndSelect(item, 'handicapAwaySelected')">
+              <view class="match-cell away" :class="{ selected: item.handicapAwaySelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapAwaySelected')">
                 <text class="team-name">{{ item.visiting_name }}</text>
                 <text class="odds" v-if="item.r_loss_multiplier">客胜{{ item.r_loss_multiplier }}</text>
                 <text class="odds rate" v-if="item.visiting_win_rate">
@@ -102,7 +103,7 @@ export default {
       expandedDrawers: [],
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
-       windowWidth: 0
+      windowWidth: 0,
     };
   },
   computed: {
@@ -134,8 +135,8 @@ export default {
     },
     // 仅新增：计算rpx版sticky header top值（和胜平负一致）
     stickyHeaderTop() {
-      return this.statusBarHeightRpx + 88; // 44px=88rpx，7px=14rpx
-    }
+      return this.statusBarHeightRpx + 88 - 10; // 3rpx是通用微调值，可按实际偏移动2/4
+    },
   },
   watch: {
     // 新增：抽屉列表变化时重置展开状态
@@ -145,34 +146,34 @@ export default {
     // 仅新增：监听状态栏高度变化，转换单位
     statusBarHeight(newVal) {
       this.statusBarHeightRpx = this.pxToRpx(newVal);
-    }
+    },
   },
-created() {
-  // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
-  this.initWindowInfo();
-  this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
-  this.expandedDrawers = this.finalDrawerList.map(() => true);
-},
+  created() {
+    // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
+    this.initWindowInfo();
+    this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
+    this.expandedDrawers = this.finalDrawerList.map(() => true);
+  },
   methods: {
-// 新增：初始化窗口信息（替代废弃API）
-initWindowInfo() {
-  try {
-    // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
-    const windowInfo = wx.getWindowInfo();
-    this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
-  } catch (e) {
-    // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
-    const systemInfo = uni.getSystemInfoSync();
-    this.windowWidth = systemInfo.windowWidth || 375;
-    console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
-  }
-},
-// 修正后的px转rpx：使用新API获取的windowWidth，优化精度
-pxToRpx(px) {
-  if (!px || !this.windowWidth) return 0;
-  // 计算后四舍五入，减少1-2px的机型偏差
-  return Math.round((px / this.windowWidth) * 750 + 0.5);
-},
+    // 新增：初始化窗口信息（替代废弃API）
+    initWindowInfo() {
+      try {
+        // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
+        const windowInfo = wx.getWindowInfo();
+        this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
+      } catch (e) {
+        // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
+        const systemInfo = uni.getSystemInfoSync();
+        this.windowWidth = systemInfo.windowWidth || 375;
+        console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
+      }
+    },
+    // 修正后的px转rpx：使用新API获取的windowWidth，优化精度
+    pxToRpx(px) {
+      if (!px || !this.windowWidth) return 0;
+      // 计算后四舍五入，减少1-2px的机型偏差
+      return Math.round((px / this.windowWidth) * 750 + 0.5);
+    },
     getRateColor: getRateColor,
     // 新增：切换抽屉展开/收起
     toggleDrawer(drawerIdx) {
@@ -346,7 +347,11 @@ pxToRpx(px) {
             color: #fff !important;
           }
         }
-
+        &.disabled {
+          background-color: #eaeaea !important;
+          cursor: not-allowed;
+          pointer-events: none; /* 彻底禁止点击 */
+        }
         .team-name {
           font-size: 24rpx;
           color: #666;
@@ -398,7 +403,11 @@ pxToRpx(px) {
   // #endif
 }
 
-.drawer-wrapper { width: 100%; margin-bottom: 8rpx; background: #f5f5f5 }
+.drawer-wrapper {
+  width: 100%;
+  margin-bottom: 8rpx;
+  background: #f5f5f5;
+}
 
 .sticky-header {
   position: sticky;

@@ -7,40 +7,21 @@
         <text class="tip-text">{{ currentTip }}</text>
       </view>
 
-      <!-- 灵石选择按钮组 -->
+      <!-- 灵石选择按钮组（按index控制选中） -->
       <view class="stone-options">
         <button 
           class="stone-btn" 
-          :class="{ active: selectedStone === 5 }" 
-          @click="selectStone(5)"
+          :class="{ active: selectedIndex === index }" 
+          @tap="selectStone(item, index)"
+          v-for="(item, index) in list" 
+          :key="index"
         >
-          50灵石
-        </button>
-        <button 
-          class="stone-btn" 
-          :class="{ active: selectedStone === 9 }" 
-          @click="selectStone(9)"
-        >
-          1000灵石
-        </button>
-        <button 
-          class="stone-btn" 
-          :class="{ active: selectedStone === 35 }" 
-          @click="selectStone(35)"
-        >
-          500灵石
-        </button>
-        <button 
-          class="stone-btn" 
-          :class="{ active: selectedStone === 60 }" 
-          @click="selectStone(60)"
-        >
-          1000灵石
+          {{ item.bi }}币
         </button>
       </view>
 
-      <!-- 应付金额展示 -->
-      <text class="amount-tip">应付金额：{{ amount }}元</text>
+      <!-- 应付金额展示（通过选中的index取值） -->
+      <text class="amount-tip" v-if="list[selectedIndex]">应付金额：{{ list[selectedIndex].count }}元</text>
 
       <!-- 付款按钮 -->
       <button class="pay-btn" @click="handlePay" :disabled="isPayLoading">
@@ -53,71 +34,50 @@
 
 <script>
 // 引入登录/Token 工具方法（与 app.vue 保持一致）
-import { login, checkToken } from '@/utils/auth';
-import { getToken, setToken } from '@/utils/storage';
-import { wxPay } from "@/api/demo";
+import { login, checkToken } from "@/utils/auth";
+import { getToken, setToken } from "@/utils/storage";
+import { wxPay,payConfirm } from "@/api/demo";
 export default {
   name: "RechargePage",
   data() {
     return {
-      // 选中的灵石档位（对应金额：5=5元/50灵石、9=9元/100灵石、35=35元/500灵石、60=60元/1000灵石）
-      selectedStone: 9,
-      // 应付金额（元）
-      amount: 9,
+      // 灵石档位列表（按你要求的字段：count=钱数，bi=灵石数）
+      list: [
+        { count: 5, bi: 50 },    // 5元=50灵石
+        { count: 9, bi: 100 },   // 9元=100灵石
+        { count: 35, bi: 500 },  // 35元=500灵石
+        { count: 60, bi: 1000 }  // 60元=1000灵石
+      ],
+      // 选中的列表索引（核心：用index控制选中状态）
+      selectedIndex: 1, // 默认选中第2项（9元/100灵石）
       // 提示相关
       showTip: false,
       currentTip: "",
-      // 灵石-金额映射表
-      stoneAmountMap: {
-        5: 5,   // 50灵石 = 5元
-        9: 9,   // 100灵石 = 9元
-        35: 35, // 500灵石 = 35元
-        60: 60  // 1000灵石 = 60元
-      },
-      // 提示文案配置
-      tips: {
-        5: "您要兑换的灵石数量：50颗",
-        9: "您要兑换的灵石数量：100颗",
-        35: "您要兑换的灵石数量：500颗",
-        60: "您要兑换的灵石数量：1000颗"
-      },
       // 支付透传参数
       payExtParams: {
-        beFrom: "",     // football/basketball（来源：足球/篮球）
-        isLottery: 1,   // 固定值：1
-        userId: getToken() ? JSON.parse(getToken()).userId || "" : "" // 从Token解析用户ID（与app.vue登录逻辑对齐）
+        beFrom: "",
+        isLottery: 1, // 固定值：1
       },
       // 支付加载状态（防止重复点击）
       isPayLoading: false,
-      // 全局应用实例（复用app.vue的全局配置）
-      appInstance: getApp()
     };
   },
   onLoad(options) {
-    // 接收上个页面传递的参数
-    if (options.beFrom) {
-      this.payExtParams.beFrom = options.beFrom;
-    }
-    if (options.isLottery) {
-      this.payExtParams.isLottery = options.isLottery;
-    }
-    console.log("[充值页] 接收参数：", this.payExtParams);
+    // 接收上个页面传递的参数（如需默认选中指定项，可在这里修改selectedIndex）
   },
   methods: {
     /**
-     * 1. 选择灵石数量
-     * @param {Number} stone - 灵石档位（5/9/35/60）
+     * 选择灵石档位（接收item和index）
+     * @param {Object} item - 当前选中的档位对象
+     * @param {Number} index - 当前选中的列表索引
      */
-    selectStone(stone) {
-      this.selectedStone = stone;
-      this.amount = this.stoneAmountMap[stone];
-      this.currentTip = this.tips[stone];
-      this.showTip = true;
-      uni.vibrateShort();
+    selectStone(item, index) {
+      this.selectedIndex = index; // 存储选中的索引
+      // 如需缓存选中的item，也可新增变量存储：this.selectedItem = item;
     },
 
     /**
-     * 2. 核心：处理付款逻辑（适配app.vue全局配置）
+     * 核心：处理付款逻辑
      */
     async handlePay() {
       // 防止重复点击
@@ -126,8 +86,9 @@ export default {
 
       try {
         // ========== 前置校验 ==========
-        // 校验1：是否选择灵石
-        if (!this.selectedStone || !this.amount) {
+        // 校验1：是否选择有效档位（通过index判断）
+        const selectedItem = this.list[this.selectedIndex];
+        if (!selectedItem) {
           uni.showToast({ title: "请先选择灵石数量", icon: "none" });
           this.isPayLoading = false;
           return;
@@ -136,7 +97,6 @@ export default {
         // 校验2：登录态校验（复用app.vue的checkToken方法）
         const isTokenValid = await checkToken();
         if (!isTokenValid) {
-          // Token无效：执行自动登录（与app.vue登录逻辑对齐）
           uni.showToast({ title: "登录态失效，正在重新登录...", icon: "none" });
           const loginResult = await login();
           if (!loginResult.success) {
@@ -144,15 +104,12 @@ export default {
             this.isPayLoading = false;
             return;
           }
-          // 登录成功后更新全局Token和用户ID
-          this.appInstance.updateGlobalToken(getToken());
-          this.payExtParams.userId = JSON.parse(getToken()).userId || "";
         }
 
         // ========== 发起支付 ==========
         uni.showLoading({ title: "发起支付中...", mask: true });
 
-        // 步骤1：调用后端接口，获取微信支付参数（使用app.vue的全局baseUrl）
+        // 步骤1：调用后端接口，获取微信支付参数（通过index取选中项的字段）
         const payParams = await this.getWXPay();
         if (!payParams) {
           uni.hideLoading();
@@ -165,7 +122,7 @@ export default {
           provider: "wxpay", // 指定微信支付
           timeStamp: payParams.timeStamp + "", // 时间戳（必须是字符串）
           nonceStr: payParams.nonceStr, // 随机字符串
-          package: payParams.package, // 格式：prepay_id=xxx
+          package: payParams.packageVal, // 格式：prepay_id=xxx
           signType: payParams.signType || "MD5", // 签名类型
           paySign: payParams.paySign, // 支付签名
         });
@@ -173,20 +130,19 @@ export default {
         // ========== 支付成功处理 ==========
         if (payResult.errMsg === "requestPayment:ok") {
           uni.showToast({ title: "支付成功", icon: "success", duration: 2000 });
-          
+
           // 步骤3：主动调用后端接口，确认支付结果（防漏单）
           await this.confirmPayResult(payParams.outTradeNo);
-          
+
           // 步骤4：支付成功后跳转（返回上一页）
           setTimeout(() => {
             uni.navigateBack({ delta: 1 });
           }, 2000);
         }
-
       } catch (error) {
         // ========== 支付异常处理 ==========
         console.error("[支付失败] 详情：", error);
-        
+
         if (error.errMsg === "requestPayment:fail cancel") {
           uni.showToast({ title: "您已取消支付", icon: "none" });
         } else if (error.errMsg === "requestPayment:fail") {
@@ -202,32 +158,29 @@ export default {
     },
 
     /**
-     * 辅助方法：调用后端接口获取微信支付参数（复用app.vue的全局baseUrl）
+     * 辅助方法：调用后端接口获取微信支付参数（通过index取选中项）
      * @returns {Object} 微信支付参数
      */
     async getWXPay() {
       try {
+        // 通过选中的index获取当前档位的字段
+        const selectedItem = this.list[this.selectedIndex];
         // 组装请求参数
         const requestData = {
-          outTradeNo: "PAY_" + Date.now() + Math.floor(Math.random() * 1000), // 商户订单号
-          totalFee: this.amount * 100, // 支付金额（单位：分）
-          body: `${this.tips[this.selectedStone]}充值`, // 订单描述
-          attach: JSON.stringify(this.payExtParams), // 透传参数
-          userId: this.payExtParams.userId,
-          // 跨端兼容：获取平台类型（与app.vue逻辑对齐）
-          scene: this.getPlatformType()
+          coinSum: selectedItem.bi,     // 灵石数（bi字段）
+          payment: selectedItem.count,  // 支付金额（count字段）
         };
 
-        // 调用后端接口（使用app.vue的全局baseUrl，无需硬编码）
-        const res = await wxPay(requestData)
-
+        // 调用后端接口
+        const res = await wxPay(requestData);
+        console.log(res, "res----------------");
         // 接口返回校验
-        if (res.data.code !== 200 || !res.data.data) {
-          uni.showToast({ title: res.data.message || "获取支付参数失败", icon: "none" });
+        if (!res.data) {
+          uni.showToast({ title: res.message || "获取支付参数失败", icon: "none" });
           return null;
         }
-
-        return res.data.data;
+        console.log(res.data, "data---------------");
+        return res.data;
       } catch (error) {
         console.error("[获取支付参数失败]：", error);
         uni.showToast({ title: "获取支付参数失败，请重试", icon: "none" });
@@ -239,76 +192,25 @@ export default {
      * 辅助方法：确认支付结果
      * @param {String} outTradeNo - 商户订单号
      */
-    async confirmPayResult(outTradeNo) {
+    async confirmPayResult(tradeNo) {
       try {
-        await uni.request({
-          url: `${this.appInstance.globalData.baseUrl}/api/pay/confirmPay`, // 复用全局baseUrl
-          method: "POST",
-          header: {
-            "Content-Type": "application/json",
-            "token": this.appInstance.globalData.token || getToken()
-          },
-          data: {
-            outTradeNo: outTradeNo,
-            userId: this.payExtParams.userId,
-            stoneNum: this.getRealStoneNum(),
-            amount: this.amount
-          }
-        });
+        await payConfirm({tradeNo})
       } catch (error) {
         console.error("[确认支付结果失败]：", error);
         // 仅打印日志，不影响用户体验
       }
-    },
-
-    /**
-     * 辅助方法：转换为实际灵石数量
-     * @returns {Number} 50/100/500/1000
-     */
-    getRealStoneNum() {
-      switch (this.selectedStone) {
-        case 5: return 50;
-        case 9: return 100;
-        case 35: return 500;
-        case 60: return 1000;
-        default: return 100;
-      }
-    },
-
-    /**
-     * 辅助方法：获取平台类型（与app.vue的跨端兼容逻辑对齐）
-     * @returns {String} mini_program/android/ios/h5
-     */
-    getPlatformType() {
-      let systemInfo = {};
-      // 优先使用微信最新 API（与app.vue逻辑一致）
-      if (wx && wx.getDeviceInfo) {
-        const deviceInfo = wx.getDeviceInfo();
-        systemInfo = {
-          uniPlatform: deviceInfo.platform || ''
-        };
-      } else {
-        systemInfo = uni.getSystemInfoSync();
-      }
-
-      const platform = systemInfo.uniPlatform || systemInfo.platform;
-      if (platform === 'mp-weixin') return 'mini_program';
-      if (platform === 'android') return 'android';
-      if (platform === 'ios') return 'ios';
-      return 'h5';
     }
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-// 继承app.vue的全局样式规范，避免冲突
+// 样式无核心变化，保持原有样式即可
 .recharge-page {
   box-sizing: border-box;
   padding: 0 20rpx 20rpx 20rpx;
   background-color: #f5f5f5;
   min-height: 100vh;
-  // 复用app.vue定义的全局变量
   --status-bar-height: var(--status-bar-height);
 
   .recharge-section {
@@ -317,7 +219,7 @@ export default {
     padding: 30rpx;
     margin-bottom: 20rpx;
     box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
-    margin-top: calc(var(--status-bar-height) + 40rpx); // 适配状态栏高度
+    margin-top: calc(var(--status-bar-height) + 40rpx);
 
     .tip-container {
       background-color: #fff8e1;
@@ -393,7 +295,6 @@ export default {
   }
 }
 
-// 提示显示动画
 @keyframes fadeIn {
   from {
     opacity: 0;

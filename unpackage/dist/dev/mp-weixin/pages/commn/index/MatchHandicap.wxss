@@ -150,6 +150,12 @@
 .match-row .match-content-row .match-cells .match-cell.selected .text-green.data-v-d11290ac {
   color: #fff !important;
 }
+.match-row .match-content-row .match-cells .match-cell.disabled.data-v-d11290ac {
+  background-color: #eaeaea !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  /* 彻底禁止点击 */
+}
 .match-row .match-content-row .match-cells .match-cell .team-name.data-v-d11290ac {
   font-size: 24rpx;
   color: #666;

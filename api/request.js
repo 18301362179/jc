@@ -87,7 +87,7 @@ const request = (options) => {
 
 		// 需 Token 接口：自动携带 Token
 		if (isNeedToken && token) {
-			header['Authorization'] = token;
+			header['Authorization'] = token
 		}
 
 		uni.request({
@@ -97,7 +97,7 @@ const request = (options) => {
 			header,
 			success: (res) => {
 				// 处理 Token 过期（401 状态码）
-				if (res.statusCode === 401 && isNeedToken) {
+				if (res.code == 401 && isNeedToken) {
 					console.warn("Token 无效或过期，准备触发重新登录");
 					removeToken();
 

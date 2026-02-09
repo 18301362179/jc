@@ -67,7 +67,75 @@
 				"navigationStyle": "custom"
 			}
 		}
+	},{
+		"path": "pages/fourteenIndex/editFourteen",
+		"style": {
+			"navigationBarTitleText": "胜负游戏",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
 	}, {
+		"path": "pages/nineIndex/editNine",
+		"style": {
+			"navigationBarTitleText": "任选9场",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	}, {
+		"path": "pages/sixIndex/editSix",
+		"style": {
+			"navigationBarTitleText": "任选6场",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	},{
+		"path": "pages/fourIndex/editFour",
+		"style": {
+			"navigationBarTitleText": "任选4场",
+			"navigationBarTextStyle": "white",
+			"navigationBarBackgroundColor": "#31926e",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom",
+			"onReachBottomDistance": 50,
+			"app-plus": {
+				"softinputMode": "adjustResize"
+			},
+			"mp-weixin": {
+				"disableScroll": true,
+				"navigationStyle": "custom"
+			}
+		}
+	},{
 		"path": "pages/sixIndex/index",
 		"style": {
 			"navigationBarTitleText": "6场半全场",
@@ -121,12 +189,12 @@
 	},{
 		"path": "pages/recharge/recharge",
 		"style": {
-			"navigationBarTitleText": "灵石兑换",
+			"navigationBarTitleText": "币兑换",
 			"navigationBarTextStyle": "white",
 			"navigationBarBackgroundColor": "#31926e",
 			"enablePullDownRefresh": false
 		}
-	},  {
+	},{
 		"path": "pages/analysisForecast/index",
 		"style": {
 			"navigationBarTitleText": "足球数据",
@@ -256,6 +324,20 @@
 				}
 			}
 		}, {
+			"path": "editHhgg",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true
+				}
+			}
+		},{
 			"path": "editHandicap",
 			"style": {
 				"navigationBarTextStyle": "white",

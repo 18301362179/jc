@@ -373,7 +373,14 @@ export default {
     };
   },
   onLoad(options) {
-    this.getAiDetail(options.id,options.isLottery)
+    let param = {};
+    param.id = options.id; 
+    param.isLottery = options.isLottery;
+    if (options.isTradition) {
+      param.isTradition = 1
+
+    };
+    this.getAiDetail(param)
   },
   onShow() {
     uni.hideTabBar();
@@ -389,10 +396,10 @@ export default {
       const percentage = decimal * 100;
       return `${percentage.toFixed(fixed)}%`;
     },
-    async getAiDetail(id,isLottery) {
+    async getAiDetail(param) {
       this.showLoading();
       try {
-        const res = await getAi({id,isLottery,});
+        const res = await getAi(param);
         this.courseMap = res.data.data.baseMap;
         this.winRateAndGoalCalculate = res.data.data.winRateAndGoalCalculate;
         this.goalCalculate = res.data.data.goalCalculate;

@@ -4,6 +4,10 @@
     "pages/football/index",
     "pages/nineIndex/index",
     "pages/fourteenIndex/index",
+    "pages/fourteenIndex/editFourteen",
+    "pages/nineIndex/editNine",
+    "pages/sixIndex/editSix",
+    "pages/fourIndex/editFour",
     "pages/sixIndex/index",
     "pages/fourIndex/index",
     "pages/basketball/index",
@@ -27,6 +31,7 @@
       "root": "pages/edit/basketball",
       "pages": [
         "editHalfFull",
+        "editHhgg",
         "editHandicap",
         "editScore",
         "index"

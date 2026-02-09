@@ -139,14 +139,14 @@
   padding-left: 10rpx;
 }
 .match-row .match-content-row .content-right .rate-row .vs-text.data-v-49686e4e {
-  width: 40rpx;
+  width: 140rpx;
   text-align: center;
   flex-shrink: 0;
 }
 .match-row .match-content-row .content-right .total-goals-cells.data-v-49686e4e {
   display: flex;
   flex-direction: column;
-  border: 1rpx solid #DEDEDE;
+  border: 1rpx solid #dedede;
   border-radius: 8rpx;
   overflow: hidden;
 }
@@ -167,6 +167,15 @@
   border-bottom: 1rpx solid #eee;
   cursor: pointer;
   height: 60rpx;
+}
+.match-row .match-content-row .content-right .goal-option.disabled.data-v-49686e4e {
+  background-color: #dedede !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.match-row .match-content-row .content-right .goal-option.disabled .goal-text.data-v-49686e4e,
+.match-row .match-content-row .content-right .goal-option.disabled .goal-odds.data-v-49686e4e {
+  color: #999 !important;
 }
 .match-row .match-content-row .content-right .goal-option.data-v-49686e4e:nth-child(4) {
   border-right: none;

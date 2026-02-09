@@ -143,17 +143,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 304));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 344));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 311));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 351));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 318));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 358));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -207,21 +207,6 @@ var _default = {
       this.popupMaxHeight = windowHeight - this.bottomBtnBarHeight - this.tabbarHeight - safeAreaInsets.bottom;
       this.popupMaxHeight = Math.min(this.popupMaxHeight, safeArea.height - this.bottomBtnBarHeight - this.tabbarHeight);
     },
-    onTouchStart: function onTouchStart(e) {
-      this.touchStartX = e.changedTouches[0].clientX;
-    },
-    onTouchEnd: function onTouchEnd(e) {
-      var touchEndX = e.changedTouches[0].clientX;
-      var diffX = touchEndX - this.touchStartX;
-      if (Math.abs(diffX) < this.swipeThreshold) return;
-      var tabbar = this.$refs.nativeTabbar;
-      if (!tabbar) return;
-      if (diffX < 0) {
-        tabbar.switchTabBySwipe('left');
-      } else {
-        tabbar.switchTabBySwipe('right');
-      }
-    },
     togglePopup: function togglePopup() {
       this.isPopupShow = !this.isPopupShow;
     },
@@ -246,7 +231,6 @@ var _default = {
     },
     // 跳转对应游戏页面
     goToGame: function goToGame(gameName) {
-      console.log('11111111');
       uni.navigateTo({
         url: "/pages/".concat(gameName)
       });

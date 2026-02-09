@@ -17,7 +17,7 @@
         <!-- 核心内容：真正的定位锚点 -->
         <view class="core-wrap">
           <!-- 前缀：你修改的“竞彩足球-” -->
-          <!-- <view class="prefix-text">{{ballTitle}}{{isIndex  ? '': '-'}}</view> -->
+          <view class="prefix-text" v-if="isIndex">{{ballTitle}}</view>
           <!-- 选中/未选中内容（居中） -->
           <view class="core-content" @click="triggerSelect">
             <text class="content-text">{{ isSelected ? (selectedPlay || title) : title }}</text>

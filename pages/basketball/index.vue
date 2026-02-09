@@ -1,81 +1,31 @@
 <template>
-  <view @touchstart="onTouchStart" 
-    @touchend="onTouchEnd"
-    style="width: 100%; height: 100vh; box-sizing: border-box;">
-    <CustomHeader :showBack="true" :ballTitle="'竞彩篮球'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
-    <scroll-view 
-      class="match-scroll" 
-      scroll-y
-    >
+  <view style="width: 100%; height: 100vh; box-sizing: border-box">
+    <CustomHeader :showBack="true" :ballTitle="'竞彩篮球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
+    <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
       <MatchSpf ref="spfRef" v-if="currentPlay === '胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
-      <MatchHandicap 
-        ref="handicapRef" 
-        v-else-if="currentPlay === '让分胜负'" 
-        :drawer-list="drawerList" 
-        :status-bar-height="statusBarHeight" 
-        @toggle-select="toggleSelect" 
-        :go-to-ai-analysis="goToAiAnalysis"
-      />
-      <MatchHalfFull 
-        ref="halfFullRef" 
-        v-else-if="currentPlay === '大小分'" 
-        :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleHalfFullSelect" :go-to-ai-analysis="goToAiAnalysis"
-      />
+      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让分胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
+      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '大小分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleHalfFullSelect" :go-to-ai-analysis="goToAiAnalysis" />
       <MatchScore ref="scoreRef" v-else-if="currentPlay === '胜分差'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-score-select="toggleScoreSelect" :go-to-ai-analysis="goToAiAnalysis" @on-score-selected="handleScoreSelected" />
       <!-- 新增：混合过关组件 -->
-      <MixedPassList 
-        ref="hhggRef" 
-        v-else-if="currentPlay === '混合过关'" 
-        :drawer-list="drawerList" 
-        :match-list="drawerList.flatMap(d => d.lotteryList)"
-        :status-bar-height="statusBarHeight" 
-        :go-to-ai-analysis="goToAiAnalysis"
-        @toggle-spf-multi-select="handleHhggSpfSelect"
-        @toggle-multi-select="handleHhggMultiSelect"
-      />
+      <MixedPassList ref="hhggRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :match-list="drawerList.flatMap((d) => d.lotteryList)" :status-bar-height="statusBarHeight" :go-to-ai-analysis="goToAiAnalysis" @toggle-spf-multi-select="handleHhggSpfSelect" @toggle-multi-select="handleHhggMultiSelect" />
     </scroll-view>
 
-    <!-- 底部投注栏（保留原有逻辑，适配混合过关） -->
+    <!-- 替换为足球同款底部投注栏 -->
     <view class="bet-bar">
-      <view class="bet-bar-top">
-        <view class="top-left">
-          <text>
-            {{ selectedMatchCount === 0 ? '过关方式' : getComboDisplayText() }}
-          </text>
-        </view>
-
-        <view class="top-middle">
-          投
-          <button class="multi-btn minus" @click="handleMinus" :disabled="selectedMatchCount < 1">-</button>
-          <view 
-            class="multi-input" 
-            @tap="showNumberKeyboard = true"
-            :class="{ 'disabled': selectedMatchCount < 1 }"
-          >
-            {{ betCount }}
+      <view class="bet-bar-inner">
+        <!-- 左侧：清空图标 + 已选场次 + 风险提示 -->
+        <view class="left-section">
+          <image class="clear-icon" src="/static/trash.png" mode="widthFix" @click="clearAllSelection" :class="{ disabled: selectedMatchCount === 0 }"></image>
+          <view class="text-group">
+            <text class="selected-text">已选{{ selectedMatchCount }}场</text>
+            <text class="risk-tip">页面固定奖金仅供参考，请以出票时固定奖金为准</text>
           </view>
-          <button class="multi-btn plus" @click="handlePlus" :disabled="selectedMatchCount < 1 || betCount >= 50">+</button>
-          倍
         </view>
 
-        <view class="top-right">
-          <button class="confirm-btn" @click="goToSchemeEdit" :disabled="selectedMatchCount < 1">预览</button>
-        </view>
+        <!-- 右侧：选好了按钮 -->
+        <button class="confirm-btn" @click="goToSchemeEdit" :disabled="selectedMatchCount === 0">选好了</button>
       </view>
-
-      <!-- 串关选择区：展开+有选中场次才显示 -->
-      <!-- <view class="bet-bar-bottom" v-if="!collapseStatus && selectedMatchCount > 0">
-        <view 
-          class="combo-item" 
-          v-for="(item, idx) in comboList" 
-          :key="idx"
-          :class="{ 'active': selectedCombo === item.value, 'disabled': !item.enabled }"
-          @click="handleComboSelect(item)"
-        >
-          {{ item.label }}
-        </view>
-      </view> -->
     </view>
 
     <!-- 原有弹窗/组件 -->
@@ -93,30 +43,9 @@
       </view>
     </view>
     <ReminderDialog :is-show="isDialogShow" @cancel="handleCancel" @exchange="handleRecharge" />
-    <TipsPopup
-      :visible.sync="isPopupShow"
-      :title="tipsTitle"
-      :content-list="tipsContentList"
-      :header-height="headerHeight"
-      :popup-width="700"
-      border-color="#07c160"
-      @close="handlePopupClose"
-      :max-height="popupMaxHeight"
-    />
-    <UniNumberKeyboard
-      :show.sync="showNumberKeyboard"
-      :value="betCount + ''"
-      :allowDot="false"
-      confirm-text="确认"
-      :min="1"
-      :max="50"
-      @input="handleKeyboardInput"
-      @confirm="handleKeyboardConfirm"
-    />
-    <EmptyStop 
-      :hasData="hasData" 
-      position="middle" 
-    />
+    <TipsPopup :visible.sync="isPopupShow" :title="tipsTitle" :content-list="tipsContentList" :header-height="headerHeight" :popup-width="700" border-color="#07c160" @close="handlePopupClose" :max-height="popupMaxHeight" />
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
+    <EmptyStop :hasData="hasData" position="middle" />
   </view>
 </template>
 
@@ -129,12 +58,12 @@ import MatchHalfFull from "@/pages/commn/basketball/MatchHalfFull.vue";
 import MixedPassList from "@/pages/commn/basketball/MixedPassList.vue"; // 混合过关组件
 import CustomHeader from "@/components/CustomHeader.vue";
 
-import { queryBasketBallLLottery, checkCode, wxLogin, checkSelectBasketball } from "@/api/demo";
+import { queryBasketBallLLottery, checkCode, wxLogin, checkSelectBasketball, recharge } from "@/api/demo";
 import ReminderDialog from "@/pages/commn/ReminderDialog.vue";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 import TipsPopup from "@/pages/commn/playTip";
-import { validateBetInput  } from '@/utils/validate';
-import EmptyStop from '@/pages/commn/emptyStop.vue';
+import { validateBetInput } from "@/utils/validate";
+import EmptyStop from "@/pages/commn/emptyStop.vue";
 export default {
   components: {
     NativeTabbar,
@@ -146,13 +75,13 @@ export default {
     CustomHeader,
     ReminderDialog,
     TipsPopup,
-    EmptyStop
+    EmptyStop,
   },
   data() {
     return {
-      typesList: ["胜负", "让分胜负", "大小分", "胜分差","混合过关"],
-      selectedType: ["胜负"],
-      currentPlay: "胜负",
+      typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
+      selectedType: ["混合过关"],
+      currentPlay: "混合过关",
       hasToken: false,
       isPopupShowType: false,
       drawerList: [],
@@ -162,34 +91,26 @@ export default {
       betCount: 1,
       statusBarHeight: 0,
       playTypeMap: {
-        '胜负': "sf",
-        '让分胜负': "rsf",
-        '胜分差': "sfc",
-        '大小分': "dxf",
-        '混合过关': "hhgg" // 新增混合过关玩法映射
+        胜负: "sf",
+        让分胜负: "rsf",
+        胜分差: "sfc",
+        大小分: "dxf",
+        混合过关: "hhgg", // 新增混合过关玩法映射
       },
       isRefreshing: false,
       isPopupShow: false,
       tipsTitle: "重要提示",
-      tipsContentList: [
-        "1、本软件无任何彩票销售业务，仅提供竞彩足球、竞彩篮球相关模拟竞猜玩法。",
-        "2、本软件截图可作为彩票站打票依据。",
-        "3、本软件预测数据仅供参考。",
-        "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。",
-        "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。",
-        "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。",
-        "7、每天上午11点10分后本软件正式可用。"
-      ],
+      tipsContentList: ["1、本软件无任何彩票销售业务，仅提供竞彩足球、竞彩篮球相关模拟竞猜玩法。", "2、本软件截图可作为彩票站打票依据。", "3、本软件预测数据仅供参考。", "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。", "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。", "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。", "7、每天上午11点10分后本软件正式可用。"],
       windowHeight: 0,
       bottomBtnBarHeight: 0,
       tabbarHeight: 0,
       popupMaxHeight: 0,
-      collapseStatus: true, 
-      selectedCombo: "",     
-      comboList: [],         
-      showNumberKeyboard: false, 
-      touchStartX: 0, 
-      swipeThreshold: 50, 
+      collapseStatus: true,
+      selectedCombo: "",
+      comboList: [],
+      showNumberKeyboard: false,
+      touchStartX: 0,
+      swipeThreshold: 50,
       hasData: false,
       // 新增：全局选中状态缓存（和足球逻辑对齐）
       matchSelectedState: {},
@@ -216,13 +137,13 @@ export default {
     selectedMatchCount() {
       let count = 0;
       // 深遍历所有赛事，确保不遗漏
-      this.drawerList.forEach(drawer => {
+      this.drawerList.forEach((drawer) => {
         if (!drawer || !Array.isArray(drawer.lotteryList)) return;
-        
-        drawer.lotteryList.forEach(item => {
+
+        drawer.lotteryList.forEach((item) => {
           if (!item) return;
           let isSelected = false;
-          
+
           switch (this.currentPlay) {
             case "胜负":
               isSelected = !!item.homeSelected || !!item.awaySelected;
@@ -237,22 +158,20 @@ export default {
               isSelected = Array.isArray(item.selectedScores) && item.selectedScores.length > 0;
               break;
             case "混合过关":
-              // 优先读取全局缓存，再读取item自身，确保数据一致
+              // 优化：优先读全局缓存，再读item自身，确保统计准确
               const matchState = this.matchSelectedState[item.serial_number] || item;
-              const hasSpf = matchState.selectedSpf && matchState.selectedSpf.length;
-              const hasDx = matchState.selectedDx && matchState.selectedDx.length;
-              const hasSfc = matchState.selectedSfc && matchState.selectedSfc.length;
+              const hasSpf = Array.isArray(matchState.selectedSpf) && matchState.selectedSpf.length > 0;
+              const hasDx = Array.isArray(matchState.selectedDx) && matchState.selectedDx.length > 0;
+              const hasSfc = Array.isArray(matchState.selectedSfc) && matchState.selectedSfc.length > 0;
               isSelected = hasSpf || hasDx || hasSfc;
               break;
             default:
               break;
           }
-          
+
           if (isSelected) count++;
         });
       });
-      
-      console.log(`[${this.currentPlay}] 选中场次统计：${count}`);
       return count;
     },
     // 原有 hasSingleMatch 方法，保持不变
@@ -274,7 +193,7 @@ export default {
             return false;
         }
       });
-    }
+    },
   },
   watch: {
     selectedMatchCount(newVal) {
@@ -306,8 +225,8 @@ export default {
       handler(newVal) {
         if (!newVal || !newVal.length) return;
         // 初始化全局选中状态
-        newVal.forEach(drawer => {
-          drawer.lotteryList.forEach(item => {
+        newVal.forEach((drawer) => {
+          drawer.lotteryList.forEach((item) => {
             if (!this.matchSelectedState[item.serial_number]) {
               this.$set(this.matchSelectedState, item.serial_number, {
                 selectedSpf: [...(item.selectedSpf || [])],
@@ -317,13 +236,13 @@ export default {
                 awaySelected: item.awaySelected || false,
                 rHomeSelected: item.rHomeSelected || false,
                 rAwaySelected: item.rAwaySelected || false,
-                selectedScores: [...(item.selectedScores || [])]
+                selectedScores: [...(item.selectedScores || [])],
               });
             }
           });
         });
-      }
-    }
+      },
+    },
   },
   created() {
     if (uni.getWindowInfo) {
@@ -353,31 +272,58 @@ export default {
     }
   },
   methods: {
+    // ========== 新增：清空所有选中场次方法（和足球一致） ==========
+    clearAllSelection() {
+      if (this.selectedMatchCount === 0) return;
+
+      uni.showModal({
+        title: "提示",
+        content: "确定清空所有已选场次吗？",
+        success: (res) => {
+          if (res.confirm) {
+            // 清空所有玩法的选中状态
+            this.drawerList.forEach((drawer, drawerIdx) => {
+              drawer.lotteryList.forEach((match, matchIdx) => {
+                const targetMatch = this.drawerList[drawerIdx].lotteryList[matchIdx];
+                // 清空普通玩法选中状态
+                this.$set(targetMatch, "homeSelected", false);
+                this.$set(targetMatch, "awaySelected", false);
+                this.$set(targetMatch, "rHomeSelected", false);
+                this.$set(targetMatch, "rAwaySelected", false);
+                this.$set(targetMatch, "selectedScores", []);
+                // 清空混合过关选中状态（补充字段校验，避免报错）
+                this.$set(targetMatch, "selectedSpf", targetMatch.selectedSpf ? [] : []);
+                this.$set(targetMatch, "selectedDx", targetMatch.selectedDx ? [] : []);
+                this.$set(targetMatch, "selectedSfc", targetMatch.selectedSfc ? [] : []);
+                // 清空全局缓存
+                this.$set(this.matchSelectedState, match.serial_number, {
+                  selectedSpf: [],
+                  selectedDx: [],
+                  selectedSfc: [],
+                  homeSelected: false,
+                  awaySelected: false,
+                  rHomeSelected: false,
+                  rAwaySelected: false,
+                  selectedScores: [],
+                });
+              });
+            });
+            uni.showToast({ title: "已清空", icon: "success" });
+            // 强制刷新统计
+            this.$nextTick(() => {
+              this.generateComboList();
+              this.$forceUpdate();
+            });
+          }
+        },
+      });
+    },
     // 核心新增：校验选中状态（和足球逻辑对齐）
     checkSelected(item, val) {
       if (!item || !val) return false;
       // 优先读取全局缓存
       const matchState = this.matchSelectedState[item.serial_number] || item;
-      return matchState.selectedSpf && matchState.selectedSpf.includes(val);
-    },
-    // 左右滑动切换Tab
-    onTouchStart(e) {
-      this.touchStartX = e.changedTouches[0].clientX;
-    },
-    onTouchEnd(e) {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diffX = touchEndX - this.touchStartX;
-      
-      if (Math.abs(diffX) < this.swipeThreshold) return;
-      
-      const tabbar = this.$refs.nativeTabbar;
-      if (!tabbar) return;
-      
-      if (diffX < 0) {
-        tabbar.switchTabBySwipe('left');
-      } else {
-        tabbar.switchTabBySwipe('right');
-      }
+      return Array.isArray(matchState.selectedSpf) && matchState.selectedSpf.includes(val);
     },
     // 自定义数字键盘
     handleKeyboardInput(val) {
@@ -432,7 +378,7 @@ export default {
         list.push({
           label: "单关",
           value: "single",
-          enabled: true
+          enabled: true,
         });
         this.selectedCombo = "single";
       } else if (matchCount >= 2) {
@@ -441,7 +387,7 @@ export default {
           list.push({
             label: `${i}串1`,
             value: `${i}c1`,
-            enabled: true
+            enabled: true,
           });
         }
         this.selectedCombo = `${matchCount}c1`;
@@ -461,9 +407,9 @@ export default {
       this.windowHeight = systemInfo.windowHeight;
       this.bottomBtnBarHeight = (90 / 750) * systemInfo.windowWidth;
       this.tabbarHeight = (100 / 750) * systemInfo.windowWidth;
-      this.popupMaxHeight = this.windowHeight
+      this.popupMaxHeight = this.windowHeight;
       // #ifdef MP-WEIXIN
-      this.popupMaxHeight = this.windowHeight
+      this.popupMaxHeight = this.windowHeight;
       // #endif
     },
     handlePopupClose() {
@@ -476,14 +422,14 @@ export default {
     // 获取选中的赛事（适配混合过关，和足球逻辑对齐）
     getSelectedMatches() {
       const selected = [];
-      this.drawerList.forEach(drawer => {
+      this.drawerList.forEach((drawer) => {
         if (!drawer || !Array.isArray(drawer.lotteryList)) return;
-        
-        drawer.lotteryList.forEach(item => {
+
+        drawer.lotteryList.forEach((item) => {
           let isSelected = false;
           // 优先读取全局缓存
           const matchState = this.matchSelectedState[item.serial_number] || item;
-          
+
           switch (this.currentPlay) {
             case "大小分":
               isSelected = Boolean(matchState.homeSelected) || Boolean(matchState.awaySelected);
@@ -498,27 +444,25 @@ export default {
               isSelected = Array.isArray(matchState.selectedScores) && matchState.selectedScores.length > 0;
               break;
             case "混合过关":
-              const hasSpf = matchState.selectedSpf && matchState.selectedSpf.length;
-              const hasDx = matchState.selectedDx && matchState.selectedDx.length;
-              const hasSfc = matchState.selectedSfc && matchState.selectedSfc.length;
+              const hasSpf = Array.isArray(matchState.selectedSpf) && matchState.selectedSpf.length > 0;
+              const hasDx = Array.isArray(matchState.selectedDx) && matchState.selectedDx.length > 0;
+              const hasSfc = Array.isArray(matchState.selectedSfc) && matchState.selectedSfc.length > 0;
               isSelected = hasSpf || hasDx || hasSfc;
               break;
           }
-          
+
           if (isSelected) {
-            selected.push({...item, ...matchState});
+            // 合并缓存数据和原始数据，确保字段完整
+            selected.push({ ...item, ...matchState });
           }
         });
       });
-      
-      console.log(`[${this.currentPlay}] 选中赛事：`, selected.map(item => item.serial_number));
       return selected;
     },
     // 跳转编辑页面（适配混合过关）
     async goToSchemeEdit() {
       const selectedMatches = this.getSelectedMatches();
       const totalSelectedCount = selectedMatches.length;
-
       // 1. 基础校验：最多8场
       if (totalSelectedCount > 8) {
         uni.showToast({ title: "最多只能选择8场赛事", icon: "none" });
@@ -539,21 +483,14 @@ export default {
           return;
         }
       }
-
-      // 4. 串关必选校验
-      if (!this.selectedCombo) {
-        uni.showToast({ title: "请选择过关方式", icon: "none" });
-        return;
-      }
-
       // 5. 停售校验
-      const matchSerials = selectedMatches.map(item => item.serial_number).join(',');
+      const matchSerials = selectedMatches.map((item) => item.serial_number).join(",");
       try {
         this.showLoading();
         const res = await checkSelectBasketball({ lotteryIds: matchSerials });
         const isNeedUserPhone = res.data?.isNeedUserPhone || false;
 
-        if (res.data&&res.data.status == 1) {
+        if (res.data && res.data.status == 1) {
           // 6. 玩法与编辑页面匹配
           let editUrl = "";
           switch (this.currentPlay) {
@@ -581,25 +518,25 @@ export default {
           uni.navigateTo({
             url: editUrl,
             events: {
-              updateSelectedMatches: (updatedData) => this.syncUpdatedMatches(updatedData)
+              updateSelectedMatches: (updatedData) => this.syncUpdatedMatches(updatedData),
             },
             success: (res) => {
               res.eventChannel.emit("selectedData", {
-                matches: selectedMatches, 
-                betCount: this.betCount, 
+                matches: selectedMatches,
+                betCount: this.betCount,
                 isNeedUserPhone,
                 combo: this.selectedCombo,
                 comboText: this.getComboDisplayText(),
-                playType: this.currentPlay
+                playType: this.currentPlay,
               });
             },
           });
         } else {
           uni.showModal({
-            title: '提示',
+            title: "提示",
             content: "抱歉存在停售场次，请重新选择!",
             showCancel: false,
-            confirmText: '我知道了',
+            confirmText: "我知道了",
             success: (modalRes) => {
               if (modalRes.confirm) {
                 this.drawerList = [];
@@ -607,16 +544,16 @@ export default {
                 this.betCount = 1;
                 this.selectedCombo = "";
               }
-            }
+            },
           });
         }
       } catch (error) {
         console.error("checkSelectBasketball接口调用失败:", error);
         uni.showModal({
-          title: '错误',
+          title: "错误",
           content: "验证失败，请稍后重试",
           showCancel: false,
-          confirmText: '我知道了',
+          confirmText: "我知道了",
           success: (modalRes) => {
             if (modalRes.confirm) {
               this.drawerList = [];
@@ -624,7 +561,7 @@ export default {
               this.betCount = 1;
               this.selectedCombo = "";
             }
-          }
+          },
         });
       } finally {
         this.hideLoading();
@@ -637,16 +574,17 @@ export default {
       // 清空所有选中状态
       this.drawerList.forEach((drawer, drawerIdx) => {
         drawer.lotteryList.forEach((item, matchIdx) => {
+          const targetMatch = this.drawerList[drawerIdx].lotteryList[matchIdx];
           // 基础玩法
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "homeSelected", false);
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "awaySelected", false);
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "rHomeSelected", false);
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "rAwaySelected", false);
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", []);
-          // 混合过关
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "selectedSpf", []);
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "selectedDx", []);
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "selectedSfc", []);
+          this.$set(targetMatch, "homeSelected", false);
+          this.$set(targetMatch, "awaySelected", false);
+          this.$set(targetMatch, "rHomeSelected", false);
+          this.$set(targetMatch, "rAwaySelected", false);
+          this.$set(targetMatch, "selectedScores", []);
+          // 混合过关（补充字段校验）
+          this.$set(targetMatch, "selectedSpf", targetMatch.selectedSpf ? [] : []);
+          this.$set(targetMatch, "selectedDx", targetMatch.selectedDx ? [] : []);
+          this.$set(targetMatch, "selectedSfc", targetMatch.selectedSfc ? [] : []);
           // 清空全局缓存
           this.$set(this.matchSelectedState, item.serial_number, {
             selectedSpf: [],
@@ -656,7 +594,7 @@ export default {
             awaySelected: false,
             rHomeSelected: false,
             rAwaySelected: false,
-            selectedScores: []
+            selectedScores: [],
           });
         });
       });
@@ -664,21 +602,21 @@ export default {
       // 更新选中状态
       updatedData.matches.forEach((updatedItem) => {
         this.drawerList.forEach((drawer, drawerIdx) => {
-          const targetMatchIdx = drawer.lotteryList.findIndex(item => 
-            item.serial_number === updatedItem.serial_number
-          );
+          const targetMatchIdx = drawer.lotteryList.findIndex((item) => item.serial_number === updatedItem.serial_number);
           if (targetMatchIdx !== -1) {
-            // 更新drawerList
-            this.$set(this.drawerList[drawerIdx].lotteryList[targetMatchIdx], "homeSelected", updatedItem.homeSelected || false);
-            this.$set(this.drawerList[drawerIdx].lotteryList[targetMatchIdx], "awaySelected", updatedItem.awaySelected || false);
-            this.$set(this.drawerList[drawerIdx].lotteryList[targetMatchIdx], "rHomeSelected", updatedItem.rHomeSelected || false);
-            this.$set(this.drawerList[drawerIdx].lotteryList[targetMatchIdx], "rAwaySelected", updatedItem.rAwaySelected || false);
-            this.$set(this.drawerList[drawerIdx].lotteryList[targetMatchIdx], "selectedScores", updatedItem.selectedScores || []);
-            this.$set(this.drawerList[drawerIdx].lotteryList[targetMatchIdx], "selectedSpf", updatedItem.selectedSpf || []);
-            this.$set(this.drawerList[drawerIdx].lotteryList[targetMatchIdx], "selectedDx", updatedItem.selectedDx || []);
-            this.$set(this.drawerList[drawerIdx].lotteryList[targetMatchIdx], "selectedSfc", updatedItem.selectedSfc || []);
-            
-            // 更新全局缓存（核心：和足球逻辑对齐）
+            const targetMatch = this.drawerList[drawerIdx].lotteryList[targetMatchIdx];
+            // 更新基础玩法
+            this.$set(targetMatch, "homeSelected", updatedItem.homeSelected || false);
+            this.$set(targetMatch, "awaySelected", updatedItem.awaySelected || false);
+            this.$set(targetMatch, "rHomeSelected", updatedItem.rHomeSelected || false);
+            this.$set(targetMatch, "rAwaySelected", updatedItem.rAwaySelected || false);
+            this.$set(targetMatch, "selectedScores", updatedItem.selectedScores || []);
+            // 更新混合过关（保持和子组件一致的原始标识）
+            this.$set(targetMatch, "selectedSpf", updatedItem.selectedSpf || []);
+            this.$set(targetMatch, "selectedDx", updatedItem.selectedDx || []);
+            this.$set(targetMatch, "selectedSfc", updatedItem.selectedSfc || []);
+
+            // 更新全局缓存（核心：和子组件字段完全对齐）
             this.$set(this.matchSelectedState, updatedItem.serial_number, {
               selectedSpf: updatedItem.selectedSpf || [],
               selectedDx: updatedItem.selectedDx || [],
@@ -687,7 +625,7 @@ export default {
               awaySelected: updatedItem.awaySelected || false,
               rHomeSelected: updatedItem.rHomeSelected || false,
               rAwaySelected: updatedItem.rAwaySelected || false,
-              selectedScores: updatedItem.selectedScores || []
+              selectedScores: updatedItem.selectedScores || [],
             });
           }
         });
@@ -707,7 +645,7 @@ export default {
     handleBetInput(e) {
       const inputVal = e.detail.value;
       const validVal = validateBetInput(inputVal);
-      
+
       this.betCount = null;
       this.$nextTick(() => {
         this.betCount = validVal;
@@ -725,15 +663,16 @@ export default {
     // 胜负选中切换（和足球逻辑对齐）
     toggleSelect(targetItem, key) {
       this.drawerList.forEach((drawer, drawerIdx) => {
-        const targetMatchIdx = drawer.lotteryList.findIndex(item => item.serial_number == targetItem.serial_number);
+        const targetMatchIdx = drawer.lotteryList.findIndex((item) => item.serial_number == targetItem.serial_number);
         if (targetMatchIdx !== -1) {
           // 更新drawerList
-          const currentVal = this.drawerList[drawerIdx].lotteryList[targetMatchIdx][key];
-          this.$set(this.drawerList[drawerIdx].lotteryList[targetMatchIdx], key, !currentVal);
-          
+          const targetMatch = this.drawerList[drawerIdx].lotteryList[targetMatchIdx];
+          const currentVal = targetMatch[key];
+          this.$set(targetMatch, key, !currentVal);
+
           // 更新全局缓存
           if (!this.matchSelectedState[targetItem.serial_number]) {
-            this.$set(this.matchSelectedState, targetItem.serial_number, {...this.drawerList[drawerIdx].lotteryList[targetMatchIdx]});
+            this.$set(this.matchSelectedState, targetItem.serial_number, { ...targetMatch });
           }
           this.$set(this.matchSelectedState[targetItem.serial_number], key, !currentVal);
         }
@@ -750,19 +689,18 @@ export default {
       }
 
       this.drawerList.forEach((drawer, drawerIdx) => {
-        const matchIdx = drawer.lotteryList.findIndex(item => 
-          item.serial_number === targetItem.serial_number || item.serial_number === targetItem.serialNumber
-        );
+        const matchIdx = drawer.lotteryList.findIndex((item) => item.serial_number === targetItem.serial_number || item.serial_number === targetItem.serialNumber);
 
         if (matchIdx !== -1) {
-          const currentStatus = this.drawerList[drawerIdx].lotteryList[matchIdx][selectType] ?? false;
+          const targetMatch = this.drawerList[drawerIdx].lotteryList[matchIdx];
+          const currentStatus = targetMatch[selectType] ?? false;
           // 更新drawerList
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], selectType, !currentStatus);
-          
+          this.$set(targetMatch, selectType, !currentStatus);
+
           // 更新全局缓存
           const serialNumber = targetItem.serial_number || targetItem.serialNumber;
           if (!this.matchSelectedState[serialNumber]) {
-            this.$set(this.matchSelectedState, serialNumber, {...this.drawerList[drawerIdx].lotteryList[matchIdx]});
+            this.$set(this.matchSelectedState, serialNumber, { ...targetMatch });
           }
           this.$set(this.matchSelectedState[serialNumber], selectType, !currentStatus);
         } else {
@@ -775,14 +713,15 @@ export default {
     toggleScoreSelect(data) {
       const { serialNumber, selectedScores } = data;
       this.drawerList.forEach((drawer, drawerIdx) => {
-        const matchIdx = drawer.lotteryList.findIndex(item => item.serial_number === serialNumber);
+        const matchIdx = drawer.lotteryList.findIndex((item) => item.serial_number === serialNumber);
         if (matchIdx !== -1) {
+          const targetMatch = this.drawerList[drawerIdx].lotteryList[matchIdx];
           // 更新drawerList
-          this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", selectedScores);
-          
+          this.$set(targetMatch, "selectedScores", selectedScores);
+
           // 更新全局缓存
           if (!this.matchSelectedState[serialNumber]) {
-            this.$set(this.matchSelectedState, serialNumber, {...this.drawerList[drawerIdx].lotteryList[matchIdx]});
+            this.$set(this.matchSelectedState, serialNumber, { ...targetMatch });
           }
           this.$set(this.matchSelectedState[serialNumber], "selectedScores", selectedScores);
         }
@@ -792,97 +731,72 @@ export default {
     // 核心修复：混合过关 - 胜负/让分胜负选中事件处理（和足球逻辑对齐）
     handleHhggSpfSelect(item) {
       if (!item || !item.serial_number) return;
-      
+
       // 1. 更新全局缓存（核心）
       this.$set(this.matchSelectedState, item.serial_number, {
         ...this.matchSelectedState[item.serial_number],
-        selectedSpf: [...item.selectedSpf]
+        selectedSpf: [...(item.selectedSpf || [])],
       });
-      
+
       // 2. 更新drawerList
       this.drawerList.forEach((drawer, drawerIdx) => {
-        const targetMatchIdx = drawer.lotteryList.findIndex(m => m.serial_number === item.serial_number);
+        const targetMatchIdx = drawer.lotteryList.findIndex((m) => m.serial_number === item.serial_number);
         if (targetMatchIdx !== -1) {
-          this.$set(drawer.lotteryList[targetMatchIdx], 'selectedSpf', [...item.selectedSpf]);
+          this.$set(drawer.lotteryList[targetMatchIdx], "selectedSpf", [...(item.selectedSpf || [])]);
         }
       });
-      
+
       // 3. 强制刷新
       this.$nextTick(() => {
         this.generateComboList();
         this.$forceUpdate();
       });
-      
-      console.log(`[混合过关] 胜负选中更新：${item.serial_number}`, item.selectedSpf);
     },
-    // 核心修复：混合过关 - 所有玩法选中事件处理（和足球逻辑对齐）
+    // 核心修复：混合过关 - 所有玩法选中事件处理（关键修改：移除错误的dx/sfc映射）
     handleHhggMultiSelect(data) {
       const { serialNumber, selectedData } = data;
       if (!serialNumber || !selectedData) return;
-      
-      // 1. 转换弹框数据为列表格式
+
+      // 1. 转换弹框数据为列表格式（仅处理spf，dx/sfc直接保留原始标识）
       const spfList = [];
-      [...(selectedData.spf || []), ...(selectedData.rspf || [])].forEach(val => {
+      [...(selectedData.spf || []), ...(selectedData.rspf || [])].forEach((val) => {
         const spfMapping = {
-          '胜负_主胜': 'home_win', 
-          '胜负_客胜': 'home_lose',
-          '让分_主胜': 'home_win_r', 
-          '让分_客胜': 'home_lose_r'
+          胜负_主胜: "home_win",
+          胜负_客胜: "home_lose",
+          让分_主胜: "home_win_r",
+          让分_客胜: "home_lose_r",
         };
         if (spfMapping[val]) spfList.push(spfMapping[val]);
       });
-      
-      const dxList = [];
-      (selectedData.dx || []).forEach(val => {
-        const dxMapping = { '大小分_大': 'dx_big', '大小分_小': 'dx_small' };
-        if (dxMapping[val]) dxList.push(dxMapping[val]);
-      });
-      
-      const sfcList = [];
-      (selectedData.sfc || []).forEach(val => {
-        const sfcMapping = {
-          '胜分差_客胜_1-5': 'sfc_away_1_5',
-          '胜分差_客胜_6-10': 'sfc_away_6_10',
-          '胜分差_客胜_11-15': 'sfc_away_11_15',
-          '胜分差_客胜_16-20': 'sfc_away_16_20',
-          '胜分差_客胜_21-25': 'sfc_away_21_25',
-          '胜分差_客胜_25+': 'sfc_away_25_plus',
-          '胜分差_主胜_1-5': 'sfc_home_1_5',
-          '胜分差_主胜_6-10': 'sfc_home_6_10',
-          '胜分差_主胜_11-15': 'sfc_home_11_15',
-          '胜分差_主胜_16-20': 'sfc_home_16_20',
-          '胜分差_主胜_21-25': 'sfc_home_21_25',
-          '胜分差_主胜_25+': 'sfc_home_25_plus'
-        };
-        if (sfcMapping[val]) sfcList.push(sfcMapping[val]);
-      });
-      
-      // 2. 更新全局缓存（核心：和足球逻辑一致）
+
+      // 关键修改：dx/sfc直接使用原始标识，不做额外映射（和子组件保持一致）
+      const dxList = [...(selectedData.dx || [])];
+      const sfcList = [...(selectedData.sfc || [])];
+
+      // 2. 更新全局缓存（核心：和子组件字段完全一致）
       this.$set(this.matchSelectedState, serialNumber, {
         ...this.matchSelectedState[serialNumber],
         selectedSpf: spfList,
         selectedDx: dxList,
-        selectedSfc: sfcList
+        selectedSfc: sfcList,
       });
-      
+
       // 3. 更新drawerList
       this.drawerList.forEach((drawer, drawerIdx) => {
-        const targetMatchIdx = drawer.lotteryList.findIndex(m => m.serial_number === serialNumber);
+        const targetMatchIdx = drawer.lotteryList.findIndex((m) => m.serial_number === serialNumber);
         if (targetMatchIdx !== -1) {
-          this.$set(drawer.lotteryList[targetMatchIdx], 'selectedSpf', spfList);
-          this.$set(drawer.lotteryList[targetMatchIdx], 'selectedDx', dxList);
-          this.$set(drawer.lotteryList[targetMatchIdx], 'selectedSfc', sfcList);
+          this.$set(drawer.lotteryList[targetMatchIdx], "selectedSpf", spfList);
+          this.$set(drawer.lotteryList[targetMatchIdx], "selectedDx", dxList);
+          this.$set(drawer.lotteryList[targetMatchIdx], "selectedSfc", sfcList);
         }
       });
-      
+
       // 4. 强制刷新
       this.$nextTick(() => {
         this.generateComboList();
         this.collapseStatus = false;
         this.$forceUpdate();
       });
-      
-      console.log(`[混合过关] 弹框确认更新：${serialNumber}`, { spfList, dxList, sfcList });
     },
     // 其他原有方法（保持不变）
     handleRecharge() {
@@ -905,7 +819,7 @@ export default {
           throw new Error("获取微信登录凭证失败");
         }
         const res = await wxLogin({ code });
-        if (res.data&&res.data.token) {
+        if (res.data && res.data.token) {
           uni.setStorageSync("requestToken", res.data.token);
           this.hasToken = true;
           uni.showToast({ title: "操作成功", icon: "success" });
@@ -938,7 +852,7 @@ export default {
         this.hideLoading();
       }
     },
-    // 加载赛事数据（核心修复：初始化全局缓存）
+    // 加载赛事数据（核心优化：初始化字段更简洁）
     async loadMatchData() {
       try {
         this.drawerList = [];
@@ -951,11 +865,11 @@ export default {
         let newDrawerList = this.formatDrawerList(res.data);
         this.isLoading = false;
         this.hideLoading();
-        
-        // 初始化选中字段
-        newDrawerList = newDrawerList.map(drawer => ({
+
+        // 初始化选中字段（优化：更简洁的赋值）
+        newDrawerList = newDrawerList.map((drawer) => ({
           ...drawer,
-          lotteryList: drawer.lotteryList.map(item => {
+          lotteryList: drawer.lotteryList.map((item) => {
             const initItem = {
               ...item,
               rHomeSelected: false,
@@ -965,16 +879,14 @@ export default {
               selectedScores: [],
               selectedSpf: [],
               selectedDx: [],
-              selectedSfc: []
+              selectedSfc: [],
             };
             // 初始化全局缓存
-            this.$set(this.matchSelectedState, item.serial_number, {
-              ...initItem
-            });
+            this.$set(this.matchSelectedState, item.serial_number, { ...initItem });
             return initItem;
-          })
+          }),
         }));
-        
+
         this.drawerList = newDrawerList;
         this.hasData = this.drawerList.length === 0;
         this.generateComboList();
@@ -991,18 +903,18 @@ export default {
     formatDrawerList(data) {
       if (!data) return [];
       const drawerList = [];
-      Object.keys(data).forEach(key => {
-        if (key.startsWith('data_') && data[key].title && data[key].lotteryList) {
+      Object.keys(data).forEach((key) => {
+        if (key.startsWith("data_") && data[key].title && data[key].lotteryList) {
           drawerList.push({
             title: data[key].title,
-            lotteryList: data[key].lotteryList || []
+            lotteryList: data[key].lotteryList || [],
           });
         }
       });
       return drawerList.sort((a, b) => {
-        const aKey = Object.keys(data).find(key => data[key].title === a.title);
-        const bKey = Object.keys(data).find(key => data[key].title === b.title);
-        return parseInt(aKey.replace('data_', '')) - parseInt(bKey.replace('data_', ''));
+        const aKey = Object.keys(data).find((key) => data[key].title === a.title);
+        const bKey = Object.keys(data).find((key) => data[key].title === b.title);
+        return parseInt(aKey.replace("data_", "")) - parseInt(bKey.replace("data_", ""));
       });
     },
     calcHeaderHeight() {
@@ -1029,9 +941,29 @@ export default {
     },
     async goToAiAnalysis(item) {
       try {
-        uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
+        this.showLoading();
+        const reqParams = {
+          id: item.id,
+          beFrom: "basketball",
+          serialNumber: item.serial_number || "",
+          isLottery: 1,
+        };
+        // 调用recharge接口
+        const res = await recharge(reqParams);
+        console.log(res, "res------");
+        if (res.data.status == "fail") {
+          // isLottery=1 表示无灵石，显示充值弹窗
+          this.isDialogShow = true;
+          this.hideLoading();
+          return;
+        } else {
+          await uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
+        }
       } catch (err) {
-        console.error("toDetail error:", err);
+        console.error("[AI分析] 失败:", err);
+        uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
+      } finally {
+        this.hideLoading();
       }
     },
     showLoading() {
@@ -1045,7 +977,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/* 原有样式保持不变 */
+/* 原有样式保持不变，仅替换bet-bar部分样式 */
 page {
   background-color: #f5f5f5;
   box-sizing: border-box;
@@ -1063,24 +995,24 @@ page {
 }
 
 .match-scroll {
-   touch-action: pan-y;
-  position: absolute !important; 
+  touch-action: pan-y;
+  position: absolute !important;
   left: 0;
   right: 0;
   width: 100% !important;
   overflow-y: auto !important;
   background-color: #f5f5f5;
-  
+
   // #ifdef APP-PLUS
   height: calc(100vh - var(--status-bar-height)) !important;
-  top:0 !important;
+  top: 0 !important;
   // #endif
-  
+
   // #ifndef APP-PLUS
   top: 0 !important;
   bottom: 90rpx !important;
   // #endif
-  
+
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -1089,6 +1021,8 @@ page {
   width: 0;
   height: 0;
 }
+
+/* 替换为足球同款bet-bar样式 */
 .bet-bar {
   position: fixed !important;
   width: 100% !important;
@@ -1097,125 +1031,86 @@ page {
   background-color: #fff;
   box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   box-sizing: border-box !important;
-  padding: 10rpx 0;
+  padding: 10rpx 20rpx;
 
   // #ifdef MP-WEIXIN
-  bottom: calc( env(safe-area-inset-bottom)) !important;
+  bottom: calc(env(safe-area-inset-bottom)) !important;
   // #endif
   // #ifdef APP-PLUS
-  bottom: calc( constant(safe-area-inset-bottom)) !important;
-  bottom: calc( env(safe-area-inset-bottom)) !important;
+  bottom: calc(constant(safe-area-inset-bottom)) !important;
+  bottom: calc(env(safe-area-inset-bottom)) !important;
   // #endif
   // #ifdef H5
   bottom: calc(env(safe-area-inset-bottom)) !important;
   // #endif
 
-  .bet-bar-top {
+  .bet-bar-inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20rpx;
-    margin-bottom: 10rpx;
-
-    .top-left {
-      font-size: 28rpx;
-      color: #333;
-      cursor: pointer;
-      padding: 8rpx 12rpx;
-      max-width: 200rpx;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .top-middle {
-      display: flex;
-      align-items: center;
-      gap: 10rpx;
-      font-size: 28rpx;
-
-      .multi-btn {
-        width: 52rpx;
-        height: 52rpx;
-        background-color: #ddd;
-        color: #333;
-        font-size: 32rpx;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1rpx solid #ccc;
-        padding: 0;
-        margin: 0;
-        border-radius: 8rpx;
-        &:disabled {
-          background-color: #f5f5f5;
-          color: #ccc;
-        }
-      }
-
-      .multi-input {
-        width: 180rpx;
-        height: 52rpx;
-        background-color: #fff;
-        color: #333;
-        text-align: center;
-        font-size: 30rpx;
-        border: 1rpx solid #ccc;
-        padding: 0;
-        box-sizing: border-box;
-        border-radius: 8rpx;
-      }
-    }
-
-    .top-right {
-      width: 120rpx;
-
-      .confirm-btn {
-        width: 100%;
-        height: 52rpx;
-        background-color: #d92929;
-        color: #fff;
-        border-radius: 8rpx;
-        font-size: 28rpx;
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &:disabled {
-          background-color: #666;
-          color: #aaa;
-          cursor: not-allowed;
-        }
-      }
-    }
+    height: 80rpx;
   }
 
-  .bet-bar-bottom {
+  .left-section {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 12rpx;
-    padding: 0 20rpx 10rpx;
+    flex: 1;
+    padding: 10rpx 0rpx 10rpx 20rpx;
+  }
 
-    .combo-item {
-      padding: 10rpx 22rpx;
-      border: 1rpx solid #d92929;
-      border-radius: 8rpx;
-      font-size: 28rpx;
-      color: #d92929;
-      cursor: pointer;
-      background-color: #fff5f5;
-      &.active {
-        background-color: #d92929;
-        color: #fff;
-      }
-      &.disabled {
-        border-color: #ccc;
-        color: #ccc;
-        background-color: #f5f5f5;
-        cursor: not-allowed;
-      }
+  .clear-icon {
+    width: 42rpx;
+    height: 42rpx;
+    opacity: 1;
+    &.disabled {
+      opacity: 0.2;
+      pointer-events: none;
     }
   }
+
+  .text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4rpx;
+  }
+
+  .selected-text {
+    font-size: 28rpx;
+    color: #666;
+    font-weight: 400;
+  }
+
+  .risk-tip {
+    font-size: 20rpx;
+    color: #999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .confirm-btn {
+    width: 140rpx;
+    background-color: #d92929;
+    color: #fff;
+    border-radius: 8rpx;
+    font-size: 28rpx;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:disabled {
+      background-color: #ccc;
+      color: #999;
+    }
+  }
+}
+
+/* 彻底删除原有串关和倍数相关样式 */
+.bet-bar-top,
+.bet-bar-bottom,
+.top-middle {
+  display: none !important;
 }
 
 .type-popup {

@@ -1,21 +1,19 @@
 <template>
-  <view class="container" @touchstart="onTouchStart" 
-    @touchend="onTouchEnd"
-    style="width: 100%; height: 100vh; box-sizing: border-box;">
+  <view class="container" style="width: 100%; height: 100vh; box-sizing: border-box;">
     <!-- 头部 -->
     <view class="header">
       <image class="avatar" src="@/static/mine1.png" mode="aspectFill"></image>
       <view class="user-info">
         <text class="username">{{ userInfo.remarkName || '' }}</text>
-        <text class="stone-count">{{ userInfo.coinAmount || 0 }} 灵石</text>
+        <text class="stone-count">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
     </view>
 
     <!-- Tab栏：调整顺序，竞猜放第一个 -->
     <view class="tab-bar">
       <!-- <view class="tab-item" :class="{ active: currentTab === 0 }" @click="switchTab(0)">模拟</view> -->
-      <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">交易记录</view>
-      <view class="tab-item" :class="{ active: currentTab === 2 }" @click="switchTab(2)">充值记录</view>
+      <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">分析记录</view>
+      <view class="tab-item" :class="{ active: currentTab === 2 }" @click="switchTab(2)">充币记录</view>
     </view>
 
     <!-- 内容区 -->
@@ -75,7 +73,7 @@
         <view class="record-card" v-for="(item, index) in tradeRecord" :key="index">
           <view class="record-row">
             <view class="normal-col">
-              <text class="label">支付灵石</text>
+              <text class="label">支付币</text>
               <text class="value accent">{{ item.payment_coin || 0 }} 个</text>
             </view>
             <view class="normal-col">
@@ -104,7 +102,7 @@
               <text class="value highlight">{{ item.payment || 0 }} 元</text>
             </view>
             <view class="normal-col">
-              <text class="label">获得灵石</text>
+              <text class="label">获得币</text>
               <text class="value accent">{{ item.coin_amount || 0 }} 个</text>
             </view>
             <view class="time-col">
@@ -155,28 +153,6 @@ export default {
     this.getData();
   },
   methods: {
-        onTouchStart(e) {
-      // 记录触摸起始X坐标
-      this.touchStartX = e.changedTouches[0].clientX;
-    },
-    onTouchEnd(e) {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diffX = touchEndX - this.touchStartX; // 差值：正=右滑，负=左滑
-      
-      // 判定有效滑动（超过阈值）
-      if (Math.abs(diffX) < this.swipeThreshold) return;
-      
-      // 获取Tabbar组件实例，调用切换方法
-      const tabbar = this.$refs.nativeTabbar;
-      if (!tabbar) return;
-      
-      // 左滑（diffX<0）→ 下一个Tab；右滑（diffX>0）→ 上一个Tab
-      if (diffX < 0) {
-        tabbar.switchTabBySwipe('left'); // 左滑切换下一个
-      } else {
-        tabbar.switchTabBySwipe('right'); // 右滑切换上一个
-      }
-    },
     openImagePreview(imagePath) {
       if (!imagePath) return uni.showToast({ title: '暂无彩票图片', icon: 'none' });
       this.previewImageUrl = this.defaultLotteryImageUrl + imagePath;

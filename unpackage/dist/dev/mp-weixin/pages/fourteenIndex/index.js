@@ -151,37 +151,37 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var List = function List() {
   __webpack_require__.e(/*! require.ensure | pages/fourteenIndex/list */ "pages/fourteenIndex/list").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/fourteenIndex/list.vue */ 403));
+    return resolve(__webpack_require__(/*! @/pages/fourteenIndex/list.vue */ 443));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 304));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 344));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var ReminderDialog = function ReminderDialog() {
   __webpack_require__.e(/*! require.ensure | pages/commn/ReminderDialog */ "pages/commn/ReminderDialog").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/ReminderDialog.vue */ 368));
+    return resolve(__webpack_require__(/*! @/pages/commn/ReminderDialog.vue */ 408));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 318));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 358));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 375));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 415));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var BetBar = function BetBar() {
   __webpack_require__.e(/*! require.ensure | pages/commn/betBar/index */ "pages/commn/betBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 389));
+    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 429));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var DrawNumSelector = function DrawNumSelector() {
   __webpack_require__.e(/*! require.ensure | pages/commn/DrawNumSelector/index */ "pages/commn/DrawNumSelector/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 396));
+    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 436));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -428,7 +428,7 @@ var _default = {
                 }
                 _context2.next = 15;
                 return uni.navigateTo({
-                  url: "/pages/edit/football/index",
+                  url: "/pages/fourteenIndex/editFourteen",
                   events: {
                     updateSelectedMatches: function updateSelectedMatches(updatedData) {
                       return _this3.syncUpdatedMatches(updatedData);
@@ -669,47 +669,47 @@ var _default = {
                 _this7.showLoading();
                 reqParams = {
                   id: item.id,
-                  beFrom: 'football',
-                  serialNumber: item.serial_number || '',
-                  isLottery: 1
-                };
+                  isLottery: 1,
+                  isTradition: 1
+                }; // 调用recharge接口
                 _context4.next = 5;
                 return (0, _demo.recharge)(reqParams);
               case 5:
                 res = _context4.sent;
-                if (!res.data) {
-                  _context4.next = 10;
+                if (!(res.data.status == 'fail')) {
+                  _context4.next = 12;
                   break;
                 }
+                // isLottery=1 表示无灵石，显示充值弹窗
                 _this7.isDialogShow = true;
                 _this7.hideLoading();
                 return _context4.abrupt("return");
-              case 10:
-                _context4.next = 12;
-                return uni.navigateTo({
-                  url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&serialNumber=").concat(reqParams.serialNumber, "&beFrom=").concat(reqParams.beFrom)
-                });
               case 12:
-                _context4.next = 18;
-                break;
+                _context4.next = 14;
+                return uni.navigateTo({
+                  url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&isTradition=1")
+                });
               case 14:
-                _context4.prev = 14;
+                _context4.next = 20;
+                break;
+              case 16:
+                _context4.prev = 16;
                 _context4.t0 = _context4["catch"](0);
                 console.error('[AI分析] 失败:', _context4.t0);
                 uni.showToast({
                   title: '网络异常，请稍后重试',
                   icon: 'none'
                 });
-              case 18:
-                _context4.prev = 18;
+              case 20:
+                _context4.prev = 20;
                 _this7.hideLoading();
-                return _context4.finish(18);
-              case 21:
+                return _context4.finish(20);
+              case 23:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, null, [[0, 14, 18, 21]]);
+        }, _callee4, null, [[0, 16, 20, 23]]);
       }))();
     },
     showLoading: function showLoading() {

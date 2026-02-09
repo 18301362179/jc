@@ -250,7 +250,14 @@ export const recharge = (data) => {
 export const wxPay = (data) => {
     return request({
         url: baseUrl + '/platform/pay/wx/placeOrder',
-        method: 'GET',
+        method: 'POST',
+        data
+    })
+}
+export const payConfirm = (data) => {
+    return request({
+        url: baseUrl + '/platform/pay/wx/payConfirm',
+        method: 'POST',
         data
     })
 }

@@ -1,6 +1,5 @@
 <template>
-  <view @touchstart="onTouchStart" 
-    @touchend="onTouchEnd"
+  <view
     style="width: 100%; height: 100vh; box-sizing: border-box;">
     <!-- 顶部导航 -->
     <CustomHeader
@@ -18,8 +17,8 @@
       :draw-num-list="drawNumList"
       :current-draw-num="currentDrawNum"
       :nav-bar-total-height="navBarTotalHeight"
-      @draw-num-change="onDrawNumChange"
-      @rule-click="handleFunnel"/>
+      :title="title"
+      @draw-num-change="onDrawNumChange"/>
     <!-- 滚动列表区域 -->
     <scroll-view 
       class="match-scroll" 
@@ -124,6 +123,7 @@ export default {
       touchStartX: 0,
       swipeThreshold: 50,
       hasData: false,
+      title:'',
       navBarTotalHeight: 88 // 🌟 补全缺失的变量声明，兜底默认值
     };
   },
@@ -250,14 +250,6 @@ export default {
         icon: "success"
       });
     },
-    onTouchStart(e) {
-      this.touchStartX = e.changedTouches[0].clientX;
-    },
-    onTouchEnd(e) {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diffX = touchEndX - this.touchStartX;
-      if (Math.abs(diffX) < this.swipeThreshold) return;
-    },
     calcPopupMaxHeight() {
       const systemInfo = uni.getSystemInfoSync();
       let windowHeight = systemInfo.windowHeight;
@@ -310,7 +302,7 @@ export default {
         
         if (res.data) {
           await uni.navigateTo({
-            url: "/pages/edit/football/index",
+            url: "/pages/fourIndex/editFour",
             events: { updateSelectedMatches: function(updatedData) {
               this.syncUpdatedMatches(updatedData);
             }.bind(this) },
@@ -422,7 +414,11 @@ export default {
         this.drawNumList = (resNum && resNum.data ? resNum.data : []).filter(function(num) {
           return num && num.trim() !== "";
         });
-        
+        let endTime = "";
+      if (resNum.data[0] && resNum.data[0].sale_end_time) {
+        endTime = resNum.data[0].sale_end_time;
+      }
+      this.title = "截止时间：" + endTime;
         // 2. 赋值请求期数（优先用传入的，无则用过滤后的第一个有效期数）
         let targetDrawNum = drawNum || this.currentDrawNum;
         if (!targetDrawNum && this.drawNumList.length > 0) {
@@ -471,8 +467,7 @@ export default {
       if (matchArray[0] && matchArray[0].sale_end_time) {
         endTime = matchArray[0].sale_end_time;
       }
-      const unifiedTitle = drawNum + "期 |  共" + totalCount + "场比赛 " + "截止时间：" + endTime;
-
+      const unifiedTitle = "截止时间：" + endTime;
       // 2. 处理所有比赛数据，保留原始字段+初始化选中状态
       const allMatches = matchArray.map(function(item) {
         // 初始化选中数组，防止无此字段的情况
@@ -501,26 +496,27 @@ export default {
         this.showLoading();
         const reqParams = {
           id: item.id,
-          beFrom: 'football',
-          serialNumber: item.serial_number || '',
-          isLottery: 1
+          isLottery: 1,
+          isTradition: 1
         };
-        const res = await recharge(reqParams);
-        // 兼容无res.data的情况
-        if (res && res.data) {
-          this.isDialogShow = true;
-          this.hideLoading();
-          return;
-        }
-        await uni.navigateTo({ 
-          url: "/pages/test/index?id=" + item.id + "&isLottery=1&serialNumber=" + reqParams.serialNumber + "&beFrom=" + reqParams.beFrom
-        });
-      } catch (err) {
-        console.error('[AI分析] 失败:', err);
-        uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
-      } finally {
+    // 调用recharge接口
+    const res = await recharge(reqParams);
+    if (res.data.status == 'fail') {
+      // isLottery=1 表示无灵石，显示充值弹窗
+        this.isDialogShow = true;
         this.hideLoading();
-      }
+        return;
+    } else {
+            // 有灵石，正常跳转分析页
+          await uni.navigateTo({
+            url: `/pages/test/index?id=${item.id}&isLottery=1&isTradition=1`,
+          });
+    }
+  } catch (err) {
+    uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
+  } finally {
+    this.hideLoading();
+  }
     },
     showLoading() {
       uni.showLoading({

@@ -66,7 +66,7 @@
 /* ========== 核心重构：比赛行样式（和比分/半全场统一） ========== */
 .match-row.data-v-88186c0e {
   background-color: #fff;
-  border-bottom: 1rpx solid #DEDEDE;
+  border-bottom: 1rpx solid #dedede;
   padding: 0rpx 20rpx;
   display: flex;
   flex-direction: column;
@@ -156,7 +156,8 @@
   text-align: left;
   gap: 2rpx;
 }
-.serial-number.data-v-88186c0e, .match-time.data-v-88186c0e {
+.serial-number.data-v-88186c0e,
+.match-time.data-v-88186c0e {
   width: 100%;
   font-size: 20rpx;
   color: #999;
@@ -238,6 +239,9 @@
   text-align: left;
   padding-left: 10rpx;
 }
+.rate-row .vs-text.data-v-88186c0e {
+  width: 140rpx;
+}
 /* 让分胜负选项区：和比分选择区统一样式 */
 .bottom-right.data-v-88186c0e {
   width: 100%;
@@ -246,7 +250,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1rpx solid #DEDEDE;
+  border: 1rpx solid #dedede;
   border-radius: 8rpx;
   padding: 8rpx 0;
   background-color: #f9f9f9;
@@ -290,5 +294,24 @@
 /* 全局样式：隐藏滚动条 */
 .data-v-88186c0e::-webkit-scrollbar {
   display: none;
+}
+.stop-bg.data-v-88186c0e {
+  background-color: #dedede;
+}
+.disabled-trigger.data-v-88186c0e {
+  pointer-events: none;
+  opacity: 0.8;
+}
+.stop-cell.data-v-88186c0e {
+  background-color: #dedede !important;
+  color: #999 !important;
+  cursor: not-allowed;
+}
+.stop-cell.data-v-88186c0e:active {
+  background-color: #dedede !important;
+}
+.stop-cell.selected.data-v-88186c0e {
+  background-color: #dedede !important;
+  color: #999 !important;
 }
 

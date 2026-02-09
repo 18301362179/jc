@@ -71,7 +71,7 @@
     }">
       <view class="bet-bar-top">
         <view class="top-left">
-          {{ selectedCombo === 'single' ? '单关' : (selectedCombo || '').replace('c1', '串1') }}
+          {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
         </view>
         <view class="multi-group">
           <text class="multi-label">投</text>

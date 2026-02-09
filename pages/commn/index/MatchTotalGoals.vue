@@ -3,32 +3,25 @@
     <!-- 抽屉循环容器（兼容原有matchList，无侵入） -->
     <view v-for="(drawer, drawerIdx) in finalDrawerList" :key="drawerIdx" class="drawer-wrapper">
       <!-- 吸顶标题栏（适配statusBarHeight，点击展开/收起） -->
-      <view class="date-title sticky-header" 
-        :style="{ top: stickyHeaderTop + 'rpx' }"
-        @click="toggleDrawer(drawerIdx)"
-      >
+      <view class="date-title sticky-header" :style="{ top: stickyHeaderTop + 'rpx' }" @click="toggleDrawer(drawerIdx)">
         <text>{{ drawer.title }}</text>
         <view class="arrow-icon" :class="{ rotated: expandedDrawers[drawerIdx] }">↓</view>
       </view>
 
       <!-- 抽屉内容：总进球列表（保留原有总进球所有结构） -->
       <view class="drawer-content" v-show="expandedDrawers[drawerIdx]">
-        <view v-for="(item) in drawer.lotteryList" :key="item.id" class="match-row" style="background: #F6F6F6;">
+        <view v-for="item in drawer.lotteryList" :key="item.id" class="match-row" style="background: #f6f6f6">
           <!-- 第一行：状态行（停/单场 + 分析）- 修复事件兼容 -->
           <view class="match-status-row">
             <view class="status-left">
               <!-- 单场标签：无停时，根据is_zjq_single显示 -->
               <text class="single-tag" v-if="item.is_zjq_single == 1 && item.is_stop == 0">单场</text>
+              <!-- 新增：停售标签 -->
+              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜率数据时显示 → 修复@tap.stop改为@click.stop -->
-              <view 
-                class="ai-analysis-btn" 
-                v-if="item.home_win_rate && item.visiting_win_rate"
-                @click.stop="() => goToAiAnalysis(item)"
-              >
-                分析
-              </view>
+              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> 分析 </view>
             </view>
           </view>
 
@@ -51,34 +44,40 @@
               </view>
               <!-- 胜率&进球数行 -->
               <view class="rate-row">
-                <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || '--' }}</text>
-                <text class="vs-text"></text>
-                <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || '--' }}</text>
+                <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
+                <text class="vs-text">{{ item.draw_rate ? "平率" + item.draw_rate : "" }}</text>
+                <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
               </view>
               <!-- 总进球选项 -->
               <view class="total-goals-cells">
                 <view class="goals-row">
-                  <view 
-                    v-for="(goal, gIdx) in goalsOptions.slice(0,4)" 
+                  <view
+                    v-for="(goal, gIdx) in goalsOptions.slice(0, 4)"
                     :key="gIdx"
                     class="goal-option"
-                    :class="{ selected: item.selectedGoals && item.selectedGoals.includes(goal.value) }"
+                    :class="{
+                      selected: item.selectedGoals && item.selectedGoals.includes(goal.value),
+                      disabled: item.is_stop == 1, // 新增：停售禁用类
+                    }"
                     @click="() => checkAndSelect(item, goal.value)"
                   >
                     <text class="goal-text">{{ goal.label }}</text>
-                    <text class="goal-odds">{{ item[goal.field] || '' }}</text>
+                    <text class="goal-odds">{{ item[goal.field] || "" }}</text>
                   </view>
                 </view>
                 <view class="goals-row">
-                  <view 
-                    v-for="(goal, gIdx) in goalsOptions.slice(4,8)" 
+                  <view
+                    v-for="(goal, gIdx) in goalsOptions.slice(4, 8)"
                     :key="gIdx"
                     class="goal-option"
-                    :class="{ selected: item.selectedGoals && item.selectedGoals.includes(goal.value) }"
+                    :class="{
+                      selected: item.selectedGoals && item.selectedGoals.includes(goal.value),
+                      disabled: item.is_stop == 1, // 新增：停售禁用类
+                    }"
                     @click="() => checkAndSelect(item, goal.value)"
                   >
                     <text class="goal-text">{{ goal.label }}</text>
-                    <text class="goal-odds">{{ item[goal.field] || '' }}</text>
+                    <text class="goal-odds">{{ item[goal.field] || "" }}</text>
                   </view>
                 </view>
               </view>
@@ -98,25 +97,25 @@ export default {
     statusBarHeight: { type: Number, default: 0 },
     goToAiAnalysis: { type: Function, required: true },
     // 新增：抽屉列表（兜底兼容，不影响原有使用）
-    drawerList: { type: Array, default: () => [] }
+    drawerList: { type: Array, default: () => [] },
   },
   data() {
     return {
       // 原有总进球选项配置：完全保留
       goalsOptions: [
-        { label: '0', value: 0, field: 'zjq_ling' },
-        { label: '1', value: 1, field: 'zjq_yi' },
-        { label: '2', value: 2, field: 'zjq_er' },
-        { label: '3', value: 3, field: 'zjq_san' },
-        { label: '4', value: 4, field: 'zjq_si' },
-        { label: '5', value: 5, field: 'zjq_wu' },
-        { label: '6', value: 6, field: 'zjq_liu' },
-        { label: '7+', value: 7, field: 'zjq_qi_jia' }
+        { label: "0", value: 0, field: "zjq_ling" },
+        { label: "1", value: 1, field: "zjq_yi" },
+        { label: "2", value: 2, field: "zjq_er" },
+        { label: "3", value: 3, field: "zjq_san" },
+        { label: "4", value: 4, field: "zjq_si" },
+        { label: "5", value: 5, field: "zjq_wu" },
+        { label: "6", value: 6, field: "zjq_liu" },
+        { label: "7+", value: 7, field: "zjq_qi_jia" },
       ],
       // 新增：抽屉展开状态（不影响原有逻辑）
       expandedDrawers: [],
       statusBarHeightRpx: 0,
-      windowWidth: 0 // 修正：删除多余空格
+      windowWidth: 0, // 修正：删除多余空格
     };
   },
   computed: {
@@ -126,17 +125,15 @@ export default {
         return this.drawerList;
       }
       // 兜底标题沿用原有格式：“周四 2025-12-04 共X场比赛”
-      return this.matchList.length > 0 
-        ? [{ title: `周四 2025-12-04 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] 
-        : [];
+      return this.matchList.length > 0 ? [{ title: `周四 2025-12-04 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] : [];
     },
     // 实时统计：已选中的总进球比赛数量（适配总进球选中逻辑）
     selectedMatchCount() {
       let count = 0;
       // 遍历所有抽屉
-      this.finalDrawerList.forEach(drawer => {
+      this.finalDrawerList.forEach((drawer) => {
         // 遍历抽屉内所有比赛
-        drawer.lotteryList.forEach(item => {
+        drawer.lotteryList.forEach((item) => {
           // 总进球选中逻辑：selectedGoals存在且长度>0 → 算1场
           if (item.selectedGoals && item.selectedGoals.length > 0) {
             count++;
@@ -152,14 +149,14 @@ export default {
     },
     // 修复：移到computed里（原错误写在methods）
     stickyHeaderTop() {
-      return this.statusBarHeightRpx + 88; // 44px=88rpx，7px=14rpx
-    }
+      return this.statusBarHeightRpx + 88 - 10; // 3rpx是通用微调值，可按实际偏移动2/4
+    },
   },
   watch: {
     // 新增：抽屉列表变化时重置展开状态
     finalDrawerList(newVal) {
       this.expandedDrawers = newVal.map(() => true);
-    }
+    },
   },
   created() {
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
@@ -178,7 +175,7 @@ export default {
         // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
         const systemInfo = uni.getSystemInfoSync();
         this.windowWidth = systemInfo.windowWidth || 375;
-        console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
+        console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
     },
     // 修正后的px转rpx：使用新API获取的windowWidth，优化精度
@@ -193,6 +190,11 @@ export default {
     },
     // 核心：校验8场限制 + 调用原有toggleGoalSelect
     checkAndSelect(item, goalValue) {
+      // 新增：停售状态直接返回，禁止点击
+      if (item.is_stop == 1) {
+        return;
+      }
+
       // 1. 判断当前比赛是否已被选中（总进球逻辑）
       const isCurrentMatchSelected = item.selectedGoals && item.selectedGoals.length > 0;
       // 2. 判断当前点击的是「取消选中」还是「新增选中」
@@ -204,17 +206,17 @@ export default {
         // 未被选中 → 新增会占用1个名额
         if (!isCurrentMatchSelected && this.selectedMatchCount >= 8) {
           uni.showToast({
-            title: '最多只能选择8场比赛',
-            icon: 'none',
-            duration: 2000
+            title: "最多只能选择8场比赛",
+            icon: "none",
+            duration: 2000,
           });
           return; // 超过限制，阻止选中
         }
       }
       // 4. 保留原有逻辑：调用父组件的toggleGoalSelect（保证点击有效）
       this.$emit("toggle-goal-select", item, goalValue);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -349,7 +351,7 @@ export default {
           padding-left: 10rpx;
         }
         .vs-text {
-          width: 40rpx;
+          width: 140rpx;
           text-align: center;
           flex-shrink: 0;
         }
@@ -359,7 +361,7 @@ export default {
       .total-goals-cells {
         display: flex;
         flex-direction: column;
-        border: 1rpx solid #DEDEDE;
+        border: 1rpx solid #dedede;
         border-radius: 8rpx;
         overflow: hidden;
       }
@@ -382,6 +384,18 @@ export default {
         border-bottom: 1rpx solid #eee;
         cursor: pointer;
         height: 60rpx;
+
+        // 新增：停售禁用样式
+        &.disabled {
+          background-color: #dedede !important;
+          cursor: not-allowed;
+          pointer-events: none;
+
+          .goal-text,
+          .goal-odds {
+            color: #999 !important;
+          }
+        }
 
         &:nth-child(4) {
           border-right: none;
@@ -422,11 +436,15 @@ export default {
   background-color: #f5f5f5;
   box-sizing: border-box;
   padding-bottom: 140rpx;
-// #ifdef MP-WEIXIN
+  // #ifdef MP-WEIXIN
   padding-bottom: 230rpx;
-// #endif
+  // #endif
 }
-.drawer-wrapper { width: 100%; margin-bottom: 8rpx; background: #f5f5f5 }
+.drawer-wrapper {
+  width: 100%;
+  margin-bottom: 8rpx;
+  background: #f5f5f5;
+}
 
 .sticky-header {
   position: sticky;
@@ -441,11 +459,10 @@ export default {
   font-size: 26rpx;
   color: #333;
 
-  
   .arrow-icon {
     transition: transform 0.2s;
   }
-  
+
   .rotated {
     transform: rotate(180deg);
   }

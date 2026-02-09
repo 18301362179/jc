@@ -24,7 +24,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-/* 样式代码完全保留，一行不动 */
+/* 样式部分保持不变 */
 .scheme-edit-page.data-v-e62b6240 {
   background-color: #f5f5f5;
   box-sizing: border-box;
@@ -53,7 +53,6 @@
 .match-list.data-v-e62b6240 {
   width: 100%;
   box-sizing: border-box;
-  /* 赛事行：保留原有业务样式，仅微调布局 */
 }
 .match-list .match-row.data-v-e62b6240 {
   background-color: #fff;
@@ -61,8 +60,6 @@
   padding: 26rpx 20rpx;
   box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
   border-radius: 8rpx;
-  /* 上排：编号 + 队名VS队名 */
-  /* 下排：选中内容（一整行） */
 }
 .match-list .match-row .match-header.data-v-e62b6240 {
   display: flex;
@@ -81,17 +78,43 @@
   text-align: center;
 }
 .match-list .match-row .match-header .team-name .vs-text.data-v-e62b6240 {
-  margin: 0 10rpx;
+  margin: 0 10rpx !important;
   color: #999;
 }
 .match-list .match-row .selected-content.data-v-e62b6240 {
-  text-align: center;
-  font-size: 32rpx;
+  background: #f9f9f9;
+  border-radius: 4rpx;
+  padding: 12rpx;
+}
+.match-list .match-row .selected-content .bet-item.data-v-e62b6240 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+.match-list .match-row .selected-content .bet-item.data-v-e62b6240:last-child {
+  margin-bottom: 0;
+}
+.match-list .match-row .selected-content .bet-item .bet-label.data-v-e62b6240 {
+  font-size: 24rpx;
+  color: #666;
+  width: 180rpx;
+}
+.match-list .match-row .selected-content .bet-item .bet-value.data-v-e62b6240 {
+  font-size: 24rpx;
+  color: #333;
+  flex: 1;
+}
+.match-list .match-row .selected-content .bet-item .highlight.data-v-e62b6240 {
   color: #d92929;
   font-weight: 500;
-  background: #f1f1f1;
-  border-radius: 10rpx;
-  padding: 16rpx 0;
+}
+.match-list .match-row .selected-content .empty-bet.data-v-e62b6240 {
+  text-align: center;
+  padding: 10rpx 0;
+}
+.match-list .match-row .selected-content .empty-bet .trigger-tip.data-v-e62b6240 {
+  font-size: 24rpx;
+  color: #999;
 }
 .match-list .empty-tip.data-v-e62b6240 {
   text-align: center;
@@ -111,14 +134,16 @@
   box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   padding-bottom: 0 !important;
   box-sizing: border-box !important;
-  height: 80rpx !important;
-  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
+  height: auto !important;
+  bottom: 0 !important;
 }
 .bet-bar .bet-bar-top.data-v-e62b6240 {
-  background: #fff;
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
+  height: 80rpx;
+  padding: 10rpx 20rpx;
+  border-bottom: 2rpx solid #eee;
 }
 .bet-bar .bet-bar-top .top-left.data-v-e62b6240 {
   font-size: 28rpx;
@@ -130,29 +155,19 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.bet-bar .bet-bar-top .collapse-area.data-v-e62b6240 {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  height: 80rpx;
-  box-sizing: border-box;
-  padding: 10rpx 20rpx;
-  border-bottom: 2rpx solid #eee;
-}
-.bet-bar .bet-bar-top .collapse-area .multi-group.data-v-e62b6240 {
+.bet-bar .bet-bar-top .multi-group.data-v-e62b6240 {
   display: flex;
   align-items: center;
   gap: 10rpx;
 }
-.bet-bar .bet-bar-top .collapse-area .multi-group .multi-label.data-v-e62b6240 {
-  height: 100%;
+.bet-bar .bet-bar-top .multi-group .multi-label.data-v-e62b6240 {
   font-size: 30rpx;
   color: #333;
 }
-.bet-bar .bet-bar-top .collapse-area .multi-group .multi-btn.data-v-e62b6240 {
+.bet-bar .bet-bar-top .multi-group .multi-btn.data-v-e62b6240 {
   width: 52rpx;
   height: 52rpx;
-  background-color: #ddd;
+  background: #ddd;
   color: #333;
   font-size: 32rpx;
   display: flex;
@@ -161,29 +176,31 @@
   border: 1rpx solid #ccc;
   padding: 0;
   margin: 0;
-  border-radius: 0;
-  line-height: 1;
+  border-radius: 4rpx;
 }
-.bet-bar .bet-bar-top .collapse-area .multi-group .multi-input.data-v-e62b6240 {
+.bet-bar .bet-bar-top .multi-group .multi-input.data-v-e62b6240 {
   width: 180rpx;
   height: 52rpx;
-  background-color: #fff;
+  background: #fff;
   color: #333;
   text-align: center;
   font-size: 30rpx;
   border: 1rpx solid #ccc;
   padding: 0;
   box-sizing: border-box;
-  border-radius: 0;
+  border-radius: 4rpx;
+}
+.bet-bar .bet-bar-top .multi-group .multi-unit.data-v-e62b6240 {
+  font-size: 30rpx;
+  color: #333;
 }
 .bet-bar .bet-bar-bottom.data-v-e62b6240 {
   display: flex;
   align-items: center;
   height: 100rpx;
-  background-color: #232323;
+  background: #232323;
   color: #fff;
-  box-sizing: border-box;
-  padding: 0 20rpx;
+  padding: 0 40rpx;
 }
 .bet-bar .bet-bar-bottom .bottom-middle.data-v-e62b6240 {
   flex: 1;
@@ -191,10 +208,8 @@
   flex-direction: column;
   justify-content: center;
   margin: 0 20rpx;
-  height: 100%;
 }
 .bet-bar .bet-bar-bottom .bottom-middle .select-tip.data-v-e62b6240 {
-  height: 50rpx;
   font-size: 28rpx;
   color: #fff;
   text-align: center;
@@ -202,34 +217,9 @@
 .bet-bar .bet-bar-bottom .bottom-middle .bonus-tip.data-v-e62b6240 {
   font-size: 18rpx;
   color: #999;
-  line-height: 1.2;
   text-align: center;
+  line-height: 1.2;
 }
-.bet-bar .bet-bar-bottom .bottom-right.data-v-e62b6240 {
-  width: 200rpx;
-}
-.bet-bar .bet-bar-bottom .bottom-right .confirm-btn.data-v-e62b6240 {
-  width: 100%;
-  height: 76rpx;
-  background-color: #d92929;
-  color: #fff;
-  border-radius: 8rpx;
-  font-size: 28rpx;
-  border: none;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[disabled].data-v-e62b6240 {
-  background-color: #666;
-  color: #aaa;
-  cursor: not-allowed;
-}
-.bet-bar .bet-bar-bottom .bottom-right .confirm-btn.data-v-e62b6240:active {
-  opacity: 0.8;
-}
-/* 手机号弹窗：保留原有样式，和胜平负页面一致 */
 .phone-modal.data-v-e62b6240 {
   position: fixed;
   top: 0;
@@ -298,5 +288,12 @@
 }
 .data-v-e62b6240::-webkit-scrollbar {
   display: none;
+}
+button.data-v-e62b6240::after {
+  border: none;
+}
+.disabled.data-v-e62b6240 {
+  color: #999 !important;
+  border-color: #eee !important;
 }
 
