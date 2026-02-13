@@ -276,10 +276,9 @@ var _default = {
     },
     // 计算适配高度（兼容App/小程序）
     calcAllHeights: function calcAllHeights() {
-      var _sys$safeAreaInsets;
       var sys = uni.getSystemInfoSync();
       this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = sys.platform === "ios" && ((_sys$safeAreaInsets = sys.safeAreaInsets) === null || _sys$safeAreaInsets === void 0 ? void 0 : _sys$safeAreaInsets.bottom) || 0;
+      this.safeAreaBottom = sys.safeAreaInsets && sys.safeAreaInsets.bottom || 0;
 
       // 导航栏高度（80rpx转px）
       var navBarFixedRpx = 80;

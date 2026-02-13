@@ -189,10 +189,6 @@ export default {
     uni.setTabBarStyle({ height: '0px' });
   },
   created() {
-    const sys = uni.getSystemInfoSync();
-    // 识别运行环境：App端（android/ios）、小程序端（mp-weixin）
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
     // 计算所有高度
     this.calcAllHeights();
   },
@@ -254,7 +250,7 @@ export default {
       // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
       // 2. 底部安全区高度（小程序端后续会强制置0，避免空白）
-      this.safeAreaBottom = sys.safeAreaInsets?.bottom || 0;
+      this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       // 3. 导航栏固定高度（设计稿80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;

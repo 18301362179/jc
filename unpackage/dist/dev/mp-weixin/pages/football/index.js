@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["pages/football/index"],{
 
-/***/ 55:
+/***/ 72:
 /*!**********************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/main.js?{"page":"pages%2Ffootball%2Findex"} ***!
   \**********************************************************************************************************/
@@ -13,7 +13,7 @@
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 __webpack_require__(/*! uni-pages */ 26);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/football/index.vue */ 56));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/football/index.vue */ 73));
 // @ts-ignore
 wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
 createPage(_index.default);
@@ -21,7 +21,7 @@ createPage(_index.default);
 
 /***/ }),
 
-/***/ 56:
+/***/ 73:
 /*!***************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/football/index.vue ***!
   \***************************************************************************************/
@@ -30,10 +30,10 @@ createPage(_index.default);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _index_vue_vue_type_template_id_df9e872e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=df9e872e&scoped=true& */ 57);
-/* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ 59);
+/* harmony import */ var _index_vue_vue_type_template_id_df9e872e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=df9e872e&scoped=true& */ 74);
+/* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ 76);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _index_vue_vue_type_style_index_0_id_df9e872e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=df9e872e&scoped=true&lang=scss& */ 63);
+/* harmony import */ var _index_vue_vue_type_style_index_0_id_df9e872e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=df9e872e&scoped=true&lang=scss& */ 79);
 /* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 39);
 
 var renderjs
@@ -62,7 +62,7 @@ component.options.__file = "pages/football/index.vue"
 
 /***/ }),
 
-/***/ 57:
+/***/ 74:
 /*!**********************************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/football/index.vue?vue&type=template&id=df9e872e&scoped=true& ***!
   \**********************************************************************************************************************************/
@@ -71,7 +71,7 @@ component.options.__file = "pages/football/index.vue"
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_template_id_df9e872e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=template&id=df9e872e&scoped=true& */ 58);
+/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_template_id_df9e872e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=template&id=df9e872e&scoped=true& */ 75);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_template_id_df9e872e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_template_id_df9e872e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -84,7 +84,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 58:
+/***/ 75:
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/football/index.vue?vue&type=template&id=df9e872e&scoped=true& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -152,7 +152,7 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ 59:
+/***/ 76:
 /*!****************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/football/index.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************************************/
@@ -161,14 +161,14 @@ render._withStripped = true
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=script&lang=js& */ 60);
+/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=script&lang=js& */ 77);
 /* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 60:
+/***/ 77:
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/football/index.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -188,8 +188,7 @@ var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/run
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var _data = __webpack_require__(/*! @/utils/data */ 61);
-var _validate = __webpack_require__(/*! @/utils/validate */ 62);
-var _methods;
+var _validate = __webpack_require__(/*! @/utils/validate */ 78);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var NativeTabbar = function NativeTabbar() {
@@ -199,27 +198,27 @@ var NativeTabbar = function NativeTabbar() {
 };
 var MatchSpf = function MatchSpf() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchSpf */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchSpf")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 365));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 400));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHandicap = function MatchHandicap() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchHandicap */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchHandicap")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 373));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 408));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchScore = function MatchScore() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchScore */ "pages/commn/index/MatchScore").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 380));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 415));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchTotalGoals = function MatchTotalGoals() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchTotalGoals */ "pages/commn/index/MatchTotalGoals").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 387));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 422));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHalfFull = function MatchHalfFull() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchHalfFull */ "pages/commn/index/MatchHalfFull").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 394));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 429));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
@@ -229,12 +228,7 @@ var CustomHeader = function CustomHeader() {
 };
 var MixedPassList = function MixedPassList() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MixedPassList */ "pages/commn/index/MixedPassList").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 401));
-  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var ReminderDialog = function ReminderDialog() {
-  __webpack_require__.e(/*! require.ensure | pages/commn/ReminderDialog */ "pages/commn/ReminderDialog").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/ReminderDialog.vue */ 408));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 436));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
@@ -244,7 +238,7 @@ var TipsPopup = function TipsPopup() {
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 415));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 443));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -256,7 +250,6 @@ var _default = {
     MatchTotalGoals: MatchTotalGoals,
     MatchHalfFull: MatchHalfFull,
     CustomHeader: CustomHeader,
-    ReminderDialog: ReminderDialog,
     TipsPopup: TipsPopup,
     EmptyStop: EmptyStop,
     // 注册混合过关组件
@@ -266,8 +259,8 @@ var _default = {
     return {
       // 新增：玩法列表添加混合过关
       typesList: ["混合过关", "胜平负", "让球胜平负", "总进球", "半全场", "比分"],
-      selectedType: ["混合过关"],
-      currentPlay: "混合过关",
+      selectedType: ["胜平负"],
+      currentPlay: "胜平负",
       showModal: false,
       hasToken: false,
       isPopupShowType: false,
@@ -279,7 +272,6 @@ var _default = {
       isLoading: false,
       selectedTime: "",
       headerHeight: 0,
-      isDialogShow: false,
       betCount: 1,
       selectedWays: [],
       statusBarHeight: 0,
@@ -313,119 +305,7 @@ var _default = {
       // 新增：触摸起始X坐标
       swipeThreshold: 50,
       // 新增：滑动判定阈值（px）
-      hasData: false,
-      // 混合过关新增：串型配置表
-      mixedComboConfig: {
-        2: [{
-          label: "2串1",
-          value: "2c1"
-        }, {
-          label: "2串3",
-          value: "2c3"
-        }],
-        3: [{
-          label: "3串1",
-          value: "3c1"
-        }, {
-          label: "3串4",
-          value: "3c4"
-        }, {
-          label: "3串7",
-          value: "3c7"
-        }],
-        4: [{
-          label: "4串1",
-          value: "4c1"
-        }, {
-          label: "4串5",
-          value: "4c5"
-        }, {
-          label: "4串11",
-          value: "4c11"
-        }, {
-          label: "4串15",
-          value: "4c15"
-        }],
-        5: [{
-          label: "5串1",
-          value: "5c1"
-        }, {
-          label: "5串6",
-          value: "5c6"
-        }, {
-          label: "5串16",
-          value: "5c16"
-        }, {
-          label: "5串20",
-          value: "5c20"
-        }, {
-          label: "5串26",
-          value: "5c26"
-        }],
-        6: [{
-          label: "6串1",
-          value: "6c1"
-        }, {
-          label: "6串7",
-          value: "6c7"
-        }, {
-          label: "6串22",
-          value: "6c22"
-        }, {
-          label: "6串35",
-          value: "6c35"
-        }, {
-          label: "6串42",
-          value: "6c42"
-        }, {
-          label: "6串57",
-          value: "6c57"
-        }],
-        7: [{
-          label: "7串1",
-          value: "7c1"
-        }, {
-          label: "7串8",
-          value: "7c8"
-        }, {
-          label: "7串29",
-          value: "7c29"
-        }, {
-          label: "7串64",
-          value: "7c64"
-        }, {
-          label: "7串84",
-          value: "7c84"
-        }, {
-          label: "7串120",
-          value: "7c120"
-        }, {
-          label: "7串127",
-          value: "7c127"
-        }],
-        8: [{
-          label: "8串1",
-          value: "8c1"
-        }, {
-          label: "8串9",
-          value: "8c9"
-        }, {
-          label: "8串37",
-          value: "8c37"
-        }, {
-          label: "8串88",
-          value: "8c88"
-        }, {
-          label: "8串120",
-          value: "8c120"
-        }, {
-          label: "8串168",
-          value: "8c168"
-        }, {
-          label: "8串247",
-          value: "8c247"
-        }]
-      }
+      hasData: false
     };
   },
   onPullDownRefresh: function onPullDownRefresh() {
@@ -541,13 +421,6 @@ var _default = {
     }
   },
   watch: {
-    // 场次变化/单场状态变化 → 重新生成串关列表
-    selectedMatchCount: function selectedMatchCount() {
-      this.generateComboList();
-    },
-    hasSingleMatch: function hasSingleMatch() {
-      this.generateComboList();
-    },
     // 监听玩法切换
     currentPlay: function currentPlay(newVal) {
       // 所有玩法都使用同一个加载方法
@@ -566,7 +439,6 @@ var _default = {
   mounted: function mounted() {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
-    this.generateComboList();
   },
   onShow: function onShow() {
     var editedData = uni.getStorageSync("editedMatchData");
@@ -581,12 +453,12 @@ var _default = {
       this.loadMatchData();
     }
   },
-  methods: (_methods = {
+  methods: {
     handleConfirmMixedSelect: function handleConfirmMixedSelect(confirmData) {
       var _this4 = this;
       try {
         // 容错：数据为空时提示用户，避免后续逻辑报错
-        if (!(confirmData !== null && confirmData !== void 0 && confirmData.finalDrawerList)) {
+        if (!confirmData || !confirmData.finalDrawerList) {
           uni.showToast({
             title: "数据同步失败，请重试",
             icon: "none"
@@ -777,102 +649,7 @@ var _default = {
         _this8.betCount = validVal;
       });
     },
-    getComboDisplayText: function getComboDisplayText() {
-      var matchCount = this.selectedMatchCount;
-      var hasSingle = this.hasSingleMatch;
-      if (matchCount === 1 && hasSingle) {
-        return "单关";
-      } else if (matchCount > 1) {
-        // 混合过关显示选中的串型名称
-        if (this.currentPlay === "混合过关" && this.selectedCombo) {
-          var comboMap = {};
-          // 构建串型映射表
-          Object.values(this.mixedComboConfig).forEach(function (comboGroup) {
-            comboGroup.forEach(function (combo) {
-              comboMap[combo.value] = combo.label;
-            });
-          });
-          return comboMap[this.selectedCombo] || "".concat(matchCount, "\u4E321");
-        }
-        return "".concat(matchCount, "\u4E321");
-      }
-      return "过关方式";
-    },
-    generateComboList: function generateComboList() {
-      var list = [];
-      var matchCount = this.selectedMatchCount;
-      var hasSingle = this.hasSingleMatch;
-      this.comboList = [];
-      if (matchCount === 0) {
-        this.selectedCombo = "";
-        return;
-      }
-
-      // 混合过关串关逻辑（增强）
-      if (this.currentPlay === "混合过关") {
-        if (matchCount === 1 && hasSingle) {
-          list.push({
-            label: "单关",
-            value: "single",
-            enabled: true
-          });
-          this.selectedCombo = "single";
-        } else if (matchCount >= 2 && matchCount <= 8) {
-          // 从配置表获取对应串型
-          var comboGroup = this.mixedComboConfig[matchCount] || [];
-          comboGroup.forEach(function (combo) {
-            list.push({
-              label: combo.label,
-              value: combo.value,
-              enabled: true
-            });
-          });
-          // 默认选中N串1
-          this.selectedCombo = "".concat(matchCount, "c1");
-        }
-      }
-      // 原有玩法串关逻辑
-      else {
-        if (matchCount === 1 && hasSingle) {
-          list.push({
-            label: "单关",
-            value: "single",
-            enabled: true
-          });
-          this.selectedCombo = "single";
-        } else if (matchCount >= 2) {
-          for (var i = 2; i <= 8; i++) {
-            list.push({
-              label: "".concat(i, "\u4E321"),
-              value: "".concat(i, "c1"),
-              enabled: i <= matchCount
-            });
-          }
-          this.selectedCombo = "".concat(matchCount, "c1");
-        }
-      }
-      this.comboList = list;
-    },
-    handleComboSelect: function handleComboSelect(item) {
-      if (!item.enabled) return;
-      this.selectedCombo = item.value;
-    },
     handlePopupClose: function handlePopupClose() {},
-    getTipsContentFromApi: function getTipsContentFromApi() {
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        return _regenerator.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                try {} catch (err) {}
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
     calcPopupMaxHeight: function calcPopupMaxHeight() {
       var windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : uni.getSystemInfoSync();
       var windowHeight = windowInfo.windowHeight,
@@ -935,25 +712,39 @@ var _default = {
     */
     goToSchemeEdit: function goToSchemeEdit() {
       var _this10 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
-        var _selectedMatches, selectedMatches, formattedMatches;
-        return _regenerator.default.wrap(function _callee3$(_context3) {
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+        var _selectedMatches, hasSingleMatch, selectedMatches, formattedMatches, playToPageMap;
+        return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.prev = 0;
+                _context2.prev = 0;
                 if (!(_this10.selectedMatchCount === 0)) {
-                  _context3.next = 4;
+                  _context2.next = 4;
                   break;
                 }
                 uni.showToast({
                   title: "请先选择至少1场比赛",
                   icon: "none"
                 });
-                return _context3.abrupt("return");
+                return _context2.abrupt("return");
               case 4:
+                if (!(_this10.currentPlay != "混合过关")) {
+                  _context2.next = 8;
+                  break;
+                }
+                if (!(!_this10.hasSingleMatch && _this10.selectedMatchCount < 2)) {
+                  _context2.next = 8;
+                  break;
+                }
+                uni.showToast({
+                  title: "非单场赛事至少选择2场比赛",
+                  icon: "none"
+                });
+                return _context2.abrupt("return");
+              case 8:
                 if (!(_this10.currentPlay === "混合过关")) {
-                  _context3.next = 10;
+                  _context2.next = 18;
                   break;
                 }
                 // 关键修复1：遍历所有drawer，收集所有有选中项的场次（不再只取第一条）
@@ -980,6 +771,7 @@ var _default = {
                         home_name: match.home_name || match.homeTeam || "主队",
                         visiting_name: match.visiting_name || match.awayTeam || "客队",
                         is_stop: match.is_stop || false,
+                        is_hhgg_single: match.is_hhgg_single || false,
                         // 保留所有选中数据（不修改格式，原样传递给编辑页）
                         selectedSpf: match.selectedSpf || [],
                         selectedRspf: match.selectedRspf || [],
@@ -1013,8 +805,20 @@ var _default = {
                     }
                   });
                 });
-                // 跳转方案编辑页并传递选中数据
-                _context3.next = 9;
+                hasSingleMatch = _selectedMatches.some(function (match) {
+                  return match.is_hhgg_single;
+                }); // 2. 非单场场景：需要至少选择2场
+                if (!(!hasSingleMatch && _selectedMatches.length < 2)) {
+                  _context2.next = 15;
+                  break;
+                }
+                uni.showToast({
+                  title: "非单场赛事至少选择2场比赛",
+                  icon: "none"
+                });
+                return _context2.abrupt("return");
+              case 15:
+                _context2.next = 17;
                 return uni.navigateTo({
                   url: "/pages/edit/football/editHhgg",
                   events: {
@@ -1031,25 +835,12 @@ var _default = {
                     });
                   }
                 });
-              case 9:
-                return _context3.abrupt("return");
-              case 10:
-                // ========== 以下是其他玩法的原有逻辑（完全保留，无需修改） ==========
-                // 胜平负/让球胜平负/比分/总进球/半全场等玩法的跳转逻辑
-                selectedMatches = _this10.getSelectedMatches();
-                if (!(selectedMatches.length === 0)) {
-                  _context3.next = 14;
-                  break;
-                }
-                uni.showToast({
-                  title: "请先选择至少1场比赛",
-                  icon: "none"
-                });
-                return _context3.abrupt("return");
-              case 14:
-                // 组装其他玩法的场次数据（原有逻辑，无需修改）
+              case 17:
+                return _context2.abrupt("return");
+              case 18:
+                selectedMatches = _this10.getSelectedMatches(); // 组装其他玩法的场次数据（原有逻辑，无需修改）
                 formattedMatches = selectedMatches.map(function (item) {
-                  return {
+                  return _objectSpread(_objectSpread({}, item), {}, {
                     id: item.id,
                     league_name: item.league_name,
                     serial_number: item.serial_number,
@@ -1086,36 +877,53 @@ var _default = {
                     bqc_01: item.bqc_01,
                     bqc_00: item.bqc_00,
                     bfOdds: item.bfOdds || {}
-                  };
-                }); // 跳转其他玩法的编辑页（原有逻辑，无需修改）
-                _context3.next = 17;
+                  });
+                });
+                playToPageMap = {
+                  "胜平负": "index",
+                  // 胜平负跳index
+                  "让球胜平负": "editHandicap",
+                  // 让球胜平负跳editHandicap
+                  "总进球": "editTotalGoals",
+                  // 总进球跳editTotalGoals
+                  "半全场": "editHalfFull",
+                  // 半全场跳editHalfFull
+                  "比分": "editScore",
+                  // 比分跳editScore
+                  "混合过关": "editHhgg" // 混合过关跳editHhgg
+                };
+                _context2.next = 23;
                 return uni.navigateTo({
-                  url: "/pages/edit/football/edit?playType=".concat(_this10.currentPlay),
+                  url: "/pages/edit/football/".concat(playToPageMap[_this10.currentPlay]),
+                  events: {
+                    // 可选：接收编辑页返回的回调数据（如果需要）
+                    editCallback: function editCallback(data) {}
+                  },
                   success: function success(res) {
+                    // 向编辑页传递选中数据
                     res.eventChannel.emit("selectedData", {
                       matches: formattedMatches,
-                      betCount: _this10.betCount,
+                      betCount: 1,
                       isNeedUserPhone: 1,
-                      combo: _this10.selectedCombo || "".concat(selectedMatches.length, "\u4E321")
+                      combo: "".concat(selectedMatches.length, "\u4E321")
                     });
                   }
                 });
-              case 17:
-                _context3.next = 22;
-                break;
-              case 19:
-                _context3.prev = 19;
-                _context3.t0 = _context3["catch"](0);
+              case 23:
+                return _context2.abrupt("return");
+              case 26:
+                _context2.prev = 26;
+                _context2.t0 = _context2["catch"](0);
                 uni.showToast({
                   title: "跳转失败，请稍后重试",
                   icon: "none"
                 });
-              case 22:
+              case 29:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3, null, [[0, 19]]);
+        }, _callee2, null, [[0, 26]]);
       }))();
     },
     syncUpdatedMatches: function syncUpdatedMatches(updatedData) {
@@ -1237,15 +1045,6 @@ var _default = {
         }
       });
     },
-    handleRecharge: function handleRecharge() {
-      uni.navigateTo({
-        url: "/pages/recharge/recharge"
-      });
-      this.isDialogShow = false;
-    },
-    handleCancel: function handleCancel() {
-      this.isDialogShow = false;
-    },
     checkLocalToken: function checkLocalToken() {
       var localToken = uni.getStorageSync("requestToken") || "";
       this.hasToken = !!localToken;
@@ -1253,33 +1052,33 @@ var _default = {
     },
     wxLoginHandler: function wxLoginHandler() {
       var _this16 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
         var _yield$uni$login, code, res;
-        return _regenerator.default.wrap(function _callee4$(_context4) {
+        return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.prev = 0;
+                _context3.prev = 0;
                 _this16.showLoading();
-                _context4.next = 4;
+                _context3.next = 4;
                 return uni.login({
                   provider: "weixin"
                 });
               case 4:
-                _yield$uni$login = _context4.sent;
+                _yield$uni$login = _context3.sent;
                 code = _yield$uni$login.code;
                 if (code) {
-                  _context4.next = 8;
+                  _context3.next = 8;
                   break;
                 }
                 throw new Error("获取微信登录凭证失败");
               case 8:
-                _context4.next = 10;
+                _context3.next = 10;
                 return (0, _demo.wxLogin)({
                   code: code
                 });
               case 10:
-                res = _context4.sent;
+                res = _context3.sent;
                 if (res.data.token) {
                   uni.setStorageSync("requestToken", res.data.token);
                   _this16.hasToken = true;
@@ -1293,133 +1092,82 @@ var _default = {
                     icon: "none"
                   });
                 }
-                _context4.next = 18;
+                _context3.next = 18;
                 break;
               case 14:
-                _context4.prev = 14;
-                _context4.t0 = _context4["catch"](0);
-                console.error("微信登录异常:", _context4.t0);
+                _context3.prev = 14;
+                _context3.t0 = _context3["catch"](0);
+                console.error("微信登录异常:", _context3.t0);
                 uni.showToast({
                   title: "登录失败，请稍后重试",
                   icon: "none"
                 });
               case 18:
-                _context4.prev = 18;
+                _context3.prev = 18;
                 _this16.hideLoading();
-                return _context4.finish(18);
+                return _context3.finish(18);
               case 21:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4, null, [[0, 14, 18, 21]]);
-      }))();
-    },
-    handleExchange: function handleExchange(code) {
-      var _this17 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
-        var res;
-        return _regenerator.default.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.prev = 0;
-                _this17.showLoading();
-                _context5.next = 4;
-                return (0, _demo.checkCode)({
-                  checkCode: code
-                });
-              case 4:
-                res = _context5.sent;
-                if (res.data.token) {
-                  uni.setStorageSync("requestToken", res.data.token);
-                  uni.showToast({
-                    title: "兑换成功",
-                    icon: "success"
-                  });
-                  _this17.hasToken = true;
-                  _this17.showModal = false;
-                  _this17.hideLoading();
-                } else {
-                  uni.showToast({
-                    title: res.message || "兑换失败",
-                    icon: "none"
-                  });
-                  _this17.hideLoading();
-                }
-                _context5.next = 13;
-                break;
-              case 8:
-                _context5.prev = 8;
-                _context5.t0 = _context5["catch"](0);
-                _this17.hideLoading();
-                console.error("兑换失败:", _context5.t0);
-                uni.showToast({
-                  title: "兑换失败，请重试",
-                  icon: "none"
-                });
-              case 13:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5, null, [[0, 8]]);
+        }, _callee3, null, [[0, 14, 18, 21]]);
       }))();
     },
     // ========== 核心修正：loadMatchData兼容混合过关 ==========
     loadMatchData: function loadMatchData() {
-      var _this18 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+      var _this17 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
         var res;
-        return _regenerator.default.wrap(function _callee6$(_context6) {
+        return _regenerator.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context6.prev = 0;
-                _this18.drawerList = [];
-                _this18.isLoading = true;
-                _this18.showLoading();
+                _context4.prev = 0;
+                _this17.drawerList = [];
+                _this17.isLoading = true;
+                _this17.showLoading();
 
                 // 调用统一的赛事接口（混合过关使用hhgg类型）
-                _context6.next = 6;
+                _context4.next = 6;
                 return (0, _demo.queryFootBallLLottery)({
-                  lotteryType: _this18.targetLotteryType
+                  lotteryType: _this17.targetLotteryType
                 });
               case 6:
-                res = _context6.sent;
+                res = _context4.sent;
                 // 如果是混合过关，格式化数据为混合过关所需结构
-                if (_this18.currentPlay === "混合过关") {
-                  _this18.drawerList = _this18.formatMixedPassDrawerList(res.data);
+                if (_this17.currentPlay === "混合过关") {
+                  _this17.drawerList = _this17.formatMixedPassDrawerList(res.data);
                 } else {
                   // 原有玩法使用原有格式化逻辑
-                  _this18.drawerList = _this18.formatDrawerList(res.data);
+                  _this17.drawerList = _this17.formatDrawerList(res.data);
                 }
-                _this18.hasData = _this18.drawerList.length === 0;
-                _this18.isLoading = false;
-                _this18.hideLoading();
+                _this17.hasData = _this17.drawerList.length === 0;
+                _this17.isLoading = false;
+                _this17.hideLoading();
 
                 // 如果是混合过关，初始化选中计数
-                if (_this18.currentPlay === "混合过关") {
-                  _this18.updateMixedSelectedCount();
+                if (_this17.currentPlay === "混合过关") {
+                  _this17.updateMixedSelectedCount();
                 }
-                _context6.next = 20;
+                _context4.next = 20;
                 break;
               case 14:
-                _context6.prev = 14;
-                _context6.t0 = _context6["catch"](0);
-                _this18.isLoading = false;
-                _this18.hideLoading();
-                console.error("加载赛事失败:", _context6.t0);
+                _context4.prev = 14;
+                _context4.t0 = _context4["catch"](0);
+                _this17.isLoading = false;
+                _this17.hideLoading();
+                console.error("加载赛事失败:", _context4.t0);
                 uni.showToast({
                   title: "加载失败，请重试",
                   icon: "none"
                 });
               case 20:
               case "end":
-                return _context6.stop();
+                return _context4.stop();
             }
           }
-        }, _callee6, null, [[0, 14]]);
+        }, _callee4, null, [[0, 14]]);
       }))();
     },
     // 混合过关数据格式化（完善：补充更多投注类型）
@@ -2152,90 +1900,79 @@ var _default = {
     },
     // AI分析跳转（核心修改）
     goToAiAnalysis: function goToAiAnalysis(item) {
-      var _this19 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+      var _this18 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
         var reqParams, res;
-        return _regenerator.default.wrap(function _callee7$(_context7) {
+        return _regenerator.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context7.prev = 0;
-                _this19.showLoading();
-
                 // 组装接口参数
                 reqParams = {
                   id: item.id,
                   beFrom: "football",
                   serialNumber: item.serial_number || "",
+                  dateStr: item.date_str,
                   isLottery: 1
-                };
-                console.log("[AI分析] 调用recharge接口:", reqParams);
-
-                // 调用recharge接口
-                _context7.next = 6;
+                }; // 调用recharge接口
+                _context5.next = 3;
                 return (0, _demo.recharge)(reqParams);
-              case 6:
-                res = _context7.sent;
-                console.log(res, "res------");
-                if (!(res.data.status == "fail")) {
-                  _context7.next = 14;
+              case 3:
+                res = _context5.sent;
+                if (!(res.data.status == 'fail')) {
+                  _context5.next = 10;
                   break;
                 }
                 // isLottery=1 表示无灵石，显示充值弹窗
-                _this19.isDialogShow = true;
-                _this19.hideLoading();
-                return _context7.abrupt("return");
-              case 14:
-                _context7.next = 16;
+                _this18.hideLoading();
+                // 原生弹窗（和你自定义弹窗效果完全一致）
+                uni.showModal({
+                  title: "请充币",
+                  content: "您的游戏币不足，请兑换！",
+                  cancelText: "取消",
+                  confirmText: "兑换",
+                  confirmColor: "#d92929",
+                  success: function success(res) {
+                    if (res.confirm) {
+                      // 点击兑换跳充值页
+                      uni.navigateTo({
+                        url: "/pages/recharge/recharge?beFrom=football&isLottery=1"
+                      });
+                    }
+                  }
+                });
+                return _context5.abrupt("return");
+              case 10:
+                _context5.next = 12;
                 return uni.navigateTo({
                   url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&serialNumber=").concat(reqParams.serialNumber, "&beFrom=").concat(reqParams.beFrom)
                 });
-              case 16:
-                _context7.next = 22;
-                break;
-              case 18:
-                _context7.prev = 18;
-                _context7.t0 = _context7["catch"](0);
-                console.error("[AI分析] 失败:", _context7.t0);
-                uni.showToast({
-                  title: "网络异常，请稍后重试",
-                  icon: "none"
-                });
-              case 22:
-                _context7.prev = 22;
-                _this19.hideLoading();
-                return _context7.finish(22);
-              case 25:
+              case 12:
               case "end":
-                return _context7.stop();
+                return _context5.stop();
             }
           }
-        }, _callee7, null, [[0, 18, 22, 25]]);
+        }, _callee5);
       }))();
+    },
+    // 取消弹窗
+    showLoading: function showLoading() {
+      uni.showLoading({
+        title: "加载中...",
+        mask: true
+      });
+    },
+    hideLoading: function hideLoading() {
+      uni.hideLoading();
     }
-  }, (0, _defineProperty2.default)(_methods, "handleRecharge", function handleRecharge() {
-    var beFrom = this.currentPlay.includes("篮球") ? "basketball" : "football";
-    uni.navigateTo({
-      url: "/pages/recharge/recharge?beFrom=".concat(beFrom, "&isLottery=1")
-    });
-    this.isDialogShow = false;
-  }), (0, _defineProperty2.default)(_methods, "handleCancel", function handleCancel() {
-    this.isDialogShow = false;
-  }), (0, _defineProperty2.default)(_methods, "showLoading", function showLoading() {
-    uni.showLoading({
-      title: "加载中...",
-      mask: true
-    });
-  }), (0, _defineProperty2.default)(_methods, "hideLoading", function hideLoading() {
-    uni.hideLoading();
-  }), _methods)
+  }
 };
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
 
-/***/ 63:
+/***/ 79:
 /*!*************************************************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/football/index.vue?vue&type=style&index=0&id=df9e872e&scoped=true&lang=scss& ***!
   \*************************************************************************************************************************************************/
@@ -2244,14 +1981,14 @@ exports.default = _default;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_df9e872e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=style&index=0&id=df9e872e&scoped=true&lang=scss& */ 64);
+/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_df9e872e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=style&index=0&id=df9e872e&scoped=true&lang=scss& */ 80);
 /* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_df9e872e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_df9e872e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_df9e872e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_df9e872e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_df9e872e_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 64:
+/***/ 80:
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/football/index.vue?vue&type=style&index=0&id=df9e872e&scoped=true&lang=scss& ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -2264,5 +2001,5 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ })
 
-},[[55,"common/runtime","common/vendor"]]]);
+},[[72,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/football/index.js.map

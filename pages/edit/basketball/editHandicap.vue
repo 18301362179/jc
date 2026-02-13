@@ -164,8 +164,6 @@ export default {
       headerTotalHeight: 0,  
       betBarFixedPx: 0,      
       betBarTotalHeight: 0,  
-      isApp: false,          
-      isMp: false,
       selectedCombo: "", // 用于接收串关类型，显示单关/几串几   
        showNumberKeyboard: false,         
     };
@@ -195,9 +193,7 @@ export default {
     uni.setTabBarStyle({ height: '0px' });
   },
   created() {
-    const sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
+
     this.calcAllHeights();
   },
   onLoad() {
@@ -247,17 +243,17 @@ export default {
         this.betCount = validVal;
       });
     },
-    calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
-      this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = (sys.safeAreaInsets?.bottom) || 0;
-      const navBarFixedRpx = 80;
-      const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
-      this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      const betBarFixedRpx = 180;
-      this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-      this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
-    },
+calcAllHeights() {
+  const sys = uni.getSystemInfoSync();
+  this.statusBarHeight = sys.statusBarHeight || 20;
+  this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+  const navBarFixedRpx = 80;
+  const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
+  this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
+  const betBarFixedRpx = 180;
+  this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
+  this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
+},
     calculateBonusText() {
       if (this.selectedMatchCount === 0) {
         return "预计：0.00";

@@ -14,11 +14,11 @@
           <!-- 状态行 -->
           <view class="match-status-row">
             <view class="status-left">
-              <text class="single-tag" v-if="item.is_sfc_single == 1 && item.is_stop == 1">单场</text>
+              <text class="single-tag" v-if="item.is_hhgg_single == 1 && item.is_stop == 0">单场</text>
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
             </view>
             <view class="status-right">
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="goToAiAnalysis(item)">分析</view>
+              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -47,9 +47,8 @@
                     <text class="team-name home">{{ item.home_name }}</text>
                   </view>
                   <view class="rate-row">
-                    <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
-                    <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
-                    <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                    <text class="rate-text away" style="text-align:right;padding-right: 15px;" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+                    <text class="rate-text home" style="text-align:left;padding-left: 15px;" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
                   </view>
                 </view>
               </view>
@@ -521,8 +520,8 @@ export default {
     // 获取选中样式（适配篮球玩法）
     getScoreClass(plate, value, multiplier) {
       // 1. 基础选中/禁用判断（和原有逻辑一致）
-      const targetArr = this.selectedScores?.[plate] || [];
-      let isDisabled = this.currentMatch?.is_stop === 1;
+      const targetArr = this.selectedScores && this.selectedScores[plate] ? this.selectedScores[plate] : [];
+      let isDisabled = this.currentMatch && this.currentMatch.is_stop === 1;
       // 胜负板块额外校验赔率是否存在
       if (plate === "spf" && (multiplier === undefined || multiplier === null || multiplier === "")) {
         isDisabled = true;
@@ -586,9 +585,7 @@ export default {
     },
     // 打开弹框（初始化篮球玩法选中状态）
     openScorePopup(match) {
-      var currentSelected = (match.selectedSpf && match.selectedSpf.length > 0) || (match.selectedDx && match.selectedDx.length > 0) || (match.selectedSfc && match.selectedSfc.length > 0);
-      if (!currentSelected && this.selectedMatchCount >= this.MAX_MATCH_COUNT) {
-        uni.showToast({ title: "最多选" + this.MAX_MATCH_COUNT + "场", icon: "none" });
+      if (match.is_stop == 1) {
         return;
       }
       // 深拷贝避免修改原数据
@@ -884,9 +881,6 @@ export default {
     font-size: 20rpx;
     color: #999;
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .serial-number {

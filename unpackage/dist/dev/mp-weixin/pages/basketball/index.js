@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["pages/basketball/index"],{
 
-/***/ 129:
+/***/ 145:
 /*!************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/main.js?{"page":"pages%2Fbasketball%2Findex"} ***!
   \************************************************************************************************************/
@@ -13,7 +13,7 @@
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 __webpack_require__(/*! uni-pages */ 26);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/basketball/index.vue */ 130));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/basketball/index.vue */ 146));
 // @ts-ignore
 wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
 createPage(_index.default);
@@ -21,7 +21,7 @@ createPage(_index.default);
 
 /***/ }),
 
-/***/ 130:
+/***/ 146:
 /*!*****************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/basketball/index.vue ***!
   \*****************************************************************************************/
@@ -30,10 +30,10 @@ createPage(_index.default);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _index_vue_vue_type_template_id_21272b81_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=21272b81&scoped=true& */ 131);
-/* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ 133);
+/* harmony import */ var _index_vue_vue_type_template_id_21272b81_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=21272b81&scoped=true& */ 147);
+/* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ 149);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _index_vue_vue_type_style_index_0_id_21272b81_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=21272b81&scoped=true&lang=scss& */ 135);
+/* harmony import */ var _index_vue_vue_type_style_index_0_id_21272b81_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=21272b81&scoped=true&lang=scss& */ 151);
 /* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 39);
 
 var renderjs
@@ -62,7 +62,7 @@ component.options.__file = "pages/basketball/index.vue"
 
 /***/ }),
 
-/***/ 131:
+/***/ 147:
 /*!************************************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/basketball/index.vue?vue&type=template&id=21272b81&scoped=true& ***!
   \************************************************************************************************************************************/
@@ -71,7 +71,7 @@ component.options.__file = "pages/basketball/index.vue"
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_template_id_21272b81_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=template&id=21272b81&scoped=true& */ 132);
+/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_template_id_21272b81_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=template&id=21272b81&scoped=true& */ 148);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_template_id_21272b81_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_template_id_21272b81_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -84,7 +84,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 132:
+/***/ 148:
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/basketball/index.vue?vue&type=template&id=21272b81&scoped=true& ***!
   \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -163,7 +163,7 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ 133:
+/***/ 149:
 /*!******************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/basketball/index.vue?vue&type=script&lang=js& ***!
   \******************************************************************************************************************/
@@ -172,14 +172,14 @@ render._withStripped = true
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=script&lang=js& */ 134);
+/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=script&lang=js& */ 150);
 /* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 134:
+/***/ 150:
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/basketball/index.vue?vue&type=script&lang=js& ***!
   \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -200,7 +200,7 @@ var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var _data = __webpack_require__(/*! @/utils/data */ 61);
-var _validate = __webpack_require__(/*! @/utils/validate */ 62);
+var _validate = __webpack_require__(/*! @/utils/validate */ 78);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var NativeTabbar = function NativeTabbar() {
@@ -210,37 +210,32 @@ var NativeTabbar = function NativeTabbar() {
 };
 var MatchSpf = function MatchSpf() {
   Promise.all(/*! require.ensure | pages/commn/basketball/MatchSpf */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/basketball/MatchSpf")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchSpf.vue */ 464));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchSpf.vue */ 499));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHandicap = function MatchHandicap() {
   Promise.all(/*! require.ensure | pages/commn/basketball/MatchHandicap */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/basketball/MatchHandicap")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHandicap.vue */ 471));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHandicap.vue */ 506));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchScore = function MatchScore() {
   __webpack_require__.e(/*! require.ensure | pages/commn/basketball/MatchScore */ "pages/commn/basketball/MatchScore").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchScore.vue */ 478));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchScore.vue */ 513));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHalfFull = function MatchHalfFull() {
   __webpack_require__.e(/*! require.ensure | pages/commn/basketball/MatchHalfFull */ "pages/commn/basketball/MatchHalfFull").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHalfFull.vue */ 485));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHalfFull.vue */ 520));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MixedPassList = function MixedPassList() {
   __webpack_require__.e(/*! require.ensure | pages/commn/basketball/MixedPassList */ "pages/commn/basketball/MixedPassList").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MixedPassList.vue */ 492));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MixedPassList.vue */ 527));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
     return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 344));
-  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var ReminderDialog = function ReminderDialog() {
-  __webpack_require__.e(/*! require.ensure | pages/commn/ReminderDialog */ "pages/commn/ReminderDialog").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/ReminderDialog.vue */ 408));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
@@ -250,7 +245,7 @@ var TipsPopup = function TipsPopup() {
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 415));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 443));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -263,21 +258,19 @@ var _default = {
     MixedPassList: MixedPassList,
     // 注册组件
     CustomHeader: CustomHeader,
-    ReminderDialog: ReminderDialog,
     TipsPopup: TipsPopup,
     EmptyStop: EmptyStop
   },
   data: function data() {
     return {
       typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
-      selectedType: ["混合过关"],
-      currentPlay: "混合过关",
+      selectedType: ["胜负"],
+      currentPlay: "胜负",
       hasToken: false,
       isPopupShowType: false,
       drawerList: [],
       isLoading: false,
       headerHeight: 0,
-      isDialogShow: false,
       betCount: 1,
       statusBarHeight: 0,
       playTypeMap: {
@@ -291,7 +284,7 @@ var _default = {
       isRefreshing: false,
       isPopupShow: false,
       tipsTitle: "重要提示",
-      tipsContentList: ["1、本软件无任何彩票销售业务，仅提供竞彩足球、竞彩篮球相关模拟竞猜玩法。", "2、本软件截图可作为彩票站打票依据。", "3、本软件预测数据仅供参考。", "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。", "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。", "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。", "7、每天上午11点10分后本软件正式可用。"],
+      tipsContentList: ["1、本软件无任何彩票销售业务，仅提供竞彩足球、竞彩篮球相关模拟竞彩玩法。", "2、本软件截图可作为彩票站打票依据。", "3、本软件预测数据仅供参考。", "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。", "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。", "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。", "7、每天上午11点10分后本软件正式可用。"],
       windowHeight: 0,
       bottomBtnBarHeight: 0,
       tabbarHeight: 0,
@@ -401,7 +394,7 @@ var _default = {
           case "大小分":
             return item.is_dxf_single == 1;
           case "混合过关":
-            return item.is_sf_single == 1 || item.is_rsf_single == 1 || item.is_dxf_single == 1 || item.is_sfc_single == 1;
+            return item.is_hhgg_single == 1;
           default:
             return false;
         }
@@ -411,7 +404,6 @@ var _default = {
   watch: {
     selectedMatchCount: function selectedMatchCount(newVal) {
       var _this4 = this;
-      this.generateComboList();
       // 选中数>0时强制展开串关栏
       if (newVal > 0) {
         this.collapseStatus = false;
@@ -421,16 +413,11 @@ var _default = {
         _this4.$forceUpdate();
       });
     },
-    hasSingleMatch: function hasSingleMatch() {
-      this.generateComboList();
-    },
     // 监听玩法切换，重置状态
     currentPlay: function currentPlay() {
       var _this5 = this;
       this.selectedCombo = "";
-      this.collapseStatus = false;
       this.$nextTick(function () {
-        _this5.generateComboList();
         _this5.$forceUpdate();
       });
     },
@@ -472,7 +459,6 @@ var _default = {
   mounted: function mounted() {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
-    this.generateComboList();
   },
   onShow: function onShow() {
     var editedData = uni.getStorageSync("editedMatchData");
@@ -527,7 +513,6 @@ var _default = {
             });
             // 强制刷新统计
             _this7.$nextTick(function () {
-              _this7.generateComboList();
               _this7.$forceUpdate();
             });
           }
@@ -556,62 +541,6 @@ var _default = {
       var num = parseInt(val) || 1;
       this.betCount = Math.min(Math.max(num, 1), 50);
       this.showNumberKeyboard = false;
-    },
-    // 串关展开/收起
-    toggleCollapse: function toggleCollapse() {
-      this.collapseStatus = !this.collapseStatus;
-      if (!this.collapseStatus) {
-        this.generateComboList();
-      }
-    },
-    // 串关显示文本
-    getComboDisplayText: function getComboDisplayText() {
-      var matchCount = this.selectedMatchCount;
-      var hasSingle = this.hasSingleMatch;
-      if (matchCount === 1 && hasSingle) {
-        return "单关";
-      } else if (matchCount > 1) {
-        return "".concat(matchCount, "\u4E321");
-      }
-      return "过关方式";
-    },
-    // 生成串关列表（和足球逻辑完全对齐）
-    generateComboList: function generateComboList() {
-      var list = [];
-      var matchCount = this.selectedMatchCount;
-      var hasSingle = this.hasSingleMatch;
-      this.comboList = [];
-      if (matchCount === 0) {
-        this.selectedCombo = "";
-        return;
-      }
-
-      // 单场逻辑：混合过关兼容单场
-      if (matchCount === 1) {
-        list.push({
-          label: "单关",
-          value: "single",
-          enabled: true
-        });
-        this.selectedCombo = "single";
-      } else if (matchCount >= 2) {
-        // 多场逻辑：2-8串1
-        for (var i = 2; i <= Math.min(8, matchCount); i++) {
-          list.push({
-            label: "".concat(i, "\u4E321"),
-            value: "".concat(i, "c1"),
-            enabled: true
-          });
-        }
-        this.selectedCombo = "".concat(matchCount, "c1");
-      }
-      this.comboList = list;
-      this.$forceUpdate();
-    },
-    // 串关选择
-    handleComboSelect: function handleComboSelect(item) {
-      if (!item.enabled) return;
-      this.selectedCombo = item.value;
     },
     // 计算弹窗最大高度
     calcPopupMaxHeight: function calcPopupMaxHeight() {
@@ -671,7 +600,7 @@ var _default = {
     goToSchemeEdit: function goToSchemeEdit() {
       var _this9 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var selectedMatches, totalSelectedCount, hasSingleMatch, matchSerials, _res$data, res, isNeedUserPhone, editUrl;
+        var selectedMatches, totalSelectedCount, hasSingleMatch, matchSerials, res, isNeedUserPhone, basketballPlayToPageMap, editUrl;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -729,77 +658,56 @@ var _default = {
                 });
               case 20:
                 res = _context2.sent;
-                isNeedUserPhone = ((_res$data = res.data) === null || _res$data === void 0 ? void 0 : _res$data.isNeedUserPhone) || false;
-                if (!(res.data && res.data.status == 1)) {
-                  _context2.next = 41;
-                  break;
+                isNeedUserPhone = false;
+                if (res.data && res.data.status == 1) {
+                  // 6. 玩法与编辑页面匹配
+                  basketballPlayToPageMap = {
+                    "胜负": "/pages/edit/basketball/index",
+                    "让分胜负": "/pages/edit/basketball/editHandicap",
+                    "胜分差": "/pages/edit/basketball/editScore",
+                    "大小分": "/pages/edit/basketball/editHalfFull",
+                    "混合过关": "/pages/edit/basketball/editHhgg"
+                  }; // 2. 一行取值（匹配不到则用默认值，对应原switch的default）
+                  editUrl = basketballPlayToPageMap[_this9.currentPlay] || "/pages/edit/basketball/index"; // 7. 传递完整数据（包含混合过关选中字段）
+                  uni.navigateTo({
+                    url: editUrl,
+                    events: {
+                      updateSelectedMatches: function updateSelectedMatches(updatedData) {
+                        return _this9.syncUpdatedMatches(updatedData);
+                      }
+                    },
+                    success: function success(res) {
+                      res.eventChannel.emit("selectedData", {
+                        matches: selectedMatches,
+                        betCount: _this9.betCount,
+                        isNeedUserPhone: isNeedUserPhone,
+                        combo: _this9.selectedCombo,
+                        playType: _this9.currentPlay
+                      });
+                    }
+                  });
+                } else {
+                  uni.showModal({
+                    title: "提示",
+                    content: "抱歉存在停售场次，请重新选择!",
+                    showCancel: false,
+                    confirmText: "我知道了",
+                    success: function success(modalRes) {
+                      if (modalRes.confirm) {
+                        _this9.drawerList = [];
+                        _this9.loadMatchData();
+                        _this9.betCount = 1;
+                        _this9.selectedCombo = "";
+                      }
+                    }
+                  });
                 }
-                // 6. 玩法与编辑页面匹配
-                editUrl = "";
-                _context2.t0 = _this9.currentPlay;
-                _context2.next = _context2.t0 === "胜负" ? 27 : _context2.t0 === "让分胜负" ? 29 : _context2.t0 === "胜分差" ? 31 : _context2.t0 === "大小分" ? 33 : _context2.t0 === "混合过关" ? 35 : 37;
+                _context2.next = 29;
                 break;
-              case 27:
-                editUrl = "/pages/edit/basketball/index";
-                return _context2.abrupt("break", 38);
-              case 29:
-                editUrl = "/pages/edit/basketball/editHandicap";
-                return _context2.abrupt("break", 38);
-              case 31:
-                editUrl = "/pages/edit/basketball/editScore";
-                return _context2.abrupt("break", 38);
-              case 33:
-                editUrl = "/pages/edit/basketball/editHalfFull";
-                return _context2.abrupt("break", 38);
-              case 35:
-                editUrl = "/pages/edit/basketball/editHhgg";
-                return _context2.abrupt("break", 38);
-              case 37:
-                editUrl = "/pages/edit/basketball/index";
-              case 38:
-                // 7. 传递完整数据（包含混合过关选中字段）
-                uni.navigateTo({
-                  url: editUrl,
-                  events: {
-                    updateSelectedMatches: function updateSelectedMatches(updatedData) {
-                      return _this9.syncUpdatedMatches(updatedData);
-                    }
-                  },
-                  success: function success(res) {
-                    res.eventChannel.emit("selectedData", {
-                      matches: selectedMatches,
-                      betCount: _this9.betCount,
-                      isNeedUserPhone: isNeedUserPhone,
-                      combo: _this9.selectedCombo,
-                      comboText: _this9.getComboDisplayText(),
-                      playType: _this9.currentPlay
-                    });
-                  }
-                });
-                _context2.next = 42;
-                break;
-              case 41:
-                uni.showModal({
-                  title: "提示",
-                  content: "抱歉存在停售场次，请重新选择!",
-                  showCancel: false,
-                  confirmText: "我知道了",
-                  success: function success(modalRes) {
-                    if (modalRes.confirm) {
-                      _this9.drawerList = [];
-                      _this9.loadMatchData();
-                      _this9.betCount = 1;
-                      _this9.selectedCombo = "";
-                    }
-                  }
-                });
-              case 42:
-                _context2.next = 48;
-                break;
-              case 44:
-                _context2.prev = 44;
-                _context2.t1 = _context2["catch"](16);
-                console.error("checkSelectBasketball接口调用失败:", _context2.t1);
+              case 25:
+                _context2.prev = 25;
+                _context2.t0 = _context2["catch"](16);
+                console.error("checkSelectBasketball接口调用失败:", _context2.t0);
                 uni.showModal({
                   title: "错误",
                   content: "验证失败，请稍后重试",
@@ -814,16 +722,16 @@ var _default = {
                     }
                   }
                 });
-              case 48:
-                _context2.prev = 48;
+              case 29:
+                _context2.prev = 29;
                 _this9.hideLoading();
-                return _context2.finish(48);
-              case 51:
+                return _context2.finish(29);
+              case 32:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[16, 44, 48, 51]]);
+        }, _callee2, null, [[16, 25, 29, 32]]);
       }))();
     },
     // 同步编辑页面返回的数据（适配混合过关，和足球逻辑对齐）
@@ -895,7 +803,6 @@ var _default = {
       if (typeof updatedData.betCount === "number") {
         this.betCount = updatedData.betCount;
       }
-      this.generateComboList();
     },
     // 倍数减
     handleMinus: function handleMinus() {
@@ -978,7 +885,6 @@ var _default = {
           console.warn("未找到对应赛事：", targetItem.serial_number || targetItem.serialNumber);
         }
       });
-      this.generateComboList();
     },
     // 胜分差选中切换
     toggleScoreSelect: function toggleScoreSelect(data) {
@@ -1001,7 +907,6 @@ var _default = {
           _this14.$set(_this14.matchSelectedState[serialNumber], "selectedScores", selectedScores);
         }
       });
-      this.generateComboList();
     },
     // 核心修复：混合过关 - 胜负/让分胜负选中事件处理（和足球逻辑对齐）
     handleHhggSpfSelect: function handleHhggSpfSelect(item) {
@@ -1025,7 +930,6 @@ var _default = {
 
       // 3. 强制刷新
       this.$nextTick(function () {
-        _this15.generateComboList();
         _this15.$forceUpdate();
       });
     },
@@ -1073,20 +977,8 @@ var _default = {
 
       // 4. 强制刷新
       this.$nextTick(function () {
-        _this16.generateComboList();
-        _this16.collapseStatus = false;
         _this16.$forceUpdate();
       });
-    },
-    // 其他原有方法（保持不变）
-    handleRecharge: function handleRecharge() {
-      uni.navigateTo({
-        url: "/pages/recharge/recharge"
-      });
-      this.isDialogShow = false;
-    },
-    handleCancel: function handleCancel() {
-      this.isDialogShow = false;
     },
     checkLocalToken: function checkLocalToken() {
       var localToken = uni.getStorageSync("requestToken") || "";
@@ -1157,81 +1049,29 @@ var _default = {
         }, _callee3, null, [[0, 14, 18, 21]]);
       }))();
     },
-    handleExchange: function handleExchange(code) {
+    // 加载赛事数据（核心优化：初始化字段更简洁）
+    loadMatchData: function loadMatchData() {
       var _this18 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
-        var _res$data2, res;
+        var res, newDrawerList;
         return _regenerator.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.prev = 0;
+                _this18.drawerList = [];
+                _this18.matchSelectedState = {}; // 清空全局缓存
+                _this18.isLoading = true;
                 _this18.showLoading();
-                _context4.next = 4;
-                return (0, _demo.checkCode)({
-                  checkCode: code
-                });
-              case 4:
-                res = _context4.sent;
-                if ((_res$data2 = res.data) !== null && _res$data2 !== void 0 && _res$data2.token) {
-                  uni.setStorageSync("requestToken", res.data.token);
-                  uni.showToast({
-                    title: "兑换成功",
-                    icon: "success"
-                  });
-                  _this18.hasToken = true;
-                  _this18.showModal = false;
-                } else {
-                  uni.showToast({
-                    title: res.message || "兑换失败",
-                    icon: "none"
-                  });
-                }
-                _context4.next = 12;
-                break;
-              case 8:
-                _context4.prev = 8;
-                _context4.t0 = _context4["catch"](0);
-                console.error("兑换失败:", _context4.t0);
-                uni.showToast({
-                  title: "兑换失败，请重试",
-                  icon: "none"
-                });
-              case 12:
-                _context4.prev = 12;
-                _this18.hideLoading();
-                return _context4.finish(12);
-              case 15:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, null, [[0, 8, 12, 15]]);
-      }))();
-    },
-    // 加载赛事数据（核心优化：初始化字段更简洁）
-    loadMatchData: function loadMatchData() {
-      var _this19 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
-        var res, newDrawerList;
-        return _regenerator.default.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.prev = 0;
-                _this19.drawerList = [];
-                _this19.matchSelectedState = {}; // 清空全局缓存
-                _this19.isLoading = true;
-                _this19.showLoading();
-                _context5.next = 7;
+                _context4.next = 7;
                 return (0, _demo.queryBasketBallLLottery)({
-                  lotteryType: _this19.targetLotteryType
+                  lotteryType: _this18.targetLotteryType
                 });
               case 7:
-                res = _context5.sent;
-                newDrawerList = _this19.formatDrawerList(res.data);
-                _this19.isLoading = false;
-                _this19.hideLoading();
+                res = _context4.sent;
+                newDrawerList = _this18.formatDrawerList(res.data);
+                _this18.isLoading = false;
+                _this18.hideLoading();
 
                 // 初始化选中字段（优化：更简洁的赋值）
                 newDrawerList = newDrawerList.map(function (drawer) {
@@ -1248,37 +1088,36 @@ var _default = {
                         selectedSfc: []
                       });
                       // 初始化全局缓存
-                      _this19.$set(_this19.matchSelectedState, item.serial_number, _objectSpread({}, initItem));
+                      _this18.$set(_this18.matchSelectedState, item.serial_number, _objectSpread({}, initItem));
                       return initItem;
                     })
                   });
                 });
-                _this19.drawerList = newDrawerList;
-                _this19.hasData = _this19.drawerList.length === 0;
-                _this19.generateComboList();
-                _this19.$forceUpdate();
-                _context5.next = 23;
+                _this18.drawerList = newDrawerList;
+                _this18.hasData = _this18.drawerList.length === 0;
+                _this18.$forceUpdate();
+                _context4.next = 22;
                 break;
-              case 18:
-                _context5.prev = 18;
-                _context5.t0 = _context5["catch"](0);
-                _this19.hideLoading();
-                console.error("加载赛事失败:", _context5.t0);
+              case 17:
+                _context4.prev = 17;
+                _context4.t0 = _context4["catch"](0);
+                _this18.hideLoading();
+                console.error("加载赛事失败:", _context4.t0);
                 uni.showToast({
                   title: "加载失败，请重试",
                   icon: "none"
                 });
-              case 23:
-                _context5.prev = 23;
-                _this19.hideLoading();
-                _this19.isLoading = false;
-                return _context5.finish(23);
-              case 27:
+              case 22:
+                _context4.prev = 22;
+                _this18.hideLoading();
+                _this18.isLoading = false;
+                return _context4.finish(22);
+              case 26:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5, null, [[0, 18, 23, 27]]);
+        }, _callee4, null, [[0, 17, 22, 26]]);
       }))();
     },
     formatDrawerList: function formatDrawerList(data) {
@@ -1325,60 +1164,75 @@ var _default = {
       this.isPopupShow = true;
     },
     goToAiAnalysis: function goToAiAnalysis(item) {
-      var _this20 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+      var _this19 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
         var reqParams, res;
-        return _regenerator.default.wrap(function _callee6$(_context6) {
+        return _regenerator.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context6.prev = 0;
-                _this20.showLoading();
+                _context5.prev = 0;
+                _this19.showLoading();
                 reqParams = {
                   id: item.id,
                   beFrom: "basketball",
                   serialNumber: item.serial_number || "",
+                  dateStr: item.date_str,
                   isLottery: 1
                 }; // 调用recharge接口
-                _context6.next = 5;
+                _context5.next = 5;
                 return (0, _demo.recharge)(reqParams);
               case 5:
-                res = _context6.sent;
+                res = _context5.sent;
                 console.log(res, "res------");
-                if (!(res.data.status == "fail")) {
-                  _context6.next = 13;
+                if (!(res.data.status == 'fail')) {
+                  _context5.next = 13;
                   break;
                 }
                 // isLottery=1 表示无灵石，显示充值弹窗
-                _this20.isDialogShow = true;
-                _this20.hideLoading();
-                return _context6.abrupt("return");
+                _this19.hideLoading();
+                uni.showModal({
+                  title: "请充币",
+                  content: "您的游戏币不足，请兑换！",
+                  cancelText: "取消",
+                  confirmText: "兑换",
+                  confirmColor: "#d92929",
+                  success: function success(res) {
+                    if (res.confirm) {
+                      // 点击兑换跳充值页
+                      uni.navigateTo({
+                        url: "/pages/recharge/recharge?beFrom=basketball&isLottery=1"
+                      });
+                    }
+                  }
+                });
+                return _context5.abrupt("return");
               case 13:
-                _context6.next = 15;
+                _context5.next = 15;
                 return uni.navigateTo({
                   url: "/pages/test/basketballAi?id=".concat(item.id, "&isLottery=1")
                 });
               case 15:
-                _context6.next = 21;
+                _context5.next = 21;
                 break;
               case 17:
-                _context6.prev = 17;
-                _context6.t0 = _context6["catch"](0);
-                console.error("[AI分析] 失败:", _context6.t0);
+                _context5.prev = 17;
+                _context5.t0 = _context5["catch"](0);
+                console.error("[AI分析] 失败:", _context5.t0);
                 uni.showToast({
                   title: "网络异常，请稍后重试",
                   icon: "none"
                 });
               case 21:
-                _context6.prev = 21;
-                _this20.hideLoading();
-                return _context6.finish(21);
+                _context5.prev = 21;
+                _this19.hideLoading();
+                return _context5.finish(21);
               case 24:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
-        }, _callee6, null, [[0, 17, 21, 24]]);
+        }, _callee5, null, [[0, 17, 21, 24]]);
       }))();
     },
     showLoading: function showLoading() {
@@ -1397,7 +1251,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 135:
+/***/ 151:
 /*!***************************************************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/basketball/index.vue?vue&type=style&index=0&id=21272b81&scoped=true&lang=scss& ***!
   \***************************************************************************************************************************************************/
@@ -1406,14 +1260,14 @@ exports.default = _default;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_21272b81_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=style&index=0&id=21272b81&scoped=true&lang=scss& */ 136);
+/* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_21272b81_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./index.vue?vue&type=style&index=0&id=21272b81&scoped=true&lang=scss& */ 152);
 /* harmony import */ var _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_21272b81_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_21272b81_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_21272b81_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_21272b81_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Desktop_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_index_vue_vue_type_style_index_0_id_21272b81_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 136:
+/***/ 152:
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/zxg00/Documents/HBuilderProjects/football-cup/pages/basketball/index.vue?vue&type=style&index=0&id=21272b81&scoped=true&lang=scss& ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -1426,5 +1280,5 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ })
 
-},[[129,"common/runtime","common/vendor"]]]);
+},[[145,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/basketball/index.js.map

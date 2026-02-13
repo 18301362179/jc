@@ -345,9 +345,6 @@ var _default = {
     this.calcAllHeights();
   },
   created: function created() {
-    var sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
     this.calcAllHeights();
   },
   onLoad: function onLoad() {
@@ -472,10 +469,9 @@ var _default = {
       this.showNumberKeyboard = false;
     },
     calcAllHeights: function calcAllHeights() {
-      var _sys$safeAreaInsets;
       var sys = uni.getSystemInfoSync();
       this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = ((_sys$safeAreaInsets = sys.safeAreaInsets) === null || _sys$safeAreaInsets === void 0 ? void 0 : _sys$safeAreaInsets.bottom) || 0;
+      this.safeAreaBottom = sys.safeAreaInsets && sys.safeAreaInsets.bottom || 0;
       var navBarFixedRpx = 80;
       var betBarFixedRpx = 200;
       var pxPerRpx = sys.screenWidth / 750;

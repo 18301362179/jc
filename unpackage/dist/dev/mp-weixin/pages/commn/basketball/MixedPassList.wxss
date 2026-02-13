@@ -202,9 +202,6 @@
   font-size: 20rpx;
   color: #999;
   text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .main-left .serial-number.data-v-f71cb774 {
   margin-bottom: 10rpx;

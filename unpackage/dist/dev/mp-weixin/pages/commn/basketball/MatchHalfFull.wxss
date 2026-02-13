@@ -171,65 +171,51 @@
   flex-direction: column;
   gap: 6rpx;
 }
-/* 队名VS：样式统一 */
-.team-vs.data-v-da4482ba {
-  font-size: 24rpx;
+.team-name.data-v-da4482ba {
+  font-size: 26rpx;
   color: #333;
-  text-align: center;
-  padding: 4rpx 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
 }
-.team-vs .team-name.data-v-da4482ba {
-  flex: 1;
+.team-name .vs-text.data-v-da4482ba {
+  color: #999;
+  font-size: 24rpx;
+  width: 60rpx;
   text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.team-vs .team-name.away.data-v-da4482ba {
+.team-name text.data-v-da4482ba:first-child {
   text-align: right;
-  padding-right: 10rpx;
+  flex: 1;
 }
-.team-vs .team-name.home.data-v-da4482ba {
+.team-name text.data-v-da4482ba:last-child {
   text-align: left;
-  padding-left: 10rpx;
+  flex: 1;
 }
-.team-vs .vs-text.data-v-da4482ba {
-  width: 40rpx;
-  text-align: center;
-  flex-shrink: 0;
-  font-weight: 500;
-}
-/* 胜率行：样式统一 */
 .rate-row.data-v-da4482ba {
   width: 100%;
   display: flex;
   align-items: center;
   font-size: 22rpx;
   color: #999;
-  justify-content: center;
-  gap: 10rpx;
 }
 .rate-row .rate-text.data-v-da4482ba {
   flex: 1;
-  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.rate-row .rate-text.away.data-v-da4482ba {
-  text-align: right;
-  padding-right: 10rpx;
-}
 .rate-row .rate-text.home.data-v-da4482ba {
+  text-align: right;
+}
+.rate-row .rate-text.away.data-v-da4482ba {
   text-align: left;
-  padding-left: 10rpx;
 }
 .rate-row .vs-text.data-v-da4482ba {
-  width: 140rpx;
+  width: 60rpx;
+  text-align: center;
+  flex-shrink: 0;
 }
 /* 大小分选项区：样式统一，保留三列结构 */
 .bottom-right.data-v-da4482ba {

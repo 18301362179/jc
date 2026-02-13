@@ -180,9 +180,7 @@ export default {
     uni.setTabBarStyle({ height: '0px' });
   },
   created() {
-    const sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
+
     this.calcAllHeights();
   },
   onLoad() {
@@ -237,7 +235,7 @@ export default {
     calcAllHeights() {
       const sys = uni.getSystemInfoSync();
       this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = (sys.safeAreaInsets?.bottom) || 0;
+this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;

@@ -197,7 +197,7 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _data = __webpack_require__(/*! @/utils/data */ 61);
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
-var _validate = __webpack_require__(/*! @/utils/validate */ 62);
+var _validate = __webpack_require__(/*! @/utils/validate */ 78);
 var _methods;
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
@@ -271,10 +271,6 @@ var _default = {
     });
   },
   created: function created() {
-    var sys = uni.getSystemInfoSync();
-    // 识别运行环境：App端（android/ios）、小程序端（mp-weixin）
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
     // 计算所有高度
     this.calcAllHeights();
   },
@@ -332,12 +328,11 @@ var _default = {
     },
     // 核心优化：统一计算所有高度，投注栏总高度仅保留固定高度，不叠加安全区
     calcAllHeights: function calcAllHeights() {
-      var _sys$safeAreaInsets;
       var sys = uni.getSystemInfoSync();
       // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
       // 2. 底部安全区高度（小程序端后续会强制置0，避免空白）
-      this.safeAreaBottom = ((_sys$safeAreaInsets = sys.safeAreaInsets) === null || _sys$safeAreaInsets === void 0 ? void 0 : _sys$safeAreaInsets.bottom) || 0;
+      this.safeAreaBottom = sys.safeAreaInsets && sys.safeAreaInsets.bottom || 0;
       // 3. 导航栏固定高度（设计稿80rpx转px）
       var navBarFixedRpx = 80;
       var navBarFixedPx = sys.screenWidth / 750 * navBarFixedRpx;

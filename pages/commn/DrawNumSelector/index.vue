@@ -2,7 +2,7 @@
   <!-- 核心改：行内绑定top值，小程序唯一兼容的动态样式方式 -->
   <view class="draw-num-selector" :style="{ top: navBarTotalHeight + 'rpx' }">
     <!-- 左侧游戏规则按钮 -->
-    <view class="rule-btn">游戏规则</view>
+    <view class="rule-btn">{{title}}</view>
     <!-- 右侧期数选择器：增加空数据兜底 -->
     <view class="selector-wrap" @click="toggleDropdown">
       <text class="current-num">{{ currentDrawNum || "暂无" }}期</text>
@@ -19,6 +19,10 @@
 <script>
 export default {
   props: {
+    title:{
+      type: String,
+      default: ''
+    },
     drawNumList: {
       type: Array,
       default: () => [],

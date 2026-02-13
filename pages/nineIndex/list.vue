@@ -4,12 +4,12 @@
     <!-- 抽屉循环容器 -->
     <view v-for="(drawer, drawerIdx) in finalDrawerList" :key="drawerIdx" class="drawer-wrapper">
       <!-- 吸顶标题栏 -->
-      <view class="date-title sticky-header" 
+      <!-- <view class="date-title sticky-header" 
         :style="{ top: 0 + 'rpx'  }"
         hover-class="none"
       >
         <view class="drawer-title-text">{{ drawer.title }}</view>
-      </view>
+      </view> -->
 
       <!-- 抽屉内容：比赛列表 -->
       <view v-show="expandedDrawers[drawerIdx]" class="drawer-content">
@@ -37,9 +37,9 @@
                 <!-- 胜率+分析：接口无此字段，自动隐藏 -->
                 <view class="rate-row" v-if="item.home_win_rate || item.visiting_win_rate">
                   <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || '' }}%</text>
-                  <text class="vs-text"></text>
+                  <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
                   <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || '' }}%</text>
-                  <view class="ai-analysis-btn" @click.stop="() => goToAiAnalysis(item)">分析</view>
+                  <view class="ai-analysis-btn" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }}</view>
                 </view>
               </view>
 
@@ -290,64 +290,78 @@ export default {
   box-sizing: border-box;
   overflow: hidden;
 }
-
+/* 队名行：绝对对称布局，为对齐锁死尺寸 */
 .team-vs {
   font-size: 24rpx;
   color: #333;
-  text-align: center;
-  padding: 4rpx 0;
   display: flex;
   align-items: center;
-  justify-content: center;
   width: 100%;
   cursor: pointer;
   transition: all 0.2s ease;
-
   &:active { color: #d92929; opacity: 0.8; }
 
-  .team-name {
-    flex: 1;
-    text-align: center;
+  /* 主队名容器：固定占比，右对齐 */
+  .team-name.home {
+    width: calc((100% - 80rpx) / 2.1);
+    text-align: right;
+    padding-right: 10rpx;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
-  .team-name.home { text-align: right; padding-right: 10rpx; }
-  .team-name.away { text-align: left; padding-left: 10rpx; }
+  /* VS容器：固定80rpx，居中（和你截图一致） */
   .vs-text {
-    width: 40rpx;
+    width: 100rpx;
     text-align: center;
     flex-shrink: 0;
     font-weight: 500;
   }
+  /* 客队名容器：固定占比，左对齐 */
+  .team-name.away {
+    width: calc((100% - 80rpx) / 2.1);
+    text-align: left;
+    padding-left: 10rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
+/* 胜率行：和队名行1:1复刻尺寸，绝对对齐 */
 .rate-row {
   width: 100%;
   display: flex;
   align-items: center;
   font-size: 22rpx;
   color: #999;
-  justify-content: space-between;
-  padding-right: 10rpx;
 
-  .rate-text {
-    flex: 1;
-    text-align: center;
+  /* 主队胜率容器：和主队名尺寸/对齐完全一致 */
+  .rate-text.home {
+    width: calc((100% - 80rpx) / 2.1);
+    text-align: right;
+    padding-right: 10rpx;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .rate-text.home { text-align: right; padding-right: 10rpx; }
-  .rate-text.away { text-align: left; padding-left: 10rpx; }
+  /* 平率容器：和VS尺寸/对齐完全一致 */
   .vs-text {
-    width: 40rpx;
+    width: 80rpx;
     text-align: center;
     flex-shrink: 0;
     color: #999;
     font-size: 20rpx;
   }
+  /* 客队胜率容器：和客队名尺寸/对齐完全一致 */
+  .rate-text.away {
+    text-align: left;
+    padding-left: 20rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* 分析按钮：不影响对齐，单独靠外 */
   .ai-analysis-btn {
     font-size: 24rpx;
     color: #06f;
@@ -355,9 +369,11 @@ export default {
     transition: opacity 0.2s;
     letter-spacing: 4rpx;
     flex-shrink: 0;
+    margin-left: 40rpx;
     &:active { opacity: 0.8; }
   }
 }
+
 
 /* 保留9场原有3/1/0按钮样式 */
 .bottom-right {

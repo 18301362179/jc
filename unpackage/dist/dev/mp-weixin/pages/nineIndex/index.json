@@ -9,7 +9,6 @@
   "usingComponents": {
     "list": "/pages/nineIndex/list",
     "custom-header": "/components/CustomHeader",
-    "reminder-dialog": "/pages/commn/ReminderDialog",
     "tips-popup": "/pages/commn/playTip",
     "empty-stop": "/pages/commn/emptyStop",
     "bet-bar": "/pages/commn/betBar/index",

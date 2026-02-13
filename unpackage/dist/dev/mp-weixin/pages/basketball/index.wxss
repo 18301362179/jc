@@ -109,7 +109,9 @@ page.data-v-21272b81 {
   text-overflow: ellipsis;
 }
 .bet-bar .confirm-btn.data-v-21272b81 {
-  width: 140rpx;
+  width: 180rpx;
+  height: 70rpx;
+  line-height: 70rpx;
   background-color: #d92929;
   color: #fff;
   border-radius: 8rpx;
@@ -118,6 +120,7 @@ page.data-v-21272b81 {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 .bet-bar .confirm-btn.data-v-21272b81:disabled {
   background-color: #ccc;

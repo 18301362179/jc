@@ -42,7 +42,7 @@
         </view>
       </view>
     </view>
-    <ReminderDialog :is-show="isDialogShow" @cancel="handleCancel" @exchange="handleRecharge" />
+
     <TipsPopup :visible.sync="isPopupShow" :title="tipsTitle" :content-list="tipsContentList" :header-height="headerHeight" :popup-width="700" border-color="#07c160" @close="handlePopupClose" :max-height="popupMaxHeight" />
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
     <EmptyStop :hasData="hasData" position="middle" />
@@ -57,9 +57,7 @@ import MatchScore from "@/pages/commn/basketball/MatchScore.vue";
 import MatchHalfFull from "@/pages/commn/basketball/MatchHalfFull.vue";
 import MixedPassList from "@/pages/commn/basketball/MixedPassList.vue"; // 混合过关组件
 import CustomHeader from "@/components/CustomHeader.vue";
-
 import { queryBasketBallLLottery, checkCode, wxLogin, checkSelectBasketball, recharge } from "@/api/demo";
-import ReminderDialog from "@/pages/commn/ReminderDialog.vue";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 import TipsPopup from "@/pages/commn/playTip";
 import { validateBetInput } from "@/utils/validate";
@@ -73,21 +71,19 @@ export default {
     MatchHalfFull,
     MixedPassList, // 注册组件
     CustomHeader,
-    ReminderDialog,
     TipsPopup,
     EmptyStop,
   },
   data() {
     return {
       typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
-      selectedType: ["混合过关"],
-      currentPlay: "混合过关",
+      selectedType: ["胜负"],
+      currentPlay: "胜负",
       hasToken: false,
       isPopupShowType: false,
       drawerList: [],
       isLoading: false,
       headerHeight: 0,
-      isDialogShow: false,
       betCount: 1,
       statusBarHeight: 0,
       playTypeMap: {
@@ -100,7 +96,7 @@ export default {
       isRefreshing: false,
       isPopupShow: false,
       tipsTitle: "重要提示",
-      tipsContentList: ["1、本软件无任何彩票销售业务，仅提供竞彩足球、竞彩篮球相关模拟竞猜玩法。", "2、本软件截图可作为彩票站打票依据。", "3、本软件预测数据仅供参考。", "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。", "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。", "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。", "7、每天上午11点10分后本软件正式可用。"],
+      tipsContentList: ["1、本软件无任何彩票销售业务，仅提供竞彩足球、竞彩篮球相关模拟竞彩玩法。", "2、本软件截图可作为彩票站打票依据。", "3、本软件预测数据仅供参考。", "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。", "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。", "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。", "7、每天上午11点10分后本软件正式可用。"],
       windowHeight: 0,
       bottomBtnBarHeight: 0,
       tabbarHeight: 0,
@@ -188,7 +184,7 @@ export default {
           case "大小分":
             return item.is_dxf_single == 1;
           case "混合过关":
-            return item.is_sf_single == 1 || item.is_rsf_single == 1 || item.is_dxf_single == 1 || item.is_sfc_single == 1;
+            return item.is_hhgg_single == 1;
           default:
             return false;
         }
@@ -197,7 +193,6 @@ export default {
   },
   watch: {
     selectedMatchCount(newVal) {
-      this.generateComboList();
       // 选中数>0时强制展开串关栏
       if (newVal > 0) {
         this.collapseStatus = false;
@@ -207,15 +202,10 @@ export default {
         this.$forceUpdate();
       });
     },
-    hasSingleMatch() {
-      this.generateComboList();
-    },
     // 监听玩法切换，重置状态
     currentPlay() {
       this.selectedCombo = "";
-      this.collapseStatus = false;
       this.$nextTick(() => {
-        this.generateComboList();
         this.$forceUpdate();
       });
     },
@@ -256,7 +246,6 @@ export default {
   mounted() {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
-    this.generateComboList();
   },
   onShow() {
     // #ifdef APP-PLUS
@@ -311,7 +300,6 @@ export default {
             uni.showToast({ title: "已清空", icon: "success" });
             // 强制刷新统计
             this.$nextTick(() => {
-              this.generateComboList();
               this.$forceUpdate();
             });
           }
@@ -340,66 +328,6 @@ export default {
       const num = parseInt(val) || 1;
       this.betCount = Math.min(Math.max(num, 1), 50);
       this.showNumberKeyboard = false;
-    },
-    // 串关展开/收起
-    toggleCollapse() {
-      this.collapseStatus = !this.collapseStatus;
-      if (!this.collapseStatus) {
-        this.generateComboList();
-      }
-    },
-    // 串关显示文本
-    getComboDisplayText() {
-      const matchCount = this.selectedMatchCount;
-      const hasSingle = this.hasSingleMatch;
-
-      if (matchCount === 1 && hasSingle) {
-        return "单关";
-      } else if (matchCount > 1) {
-        return `${matchCount}串1`;
-      }
-      return "过关方式";
-    },
-    // 生成串关列表（和足球逻辑完全对齐）
-    generateComboList() {
-      const list = [];
-      const matchCount = this.selectedMatchCount;
-      const hasSingle = this.hasSingleMatch;
-
-      this.comboList = [];
-
-      if (matchCount === 0) {
-        this.selectedCombo = "";
-        return;
-      }
-
-      // 单场逻辑：混合过关兼容单场
-      if (matchCount === 1) {
-        list.push({
-          label: "单关",
-          value: "single",
-          enabled: true,
-        });
-        this.selectedCombo = "single";
-      } else if (matchCount >= 2) {
-        // 多场逻辑：2-8串1
-        for (let i = 2; i <= Math.min(8, matchCount); i++) {
-          list.push({
-            label: `${i}串1`,
-            value: `${i}c1`,
-            enabled: true,
-          });
-        }
-        this.selectedCombo = `${matchCount}c1`;
-      }
-
-      this.comboList = list;
-      this.$forceUpdate();
-    },
-    // 串关选择
-    handleComboSelect(item) {
-      if (!item.enabled) return;
-      this.selectedCombo = item.value;
     },
     // 计算弹窗最大高度
     calcPopupMaxHeight() {
@@ -488,31 +416,20 @@ export default {
       try {
         this.showLoading();
         const res = await checkSelectBasketball({ lotteryIds: matchSerials });
-        const isNeedUserPhone = res.data?.isNeedUserPhone || false;
+        const isNeedUserPhone = false;
 
         if (res.data && res.data.status == 1) {
           // 6. 玩法与编辑页面匹配
-          let editUrl = "";
-          switch (this.currentPlay) {
-            case "胜负":
-              editUrl = "/pages/edit/basketball/index";
-              break;
-            case "让分胜负":
-              editUrl = "/pages/edit/basketball/editHandicap";
-              break;
-            case "胜分差":
-              editUrl = "/pages/edit/basketball/editScore";
-              break;
-            case "大小分":
-              editUrl = "/pages/edit/basketball/editHalfFull";
-              break;
-            // 新增：混合过关编辑页
-            case "混合过关":
-              editUrl = "/pages/edit/basketball/editHhgg";
-              break;
-            default:
-              editUrl = "/pages/edit/basketball/index";
-          }
+          const basketballPlayToPageMap = {
+            "胜负": "/pages/edit/basketball/index",
+            "让分胜负": "/pages/edit/basketball/editHandicap",
+            "胜分差": "/pages/edit/basketball/editScore",
+            "大小分": "/pages/edit/basketball/editHalfFull",
+            "混合过关": "/pages/edit/basketball/editHhgg"
+          };
+// 2. 一行取值（匹配不到则用默认值，对应原switch的default）
+const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basketball/index";
+
 
           // 7. 传递完整数据（包含混合过关选中字段）
           uni.navigateTo({
@@ -526,7 +443,6 @@ export default {
                 betCount: this.betCount,
                 isNeedUserPhone,
                 combo: this.selectedCombo,
-                comboText: this.getComboDisplayText(),
                 playType: this.currentPlay,
               });
             },
@@ -634,7 +550,6 @@ export default {
       if (typeof updatedData.betCount === "number") {
         this.betCount = updatedData.betCount;
       }
-      this.generateComboList();
     },
     // 倍数减
     handleMinus() {
@@ -707,7 +622,6 @@ export default {
           console.warn("未找到对应赛事：", targetItem.serial_number || targetItem.serialNumber);
         }
       });
-      this.generateComboList();
     },
     // 胜分差选中切换
     toggleScoreSelect(data) {
@@ -726,7 +640,6 @@ export default {
           this.$set(this.matchSelectedState[serialNumber], "selectedScores", selectedScores);
         }
       });
-      this.generateComboList();
     },
     // 核心修复：混合过关 - 胜负/让分胜负选中事件处理（和足球逻辑对齐）
     handleHhggSpfSelect(item) {
@@ -748,7 +661,6 @@ export default {
 
       // 3. 强制刷新
       this.$nextTick(() => {
-        this.generateComboList();
         this.$forceUpdate();
       });
     },
@@ -793,18 +705,8 @@ export default {
 
       // 4. 强制刷新
       this.$nextTick(() => {
-        this.generateComboList();
-        this.collapseStatus = false;
         this.$forceUpdate();
       });
-    },
-    // 其他原有方法（保持不变）
-    handleRecharge() {
-      uni.navigateTo({ url: "/pages/recharge/recharge" });
-      this.isDialogShow = false;
-    },
-    handleCancel() {
-      this.isDialogShow = false;
     },
     checkLocalToken() {
       const localToken = uni.getStorageSync("requestToken") || "";
@@ -829,25 +731,6 @@ export default {
       } catch (err) {
         console.error("微信登录异常:", err);
         uni.showToast({ title: "登录失败，请稍后重试", icon: "none" });
-      } finally {
-        this.hideLoading();
-      }
-    },
-    async handleExchange(code) {
-      try {
-        this.showLoading();
-        const res = await checkCode({ checkCode: code });
-        if (res.data?.token) {
-          uni.setStorageSync("requestToken", res.data.token);
-          uni.showToast({ title: "兑换成功", icon: "success" });
-          this.hasToken = true;
-          this.showModal = false;
-        } else {
-          uni.showToast({ title: res.message || "兑换失败", icon: "none" });
-        }
-      } catch (err) {
-        console.error("兑换失败:", err);
-        uni.showToast({ title: "兑换失败，请重试", icon: "none" });
       } finally {
         this.hideLoading();
       }
@@ -889,7 +772,6 @@ export default {
 
         this.drawerList = newDrawerList;
         this.hasData = this.drawerList.length === 0;
-        this.generateComboList();
         this.$forceUpdate();
       } catch (err) {
         this.hideLoading();
@@ -946,16 +828,29 @@ export default {
           id: item.id,
           beFrom: "basketball",
           serialNumber: item.serial_number || "",
+          dateStr: item.date_str,
           isLottery: 1,
         };
         // 调用recharge接口
         const res = await recharge(reqParams);
         console.log(res, "res------");
-        if (res.data.status == "fail") {
+        if (res.data.status == 'fail') {
           // isLottery=1 表示无灵石，显示充值弹窗
-          this.isDialogShow = true;
           this.hideLoading();
-          return;
+          uni.showModal({
+                title: "请充币",
+                content: "您的游戏币不足，请兑换！",
+                cancelText: "取消",
+                confirmText: "兑换",
+                confirmColor: "#d92929",
+                success: (res) => {
+                  if (res.confirm) {
+                    // 点击兑换跳充值页
+                    uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
+                  }
+                }
+              });
+        return;
         } else {
           await uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
         }
@@ -1089,21 +984,25 @@ page {
     text-overflow: ellipsis;
   }
 
-  .confirm-btn {
-    width: 140rpx;
-    background-color: #d92929;
-    color: #fff;
-    border-radius: 8rpx;
-    font-size: 28rpx;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:disabled {
-      background-color: #ccc;
-      color: #999;
+    .confirm-btn {
+      width: 180rpx;
+      height: 70rpx;
+      line-height: 70rpx;
+      background-color: #d92929;
+      color: #fff;
+      border-radius: 8rpx;
+      font-size: 28rpx;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+
+      &:disabled {
+        background-color: #ccc;
+        color: #999;
+      }
     }
-  }
 }
 
 /* 彻底删除原有串关和倍数相关样式 */

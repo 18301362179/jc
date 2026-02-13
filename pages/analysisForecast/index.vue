@@ -108,8 +108,6 @@
         </view>
       </view>
     </scroll-view>
-
-    <ReminderDialog :is-show="isDialogShow" @cancel="handleCancel" @exchange="handleExchange" />
     <NativeTabbar ref="nativeTabbar" />
   </view>
 </template>
@@ -117,13 +115,12 @@
 <script>
 import NativeTabbar from "@/components/tabbar.vue";
 import { login, checkToken } from "@/utils/auth.js";
-import { queryContinentList, queryLeagueList, getSaiCheng, getJiFen, getSheShou, getTimeList, queryStageList, queryGroupAndRoundList, queryTeamWordRanking } from "@/api/demo";
+import { queryContinentList, queryLeagueList, getSaiCheng, getJiFen, getSheShou, getTimeList, queryStageList, queryGroupAndRoundList, queryTeamWordRanking, recharge } from "@/api/demo";
 import { formatDateWithWeekday } from "@/utils/data";
 import noData from "@/pages/commn/noData";
 import SaiCheng from "@/pages/commn/saiCheng.vue";
 import JiFen from "@/pages/commn/jiFen.vue";
 import SheShou from "@/pages/commn/sheShou.vue";
-import ReminderDialog from "@/pages/commn/ReminderDialog.vue";
 import WordRanking from "@/pages/commn/WordRanking.vue";
 
 export default {
@@ -133,7 +130,6 @@ export default {
     SaiCheng,
     JiFen,
     SheShou,
-    ReminderDialog,
     WordRanking,
   },
   data() {
@@ -154,7 +150,6 @@ export default {
       sheshouList: [],
       roundList: [],
       stageSelectIndex: 0,
-      isDialogShow: false,
       scrollLeft: 0,
       groupIndex: -1,
       roundIndex: -1,
@@ -199,7 +194,7 @@ export default {
     const systemInfo = uni.getSystemInfoSync();
     this.windowWidth = systemInfo.windowWidth;
     this.windowHeight = systemInfo.windowHeight;
-    this.safeAreaBottom = systemInfo.safeAreaInsets?.bottom || 0;
+     this.safeAreaBottom = (systemInfo.safeAreaInsets && systemInfo.safeAreaInsets.bottom) || 0;
     this.pageHeight = this.windowHeight; // 页面总高度 = 屏幕高度
 
     // 初始化窗口resize回调函数（关键：保存引用）
@@ -327,10 +322,56 @@ export default {
         uni.showToast({ title: "未找到相关排名", icon: "none" });
       }
     },
-    async handleClickDetail(id, amount) {
-      uni.navigateTo({
-        url: `/pages/recharge/recharge?beFrom=football&isLottery=1`,
+  async handleClickDetail(item) {
+      try {
+        this.showLoading();
+        const reqParams = {
+          id: item.id,
+          isLottery: 0,
+          isTradition: 1,
+          beFrom:"football",
+          serialNumber: item.serial_number,
+          dateStr: item.date_str
+        };
+    // 调用recharge接口
+    const res = await recharge(reqParams);
+    if (res.data.status == 'fail') {
+         this.hideLoading();
+      // 原生弹窗（和你自定义弹窗效果完全一致）
+              uni.showModal({
+                title: "请充币",
+                content: "您的游戏币不足，请兑换！",
+                cancelText: "取消",
+                confirmText: "兑换",
+                confirmColor: "#d92929",
+                success: (res) => {
+                  if (res.confirm) {
+                    // 点击兑换跳充值页
+                    uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=football&isLottery=1` });
+                  }
+                }
+              });
+              return;
+    } else {
+            // 有灵石，正常跳转分析页
+          await uni.navigateTo({
+            url: `/pages/test/index?id=${item.id}&isLottery=0&isTradition=1`,
+          });
+    }
+  } catch (err) {
+    uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
+  } finally {
+    this.hideLoading();
+  }
+    },
+    showLoading() {
+      uni.showLoading({
+        title: "加载中...",
+        mask: true,
       });
+    },
+    hideLoading() {
+      uni.hideLoading();
     },
     getOriginalIndex(filteredIndex) {
       if (this.stageList.length > 0 && !this.stageList[0]) {
@@ -558,7 +599,7 @@ export default {
       query
         .select(".stage-scroll")
         .boundingClientRect((data) => {
-          this.contentScrollW = data?.width || 0;
+          this.contentScrollW = data && data.width ? data.width : 0;
         })
         .exec();
       query
@@ -571,14 +612,6 @@ export default {
           }
         })
         .exec();
-    },
-    handleExchange() {
-      // 修复TabBar跳转失败：非TabBar页面改用navigateTo
-      uni.navigateTo({ url: "/pages/recharge/recharge" });
-      this.isDialogShow = false;
-    },
-    handleCancel() {
-      this.isDialogShow = false;
     },
     forateData(time) {
       return formatDateWithWeekday(time);

@@ -5,7 +5,7 @@
       :showBack="false"
       :ballTitle="''"
       :title="' 云竞慧博'"
-      :isIndex="true"
+      :isIndex="false"
       :showIcon="true"
       :isSelected="false"
       @funnel-click="handleFunnel"

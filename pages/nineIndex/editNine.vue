@@ -175,7 +175,7 @@ export default {
     calcAllHeights() {
       const sys = uni.getSystemInfoSync();
       this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = (sys.platform === "ios" && sys.safeAreaInsets?.bottom) || 0;
+       this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       
       // 导航栏高度（80rpx转px）
       const navBarFixedRpx = 80;

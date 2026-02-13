@@ -159,7 +159,7 @@ export default {
     const sys = uni.getSystemInfoSync();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
     this.statusBarHeight = sys.statusBarHeight || 20;
-    this.safeAreaBottom = (sys.platform === "ios" && sys.safeAreaInsets?.bottom) || 0;
+    this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
     this.calcAllHeights(); // 计算适配高度
   },
   onLoad() {

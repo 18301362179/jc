@@ -145,7 +145,6 @@
   margin-top: 8rpx;
 }
 .top-right.data-v-6e60ac54 {
-  flex: 1;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -153,6 +152,28 @@
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
+}
+.team-name.data-v-6e60ac54 {
+  font-size: 26rpx;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.team-name .vs-text.data-v-6e60ac54 {
+  color: #999;
+  font-size: 24rpx;
+  width: 140rpx;
+  text-align: center;
+}
+.team-name text.data-v-6e60ac54:first-child {
+  text-align: right;
+  flex: 1;
+}
+.team-name text.data-v-6e60ac54:last-child {
+  text-align: left;
+  flex: 1;
 }
 .rate-row.data-v-6e60ac54 {
   width: 100%;
@@ -162,27 +183,23 @@
   color: #999;
 }
 .rate-row .rate-text.data-v-6e60ac54 {
-  width: 100%;
   flex: 1;
-  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .rate-row .rate-text.home.data-v-6e60ac54 {
   text-align: right;
-  padding-right: 10rpx;
+  padding-right: 0;
 }
 .rate-row .rate-text.away.data-v-6e60ac54 {
   text-align: left;
-  padding-left: 10rpx;
+  padding-left: 0;
 }
 .rate-row .vs-text.data-v-6e60ac54 {
   width: 140rpx;
   text-align: center;
   flex-shrink: 0;
-  color: #999;
-  font-size: 20rpx;
 }
 .bottom-left.data-v-6e60ac54 {
   display: flex;
@@ -223,9 +240,6 @@
   text-align: center;
   font-size: 20rpx;
   color: #999;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .team-vs.data-v-6e60ac54 {
   font-size: 24rpx;

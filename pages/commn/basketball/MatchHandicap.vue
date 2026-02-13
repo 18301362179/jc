@@ -23,7 +23,7 @@
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)">分析</view>
+              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -68,7 +68,7 @@
                 <!-- 胜率行：样式统一 -->
                 <view class="rate-row">
                   <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
-                  <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
+                  <text class="vs-text"></text>
                   <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
                 </view>
               </view>
@@ -409,14 +409,12 @@ export default {
   }
   .team-name.away {
     text-align: right;
-    padding-right: 10rpx;
   }
   .team-name.home {
     text-align: left;
-    padding-left: 10rpx;
   }
   .vs-text {
-    width: 40rpx;
+    width: 80rpx;
     text-align: center;
     flex-shrink: 0;
     font-weight: 500;
@@ -442,14 +440,13 @@ export default {
   }
   .rate-text.away {
     text-align: right;
-    padding-right: 10rpx;
   }
   .rate-text.home {
     text-align: left;
-    padding-left: 10rpx;
+
   }
   .vs-text {
-    width: 140rpx;
+    width: 60rpx;
   }
 }
 

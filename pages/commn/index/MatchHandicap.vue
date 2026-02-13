@@ -24,7 +24,7 @@
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜率数据时显示 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> 分析 </view>
+              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)">  {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -68,7 +68,7 @@
                 <text class="vs-odds" v-if="item.r_draw_multiplier">平{{ item.r_draw_multiplier }}</text>
                 <text class="vs-odds" v-if="item.draw_rate">
                   平率
-                  <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.vsSelected) }">{{ item.draw_rate }}</text>
+                  <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.handicapVsSelected) }">{{ item.draw_rate }}</text>
                 </text>
               </view>
               <view class="match-cell away" :class="{ selected: item.handicapAwaySelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapAwaySelected')">
@@ -181,6 +181,9 @@ export default {
     },
     // 核心：校验8场限制 + 调用原有toggleSelect
     checkAndSelect(item, selectType) {
+      if (item.is_stop == 1) {
+        return;
+      }
       // 1. 判断当前点击的是「取消选中」还是「新增选中」
       const isCancel = item[selectType]; // 已有选中状态 → 取消
       const isAdd = !isCancel; // 无选中状态 → 新增

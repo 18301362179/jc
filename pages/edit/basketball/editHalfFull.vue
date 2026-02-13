@@ -186,9 +186,6 @@ export default {
     uni.setTabBarStyle({ height: '0px' });
   },
   created() {
-    const sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
     this.calcAllHeights(); // 统一计算高度
   },
   onLoad() {
@@ -240,16 +237,17 @@ export default {
       });
     },
     // 统一高度计算逻辑，对齐让分胜负页
-    calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
-      this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = (sys.safeAreaInsets?.bottom) || 0;
-      const navBarFixedRpx = 80;
-      const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
-      this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      const betBarFixedRpx = 180;
-      this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-    },
+calcAllHeights() {
+  const sys = uni.getSystemInfoSync();
+  this.statusBarHeight = sys.statusBarHeight || 20;
+  this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+  const navBarFixedRpx = 80;
+  const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
+  this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
+  const betBarFixedRpx = 180;
+  this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
+  this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
+},
     // 大小分专属 - 奖金计算方法（保留核心逻辑，优化格式）
     calculateBonusText() {
       // 边界判断：无选中赛事时，返回空提示

@@ -102,81 +102,94 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var m0 = _vm.info ? _vm.forateData(_vm.courseMap.race_date) : null
-  var m1 = _vm.info
-    ? _vm.decimalToPercentage(_vm.winRateAndGoalCalculate.home_win_rate, 0)
-    : null
-  var m2 = _vm.info
-    ? _vm.decimalToPercentage(_vm.winRateAndGoalCalculate.draw_rate)
-    : null
-  var m3 = _vm.info
-    ? _vm.decimalToPercentage(_vm.winRateAndGoalCalculate.visiting_win_rate, 0)
-    : null
-  var g0 = _vm.info && _vm.showPlayerModal ? _vm.playerList.length : null
+  var m0 = _vm.forateData(_vm.courseMap.race_date)
+  var m1 = _vm.decimalToPercentage(_vm.baseMap.home_win_rate, 0)
+  var m2 = _vm.decimalToPercentage(_vm.baseMap.draw_rate)
+  var m3 = _vm.decimalToPercentage(_vm.baseMap.visiting_win_rate, 0)
+  var g0 =
+    _vm.baseMap && _vm.baseMap.tzk_head_home_win_rate
+      ? (_vm.baseMap.tzk_head_home_win_rate &&
+          _vm.baseMap.tzk_head_home_win_rate.split("/")[0]) ||
+        "-"
+      : null
+  var g1 =
+    _vm.baseMap && _vm.baseMap.tzk_head_home_win_rate
+      ? (_vm.baseMap.tzk_head_visiting_win_rate &&
+          _vm.baseMap.tzk_head_visiting_win_rate.split("/")[0]) ||
+        "-"
+      : null
+  var g2 =
+    _vm.baseMap && _vm.baseMap.tzk_head_home_goal
+      ? (_vm.baseMap.tzk_head_home_goal &&
+          _vm.baseMap.tzk_head_home_goal.split("/")[0]) ||
+        "-"
+      : null
+  var g3 =
+    _vm.baseMap && _vm.baseMap.tzk_head_home_goal
+      ? (_vm.baseMap.tzk_head_visiting_goal &&
+          _vm.baseMap.tzk_head_visiting_goal.split("/")[0]) ||
+        "-"
+      : null
+  var g4 = _vm.filteredRecords.length
+  var g5 = _vm.filteredRecords.length
   var l0 =
-    _vm.info && _vm.info.home_headToHeadRemark && _vm.info.headToHeadRecord
-      ? _vm.__map(_vm.info.headToHeadRecord, function (item, i) {
+    g5 > 0
+      ? _vm.__map(_vm.filteredRecords, function (item, index) {
           var $orig = _vm.__get_orig(item)
-          var g1 = [
-            item.league_name,
-            item.stage,
-            item.sub_group ? item.sub_group + "组" : "",
-            item.round_no ? "第" + item.round_no + "轮" : "",
-          ]
-            .filter(Boolean)
-            .join("")
+          var g6 =
+            [
+              item.league_name,
+              item.stage && !["小组赛", "联赛"].includes(item.stage)
+                ? item.stage
+                : "",
+              item.round_no ? "第" + item.round_no + "轮" : "",
+            ]
+              .filter(Boolean)
+              .join("") || "-"
           return {
             $orig: $orig,
-            g1: g1,
+            g6: g6,
           }
         })
       : null
-  var g2 = _vm.info
-    ? _vm.info.homeLastCourses && _vm.info.homeLastCourses.length > 0
+  var g7 = _vm.homeLastCourses && _vm.homeLastCourses.length > 0
+  var l1 = g7
+    ? _vm.__map(_vm.homeLastCourses, function (item, i) {
+        var $orig = _vm.__get_orig(item)
+        var g8 = [
+          item.league_name,
+          item.stage,
+          item.sub_group ? item.sub_group + "组" : "",
+          item.round_no ? "第" + item.round_no + "轮" : "",
+        ]
+          .filter(Boolean)
+          .join("")
+        return {
+          $orig: $orig,
+          g8: g8,
+        }
+      })
     : null
-  var l1 =
-    _vm.info && g2
-      ? _vm.__map(_vm.info.homeLastCourses, function (item, i) {
-          var $orig = _vm.__get_orig(item)
-          var g3 = [
-            item.league_name,
-            item.stage,
-            item.sub_group ? item.sub_group + "组" : "",
-            item.round_no ? "第" + item.round_no + "轮" : "",
-          ]
-            .filter(Boolean)
-            .join("")
-          return {
-            $orig: $orig,
-            g3: g3,
-          }
-        })
-      : null
-  var g4 = _vm.info
-    ? _vm.info.visitingLastCourses && _vm.info.visitingLastCourses.length > 0
+  var g9 = _vm.visitingLastCourses && _vm.visitingLastCourses.length > 0
+  var l2 = g9
+    ? _vm.__map(_vm.visitingLastCourses, function (item, i) {
+        var $orig = _vm.__get_orig(item)
+        var g10 = [
+          item.league_name,
+          item.stage,
+          item.sub_group ? item.sub_group + "组" : "",
+          item.round_no ? "第" + item.round_no + "轮" : "",
+        ]
+          .filter(Boolean)
+          .join("")
+        return {
+          $orig: $orig,
+          g10: g10,
+        }
+      })
     : null
-  var l2 =
-    _vm.info && g4
-      ? _vm.__map(_vm.info.visitingLastCourses, function (item, i) {
-          var $orig = _vm.__get_orig(item)
-          var g5 = [
-            item.league_name,
-            item.stage,
-            item.sub_group ? item.sub_group + "组" : "",
-            item.round_no ? "第" + item.round_no + "轮" : "",
-          ]
-            .filter(Boolean)
-            .join("")
-          return {
-            $orig: $orig,
-            g5: g5,
-          }
-        })
-      : null
-  var g6 = _vm.info ? _vm.homeScorers && _vm.homeScorers.length > 0 : null
-  var g7 = _vm.info
-    ? _vm.visitingScorers && _vm.visitingScorers.length > 0
-    : null
+  var g11 = _vm.homeScorers && _vm.homeScorers.length > 0
+  var g12 = _vm.visitingScorers && _vm.visitingScorers.length > 0
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -186,13 +199,18 @@ var render = function () {
         m2: m2,
         m3: m3,
         g0: g0,
-        l0: l0,
+        g1: g1,
         g2: g2,
-        l1: l1,
+        g3: g3,
         g4: g4,
-        l2: l2,
-        g6: g6,
+        g5: g5,
+        l0: l0,
         g7: g7,
+        l1: l1,
+        g9: g9,
+        l2: l2,
+        g11: g11,
+        g12: g12,
       },
     }
   )
@@ -476,128 +494,12 @@ var _data = __webpack_require__(/*! @/utils/data */ 61);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default = {
   data: function data() {
     return {
       info: {},
       courseMap: {},
-      winRateAndGoalCalculate: {},
+      baseMap: {},
       goalCalculate: {},
       homeTeam: {},
       visitingTeam: {},
@@ -605,9 +507,11 @@ var _default = {
       visitingLastCourses: [],
       homeScorers: [],
       visitingScorers: [],
-      playerList: [],
-      currentTeamName: '',
-      showPlayerModal: false
+      currentTeamName: "",
+      currentTab: "全部",
+      filteredRecords: [],
+      tzkHeadRecord: [],
+      allHeadRecord: []
     };
   },
   onLoad: function onLoad(options) {
@@ -617,20 +521,27 @@ var _default = {
     if (options.isTradition) {
       param.isTradition = 1;
     }
-    ;
     this.getAiDetail(param);
   },
   onShow: function onShow() {
     uni.hideTabBar();
   },
   methods: {
+    switchTab: function switchTab(tab) {
+      if (tab == "全部") {
+        this.filteredRecords = this.allHeadRecord;
+      } else {
+        this.filteredRecords = this.tzkHeadRecord;
+      }
+      this.currentTab = tab;
+    },
     forateData: function forateData(time) {
-      return (0, _data.formatDateWithWeekday)(time);
+      return (0, _data.formatDateWithWeekday)(time) || "-";
     },
     decimalToPercentage: function decimalToPercentage(decimal) {
       var fixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '-';
-      if (typeof decimal !== 'number' || isNaN(decimal)) {
+      var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "-";
+      if (typeof decimal !== "number" || isNaN(decimal)) {
         return defaultValue;
       }
       var percentage = decimal * 100;
@@ -639,7 +550,7 @@ var _default = {
     getAiDetail: function getAiDetail(param) {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var res;
+        var res, data;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -650,94 +561,41 @@ var _default = {
                 return (0, _demo.getAi)(param);
               case 4:
                 res = _context.sent;
-                _this.courseMap = res.data.data.baseMap;
-                _this.winRateAndGoalCalculate = res.data.data.winRateAndGoalCalculate;
-                _this.goalCalculate = res.data.data.goalCalculate;
-                _this.homeTeam = res.data.data.homeTeam;
-                _this.visitingTeam = res.data.data.visitingTeam;
-                _this.homeLastCourses = res.data.data.homeLastCourses;
-                _this.visitingLastCourses = res.data.data.visitingLastCourses;
-                _this.homeScorers = res.data.data.homeScorers;
-                _this.visitingScorers = res.data.data.visitingScorers;
-                _this.info = JSON.parse(JSON.stringify(res.data.data));
-                _context.next = 21;
+                data = res.data.data || {};
+                _this.courseMap = data.baseMap || {};
+                _this.baseMap = data.baseMap || {};
+                _this.goalCalculate = data.goalCalculate || {};
+                _this.homeTeam = data.homeTeam || {};
+                _this.visitingTeam = data.visitingTeam || {};
+                _this.homeLastCourses = data.homeLastCourses || [];
+                _this.visitingLastCourses = data.visitingLastCourses || [];
+                _this.homeScorers = data.homeScorers || [];
+                _this.visitingScorers = data.visitingScorers || [];
+                _this.allHeadRecord = data.all_headRecord || [];
+                _this.tzkHeadRecord = data.tzk_headRecord || [];
+                _this.filteredRecords = data.all_headRecord || [];
+                _this.info = JSON.parse(JSON.stringify(data));
+                _context.next = 24;
                 break;
-              case 17:
-                _context.prev = 17;
-                _context.t0 = _context["catch"](1);
-                console.error("获取AI详情失败:", _context.t0);
-                _this.hideLoading();
               case 21:
                 _context.prev = 21;
-                _this.hideLoading();
-                return _context.finish(21);
+                _context.t0 = _context["catch"](1);
+                console.error("获取AI详情失败:", _context.t0);
               case 24:
+                _context.prev = 24;
+                _this.hideLoading();
+                return _context.finish(24);
+              case 27:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 17, 21, 24]]);
+        }, _callee, null, [[1, 21, 24, 27]]);
       }))();
-    },
-    openPlayerModal: function openPlayerModal(teamName) {
-      var _this2 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var res;
-        return _regenerator.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (teamName) {
-                  _context2.next = 3;
-                  break;
-                }
-                uni.showToast({
-                  title: '球队名称无效',
-                  icon: 'none'
-                });
-                return _context2.abrupt("return");
-              case 3:
-                _this2.currentTeamName = teamName;
-                _this2.playerList = [];
-                _this2.showPlayerModal = true;
-                _this2.showLoading();
-                _context2.prev = 7;
-                _context2.next = 10;
-                return (0, _demo.queryPlayer)({
-                  teamName: teamName
-                });
-              case 10:
-                res = _context2.sent;
-                _this2.playerList = res.data || [];
-                _context2.next = 18;
-                break;
-              case 14:
-                _context2.prev = 14;
-                _context2.t0 = _context2["catch"](7);
-                console.error("查询球员列表失败:", _context2.t0);
-                uni.showToast({
-                  title: '获取球员数据失败',
-                  icon: 'none'
-                });
-              case 18:
-                _context2.prev = 18;
-                _this2.hideLoading();
-                return _context2.finish(18);
-              case 21:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, null, [[7, 14, 18, 21]]);
-      }))();
-    },
-    closePlayerModal: function closePlayerModal() {
-      this.showPlayerModal = false;
-      this.playerList = [];
     },
     showLoading: function showLoading() {
       uni.showLoading({
-        title: '加载中...',
+        title: "加载中...",
         mask: true
       });
     },

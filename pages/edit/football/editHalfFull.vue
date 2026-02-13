@@ -282,7 +282,7 @@ calculateHalfFullBonus() {
       // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
       // 2. 底部安全区高度
-      this.safeAreaBottom = sys.safeAreaInsets?.bottom || 0;
+        this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       // 3. 导航栏固定高度（80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
@@ -423,10 +423,6 @@ handlePlus() {
     }
   },
   created() {
-    const sys = uni.getSystemInfoSync();
-    // 环境识别（和胜平负页面一致）
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
     // 计算所有高度
     this.calcAllHeights();
   },

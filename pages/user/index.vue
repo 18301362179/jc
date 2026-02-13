@@ -1,15 +1,17 @@
 <template>
   <view class="container" style="width: 100%; height: 100vh; box-sizing: border-box;">
-    <!-- 头部 -->
+    <!-- 头部（新增去充值按钮布局） -->
     <view class="header">
       <image class="avatar" src="@/static/mine1.png" mode="aspectFill"></image>
       <view class="user-info">
         <text class="username">{{ userInfo.remarkName || '' }}</text>
         <text class="stone-count">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
+      <!-- 新增：去充值按钮 -->
+      <button class="recharge-btn" @click="gotoRecharge">充币</button>
     </view>
 
-    <!-- Tab栏：调整顺序，竞猜放第一个 -->
+    <!-- Tab栏：调整顺序，竞彩放第一个 -->
     <view class="tab-bar">
       <!-- <view class="tab-item" :class="{ active: currentTab === 0 }" @click="switchTab(0)">模拟</view> -->
       <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">分析记录</view>
@@ -18,7 +20,7 @@
 
     <!-- 内容区 -->
     <scroll-view class="content-scroll" scroll-y>
-      <!-- 1. 竞猜（原代购，移到第一个Tab） -->
+      <!-- 1. 竞彩（原代购，移到第一个Tab） -->
       <view v-if="currentTab === 0" class="purchase-section">
         <no-data v-if="lotteryPurchasing.length === 0" />
         <view class="purchase-card" v-for="(item, index) in lotteryPurchasing" :key="index">
@@ -134,7 +136,7 @@ export default {
   components: { NoData, NativeTabbar },
   data() {
     return {
-      currentTab: 1, // 默认显示第一个Tab（竞猜）
+      currentTab: 1,
       userInfo: {},
       lotteryPurchasing: [],
       isImagePreviewVisible: false,
@@ -142,17 +144,39 @@ export default {
       defaultLotteryImageUrl: 'http://www.tianjifu.com/qwxt/outside/common/fileDownload?fileFullPathName=',
       tradeRecord: [],
       paymentRecord: [],
-            touchStartX: 0, // 新增：触摸起始X坐标
+      touchStartX: 0, // 新增：触摸起始X坐标
       swipeThreshold: 50, // 新增：滑动判定阈值（px）
+      betForm: '' // 新增：存储平台类型
     };
   },
   created() {
+    // 初始化平台类型
+    this.initBetForm();
     this.getData();
   },
   onShow() {
     this.getData();
   },
   methods: {
+    // 新增：初始化betForm（使用#ifdef预处理指令）
+    initBetForm() {
+      // #ifdef APP-PLUS
+      this.betForm = 'app';
+      // #endif
+      // #ifdef MP-WEIXIN
+      this.betForm = 'weChatMiniProgram';
+      // #endif
+      // #ifdef H5
+      this.betForm = 'weChatMiniProgram'; // H5可根据实际需求调整
+      // #endif
+    },
+    // 新增：去充值按钮点击事件
+    gotoRecharge() {
+      // 替换为你的充值页面路径
+      uni.navigateTo({
+        url: '/pages/recharge/recharge'
+      });
+    },
     openImagePreview(imagePath) {
       if (!imagePath) return uni.showToast({ title: '暂无彩票图片', icon: 'none' });
       this.previewImageUrl = this.defaultLotteryImageUrl + imagePath;
@@ -168,8 +192,8 @@ export default {
     async getData() {
       uni.showLoading({ title: "加载中..." });
       try {
-        const betForm = uni.getSystemInfoSync().platform === 'ios' || uni.getSystemInfoSync().platform === 'android' ? 'app' : 'weChatMiniProgram';
-        const res = await getUser({ betForm });
+        // 修改：使用初始化好的betForm，替代原有的platform判断
+        const res = await getUser({ betForm: this.betForm });
         this.userInfo = res.data.user || res.data.userInfo || {};
         this.lotteryPurchasing = res.data.lotteryPurchasing || [];
         this.paymentRecord = res.data.paymentRecord || [];
@@ -231,14 +255,15 @@ export default {
   display: flex;
   flex-direction: column;
 
-  // 头部
+  // 头部（新增去充值按钮样式）
   .header {
     background: #fff;
+    box-sizing: border-box;
     padding: 60rpx;
     display: flex;
     align-items: center;
     border-bottom: 1rpx solid #eaecef;
-
+    position: relative;
     .avatar {
       width: 110rpx;
       height: 110rpx;
@@ -248,6 +273,21 @@ export default {
     .user-info {
       .username { font-size: 26rpx; color: #333; display: block; margin-bottom: 6rpx; }
       .stone-count { font-size: 24rpx; color: #666; }
+    }
+    // 新增：去充值按钮样式
+    .recharge-btn {
+      background: #31926e;
+      color: #fff;
+      border: none;
+      border-radius: 8rpx;
+      padding: 12rpx 24rpx;
+      font-size: 26rpx;
+      height: auto; // 重置uni-app默认button高度
+      line-height: 1; // 重置行高
+      position: absolute;
+      right: 40rpx;
+      bottom:60rpx;
+      margin:atuo;
     }
   }
 
@@ -284,23 +324,23 @@ export default {
 
   // 内容区
   .content-scroll {
-       touch-action: pan-y;
-  flex: 1;
-  overflow-y: auto;
-  padding: 20rpx;
-  // 关键：分端设置底部间距，避开NativeTabbar
-  // #ifdef APP-PLUS
-  padding-bottom: calc(100rpx + env(safe-area-inset-bottom) + 20rpx) !important;
-  // #endif
-  
-  // #ifdef H5
-  padding-bottom: calc(100rpx + 20rpx) !important;
-  // #endif
-  
-  // #ifdef MP-WEIXIN
-  padding-bottom: calc(100rpx + env(safe-area-inset-bottom) + 20rpx) !important;
-  // #endif
-  box-sizing: border-box !important; // 确保padding不撑开高度
+    touch-action: pan-y;
+    flex: 1;
+    overflow-y: auto;
+    padding: 20rpx;
+    // 关键：分端设置底部间距，避开NativeTabbar
+    // #ifdef APP-PLUS
+    padding-bottom: calc(100rpx + env(safe-area-inset-bottom) + 20rpx) !important;
+    // #endif
+    
+    // #ifdef H5
+    padding-bottom: calc(100rpx + 20rpx) !important;
+    // #endif
+    
+    // #ifdef MP-WEIXIN
+    padding-bottom: calc(100rpx + env(safe-area-inset-bottom) + 20rpx) !important;
+    // #endif
+    box-sizing: border-box !important; // 确保padding不撑开高度
 
     // 交易/充值通用样式
     .record-section {
@@ -339,7 +379,7 @@ export default {
       .highlight { color: #d92929; font-weight: 600; }
     }
 
-    // 竞猜（原代购）
+    // 竞彩（原代购）
     .purchase-section {
       .purchase-card {
         background: #fff;

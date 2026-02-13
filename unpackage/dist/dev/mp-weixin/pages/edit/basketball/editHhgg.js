@@ -223,7 +223,7 @@ exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 30));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
-var _validate = __webpack_require__(/*! @/utils/validate */ 62);
+var _validate = __webpack_require__(/*! @/utils/validate */ 78);
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
     return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 344));
@@ -307,9 +307,6 @@ var _default = {
     });
   },
   created: function created() {
-    var sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
     this.calcAllHeights();
   },
   onLoad: function onLoad() {
@@ -363,10 +360,11 @@ var _default = {
         // 1. 胜负
         case 'spf':
           {
-            var _item$selectedSpf;
-            var spfItems = ((_item$selectedSpf = item.selectedSpf) === null || _item$selectedSpf === void 0 ? void 0 : _item$selectedSpf.filter(function (t) {
+            var spfItems = item.selectedSpf && item.selectedSpf.filter(function (t) {
               return ['home_win', 'home_lose'].includes(t);
-            })) || [];
+            }) ? item.selectedSpf.filter(function (t) {
+              return ['home_win', 'home_lose'].includes(t);
+            }) : [];
             if (spfItems.length === 0) return '';
             // 转义为中文并拼接赔率
             return spfItems.map(function (t) {
@@ -377,10 +375,11 @@ var _default = {
         // 2. 让分胜负
         case 'rspf':
           {
-            var _item$selectedSpf2;
-            var rspfItems = ((_item$selectedSpf2 = item.selectedSpf) === null || _item$selectedSpf2 === void 0 ? void 0 : _item$selectedSpf2.filter(function (t) {
+            var rspfItems = item.selectedSpf && item.selectedSpf.filter(function (t) {
               return ['home_win_r', 'home_lose_r'].includes(t);
-            })) || [];
+            }) ? item.selectedSpf.filter(function (t) {
+              return ['home_win_r', 'home_lose_r'].includes(t);
+            }) : [];
             if (rspfItems.length === 0) return '';
             // 转义为中文并拼接赔率
             return rspfItems.map(function (t) {
@@ -402,10 +401,11 @@ var _default = {
         // 4. 胜分差（客胜）
         case 'sfc_away':
           {
-            var _item$selectedSfc;
-            var sfcAwayItems = ((_item$selectedSfc = item.selectedSfc) === null || _item$selectedSfc === void 0 ? void 0 : _item$selectedSfc.filter(function (t) {
+            var sfcAwayItems = item.selectedSfc && item.selectedSfc.filter(function (t) {
               return t.includes('客胜');
-            })) || [];
+            }) ? item.selectedSfc.filter(function (t) {
+              return t.includes('客胜');
+            }) : [];
             if (sfcAwayItems.length === 0) return '';
             // 提取分差区间并拼接赔率
             return sfcAwayItems.map(function (t) {
@@ -418,10 +418,11 @@ var _default = {
         // 5. 胜分差（主胜）
         case 'sfc_home':
           {
-            var _item$selectedSfc2;
-            var sfcHomeItems = ((_item$selectedSfc2 = item.selectedSfc) === null || _item$selectedSfc2 === void 0 ? void 0 : _item$selectedSfc2.filter(function (t) {
+            var sfcHomeItems = item.selectedSfc && item.selectedSfc.filter(function (t) {
               return t.includes('主胜');
-            })) || [];
+            }) ? item.selectedSfc.filter(function (t) {
+              return t.includes('主胜');
+            }) : [];
             if (sfcHomeItems.length === 0) return '';
             // 提取分差区间并拼接赔率
             return sfcHomeItems.map(function (t) {
@@ -448,10 +449,9 @@ var _default = {
     },
     // 计算高度
     calcAllHeights: function calcAllHeights() {
-      var _sys$safeAreaInsets;
       var sys = uni.getSystemInfoSync();
       this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = ((_sys$safeAreaInsets = sys.safeAreaInsets) === null || _sys$safeAreaInsets === void 0 ? void 0 : _sys$safeAreaInsets.bottom) || 0;
+      this.safeAreaBottom = sys.safeAreaInsets && sys.safeAreaInsets.bottom || 0;
       var navBarFixedRpx = 80;
       var navBarFixedPx = sys.screenWidth / 750 * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;

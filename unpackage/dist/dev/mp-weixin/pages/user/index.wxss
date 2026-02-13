@@ -33,10 +33,12 @@
 }
 .container .header.data-v-137d5072 {
   background: #fff;
+  box-sizing: border-box;
   padding: 60rpx;
   display: flex;
   align-items: center;
   border-bottom: 1rpx solid #eaecef;
+  position: relative;
 }
 .container .header .avatar.data-v-137d5072 {
   width: 110rpx;
@@ -53,6 +55,20 @@
 .container .header .user-info .stone-count.data-v-137d5072 {
   font-size: 24rpx;
   color: #666;
+}
+.container .header .recharge-btn.data-v-137d5072 {
+  background: #31926e;
+  color: #fff;
+  border: none;
+  border-radius: 8rpx;
+  padding: 12rpx 24rpx;
+  font-size: 26rpx;
+  height: auto;
+  line-height: 1;
+  position: absolute;
+  right: 40rpx;
+  bottom: 60rpx;
+  margin: atuo;
 }
 .container .tab-bar.data-v-137d5072 {
   background: #fff;

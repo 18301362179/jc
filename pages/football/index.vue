@@ -1,7 +1,7 @@
 <template>
   <!-- 模板部分完全不变，仅保留原有结构 -->
   <view style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader :showBack="true" :ballTitle="'竞猜足球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
+    <CustomHeader :showBack="true" :ballTitle="'竞彩足球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
 
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
@@ -53,8 +53,6 @@
     <!-- 全局数字软键盘组件（新增） -->
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
     <EmptyStop :hasData="hasData" />
-    <ReminderDialog :isShow="isDialogShow" @cancel="handleCancel" @exchange="handleRecharge" />
-    <!-- <NativeTabbar ref="nativeTabbar" /> -->
   </view>
 </template>
 
@@ -69,7 +67,6 @@ import CustomHeader from "@/components/CustomHeader.vue";
 // 新增：引入混合过关列表组件
 import MixedPassList from "@/pages/commn/index/MixedPassList.vue";
 import { queryFootBallLLottery, checkCode, wxLogin, checkSelect, recharge } from "@/api/demo";
-import ReminderDialog from "@/pages/commn/ReminderDialog.vue";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 import TipsPopup from "@/pages/commn/playTip";
 import { validateBetInput } from "@/utils/validate";
@@ -83,7 +80,6 @@ export default {
     MatchTotalGoals,
     MatchHalfFull,
     CustomHeader,
-    ReminderDialog,
     TipsPopup,
     EmptyStop,
     // 注册混合过关组件
@@ -93,8 +89,8 @@ export default {
     return {
       // 新增：玩法列表添加混合过关
       typesList: ["混合过关", "胜平负", "让球胜平负", "总进球", "半全场", "比分"],
-      selectedType: ["混合过关"],
-      currentPlay: "混合过关",
+      selectedType: ["胜平负"],
+      currentPlay: "胜平负",
       showModal: false,
       hasToken: false,
       isPopupShowType: false,
@@ -106,7 +102,6 @@ export default {
       isLoading: false,
       selectedTime: "",
       headerHeight: 0,
-      isDialogShow: false,
       betCount: 1,
       selectedWays: [],
       statusBarHeight: 0,
@@ -144,57 +139,6 @@ export default {
       touchStartX: 0, // 新增：触摸起始X坐标
       swipeThreshold: 50, // 新增：滑动判定阈值（px）
       hasData: false,
-      // 混合过关新增：串型配置表
-      mixedComboConfig: {
-        2: [
-          { label: "2串1", value: "2c1" },
-          { label: "2串3", value: "2c3" },
-        ],
-        3: [
-          { label: "3串1", value: "3c1" },
-          { label: "3串4", value: "3c4" },
-          { label: "3串7", value: "3c7" },
-        ],
-        4: [
-          { label: "4串1", value: "4c1" },
-          { label: "4串5", value: "4c5" },
-          { label: "4串11", value: "4c11" },
-          { label: "4串15", value: "4c15" },
-        ],
-        5: [
-          { label: "5串1", value: "5c1" },
-          { label: "5串6", value: "5c6" },
-          { label: "5串16", value: "5c16" },
-          { label: "5串20", value: "5c20" },
-          { label: "5串26", value: "5c26" },
-        ],
-        6: [
-          { label: "6串1", value: "6c1" },
-          { label: "6串7", value: "6c7" },
-          { label: "6串22", value: "6c22" },
-          { label: "6串35", value: "6c35" },
-          { label: "6串42", value: "6c42" },
-          { label: "6串57", value: "6c57" },
-        ],
-        7: [
-          { label: "7串1", value: "7c1" },
-          { label: "7串8", value: "7c8" },
-          { label: "7串29", value: "7c29" },
-          { label: "7串64", value: "7c64" },
-          { label: "7串84", value: "7c84" },
-          { label: "7串120", value: "7c120" },
-          { label: "7串127", value: "7c127" },
-        ],
-        8: [
-          { label: "8串1", value: "8c1" },
-          { label: "8串9", value: "8c9" },
-          { label: "8串37", value: "8c37" },
-          { label: "8串88", value: "8c88" },
-          { label: "8串120", value: "8c120" },
-          { label: "8串168", value: "8c168" },
-          { label: "8串247", value: "8c247" },
-        ],
-      },
     };
   },
   async onPullDownRefresh() {
@@ -277,13 +221,6 @@ selectedMatchCount() {
     },
   },
   watch: {
-    // 场次变化/单场状态变化 → 重新生成串关列表
-    selectedMatchCount() {
-      this.generateComboList();
-    },
-    hasSingleMatch() {
-      this.generateComboList();
-    },
     // 监听玩法切换
     currentPlay(newVal) {
       // 所有玩法都使用同一个加载方法
@@ -302,7 +239,6 @@ selectedMatchCount() {
   mounted() {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
-    this.generateComboList();
   },
   onShow() {
     // #ifdef APP-PLUS
@@ -324,10 +260,10 @@ selectedMatchCount() {
     handleConfirmMixedSelect(confirmData) {
       try {
         // 容错：数据为空时提示用户，避免后续逻辑报错
-        if (!confirmData?.finalDrawerList) {
-          uni.showToast({ title: "数据同步失败，请重试", icon: "none" });
-          return;
-        }
+if (!confirmData || !confirmData.finalDrawerList) {
+  uni.showToast({ title: "数据同步失败，请重试", icon: "none" });
+  return;
+}
 
         // 核心逻辑：用子组件修改后的列表替换父组件旧列表（保证数据同步）
         this.drawerList = confirmData.finalDrawerList;
@@ -503,96 +439,7 @@ handleMixedSelect(item, selectType) {
         this.betCount = validVal;
       });
     },
-    getComboDisplayText() {
-      const matchCount = this.selectedMatchCount;
-      const hasSingle = this.hasSingleMatch;
-
-      if (matchCount === 1 && hasSingle) {
-        return "单关";
-      } else if (matchCount > 1) {
-        // 混合过关显示选中的串型名称
-        if (this.currentPlay === "混合过关" && this.selectedCombo) {
-          const comboMap = {};
-          // 构建串型映射表
-          Object.values(this.mixedComboConfig).forEach((comboGroup) => {
-            comboGroup.forEach((combo) => {
-              comboMap[combo.value] = combo.label;
-            });
-          });
-          return comboMap[this.selectedCombo] || `${matchCount}串1`;
-        }
-        return `${matchCount}串1`;
-      }
-      return "过关方式";
-    },
-    generateComboList() {
-      const list = [];
-      const matchCount = this.selectedMatchCount;
-      const hasSingle = this.hasSingleMatch;
-
-      this.comboList = [];
-
-      if (matchCount === 0) {
-        this.selectedCombo = "";
-        return;
-      }
-
-      // 混合过关串关逻辑（增强）
-      if (this.currentPlay === "混合过关") {
-        if (matchCount === 1 && hasSingle) {
-          list.push({
-            label: "单关",
-            value: "single",
-            enabled: true,
-          });
-          this.selectedCombo = "single";
-        } else if (matchCount >= 2 && matchCount <= 8) {
-          // 从配置表获取对应串型
-          const comboGroup = this.mixedComboConfig[matchCount] || [];
-          comboGroup.forEach((combo) => {
-            list.push({
-              label: combo.label,
-              value: combo.value,
-              enabled: true,
-            });
-          });
-          // 默认选中N串1
-          this.selectedCombo = `${matchCount}c1`;
-        }
-      }
-      // 原有玩法串关逻辑
-      else {
-        if (matchCount === 1 && hasSingle) {
-          list.push({
-            label: "单关",
-            value: "single",
-            enabled: true,
-          });
-          this.selectedCombo = "single";
-        } else if (matchCount >= 2) {
-          for (let i = 2; i <= 8; i++) {
-            list.push({
-              label: `${i}串1`,
-              value: `${i}c1`,
-              enabled: i <= matchCount,
-            });
-          }
-          this.selectedCombo = `${matchCount}c1`;
-        }
-      }
-
-      this.comboList = list;
-    },
-    handleComboSelect(item) {
-      if (!item.enabled) return;
-      this.selectedCombo = item.value;
-    },
     handlePopupClose() {},
-    async getTipsContentFromApi() {
-      try {
-      } catch (err) {
-      }
-    },
     calcPopupMaxHeight() {
       const windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : uni.getSystemInfoSync();
       const { windowHeight, windowWidth, safeAreaInsets, safeArea, statusBarHeight } = windowInfo;
@@ -661,7 +508,12 @@ handleMixedSelect(item, selectType) {
           uni.showToast({ title: "请先选择至少1场比赛", icon: "none" });
           return;
         }
-
+        if (this.currentPlay != "混合过关") {
+          if(!this.hasSingleMatch && this.selectedMatchCount < 2){
+             uni.showToast({ title: "非单场赛事至少选择2场比赛", icon: "none" });
+             return;
+          }
+        }
         // 混合过关专属逻辑
         if (this.currentPlay === "混合过关") {
           // 关键修复1：遍历所有drawer，收集所有有选中项的场次（不再只取第一条）
@@ -689,6 +541,7 @@ handleMixedSelect(item, selectType) {
                   home_name: match.home_name || match.homeTeam || "主队",
                   visiting_name: match.visiting_name || match.awayTeam || "客队",
                   is_stop: match.is_stop || false,
+                  is_hhgg_single: match.is_hhgg_single || false,
                   // 保留所有选中数据（不修改格式，原样传递给编辑页）
                   selectedSpf: match.selectedSpf || [],
                   selectedRspf: match.selectedRspf || [],
@@ -722,6 +575,13 @@ handleMixedSelect(item, selectType) {
               }
             });
           });
+      const hasSingleMatch = selectedMatches.some(match => match.is_hhgg_single);
+      
+      // 2. 非单场场景：需要至少选择2场
+      if (!hasSingleMatch && selectedMatches.length < 2) {
+        uni.showToast({ title: "非单场赛事至少选择2场比赛", icon: "none" });
+        return;
+      }
           // 跳转方案编辑页并传递选中数据
           await uni.navigateTo({
             url: `/pages/edit/football/editHhgg`,
@@ -741,17 +601,10 @@ handleMixedSelect(item, selectType) {
           });
           return;
         }
-
-        // ========== 以下是其他玩法的原有逻辑（完全保留，无需修改） ==========
-        // 胜平负/让球胜平负/比分/总进球/半全场等玩法的跳转逻辑
-        const selectedMatches = this.getSelectedMatches();
-        if (selectedMatches.length === 0) {
-          uni.showToast({ title: "请先选择至少1场比赛", icon: "none" });
-          return;
-        }
-
+      const selectedMatches = this.getSelectedMatches();
         // 组装其他玩法的场次数据（原有逻辑，无需修改）
         const formattedMatches = selectedMatches.map((item) => ({
+          ...item,
           id: item.id,
           league_name: item.league_name,
           serial_number: item.serial_number,
@@ -789,19 +642,31 @@ handleMixedSelect(item, selectType) {
           bqc_00: item.bqc_00,
           bfOdds: item.bfOdds || {},
         }));
-
-        // 跳转其他玩法的编辑页（原有逻辑，无需修改）
-        await uni.navigateTo({
-          url: `/pages/edit/football/edit?playType=${this.currentPlay}`,
-          success: (res) => {
-            res.eventChannel.emit("selectedData", {
-              matches: formattedMatches,
-              betCount: this.betCount,
-              isNeedUserPhone: 1,
-              combo: this.selectedCombo || `${selectedMatches.length}串1`,
-            });
-          },
-        });
+         const playToPageMap = {
+            "胜平负": "index",          // 胜平负跳index
+            "让球胜平负": "editHandicap", // 让球胜平负跳editHandicap
+            "总进球": "editTotalGoals",  // 总进球跳editTotalGoals
+            "半全场": "editHalfFull",    // 半全场跳editHalfFull
+            "比分": "editScore",        // 比分跳editScore
+            "混合过关": "editHhgg"       // 混合过关跳editHhgg
+          };
+          await uni.navigateTo({
+            url: `/pages/edit/football/${playToPageMap[this.currentPlay]}`,
+            events: {
+              // 可选：接收编辑页返回的回调数据（如果需要）
+              editCallback: (data) => {},
+            },
+            success: (res) => {
+              // 向编辑页传递选中数据
+              res.eventChannel.emit("selectedData", {
+                matches: formattedMatches,
+                betCount: 1,
+                isNeedUserPhone: 1,
+                combo: `${selectedMatches.length}串1`,
+              });
+            },
+          });
+          return;
       } catch (error) {
         uni.showToast({ title: "跳转失败，请稍后重试", icon: "none" });
       }
@@ -912,13 +777,6 @@ handleMixedSelect(item, selectType) {
         }
       });
     },
-    handleRecharge() {
-      uni.navigateTo({ url: "/pages/recharge/recharge" });
-      this.isDialogShow = false;
-    },
-    handleCancel() {
-      this.isDialogShow = false;
-    },
     checkLocalToken() {
       const localToken = uni.getStorageSync("requestToken") || "";
       this.hasToken = !!localToken;
@@ -944,26 +802,6 @@ handleMixedSelect(item, selectType) {
         uni.showToast({ title: "登录失败，请稍后重试", icon: "none" });
       } finally {
         this.hideLoading();
-      }
-    },
-    async handleExchange(code) {
-      try {
-        this.showLoading();
-        const res = await checkCode({ checkCode: code });
-        if (res.data.token) {
-          uni.setStorageSync("requestToken", res.data.token);
-          uni.showToast({ title: "兑换成功", icon: "success" });
-          this.hasToken = true;
-          this.showModal = false;
-          this.hideLoading();
-        } else {
-          uni.showToast({ title: res.message || "兑换失败", icon: "none" });
-          this.hideLoading();
-        }
-      } catch (err) {
-        this.hideLoading();
-        console.error("兑换失败:", err);
-        uni.showToast({ title: "兑换失败，请重试", icon: "none" });
       }
     },
     // ========== 核心修正：loadMatchData兼容混合过关 ==========
@@ -1344,54 +1182,43 @@ handleMixedSelect(item, selectType) {
     },
     // AI分析跳转（核心修改）
     async goToAiAnalysis(item) {
-      try {
-        this.showLoading();
-
         // 组装接口参数
         const reqParams = {
           id: item.id,
           beFrom: "football",
           serialNumber: item.serial_number || "",
+          dateStr: item.date_str,
           isLottery: 1,
         };
-
-        console.log("[AI分析] 调用recharge接口:", reqParams);
-
         // 调用recharge接口
         const res = await recharge(reqParams);
-        console.log(res, "res------");
-        if (res.data.status == "fail") {
+        if (res.data.status == 'fail') {
           // isLottery=1 表示无灵石，显示充值弹窗
-          this.isDialogShow = true;
-          this.hideLoading();
-          return;
+         this.hideLoading();
+      // 原生弹窗（和你自定义弹窗效果完全一致）
+              uni.showModal({
+                title: "请充币",
+                content: "您的游戏币不足，请兑换！",
+                cancelText: "取消",
+                confirmText: "兑换",
+                confirmColor: "#d92929",
+                success: (res) => {
+                  if (res.confirm) {
+                    // 点击兑换跳充值页
+                    uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=football&isLottery=1` });
+                  }
+                }
+              });
+              return;
         } else {
           // 有灵石，正常跳转分析页
           await uni.navigateTo({
             url: `/pages/test/index?id=${item.id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}`,
           });
         }
-      } catch (err) {
-        console.error("[AI分析] 失败:", err);
-        uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
-      } finally {
-        this.hideLoading();
-      }
-    },
 
-    // 充值跳转（增强参数传递）
-    handleRecharge() {
-      const beFrom = this.currentPlay.includes("篮球") ? "basketball" : "football";
-      uni.navigateTo({
-        url: `/pages/recharge/recharge?beFrom=${beFrom}&isLottery=1`,
-      });
-      this.isDialogShow = false;
     },
-
     // 取消弹窗
-    handleCancel() {
-      this.isDialogShow = false;
-    },
     showLoading() {
       uni.showLoading({
         title: "加载中...",
@@ -1430,16 +1257,19 @@ page {
   width: 100% !important;
   overflow-y: auto !important;
   background-color: #f5f5f5;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+
   // #ifdef APP-PLUS
   height: calc(100vh - var(--status-bar-height)) !important;
   top: 0 !important;
   // #endif
+
   // #ifndef APP-PLUS
   top: 0 !important;
   bottom: 90rpx !important;
   // #endif
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .match-scroll::-webkit-scrollbar {
   display: none;
@@ -1514,21 +1344,25 @@ page {
     text-overflow: ellipsis;
   }
 
-  .confirm-btn {
-    width: 140rpx;
-    background-color: #d92929;
-    color: #fff;
-    border-radius: 8rpx;
-    font-size: 28rpx;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:disabled {
-      background-color: #ccc;
-      color: #999;
+    .confirm-btn {
+      width: 180rpx;
+      height: 70rpx;
+      line-height: 70rpx;
+      background-color: #d92929;
+      color: #fff;
+      border-radius: 8rpx;
+      font-size: 28rpx;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+
+      &:disabled {
+        background-color: #ccc;
+        color: #999;
+      }
     }
-  }
 }
 
 /* 彻底删除原有串关和倍数相关样式 */

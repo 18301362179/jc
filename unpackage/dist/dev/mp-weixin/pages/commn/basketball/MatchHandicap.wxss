@@ -202,14 +202,12 @@
 }
 .team-vs .team-name.away.data-v-88186c0e {
   text-align: right;
-  padding-right: 10rpx;
 }
 .team-vs .team-name.home.data-v-88186c0e {
   text-align: left;
-  padding-left: 10rpx;
 }
 .team-vs .vs-text.data-v-88186c0e {
-  width: 40rpx;
+  width: 80rpx;
   text-align: center;
   flex-shrink: 0;
   font-weight: 500;
@@ -233,14 +231,12 @@
 }
 .rate-row .rate-text.away.data-v-88186c0e {
   text-align: right;
-  padding-right: 10rpx;
 }
 .rate-row .rate-text.home.data-v-88186c0e {
   text-align: left;
-  padding-left: 10rpx;
 }
 .rate-row .vs-text.data-v-88186c0e {
-  width: 140rpx;
+  width: 60rpx;
 }
 /* 让分胜负选项区：和比分选择区统一样式 */
 .bottom-right.data-v-88186c0e {

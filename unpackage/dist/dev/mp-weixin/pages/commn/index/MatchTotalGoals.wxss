@@ -106,15 +106,24 @@
 .match-row .match-content-row .content-right .team-name.data-v-49686e4e {
   font-size: 26rpx;
   color: #333;
-  text-align: center;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
 }
 .match-row .match-content-row .content-right .team-name .vs-text.data-v-49686e4e {
-  margin: 0 15rpx;
   color: #999;
   font-size: 24rpx;
+  width: 140rpx;
+  text-align: center;
+}
+.match-row .match-content-row .content-right .team-name text.data-v-49686e4e:first-child {
+  text-align: right;
+  flex: 1;
+}
+.match-row .match-content-row .content-right .team-name text.data-v-49686e4e:last-child {
+  text-align: left;
+  flex: 1;
 }
 .match-row .match-content-row .content-right .rate-row.data-v-49686e4e {
   width: 100%;
@@ -125,18 +134,17 @@
 }
 .match-row .match-content-row .content-right .rate-row .rate-text.data-v-49686e4e {
   flex: 1;
-  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .match-row .match-content-row .content-right .rate-row .rate-text.home.data-v-49686e4e {
   text-align: right;
-  padding-right: 10rpx;
+  padding-right: 0;
 }
 .match-row .match-content-row .content-right .rate-row .rate-text.away.data-v-49686e4e {
   text-align: left;
-  padding-left: 10rpx;
+  padding-left: 0;
 }
 .match-row .match-content-row .content-right .rate-row .vs-text.data-v-49686e4e {
   width: 140rpx;

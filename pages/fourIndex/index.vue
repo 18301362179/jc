@@ -63,7 +63,6 @@
     <EmptyStop 
       :hasData="!hasData" 
     />
-    <ReminderDialog :isShow="isDialogShow" @cancel="handleCancel" @exchange="handleRecharge" />
   </view>
 </template>
 
@@ -71,7 +70,6 @@
 // 核心组件引入
 import List from "@/pages/fourIndex/list.vue";
 import CustomHeader from "@/components/CustomHeader.vue";
-import ReminderDialog from "@/pages/commn/ReminderDialog.vue";
 import TipsPopup from "@/pages/commn/playTip";
 import EmptyStop from '@/pages/commn/emptyStop.vue';
 import BetBar from "@/pages/commn/betBar/index.vue";
@@ -84,7 +82,6 @@ export default {
   components: {
     List,
     CustomHeader,
-    ReminderDialog,
     TipsPopup,
     EmptyStop,
     BetBar,
@@ -99,7 +96,6 @@ export default {
       drawerList: [],
       isLoading: false,
       headerHeight: 0,
-      isDialogShow: false,
       statusBarHeight: 0,
       playTypeMap: {
         "胜平负": "spf"
@@ -294,7 +290,6 @@ export default {
         }).join(",");
         this.showLoading();
         const res = await checkSelect({ lotteryIds: matchIds });
-        // 兼容无res.data的情况，替换?.
         let isNeedUserPhone = 1;
         if (res.data && res.data.isNeedUserPhone !== undefined) {
           isNeedUserPhone = res.data.isNeedUserPhone;
@@ -348,7 +343,6 @@ export default {
     },
     // 同步更新选中状态（适配多选数组格式）
     syncUpdatedMatches(updatedData) {
-      // 兼容无updatedData/updatedData.matches的情况，替换?.
       if (!updatedData || !updatedData.matches) return;
       // 先清空所有选中状态（重置为空数组）
       this.drawerList.forEach(function(drawer, drawerIdx) {
@@ -390,16 +384,6 @@ export default {
         }
       }.bind(this));
     },
-    handleRecharge() {
-      uni.navigateTo({ 
-        url: "/pages/recharge/recharge?beFrom=football&isLottery=1"
-      });
-      this.isDialogShow = false;
-    },
-    handleCancel() {
-      this.isDialogShow = false;
-    },
-    // 核心：适配接口原始数据格式，初始化比分选中状态为数组（兼容无?.）
     async loadMatchData(drawNum = '') {
       try {
         this.drawerList = [];
@@ -410,15 +394,11 @@ export default {
         
         // 1. 请求期数列表并过滤空值
         const resNum =  await footballLotteryTraditionDrawNum({playMethod: 4});
+                if (resNum.data&& resNum.data.length == 0) {return;}
         // 🌟 过滤空字符串，只保留有效期数
         this.drawNumList = (resNum && resNum.data ? resNum.data : []).filter(function(num) {
           return num && num.trim() !== "";
         });
-        let endTime = "";
-      if (resNum.data[0] && resNum.data[0].sale_end_time) {
-        endTime = resNum.data[0].sale_end_time;
-      }
-      this.title = "截止时间：" + endTime;
         // 2. 赋值请求期数（优先用传入的，无则用过滤后的第一个有效期数）
         let targetDrawNum = drawNum || this.currentDrawNum;
         if (!targetDrawNum && this.drawNumList.length > 0) {
@@ -432,16 +412,11 @@ export default {
 
         // 3. 请求赛事列表（兼容返回数组的情况）
         const res = await footballLotteryTradition(reqParams);
-        // 🌟 适配赛事列表返回数组的场景
-        let matchData = [];
-        if (Array.isArray(res)) {
-          matchData = res; // 返回的是数组直接使用
-        } else if (res && res.data) {
-          matchData = res.data.dataList || res.data || []; // 兼容原对象格式
-        }
-        
+        if (res.data && res.data.length > 0) {
+          this.title = "截止时间：" + res.data[0].sale_end_time;
+        };
         // 4. 格式化赛事列表
-        this.drawerList = this.formatDrawerList(matchData, this.currentDrawNum);
+        this.drawerList = this.formatDrawerList(res.data, this.currentDrawNum);
         this.hasData = this.drawerList.length > 0;
         if (!this.hasData) {
           uni.showToast({ title: "暂无赛事数据", icon: "none" });
@@ -497,14 +472,29 @@ export default {
         const reqParams = {
           id: item.id,
           isLottery: 1,
-          isTradition: 1
+          isTradition: 1,
+          beFrom:"football",
+          serialNumber: item.draw_num,
+          dateStr: item.match_num
         };
     // 调用recharge接口
     const res = await recharge(reqParams);
     if (res.data.status == 'fail') {
-      // isLottery=1 表示无灵石，显示充值弹窗
-        this.isDialogShow = true;
-        this.hideLoading();
+          this.hideLoading();
+          uni.showModal({
+                title: "请充币",
+                content: "您的游戏币不足，请兑换！",
+                cancelText: "取消",
+                confirmText: "兑换",
+                confirmColor: "#d92929",
+                success: (res) => {
+                  if (res.confirm) {
+                    // 点击兑换跳充值页
+                    uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
+                  }
+                }
+              });
+        return;
         return;
     } else {
             // 有灵石，正常跳转分析页

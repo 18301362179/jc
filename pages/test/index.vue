@@ -1,313 +1,197 @@
 <template>
-  <view class="match-info-container" v-if="info" :style="{ overflow: showPlayerModal ? 'hidden' : 'auto' }">
+  <view class="match-info-container" :style="{ overflow: 'auto' }">
+    <!-- 赛事头部信息 -->
     <view class="match-header">
       <view class="match-title">
-        <view v-if="courseMap.league_name">{{courseMap.league_name}}{{courseMap.stage && !courseMap.stage!='小组赛'  ? courseMap.stage:''}}{{courseMap.sub_group  ? courseMap.sub_group:''}}{{courseMap.round_no  ? '第'+courseMap.round_no+'轮':''}}</view>
-        <view class="match-time"> {{forateData(courseMap.race_date)}}</view>
+        <view v-if="courseMap.league_name">
+          {{ courseMap.league_name }}
+          {{ courseMap.stage && courseMap.stage != "小组赛" ? courseMap.stage : "" }}
+          {{ courseMap.sub_group ? courseMap.sub_group : "" }}
+          {{ courseMap.round_no ? "第" + courseMap.round_no + "轮" : "" }}
+        </view>
+        <view class="match-time"> {{ forateData(courseMap.race_date) }}</view>
       </view>
 
-      <view class="match-teams">
-        <text class="home-team" style="text-align: right;">{{courseMap.home_name}}</text>
-        <text v-if="info.homeHandicap" style="margin-left:6rpx; color: red;">{{ info.homeHandicap }}</text>
-        <text class="vs-text" style="width: 20%;padding:0 40rpx;padding-left:60rpx;">VS</text>
-        <text class="home-team" style="text-align: left; margin-left: 30rpx">{{courseMap.visiting_name}}</text>
-        <text v-if="info.visitingHandicap" style="margin-left:6rpx; color: red;">{{ info.visitingHandicap }}</text>
+      <!-- 调整对战队伍布局结构 -->
+      <view class="match-teams-container">
+        <view class="team-column home-column">
+          <text class="team-name">{{ courseMap.home_name }}</text>
+          <text v-if="info.homeHandicap" class="handicap-text">{{ info.homeHandicap }}</text>
+        </view>
+        <view class="vs-column">
+          <text class="vs-text">VS</text>
+        </view>
+        <view class="team-column away-column">
+          <text class="team-name">{{ courseMap.visiting_name }}</text>
+          <text v-if="info.visitingHandicap" class="handicap-text">{{ info.visitingHandicap }}</text>
+        </view>
       </view>
+
+      <!-- 调整预测模块布局结构 -->
       <view class="prediction-section">
-        <view class="win-probability">
-          <text class="pro-text">预测:</text>
-          <view class="probability-bars" style="flex: 1; display: flex; align-items: center;">
-            <view class="probability-bar home-bar" :style="{ width: '30%' }">
-              <text class="bi">胜率{{decimalToPercentage(winRateAndGoalCalculate.home_win_rate,0)}}约{{winRateAndGoalCalculate.homeGoalCalculate}}球</text>
+        <!-- 胜利预测 -->
+        <view class="prediction-row">
+          <text class="pro-text">胜利预测:</text>
+          <view class="prediction-content">
+            <view class="home-prediction">
+              <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.home_win_rate, 0) }}</text>
             </view>
-            <view class="colon-wrapper">平率{{decimalToPercentage(winRateAndGoalCalculate.draw_rate)}}</view>
-            <view class="probability-bar away-bar" :style="{ width: '40%' }">
-              <text class="bi" style="text-align: left">胜率{{decimalToPercentage(winRateAndGoalCalculate.visiting_win_rate,0)}}约{{winRateAndGoalCalculate.visitingGoalCalculate}}球</text>
+            <view class="draw-prediction">
+              <text class="prediction-value">平率{{ decimalToPercentage(baseMap.draw_rate) }}</text>
             </view>
-          </view>
-        </view>
-
-        <view class="win-prompt">{{info.prompt}}</view>
-      </view>
-    </view>
-
-
-<!-- 仅修改这部分:基础信息板块（行式对称布局 + 字段规则） -->
-<view class="compare-section" v-if="homeTeam && visitingTeam">
-  <view class="section-title">
-    <text>基础信息</text>
-  </view>
-
-  <!-- 布局:left-td(固定) + mid-wrapper(平均分配) + right-td(固定) -->
-  <view class="compare-table">
-    <view class="compare-tr name-tr">
-      <text class="compare-td left-td team-name">{{ homeTeam.team_name }}</text>
-      <view class="mid-wrapper name-gap">:</view>
-      <text class="compare-td right-td team-name">{{ visitingTeam.team_name }}</text>
-    </view>
-
-      <!-- 1. 主教练行 (修改后) -->
-      <view class="compare-tr">
-        <view class="mid-wrapper">
-          <text class="compare-td mid-td home-td">{{ homeTeam.jl_xm || '-' }}</text>
-          <text class="colon">:</text> <!-- 保留中间冒号 -->
-          <text class="compare-td mid-td away-td">{{ visitingTeam.jl_xm || '-' }}</text>
-        </view>
-      </view>
-
-    <!-- 2. 习惯阵型行 -->
-    <view class="compare-tr">
-      <text class="compare-td left-td">习惯阵型</text>
-      <view class="mid-wrapper">
-        <text class="compare-td mid-td home-td">{{ homeTeam.jl_xgzx || '-' }}</text>
-        <text class="colon">:</text>
-        <text class="compare-td mid-td away-td">{{ visitingTeam.jl_xgzx || '-' }}</text>
-      </view>
-      <text class="compare-td right-td">习惯阵型</text>
-    </view>
-    <!-- 球员列表行 -->
-    <view class="compare-tr">
-      <text class="compare-td left-td">球员列表</text>
-      <view class="mid-wrapper">
-        <text class="compare-td mid-td home-td look" @click="openPlayerModal(homeTeam.team_name)">查看</text>
-        <text class="colon">:</text>
-        <text class="compare-td mid-td away-td look" @click="openPlayerModal(visitingTeam.team_name)">查看</text>
-      </view>
-      <text class="compare-td right-td">球员列表</text>
-    </view>
-    <!-- 4. 积分行 -->
-    <view class="compare-tr">
-      <text class="compare-td left-td">积分</text>
-      <view class="mid-wrapper">
-        <text class="compare-td mid-td home-td">{{ homeTeam.league_points || '-' }}</text>
-        <text class="colon">:</text>
-        <text class="compare-td mid-td away-td">{{ visitingTeam.league_points || '-' }}</text>
-      </view>
-      <text class="compare-td right-td">积分</text>
-    </view>
-
-    <!-- 胜率组:win_rate存在则全显 -->
-    <template v-if="homeTeam.win_rate || visitingTeam.win_rate">
-      <view class="compare-tr">
-        <text class="compare-td left-td">胜率</text>
-        <view class="mid-wrapper">
-          <text class="compare-td mid-td home-td">{{ homeTeam.win_rate ? homeTeam.win_rate : '-' }}</text>
-          <text class="colon">:</text>
-          <text class="compare-td mid-td away-td">{{ visitingTeam.win_rate ? visitingTeam.win_rate : '-' }}</text>
-        </view>
-        <text class="compare-td right-td">胜率</text>
-      </view>
-      <view class="compare-tr">
-        <text class="compare-td left-td">平率</text>
-        <view class="mid-wrapper">
-          <text class="compare-td mid-td home-td">{{ homeTeam.win_rate ? homeTeam.equality_rate : '-' }}</text>
-          <text class="colon">:</text>
-          <text class="compare-td mid-td away-td">{{ visitingTeam.win_rate ? visitingTeam.equality_rate : '-' }}</text>
-        </view>
-        <text class="compare-td right-td">平率</text>
-      </view>
-      <view class="compare-tr">
-        <text class="compare-td left-td">负率</text>
-        <view class="mid-wrapper">
-          <text class="compare-td mid-td home-td">{{ homeTeam.win_rate ? homeTeam.fail_rate : '-' }}</text>
-          <text class="colon">:</text>
-          <text class="compare-td mid-td away-td">{{ visitingTeam.win_rate ? visitingTeam.fail_rate : '-' }}</text>
-        </view>
-        <text class="compare-td right-td">负率</text>
-      </view>
-      <view class="compare-tr">
-        <text class="compare-td left-td">进球</text>
-        <view class="mid-wrapper">
-          <text class="compare-td mid-td home-td">{{ homeTeam.win_rate ? homeTeam.avg_goal : '-' }}</text>
-          <text class="colon">:</text>
-          <text class="compare-td mid-td away-td">{{ visitingTeam.win_rate ? visitingTeam.avg_goal : '-' }}</text>
-        </view>
-        <text class="compare-td right-td">进球</text>
-      </view>
-      <view class="compare-tr">
-        <text class="compare-td left-td">失球</text>
-        <view class="mid-wrapper">
-          <text class="compare-td mid-td home-td">{{ homeTeam.win_rate ? homeTeam.avg_fumble_goal : '-' }}</text>
-          <text class="colon">:</text>
-          <text class="compare-td mid-td away-td">{{ visitingTeam.win_rate ? visitingTeam.avg_fumble_goal : '-' }}</text>
-        </view>
-        <text class="compare-td right-td">失球</text>
-      </view>
-    </template>
-
-    <!-- 主场/客场组 -->
-    <view class="compare-tr">
-      <text class="compare-td left-td">主场胜率</text>
-      <view class="mid-wrapper">
-        <text class="compare-td mid-td home-td">{{ homeTeam.home_win_rate_ ? homeTeam.home_win_rate_ : '-' }}</text>
-        <text class="colon">:</text>
-        <text class="compare-td mid-td away-td">{{ visitingTeam.visiting_win_rate_ ? visitingTeam.visiting_win_rate_ : '-' }}</text>
-      </view>
-      <text class="compare-td right-td">客场胜率</text>
-    </view>
-    <view class="compare-tr">
-      <text class="compare-td left-td">主场平率</text>
-      <view class="mid-wrapper">
-        <text class="compare-td mid-td home-td">{{ homeTeam.home_win_rate_ ? homeTeam.home_equality_rate_ : '-' }}</text>
-        <text class="colon">:</text>
-        <text class="compare-td mid-td away-td">{{ visitingTeam.visiting_win_rate_ ? visitingTeam.visiting_equality_rate_ : '-' }}</text>
-      </view>
-      <text class="compare-td right-td">客场平率</text>
-    </view>
-    <view class="compare-tr">
-      <text class="compare-td left-td">主场负率</text>
-      <view class="mid-wrapper">
-        <text class="compare-td mid-td home-td">{{ homeTeam.home_win_rate_ ? homeTeam.home_loss_rate_ : '-' }}</text>
-        <text class="colon">:</text>
-        <text class="compare-td mid-td away-td">{{ visitingTeam.visiting_win_rate_ ? visitingTeam.visiting_loss_rate_ : '-' }}</text>
-      </view>
-      <text class="compare-td right-td">客场负率</text>
-    </view>
-    <view class="compare-tr">
-      <text class="compare-td left-td">主场进球</text>
-      <view class="mid-wrapper">
-        <text class="compare-td mid-td home-td">{{ homeTeam.home_win_rate_ ? homeTeam.home_avg_goal_ : '-' }}</text>
-        <text class="colon">:</text>
-        <text class="compare-td mid-td away-td">{{ visitingTeam.visiting_win_rate_ ? visitingTeam.visiting_avg_goal_ : '-' }}</text>
-      </view>
-      <text class="compare-td right-td">客场进球</text>
-    </view>
-    <view class="compare-tr">
-      <text class="compare-td left-td">主场失球</text>
-      <view class="mid-wrapper">
-        <text class="compare-td mid-td home-td">{{ homeTeam.home_win_rate_ ? homeTeam.home_avg_fumble_goal_ : '-' }}</text>
-        <text class="colon">:</text>
-        <text class="compare-td mid-td away-td">{{ visitingTeam.visiting_win_rate_ ? visitingTeam.visiting_avg_fumble_goal_ : '-' }}</text>
-      </view>
-      <text class="compare-td right-td">客场失球</text>
-    </view>
-
-
-  </view>
-</view>
-    <!-- 球员列表弹窗 -->
-    <view class="custom-modal-mask" v-if="showPlayerModal" @click="closePlayerModal" @touchmove.prevent></view>
-    <view class="custom-modal" v-if="showPlayerModal">
-      <view class="modal-header">
-        <text class="modal-title">球员名单</text>
-        <text class="modal-close" @click="closePlayerModal">×</text>
-      </view>
-      <view class="modal-content">
-        <view class="player-table-wrap" v-if="playerList.length > 0">
-            <view class="player-table-header">
-              <text class="table-cell table-single">号码</text>
-              <text class="table-cell">位置</text>
-              <text class="table-cell">球员</text>
-              <text class="table-cell">籍贯</text>
-              <text class="table-cell">出生日期</text>
-              <text class="table-cell table-single">身高</text>
-              <text class="table-cell table-single">体重</text>
-           </view>
-          <view class="player-table">
-            <view class="player-table-row" v-for="(item, i) in playerList" :key="i">
-              <text class="table-cell table-single">{{item.hm || '-'}}</text>
-              <text class="table-cell">{{item.wz || '-'}}</text>
-              <text class="table-cell">{{item.player_name || '-'}}</text>
-              <text class="table-cell">{{item.jg || '-'}}</text>
-              <text class="table-cell">{{item.csrq || '-'}}</text>
-              <text class="table-cell table-single">{{item.sg || '-'}}</text>
-              <text class="table-cell table-single">{{item.tz || '-'}}</text>
+            <view class="away-prediction">
+              <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.visiting_win_rate, 0) }}</text>
             </view>
           </view>
         </view>
-        <view class="empty-tip" v-else>
-          暂无数据
+        
+        <!-- 比分预测 -->
+        <view class="prediction-row">
+          <text class="pro-text">比分预测:</text>
+          <view class="prediction-content">
+            <view class="home-prediction">
+              <text class="prediction-value">{{ baseMap.homeGoalCalculate || "-" }}</text>
+            </view>
+            <view class="draw-prediction">
+              <text class="prediction-value">:</text>
+            </view>
+            <view class="away-prediction">
+              <text class="prediction-value">{{ baseMap.visitingGoalCalculate || "-" }}</text>
+            </view>
+          </view>
+        </view>
+        
+        <view class="win-prompt">{{ info.prompt || "" }}</view>
+      </view>
+    </view>
+
+    <!-- 以下代码保持不变 -->
+    <view class="statistic-section" v-if="baseMap">
+      <view class="section-title">
+        <text>统计数据</text>
+      </view>
+      <view class="statistic-table">
+        <view class="table-header">
+          <view class="cell item-cell">项</view>
+          <view class="cell team-cell">{{ courseMap.home_name || "切尔西" }}</view>
+          <view class="cell team-cell">{{ courseMap.visiting_name || "利兹联" }}</view>
+        </view>
+        <view class="table-row" v-if="baseMap.ls_home_points">
+          <view class="cell item-cell">积分</view>
+          <view class="cell data-cell">{{ baseMap.ls_home_points || "-" }}</view>
+          <view class="cell data-cell">{{ baseMap.ls_visiting_points || "-" }}</view>
+        </view>
+        <view class="table-row" v-if="baseMap.ls_home_win_rate">
+          <view class="cell item-cell">胜率/平率</view>
+          <view class="cell data-cell">{{ baseMap.ls_home_win_rate }}</view>
+          <view class="cell data-cell">{{ baseMap.ls_visiting_win_rate }}</view>
+        </view>
+        <view class="table-row" v-if="baseMap.ls_home_goal">
+          <view class="cell item-cell">进球/失球</view>
+          <view class="cell data-cell">{{ baseMap.ls_home_goal || "-" }}</view>
+          <view class="cell data-cell">{{ baseMap.ls_visiting_goal || "-" }}</view>
+        </view>
+        <view class="table-row" v-if="baseMap.tzk_head_home_win_rate">
+          <view class="cell item-cell">胜率(同主客对战)</view>
+          <view class="cell data-cell">{{ (baseMap.tzk_head_home_win_rate && baseMap.tzk_head_home_win_rate.split("/")[0]) || "-" }}</view>
+          <view class="cell data-cell">{{ (baseMap.tzk_head_visiting_win_rate && baseMap.tzk_head_visiting_win_rate.split("/")[0]) || "-" }}</view>
+        </view>
+        <view class="table-row" v-if="baseMap.tzk_head_home_goal">
+          <view class="cell item-cell">进球(同主客对战)</view>
+          <view class="cell data-cell">{{ (baseMap.tzk_head_home_goal && baseMap.tzk_head_home_goal.split("/")[0]) || "-" }}</view>
+          <view class="cell data-cell">{{ (baseMap.tzk_head_visiting_goal && baseMap.tzk_head_visiting_goal.split("/")[0]) || "-" }}</view>
+        </view>
+        <view class="table-row" v-if="baseMap.all_head_home_win_rate">
+          <view class="cell item-cell">胜率(全对战)</view>
+          <view class="cell data-cell">{{ baseMap.all_head_home_win_rate || "-" }}</view>
+          <view class="cell data-cell">{{ baseMap.all_head_visiting_win_rate || "-" }}</view>
+        </view>
+        <view class="table-row" v-if="baseMap.all_head_home_goal">
+          <view class="cell item-cell">进球(全对战)</view>
+          <view class="cell data-cell">{{ baseMap.all_head_home_goal || "-" }}</view>
+          <view class="cell data-cell">{{ baseMap.all_head_visiting_goal || "-" }}</view>
+        </view>
+        <view class="table-row" v-if="baseMap.tzk_all_home_win_rate">
+          <view class="cell item-cell">胜率/平率(同主客)</view>
+          <view class="cell data-cell">{{ baseMap.tzk_all_home_win_rate || "-" }}</view>
+          <view class="cell data-cell">{{ baseMap.tzk_all_visiting_win_rate || "-" }}</view>
+        </view>
+        <view class="table-row" v-if="baseMap.tzk_all_home_goal">
+          <view class="cell item-cell">进球/失球(同主客)</view>
+          <view class="cell data-cell">{{ baseMap.tzk_all_home_goal || "-" }}</view>
+          <view class="cell data-cell">{{ baseMap.tzk_all_visiting_goal || "-" }}</view>
         </view>
       </view>
     </view>
 
-    <!-- 以下内容保持不变 -->
-    <view class="history-section" v-if="info.home_headToHeadRemark&& info.headToHeadRecord">
-      <view class="section-title">
-        <text>对战记录</text>
-        <text style="margin-left: 20rpx;">{{info.home_headToHeadRemark}}</text>
+    <view class="record-section">
+      <view class="tab-buttons">
+        <view class="tab-btn" :class="{ active: currentTab === '全部' }" @click="switchTab('全部')"> 全部对战 </view>
+        <view class="tab-btn" :class="{ active: currentTab === '同主客' }" @click="switchTab('同主客')"> 同主客对战 </view>
       </view>
-
-      <view class="history-item" v-for="(item,i) in info.headToHeadRecord" :key="i">
-        <view class="history-header">
-          <text class="competition">              {{ 
-                [
-                  item.league_name,
-                  item.stage,
-                  item.sub_group ? `${item.sub_group}组` : '',
-                  item.round_no ? `第${item.round_no}轮` : ''
-                ].filter(Boolean).join('') 
-              }}</text>
-          <text class="date"></text>
-          <text class="time">{{item.race_date}}</text>
-        </view>
-        <view class="match-result">
-          <text class="team" style="text-align: right;">{{item.home_name}}</text>
-          <text class="score-colon">{{item.home_goal}} : {{item.visiting_goal}}</text>
-          <text class="team" style="text-align: left;">{{item.visiting_name}}</text>
+      <view class="empty-tip" v-if="filteredRecords.length === 0">暂无交手记录</view>
+      <view v-if="filteredRecords.length > 0">
+        <view class="history-item" v-for="(item, index) in filteredRecords" :key="index">
+          <view class="history-header">
+            <text class="competition">
+              {{ [item.league_name, item.stage && !["小组赛", "联赛"].includes(item.stage) ? item.stage : "", item.round_no ? `第${item.round_no}轮` : ""].filter(Boolean).join("") || "-" }}
+            </text>
+            <text class="date"></text>
+            <text class="time">{{ item.race_date || "-" }}</text>
+          </view>
+          <view class="match-result">
+            <text class="team" style="text-align: right">{{ item.home_name || "-" }}</text>
+            <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
+            <text class="team" style="text-align: left">{{ item.visiting_name || "-" }}</text>
+          </view>
         </view>
       </view>
     </view>
 
-    <view class="history-section" v-if="info.homeLastCourses&&info.homeLastCourses.length>0">
+    <view class="history-section" v-if="homeLastCourses && homeLastCourses.length > 0">
       <view class="section-title">
-        <text>{{info.home_lastRemark}}</text>
+        <text>{{ info.home_lastRemark || "" }}</text>
       </view>
-
-      <view class="history-item" v-for="(item,i) in info.homeLastCourses" :key="i">
+      <view class="history-item" v-for="(item, i) in homeLastCourses" :key="i">
         <view class="history-header">
           <text class="competition">
-              {{ 
-                [
-                  item.league_name,
-                  item.stage,
-                  item.sub_group ? `${item.sub_group}组` : '',
-                  item.round_no ? `第${item.round_no}轮` : ''
-                ].filter(Boolean).join('') 
-              }}
+            {{ [item.league_name, item.stage, item.sub_group ? `${item.sub_group}组` : "", item.round_no ? `第${item.round_no}轮` : ""].filter(Boolean).join("") }}
           </text>
           <text class="date"></text>
-          <text class="time">{{item.race_date}}</text>
+          <text class="time">{{ item.race_date }}</text>
         </view>
         <view class="match-result">
-          <text class="team" style="text-align: right;">{{item.home_name}}</text>
-          <text class="score-colon">{{item.home_goal}} : {{item.visiting_goal}}</text>
-          <text class="team" style="text-align: left;">{{item.visiting_name}}</text>
+          <text class="team" style="text-align: right">{{ item.home_name }}</text>
+          <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
+          <text class="team" style="text-align: left">{{ item.visiting_name }}</text>
         </view>
       </view>
     </view>
-    <view class="history-section" v-if="info.visitingLastCourses&&info.visitingLastCourses.length>0">
-      <view class="section-title">
-        <text>{{info.visiting_lastRemark}}</text>
-      </view>
 
-      <view class="history-item" v-for="(item,i) in info.visitingLastCourses" :key="i">
+    <view class="history-section" v-if="visitingLastCourses && visitingLastCourses.length > 0">
+      <view class="section-title">
+        <text>{{ info.visiting_lastRemark || "" }}</text>
+      </view>
+      <view class="history-item" v-for="(item, i) in visitingLastCourses" :key="i">
         <view class="history-header">
           <text class="competition">
-            {{ 
-                [
-                  item.league_name,
-                  item.stage,
-                  item.sub_group ? `${item.sub_group}组` : '',
-                  item.round_no ? `第${item.round_no}轮` : ''
-                ].filter(Boolean).join('') 
-              }}
+            {{ [item.league_name, item.stage, item.sub_group ? `${item.sub_group}组` : "", item.round_no ? `第${item.round_no}轮` : ""].filter(Boolean).join("") }}
           </text>
           <text class="date"></text>
-          <text class="time">{{item.race_date}}</text>
+          <text class="time">{{ item.race_date }}</text>
         </view>
         <view class="match-result">
-          <text class="team" style="text-align: right;">{{item.home_name}}</text>
-          <text class="score-colon">{{item.home_goal}} : {{item.visiting_goal}}</text>
-          <text class="team" style="text-align: left;">{{item.visiting_name}}</text>
+          <text class="team" style="text-align: right">{{ item.home_name }}</text>
+          <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
+          <text class="team" style="text-align: left">{{ item.visiting_name }}</text>
         </view>
       </view>
     </view>
-    <view class="ranking-section" v-if="homeScorers&&homeScorers.length>0">
-      <view class="section-title">
-       <text>{{courseMap.home_name}}-射手榜球员</text>
-      </view>
 
+    <view class="ranking-section" v-if="homeScorers && homeScorers.length > 0">
+      <view class="section-title">
+        <text>{{ courseMap.home_name || "" }}-射手榜球员</text>
+      </view>
       <view class="ranking-table scorer-table">
         <view class="table-header">
           <text class="cell ranking-cell">排名</text>
@@ -315,21 +199,21 @@
           <text class="cell num-cell">进球</text>
           <text class="cell num-cell">点球</text>
         </view>
-        <view class="scorer-row-wrap" v-for="(item,i) in homeScorers" :key="i">
-        <view class="table-row">
-          <text class="cell ranking-cell">{{item.ranking_no}}</text>
-          <text class="cell player-cell">{{item.player_name}}</text>
-          <text class="cell num-cell">{{item.total_goal}}</text>
-          <text class="cell num-cell">{{item.penalty_kick_goal}}</text>
-        </view>
+        <view class="scorer-row-wrap" v-for="(item, i) in homeScorers" :key="i">
+          <view class="table-row">
+            <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text>
+            <text class="cell player-cell">{{ item.player_name || "-" }}</text>
+            <text class="cell num-cell">{{ item.total_goal || 0 }}</text>
+            <text class="cell num-cell">{{ item.penalty_kick_goal || 0 }}</text>
+          </view>
         </view>
       </view>
     </view>
-    <view class="ranking-section" v-if="visitingScorers&&visitingScorers.length > 0">
-      <view class="section-title">
-        <text>{{courseMap.visiting_name}}-射手榜球员</text>
-      </view>
 
+    <view class="ranking-section" v-if="visitingScorers && visitingScorers.length > 0">
+      <view class="section-title">
+        <text>{{ courseMap.visiting_name || "" }}-射手榜球员</text>
+      </view>
       <view class="ranking-table scorer-table">
         <view class="table-header">
           <text class="cell ranking-cell">排名</text>
@@ -337,13 +221,13 @@
           <text class="cell num-cell">进球</text>
           <text class="cell num-cell">点球</text>
         </view>
-        <view class="scorer-row-wrap" v-for="(item,i) in visitingScorers" :key="i">
-        <view class="table-row">
-          <text class="cell ranking-cell">{{item.ranking_no}}</text>
-          <text class="cell player-cell">{{item.player_name}}</text>
-          <text class="cell num-cell">{{item.total_goal}}</text>
-          <text class="cell num-cell">{{item.penalty_kick_goal}}</text>
-        </view>
+        <view class="scorer-row-wrap" v-for="(item, i) in visitingScorers" :key="i">
+          <view class="table-row">
+            <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text>
+            <text class="cell player-cell">{{ item.player_name || "-" }}</text>
+            <text class="cell num-cell">{{ item.total_goal || 0 }}</text>
+            <text class="cell num-cell">{{ item.penalty_kick_goal || 0 }}</text>
+          </view>
         </view>
       </view>
     </view>
@@ -359,38 +243,47 @@ export default {
     return {
       info: {},
       courseMap: {},
-      winRateAndGoalCalculate: {},
+      baseMap: {},
       goalCalculate: {},
       homeTeam: {},
       visitingTeam: {},
-      homeLastCourses:[],
-      visitingLastCourses:[],
+      homeLastCourses: [],
+      visitingLastCourses: [],
       homeScorers: [],
       visitingScorers: [],
-      playerList: [],
-      currentTeamName: '',
-      showPlayerModal: false
+      currentTeamName: "",
+      currentTab: "全部",
+      filteredRecords: [],
+      tzkHeadRecord: [],
+      allHeadRecord: [],
     };
   },
   onLoad(options) {
     let param = {};
-    param.id = options.id; 
+    param.id = options.id;
     param.isLottery = options.isLottery;
     if (options.isTradition) {
-      param.isTradition = 1
-
-    };
-    this.getAiDetail(param)
+      param.isTradition = 1;
+    }
+    this.getAiDetail(param);
   },
   onShow() {
     uni.hideTabBar();
   },
   methods: {
-    forateData(time) {
-      return formatDateWithWeekday(time);
+    switchTab(tab) {
+      if (tab == "全部") {
+        this.filteredRecords = this.allHeadRecord;
+      } else {
+        this.filteredRecords = this.tzkHeadRecord;
+      }
+      this.currentTab = tab;
     },
-    decimalToPercentage(decimal, fixed = 0, defaultValue = '-') {
-      if (typeof decimal !== 'number' || isNaN(decimal)) {
+    forateData(time) {
+      return formatDateWithWeekday(time) || "-";
+    },
+    decimalToPercentage(decimal, fixed = 0, defaultValue = "-") {
+      if (typeof decimal !== "number" || isNaN(decimal)) {
         return defaultValue;
       }
       const percentage = decimal * 100;
@@ -400,68 +293,49 @@ export default {
       this.showLoading();
       try {
         const res = await getAi(param);
-        this.courseMap = res.data.data.baseMap;
-        this.winRateAndGoalCalculate = res.data.data.winRateAndGoalCalculate;
-        this.goalCalculate = res.data.data.goalCalculate;
-        this.homeTeam = res.data.data.homeTeam;
-        this.visitingTeam = res.data.data.visitingTeam;
-        this.homeLastCourses = res.data.data.homeLastCourses;
-        this.visitingLastCourses = res.data.data.visitingLastCourses;
-        this.homeScorers = res.data.data.homeScorers;
-        this.visitingScorers = res.data.data.visitingScorers;
-        this.info = JSON.parse(JSON.stringify(res.data.data));
+        const data = res.data.data || {};
+        this.courseMap = data.baseMap || {};
+        this.baseMap = data.baseMap || {};
+        this.goalCalculate = data.goalCalculate || {};
+        this.homeTeam = data.homeTeam || {};
+        this.visitingTeam = data.visitingTeam || {};
+        this.homeLastCourses = data.homeLastCourses || [];
+        this.visitingLastCourses = data.visitingLastCourses || [];
+        this.homeScorers = data.homeScorers || [];
+        this.visitingScorers = data.visitingScorers || [];
+        this.allHeadRecord = data.all_headRecord || [];
+        this.tzkHeadRecord = data.tzk_headRecord || [];
+        this.filteredRecords = data.all_headRecord || [];
+        this.info = JSON.parse(JSON.stringify(data));
       } catch (error) {
         console.error("获取AI详情失败:", error);
-        this.hideLoading();
       } finally {
         this.hideLoading();
       }
-    },
-    async openPlayerModal(teamName) {
-      if (!teamName) {
-        uni.showToast({ title: '球队名称无效', icon: 'none' });
-        return;
-      }
-      this.currentTeamName = teamName;
-      this.playerList = [];
-      this.showPlayerModal = true;
-      
-      this.showLoading();
-      try {
-        const res = await queryPlayer({ teamName });
-        this.playerList = (res.data) || [];
-      } catch (error) {
-        console.error("查询球员列表失败:", error);
-        uni.showToast({ title: '获取球员数据失败', icon: 'none' });
-      } finally {
-        this.hideLoading();
-      }
-    },
-    closePlayerModal() {
-      this.showPlayerModal = false;
-      this.playerList = [];
     },
     showLoading() {
-      uni.showLoading({ title: '加载中...', mask: true });
+      uni.showLoading({ title: "加载中...", mask: true });
     },
     hideLoading() {
       uni.hideLoading();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+// 容器基础样式
 .match-info-container {
   color: #444;
   padding: 20rpx;
   border-radius: 16rpx;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
-  height: 100vh; 
+  height: 100vh;
   box-sizing: border-box;
   overflow-y: auto;
 }
 
+// 赛事头部样式
 .match-header {
   text-align: center;
   background: #ffffff;
@@ -479,204 +353,118 @@ export default {
     color: #444;
   }
 
-  .match-teams {
-    display: flex;
-    align-items: center;
-    margin: 8rpx 0;
-
-    .home-team {
-      font-size: 26rpx;
-      width: 45%;
-    }
-
-    .vs-text {
-      flex: 1;
-      font-size: 26rpx;
-      color: #444;
-    }
-  }
-
   .match-time {
     display: flex;
     justify-content: center;
     font-size: 24rpx;
     margin-left: 30rpx;
   }
+
+  // 新增对战队伍容器样式
+  .match-teams-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 8rpx 0;
+    padding: 0 20rpx;
+
+    .team-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end; // 默认右对齐（主队）
+      gap: 4rpx;
+
+      &.away-column {
+        align-items: flex-start; // 客队左对齐
+      }
+
+      .team-name {
+        font-size: 26rpx;
+      }
+
+      .handicap-text {
+        font-size: 22rpx;
+        color: red;
+      }
+    }
+
+    .vs-column {
+      width: 120rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .vs-text {
+        font-size: 26rpx;
+        color: #444;
+      }
+    }
+  }
 }
 
+// 预测模块样式调整
 .prediction-section {
   background: #ffffff;
   border-radius: 12rpx;
-  .win-probability {
+  padding-bottom: 10rpx;
+
+  .prediction-row {
     display: flex;
+    align-items: center;
+    margin: 8rpx 0;
+
     .pro-text {
-      color: red;box-sizing: border-box;padding-left: 22rpx;font-size: 26rpx;
+      color: red;
+      box-sizing: border-box;
+      padding-left: 22rpx;
+      font-size: 26rpx;
+      flex-shrink: 0;
+      width: 140rpx;
     }
-    .probability-bars {
+
+    .prediction-content {
+      flex: 1;
       display: flex;
-      overflow: hidden;
-      .colon-wrapper {
-        color: #444;
-        width: 25%;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 20rpx;
+
+      .home-prediction {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 20rpx;
+        justify-content: flex-end; // 主队内容右对齐
+        width: 26%;
+      }
+
+      .draw-prediction {
+        width: 120rpx;
+        display: flex;
+        justify-content: center; // 平局/比分分隔符居中
+      }
+
+      .away-prediction {
+        flex: 1;
+        display: flex;
+        justify-content: flex-start; // 客队内容左对齐
+      }
+
+      .prediction-value {
         font-size: 20rpx;
         color: #31926e;
       }
-
-      .probability-bar {
-        display: flex;
-        align-items: center;
-        height: 100%;
-        font-size: 20rpx;
-        color: white;
-        text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.3);
-        
-        .bi {
-          position: relative;
-          color: #31926e;
-        }
-      }
-      .home-bar {
-        justify-content: flex-end;
-      }
-      .away-bar {
-        justify-content: flex-start;
-      }
     }
   }
+
   .win-prompt {
-    color: red; text-align:left;padding-left: 20rpx;font-size: 29.5rpx;
+    color: red;
+    text-align: left;
+    padding-left: 20rpx;
+    font-size: 29.5rpx;
+    margin-top: 8rpx;
   }
 }
 
-.compare-section {
-  background: #ffffff;
-  border-radius: 12rpx;
-  margin-bottom: 24rpx;
-  overflow: hidden;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-  height: 630rpx;
-  overflow:auto;
-  .section-title {
-    background: #31926e;
-    color: white;
-    padding: 8rpx 20rpx;
-    font-size: 26rpx;
-    left:0;
-    top:0;
-  }
-
-  .compare-table {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 20rpx;
-    padding-top: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4rpx;
-
-    .compare-tr {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      padding: 8rpx 0;
-      border-bottom: 1rpx dashed #eee;
-      font-size: 24rpx;
-
-      // 球队名称行样式（保持不变）
-      &.name-tr {
-        font-size: 26rpx;
-        font-weight: 500;
-        padding: 12rpx 0;
-        
-        .compare-td.left-td,
-        .compare-td.right-td {
-          flex: 1 !important;
-          width: auto !important;
-          padding: 0 !important;
-        }
-        .left-td.team-name {
-          text-align: right !important;
-        }
-        .right-td.team-name {
-          text-align: left !important;
-        }
-        .mid-wrapper.name-gap {
-          flex: 0 0 20rpx;
-        }
-        .team-name {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      // 左侧列:固定宽度 + 强制右对齐
-      .compare-td.left-td {
-        flex: none !important;
-        width: 140rpx !important;
-        text-align: right !important;
-        padding-right: 10rpx;
-        color: #444;
-      }
-
-      // 中间容器:调整布局，适配冒号
-      .mid-wrapper {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center; // 整体居中
-
-        // 新增:冒号样式
-        .colon {
-          font-size: 24rpx;
-          color: #444;
-          margin: 0 10rpx; // 冒号和左右数据的间距
-          flex: none; // 不占用额外空间
-          text-align: center;
-        }
-
-        .compare-td.mid-td {
-          flex: 1; // 左右数据区域平均分
-          color: #666;
-          min-width: 80rpx;
-
-          &.home-td {
-            text-align: right; // 主队数据右对齐
-            padding-right: 0;
-          }
-          &.away-td {
-            text-align: left; // 客队数据左对齐
-            padding-left: 0;
-          }
-        }
-      }
-
-      // 右侧列:固定宽度 + 强制左对齐
-      .compare-td.right-td {
-        flex: none !important;
-        width: 140rpx !important;
-        text-align: left !important;
-        padding-left: 10rpx;
-        color: #444;
-      }
-
-      .look {
-        color: #06f!important;
-        cursor: pointer;
-        text-align: center!important;
-      }
-    }
-  }
-}
-// 自定义弹窗样式
+// 以下样式保持不变
 .custom-modal-mask {
   position: fixed;
   top: 0;
@@ -686,7 +474,6 @@ export default {
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
-
 .custom-modal {
   position: fixed;
   top: 50%;
@@ -734,11 +521,10 @@ export default {
   }
 }
 
-// 球员表格样式
 .player-table-wrap {
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
   .player-table-header {
     display: flex;
     background: #f5f7fa;
@@ -756,32 +542,28 @@ export default {
       font-size: 22rpx;
       font-weight: bold;
       color: #444;
-      &.table-single{
+      &.table-single {
         flex: none !important;
         width: 60rpx !important;
       }
     }
   }
 }
-
 .player-table {
   width: 100%;
-
   .player-table-row {
     display: flex;
     padding: 12rpx 0;
     border-bottom: 1rpx solid #f0f0f0;
-
     &:nth-child(even) {
       background: #f9f9f9;
     }
-
     .table-cell {
       flex: 1;
       text-align: center;
       font-size: 20rpx;
       color: #666;
-      &.table-single{
+      &.table-single {
         flex: none !important;
         width: 60rpx !important;
       }
@@ -798,14 +580,15 @@ export default {
 
 .ranking-section,
 .history-section,
-.players-section {
+.players-section,
+.statistic-section,
+.record-section {
   background: #ffffff;
   border-radius: 12rpx;
   margin-bottom: 24rpx;
   overflow: hidden;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
 }
-
 .section-title {
   background: #31926e;
   color: white;
@@ -813,7 +596,6 @@ export default {
   font-size: 26rpx;
 }
 
-// 通用表格基础样式
 .ranking-table {
   border: 1rpx solid #eee;
   .table-header {
@@ -841,10 +623,9 @@ export default {
   }
   .table-row:nth-child(even) {
     background: #f2f2f2;
-}
+  }
 }
 
-// 射手榜专属样式
 .scorer-table {
   .table-header,
   .table-row {
@@ -871,9 +652,9 @@ export default {
 }
 
 .history-item {
-  padding:0 20rpx 16rpx 20rpx;
+  padding: 0 20rpx 16rpx 20rpx;
   border-bottom: 4rpx solid #eee;
-  
+
   .history-header {
     display: flex;
     justify-content: space-between;
@@ -890,7 +671,7 @@ export default {
     font-size: 26rpx;
     box-sizing: border-box;
     color: #444;
-    
+
     .team {
       width: 42%;
       text-align: center;
@@ -914,6 +695,77 @@ export default {
   }
 }
 .history-item:nth-child(even) {
-    background: #f2f2f2;
+  background: #f2f2f2;
+}
+
+.statistic-section {
+  .statistic-table {
+    border: 1rpx solid #eee;
+    .table-header {
+      display: flex;
+      background: #f5f7fa;
+      padding: 12rpx 0;
+      border-bottom: 1rpx solid #eee;
+    }
+    .table-row {
+      display: flex;
+      padding: 12rpx 0;
+      border-bottom: 1rpx solid #eee;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    .cell {
+      text-align: center;
+      font-size: 24rpx;
+      color: #444;
+    }
+    .item-cell {
+      width: 40%;
+      flex: none;
+      text-align: left;
+      padding-left: 20rpx;
+    }
+    .team-cell {
+      width: 30%;
+      flex: none;
+      font-weight: bold;
+    }
+    .data-cell {
+      width: 30%;
+      flex: none;
+    }
+    .table-row:nth-child(even) {
+      background: #f2f2f2;
+    }
+  }
+}
+
+.record-section {
+  background: #ffffff;
+  border-radius: 12rpx;
+  margin-bottom: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  
+  .tab-buttons {
+    display: flex;
+    border-bottom: 1rpx solid #eee;
+    .tab-btn {
+      flex: 1;
+      text-align: center;
+      padding: 16rpx 0;
+      font-size: 26rpx;
+      color: #666;
+      background: #f5f7fa;
+      cursor: pointer;
+      transition: all 0.3s;
+      &.active {
+        color: #31926e;
+        background: #ffffff;
+        border-bottom: 2rpx solid #31926e;
+      }
+    }
+  }
 }
 </style>

@@ -15,7 +15,6 @@
     "match-half-full": "/pages/commn/basketball/MatchHalfFull",
     "mixed-pass-list": "/pages/commn/basketball/MixedPassList",
     "custom-header": "/components/CustomHeader",
-    "reminder-dialog": "/pages/commn/ReminderDialog",
     "tips-popup": "/pages/commn/playTip",
     "empty-stop": "/pages/commn/emptyStop"
   }

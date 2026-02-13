@@ -200,9 +200,7 @@ export default {
     uni.setTabBarStyle({ height: '0px' });
   },
   created() {
-    const sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
+
     this.calcAllHeights();
   },
   onLoad() {
@@ -238,66 +236,66 @@ export default {
       return hasSpf || hasRspf || hasDx || hasSfcHome || hasSfcAway;
     },
     // 核心方法：获取单个玩法的展示文本
-    getBetItem(type, item) {
-      if (!item) return '';
-      switch (type) {
-        // 1. 胜负
-        case 'spf': {
-          const spfItems = item.selectedSpf?.filter(t => ['home_win', 'home_lose'].includes(t)) || [];
-          if (spfItems.length === 0) return '';
-          // 转义为中文并拼接赔率
-          return spfItems.map(t => {
-            const odds = t === 'home_win' ? item.win_multiplier : item.loss_multiplier;
-            return `${this.spfMap[t]}(${odds || '--'})`;
-          }).join('、');
-        }
-        // 2. 让分胜负
-        case 'rspf': {
-          const rspfItems = item.selectedSpf?.filter(t => ['home_win_r', 'home_lose_r'].includes(t)) || [];
-          if (rspfItems.length === 0) return '';
-          // 转义为中文并拼接赔率
-          return rspfItems.map(t => {
-            const odds = t === 'home_win_r' ? item.r_win_multiplier : item.r_loss_multiplier;
-            return `${this.rspfMap[t]}(${odds || '--'})`;
-          }).join('、');
-        }
-        // 3. 大小分
-        case 'dx': {
-          const dxItems = item.selectedDx || [];
-          if (dxItems.length === 0) return '';
-          // 转义为中文并拼接赔率
-          return dxItems.map(t => {
-            const odds = t === '大小分_大' ? item.dxf_d_multiplier : item.dxf_x_multiplier;
-            return `${this.dxMap[t]}(${odds || '--'})`;
-          }).join('、');
-        }
-        // 4. 胜分差（客胜）
-        case 'sfc_away': {
-          const sfcAwayItems = item.selectedSfc?.filter(t => t.includes('客胜')) || [];
-          if (sfcAwayItems.length === 0) return '';
-          // 提取分差区间并拼接赔率
-          return sfcAwayItems.map(t => {
-            const range = t.split('_').pop(); // 提取1-5、6-10等
-            const oddsField = `v_sfc${range.replace('+', '_jia').replace('-', '_')}`; // 匹配字段名
-            const odds = item[oddsField] || '--';
-            return `${range}(${odds})`;
-          }).join('、');
-        }
-        // 5. 胜分差（主胜）
-        case 'sfc_home': {
-          const sfcHomeItems = item.selectedSfc?.filter(t => t.includes('主胜')) || [];
-          if (sfcHomeItems.length === 0) return '';
-          // 提取分差区间并拼接赔率
-          return sfcHomeItems.map(t => {
-            const range = t.split('_').pop(); // 提取1-5、6-10等
-            const oddsField = `h_sfc${range.replace('+', '_jia').replace('-', '_')}`; // 匹配字段名
-            const odds = item[oddsField] || '--';
-            return `${range}(${odds})`;
-          }).join('、');
-        }
-        default: return '';
-      }
-    },
+getBetItem(type, item) {
+  if (!item) return '';
+  switch (type) {
+    // 1. 胜负
+    case 'spf': {
+      const spfItems = item.selectedSpf && item.selectedSpf.filter(t => ['home_win', 'home_lose'].includes(t)) ? item.selectedSpf.filter(t => ['home_win', 'home_lose'].includes(t)) : [];
+      if (spfItems.length === 0) return '';
+      // 转义为中文并拼接赔率
+      return spfItems.map(t => {
+        const odds = t === 'home_win' ? item.win_multiplier : item.loss_multiplier;
+        return `${this.spfMap[t]}(${odds || '--'})`;
+      }).join('、');
+    }
+    // 2. 让分胜负
+    case 'rspf': {
+      const rspfItems = item.selectedSpf && item.selectedSpf.filter(t => ['home_win_r', 'home_lose_r'].includes(t)) ? item.selectedSpf.filter(t => ['home_win_r', 'home_lose_r'].includes(t)) : [];
+      if (rspfItems.length === 0) return '';
+      // 转义为中文并拼接赔率
+      return rspfItems.map(t => {
+        const odds = t === 'home_win_r' ? item.r_win_multiplier : item.r_loss_multiplier;
+        return `${this.rspfMap[t]}(${odds || '--'})`;
+      }).join('、');
+    }
+    // 3. 大小分
+    case 'dx': {
+      const dxItems = item.selectedDx || [];
+      if (dxItems.length === 0) return '';
+      // 转义为中文并拼接赔率
+      return dxItems.map(t => {
+        const odds = t === '大小分_大' ? item.dxf_d_multiplier : item.dxf_x_multiplier;
+        return `${this.dxMap[t]}(${odds || '--'})`;
+      }).join('、');
+    }
+    // 4. 胜分差（客胜）
+    case 'sfc_away': {
+      const sfcAwayItems = item.selectedSfc && item.selectedSfc.filter(t => t.includes('客胜')) ? item.selectedSfc.filter(t => t.includes('客胜')) : [];
+      if (sfcAwayItems.length === 0) return '';
+      // 提取分差区间并拼接赔率
+      return sfcAwayItems.map(t => {
+        const range = t.split('_').pop(); // 提取1-5、6-10等
+        const oddsField = `v_sfc${range.replace('+', '_jia').replace('-', '_')}`; // 匹配字段名
+        const odds = item[oddsField] || '--';
+        return `${range}(${odds})`;
+      }).join('、');
+    }
+    // 5. 胜分差（主胜）
+    case 'sfc_home': {
+      const sfcHomeItems = item.selectedSfc && item.selectedSfc.filter(t => t.includes('主胜')) ? item.selectedSfc.filter(t => t.includes('主胜')) : [];
+      if (sfcHomeItems.length === 0) return '';
+      // 提取分差区间并拼接赔率
+      return sfcHomeItems.map(t => {
+        const range = t.split('_').pop(); // 提取1-5、6-10等
+        const oddsField = `h_sfc${range.replace('+', '_jia').replace('-', '_')}`; // 匹配字段名
+        const odds = item[oddsField] || '--';
+        return `${range}(${odds})`;
+      }).join('、');
+    }
+    default: return '';
+  }
+},
     // 处理软键盘输入
     handleKeyboardInput(val) {
       const num = parseInt(val) || 1;
@@ -313,7 +311,7 @@ export default {
     calcAllHeights() {
       const sys = uni.getSystemInfoSync();
       this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = (sys.safeAreaInsets?.bottom) || 0;
+this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;

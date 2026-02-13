@@ -1,21 +1,56 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/football/index",
-    "pages/nineIndex/index",
-    "pages/fourteenIndex/index",
-    "pages/fourteenIndex/editFourteen",
-    "pages/nineIndex/editNine",
-    "pages/sixIndex/editSix",
-    "pages/fourIndex/editFour",
-    "pages/sixIndex/index",
-    "pages/fourIndex/index",
-    "pages/basketball/index",
-    "pages/recharge/recharge",
     "pages/analysisForecast/index",
     "pages/user/index"
   ],
   "subPackages": [
+    {
+      "root": "pages/football",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/nineIndex",
+      "pages": [
+        "index",
+        "editNine"
+      ]
+    },
+    {
+      "root": "pages/fourteenIndex",
+      "pages": [
+        "index",
+        "editFourteen"
+      ]
+    },
+    {
+      "root": "pages/sixIndex",
+      "pages": [
+        "index",
+        "editSix"
+      ]
+    },
+    {
+      "root": "pages/fourIndex",
+      "pages": [
+        "index",
+        "editFour"
+      ]
+    },
+    {
+      "root": "pages/basketball",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/recharge",
+      "pages": [
+        "recharge"
+      ]
+    },
     {
       "root": "pages/edit/football",
       "pages": [

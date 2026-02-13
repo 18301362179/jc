@@ -46,10 +46,10 @@ page.data-v-df9e872e {
   width: 100% !important;
   overflow-y: auto !important;
   background-color: #f5f5f5;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
   top: 0 !important;
   bottom: 90rpx !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .match-scroll.data-v-df9e872e::-webkit-scrollbar {
   display: none;
@@ -108,7 +108,9 @@ page.data-v-df9e872e {
   text-overflow: ellipsis;
 }
 .bet-bar .confirm-btn.data-v-df9e872e {
-  width: 140rpx;
+  width: 180rpx;
+  height: 70rpx;
+  line-height: 70rpx;
   background-color: #d92929;
   color: #fff;
   border-radius: 8rpx;
@@ -117,6 +119,7 @@ page.data-v-df9e872e {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 .bet-bar .confirm-btn.data-v-df9e872e:disabled {
   background-color: #ccc;

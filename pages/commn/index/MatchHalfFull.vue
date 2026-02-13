@@ -21,7 +21,7 @@
             </view>
             <view class="status-right">
               <!-- 仅改：@tap.stop 改为 @click.stop，其他不变 -->
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> 分析 </view>
+              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)">  {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }} </view>
             </view>
           </view>
 
@@ -39,11 +39,16 @@
 
             <view class="main-right">
               <view class="top-right">
-                <view class="team-vs"> {{ item.home_name }} VS {{ item.visiting_name }} </view>
-                <view class="rate-row" v-if="item.home_win_rate || item.visiting_win_rate">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                <view class="team-name">
+                  <text>{{ item.home_name }}</text>
+                  <text class="vs-text">VS</text>
+                  <text>{{ item.visiting_name }}</text>
+                </view>
+                <!-- 胜率&进球数行 -->
+                <view class="rate-row">
+                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
                   <text class="vs-text">{{ item.draw_rate ? "平率" + item.draw_rate : "" }}</text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
                 </view>
               </view>
               <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
@@ -397,7 +402,6 @@ export default {
 }
 
 .top-right {
-  flex: 1;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -407,6 +411,37 @@ export default {
   overflow: hidden;
 }
 
+// 球队名称行 - 核心修改：改为flex布局实现左右对齐
+.team-name {
+  font-size: 26rpx;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // 改为两端对齐
+  width: 100%; // 确保占满宽度
+
+  .vs-text {
+    color: #999;
+    font-size: 24rpx;
+    // 居中占位，宽度与胜率行的平率文本一致
+    width: 140rpx;
+    text-align: center;
+  }
+
+  // 主队名称靠右
+  text:first-child {
+    text-align: right;
+    flex: 1;
+  }
+
+  // 客队名称靠左
+  text:last-child {
+    text-align: left;
+    flex: 1;
+  }
+}
+
+// 胜率&进球数行 - 核心修改：保持布局匹配
 .rate-row {
   width: 100%;
   display: flex;
@@ -415,27 +450,23 @@ export default {
   color: #999;
 
   .rate-text {
-    width: 100%;
     flex: 1;
-    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .rate-text.home {
-    text-align: right;
-    padding-right: 10rpx;
+    text-align: right; // 主队胜率靠右
+    padding-right: 0; // 移除多余内边距，保证对齐
   }
   .rate-text.away {
-    text-align: left;
-    padding-left: 10rpx;
+    text-align: left; // 客队胜率靠左
+    padding-left: 0; // 移除多余内边距，保证对齐
   }
   .vs-text {
-    width: 140rpx;
-    text-align: center;
+    width: 140rpx; // 与球队行VS文本宽度一致
+    text-align: center; // 平率居中
     flex-shrink: 0;
-    color: #999;
-    font-size: 20rpx;
   }
 }
 
@@ -483,9 +514,6 @@ export default {
   text-align: center;
   font-size: 20rpx;
   color: #999;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .team-vs {

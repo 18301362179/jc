@@ -15,12 +15,12 @@
           <view class="match-status-row">
             <view class="status-left">
               <!-- 修复：单场标签显示条件错误，应该是 is_stop == 0 -->
-              <text class="single-tag" v-if="item.is_sfc_single == 1 && item.is_stop == 0">单场</text>
+              <text class="single-tag" v-if="item.is_hhgg_single == 1 && item.is_stop == 0">单场</text>
               <!-- 新增：停售标签 -->
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
             </view>
             <view class="status-right">
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="goToAiAnalysis(item)">分析</view>
+              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -49,9 +49,9 @@
                     <text class="team-name home">{{ item.visiting_name }}</text>
                   </view>
                   <view class="rate-row">
-                    <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                    <text class="rate-text home" style="text-align:right;padding-right: 10px;" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
                     <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
-                    <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+                    <text class="rate-text away" style="text-align:left;padding-left:10px;" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
                   </view>
                 </view>
               </view>
@@ -656,7 +656,6 @@ export default {
     openScorePopup(match) {
       // 停售状态下禁止打开弹窗
       if (match.is_stop == 1) {
-        uni.showToast({ title: "该场次已停售，无法操作", icon: "none" });
         return;
       }
       // 深拷贝避免修改原数据
@@ -737,7 +736,6 @@ export default {
       try {
         // 增强：停售状态下禁止确认
         if (!this.currentMatch || this.isLoading || this.currentMatch.is_stop == 1) {
-          console.warn(`[确认选中] 操作禁止 - 场次不存在: ${!this.currentMatch}, 加载中: ${this.isLoading}, 已停售: ${this.currentMatch?.is_stop == 1}`);
           uni.showToast({ title: "该场次已停售，操作不可用", icon: "none" });
           return;
         }
@@ -1036,7 +1034,7 @@ export default {
       }
 
       .vs-text {
-        width: 40rpx;
+        width: 100rpx;
         text-align: center;
         flex-shrink: 0;
         font-weight: 500;

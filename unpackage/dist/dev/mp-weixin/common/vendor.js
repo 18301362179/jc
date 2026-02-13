@@ -11026,65 +11026,6 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 370:
-/*!*****************************************************************************!*\
-  !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/index.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getRateColor = void 0;
-// utils/index.js
-
-/**
- * 计算胜率文字的显示颜色
- * @param {string} rateStr - 胜率字符串（如"60%"）
- * @param {string} type - 类型：home/away（主/客胜）、draw（平局）
- * @param {boolean} isSelected - 是否被选中（新增参数）
- * @returns {string} 文字颜色值
- */
-var getRateColor = function getRateColor(rateStr, type, isSelected) {
-  // 优先判断：如果被选中，直接返回白色
-  if (isSelected === true) {
-    return '#fff';
-  }
-
-  // 原有容错处理：如果rateStr为空/不是字符串，返回空（使用默认样式）
-  if (!rateStr || typeof rateStr !== 'string') return '';
-
-  // 处理百分比字符串，转换为小数（如"60%" → 0.6）
-  var rate = parseFloat(rateStr.replace('%', '')) / 100;
-
-  // 容错：转换失败则返回空（使用默认样式）
-  if (isNaN(rate)) return '';
-
-  // 未被选中时，按原规则判断颜色
-  if (type === 'home' || type === 'away') {
-    // 主/客队胜率 ≥ 0.6（60%）显示绿色，否则返回空（默认色）
-    return rate >= 0.6 ? '#31926e' : '';
-  } else if (type === 'draw') {
-    // 平局胜率 ≥ 0.5（50%）显示绿色，否则返回空（默认色）
-    return rate >= 0.5 ? '#31926e' : '';
-  }
-
-  // 默认返回空（使用默认样式）
-  return '';
-};
-
-// 兼容小程序CommonJS模块化
-exports.getRateColor = getRateColor;
-module.exports = {
-  getRateColor: getRateColor
-};
-
-/***/ }),
-
 /***/ 39:
 /*!**********************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -11255,6 +11196,65 @@ var envConfig = {
 };
 var env =  false ? undefined : 'development';
 module.exports = envConfig[env];
+
+/***/ }),
+
+/***/ 405:
+/*!*****************************************************************************!*\
+  !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/index.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getRateColor = void 0;
+// utils/index.js
+
+/**
+ * 计算胜率文字的显示颜色
+ * @param {string} rateStr - 胜率字符串（如"60%"）
+ * @param {string} type - 类型：home/away（主/客胜）、draw（平局）
+ * @param {boolean} isSelected - 是否被选中（新增参数）
+ * @returns {string} 文字颜色值
+ */
+var getRateColor = function getRateColor(rateStr, type, isSelected) {
+  // 优先判断：如果被选中，直接返回白色
+  if (isSelected === true) {
+    return '#fff';
+  }
+
+  // 原有容错处理：如果rateStr为空/不是字符串，返回空（使用默认样式）
+  if (!rateStr || typeof rateStr !== 'string') return '';
+
+  // 处理百分比字符串，转换为小数（如"60%" → 0.6）
+  var rate = parseFloat(rateStr.replace('%', '')) / 100;
+
+  // 容错：转换失败则返回空（使用默认样式）
+  if (isNaN(rate)) return '';
+
+  // 未被选中时，按原规则判断颜色
+  if (type === 'home' || type === 'away') {
+    // 主/客队胜率 ≥ 0.6（60%）显示绿色，否则返回空（默认色）
+    return rate >= 0.6 ? '#31926e' : '';
+  } else if (type === 'draw') {
+    // 平局胜率 ≥ 0.5（50%）显示绿色，否则返回空（默认色）
+    return rate >= 0.5 ? '#31926e' : '';
+  }
+
+  // 默认返回空（使用默认样式）
+  return '';
+};
+
+// 兼容小程序CommonJS模块化
+exports.getRateColor = getRateColor;
+module.exports = {
+  getRateColor: getRateColor
+};
 
 /***/ }),
 
@@ -12853,39 +12853,6 @@ function formatTimeToMDWeekHM(timeStr) {
 
 /***/ }),
 
-/***/ 62:
-/*!********************************************************************************!*\
-  !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/validate.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.validateBetInput = validateBetInput;
-// utils/validate.js
-/**
- * 投注倍数输入实时校验（输入框专用，立刻修正）
- * @param {string|number} value - 输入框原始值
- * @returns {number} 修正后的合法值（1-50整数）
- */
-function validateBetInput(value) {
-  // 1. 空值/非数字 → 返回1
-  if (!value || isNaN(Number(value))) {
-    return 1;
-  }
-  // 2. 转数字并取整
-  var num = Math.floor(Number(value));
-  // 3. 大于50 → 返回50；小于1 → 返回1；否则返回自身
-  return num > 50 ? 50 : num < 1 ? 1 : num;
-}
-
-/***/ }),
-
 /***/ 7:
 /*!*********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
@@ -12923,6 +12890,39 @@ function _iterableToArrayLimit(r, l) {
   }
 }
 module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ 78:
+/*!********************************************************************************!*\
+  !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/validate.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.validateBetInput = validateBetInput;
+// utils/validate.js
+/**
+ * 投注倍数输入实时校验（输入框专用，立刻修正）
+ * @param {string|number} value - 输入框原始值
+ * @returns {number} 修正后的合法值（1-50整数）
+ */
+function validateBetInput(value) {
+  // 1. 空值/非数字 → 返回1
+  if (!value || isNaN(Number(value))) {
+    return 1;
+  }
+  // 2. 转数字并取整
+  var num = Math.floor(Number(value));
+  // 3. 大于50 → 返回50；小于1 → 返回1；否则返回自身
+  return num > 50 ? 50 : num < 1 ? 1 : num;
+}
 
 /***/ }),
 

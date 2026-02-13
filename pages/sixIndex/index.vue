@@ -14,6 +14,7 @@
     />
     <!-- 🌟 新增：期数选择组件（和4球父组件一致） -->
     <DrawNumSelector
+      :title="title"
       :draw-num-list="drawNumList"
       :current-draw-num="currentDrawNum"
       :nav-bar-total-height="navBarTotalHeight"
@@ -64,7 +65,6 @@
     <EmptyStop 
       :hasData="!hasData" 
     />
-    <ReminderDialog :isShow="isDialogShow" @cancel="handleCancel" @exchange="handleRecharge" />
   </view>
 </template>
 
@@ -72,7 +72,6 @@
 // 核心组件引入：🌟 新增DrawNumSelector
 import List from "@/pages/sixIndex/list.vue";
 import CustomHeader from "@/components/CustomHeader.vue";
-import ReminderDialog from "@/pages/commn/ReminderDialog.vue";
 import TipsPopup from "@/pages/commn/playTip";
 import EmptyStop from '@/pages/commn/emptyStop.vue';
 import BetBar from "@/pages/commn/betBar/index.vue";
@@ -86,7 +85,6 @@ export default {
   components: {
     List,
     CustomHeader,
-    ReminderDialog,
     TipsPopup,
     EmptyStop,
     BetBar,
@@ -104,7 +102,6 @@ export default {
       drawerList: [],
       isLoading: false,
       headerHeight: 0,
-      isDialogShow: false,
       statusBarHeight: 0,
       playTypeMap: {
         "半全场": "bqzc" 
@@ -126,7 +123,8 @@ export default {
       popupMaxHeight: 0,
       touchStartX: 0,
       swipeThreshold: 50,
-      hasData: false
+      hasData: false,
+      title:""
     };
   },
   async onPullDownRefresh() {
@@ -385,15 +383,6 @@ export default {
         }
       });
     },
-    handleRecharge() {
-      uni.navigateTo({ 
-        url: `/pages/recharge/recharge?beFrom=football&isLottery=1`
-      });
-      this.isDialogShow = false;
-    },
-    handleCancel() {
-      this.isDialogShow = false;
-    },
     // 🌟 核心修改：loadMatchData兼容期数参数（和4球逻辑一致）
     async loadMatchData(drawNum = '') {
       try {
@@ -405,6 +394,7 @@ export default {
         
         // 1. 请求期数列表并过滤空值（和4球一致）
         const resNum =  await footballLotteryTraditionDrawNum({playMethod: 6});
+        if (resNum.data&& resNum.data.length == 0) {return;}
         this.drawNumList = (resNum && resNum.data ? resNum.data : []).filter(function(num) {
           return num && num.trim() !== "";
         });
@@ -421,15 +411,12 @@ export default {
 
         // 3. 请求赛事列表（兼容返回数组的情况，和4球一致）
         const res = await footballLotteryTradition(reqParams);
-        let matchData = [];
-        if (Array.isArray(res)) {
-          matchData = res;
-        } else if (res && res.data) {
-          matchData = res.data.dataList || res.data || [];
-        }
-        
-        // 4. 格式化赛事列表（保持6球原有初始化逻辑，仅对齐格式）
-        this.drawerList = this.formatDrawerList(matchData, this.currentDrawNum);
+          if (res.data && res.data.length > 0) {
+            this.title = "截止时间：" + res.data[0].sale_end_time;
+          };
+          
+        // 4. 格式化赛事列表（保持14场原有初始化逻辑，仅对齐格式）
+        this.drawerList = this.formatDrawerList(res.data, this.currentDrawNum);
         this.hasData = this.drawerList.length > 0;
         if (!this.hasData) {
           uni.showToast({ title: "暂无赛事数据", icon: "none" });
@@ -487,8 +474,9 @@ export default {
         this.showLoading();
         const reqParams = {
           id: item.id,
-          beFrom: 'football',
-          serialNumber: item.serial_number || '',
+          beFrom:"football",
+          serialNumber: item.draw_num,
+          dateStr: item.match_num,
           isLottery: 1,
           playType: '半全场',
           
@@ -497,9 +485,20 @@ export default {
     const res = await recharge(reqParams);
     console.log(res, 'res------')
     if (res.data.status == 'fail') {
-      // isLottery=1 表示无灵石，显示充值弹窗
-        this.isDialogShow = true;
-        this.hideLoading();
+          this.hideLoading();
+          uni.showModal({
+                title: "请充币",
+                content: "您的游戏币不足，请兑换！",
+                cancelText: "取消",
+                confirmText: "兑换",
+                confirmColor: "#d92929",
+                success: (res) => {
+                  if (res.confirm) {
+                    // 点击兑换跳充值页
+                    uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
+                  }
+                }
+              });
         return;
     } else {
           await uni.navigateTo({

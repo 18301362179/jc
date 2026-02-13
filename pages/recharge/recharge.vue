@@ -16,7 +16,7 @@
           v-for="(item, index) in list" 
           :key="index"
         >
-          {{ item.bi }}币
+          {{ item.count }}元&nbsp;&nbsp;&nbsp;{{ item.bi }}币
         </button>
       </view>
 
@@ -43,10 +43,10 @@ export default {
     return {
       // 灵石档位列表（按你要求的字段：count=钱数，bi=灵石数）
       list: [
-        { count: 5, bi: 50 },    // 5元=50灵石
-        { count: 9, bi: 100 },   // 9元=100灵石
-        { count: 35, bi: 500 },  // 35元=500灵石
-        { count: 60, bi: 1000 }  // 60元=1000灵石
+        { count: 10, bi: 100 },    // 5元=50灵石
+        { count: 19, bi: 200 },   // 9元=100灵石
+        { count: 45, bi: 500 },  // 35元=500灵石
+        { count: 80, bi: 1000 }  // 60元=1000灵石
       ],
       // 选中的列表索引（核心：用index控制选中状态）
       selectedIndex: 1, // 默认选中第2项（9元/100灵石）
@@ -63,7 +63,7 @@ export default {
     };
   },
   onLoad(options) {
-    // 接收上个页面传递的参数（如需默认选中指定项，可在这里修改selectedIndex）
+
   },
   methods: {
     /**
@@ -79,83 +79,96 @@ export default {
     /**
      * 核心：处理付款逻辑
      */
-    async handlePay() {
-      // 防止重复点击
-      if (this.isPayLoading) return;
-      this.isPayLoading = true;
+async handlePay() {
+  // 防止重复点击
+  if (this.isPayLoading) return;
+  this.isPayLoading = true;
 
-      try {
-        // ========== 前置校验 ==========
-        // 校验1：是否选择有效档位（通过index判断）
-        const selectedItem = this.list[this.selectedIndex];
-        if (!selectedItem) {
-          uni.showToast({ title: "请先选择灵石数量", icon: "none" });
-          this.isPayLoading = false;
-          return;
-        }
+  try {
+    // ========== 前置校验（完全不变） ==========
+    const selectedItem = this.list[this.selectedIndex];
+    if (!selectedItem) {
+      uni.showToast({ title: "请先选择灵石数量", icon: "none" });
+      this.isPayLoading = false;
+      return;
+    }
 
-        // 校验2：登录态校验（复用app.vue的checkToken方法）
-        const isTokenValid = await checkToken();
-        if (!isTokenValid) {
-          uni.showToast({ title: "登录态失效，正在重新登录...", icon: "none" });
-          const loginResult = await login();
-          if (!loginResult.success) {
-            uni.showToast({ title: "登录失败，请重试", icon: "none" });
-            this.isPayLoading = false;
-            return;
-          }
-        }
+    const isTokenValid = await checkToken();
+    if (!isTokenValid) {
+      uni.showToast({ title: "登录态失效，正在重新登录...", icon: "none" });
+      const loginResult = await login();
+      if (!loginResult.success) {
+        uni.showToast({ title: "登录失败，请重试", icon: "none" });
+        this.isPayLoading = false;
+        return;
+      }
+    }
 
-        // ========== 发起支付 ==========
-        uni.showLoading({ title: "发起支付中...", mask: true });
+    // ========== 发起支付（回调写法 + 适配普通对象） ==========
+    uni.showLoading({ title: "支付中...", mask: true });
 
-        // 步骤1：调用后端接口，获取微信支付参数（通过index取选中项的字段）
-        const payParams = await this.getWXPay();
-        if (!payParams) {
-          uni.hideLoading();
-          this.isPayLoading = false;
-          return;
-        }
+    const payParams = await this.getWXPay();
+    if (!payParams) {
+      uni.hideLoading();
+      this.isPayLoading = false;
+      return;
+    }
 
-        // 步骤2：调用uni-app统一支付接口，调起微信支付
-        const payResult = await uni.requestPayment({
-          provider: "wxpay", // 指定微信支付
-          timeStamp: payParams.timeStamp + "", // 时间戳（必须是字符串）
-          nonceStr: payParams.nonceStr, // 随机字符串
-          package: payParams.packageVal, // 格式：prepay_id=xxx
-          signType: payParams.signType || "MD5", // 签名类型
-          paySign: payParams.paySign, // 支付签名
-        });
-
-        // ========== 支付成功处理 ==========
+    // 调用支付接口，使用success/fail回调处理结果
+    uni.requestPayment({
+      provider: "wxpay",
+      timeStamp: payParams.paymentResult.timeStamp + "",
+      nonceStr: payParams.paymentResult.nonceStr,
+      package: payParams.paymentResult.packageVal,
+      signType: payParams.paymentResult.signType || "MD5",
+      paySign: payParams.paymentResult.paySign,
+      // ========== success回调：直接用普通对象 ==========
+      success: (payResult) => {
+        console.log(payResult, 'payResult结果--------------')
+        // 去掉数组处理，直接判断errMsg
         if (payResult.errMsg === "requestPayment:ok") {
           uni.showToast({ title: "支付成功", icon: "success", duration: 2000 });
-
-          // 步骤3：主动调用后端接口，确认支付结果（防漏单）
-          await this.confirmPayResult(payParams.outTradeNo);
-
-          // 步骤4：支付成功后跳转（返回上一页）
+          // 确认支付结果，传status=1
+          this.confirmPayResult(payParams.order.tradeNo, 1);
+          // 跳转页面
           setTimeout(() => {
             uni.navigateBack({ delta: 1 });
           }, 2000);
         }
-      } catch (error) {
-        // ========== 支付异常处理 ==========
+      },
+      // ========== fail回调：直接用普通对象 ==========
+      fail: (error) => {
         console.error("[支付失败] 详情：", error);
-
+        // 去掉数组处理，直接判断errMsg
         if (error.errMsg === "requestPayment:fail cancel") {
+          // 取消支付，传status=0
+          this.confirmPayResult(payParams.order.tradeNo, 0);
           uni.showToast({ title: "您已取消支付", icon: "none" });
         } else if (error.errMsg === "requestPayment:fail") {
+          // 支付失败，传status=3
+          this.confirmPayResult(payParams.order.tradeNo, 3);
           uni.showToast({ title: "支付失败：" + (error.message || "网络异常"), icon: "none" });
         } else {
+          // 支付异常，传status=4
+          this.confirmPayResult(payParams.order.tradeNo, 4);
           uni.showToast({ title: error.message || "支付异常，请重试", icon: "none" });
         }
-      } finally {
-        // 重置状态
+      },
+      // ========== complete回调：重置状态 ==========
+      complete: () => {
         uni.hideLoading();
         this.isPayLoading = false;
       }
-    },
+    });
+
+  } catch (error) {
+    // 仅处理前置逻辑的异常
+    console.error("[前置逻辑异常] 详情：", error);
+    uni.hideLoading();
+    this.isPayLoading = false;
+    uni.showToast({ title: "支付发起失败，请重试", icon: "none" });
+  }
+},
 
     /**
      * 辅助方法：调用后端接口获取微信支付参数（通过index取选中项）
@@ -192,9 +205,9 @@ export default {
      * 辅助方法：确认支付结果
      * @param {String} outTradeNo - 商户订单号
      */
-    async confirmPayResult(tradeNo) {
+    async confirmPayResult(tradeNo,status) {
       try {
-        await payConfirm({tradeNo})
+        await payConfirm({tradeNo,status})
       } catch (error) {
         console.error("[确认支付结果失败]：", error);
         // 仅打印日志，不影响用户体验

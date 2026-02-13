@@ -15,6 +15,7 @@
     />
     <!-- 🌟 新增：期数选择组件（和4/6/9场一致） -->
     <DrawNumSelector
+      :title="title"
       :draw-num-list="drawNumList"
       :current-draw-num="currentDrawNum"
       :nav-bar-total-height="navBarTotalHeight"
@@ -65,7 +66,6 @@
     <EmptyStop 
       :hasData="!hasData" 
     />
-    <ReminderDialog :isShow="isDialogShow" @cancel="handleCancel" @exchange="handleRecharge" />
   </view>
 </template>
 
@@ -73,7 +73,6 @@
 // 核心组件引入：🌟 新增DrawNumSelector
 import List from "@/pages/fourteenIndex/list.vue";
 import CustomHeader from "@/components/CustomHeader.vue";
-import ReminderDialog from "@/pages/commn/ReminderDialog.vue";
 import TipsPopup from "@/pages/commn/playTip";
 import EmptyStop from '@/pages/commn/emptyStop.vue';
 import BetBar from "@/pages/commn/betBar/index.vue";
@@ -87,7 +86,6 @@ export default {
   components: {
     List,
     CustomHeader,
-    ReminderDialog,
     TipsPopup,
     EmptyStop,
     BetBar,
@@ -105,7 +103,6 @@ export default {
       drawerList: [],
       isLoading: false,
       headerHeight: 0,
-      isDialogShow: false,
       statusBarHeight: 0,
       playTypeMap: {
         "胜平负": "spf"
@@ -128,7 +125,8 @@ export default {
       popupMaxHeight: 0,
       touchStartX: 0,
       swipeThreshold: 50,
-      hasData: false
+      hasData: false,
+      title:""
     };
   },
   async onPullDownRefresh() {
@@ -289,7 +287,7 @@ export default {
         const matchIds = selectedMatches.map((item) => item.id).join(",");
         this.showLoading();
         const res = await checkSelect({ lotteryIds: matchIds });
-        let isNeedUserPhone = res.data?.isNeedUserPhone || 1;
+let isNeedUserPhone = res.data && res.data.isNeedUserPhone ? res.data.isNeedUserPhone : 1;
         if (res.data) {
           await uni.navigateTo({
             url: `/pages/fourteenIndex/editFourteen`,
@@ -364,15 +362,6 @@ export default {
         }
       });
     },
-    handleRecharge() {
-      uni.navigateTo({ 
-        url: `/pages/recharge/recharge?beFrom=football&isLottery=1`
-      });
-      this.isDialogShow = false;
-    },
-    handleCancel() {
-      this.isDialogShow = false;
-    },
     // 🌟 核心修改：loadMatchData兼容期数参数（统一模板逻辑）
     async loadMatchData(drawNum = '') {
       try {
@@ -384,6 +373,8 @@ export default {
         
         // 1. 请求期数列表并过滤空值（统一模板）
         const resNum =  await footballLotteryTraditionDrawNum({playMethod: 14});
+        
+        if (resNum.data&& resNum.data.length == 0) {return;}
         this.drawNumList = (resNum && resNum.data ? resNum.data : []).filter(function(num) {
           return num && num.trim() !== "";
         });
@@ -400,15 +391,12 @@ export default {
 
         // 3. 请求赛事列表（兼容返回数组的情况，统一模板）
         const res = await footballLotteryTradition(reqParams);
-        let matchData = [];
-        if (Array.isArray(res)) {
-          matchData = res;
-        } else if (res && res.data) {
-          matchData = res.data.dataList || res.data || [];
-        }
-        
+          if (res.data && res.data.length > 0) {
+            this.title = "截止时间：" + res.data[0].sale_end_time;
+          };
+          
         // 4. 格式化赛事列表（保持14场原有初始化逻辑，仅对齐格式）
-        this.drawerList = this.formatDrawerList(matchData, this.currentDrawNum);
+        this.drawerList = this.formatDrawerList(res.data, this.currentDrawNum);
         this.hasData = this.drawerList.length > 0;
         if (!this.hasData) {
           uni.showToast({ title: "暂无赛事数据", icon: "none" });
@@ -464,14 +452,28 @@ export default {
         const reqParams = {
           id: item.id,
           isLottery: 1,
-          isTradition: 1
+          isTradition: 1,
+          beFrom:"football",
+          serialNumber: item.draw_num,
+          dateStr: item.match_num
         };
     // 调用recharge接口
     const res = await recharge(reqParams);
     if (res.data.status == 'fail') {
-      // isLottery=1 表示无灵石，显示充值弹窗
-        this.isDialogShow = true;
-        this.hideLoading();
+          this.hideLoading();
+          uni.showModal({
+                title: "请充币",
+                content: "您的游戏币不足，请兑换！",
+                cancelText: "取消",
+                confirmText: "兑换",
+                confirmColor: "#d92929",
+                success: (res) => {
+                  if (res.confirm) {
+                    // 点击兑换跳充值页
+                    uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
+                  }
+                }
+              });
         return;
     } else {
             // 有灵石，正常跳转分析页

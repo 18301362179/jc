@@ -196,7 +196,7 @@ var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/run
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
-var _validate = __webpack_require__(/*! @/utils/validate */ 62);
+var _validate = __webpack_require__(/*! @/utils/validate */ 78);
 var _methods;
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
@@ -263,9 +263,6 @@ var _default = {
     });
   },
   created: function created() {
-    var sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === 'android' || sys.platform === 'ios';
-    this.isMp = sys.platform === 'mp-weixin';
     this.calcAllHeights(); // 统一计算高度
   },
   onLoad: function onLoad() {
@@ -322,15 +319,15 @@ var _default = {
     },
     // 统一高度计算逻辑，对齐让分胜负页
     calcAllHeights: function calcAllHeights() {
-      var _sys$safeAreaInsets;
       var sys = uni.getSystemInfoSync();
       this.statusBarHeight = sys.statusBarHeight || 20;
-      this.safeAreaBottom = ((_sys$safeAreaInsets = sys.safeAreaInsets) === null || _sys$safeAreaInsets === void 0 ? void 0 : _sys$safeAreaInsets.bottom) || 0;
+      this.safeAreaBottom = sys.safeAreaInsets && sys.safeAreaInsets.bottom || 0;
       var navBarFixedRpx = 80;
       var navBarFixedPx = sys.screenWidth / 750 * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
       var betBarFixedRpx = 180;
       this.betBarFixedPx = sys.screenWidth / 750 * betBarFixedRpx;
+      this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
     },
     // 大小分专属 - 奖金计算方法（保留核心逻辑，优化格式）
     calculateBonusText: function calculateBonusText() {

@@ -24,7 +24,7 @@
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜率数据时显示 -->
               <!-- 兼容事件：统一用 @click.stop 适配多端 -->
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> 分析 </view>
+              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)">  {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }} </view>
             </view>
           </view>
 

@@ -15,7 +15,6 @@
     "match-total-goals": "/pages/commn/index/MatchTotalGoals",
     "match-half-full": "/pages/commn/index/MatchHalfFull",
     "custom-header": "/components/CustomHeader",
-    "reminder-dialog": "/pages/commn/ReminderDialog",
     "tips-popup": "/pages/commn/playTip",
     "empty-stop": "/pages/commn/emptyStop",
     "mixed-pass-list": "/pages/commn/index/MixedPassList"

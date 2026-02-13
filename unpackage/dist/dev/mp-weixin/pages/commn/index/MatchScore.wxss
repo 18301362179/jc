@@ -175,16 +175,12 @@
   font-size: 20rpx;
   color: #999;
   text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .serial-number.data-v-51177110 {
   margin-bottom: 10rpx;
 }
 /* 右侧子元素：复刻半全场，统一rpx单位 */
 .top-right.data-v-51177110 {
-  flex: 1;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -193,7 +189,28 @@
   box-sizing: border-box;
   overflow: hidden;
 }
-/* 胜率行：完全复刻半全场，统一rpx单位 */
+.team-name.data-v-51177110 {
+  font-size: 26rpx;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.team-name .vs-text.data-v-51177110 {
+  color: #999;
+  font-size: 24rpx;
+  width: 140rpx;
+  text-align: center;
+}
+.team-name text.data-v-51177110:first-child {
+  text-align: right;
+  flex: 1;
+}
+.team-name text.data-v-51177110:last-child {
+  text-align: left;
+  flex: 1;
+}
 .rate-row.data-v-51177110 {
   width: 100%;
   display: flex;
@@ -203,25 +220,22 @@
 }
 .rate-row .rate-text.data-v-51177110 {
   flex: 1;
-  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .rate-row .rate-text.home.data-v-51177110 {
   text-align: right;
-  padding-right: 10rpx;
+  padding-right: 0;
 }
 .rate-row .rate-text.away.data-v-51177110 {
   text-align: left;
-  padding-left: 10rpx;
+  padding-left: 0;
 }
 .rate-row .vs-text.data-v-51177110 {
   width: 140rpx;
   text-align: center;
   flex-shrink: 0;
-  color: #999;
-  font-size: 20rpx;
 }
 /* bottom-right：完全复刻半全场，统一rpx单位 */
 .bottom-right.data-v-51177110 {

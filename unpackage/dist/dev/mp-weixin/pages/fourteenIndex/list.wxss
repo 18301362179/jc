@@ -132,73 +132,78 @@
   box-sizing: border-box;
   overflow: hidden;
 }
+/* 队名行：绝对对称布局，为对齐锁死尺寸 */
 .team-vs.data-v-0eb4d0d8 {
   font-size: 24rpx;
   color: #333;
-  text-align: center;
-  padding: 4rpx 0;
   display: flex;
   align-items: center;
-  justify-content: center;
   width: 100%;
   cursor: pointer;
   transition: all 0.2s ease;
+  /* 主队名容器：固定占比，右对齐 */
+  /* VS容器：固定80rpx，居中（和你截图一致） */
+  /* 客队名容器：固定占比，左对齐 */
 }
 .team-vs.data-v-0eb4d0d8:active {
   color: #d92929;
   opacity: 0.8;
 }
-.team-vs .team-name.data-v-0eb4d0d8 {
-  flex: 1;
-  text-align: center;
+.team-vs .team-name.home.data-v-0eb4d0d8 {
+  width: calc((100% - 80rpx) / 2.1);
+  text-align: right;
+  padding-right: 10rpx;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.team-vs .team-name.home.data-v-0eb4d0d8 {
-  text-align: right;
-  padding-right: 10rpx;
-}
-.team-vs .team-name.away.data-v-0eb4d0d8 {
-  text-align: left;
-  padding-left: 10rpx;
-}
 .team-vs .vs-text.data-v-0eb4d0d8 {
-  width: 40rpx;
+  width: 100rpx;
   text-align: center;
   flex-shrink: 0;
   font-weight: 500;
 }
+.team-vs .team-name.away.data-v-0eb4d0d8 {
+  width: calc((100% - 80rpx) / 2.1);
+  text-align: left;
+  padding-left: 10rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 胜率行：和队名行1:1复刻尺寸，绝对对齐 */
 .rate-row.data-v-0eb4d0d8 {
   width: 100%;
   display: flex;
   align-items: center;
   font-size: 22rpx;
   color: #999;
-  justify-content: space-between;
-  padding-right: 10rpx;
+  /* 主队胜率容器：和主队名尺寸/对齐完全一致 */
+  /* 平率容器：和VS尺寸/对齐完全一致 */
+  /* 客队胜率容器：和客队名尺寸/对齐完全一致 */
+  /* 分析按钮：不影响对齐，单独靠外 */
 }
-.rate-row .rate-text.data-v-0eb4d0d8 {
-  flex: 1;
-  text-align: center;
+.rate-row .rate-text.home.data-v-0eb4d0d8 {
+  width: calc((100% - 80rpx) / 2.1);
+  text-align: right;
+  padding-right: 10rpx;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.rate-row .rate-text.home.data-v-0eb4d0d8 {
-  text-align: right;
-  padding-right: 10rpx;
-}
-.rate-row .rate-text.away.data-v-0eb4d0d8 {
-  text-align: left;
-  padding-left: 10rpx;
-}
 .rate-row .vs-text.data-v-0eb4d0d8 {
-  width: 40rpx;
+  width: 80rpx;
   text-align: center;
   flex-shrink: 0;
   color: #999;
   font-size: 20rpx;
+}
+.rate-row .rate-text.away.data-v-0eb4d0d8 {
+  text-align: left;
+  padding-left: 20rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .rate-row .ai-analysis-btn.data-v-0eb4d0d8 {
   font-size: 24rpx;
@@ -207,6 +212,7 @@
   transition: opacity 0.2s;
   letter-spacing: 4rpx;
   flex-shrink: 0;
+  margin-left: 40rpx;
 }
 .rate-row .ai-analysis-btn.data-v-0eb4d0d8:active {
   opacity: 0.8;
