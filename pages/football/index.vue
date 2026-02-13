@@ -302,42 +302,49 @@ updateMixedSelectedCount() {
 
   this.mixedSelectedCount = count;
 },
-    clearAllSelection() {
-      if (this.selectedMatchCount === 0) return;
+clearAllSelection() {
+  if (this.selectedMatchCount === 0) return;
 
-      uni.showModal({
-        title: "提示",
-        content: "确定清空所有已选场次吗？",
-        success: (res) => {
-          if (res.confirm) {
-            // 清空所有玩法的选中状态
-            this.drawerList.forEach((drawer, drawerIdx) => {
-              drawer.lotteryList.forEach((match, matchIdx) => {
-                if (this.currentPlay === "混合过关") {
-                  if (match.betRows) {
-                    match.betRows.forEach((row, rIdx) => {
-                      row.items.forEach((item, iIdx) => {
-                        this.$set(match.betRows[rIdx].items[iIdx], "isSelected", false);
-                      });
-                    });
-                  }
-                } else {
-                  this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "homeSelected", false);
-                  this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "vsSelected", false);
-                  this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "awaySelected", false);
-                  this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "handicapHomeSelected", false);
-                  this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "handicapVsSelected", false);
-                  this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "handicapAwaySelected", false);
-                  this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", []);
-                  this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", []);
-                }
-              });
-            });
-            uni.showToast({ title: "已清空", icon: "success" });
-          }
-        },
-      });
+  uni.showModal({
+    title: "提示",
+    content: "确定清空所有已选场次吗？",
+    success: (res) => {
+      if (res.confirm) {
+        this.drawerList.forEach((drawer, drawerIdx) => {
+          drawer.lotteryList.forEach((match, matchIdx) => {
+            
+            // ======================================
+            // 混合过关：清空 4 个选中数组（核心修复）
+            // ======================================
+            if (this.currentPlay === "混合过关") {
+              this.$set(match, "selectedSpf", []);
+              this.$set(match, "selectedBifen", []);
+              this.$set(match, "selectedZjq", []);
+              this.$set(match, "selectedBqc", []);
+              return;
+            }
+
+            // 其他玩法不动（原来逻辑）
+            this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "homeSelected", false);
+            this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "vsSelected", false);
+            this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "awaySelected", false);
+            this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "handicapHomeSelected", false);
+            this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "handicapVsSelected", false);
+            this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "handicapAwaySelected", false);
+            this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", []);
+            this.$set(this.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", []);
+            
+          });
+        });
+
+        // 强制刷新混合过关计数
+        this.updateMixedSelectedCount();
+
+        uni.showToast({ title: "已清空", icon: "success" });
+      }
     },
+  });
+},
     getIsPreviewEnabled() {
       if (this.currentPlay === "混合过关") {
         // 混合过关：仅判断选中场次≥1（保留原有串关规则，不改动单场/几串1）

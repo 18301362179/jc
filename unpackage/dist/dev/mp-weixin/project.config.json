@@ -13,8 +13,7 @@
     "minifyJS": true,
     "minifyWXSS": true,
     "minifyXML": true,
-    "enhance": true,
-    "uglifyFileName": true
+    "enhance": true
   },
   "compileType": "miniprogram",
   "libVersion": "",

@@ -510,29 +510,33 @@ var _default = {
         content: "确定清空所有已选场次吗？",
         success: function success(res) {
           if (res.confirm) {
-            // 清空所有玩法的选中状态
             _this5.drawerList.forEach(function (drawer, drawerIdx) {
               drawer.lotteryList.forEach(function (match, matchIdx) {
+                // ======================================
+                // 混合过关：清空 4 个选中数组（核心修复）
+                // ======================================
                 if (_this5.currentPlay === "混合过关") {
-                  if (match.betRows) {
-                    match.betRows.forEach(function (row, rIdx) {
-                      row.items.forEach(function (item, iIdx) {
-                        _this5.$set(match.betRows[rIdx].items[iIdx], "isSelected", false);
-                      });
-                    });
-                  }
-                } else {
-                  _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "homeSelected", false);
-                  _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "vsSelected", false);
-                  _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "awaySelected", false);
-                  _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "handicapHomeSelected", false);
-                  _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "handicapVsSelected", false);
-                  _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "handicapAwaySelected", false);
-                  _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", []);
-                  _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", []);
+                  _this5.$set(match, "selectedSpf", []);
+                  _this5.$set(match, "selectedBifen", []);
+                  _this5.$set(match, "selectedZjq", []);
+                  _this5.$set(match, "selectedBqc", []);
+                  return;
                 }
+
+                // 其他玩法不动（原来逻辑）
+                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "homeSelected", false);
+                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "vsSelected", false);
+                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "awaySelected", false);
+                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "handicapHomeSelected", false);
+                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "handicapVsSelected", false);
+                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "handicapAwaySelected", false);
+                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", []);
+                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", []);
               });
             });
+
+            // 强制刷新混合过关计数
+            _this5.updateMixedSelectedCount();
             uni.showToast({
               title: "已清空",
               icon: "success"
