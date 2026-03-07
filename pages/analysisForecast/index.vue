@@ -6,7 +6,7 @@
       :title="'足球数据'"
       :isIndex="false"
       :showIcon="false"
-      :isSelected="false"‘
+      :isSelected="false"
     />
     <!-- 顶部筛选区（固定不滚动） -->
     <view class="top" ref="top">
