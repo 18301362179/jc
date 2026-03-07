@@ -81,29 +81,26 @@
       <!-- 2. 交易（原第一个Tab，移到第二个） -->
       <view v-if="currentTab === 1" class="record-section">
         <no-data v-if="tradeRecord.length === 0" />
+        <!-- 交易记录专属表头：宽度和列表列严格对齐、高度更小 -->
+        <view class="trade-header" v-if="tradeRecord.length > 0">
+          <view class="trade-header-col from-col">来源</view>
+          <view class="trade-header-col type-col">类型</view>
+          <view class="trade-header-col match-col">比赛</view>
+          <view class="trade-header-col time-col">时间</view>
+        </view>
+        <!-- 原有内容行 -->
         <view class="record-card" v-for="(item, index) in tradeRecord" :key="index">
           <view class="record-row">
-            <!-- 来源列：加专属类名 from-col -->
             <view class="normal-col from-col">
-              <text class="label">来源</text>
               <text class="value">{{ item.be_from || '' }}</text>
             </view>
-
-            <!-- 类型列：加专属类名 type-col -->
             <view class="normal-col type-col">
-              <text class="label">类型</text>
               <text class="value">{{ item.goods_type || '' }}</text>
             </view>
-
-            <!-- 比赛列：加专属类名 match-col -->
             <view class="normal-col match-col">
-              <text class="label">比赛</text>
               <text class="value accent">{{ item.show_str || '' }}</text>
             </view>
-
-            <!-- 时间列：保持不变 -->
             <view class="time-col">
-              <text class="label">时间</text>
               <text class="value">{{ item.update_time }}</text>
             </view>
           </view>
@@ -113,7 +110,6 @@
       <!-- 3. 充值（原第二个Tab，移到第三个） -->
       <view v-if="currentTab === 2" class="record-section">
         <no-data v-if="paymentRecord.length === 0" />
-        <!-- 充值记录：添加 recharge-card 类名 -->
         <view class="record-card recharge-card" v-for="(item, index) in paymentRecord" :key="index">
           <view class="record-row">
             <view class="normal-col">
@@ -161,13 +157,12 @@ export default {
       defaultLotteryImageUrl: 'http://www.tianjifu.com/qwxt/outside/common/fileDownload?fileFullPathName=',
       tradeRecord: [],
       paymentRecord: [],
-      touchStartX: 0, // 新增：触摸起始X坐标
-      swipeThreshold: 50, // 新增：滑动判定阈值（px）
-      betForm: '' // 新增：存储平台类型
+      touchStartX: 0,
+      swipeThreshold: 50,
+      betForm: ''
     };
   },
   created() {
-    // 初始化平台类型
     this.initBetForm();
     this.getData();
   },
@@ -175,7 +170,6 @@ export default {
     this.getData();
   },
   methods: {
-    // 新增：初始化betForm（使用#ifdef预处理指令）
     initBetForm() {
       // #ifdef APP-PLUS
       this.betForm = 'app';
@@ -184,12 +178,10 @@ export default {
       this.betForm = 'weChatMiniProgram';
       // #endif
       // #ifdef H5
-      this.betForm = 'weChatMiniProgram'; // H5可根据实际需求调整
+      this.betForm = 'weChatMiniProgram';
       // #endif
     },
-    // 新增：去充值按钮点击事件
     gotoRecharge() {
-      // 替换为你的充值页面路径
       uni.navigateTo({
         url: '/pages/recharge/recharge'
       });
@@ -209,7 +201,6 @@ export default {
     async getData() {
       uni.showLoading({ title: "加载中..." });
       try {
-        // 修改：使用初始化好的betForm，替代原有的platform判断
         const res = await getUser({ betForm: this.betForm });
         this.userInfo = res.data.user || res.data.userInfo || {};
         this.lotteryPurchasing = res.data.lotteryPurchasing || [];
@@ -222,7 +213,6 @@ export default {
       }
     },
     handleConfirm(id, item) {
-      // 统一替换为规范化后的路径，全部指向 pages/user/sub 目录
       const pathMap = {
         '比分':'/pages/user/sub/scoreDetail?id=',
         '足彩总进球':'/pages/user/sub/totalGoalsDetail?id=',
@@ -232,7 +222,6 @@ export default {
         '篮球让分胜负':'/pages/user/sub/basketballHandicapDetail?id=',
         '篮球大小分':'/pages/user/sub/basketballOverUnderDetail?id='
       };
-      // 拼接最终跳转路径（把id拼接到对应路径后）
       uni.navigateTo({ 
         url: (pathMap[item.entityType] || `/pages/user/sub/buyDetail?id=`) + id 
       });
@@ -267,12 +256,10 @@ export default {
 // 核心样式 - 极简
 .container {
   width: 100%;
-  /* 核心：用 calc 计算最终高度 */
   height: calc(100vh - (100rpx + env(safe-area-inset-bottom)));
   background: #f5f7fa;
   display: flex;
   flex-direction: column;
-  /* 可选：防止内容溢出时出现滚动问题 */
   box-sizing: border-box;
 
   // 头部（新增去充值按钮样式）
@@ -294,7 +281,6 @@ export default {
       .username { font-size: 26rpx; color: #333; display: block; margin-bottom: 6rpx; }
       .stone-count { font-size: 24rpx; color: #666; }
     }
-    // 新增：去充值按钮样式
     .recharge-btn {
       background: #31926e;
       color: #fff;
@@ -302,8 +288,8 @@ export default {
       border-radius: 8rpx;
       padding: 12rpx 24rpx;
       font-size: 26rpx;
-      height: auto; // 重置uni-app默认button高度
-      line-height: 1; // 重置行高
+      height: auto;
+      line-height: 1;
       position: absolute;
       right: 40rpx;
       bottom:60rpx;
@@ -348,24 +334,47 @@ export default {
     flex: 1;
     overflow-y: auto;
     padding: 20rpx;
-    // 关键：分端设置底部间距，避开NativeTabbar
     // #ifdef APP-PLUS
     padding-bottom: calc(100rpx + env(safe-area-inset-bottom) + 20rpx) !important;
     // #endif
-    
-    // #ifdef H5
-    //padding-bottom: calc(100rpx + 20rpx) !important;
-    // #endif
-    
     // #ifdef MP-WEIXIN
     padding-bottom: calc(100rpx + env(safe-area-inset-bottom) + 20rpx) !important;
     // #endif
-    box-sizing: border-box !important; // 确保padding不撑开高度
+    box-sizing: border-box !important;
 
     // 交易/充值通用样式
     .record-section {
       display: flex;
       flex-direction: column;
+      
+      // 交易记录专属表头：窄高度、列宽和列表严格对齐
+      .trade-header {
+        display: flex;
+        width: 100%;
+        height: 60rpx; // 小高度（比列表行矮）
+        background: #f8f9fa;
+        border-radius: 12rpx 12rpx 0 0;
+        margin-bottom: 2rpx;
+        align-items: center;
+        
+        .trade-header-col {
+          font-size: 24rpx;
+          color: #333;
+          font-weight: 600;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+        }
+        
+        // 表头列宽和列表列1:1对齐
+        .from-col { width: 100rpx; flex: none; }
+        .type-col { width: 100rpx; flex: none; }
+        .time-col { width: 240rpx; flex: none; }
+        .match-col { flex: 1; }
+      }
+
       .record-card {
         width: 100%;
         background: #fff;
@@ -377,17 +386,13 @@ export default {
       .record-row {
         display: flex;
         width: 100%;
-        // 让列垂直居中，保证换行后整体对齐
         align-items: center;
       }
-      // 时间列 - 固定宽度
       .time-col {
-        width: 220rpx;
+        width: 240rpx;
         text-align: center;
-        // 固定高度，保证对齐
         flex: none;
       }
-      // 普通列 - 均分剩余宽度（默认）
       .normal-col {
         flex: 1;
         text-align: center;
@@ -405,47 +410,36 @@ export default {
       .accent { color: #31926e; font-weight: 600; }
       .highlight { color: #d92929; font-weight: 600; }
 
-      // 交易记录专属列宽设置（不影响充值记录）
+      // 交易记录列宽（和表头严格一致）
       .record-card:not(.recharge-card) {
         .record-row {
-          // 来源列：固定窄宽度
           .from-col {
             width: 100rpx;
-            flex: none; // 取消均分，固定宽度
-            // 固定高度，保证对齐
+            flex: none;
             min-height: 80rpx;
             display: flex;
             flex-direction: column;
             justify-content: center;
           }
-          // 类型列：固定窄宽度
           .type-col {
             width: 100rpx;
-            flex: none; // 取消均分，固定宽度
-            // 固定高度，保证对齐
+            flex: none;
             min-height: 80rpx;
             display: flex;
             flex-direction: column;
             justify-content: center;
           }
-          // 比赛列：占满剩余宽度，支持换行
           .match-col {
             flex: 1;
-            // 允许换行
+            min-height: 80rpx;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
             white-space: normal;
             word-wrap: break-word;
             word-break: break-all;
-            // 最小高度，保证布局
-            min-height: 80rpx;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            // 文字居中
-            text-align: center;
-            // 限制最大宽度，防止挤压其他列
-            max-width: calc(100% - 120rpx - 100rpx - 220rpx);
           }
-          // 时间列：保持原有固定宽度
           .time-col {
             min-height: 80rpx;
             display: flex;
@@ -455,7 +449,7 @@ export default {
         }
       }
 
-      // 充值记录：恢复默认均分样式
+      // 充值记录样式：完全保留，不受影响
       .recharge-card {
         .normal-col {
           flex: 1;
