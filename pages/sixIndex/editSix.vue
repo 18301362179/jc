@@ -2,14 +2,14 @@
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
     <CustomHeader 
-      :ballTitle="'竞彩足球'" 
-      title="6场半全场" 
+      :ballTitle="'足球'" 
+      title="6场半全" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
     />
 
-    <!-- 滚动展示区域：适配6场半全场的赛事展示 -->
+    <!-- 滚动展示区域：适配6场的赛事展示 -->
     <scroll-view
       class="match-scroll"
       scroll-y
@@ -28,6 +28,11 @@
                 <text class="team-name home">{{ item.home_name }}</text>
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
+              </view>
+              <view class="team-vs" style="color:#888;padding:0;">
+                <text class="team-name home">胜{{ item.home_win_rate }}</text>
+                <text class="vs-text">平{{item.draw_rate}}</text>
+                <text class="team-name away">胜{{ item.visiting_win_rate }}</text>
               </view>
             </view>
 
@@ -59,7 +64,7 @@
       </view>
     </scroll-view>
 
-    <!-- 6场半全场专属投注栏：保留倍数操作，适配6串1规则 -->
+    <!-- 6场专属投注栏：保留倍数操作，适配6串1规则 -->
     <view
       class="bet-bar"
       :style="{
@@ -129,7 +134,7 @@ export default {
                item.fullHomeSelected || item.fullVsSelected || item.fullAwaySelected;
       }).length;
     },
-    // 计算6场半全场注数：每个赛事的选中项数乘积（6串1规则）
+    // 计算6场注数：每个赛事的选中项数乘积（6串1规则）
     betNotes() {
       if (this.selectedMatchList.length !== 6) return 0;
       
@@ -161,7 +166,7 @@ export default {
   },
   created() {
     // 获取系统信息，适配多端
-    const sys = uni.getSystemInfoSync();
+    const sys = wx.getWindowInfo();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
     this.statusBarHeight = sys.statusBarHeight || 20;
      this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
@@ -182,7 +187,7 @@ export default {
   methods: {
     // 计算适配高度（兼容App/小程序/H5）
     calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
+      const sys = wx.getWindowInfo();
       // 导航栏高度（80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
@@ -336,7 +341,7 @@ export default {
     .team-name.home { text-align: right; padding-right: 10rpx; }
     .team-name.away { text-align: left; padding-left: 10rpx; }
     .vs-text {
-      width: 40rpx;
+      width: 80rpx;
       text-align: center;
       flex-shrink: 0;
       font-weight: 500;
@@ -350,7 +355,7 @@ export default {
     padding: 2rpx 0;
   }
 
-  // 6场半全场专属样式
+  // 6场专属样式
   .bottom-right {
     width: 100%;
     box-sizing: border-box;

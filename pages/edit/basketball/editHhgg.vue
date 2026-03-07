@@ -2,8 +2,8 @@
   <!-- 篮球混合过关编辑页：按玩法分行展示投注项 -->
   <view class="scheme-edit-page">
     <CustomHeader 
-      :ballTitle="'竞彩篮球'"
-      title="混合过关" 
+      :ballTitle="'篮球'"
+      title="篮球-混合过关" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -309,14 +309,20 @@ getBetItem(type, item) {
     },
     // 计算高度
     calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
+      const sys = wx.getWindowInfo();
+      // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
-this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+      // 2. 底部安全区高度
+        this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+      // 3. 导航栏固定高度（80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
+      // 4. 导航栏总高度
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
+      // 5. 投注栏固定高度（200rpx转px）
       const betBarFixedRpx = 200;
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
+      // 6. 投注栏总高度（仅固定高度）
       this.betBarTotalHeight = this.betBarFixedPx;
     },
     // 保存数据

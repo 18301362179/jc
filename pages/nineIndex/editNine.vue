@@ -2,8 +2,8 @@
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
     <CustomHeader 
-      :ballTitle="'竞彩足球'" 
-      title="胜负游戏" 
+      :ballTitle="'足球'" 
+      title="任9" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -29,6 +29,11 @@
                 <text class="team-name home">{{ item.home_name }}</text>
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
+              </view>
+              <view class="team-vs" style="color:#888;padding:0;">
+                <text class="team-name home">胜{{ item.home_win_rate }}</text>
+                <text class="vs-text">平{{item.draw_rate}}</text>
+                <text class="team-name away">胜{{ item.visiting_win_rate }}</text>
               </view>
             </view>
 
@@ -136,7 +141,7 @@ export default {
     },
   },
   created() {
-    const sys = uni.getSystemInfoSync();
+    const sys = wx.getWindowInfo();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
     this.calcAllHeights(); // 计算适配高度
   },
@@ -173,7 +178,7 @@ export default {
     },
     // 计算适配高度（兼容App/小程序）
     calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
+      const sys = wx.getWindowInfo();
       this.statusBarHeight = sys.statusBarHeight || 20;
        this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       
@@ -289,7 +294,7 @@ export default {
     .team-name.home { text-align: right; padding-right: 10rpx; }
     .team-name.away { text-align: left; padding-left: 10rpx; }
     .vs-text {
-      width: 40rpx;
+      width: 80rpx;
       text-align: center;
       flex-shrink: 0;
       font-weight: 500;
@@ -315,7 +320,7 @@ export default {
     .rate-text.home { text-align: right; padding-right: 10rpx; }
     .rate-text.away { text-align: left; padding-left: 10rpx; }
     .vs-text {
-      width: 40rpx;
+      width: 80rpx;
       text-align: center;
       flex-shrink: 0;
       color: #999;

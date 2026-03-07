@@ -1,6 +1,6 @@
 <template>
   <view style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader :showBack="true" :ballTitle="'竞彩篮球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
+    <CustomHeader :showBack="true" :ballTitle="'篮球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
       <MatchSpf ref="spfRef" v-if="currentPlay === '胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
@@ -46,6 +46,7 @@
     <TipsPopup :visible.sync="isPopupShow" :title="tipsTitle" :content-list="tipsContentList" :header-height="headerHeight" :popup-width="700" border-color="#07c160" @close="handlePopupClose" :max-height="popupMaxHeight" />
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
     <EmptyStop :hasData="hasData" position="middle" />
+        
   </view>
 </template>
 
@@ -62,6 +63,7 @@ import { formatTimeToMDWeekHM } from "@/utils/data";
 import TipsPopup from "@/pages/commn/playTip";
 import { validateBetInput } from "@/utils/validate";
 import EmptyStop from "@/pages/commn/emptyStop.vue";
+
 export default {
   components: {
     NativeTabbar,
@@ -73,6 +75,7 @@ export default {
     CustomHeader,
     TipsPopup,
     EmptyStop,
+    
   },
   data() {
     return {
@@ -96,7 +99,7 @@ export default {
       isRefreshing: false,
       isPopupShow: false,
       tipsTitle: "重要提示",
-      tipsContentList: ["1、本软件无任何彩票销售业务，仅提供竞彩足球、竞彩篮球相关模拟竞彩玩法。", "2、本软件截图可作为彩票站打票依据。", "3、本软件预测数据仅供参考。", "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。", "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。", "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。", "7、每天上午11点10分后本软件正式可用。"],
+      tipsContentList: ["1、本软件无任何彩票销售业务，仅提供足球、篮球相关模拟玩法。", "2、本软件截图可作为彩票站打票依据。", "3、本软件预测数据仅供参考。", "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。", "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。", "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。", "7、每天上午11点10分后本软件正式可用。"],
       windowHeight: 0,
       bottomBtnBarHeight: 0,
       tabbarHeight: 0,
@@ -112,6 +115,12 @@ export default {
       matchSelectedState: {},
     };
   },
+onLoad() {
+  // 强制显示分享菜单，立刻解除置灰
+  wx.showShareMenu({
+    menus: ['shareAppMessage', 'shareTimeline']
+  })
+},
   async onPullDownRefresh() {
     try {
       this.isRefreshing = true;
@@ -238,9 +247,6 @@ export default {
     if (uni.getWindowInfo) {
       const windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;
-    } else {
-      const systemInfo = uni.getSystemInfoSync();
-      this.statusBarHeight = systemInfo.statusBarHeight;
     }
   },
   mounted() {
@@ -331,7 +337,7 @@ export default {
     },
     // 计算弹窗最大高度
     calcPopupMaxHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       this.windowHeight = systemInfo.windowHeight;
       this.bottomBtnBarHeight = (90 / 750) * systemInfo.windowWidth;
       this.tabbarHeight = (100 / 750) * systemInfo.windowWidth;
@@ -800,7 +806,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
       });
     },
     calcHeaderHeight() {
-      const windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : uni.getSystemInfoSync();
+      const windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : '';
       const statusBarHeight = windowInfo.statusBarHeight;
       const customHeaderHeight = (80 / 750) * windowInfo.windowWidth;
       this.headerHeight = statusBarHeight + customHeaderHeight;
@@ -839,9 +845,9 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
           this.hideLoading();
           uni.showModal({
                 title: "请充币",
-                content: "您的游戏币不足，请兑换！",
+                content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "兑换",
+                confirmText: "充币",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {

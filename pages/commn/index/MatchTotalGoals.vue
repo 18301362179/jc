@@ -15,17 +15,17 @@
           <view class="match-status-row">
             <view class="status-left">
               <!-- 单场标签：无停时，根据is_zjq_single显示 -->
-              <text class="single-tag" v-if="item.is_zjq_single == 1 && item.is_stop == 0">单场</text>
+              <text class="single-tag" v-if="item.is_zjq_single == 1 && item.is_stop == 0">单</text>
               <!-- 新增：停售标签 -->
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
+              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
-              <!-- 右侧分析按钮：仅在有胜率数据时显示 → 修复@tap.stop改为@click.stop -->
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)">  {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }} </view>
+              <!-- 右侧分析按钮：仅在有胜数据时显示 → 修复@tap.stop改为@click.stop -->
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
-          <!-- 第二行：左右布局（左侧=bottom-left，右侧=球队+胜率+总进球） -->
+          <!-- 第二行：左右布局（左侧=bottom-left，右侧=球队+胜+总进球） -->
           <view class="match-content-row">
             <!-- 左侧：原bottom-left部分（联赛名+编号+时间）→ 优化宽度适配 -->
             <view class="content-left">
@@ -34,7 +34,7 @@
               <text class="match-time">{{ item.race_date }}</text>
             </view>
 
-            <!-- 右侧：球队名称 + 胜率行 + 总进球选项 -->
+            <!-- 右侧：球队名称 + 胜行 + 总进球选项 -->
             <view class="content-right">
               <!-- 球队名称行 -->
               <view class="team-name">
@@ -42,11 +42,11 @@
                 <text class="vs-text">VS</text>
                 <text>{{ item.visiting_name }}</text>
               </view>
-              <!-- 胜率&进球数行 -->
+              <!-- 胜&进球数行 -->
               <view class="rate-row">
-                <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
-                <text class="vs-text">{{ item.draw_rate ? "平率" + item.draw_rate : "" }}</text>
-                <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
+                <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || "--" }}</text>
+                <text class="vs-text">{{ item.draw_rate ? "平" + item.draw_rate : "" }}</text>
+                <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "--" }}</text>
               </view>
               <!-- 总进球选项 -->
               <view class="total-goals-cells">
@@ -168,12 +168,12 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-        // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
+       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
         // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
-        const systemInfo = uni.getSystemInfoSync();
+        const systemInfo = wx.getWindowInfo();
         this.windowWidth = systemInfo.windowWidth || 375;
         console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
@@ -246,7 +246,7 @@ export default {
     .single-tag {
       display: inline-block;
       padding-left: 6rpx;
-      width: 60rpx;
+      width: 44rpx;
       background: #b71c1c;
       color: #fff;
       text-align: left;
@@ -304,7 +304,7 @@ export default {
     }
   }
 
-  // 右侧：球队+胜率+总进球（占剩余宽度）
+  // 右侧：球队+胜+总进球（占剩余宽度）
   .content-right {
     flex: 1;
     display: flex;
@@ -323,7 +323,7 @@ export default {
       .vs-text {
         color: #999;
         font-size: 24rpx;
-        // 居中占位，宽度与胜率行的平率文本一致
+        // 居中占位，宽度与胜行的平文本一致
         width: 140rpx;
         text-align: center;
       }
@@ -341,7 +341,7 @@ export default {
       }
     }
 
-    // 胜率&进球数行 - 核心修改：保持布局匹配
+    // 胜&进球数行 - 核心修改：保持布局匹配
     .rate-row {
       width: 100%;
       display: flex;
@@ -356,16 +356,16 @@ export default {
         text-overflow: ellipsis;
       }
       .rate-text.home {
-        text-align: right; // 主队胜率靠右
+        text-align: right; // 主队胜靠右
         padding-right: 0; // 移除多余内边距，保证对齐
       }
       .rate-text.away {
-        text-align: left; // 客队胜率靠左
+        text-align: left; // 客队胜靠左
         padding-left: 0; // 移除多余内边距，保证对齐
       }
       .vs-text {
         width: 140rpx; // 与球队行VS文本宽度一致
-        text-align: center; // 平率居中
+        text-align: center; // 平居中
         flex-shrink: 0;
       }
     }

@@ -1,10 +1,10 @@
 <template>
   <view class="tips-popup-container" v-if="visible">
     <view class="popup-mask" @tap="handleClose"></view>
-    <view 
-      class="popup-content" 
-      :style="{ 
-        width: popupWidth + 'rpx'
+    <view
+      class="popup-content"
+      :style="{
+        width: popupWidth + 'rpx',
       }"
     >
       <view class="close-btn" @tap="handleClose">×</view>
@@ -15,7 +15,7 @@
           <view class="item-num">{{ item.num }}、</view>
           <view class="item-content">{{ item.content }}</view>
         </view>
-        
+
         <!-- 第8条：序号+内容对齐 + 步骤递进 -->
         <view class="tips-item step-wrap">
           <view class="item-num">8、</view>
@@ -45,30 +45,35 @@ export default {
     headerHeight: { type: Number, default: 0 },
     popupWidth: { type: Number, default: 700 },
     borderColor: { type: String, default: "#07c160" },
-    maxHeight: { type: Number, default: 80 } // 改为百分比，适配不同机型
+    maxHeight: { type: Number, default: 80 }, // 改为百分比，适配不同机型
   },
   data() {
     return {
       // 替换为新的3条基础说明（对应新的1、2、3点）
       normalList: [
-        { num: 1, content: "上午11点前更新当天最新数据,偶会稍有延迟。" },
-        { num: 2, content: "足球、篮球比赛胜负比分预测,以及比赛球队详细对比信息。" },
-        { num: 3, content: "系统数据仅供参考,需智慧分析判断。" },
+        { num: 1, content: "每天上午11点10分前更新最新数据。" },
+        { num: 2, content: "足球、篮球比赛胜负、比分预测，球队实力、历史数据详细对比分析。" },
+        { num: 3, content: "强烈建议优先选择五大联赛、主队胜率高的比赛。" },
+        { num: 4, content: "深度分析赔率，复选胜率高+平这样的多注组合，保本不赔为最高原则。" },
+        { num: 5, content: "选好后进入确认页面截图，联系您附近的售票点即可。" },
+        { num: 6, content: "系统数据仅是历史数据分析，对于球队求胜欲望情况、是否有策略性控制胜负以规避对手等等场外因素没有纳入分析，所有数据仅供参考，还需您睿智分析，多方搜集信息以做出最优判断。" },
+        { num: 7, content: "给服务号随便发送一条信息，信息列表就会有记录，方便使用。" },
+        { num: 8, content: "每次分享会赠送5个系统币，24小时内限送两次，赛事数据都是小编手工采集录入，希望体谅辛苦，多多支持，谢谢!!!" },
       ],
       // 替换为新的3步操作指引（对应新的第4点）
       stepList: [
         { num: "第一步", text: "首选胜率较大的场次。" },
         { num: "第二步", text: "查看分析，参考球队积分、胜率、场均进球、场均失球、相同主客场数据、对战记录，近期表现等因素智慧分析判断。" },
         { num: "第三步", text: "选好投注，点击预览进入确认页面后截图。" },
-      ]  
-    }
+      ],
+    };
   },
   methods: {
     handleClose() {
       this.$emit("update:visible", false);
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -120,7 +125,7 @@ export default {
   width: 60rpx;
   height: 60rpx;
   border-radius: 50%;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   color: #666;
   font-size: 40rpx;
   text-align: center;

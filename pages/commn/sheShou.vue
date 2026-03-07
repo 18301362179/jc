@@ -30,9 +30,6 @@ export default {
   data() {
     return {
       sheshouList: [
-        // 测试数据，方便调试
-        { ranking_no: 1, player_name: "张三", team_name: "球队A", total_goal: 10, penalty_kick_goal: 2 },
-        { ranking_no: 2, player_name: "李四", team_name: "球队B", total_goal: 8, penalty_kick_goal: 1 }
       ]
     };
   },
@@ -47,8 +44,6 @@ export default {
 <style scoped lang="scss">
 // 核心修复3：补全盒模型、宽度、flex布局，和积分列表对齐
 .sheshou {
-  box-sizing: border-box;
-  padding: 0rpx 16rpx 16rpx 16rpx; // 和积分列表保持一致的内边距
   width: 100%; // 占满父容器
 
   .table-container {

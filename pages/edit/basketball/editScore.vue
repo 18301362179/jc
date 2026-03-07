@@ -2,8 +2,8 @@
   <!-- 篮球胜分差编辑页：统一适配逻辑，对齐其他篮球玩法页面 -->
   <view class="scheme-edit-page">
     <CustomHeader 
-      :ballTitle="'竞彩篮球'"
-      title="胜分差" 
+      :ballTitle="'篮球'"
+      title="篮球-胜分差" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -40,14 +40,14 @@
               <text class="team-name home">{{ item.home_name }}</text>
             </view>
 
-            <!-- 胜率行：保留胜分差胜率字段，布局对齐 -->
+            <!-- 胜行：保留胜分差胜字段，布局对齐 -->
             <view class="rate-row">
               <text class="rate-text away" v-if="item.visiting_win_rate">
-                胜率{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
+                胜{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
               </text>
               <text class="vs-text"></text>
               <text class="rate-text home" v-if="item.home_win_rate">
-                胜率{{ item.home_win_rate || '--' }}，约{{ item.visiting_goal_calculate || '--' }}分
+                胜{{ item.home_win_rate || '--' }}，约{{ item.visiting_goal_calculate || '--' }}分
               </text>
             </view>
 
@@ -229,15 +229,21 @@ export default {
     },
     // 统一高度计算逻辑，对齐其他篮球玩法页面
 calcAllHeights() {
-  const sys = uni.getSystemInfoSync();
-  this.statusBarHeight = sys.statusBarHeight || 20;
-  this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
-  const navBarFixedRpx = 80;
-  const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
-  this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-  const betBarFixedRpx = 180;
-  this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-  this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
+      const sys = wx.getWindowInfo();
+      // 1. 状态栏高度
+      this.statusBarHeight = sys.statusBarHeight || 20;
+      // 2. 底部安全区高度
+        this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+      // 3. 导航栏固定高度（80rpx转px）
+      const navBarFixedRpx = 80;
+      const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
+      // 4. 导航栏总高度
+      this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
+      // 5. 投注栏固定高度（200rpx转px）
+      const betBarFixedRpx = 200;
+      this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
+      // 6. 投注栏总高度（仅固定高度）
+      this.betBarTotalHeight = this.betBarFixedPx;
 },
 
     // 统一保存数据方法
@@ -290,7 +296,7 @@ calcAllHeights() {
             let isAway = false;
             let cleanScore = pureScore;
             
-            if (pureScore.startsWith('客胜')) {
+            if (pureScore.startsWith('主负')) {
               isAway = true;
               cleanScore = pureScore.slice(2).trim().replace(/\s+/g, '');
             } else if (pureScore.startsWith('主胜')) {
@@ -434,7 +440,7 @@ calcAllHeights() {
           '21-25': item.v_sfc21_25,
           '26+': item.v_sfc26_jia
         },
-        // 胜率/分数字段
+        // 胜/分数字段
         away_win_rate: item.away_win_rate,
         home_win_rate: item.home_win_rate,
         away_goal_calculate: item.away_goal_calculate,
@@ -574,7 +580,7 @@ calcAllHeights() {
 
         .single-tag {
           display: inline-block;
-          width: 40rpx;
+         width: 44rpx;
           background: #b71c1c;
           color: #fff;
           text-align: center;
@@ -642,7 +648,7 @@ calcAllHeights() {
         }
       }
 
-      // 胜率行：调整字体大小
+      // 胜行：调整字体大小
       .rate-row {
         width: 100%;
         display: flex;

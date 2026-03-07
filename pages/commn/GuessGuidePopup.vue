@@ -25,7 +25,7 @@
 export default {
   data() {
     return {
-      title: "竞彩攻略",
+      title: "攻略",
       contentList: [
         "胜率越高可信度越高。",
         "主场作战+胜率高，可信度更高。",

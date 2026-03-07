@@ -3,8 +3,8 @@
   <view class="scheme-edit-page">
     <!-- 自定义头部：不变 -->
     <CustomHeader 
-      :ballTitle="'竞彩篮球'"
-      title="让分胜负" 
+      :ballTitle="'篮球'"
+      title="篮球-让分胜负" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -55,17 +55,17 @@
                 </text>
             </view>
             <view class="rate-row">
-              <text class="rate-text away" v-show="item.visiting_win_rate" :title="`胜率${item.visiting_win_rate}，约${item.home_goal_calculate}分`">
-                胜率{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
+              <text class="rate-text away" v-show="item.visiting_win_rate" :title="`胜${item.visiting_win_rate}，约${item.home_goal_calculate}分`">
+                胜{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
               </text>
               <text class="vs-text"></text>
-              <text class="rate-text home" v-show="item.home_win_rate" :title="`胜率${item.home_win_rate}，约${item.visiting_goal_calculate}分`">
-                胜率{{ item.home_win_rate || '--' }}，约{{ item.visiting_goal_calculate || '--' }}分
+              <text class="rate-text home" v-show="item.home_win_rate" :title="`胜${item.home_win_rate}，约${item.visiting_goal_calculate}分`">
+                胜{{ item.home_win_rate || '--' }}，约{{ item.visiting_goal_calculate || '--' }}分
               </text>
             </view>
             <view class="odds-row">
               <view class="match-cell away" :class="{ selected: item.rAwaySelected }" >
-                客胜{{ item.loss_multiplier || '--' }}
+                主负{{ item.loss_multiplier || '--' }}
               </view>
               <view class="match-cell home" :class="{ selected: item.rHomeSelected }">
                 主胜{{ item.win_multiplier || '--' }}
@@ -244,15 +244,21 @@ export default {
       });
     },
 calcAllHeights() {
-  const sys = uni.getSystemInfoSync();
-  this.statusBarHeight = sys.statusBarHeight || 20;
-  this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
-  const navBarFixedRpx = 80;
-  const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
-  this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-  const betBarFixedRpx = 180;
-  this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-  this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
+      const sys = wx.getWindowInfo();
+      // 1. 状态栏高度
+      this.statusBarHeight = sys.statusBarHeight || 20;
+      // 2. 底部安全区高度
+        this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+      // 3. 导航栏固定高度（80rpx转px）
+      const navBarFixedRpx = 80;
+      const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
+      // 4. 导航栏总高度
+      this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
+      // 5. 投注栏固定高度（200rpx转px）
+      const betBarFixedRpx = 200;
+      this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
+      // 6. 投注栏总高度（仅固定高度）
+      this.betBarTotalHeight = this.betBarFixedPx;
 },
     calculateBonusText() {
       if (this.selectedMatchCount === 0) {
@@ -507,7 +513,7 @@ calcAllHeights() {
         width: 100%;
         .single {
           display: inline-block; 
-          width: 40rpx; 
+         width: 44rpx;
           background: #b71c1c; 
           color: #fff; 
           text-align: center; 

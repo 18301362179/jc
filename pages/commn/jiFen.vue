@@ -34,11 +34,7 @@
 export default {
   data() {
     return {
-      jifenList: [
-        // 测试数据，方便调试
-        { ranking_no: 1, team_name: "球队A", matches_number: 10, vin_number: 7, equality_number: 2, fail_number: 1, points: 23 },
-        { ranking_no: 2, team_name: "球队B", matches_number: 10, vin_number: 5, equality_number: 3, fail_number: 2, points: 18 }
-      ]
+      jifenList: []
     };
   },
   methods: {
@@ -51,8 +47,6 @@ export default {
 
 <style scoped lang="scss">
 .jifen {
-  box-sizing: border-box;
-  padding:0rpx 16rpx 16rpx 16rpx; // 添加内边距，避免贴边
   width: 100%; // 确保占满父容器
 
   .table-container {

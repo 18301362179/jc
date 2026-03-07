@@ -1,12 +1,14 @@
 {
+	
 	"pages": [
+		
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#31926e",
-				"enablePullDownRefresh": true,
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom",
 				"onReachBottomDistance": 50,
 				"app-plus": {
@@ -21,20 +23,38 @@
 		{
 			"path": "pages/analysisForecast/index",
 			"style": {
-				"navigationBarTitleText": "足球数据",
+				"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#31926e",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
 
 			}
 		},
 		{
 			"path": "pages/user/index",
 			"style": {
-				"navigationBarTitleText": "我的",
+				"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#31926e",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
 
 			},
 			"app-plus": {
@@ -49,7 +69,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTitleText": "让球胜平负",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -72,7 +92,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTitleText": "任选9场",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -90,7 +110,7 @@
 				{
 					"path": "editNine",
 					"style": {
-						"navigationBarTitleText": "任选9场",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -113,7 +133,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTitleText": "胜负游戏",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -131,7 +151,7 @@
 				{
 					"path": "editFourteen",
 					"style": {
-						"navigationBarTitleText": "胜负游戏",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -154,7 +174,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTitleText": "6场半全场",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -172,7 +192,7 @@
 				{
 					"path": "editSix",
 					"style": {
-						"navigationBarTitleText": "任选6场",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -195,7 +215,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTitleText": "4场进球",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -213,7 +233,7 @@
 				{
 					"path": "editFour",
 					"style": {
-						"navigationBarTitleText": "任选4场",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -236,7 +256,7 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTitleText": "让球胜平负",
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": true,
@@ -258,12 +278,22 @@
 			"pages": [
 				{
 					"path": "recharge",
-					"style": {
-						"navigationBarTitleText": "游戏币兑换",
-						"navigationBarTextStyle": "white",
-						"navigationBarBackgroundColor": "#31926e",
-						"enablePullDownRefresh": false
-					}
+				"style": {
+				"navigationBarTitleText": "【云竟慧博体育】微信服务号",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+
+			}
 				}
 			]
 		},
@@ -273,6 +303,7 @@
 				{
 					"path": "index",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -289,6 +320,7 @@
 				{
 					"path": "editScore",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -305,6 +337,7 @@
 				{
 					"path": "editHalfFull",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -321,6 +354,7 @@
 				{
 					"path": "editTotalGoals",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -337,6 +371,7 @@
 				{
 					"path": "editHandicap",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -353,6 +388,7 @@
 				{
 					"path": "editHhgg",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -374,6 +410,7 @@
 				{
 					"path": "editHalfFull",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -389,6 +426,7 @@
 				{
 					"path": "editHhgg",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -404,6 +442,7 @@
 				{
 					"path": "editHandicap",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -420,6 +459,7 @@
 				{
 					"path": "editScore",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -436,6 +476,7 @@
 				{
 					"path": "index",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -457,18 +498,40 @@
 				{
 					"path": "index",
 					"style": {
-						"navigationBarTitleText": "预测分析",
-						"navigationBarTextStyle": "white",
-						"navigationBarBackgroundColor": "#31926e"
+				"navigationBarTitleText": "【云竟慧博体育】微信服务号",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+
 					}
 				},
 				{
-					"path": "basketballAi",
-					"style": {
-						"navigationBarTitleText": "预测分析",
-						"navigationBarTextStyle": "white",
-						"navigationBarBackgroundColor": "#31926e"
-					}
+			    "path": "basketballAi",
+				"style": {
+				"navigationBarTitleText": "【云竟慧博体育】微信服务号",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+
+			}
 				}
 			]
 		},
@@ -478,6 +541,7 @@
 				{
 					"path": "buyDetail",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -487,6 +551,7 @@
 				{
 					"path": "scoreDetail",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -496,6 +561,7 @@
 				{
 					"path": "halfTimeDetail",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -505,6 +571,7 @@
 				{
 					"path": "totalGoalsDetail",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -514,6 +581,7 @@
 				{
 					"path": "basketballSf",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -523,6 +591,7 @@
 				{
 					"path": "basketballSfc",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -532,6 +601,7 @@
 				{
 					"path": "basketballHandicapDetail",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,
@@ -541,6 +611,7 @@
 				{
 					"path": "overUnderDetail",
 					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
 						"navigationBarTextStyle": "white",
 						"navigationBarBackgroundColor": "#31926e",
 						"enablePullDownRefresh": false,

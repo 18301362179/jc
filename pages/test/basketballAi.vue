@@ -1,175 +1,197 @@
 <template>
-  <view class="match-info-container" v-if="info">
-    <!-- 赛事头部 -->
-    <view class="match-header">
-      <view class="match-title">
-        <view v-if="courseMap.league_name">{{courseMap.league_name}}{{courseMap.stage || '常规赛'}}</view>
-        <view class="match-time"> {{formatDateWithWeekday(courseMap.race_date)}}</view>
-      </view>
+  <view class="page-container">
+    <!-- 固定头部 -->
+    <CustomHeader
+      :title="'预测数据'"
+      :showBack="true"
+      :isIndex="false"
+      :showIcon="false"
+      :isSelected="false"
+      :selectedPlay="''"
+      @funnel-click="handleFunnel"
+      @back-click="onBackClick"
+    />
+    
+    <!-- 可滚动的内容区域 -->
+    <scroll-view class="content-scroll" scroll-y="true">
+      <view class="match-info-container" v-if="info">
+        <!-- 赛事头部 -->
+        <view class="match-header">
+          <view class="match-title">
+            <view v-if="courseMap.league_name">{{courseMap.league_name}}{{courseMap.stage || '常规赛'}}</view>
+            <view class="match-time"> {{formatDateWithWeekday(courseMap.race_date)}}</view>
+          </view>
 
-      <!-- 客队前置：森林狼(客) VS 掘金(主) -->
-      <view class="match-teams">
-        <text class="away-team" style="text-align: right;">{{courseMap.visiting_name}}(客)</text>
-        <text class="vs-text">VS</text>
-        <text class="home-team" style="text-align: left;">{{courseMap.home_name}}(主)</text>
-      </view>
+          <!-- 客队前置：森林狼(客) VS 掘金(主) -->
+          <view class="match-teams">
+            <text class="away-team" style="text-align: right;">{{courseMap.visiting_name}}(客)</text>
+            <text class="vs-text">VS</text>
+            <text class="home-team" style="text-align: left;">{{courseMap.home_name}}(主)</text>
+          </view>
 
-      <!-- 胜率+得分预测 -->
-      <view class="prediction-section">
-        <view class="win-probability">
-          <text class="pro-text">预测：</text>
-          <view class="probability-bars">
-            <!-- 客队胜率（前置） -->
-            <view class="probability-bar away-bar" :style="{ width: `${winRateAndGoalCalculate.visitingWinRate * 100}%` }">
-              <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.visitingWinRate,0)}}</text>
+          <!-- 胜率+得分预测 -->
+          <view class="prediction-section">
+            <view class="win-probability">
+              <text class="pro-text"></text>
+              <view class="probability-bars">
+                <!-- 客队胜率（前置） -->
+                <view class="probability-bar away-bar" :style="{ width: `${winRateAndGoalCalculate.visitingWinRate * 100}%` }">
+                  <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.visitingWinRate,0)}}</text>
+                </view>
+                <!-- 主队胜率 -->
+                <view class="probability-bar home-bar" :style="{ width: `${winRateAndGoalCalculate.homeWinRate * 100}%` }">
+                  <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.homeWinRate,0)}}</text>
+                </view>
+              </view>
             </view>
-            <!-- 主队胜率 -->
-            <view class="probability-bar home-bar" :style="{ width: `${winRateAndGoalCalculate.homeWinRate * 100}%` }">
-              <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.homeWinRate,0)}}</text>
+            <view class="win-prompt">
+              {{courseMap.visiting_goal_calculate}} : {{courseMap.home_goal_calculate}}
             </view>
           </view>
         </view>
-        <view class="win-prompt">
-          预测得分：{{courseMap.visiting_goal_calculate}} : {{courseMap.home_goal_calculate}}
-        </view>
-      </view>
-    </view>
 
-    <!-- 球队信息表格（7列：球队/排名/胜率/得分/篮板/助攻/抢断，客队前置） -->
-    <view class="ranking-section" v-if="homeTeam && visitingTeam">
-      <view class="section-title">
-        <text>胜率</text>
-      </view>
-      <view class="ranking-table team-data-table">
-        <view class="table-header">
-          <text class="cell">球队</text>
-          <text class="cell">胜率</text>
-          <text class="cell">场均得分</text>
-          <text class="cell">场均失分</text>
+        <!-- 球队信息表格（7列：球队/排名/胜率/得分/篮板/助攻/抢断，客队前置） -->
+        <view class="ranking-section" v-if="homeTeam && visitingTeam">
+          <view class="section-title">
+            <text>胜率</text>
+          </view>
+          <view class="ranking-table team-data-table">
+            <view class="table-header">
+              <text class="cell">球队</text>
+              <text class="cell">胜率</text>
+              <text class="cell">场均得分</text>
+              <text class="cell">场均失分</text>
+            </view>
+            <!-- 客队行（前置） -->
+            <view class="table-row">
+              <text class="cell team-cell">{{visitingTeam.teamName}}</text>
+              <text class="cell">{{decimalToPercentage(visitingTeam.winRate, 1)}}</text>
+              <text class="cell">{{visitingTeam.avgGoal || '-'}}</text>
+              <text class="cell">{{visitingTeam.avgFumbleGoal || '-'}}</text>
+            </view>
+            <!-- 主队行 -->
+            <view class="table-row">
+              <text class="cell team-cell">{{homeTeam.teamName}}</text>
+              <text class="cell">{{decimalToPercentage(homeTeam.winRate, 1)}}</text>
+              <text class="cell">{{homeTeam.avgGoal || '-'}}</text>
+              <text class="cell">{{homeTeam.avgFumbleGoal || '-'}}</text>
+            </view>
+          </view>
         </view>
-        <!-- 客队行（前置） -->
-        <view class="table-row">
-          <text class="cell team-cell">{{visitingTeam.teamName}}</text>
-          <text class="cell">{{decimalToPercentage(visitingTeam.winRate, 1)}}</text>
-          <text class="cell">{{visitingTeam.avgGoal || '-'}}</text>
-          <text class="cell">{{visitingTeam.avgFumbleGoal || '-'}}</text>
-        </view>
-        <!-- 主队行 -->
-        <view class="table-row">
-          <text class="cell team-cell">{{homeTeam.teamName}}</text>
-          <text class="cell">{{decimalToPercentage(homeTeam.winRate, 1)}}</text>
-          <text class="cell">{{homeTeam.avgGoal || '-'}}</text>
-          <text class="cell">{{homeTeam.avgFumbleGoal || '-'}}</text>
-        </view>
-      </view>
-    </view>
 
-    <!-- 对战记录（客队前置，保留你修改的score-colon样式） -->
-    <view class="history-section" v-if="info.home_headToHeadRemark&&info.headToHeadRecord.length>0">
-      <view class="section-title">
-        <text>对战记录</text>
-        <text style="margin-left: 20rpx;">{{info.home_headToHeadRemark}}</text>
-      </view>
-      <view class="history-item" v-for="(item,i) in info.headToHeadRecord" :key="i">
-        <view class="history-header">
-          <text class="competition">{{courseMap.league_name}}{{item.stage}}</text>
-          <text class="time">{{item.race_date}}</text>
+        <!-- 对战记录（客队前置，保留你修改的score-colon样式） -->
+        <view class="history-section" v-if="info.home_headToHeadRemark&&info.headToHeadRecord.length>0">
+          <view class="section-title">
+            <text>对战记录</text>
+            <text style="margin-left: 20rpx;">{{info.home_headToHeadRemark}}</text>
+          </view>
+          <view class="history-item" v-for="(item,i) in info.headToHeadRecord" :key="i">
+            <view class="history-header">
+              <text class="competition">{{courseMap.league_name}}{{item.stage}}</text>
+              <text class="time">{{item.race_date}}</text>
+            </view>
+            <view class="match-result">
+              <!-- 客队前置 -->
+              <text class="team away-team">{{item.visiting_name}}</text>
+              <text class="score-colon">{{item.visiting_goal}} : {{item.home_goal}}</text>
+              <text class="team home-team">{{item.home_name}}</text>
+            </view>
+          </view>
         </view>
-        <view class="match-result">
-          <!-- 客队前置 -->
-          <text class="team away-team">{{item.visiting_name}}</text>
-          <text class="score-colon">{{item.visiting_goal}} : {{item.home_goal}}</text>
-          <text class="team home-team">{{item.home_name}}</text>
-        </view>
-      </view>
-    </view>
 
-    <!-- 客队近期战绩（前置） -->
-    <view class="history-section" v-if="info.visitingLastCourses&&info.visitingLastCourses.length>0">
-      <view class="section-title">
-        <text>{{info.visiting_lastRemark}}</text>
-      </view>
-      <view class="history-item" v-for="(item,i) in info.visitingLastCourses" :key="i">
-        <view class="history-header">
-          <text class="competition">
-            {{ [item.league_name, item.stage].filter(Boolean).join('') }}
-          </text>
-          <text class="time">{{item.race_date}}</text>
+        <!-- 客队近期战绩（前置） -->
+        <view class="history-section" v-if="info.visitingLastCourses&&info.visitingLastCourses.length>0">
+          <view class="section-title">
+            <text>{{info.visiting_lastRemark}}</text>
+          </view>
+          <view class="history-item" v-for="(item,i) in info.visitingLastCourses" :key="i">
+            <view class="history-header">
+              <text class="competition">
+                {{ [item.league_name, item.stage].filter(Boolean).join('') }}
+              </text>
+              <text class="time">{{item.race_date}}</text>
+            </view>
+            <view class="match-result">
+              <!-- 客队前置（森林狼作为客队） -->
+              <text class="team away-team">{{item.visiting_name}}</text>
+              <text class="score-colon">{{item.visiting_goal}} : {{item.home_goal}}</text>
+              <text class="team home-team">{{item.home_name}}</text>
+            </view>
+          </view>
         </view>
-        <view class="match-result">
-          <!-- 客队前置（森林狼作为客队） -->
-          <text class="team away-team">{{item.visiting_name}}</text>
-          <text class="score-colon">{{item.visiting_goal}} : {{item.home_goal}}</text>
-          <text class="team home-team">{{item.home_name}}</text>
-        </view>
-      </view>
-    </view>
 
-    <!-- 主队近期战绩 -->
-    <view class="history-section" v-if="info.homeLastCourses&&info.homeLastCourses.length>0">
-      <view class="section-title">
-        <text>{{info.home_lastRemark}}</text>
-      </view>
-      <view class="history-item" v-for="(item,i) in info.homeLastCourses" :key="i">
-        <view class="history-header">
-          <text class="competition">
-            {{ [item.league_name, item.stage].filter(Boolean).join('') }}
-          </text>
-          <text class="time">{{item.race_date}}</text>
+        <!-- 主队近期战绩 -->
+        <view class="history-section" v-if="info.homeLastCourses&&info.homeLastCourses.length>0">
+          <view class="section-title">
+            <text>{{info.home_lastRemark}}</text>
+          </view>
+          <view class="history-item" v-for="(item,i) in info.homeLastCourses" :key="i">
+            <view class="history-header">
+              <text class="competition">
+                {{ [item.league_name, item.stage].filter(Boolean).join('') }}
+              </text>
+              <text class="time">{{item.race_date}}</text>
+            </view>
+            <view class="match-result">
+              <!-- 客队前置（掘金作为客队时） -->
+              <text class="team away-team">{{item.visiting_name}}</text>
+              <text class="score-colon">{{item.visiting_goal}} : {{item.home_goal}}</text>
+              <text class="team home-team">{{item.home_name}}</text>
+            </view>
+          </view>
         </view>
-        <view class="match-result">
-          <!-- 客队前置（掘金作为客队时） -->
-          <text class="team away-team">{{item.visiting_name}}</text>
-          <text class="score-colon">{{item.visiting_goal}} : {{item.home_goal}}</text>
-          <text class="team home-team">{{item.home_name}}</text>
-        </view>
-      </view>
-    </view>
 
-    <!-- 得分榜球员（替换原得分榜，客队前置，无数据隐藏） -->
-    <view class="ranking-section" v-if="visitingScorers.length>0 || homeScorers.length>0">
-      <view class="section-title">
-        <text>得分榜球员</text> <!-- 得分榜球员 -->
+        <!-- 得分榜球员（替换原得分榜，客队前置，无数据隐藏） -->
+        <view class="ranking-section" v-if="visitingScorers.length>0 || homeScorers.length>0">
+          <view class="section-title">
+            <text>得分榜球员</text> <!-- 得分榜球员 -->
+          </view>
+          <view class="ranking-table stats-table"> <!-- 类名语义化调整：scorer-table → stats-table -->
+            <view class="table-header">
+              <text class="cell">球员</text>
+              <text class="cell">排名</text>
+              <text class="cell">得分</text>
+              <text class="cell">篮板</text>
+              <text class="cell">助攻</text>
+              <text class="cell">抢断</text>
+              <!-- 你补充新属性后，可在此添加/修改列标题 -->
+            </view>
+            <!-- 客队统计榜（前置） -->
+            <view class="table-row" v-for="(item,i) in visitingScorers" :key="i">
+              <text class="cell player-cell">{{item.player_name || '-'}}</text>
+              <text class="cell">{{item.ranking_no || '-'}}</text>
+              <text class="cell">{{item.total_goal || '-'}}</text>
+              <text class="cell">{{item.avg_backboard || '-'}}</text>
+              <text class="cell">{{item.avg_assist || '-'}}</text>
+              <text class="cell">{{item.avg_tackle || '-'}}</text>
+              <!-- 你补充新属性后，替换上述字段即可 -->
+            </view>
+            <!-- 主队统计榜 -->
+            <view class="table-row" v-for="(item,i) in homeScorers" :key="i">
+              <text class="cell player-cell">{{item.player_name || '-'}}</text>
+              <text class="cell">{{item.ranking_no || '-'}}</text>
+              <text class="cell">{{item.total_goal || '-'}}</text>
+              <text class="cell">{{item.avg_backboard || '-'}}</text>
+              <text class="cell">{{item.avg_assist || '-'}}</text>
+              <text class="cell">{{item.avg_tackle || '-'}}</text>
+              <!-- 你补充新属性后，替换上述字段即可 -->
+            </view>
+          </view>
+        </view>
+        
       </view>
-      <view class="ranking-table stats-table"> <!-- 类名语义化调整：scorer-table → stats-table -->
-        <view class="table-header">
-          <text class="cell">球员</text>
-          <text class="cell">排名</text>
-          <text class="cell">得分</text>
-          <text class="cell">篮板</text>
-          <text class="cell">助攻</text>
-          <text class="cell">抢断</text>
-          <!-- 你补充新属性后，可在此添加/修改列标题 -->
-        </view>
-        <!-- 客队统计榜（前置） -->
-        <view class="table-row" v-for="(item,i) in visitingScorers" :key="i">
-          <text class="cell player-cell">{{item.player_name || '-'}}</text>
-          <text class="cell">{{item.ranking_no || '-'}}</text>
-          <text class="cell">{{item.total_goal || '-'}}</text>
-          <text class="cell">{{item.avg_backboard || '-'}}</text>
-          <text class="cell">{{item.avg_assist || '-'}}</text>
-          <text class="cell">{{item.avg_tackle || '-'}}</text>
-          <!-- 你补充新属性后，替换上述字段即可 -->
-        </view>
-        <!-- 主队统计榜 -->
-        <view class="table-row" v-for="(item,i) in homeScorers" :key="i">
-          <text class="cell player-cell">{{item.player_name || '-'}}</text>
-          <text class="cell">{{item.ranking_no || '-'}}</text>
-          <text class="cell">{{item.total_goal || '-'}}</text>
-          <text class="cell">{{item.avg_backboard || '-'}}</text>
-          <text class="cell">{{item.avg_assist || '-'}}</text>
-          <text class="cell">{{item.avg_tackle || '-'}}</text>
-          <!-- 你补充新属性后，替换上述字段即可 -->
-        </view>
-      </view>
-    </view>
+    </scroll-view>
   </view>
 </template>
 
 <script>
 import { getbasketballAi } from "@/api/demo";
 
+
+import CustomHeader from "@/components/CustomHeader.vue";
 export default {
+   
+  components: {CustomHeader},
   data() {
     return {
       info: {},
@@ -185,6 +207,10 @@ export default {
   },
   onLoad(options) {
     this.getAiDetail(options.id,options.isLottery,options.serialNumber,options.dateStr)
+  wx.showShareMenu({
+    menus: ['shareAppMessage', 'shareTimeline']
+  })
+
   },
   onShow() {
     uni.hideTabBar();
@@ -237,20 +263,37 @@ export default {
       } finally {
         uni.hideLoading();
       }
-    }
+    },
+    // 补充缺失的方法（避免报错）
+    handleFunnel() {},
+    onBackClick() {}
   }
 };
 </script>
 
 <style lang="scss" scoped>
+// 页面整体容器
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+// 可滚动内容区域
+.content-scroll {
+  flex: 1;
+  overflow-y: auto; // 兼容多端
+  -webkit-overflow-scrolling: touch; // 移动端顺滑滚动
+}
+
 .match-info-container {
   color: #444;
   padding: 20rpx;
   border-radius: 16rpx;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
-  height: 100vh; 
   box-sizing: border-box;
-  overflow-y: auto;
+  // 移除原有的height: 100vh和overflow-y: auto
 }
 
 // 赛事头部

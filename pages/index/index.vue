@@ -21,36 +21,38 @@
         height: `calc(100vh - ${headerHeight + tabbarHeight}px)` // 动态计算高度
       }"
     >
-      <!-- 模拟试玩模块 -->
+      <!-- 赛事分析模块 -->
       <view class="simulation-container">
-        <view class="section-title">模拟试玩</view>
+         <!-- #ifndef MP-WEIXIN -->
+        <view class="section-title">赛事分析</view>
+        <!-- #endif -->
         <!-- 🌟 重构游戏网格布局：一行三个，分两行 -->
         <view class="game-grid">
           <!-- 第一行（3个） -->
           <view class="game-item" @click="goToGame('football/index')">
             <image class="game-icon" src="/static/jczq.png" mode="widthFix"></image>
-            <text class="game-name">竞彩足球</text>
+            <text class="game-name">足球</text>
           </view>
           <view class="game-item" @click="goToGame('basketball/index')">
             <image class="game-icon" src="/static/jclq.png" mode="widthFix"></image>
-            <text class="game-name">竞彩篮球</text>
+            <text class="game-name">篮球</text>
           </view>
           <view class="game-item" @click="goToGame('fourteenIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">胜负游戏</text>
+            <text class="game-name">胜负</text>
           </view>
           <!-- 第二行（3个） -->
           <view class="game-item two" @click="goToGame('nineIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">任选9场</text>
+            <text class="game-name">任9</text>
           </view>
           <view class="game-item two" @click="goToGame('sixIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">6场半全场</text>
+            <text class="game-name">6场半全</text>
           </view>
           <view class="game-item two" @click="goToGame('fourIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">4场进球</text>
+            <text class="game-name">4进球</text>
           </view>
         </view>
       </view>
@@ -76,7 +78,7 @@ export default {
   components: {
     CustomHeader,
     NativeTabbar,
-    TipsPopup
+    TipsPopup,
   },
   data() {
     return {
@@ -96,21 +98,23 @@ export default {
       const windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;
     } else {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       this.statusBarHeight = systemInfo.statusBarHeight;
     }
   },
   mounted() {
+    console.log(uni, 'uni-----------',window,'window----------')
     this.calcHeaderHeight();
     this.calcTabbarHeight();
     this.calcPopupMaxHeight();
   },
+  
   methods: {
     handlePopupClose() {
 
     },
     calcPopupMaxHeight() {
-      const windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : uni.getSystemInfoSync();
+      const windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : wx.getWindowInfo();
       const { 
         windowHeight, 
         windowWidth, 
@@ -142,7 +146,7 @@ export default {
     },
     // 🌟 精确计算导航栏总高度（状态栏+自定义导航栏，转px）
     calcHeaderHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       const statusBarHeight = systemInfo.statusBarHeight;
       // 自定义导航栏高度（80rpx转px：rpx * 屏幕宽度 / 750）
       const customHeaderHeightRpx = 80;
@@ -152,7 +156,7 @@ export default {
     },
     // 🌟 精确计算tabbar高度（100rpx转px）
     calcTabbarHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       const tabbarHeightRpx = 100;
       this.tabbarHeight = (tabbarHeightRpx * systemInfo.windowWidth) / 750;
     },
@@ -201,7 +205,7 @@ page {
   height: 0;
 }
 
-/* 模拟试玩模块样式 */
+/* 赛事分析模块样式 */
 .simulation-container {
   background-color: #fff;
   border-radius: 12rpx;

@@ -4,7 +4,7 @@
     style="width: 100%; height: 100vh; box-sizing: border-box;">
     <!-- 顶部导航 -->
     <CustomHeader
-      :title="'胜负游戏'"
+      :title="'胜负'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
@@ -43,7 +43,7 @@
     <!-- 底部投注栏组件：保留14场核心规则 -->
     <BetBar
       :min-match-count="14"
-      title="胜负游戏"       
+      title="胜负"       
       :show-clear-btn="true"
       :confirmBtnEnabled="true"
       :confirm-btn-enabled="selectedMatchCount >= 9"
@@ -66,6 +66,7 @@
     <EmptyStop 
       :hasData="!hasData" 
     />
+        
   </view>
 </template>
 
@@ -82,14 +83,17 @@ import DrawNumSelector from '@/pages/commn/DrawNumSelector/index.vue' // 新增�
 import { footballLotteryTradition, checkSelect, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 
+
 export default {
+   
   components: {
     List,
     CustomHeader,
     TipsPopup,
     EmptyStop,
     BetBar,
-    DrawNumSelector // 注册期数组件
+    DrawNumSelector, // 注册期数组件
+    
   },
   data() {
     return {
@@ -111,9 +115,9 @@ export default {
       // 提示弹窗配置：保留原有
       tipsTitle: "重要提示",
       tipsContentList: [
-        "1、挑选胜率差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。",
+        "1、挑选胜差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。",
         "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。",
-        "3、本软件提供竞彩足球、竞彩篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。",
+        "3、本软件提供足球、篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。",
         "4、本系统预测数据仅供参考，无准确率保证。",
         "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。",
         "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。",
@@ -129,6 +133,12 @@ export default {
       title:""
     };
   },
+    onLoad() {
+  // 强制显示分享菜单，立刻解除置灰
+  wx.showShareMenu({
+    menus: ['shareAppMessage', 'shareTimeline']
+  })
+},
   async onPullDownRefresh() {
     try {
       this.isRefreshing = true;
@@ -163,7 +173,7 @@ export default {
   },
   created() {
     // 统一获取系统信息，兼容多端
-    const systemInfo = uni.getSystemInfoSync();
+    const systemInfo = wx.getWindowInfo();
     this.statusBarHeight = systemInfo.statusBarHeight;
     this.windowWidth = systemInfo.windowWidth;
     this.windowHeight = systemInfo.windowHeight;
@@ -193,7 +203,7 @@ export default {
   methods: {
     // 🌟 新增：计算导航栏总高度（和4/6/9场完全一致）
     calcNavBarTotalHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       const statusBarHeight = systemInfo.statusBarHeight || 0;
       const navBarHeight = 44;
       const totalHeightPx = statusBarHeight + navBarHeight;
@@ -252,7 +262,7 @@ export default {
       if (Math.abs(diffX) < this.swipeThreshold) return;
     },
     calcPopupMaxHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       const { windowHeight, safeAreaInsets } = systemInfo;
       this.popupMaxHeight = windowHeight - safeAreaInsets.bottom - this.headerHeight - 90;
       // #ifdef MP-WEIXIN
@@ -437,7 +447,7 @@ let isNeedUserPhone = res.data && res.data.isNeedUserPhone ? res.data.isNeedUser
       }];
     },
     calcHeaderHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       const statusBarHeight = systemInfo.statusBarHeight;
       const customHeaderHeight = (88 / 750) * systemInfo.windowWidth;
       this.headerHeight = statusBarHeight + customHeaderHeight;
@@ -463,9 +473,9 @@ let isNeedUserPhone = res.data && res.data.isNeedUserPhone ? res.data.isNeedUser
           this.hideLoading();
           uni.showModal({
                 title: "请充币",
-                content: "您的游戏币不足，请兑换！",
+                content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "兑换",
+                confirmText: "充币",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {

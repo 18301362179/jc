@@ -17,13 +17,13 @@
             <view class="status-left">
               <!-- 单场标签：样式统一 -->
               <!-- 单场标签：无停时，根据is_sf_single显示 -->
-              <text class="single-tag" v-if="item.is_rsf_single == 1 && item.is_stop == 0">单场</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
+              <text class="single-tag" v-if="item.is_rsf_single == 1 && item.is_stop == 0">单</text>
+              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -40,7 +40,7 @@
               </view>
             </view>
 
-            <!-- 右侧：自适应宽度，垂直排列队名VS+胜率+让分胜负选项 -->
+            <!-- 右侧：自适应宽度，垂直排列队名VS+胜+让分胜负选项 -->
             <view class="main-right">
               <view class="top-right">
                 <!-- 队名VS：样式统一 -->
@@ -65,11 +65,11 @@
                   </text>
                 </view>
 
-                <!-- 胜率行：样式统一 -->
+                <!-- 胜行：样式统一 -->
                 <view class="rate-row">
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
                   <text class="vs-text"></text>
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
                 </view>
               </view>
 
@@ -77,7 +77,7 @@
               <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
                 <view class="odds-trigger-area" :class="{ 'disabled-trigger': item.is_stop == 1 }">
                   <view class="odds-row">
-                    <view class="match-cell away" :class="{ selected: item.rAwaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'rAwaySelected')"> 客胜{{ item.loss_multiplier || "--" }} </view>
+                    <view class="match-cell away" :class="{ selected: item.rAwaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'rAwaySelected')"> 主负{{ item.loss_multiplier || "--" }} </view>
                     <view class="match-cell home" :class="{ selected: item.rHomeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'rHomeSelected')"> 主胜{{ item.win_multiplier || "--" }} </view>
                   </view>
                 </view>
@@ -167,12 +167,11 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-        // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
+       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
         // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
-        const systemInfo = uni.getSystemInfoSync();
         this.windowWidth = systemInfo.windowWidth || 375;
         console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
@@ -281,7 +280,7 @@ export default {
   .single-tag {
     display: inline-block;
     padding-left: 6rpx;
-    width: 60rpx;
+    width: 44rpx;
     background: #b71c1c;
     color: #fff;
     text-align: left;
@@ -421,7 +420,7 @@ export default {
   }
 }
 
-/* 胜率行：样式统一 */
+/* 胜行：样式统一 */
 .rate-row {
   width: 100%;
   display: flex;

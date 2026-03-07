@@ -2,7 +2,7 @@
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
     <CustomHeader 
-      :ballTitle="'竞彩篮球'"
+      :ballTitle="'篮球'"
       title="详情" 
       :showBack="true" 
       :showIcon="false" 
@@ -34,7 +34,7 @@
             </view>
             <view class="odds-row">
               <view class="match-cell away" :class="{ selected: item.isRAwayWin }">
-                客胜{{ item.rAwayOdds || '-' }}
+                主负{{ item.rAwayOdds || '-' }}
               </view>
               <view class="match-cell home" :class="{ selected: item.isRHomeWin }">
                 主胜{{ item.rHomeOdds || '-' }}
@@ -87,7 +87,7 @@ export default {
     });
   },
   created() {
-    const sysInfo = uni.getWindowInfo ? uni.getWindowInfo() : uni.getSystemInfoSync();
+    const sysInfo = uni.getWindowInfo ? uni.getWindowInfo() : wx.getWindowInfo();
     this.statusBarHeight = sysInfo.statusBarHeight;
   },
   methods: {
@@ -245,7 +245,7 @@ export default {
 
         .single {
           display: inline-block;
-          width: 36rpx;
+          width: 44rpx;
           height: 28rpx;
           line-height: 28rpx;
           background: #b71c1c;

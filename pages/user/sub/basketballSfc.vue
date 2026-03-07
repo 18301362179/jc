@@ -2,7 +2,7 @@
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
     <CustomHeader  
-      :ballTitle="'竞彩篮球'"
+      :ballTitle="'篮球'"
       title="详情" 
       :showBack="true" 
       :showIcon="false" 
@@ -110,7 +110,7 @@ onLoad(options) {
   });
 },
   created() {
-    const sysInfo = uni.getWindowInfo ? uni.getWindowInfo() : uni.getSystemInfoSync();
+    const sysInfo = uni.getWindowInfo ? uni.getWindowInfo() : wx.getWindowInfo();
     this.statusBarHeight = sysInfo.statusBarHeight;
   },
   methods: {
@@ -298,7 +298,7 @@ submitTicketWithUrl(ticketId, photoUrl) {
 
           .single-tag {
             display: inline-block;
-            width: 40rpx;
+            width: 44rpx;
             background: #b71c1c;
             color: #fff;
             text-align: center;

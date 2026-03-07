@@ -30,6 +30,7 @@ export const getToken = () => {
 export const removeToken = () => {
 	try {
 		uni.removeStorageSync(TOKEN_KEY);
+		console.log('remeove----')
 		return true;
 	} catch (error) {
 		console.error("从本地删除 Token 失败：", error);

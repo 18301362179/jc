@@ -17,14 +17,14 @@
           <view class="match-status-row">
             <view class="status-left">
               <!-- 单场标签：无停时，根据is_spf_single显示 -->
-              <text class="single-tag" v-if="item.is_spf_single == 1 && item.is_stop == 0">单场</text>
+              <text class="single-tag" v-if="item.is_spf_single == 1 && item.is_stop == 0">单</text>
               <!-- 新增：停售标签 -->
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
+              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
-              <!-- 右侧分析按钮：仅在有胜率数据时显示 -->
+              <!-- 右侧分析按钮：仅在有胜数据时显示 -->
               <!-- 兼容事件：统一用 @click.stop 适配多端 -->
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)">  {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }} </view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -53,7 +53,7 @@
                 <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
                 <text class="odds rate" v-if="item.home_win_rate">
-                  胜率
+                  胜
                   <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.homeSelected) }">{{ item.home_win_rate || "" }}</text>
                 </text>
               </view>
@@ -69,9 +69,9 @@
               >
                 <text class="vs-text">VS</text>
                 <text class="vs-odds" v-if="item.draw_multiplier">平{{ item.draw_multiplier }}</text>
-                <!-- 拆分文字：只让平率数值变绿 -->
+                <!-- 拆分文字：只让平数值变绿 -->
                 <text class="vs-odds" v-if="item.draw_rate">
-                  平率
+                  平
                   <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.vsSelected) }">{{ item.draw_rate }}</text>
                 </text>
               </view>
@@ -86,10 +86,10 @@
                 @click="() => checkAndSelect(item, 'awaySelected')"
               >
                 <text class="team-name">{{ item.visiting_name }}</text>
-                <text class="odds" v-if="item.loss_multiplier">客胜{{ item.loss_multiplier }}</text>
+                <text class="odds" v-if="item.loss_multiplier">主负{{ item.loss_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
                 <text class="odds rate" v-if="item.visiting_win_rate">
-                  胜率
+                  胜
                   <text :style="{ color: getRateColor(item.visiting_win_rate, 'away', item.awaySelected) }">{{ item.visiting_win_rate || "" }}</text>
                 </text>
               </view>
@@ -165,12 +165,12 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-        // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
+       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
         // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
-        const systemInfo = uni.getSystemInfoSync();
+        const systemInfo = wx.getWindowInfo();
         this.windowWidth = systemInfo.windowWidth || 375;
         console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
@@ -283,7 +283,7 @@ export default {
     .single-tag {
       display: inline-block;
       padding-left: 6rpx;
-      width: 60rpx;
+      width: 44rpx;
       background: #b71c1c;
       color: #fff;
       text-align: left;
@@ -371,7 +371,7 @@ export default {
         }
 
         &.vs {
-          width: 20%;
+          width: 22%;
           gap: 4rpx;
 
           .vs-text {
@@ -434,10 +434,5 @@ export default {
 // 隐藏滚动条，兼容多端
 ::-webkit-scrollbar {
   display: none;
-}
-// 小程序端隐藏滚动条
-page {
-  -webkit-overflow-scrolling: touch;
-  overflow: hidden;
 }
 </style>

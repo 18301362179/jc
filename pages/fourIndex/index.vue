@@ -3,7 +3,7 @@
     style="width: 100%; height: 100vh; box-sizing: border-box;">
     <!-- 顶部导航 -->
     <CustomHeader
-      :title="'4场进球'"
+      :title="'4进球'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
@@ -40,7 +40,7 @@
     <!-- 底部投注栏组件 -->
     <BetBar
       :min-match-count="4"
-      title="4场进球"       
+      title="4场"       
       :show-clear-btn="true"
       :confirmBtnEnabled="true"
       :confirm-btn-enabled="selectedMatchCount >= 4"
@@ -63,6 +63,7 @@
     <EmptyStop 
       :hasData="!hasData" 
     />
+        
   </view>
 </template>
 
@@ -78,14 +79,17 @@ import DrawNumSelector from '@/pages/commn/DrawNumSelector/index.vue'
 import { footballLotteryTradition, checkSelect, recharge,footballLotteryTraditionDrawNum } from "@/api/demo";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 
+
 export default {
+   
   components: {
     List,
     CustomHeader,
     TipsPopup,
     EmptyStop,
     BetBar,
-    DrawNumSelector
+    DrawNumSelector,
+    
   },
   data() {
     return {
@@ -104,9 +108,9 @@ export default {
       // 提示弹窗配置
       tipsTitle: "重要提示",
       tipsContentList: [
-        "1、挑选胜率差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。",
+        "1、挑选胜差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。",
         "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。",
-        "3、本软件提供竞彩足球、竞彩篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。",
+        "3、本软件提供足球、篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。",
         "4、本系统预测数据仅供参考，无准确率保证。",
         "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。",
         "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。",
@@ -135,6 +139,12 @@ export default {
       uni.stopPullDownRefresh();
     }
   },
+    onLoad() {
+  // 强制显示分享菜单，立刻解除置灰
+  wx.showShareMenu({
+    menus: ['shareAppMessage', 'shareTimeline']
+  })
+},
   computed: {
     targetLotteryType() {
       return this.playTypeMap[this.currentPlay] || "spf";
@@ -142,11 +152,12 @@ export default {
     // 选中场次计数：只要主/客有一个比分被选中（数组长度>0），即算该场次选中
     selectedMatchCount() {
       let count = 0;
-      this.drawerList.forEach(function(drawer) {
-        drawer.lotteryList.forEach(function(item) {
+      this.drawerList.forEach((drawer)=> {
+        drawer.lotteryList.forEach((item)=> {
           if (item.homeScoreSelected.length > 0 || item.awayScoreSelected.length > 0) count++;
         });
       });
+      console.log(count, 'count--------')
       return count;
     }
   },
@@ -157,7 +168,7 @@ export default {
   },
   created() {
     // 统一获取系统信息，兼容多端
-    const systemInfo = uni.getSystemInfoSync();
+    const systemInfo = wx.getWindowInfo();
     this.statusBarHeight = systemInfo.statusBarHeight;
     this.windowWidth = systemInfo.windowWidth;
     this.windowHeight = systemInfo.windowHeight;
@@ -187,7 +198,7 @@ export default {
   },
   methods: {
     calcNavBarTotalHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       // 1. 获取状态栏高度（px）
       const statusBarHeight = systemInfo.statusBarHeight || 0;
       // 2. 自定义导航栏高度（通常是44px，小程序默认导航栏高度）
@@ -247,7 +258,7 @@ export default {
       });
     },
     calcPopupMaxHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       let windowHeight = systemInfo.windowHeight;
       let safeAreaInsets = systemInfo.safeAreaInsets || { bottom: 0 };
       let safeAreaBottom = safeAreaInsets.bottom || 0;
@@ -374,15 +385,14 @@ export default {
     },
     // 子组件选中事件回调：同步比分选中状态（适配数组）
     toggleSelect(targetItem, key) {
-      this.drawerList.forEach(function(drawer, drawerIdx) {
-        const matchIdx = drawer.lotteryList.findIndex(function(item) {
-          return item.id === targetItem.id;
-        });
-        if (matchIdx !== -1) {
-          // 深拷贝数组确保响应式
-          this.$set(drawer.lotteryList[matchIdx], key, [].concat(drawer.lotteryList[matchIdx][key]));
+      // 只改父组件自己的 drawerList，小程序响应式必生效
+      this.drawerList.forEach(drawer => {
+        const idx = drawer.lotteryList.findIndex(item => item.id === targetItem.id)
+        if (idx !== -1) {
+          // 直接赋值最新的选中数组，小程序能监听到
+          this.$set(drawer.lotteryList[idx], key, [...targetItem[key]])
         }
-      }.bind(this));
+      })
     },
     async loadMatchData(drawNum = '') {
       try {
@@ -458,7 +468,7 @@ export default {
       }];
     },
     calcHeaderHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       const statusBarHeight = systemInfo.statusBarHeight || 0;
       const customHeaderHeight = (88 / 750) * (systemInfo.windowWidth || 375);
       this.headerHeight = statusBarHeight + customHeaderHeight;
@@ -483,9 +493,9 @@ export default {
           this.hideLoading();
           uni.showModal({
                 title: "请充币",
-                content: "您的游戏币不足，请兑换！",
+                content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "兑换",
+                confirmText: "充币",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
@@ -494,7 +504,6 @@ export default {
                   }
                 }
               });
-        return;
         return;
     } else {
             // 有灵石，正常跳转分析页

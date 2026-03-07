@@ -1,5 +1,13 @@
 <template>
   <view class="con" :style="{ height: pageHeight + 'px' }" style="width: 100%; height: 100vh; box-sizing: border-box">
+    <CustomHeader
+      :showBack="false"
+      :ballTitle="''"
+      :title="'足球数据'"
+      :isIndex="false"
+      :showIcon="false"
+      :isSelected="false"‘
+    />
     <!-- 顶部筛选区（固定不滚动） -->
     <view class="top" ref="top">
       <!-- 大洲名 -->
@@ -12,13 +20,13 @@
 
       <!-- 世界排名专属tab（仅点击世界排名时显示） -->
       <view v-if="isWorldRanking" class="world-rank-wrap">
-        <!-- 排名类型tab -->
+        <!-- 排名类型tab（改为流式布局） -->
         <view class="tab-container">
-          <scroll-view scroll-x class="tab-scroll" scroll-with-animation>
+          <view class="tab-wrap"> <!-- 替换scroll-view为普通view -->
             <view v-for="(item, index) in worldRankTypeList" :key="index" class="tab-item" :class="{ active: worldRankTypeIndex === index }" @tap="clickWorldRankType(index, item)">
               {{ item }}
             </view>
-          </scroll-view>
+          </view>
         </view>
 
         <!-- 替换为子组件的搜索框（原父组件搜索按钮位置） -->
@@ -29,21 +37,22 @@
 
       <!-- 原有筛选区（仅非世界排名时显示） -->
       <view v-else>
-        <!-- 原有逻辑不变 -->
+        <!-- 联赛tab（改为流式布局） -->
         <view class="tab-container">
-          <scroll-view scroll-x class="tab-scroll" scroll-with-animation>
+          <view class="tab-wrap"> <!-- 替换scroll-view为普通view -->
             <view v-for="(item, index) in leagueList" :id="'tab' + index" :key="index" class="tab-item" :class="{ active: leagueCurrentIndex === index }" @tap="clickLeague(index, item)">
               {{ item.league_name }}
             </view>
-          </scroll-view>
+          </view>
         </view>
+        
         <view class="tab">
           <view class="tab-two">
             <view :class="['tab-item-two', activeIndex == 0 ? 'active' : '']" @click="clickBang(0, 'course')"> 赛程 </view>
-            <view v-if="selectTopTabValue.is_have_points == 1" :class="['tab-item-two', activeIndex == 1 ? 'active' : '']" @click="clickBang(1, 'points')"> 积分 </view>
-            <view v-if="selectTopTabValue.is_have_scorer == 1" :class="['tab-item-two', activeIndex == 2 ? 'active' : '']" @click="clickBang(2, 'scorer')">射手榜</view>
+            <view :class="['tab-item-two', activeIndex == 1 ? 'active' : '']" @click="clickBang(1, 'points')"> 积分 </view>
+            <view  v-if="selectTopTabValue && selectTopTabValue.is_have_scorer == 1"  :class="['tab-item-two', activeIndex == 2 ? 'active' : '']" @click="clickBang(2, 'scorer')">射手榜</view>
             <view class="picker-box">
-              <picker mode="selector" :range="csList" @change="handleChangeCs">
+              <picker mode="selector" v-if="csList.length > 0" :range="csList" @change="handleChangeCs">
                 <view class="picker-content">
                   <text class="picker-text">{{ selectedCs || "请选择" }}</text>
                   <view class="picker-arrow"></view>
@@ -52,30 +61,36 @@
             </view>
           </view>
         </view>
-        <scroll-view v-if="activeIndex == 0 && stageList && stageList.length > 1" class="tabs-scroll-container" scroll-x show-scrollbar="false" style="padding-bottom: 0" :scroll-with-animation="true">
+        
+        <!-- 阶段tab（改为流式布局） -->
+        <view v-if="activeIndex == 0 && stageList && stageList.length > 1" class="tabs-wrap-container">
           <view class="match-tabs">
             <view v-for="(tab, index) in filteredStageList" :key="index" :class="['other-tab', stageSelectIndex === getOriginalIndex(index) ? 'active' : '']" @click="handleClickStage(getOriginalIndex(index), tab, 'stage')">
               {{ tab }}
             </view>
           </view>
-        </scroll-view>
+        </view>
+        
+        <!-- 分组tab（改为流式布局） -->
         <template v-if="activeIndex == 0 && groupList && groupList.length > 0">
-          <view class="group-container" scroll-x show-scrollbar="false" :scroll-with-animation="true">
+          <view class="group-wrap-container">
             <view :class="['tab-stage-t', { active: groupIndex == -1 }]" @click="handleClickGroupAll()">总览</view>
-            <scroll-view scroll-x class="t-scroll" scroll-with-animation>
+            <view class="t-wrap"> <!-- 替换scroll-view为普通view -->
               <view v-for="(tab, index) in groupList" :key="index" :class="['t-stage', groupIndex == index ? 'active' : '']" @click="handleClickGroup(index, tab)">
                 {{ tab }}
               </view>
-            </scroll-view>
+            </view>
           </view>
         </template>
+        
+        <!-- 轮次tab（改为流式布局） -->
         <template v-if="activeIndex == 0 && roundList && roundList.length > 0">
           <view class="tab-container">
-            <scroll-view scroll-x class="stage-scroll" scroll-with-animation :scroll-left="scrollLeft">
+            <view class="stage-wrap"> <!-- 替换scroll-view为普通view -->
               <view v-for="(item, index) in roundList" :key="index" class="tab-stage-base" :class="[roundIndex == index ? 'active' : '']" @tap="handleClickRound(index, item, 'roundNo')">
                 {{ item.no }}
               </view>
-            </scroll-view>
+            </view>
           </view>
         </template>
       </view>
@@ -101,7 +116,7 @@
           <SheShou ref="sheShou"></SheShou>
         </view>
         <view class="load-more">
-          <text>已经到底了...</text>
+          <text></text>
         </view>
         <view v-if="(courseList.length == 0 && activeIndex == 0) || (activeIndex == 1 && jifenList.length == 0) || (activeIndex == 2 && sheshouList.length == 0)">
           <noData> </noData>
@@ -109,6 +124,7 @@
       </view>
     </scroll-view>
     <NativeTabbar ref="nativeTabbar" />
+    
   </view>
 </template>
 
@@ -122,6 +138,7 @@ import SaiCheng from "@/pages/commn/saiCheng.vue";
 import JiFen from "@/pages/commn/jiFen.vue";
 import SheShou from "@/pages/commn/sheShou.vue";
 import WordRanking from "@/pages/commn/WordRanking.vue";
+import CustomHeader from "@/components/CustomHeader.vue";
 
 export default {
   components: {
@@ -131,6 +148,8 @@ export default {
     JiFen,
     SheShou,
     WordRanking,
+    CustomHeader,
+    
   },
   data() {
     return {
@@ -150,7 +169,7 @@ export default {
       sheshouList: [],
       roundList: [],
       stageSelectIndex: 0,
-      scrollLeft: 0,
+      // 移除scrollLeft相关变量
       groupIndex: -1,
       roundIndex: -1,
       groupList: [],
@@ -159,45 +178,43 @@ export default {
       stageList: [],
       topHeight: 0,
 
-      // 世界排名相关（核心修改：新增原始数据存储）
+      // 世界排名相关
       worldRankTypeList: ["俱乐部排名", "国家排名"],
       worldRankTypeIndex: 0,
-      wordRankingList: [], // 展示用的过滤后列表
-      originalWordRankingList: [], // 原始排名数据（本地检索用）
+      wordRankingList: [], 
+      originalWordRankingList: [], 
       searchKeyword: "",
-      searchTimer: null, // 防抖定时器
+      searchTimer: null, 
 
-      // 新增：高度计算相关变量
-      windowWidth: 0, // 屏幕宽度
-      windowHeight: 0, // 屏幕高度
-      safeAreaBottom: 0, // 底部安全区域高度
-      tabbarHeight: 0, // TabBar总高度（含安全区域）
-      pageHeight: 0, // 页面总高度
-      contentScrollPaddingBottom: 0, // 内容滚动区底部内边距
+      // 高度计算相关变量
+      windowWidth: 0, 
+      windowHeight: 0, 
+      safeAreaBottom: 0, 
+      tabbarHeight: 0, 
+      pageHeight: 0, 
+      contentScrollPaddingBottom: 0, 
 
-      // 新增：存储窗口resize回调函数（解决offWindowResize报错）
+      // 窗口resize回调函数
       windowResizeCallback: null,
-      touchStartX: 0, // 新增：触摸起始X坐标
-      swipeThreshold: 50, // 新增：滑动判定阈值（px）
+      touchStartX: 0, 
+      swipeThreshold: 50, 
     };
   },
   onShow() {
-    // 重新计算高度（页面切换后适配）
     this.calcAllHeights();
     queryContinentList().then((res) => {
       this.continentList = res.data;
     });
     this.loadData();
+    
   },
   onLoad() {
-    // 获取系统基础信息
-    const systemInfo = uni.getSystemInfoSync();
+    const systemInfo =  uni.getWindowInfo()
     this.windowWidth = systemInfo.windowWidth;
     this.windowHeight = systemInfo.windowHeight;
-     this.safeAreaBottom = (systemInfo.safeAreaInsets && systemInfo.safeAreaInsets.bottom) || 0;
-    this.pageHeight = this.windowHeight; // 页面总高度 = 屏幕高度
+    this.safeAreaBottom = (systemInfo.safeAreaInsets && systemInfo.safeAreaInsets.bottom) || 0;
+    this.pageHeight = this.windowHeight;
 
-    // 初始化窗口resize回调函数（关键：保存引用）
     this.windowResizeCallback = (res) => {
       this.windowWidth = res.size.windowWidth;
       this.windowHeight = res.size.windowHeight;
@@ -206,17 +223,13 @@ export default {
     };
   },
   mounted() {
-    this.initScrollData();
-    this.calcAllHeights(); // 计算所有高度
-
-    // 监听窗口尺寸变化（适配旋转/分屏）- 使用保存的回调函数
+    // 移除initScrollData调用（横向滚动相关）
+    this.calcAllHeights();
     uni.onWindowResize(this.windowResizeCallback);
   },
   onUnload() {
-    // 移除监听 - 传入对应的回调函数（核心修复）
     if (this.windowResizeCallback) {
       uni.offWindowResize(this.windowResizeCallback);
-      // 清空回调引用，避免内存泄漏
       this.windowResizeCallback = null;
     }
   },
@@ -234,42 +247,16 @@ export default {
     },
   },
   methods: {
-    //     onTouchStart(e) {
-    //   // 记录触摸起始X坐标
-    //   this.touchStartX = e.changedTouches[0].clientX;
-    // },
-    // onTouchEnd(e) {
-    //   const touchEndX = e.changedTouches[0].clientX;
-    //   const diffX = touchEndX - this.touchStartX; // 差值：正=右滑，负=左滑
-
-    //   // 判定有效滑动（超过阈值）
-    //   if (Math.abs(diffX) < this.swipeThreshold) return;
-
-    //   // 获取Tabbar组件实例，调用切换方法
-    //   const tabbar = this.$refs.nativeTabbar;
-    //   if (!tabbar) return;
-
-    //   // 左滑（diffX<0）→ 下一个Tab；右滑（diffX>0）→ 上一个Tab
-    //   if (diffX < 0) {
-    //     tabbar.switchTabBySwipe('left'); // 左滑切换下一个
-    //   } else {
-    //     tabbar.switchTabBySwipe('right'); // 右滑切换上一个
-    //   }
-    // },
-    // 新增：统一计算所有高度（核心修复）
+    // 高度计算
     calcAllHeights() {
-      const rpx2px = this.windowWidth / 750; // rpx转px比例
-
-      // 1. 计算TabBar高度（100rpx + 安全区域）
+      const rpx2px = this.windowWidth / 750;
       this.tabbarHeight = 100 * rpx2px + this.safeAreaBottom;
-
-      // 2. 内容滚动区底部内边距 = TabBar总高度 + 额外16rpx（避免内容贴边）
       this.contentScrollPaddingBottom = this.tabbarHeight + 16 * rpx2px;
       // #ifdef MP-WEIXIN
       this.contentScrollPaddingBottom = 0;
       // #endif
     },
-    // 防抖搜索（仅本地检索，无接口请求）
+    // 防抖搜索
     debounceSearch() {
       clearTimeout(this.searchTimer);
       this.searchTimer = setTimeout(() => {
@@ -285,14 +272,13 @@ export default {
     hideLoading() {
       uni.hideLoading();
     },
-    // 切换排名类型（仅首次请求接口，保存原始数据）
+    // 切换排名类型
     async clickWorldRankType(index, item) {
       this.showLoading();
       this.worldRankTypeIndex = index;
       const teamType = index === 0 ? "club" : "country";
       try {
         const res = await queryTeamWordRanking({ teamType });
-        // 保存原始数据 + 初始化展示列表
         this.originalWordRankingList = res.data || [];
         this.wordRankingList = [...this.originalWordRankingList];
       } catch (error) {
@@ -304,25 +290,22 @@ export default {
         this.hideLoading();
       }
     },
-    // 本地检索核心方法（无任何接口请求）
+    // 本地检索
     handleSearch() {
       const keyword = this.searchKeyword.trim();
-      // 清空关键词 → 恢复原始列表
       if (!keyword) {
         this.wordRankingList = [...this.originalWordRankingList];
         return;
       }
-      // 本地过滤：匹配球队名称（不区分大小写）
       this.wordRankingList = this.originalWordRankingList.filter((item) => {
         if (!item.team_name) return false;
         return item.team_name.toLowerCase().includes(keyword.toLowerCase());
       });
-      // 无匹配结果提示
       if (this.wordRankingList.length === 0) {
         uni.showToast({ title: "未找到相关排名", icon: "none" });
       }
     },
-  async handleClickDetail(item) {
+    async handleClickDetail(item) {
       try {
         this.showLoading();
         const reqParams = {
@@ -333,45 +316,32 @@ export default {
           serialNumber: item.serial_number,
           dateStr: item.date_str
         };
-    // 调用recharge接口
-    const res = await recharge(reqParams);
-    if (res.data.status == 'fail') {
-         this.hideLoading();
-      // 原生弹窗（和你自定义弹窗效果完全一致）
-              uni.showModal({
-                title: "请充币",
-                content: "您的游戏币不足，请兑换！",
-                cancelText: "取消",
-                confirmText: "兑换",
-                confirmColor: "#d92929",
-                success: (res) => {
-                  if (res.confirm) {
-                    // 点击兑换跳充值页
-                    uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=football&isLottery=1` });
-                  }
-                }
-              });
-              return;
-    } else {
-            // 有灵石，正常跳转分析页
+        const res = await recharge(reqParams);
+        if (res.data.status == 'fail') {
+          this.hideLoading();
+          uni.showModal({
+            title: "请充币",
+            content: "您的游戏币不足，请充币！",
+            cancelText: "取消",
+            confirmText: "充币",
+            confirmColor: "#d92929",
+            success: (res) => {
+              if (res.confirm) {
+                uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=football&isLottery=1` });
+              }
+            }
+          });
+          return;
+        } else {
           await uni.navigateTo({
             url: `/pages/test/index?id=${item.id}&isLottery=0&isTradition=1`,
           });
-    }
-  } catch (err) {
-    uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
-  } finally {
-    this.hideLoading();
-  }
-    },
-    showLoading() {
-      uni.showLoading({
-        title: "加载中...",
-        mask: true,
-      });
-    },
-    hideLoading() {
-      uni.hideLoading();
+        }
+      } catch (err) {
+        uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
+      } finally {
+        this.hideLoading();
+      }
     },
     getOriginalIndex(filteredIndex) {
       if (this.stageList.length > 0 && !this.stageList[0]) {
@@ -404,8 +374,7 @@ export default {
         const formattedRoundList = roundList.map((item, i) => ({
           no: item,
           id: i,
-          left: 0,
-          width: 0,
+          // 移除left/width属性（横向滚动相关）
         }));
         return { roundList: formattedRoundList, groupList };
       } catch (err) {
@@ -440,7 +409,6 @@ export default {
       if (currentItem && currentItem.continentName === "世界排名") {
         try {
           const res = await queryTeamWordRanking({ teamType: "club" });
-          // 初始化原始数据和展示列表
           this.originalWordRankingList = res.data || [];
           this.wordRankingList = [...this.originalWordRankingList];
           this.worldRankTypeIndex = 0;
@@ -488,7 +456,7 @@ export default {
         this.$nextTick(() => {
           this.$refs.saiCheng.open(courseList);
         });
-        this.initScrollData();
+        // 移除initScrollData调用
       } catch (err) {
         this.hideLoading();
       } finally {
@@ -581,38 +549,8 @@ export default {
       if (typeof decimal !== "number" || isNaN(decimal)) return defaultValue;
       return `${(decimal * 100).toFixed(fixed)}%`;
     },
-    initScrollData() {
-      this.scrollLeft = 0;
-      this.$nextTick(() => {
-        setTimeout(() => {
-          this.getScrollW();
-        }, 300);
-        setTimeout(() => {
-          if (this.roundList[this.roundIndex]) {
-            this.scrollLeft = this.roundList[this.roundIndex].left - this.contentScrollW / 2 + this.roundList[this.roundIndex].width / 2;
-          }
-        }, 500);
-      });
-    },
-    getScrollW() {
-      const query = uni.createSelectorQuery().in(this);
-      query
-        .select(".stage-scroll")
-        .boundingClientRect((data) => {
-          this.contentScrollW = data && data.width ? data.width : 0;
-        })
-        .exec();
-      query
-        .selectAll(".tab-stage-base")
-        .boundingClientRect((data) => {
-          if (data.length && this.roundList.length) {
-            data.forEach((item, i) => {
-              this.roundList[i] = { ...this.roundList[i], left: item.left, width: item.width };
-            });
-          }
-        })
-        .exec();
-    },
+    // 移除initScrollData方法（横向滚动相关）
+    // 移除getScrollW方法（横向滚动相关）
     forateData(time) {
       return formatDateWithWeekday(time);
     },
@@ -644,7 +582,7 @@ export default {
           this.$nextTick(() => {
             this.$refs.saiCheng.open(courseList);
           });
-          this.initScrollData();
+          // 移除initScrollData调用
         } else if (this.activeIndex === 1) {
           const jifenList = await this.getCommonRankData(getJiFen, leagueName, this.selectedCs);
           this.jifenList = jifenList;
@@ -762,7 +700,7 @@ export default {
         this.$nextTick(() => {
           this.$refs.saiCheng.open(courseList);
         });
-        this.initScrollData();
+        // 移除initScrollData调用
       } catch (error) {
         this.hideLoading();
       } finally {
@@ -786,11 +724,7 @@ export default {
         this.courseList = courseList;
         this.$nextTick(() => {
           this.$refs.saiCheng.open(courseList);
-          setTimeout(() => {
-            if (this.roundList[this.roundIndex]) {
-              this.scrollLeft = this.roundList[this.roundIndex].left - this.contentScrollW / 2 + this.roundList[this.roundIndex].width / 2;
-            }
-          }, 500);
+          // 移除scrollLeft相关逻辑
         });
       } catch (error) {
         this.hideLoading();
@@ -802,7 +736,7 @@ export default {
       if (this.leagueCurrentIndex === index) return;
       this.showLoading();
       try {
-        this.scrollLeft = 0;
+        // 移除scrollLeft重置
         this.roundList = [];
         this.activeIndex = 0;
         this.selectTopTabValue = item;
@@ -832,7 +766,7 @@ export default {
         this.$nextTick(() => {
           this.$refs.saiCheng.open(courseList);
         });
-        this.initScrollData();
+        // 移除initScrollData调用
         this.hideLoading();
       } catch (error) {
         this.hideLoading();
@@ -866,7 +800,6 @@ export default {
     .world-rank-wrap {
       background: #fff;
 
-      // 子组件搜索框样式（适配原父组件搜索位置）
       .search-box {
         padding: 0rpx 20rpx;
         margin: 0;
@@ -1003,47 +936,46 @@ export default {
 
     .continent-container {
       display: flex;
+      flex-wrap: wrap; // 新增：自动换行
       background-color: $active-color;
       box-sizing: border-box;
       padding: 0 6rpx;
-      width: 100%; // 确保父容器占满宽度
+      width: 100%;
 
       .continent-item {
-        flex: 1; // 核心：自动均分父容器宽度，所有item宽度一致
+        flex: 0 0 auto; // 修改：取消均分，按内容宽度
         box-sizing: border-box;
-        padding: 0 4rpx; // 减小左右内边距，给文字更多空间（可根据需求调整）
+        padding: 0 15rpx; // 调整内边距
         height: 60rpx;
-        line-height: 60rpx; // 单行垂直居中
+        line-height: 60rpx;
         text-align: center;
         color: #fff;
-        font-size: 28rpx; // 下调字体大小，适配窄宽度场景（可选，根据你的文字长度调整）
+        font-size: 28rpx;
         position: relative;
         transition: all 0.3s ease;
-        white-space: nowrap; // 强制单行（避免换行导致高度变化）
-        overflow: hidden; // 溢出隐藏
-        text-overflow: ellipsis; // 文字溢出时显示省略号（兜底）
+        white-space: nowrap;
+        margin: 5rpx; // 新增：添加间距
+        border-radius: 6rpx;
 
         &.active {
           background-color: #fff;
           color: $active-color;
-          border-radius: 6rpx;
         }
 
-        .corner-mark {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 20rpx;
-          height: 20rpx;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cpath fill='%2331926e' d='M0 0 L20 0 L0 20 Z'/%3EC/svg%3%3E");
-          background-size: 100% 100%;
-          z-index: 1;
-          transition: transform 0.3s ease;
-        }
+.corner-mark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  // // 纯 CSS 实现右上小三角，颜色 #31926e
+  // border-top: 20rpx solid #31926e;
+  // border-left: 20rpx solid transparent;
+}
 
-        &.active .corner-mark {
-          transform: rotate(90deg);
-        }
+
       }
     }
 
@@ -1053,55 +985,57 @@ export default {
       background: #ffffff;
       box-sizing: border-box;
 
-      .tab-scroll {
+      // 联赛/排名类型tab容器样式
+      .tab-wrap {
+        display: flex;
+        flex-wrap: wrap; // 核心：自动换行
+        padding: 5rpx 10rpx;
+        box-sizing: border-box;
+      }
+
+      .tab-item {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 60rpx;
+        line-height: 60rpx;
+        font-size: 30rpx;
+        color: #333;
+        position: relative;
+        box-sizing: border-box;
+        text-align: center;
+        padding: 0 14rpx;
         white-space: nowrap;
-        width: 100%;
 
-        .tab-item {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          height: 60rpx;
-          line-height: 60rpx;
-          font-size: 30rpx;
-          color: #333;
-          position: relative;
-          display: inline-block;
-          vertical-align: middle;
-          box-sizing: border-box;
-          text-align: center;
-          padding: 0 20rpx;
-
-          &.active {
-            color: $active-color;
-          }
+        &.active {
+          color: $active-color;
         }
       }
 
-      .stage-scroll {
-        white-space: nowrap;
-        width: 100%;
-        height: 60rpx;
-        box-sizing: border-box;
-        padding: 0 42rpx;
+      // 轮次tab容器样式
+      .stage-wrap {
+        display: flex;
+        flex-wrap: wrap; // 核心：自动换行
+        padding: 5rpx 42rpx;
         background: #fff;
+        box-sizing: border-box;
+      }
 
-        .tab-stage-base {
-          height: 60rpx;
-          line-height: 60rpx;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 26rpx;
-          color: #333;
-          position: relative;
-          box-sizing: border-box;
-          padding-top: 6rpx;
-          padding-right: 25rpx;
-
-          &.active {
-            color: $active-color !important;
-          }
+      .tab-stage-base {
+        width: 50rpx;
+        height: 60rpx;
+        line-height: 60rpx;
+        display: inline-flex;
+        align-items: center;
+        font-size: 26rpx;
+        color: #333;
+        position: relative;
+        box-sizing: border-box;
+        padding-top: 6rpx;
+        white-space: nowrap;
+        text-align: left;
+        &.active {
+          color: $active-color !important;
         }
       }
     }
@@ -1119,7 +1053,9 @@ export default {
         flex: 1;
         display: flex;
         justify-content: flex-start;
-        height: 60rpx;
+        flex-wrap: wrap; // 新增：防止赛程/积分/射手榜换行溢出
+        height: auto; // 修改：高度自适应
+        padding: 5rpx 0;
 
         .tab-item-two {
           display: flex;
@@ -1130,6 +1066,9 @@ export default {
           position: relative;
           transition: all 0.3s;
           padding: 0 20rpx;
+          height: 60rpx;
+          margin: 5rpx 0; // 新增：添加间距
+          white-space: nowrap;
 
           &.active {
             color: $active-color;
@@ -1146,7 +1085,6 @@ export default {
           display: flex;
           align-items: center;
           justify-content: flex-end;
-
           .picker-content {
             display: flex;
             align-items: center;
@@ -1176,49 +1114,52 @@ export default {
       }
     }
 
-    .tabs-scroll-container {
+    // 阶段tab容器样式
+    .tabs-wrap-container {
       position: relative;
       width: 100%;
       background: #ffffff;
-      height: 60rpx;
       box-sizing: border-box;
-      padding: 0 24rpx;
+      padding: 5rpx 24rpx;
 
       .match-tabs {
-        display: inline-flex;
-        align-items: center;
+        display: flex;
+        flex-wrap: wrap; // 核心：自动换行
         background: #fff;
         box-sizing: border-box;
+      }
 
-        .other-tab {
-          height: 60rpx;
-          line-height: 60rpx;
-          box-sizing: border-box;
-          padding: 0 14rpx;
-          color: #333;
-          transition: all 0.3s ease;
-          white-space: nowrap;
-          position: relative;
-          font-size: 26rpx;
+      .other-tab {
+        height: 60rpx;
+        line-height: 60rpx;
+        box-sizing: border-box;
+        padding: 0 14rpx;
+        color: #333;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        position: relative;
+        font-size: 26rpx;
+        margin: 5rpx; // 新增：添加间距
 
-          &.active {
-            color: $active-color;
-          }
+        &.active {
+          color: $active-color;
         }
+      }
 
-        .other-tab:nth-child(1) {
-          padding-left: 18rpx;
-        }
+      .other-tab:nth-child(1) {
+        padding-left: 18rpx;
       }
     }
 
-    .group-container {
+    // 分组tab容器样式
+    .group-wrap-container {
       position: relative;
       width: 100%;
       background: #ffffff;
       box-sizing: border-box;
       display: flex;
-      justify-content: flex-start;
+      flex-wrap: wrap; // 核心：自动换行
+      padding: 5rpx 0;
 
       .tab-stage-t {
         display: inline-flex;
@@ -1231,6 +1172,7 @@ export default {
         z-index: 99;
         box-sizing: border-box;
         padding-left: 42rpx;
+        margin: 5rpx 0; // 新增：添加间距
 
         &.active {
           background-color: #fff;
@@ -1238,47 +1180,46 @@ export default {
         }
       }
 
-      .t-scroll {
+      .t-wrap {
         flex: 1;
-        white-space: nowrap;
-        width: 100%;
-        height: 50rpx;
+        display: flex;
+        flex-wrap: wrap; // 核心：自动换行
         box-sizing: border-box;
         background: #fff;
+        padding: 0 10rpx;
+      }
 
-        .t-stage {
-          box-sizing: border-box;
-          padding-right: 25rpx;
-          height: 50rpx;
-          line-height: 50rpx;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 26rpx;
-          color: #333;
-          margin-left: 2rpx;
-          position: relative;
+      .t-stage {
+        box-sizing: border-box;
+        padding-right: 25rpx;
+        height: 50rpx;
+        line-height: 50rpx;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26rpx;
+        color: #333;
+        margin: 5rpx; // 新增：添加间距
+        position: relative;
+        white-space: nowrap;
 
-          &.active {
-            color: $active-color;
-          }
+        &.active {
+          color: $active-color;
         }
+      }
 
-        .t-stage:nth-child(1) {
-          padding-left: 25rpx;
-        }
+      .t-stage:nth-child(1) {
+        padding-left: 25rpx;
       }
     }
   }
 
-  // 核心修改：滚动区样式优化
   .content-scroll {
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
     width: 100%;
-    // 移除硬编码的padding-bottom，改为动态绑定
     background-color: #f5f5f5;
 
     .saicheng,
@@ -1287,18 +1228,11 @@ export default {
       width: 100%;
       box-sizing: border-box;
     }
-
-    .sheshou {
-      box-sizing: border-box;
-      padding: 0rpx 10rpx 0 10rpx;
-    }
-
     .load-more {
       padding: 50rpx 0;
       text-align: center;
       font-size: 26rpx;
       color: #999;
-      background-color: #fff;
       border-top: 1rpx solid #f2f2f2;
     }
   }

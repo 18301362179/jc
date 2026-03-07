@@ -2,7 +2,7 @@
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
      <CustomHeader  
-      :ballTitle="'竞彩足球'"
+      :ballTitle="'足球'"
       title="详情" 
       :showBack="true" 
       :showIcon="false" 
@@ -92,7 +92,7 @@ export default {
   },
   created() {
     // 获取状态栏高度（兼容所有端）
-    const sysInfo = uni.getWindowInfo ? uni.getWindowInfo() : uni.getSystemInfoSync();
+    const sysInfo = uni.getWindowInfo ? uni.getWindowInfo() : wx.getWindowInfo();
     this.statusBarHeight = sysInfo.statusBarHeight;
   },
   methods: {

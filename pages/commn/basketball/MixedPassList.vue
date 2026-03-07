@@ -14,11 +14,11 @@
           <!-- 状态行 -->
           <view class="match-status-row">
             <view class="status-left">
-              <text class="single-tag" v-if="item.is_hhgg_single == 1 && item.is_stop == 0">单场</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
+              <text class="single-tag" v-if="item.is_hhgg_single == 1 && item.is_stop == 0">单</text>
+              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -47,8 +47,8 @@
                     <text class="team-name home">{{ item.home_name }}</text>
                   </view>
                   <view class="rate-row">
-                    <text class="rate-text away" style="text-align:right;padding-right: 15px;" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
-                    <text class="rate-text home" style="text-align:left;padding-left: 15px;" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                    <text class="rate-text away" style="text-align:right;padding-right: 15px;" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
+                    <text class="rate-text home" style="text-align:left;padding-left: 15px;" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
                   </view>
                 </view>
               </view>
@@ -63,23 +63,26 @@
                 </view>
                 <view class="spf-select-col">
                   <view class="spf-row">
+
+                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_lose'), disabled: item.is_stop == 1 || !item.loss_multiplier }]" @click="handleSpfMultiClick(item, 'home_lose')">
+                      <text class="spf-text">主负</text>
+                      <text class="spf-odds">{{ item.loss_multiplier !== undefined && item.loss_multiplier !== null ? item.loss_multiplier : "--" }}</text>
+                    </view>
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_win'), disabled: item.is_stop == 1 || !item.win_multiplier }]" @click="handleSpfMultiClick(item, 'home_win')">
                       <text class="spf-text">主胜</text>
                       <text class="spf-odds">{{ item.win_multiplier !== undefined && item.win_multiplier !== null ? item.win_multiplier : "--" }}</text>
                     </view>
-                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_lose'), disabled: item.is_stop == 1 || !item.loss_multiplier }]" @click="handleSpfMultiClick(item, 'home_lose')">
-                      <text class="spf-text">客胜</text>
-                      <text class="spf-odds">{{ item.loss_multiplier !== undefined && item.loss_multiplier !== null ? item.loss_multiplier : "--" }}</text>
-                    </view>
                   </view>
                   <view class="spf-row">
-                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_win_r'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_win_r')">
-                      <text class="spf-text">主胜【让】</text>
-                      <text class="spf-odds">{{ item.r_win_multiplier !== undefined && item.r_win_multiplier !== null ? item.r_win_multiplier : "--" }}</text>
-                    </view>
+
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_lose_r'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_lose_r')">
-                      <text class="spf-text">客胜【让】</text>
+                      <text class="spf-text">主负</text>
                       <text class="spf-odds">{{ item.r_loss_multiplier !== undefined && item.r_loss_multiplier !== null ? item.r_loss_multiplier : "--" }}</text>
+                    </view>
+
+                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_win_r'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_win_r')">
+                      <text class="spf-text">主胜</text>
+                      <text class="spf-odds">{{ item.r_win_multiplier !== undefined && item.r_win_multiplier !== null ? item.r_win_multiplier : "--" }}</text>
                     </view>
                   </view>
                 </view>
@@ -103,14 +106,14 @@
       <view v-else class="popup-content-wrapper">
         <view class="popup-header">
           <view class="popup-title"> {{ currentMatch.visiting_name + "(客)" }} VS {{ currentMatch.home_name + "(主)" }} </view>
-          <!-- 第二行：胜率、平率、负率 横向排列 -->
+          <!-- 第二行：胜、平、负率 横向排列 -->
           <view class="match-stat-info stat-spf">
             <view class="stat-item" v-if="currentMatch.visiting_win_rate">
-              <text class="stat-label">胜率：</text>
+              <text class="stat-label">胜：</text>
               <text class="stat-value">{{ currentMatch.visiting_win_rate || "--" }}</text>
             </view>
             <view class="stat-item" v-if="currentMatch.draw_rate">
-              <text class="stat-label">平率：</text>
+              <text class="stat-label">平：</text>
               <text class="stat-value">{{ currentMatch.draw_rate || "--" }}</text>
             </view>
             <view class="stat-item" v-if="currentMatch.home_win_rate">
@@ -121,7 +124,7 @@
           <!-- 第三行：预测比分 单独居中【核心要求】 -->
           <view class="match-stat-info stat-score" v-if="currentMatch.home_goal_calculate && currentMatch.visiting_goal_calculate">
             <view class="stat-item">
-              <text class="stat-label">预测比分：</text>
+              <text class="stat-label">比分：</text>
               <text class="stat-value">{{ currentMatch.visiting_goal_calculate }}:{{ currentMatch.home_goal_calculate }}</text>
             </view>
           </view>
@@ -132,7 +135,7 @@
             <view class="section-label spf-label">胜负</view>
             <view class="spf-options">
               <view class="spf-item" @click="handleScoreToggle('spf', '胜负_客胜')" :class="[getScoreClass('spf', '胜负_客胜', currentMatch.loss_multiplier)]">
-                <text class="score-text">客胜</text>
+                <text class="score-text">主负</text>
                 <text class="score-odds">{{ currentMatch.loss_multiplier !== undefined && currentMatch.loss_multiplier !== null ? currentMatch.loss_multiplier : "--" }}</text>
               </view>
               <view class="spf-item" @click="handleScoreToggle('spf', '胜负_主胜')" :class="[getScoreClass('spf', '胜负_主胜', currentMatch.win_multiplier)]">
@@ -148,7 +151,7 @@
             <view class="rspf-container">
               <view class="rspf-options">
                 <view class="rspf-item" @click="handleScoreToggle('rspf', '让分_客胜')" :class="[getScoreClass('rspf', '让分_客胜')]">
-                  <text class="score-text">客胜【让】</text>
+                  <text class="score-text">主负</text>
                   <text class="score-odds">{{ currentMatch.r_loss_multiplier !== undefined && currentMatch.r_loss_multiplier !== null ? currentMatch.r_loss_multiplier : "--" }}</text>
                 </view>
                 <view class="rspf-item" @click="handleScoreToggle('rspf', '让分_主胜')" :class="[getScoreClass('rspf', '让分_主胜')]">
@@ -467,7 +470,7 @@ export default {
     },
     initWindowInfo() {
       try {
-        var systemInfo = uni.getSystemInfoSync();
+        var systemInfo = wx.getWindowInfo();
         this.windowWidth = systemInfo.windowWidth || 375;
       } catch (e) {
         this.windowWidth = 375;
@@ -812,7 +815,7 @@ export default {
   .single-tag {
     display: inline-block;
     padding-left: 6rpx;
-    width: 60rpx;
+    width: 44rpx;
     background: #b71c1c;
     color: #fff;
     text-align: left;
@@ -1180,7 +1183,7 @@ export default {
   }
 }
 
-// 胜率/平率/负率 样式（第二行）
+// 胜/平/负率 样式（第二行）
 .match-stat-info.stat-spf {
   display: flex;
   justify-content: center;

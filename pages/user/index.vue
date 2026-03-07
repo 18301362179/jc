@@ -1,26 +1,35 @@
 <template>
-  <view class="container" style="width: 100%; height: 100vh; box-sizing: border-box;">
+  <view class="container" style="width: 100%; box-sizing: border-box;">
+      <CustomHeader
+      :showBack="false"
+      :ballTitle="''"
+      :title="'我的'"
+      :isIndex="false"
+      :showIcon="false"
+      :isSelected="false"
+    />
     <!-- 头部（新增去充值按钮布局） -->
     <view class="header">
-      <image class="avatar" src="@/static/mine1.png" mode="aspectFill"></image>
+      <image class="avatar" v-if="userInfo.headImgUrl" :src="userInfo.headImgUrl" mode="aspectFill"></image>
+      <image class="avatar" v-else src="@/static/mine1.png" mode="aspectFill"></image>
       <view class="user-info">
         <text class="username">{{ userInfo.remarkName || '' }}</text>
-        <text class="stone-count">{{ userInfo.coinAmount || 0 }} 币</text>
+        <text class="value stone-count">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
       <!-- 新增：去充值按钮 -->
       <button class="recharge-btn" @click="gotoRecharge">充币</button>
     </view>
 
-    <!-- Tab栏：调整顺序，竞彩放第一个 -->
+    <!-- Tab栏：调整顺序，放第一个 -->
     <view class="tab-bar">
       <!-- <view class="tab-item" :class="{ active: currentTab === 0 }" @click="switchTab(0)">模拟</view> -->
-      <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">分析记录</view>
-      <view class="tab-item" :class="{ active: currentTab === 2 }" @click="switchTab(2)">充币记录</view>
+      <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">分析</view>
+      <view class="tab-item" :class="{ active: currentTab === 2 }" @click="switchTab(2)">充币</view>
     </view>
 
     <!-- 内容区 -->
     <scroll-view class="content-scroll" scroll-y>
-      <!-- 1. 竞彩（原代购，移到第一个Tab） -->
+      <!-- 1. （原代购，移到第一个Tab） -->
       <view v-if="currentTab === 0" class="purchase-section">
         <no-data v-if="lotteryPurchasing.length === 0" />
         <view class="purchase-card" v-for="(item, index) in lotteryPurchasing" :key="index">
@@ -74,18 +83,25 @@
         <no-data v-if="tradeRecord.length === 0" />
         <view class="record-card" v-for="(item, index) in tradeRecord" :key="index">
           <view class="record-row">
-            <view class="normal-col">
-              <text class="label">支付币</text>
-              <text class="value accent">{{ item.payment_coin || 0 }} 个</text>
-            </view>
-            <view class="normal-col">
-              <text class="label">商品类型</text>
-              <text class="value">{{ item.goods_type || '' }}</text>
-            </view>
-            <view class="normal-col">
+            <!-- 来源列：加专属类名 from-col -->
+            <view class="normal-col from-col">
               <text class="label">来源</text>
               <text class="value">{{ item.be_from || '' }}</text>
             </view>
+
+            <!-- 类型列：加专属类名 type-col -->
+            <view class="normal-col type-col">
+              <text class="label">类型</text>
+              <text class="value">{{ item.goods_type || '' }}</text>
+            </view>
+
+            <!-- 比赛列：加专属类名 match-col -->
+            <view class="normal-col match-col">
+              <text class="label">比赛</text>
+              <text class="value accent">{{ item.show_str || '' }}</text>
+            </view>
+
+            <!-- 时间列：保持不变 -->
             <view class="time-col">
               <text class="label">时间</text>
               <text class="value">{{ item.update_time }}</text>
@@ -97,7 +113,8 @@
       <!-- 3. 充值（原第二个Tab，移到第三个） -->
       <view v-if="currentTab === 2" class="record-section">
         <no-data v-if="paymentRecord.length === 0" />
-        <view class="record-card" v-for="(item, index) in paymentRecord" :key="index">
+        <!-- 充值记录：添加 recharge-card 类名 -->
+        <view class="record-card recharge-card" v-for="(item, index) in paymentRecord" :key="index">
           <view class="record-row">
             <view class="normal-col">
               <text class="label">付款金额</text>
@@ -131,9 +148,9 @@
 import NativeTabbar from "@/components/tabbar.vue";
 import NoData from "@/pages/commn/noData";
 import { getUser, purchasingLotteryConfirm } from "@/api/demo";
-
+import CustomHeader from "@/components/CustomHeader.vue";
 export default {
-  components: { NoData, NativeTabbar },
+  components: { NoData, NativeTabbar,CustomHeader },
   data() {
     return {
       currentTab: 1,
@@ -213,7 +230,7 @@ export default {
         '篮球胜负':'/pages/user/sub/basketballSf?id=',
         '篮球胜分差':'/pages/user/sub/basketballSfc?id=',
         '篮球让分胜负':'/pages/user/sub/basketballHandicapDetail?id=',
-        '篮球大小分':'/pages/user/sub/overUnderDetail?id='
+        '篮球大小分':'/pages/user/sub/basketballOverUnderDetail?id='
       };
       // 拼接最终跳转路径（把id拼接到对应路径后）
       uni.navigateTo({ 
@@ -250,10 +267,13 @@ export default {
 // 核心样式 - 极简
 .container {
   width: 100%;
-  height: 100vh;
+  /* 核心：用 calc 计算最终高度 */
+  height: calc(100vh - (100rpx + env(safe-area-inset-bottom)));
   background: #f5f7fa;
   display: flex;
   flex-direction: column;
+  /* 可选：防止内容溢出时出现滚动问题 */
+  box-sizing: border-box;
 
   // 头部（新增去充值按钮样式）
   .header {
@@ -334,7 +354,7 @@ export default {
     // #endif
     
     // #ifdef H5
-    padding-bottom: calc(100rpx + 20rpx) !important;
+    //padding-bottom: calc(100rpx + 20rpx) !important;
     // #endif
     
     // #ifdef MP-WEIXIN
@@ -344,7 +364,10 @@ export default {
 
     // 交易/充值通用样式
     .record-section {
+      display: flex;
+      flex-direction: column;
       .record-card {
+        width: 100%;
         background: #fff;
         border-radius: 12rpx;
         padding: 20rpx;
@@ -354,13 +377,17 @@ export default {
       .record-row {
         display: flex;
         width: 100%;
+        // 让列垂直居中，保证换行后整体对齐
+        align-items: center;
       }
-      // 时间列 - 固定140rpx（不宽且能放下时间）
+      // 时间列 - 固定宽度
       .time-col {
-        width: 240rpx;
+        width: 220rpx;
         text-align: center;
+        // 固定高度，保证对齐
+        flex: none;
       }
-      // 普通列 - 均分剩余宽度
+      // 普通列 - 均分剩余宽度（默认）
       .normal-col {
         flex: 1;
         text-align: center;
@@ -377,9 +404,67 @@ export default {
       }
       .accent { color: #31926e; font-weight: 600; }
       .highlight { color: #d92929; font-weight: 600; }
+
+      // 交易记录专属列宽设置（不影响充值记录）
+      .record-card:not(.recharge-card) {
+        .record-row {
+          // 来源列：固定窄宽度
+          .from-col {
+            width: 100rpx;
+            flex: none; // 取消均分，固定宽度
+            // 固定高度，保证对齐
+            min-height: 80rpx;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+          // 类型列：固定窄宽度
+          .type-col {
+            width: 100rpx;
+            flex: none; // 取消均分，固定宽度
+            // 固定高度，保证对齐
+            min-height: 80rpx;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+          // 比赛列：占满剩余宽度，支持换行
+          .match-col {
+            flex: 1;
+            // 允许换行
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-all;
+            // 最小高度，保证布局
+            min-height: 80rpx;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            // 文字居中
+            text-align: center;
+            // 限制最大宽度，防止挤压其他列
+            max-width: calc(100% - 120rpx - 100rpx - 220rpx);
+          }
+          // 时间列：保持原有固定宽度
+          .time-col {
+            min-height: 80rpx;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+        }
+      }
+
+      // 充值记录：恢复默认均分样式
+      .recharge-card {
+        .normal-col {
+          flex: 1;
+          width: auto;
+        }
+      }
     }
 
-    // 竞彩（原代购）
+    // （原代购）
     .purchase-section {
       .purchase-card {
         background: #fff;

@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留原有 -->
-    <CustomHeader :ballTitle="'竞彩足球'" title="胜平负" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'足球'" title="足球-胜平负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 核心优化：基于sysinfo精准计算高度，移除冗余padding -->
     <scroll-view
@@ -23,17 +23,17 @@
             <view class="match-cell home" :class="{ selected: item.homeSelected }">
               <view class="team-name">{{ item.home_name }}</view>
               <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
-              <text class="odds rate" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+              <text class="odds rate" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
             </view>
             <view class="match-cell vs" :class="{ selected: item.vsSelected }">
               <text class="vs-text">VS</text>
               <text class="vs-odds" v-if="item.draw_multiplier">平{{ item.draw_multiplier }}</text>
-              <text class="vs-odds" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
+              <text class="vs-odds" v-if="item.draw_rate">平{{ item.draw_rate }}</text>
             </view>
             <view class="match-cell away" :class="{ selected: item.awaySelected }">
               <text class="team-name">{{ item.visiting_name }}</text>
-              <text class="odds" v-if="item.loss_multiplier">客胜{{ item.loss_multiplier }}</text>
-              <text class="odds rate" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+              <text class="odds" v-if="item.loss_multiplier">主负{{ item.loss_multiplier }}</text>
+              <text class="odds rate" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
             </view>
           </view>
         </view>
@@ -215,7 +215,7 @@ export default {
     },
     // 核心优化：统一计算所有高度，投注栏总高度仅保留固定高度，不叠加安全区
     calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
+      const sys = wx.getWindowInfo();
       // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
       // 2. 底部安全区高度：仅 iOS 设备生效，安卓/小程序端为 0（核心！）
@@ -495,7 +495,7 @@ export default {
           display: inline-block;
           box-sizing: border-box;
           padding-left: 6rpx;
-          width: 40rpx;
+          width: 44rpx;
           color: #fff;
           text-align: left;
           border-top-right-radius: 15rpx;
@@ -532,7 +532,7 @@ export default {
         }
 
         &.vs {
-          width: 20%;
+          width: 22%;
           flex-direction: column;
           gap: 4rpx;
 

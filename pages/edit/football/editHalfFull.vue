@@ -2,8 +2,8 @@
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留 -->
     <CustomHeader 
-     :ballTitle="'竞彩足球'"
-      title="半全场" 
+     :ballTitle="'足球'"
+      title="足球-半全场" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -18,12 +18,27 @@
         <!-- 赛事行：上下结构（保留原有业务内容） -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <!-- 上排：编号 + 队名VS队名 -->
-          <view class="match-header">
-            <text class="serial-number">{{ item.serial_number }}</text>
-            <text class="team-name">
-              {{ item.home_name }} <span class="vs-text">VS</span> {{ item.visiting_name }}
-            </text>
+        <view class="match-header">
+          <text class="serial-number">{{ item.serial_number }}</text>
+          <!-- 重构为弹性布局，VS固定宽度，左右平分剩余空间 -->
+          <view class="team-win-rate-wrap">
+            <!-- 左侧主队区域：占剩余宽度50%，内容靠右 -->
+            <view class="team-item left-team">
+              <text class="team-name-text">{{ item.home_name }}</text>
+              <text class="rate-text" v-if="item.home_win_rate">胜{{ item.home_win_rate }}</text>
+            </view>
+            <!-- VS区域：固定宽度，居中显示 -->
+            <view class="vs-item">
+              <text class="vs-text">VS</text>
+              <text class="rate-text" v-if="item.draw_rate">平{{ item.draw_rate || "0%" }}</text>
+            </view>
+            <!-- 右侧客队区域：占剩余宽度50%，内容靠左 -->
+            <view class="team-item right-team">
+              <text class="team-name-text">{{ item.visiting_name }}</text>
+              <text class="rate-text" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate }}</text>
+            </view>
           </view>
+        </view>
           <!-- 下排：选中的半全场内容（一整行） -->
           <view class="selected-content">
             {{ (item.selectedScores && item.selectedScores.length > 0) 
@@ -278,7 +293,7 @@ calculateHalfFullBonus() {
     },
     // 新增：统一高度计算方法（和胜平负页面一致）
     calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
+      const sys = wx.getWindowInfo();
       // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
       // 2. 底部安全区高度
@@ -500,29 +515,80 @@ handlePlus() {
     border-radius: 8rpx;
 
     /* 上排：编号 + 队名VS队名 */
-    .match-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15rpx;
-      font-size: 28rpx;
-      color: #333;
+.match-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+  font-size: 28rpx;
+  color: #333;
 
-      .serial-number {
-        margin-right: 20rpx;
-        font-weight: 400;
-        color: #999;
-      }
+  .serial-number {
+    margin-right: 20rpx;
+    font-weight: 400;
+    color: #999;
+  }
 
-      .team-name {
-        flex: 1;
-        text-align: center;
+  // 核心：外层容器 - VS固定宽度，左右平分剩余空间
+  .team-win-rate-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
 
-        .vs-text {
-          margin: 0 10rpx;
-          color: #999;
-        }
-      }
-    }
+  // 左右队容器：平分剩余宽度
+  .team-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  // 左侧队：内容靠右对齐
+  .left-team {
+    align-items: flex-end;
+    padding-right: 10rpx; // 和VS保持少量间距
+  }
+
+  // 右侧队：内容靠左对齐
+  .right-team {
+    align-items: flex-start;
+    padding-left: 10rpx; // 和VS保持少量间距
+  }
+
+  // VS容器：固定宽度，居中显示
+  .vs-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80rpx; // 固定VS宽度，保证始终居中
+    flex-shrink: 0; // 不被压缩
+  }
+
+  // 队名字体样式
+  .team-name-text {
+    font-size: 28rpx;
+    color: #333;
+    line-height: 1.2;
+  }
+
+  // 胜率/平率字体样式
+  .rate-text {
+    font-size: 22rpx;
+    color: #666;
+    margin-top: 4rpx;
+    line-height: 2;
+  }
+
+  // VS文本样式
+  .vs-text {
+    color: #999;
+    font-size: 28rpx;
+    line-height: 1.2;
+  }
+}
 
     /* 下排：选中内容（一整行） */
     .selected-content {

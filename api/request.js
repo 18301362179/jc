@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import {
 	getToken,
-	removeToken
+	removeToken,
+	setToken // 保留setToken，用于存储登录获取的Token
 } from '@/utils/storage';
 import {
 	login
@@ -62,17 +63,16 @@ if (isH5) {
 	console.warn('未知环境，使用默认接口地址');
 }
 
-// 无需 Token 接口白名单
+// 新增：无需 Token 接口白名单（仅login接口豁免）
+// 请替换为你项目中实际的login接口路径（比如/api/user/login）
 const NO_TOKEN_WHITE_LIST = [
-	// '/sports/football/queryBasePermissionNeed',
-	// '/sports/football/queryContinentList',
-	// ... 其他白名单接口
+	'/auth/login/weChatMiniProgram',
+	'/auth/login/weChatServiceAccount/getAppInfo',
+	'/auth/login/weChatServiceAccount'
 ];
 
-const request = (options) => {
-	// 每次请求前强制读取最新 Token
-	token = getToken() || '';
-
+// 封装实际的请求逻辑（内部使用）
+const doRequest = (options, token) => {
 	// 判断当前接口是否需要携带 Token
 	const isNeedToken = !NO_TOKEN_WHITE_LIST.some(item => {
 		return options.url.includes(item);
@@ -85,9 +85,9 @@ const request = (options) => {
 			...options.header
 		};
 
-		// 需 Token 接口：自动携带 Token
+		// 核心调整：仅需要Token的接口才携带Token
 		if (isNeedToken && token) {
-			header['Authorization'] = token
+			header['Authorization'] = token;
 		}
 
 		uni.request({
@@ -96,32 +96,38 @@ const request = (options) => {
 			data: options.data || {},
 			header,
 			success: (res) => {
-				// 处理 Token 过期（401 状态码）
-				if (res.code == 401 && isNeedToken) {
+				// 处理 Token 过期（401 状态码）：兼容小程序(statusCode)和后端自定义code
+				if ((res.data.code == 401 || res.data.code == 401) && isNeedToken) {
 					console.warn("Token 无效或过期，准备触发重新登录");
 					removeToken();
 
-					// 核心修改：仅 小程序/App 环境触发自动重新登录，H5 环境直接报错
-					const isTargetEnv = isApp || isMpWeixin;
-					if (!isTargetEnv) {
-						// H5 环境：保持原有逻辑，不自动登录，直接返回错误
-						reject(new Error("Token 过期，H5 环境不支持自动登录，请手动刷新页面或重新操作"));
+					// H5环境：触发微信公众号重新授权
+					if (isH5) {
+						reject(new Error("Token 过期，H5 环境正在重新授权..."));
+						// 异步调用H5授权逻辑，不阻塞主流程
+						import('@/utils/h5Auth.js').then(({
+							h5WechatAuth
+						}) => {
+							h5WechatAuth().catch(err => console.error("H5重新授权失败：", err));
+						});
 						return;
 					}
-
-					// 小程序/App 环境：执行自动重新登录
-					login().then(loginResult => {
-						if (loginResult.success) {
-							request(options).then(reResolve => resolve(reResolve)).catch(reReject => reject(reReject));
-						} else {
-							reject(new Error("Token 过期，重新登录失败，请手动操作"));
-						}
-					});
-					return;
+					// 小程序/App 环境：保留原有重新登录逻辑
+					else if (isApp || isMpWeixin) {
+						login().then(loginResult => {
+							if (loginResult.success) {
+								setToken(loginResult.token); // 存储新Token
+								doRequest(options, loginResult.token).then(reResolve => resolve(reResolve)).catch(reReject => reject(reReject));
+							} else {
+								reject(new Error("Token 过期，重新登录失败，请手动操作"));
+							}
+						});
+						return;
+					}
 				}
 
-				// 正常返回结果
-				if (res.statusCode === 200) {
+				// 正常返回结果（保留原有逻辑）
+				if (res.data.code == 200) {
 					resolve(res.data)
 				} else {
 					reject(res.data)
@@ -132,6 +138,63 @@ const request = (options) => {
 			}
 		})
 	})
+}
+
+const request = (options) => {
+	// 每次请求前强制读取最新 Token（从本地存储）
+	token = getToken() || '';
+	// 判断当前接口是否需要Token
+	const isNeedToken = !NO_TOKEN_WHITE_LIST.some(item => {
+		return options.url.includes(item);
+	});
+
+	// 核心逻辑：
+	// 1. 无需Token的接口（login）：直接请求，不校验Token
+	// 2. 需要Token的接口：有Token直接请求，无Token先登录获取Token再请求
+	if (!isNeedToken) {
+		// login接口：直接请求，无需Token
+		return doRequest(options, token);
+	} else {
+		// 非login接口：需要Token
+		if (token) {
+			// 有Token，直接发起请求
+			return doRequest(options, token);
+		} else {
+			// 无Token：分环境处理（H5走微信授权，小程序/App走原有login）
+			console.warn("本地无Token，先执行登录逻辑获取Token");
+			return new Promise(async (resolve, reject) => {
+				try {
+					let loginResult = {};
+					// H5环境：调用微信公众号授权
+					if (isH5) {
+						const {
+							h5WechatAuth
+						} = await import('@/utils/h5Auth.js');
+						const isAuthSuccess = await h5WechatAuth();
+						loginResult = {
+							success: isAuthSuccess,
+							token: getToken() || ''
+						};
+					}
+					// 小程序/App环境：保留原有login逻辑
+					else if (isApp || isMpWeixin) {
+						loginResult = await login();
+					}
+
+					if (loginResult.success) {
+						// 登录/授权成功，存储Token并发起原请求
+						token = loginResult.token;
+						setToken(token);
+						resolve(await doRequest(options, token));
+					} else {
+						reject(new Error("获取Token失败，无法发起请求，请检查登录逻辑"));
+					}
+				} catch (err) {
+					reject(new Error(`登录获取Token出错：${err.message}`));
+				}
+			});
+		}
+	}
 }
 
 export default request;

@@ -3,8 +3,8 @@
   <view class="scheme-edit-page">
     <!-- 自定义头部：结构不变，仅保留核心参数 -->
     <CustomHeader 
-      :ballTitle="'竞彩篮球'"
-      title="大小分" 
+      :ballTitle="'篮球'"
+      title="篮球-大小分" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -47,10 +47,10 @@
               </text>
             </view>
 
-            <!-- 胜率行：保留大小分胜率展示 -->
+            <!-- 胜行：保留大小分胜展示 -->
                 <view class="rate-row">
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || '--' }} </text>
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || '--' }} </text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || '--' }} </text>
+                  <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || '--' }} </text>
                 </view>
 
             <!-- 选中内容行：保留大小分核心展示，样式对齐 -->
@@ -238,15 +238,21 @@ export default {
     },
     // 统一高度计算逻辑，对齐让分胜负页
 calcAllHeights() {
-  const sys = uni.getSystemInfoSync();
-  this.statusBarHeight = sys.statusBarHeight || 20;
-  this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
-  const navBarFixedRpx = 80;
-  const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
-  this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-  const betBarFixedRpx = 180;
-  this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-  this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
+      const sys = wx.getWindowInfo();
+      // 1. 状态栏高度
+      this.statusBarHeight = sys.statusBarHeight || 20;
+      // 2. 底部安全区高度
+        this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+      // 3. 导航栏固定高度（80rpx转px）
+      const navBarFixedRpx = 80;
+      const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
+      // 4. 导航栏总高度
+      this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
+      // 5. 投注栏固定高度（200rpx转px）
+      const betBarFixedRpx = 200;
+      this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
+      // 6. 投注栏总高度（仅固定高度）
+      this.betBarTotalHeight = this.betBarFixedPx;
 },
     // 大小分专属 - 奖金计算方法（保留核心逻辑，优化格式）
     calculateBonusText() {
@@ -532,7 +538,7 @@ calcAllHeights() {
 
         .single {
           display: inline-block; 
-          width: 40rpx; 
+          width: 44rpx;
           background: #b71c1c; 
           color: #fff; 
           text-align: center; 
@@ -592,7 +598,7 @@ calcAllHeights() {
         }
       }
 
-      // 胜率行：样式统一
+      // 胜行：样式统一
       .rate-row {
         width: 100%;
         display: flex;

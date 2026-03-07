@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留 -->
-    <CustomHeader :ballTitle="'竞彩足球'" title="比分" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'足球'" title="足球-比分" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 核心优化：基于sysinfo精准计算高度，移除冗余padding -->
     <scroll-view
@@ -16,10 +16,27 @@
         <!-- 赛事行：上下结构（和总进球示例一致） -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <!-- 上排：编号 + 队名VS队名 -->
-          <view class="match-header">
-            <text class="serial-number">{{ item.serial_number }}</text>
-            <text class="team-name"> {{ item.home_name }} <span class="vs-text">VS</span> {{ item.visiting_name }} </text>
+        <view class="match-header">
+          <text class="serial-number">{{ item.serial_number }}</text>
+          <!-- 重构为弹性布局，VS固定宽度，左右平分剩余空间 -->
+          <view class="team-win-rate-wrap">
+            <!-- 左侧主队区域：占剩余宽度50%，内容靠右 -->
+            <view class="team-item left-team">
+              <text class="team-name-text">{{ item.home_name }}</text>
+              <text class="rate-text" v-if="item.home_win_rate">胜{{ item.home_win_rate }}</text>
+            </view>
+            <!-- VS区域：固定宽度，居中显示 -->
+            <view class="vs-item">
+              <text class="vs-text">VS</text>
+              <text class="rate-text" v-if="item.draw_rate">平{{ item.draw_rate }}</text>
+            </view>
+            <!-- 右侧客队区域：占剩余宽度50%，内容靠左 -->
+            <view class="team-item right-team">
+              <text class="team-name-text">{{ item.visiting_name }}</text>
+              <text class="rate-text" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate }}</text>
+            </view>
           </view>
+        </view>
           <!-- 下排：选中的比分内容（一整行） -->
           <view class="selected-content">
             {{ item.selectedScores && item.selectedScores.length > 0 ? item.selectedScores.join(",") : "无选中投注内容" }}
@@ -238,7 +255,7 @@ export default {
     },
     // 核心优化：统一计算所有高度，投注栏总高度仅保留固定高度，不叠加安全区
     calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
+      const sys = wx.getWindowInfo();
       // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
       // 2. 底部安全区高度（小程序端后续会强制置0，避免空白）
@@ -380,7 +397,7 @@ export default {
       totalMaxOddsProduct *= coreMultiplier;
 
       // 7. 计算奖金区间，格式化结果（保证金额精度，符合展示规范）
-      const perNotePrice = 2; // 竞彩固定2元/注
+      const perNotePrice = 2; // 固定2元/注
       const validBetCount = Number(this.betNotes) || 1; // 修正变量：betCount → betNotes，保持状态一致
       const bonusBase = perNotePrice * validBetCount; // 奖金计算基数
 
@@ -628,14 +645,65 @@ export default {
     color: #999;
   }
 
-  .team-name {
+  // 核心：外层容器 - VS固定宽度，左右平分剩余空间
+  .team-win-rate-wrap {
     flex: 1;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
 
-    .vs-text {
-      margin: 0 10rpx;
-      color: #999;
-    }
+  // 左右队容器：平分剩余宽度
+  .team-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  // 左侧队：内容靠右对齐
+  .left-team {
+    align-items: flex-end;
+    padding-right: 10rpx; // 和VS保持少量间距
+  }
+
+  // 右侧队：内容靠左对齐
+  .right-team {
+    align-items: flex-start;
+    padding-left: 10rpx; // 和VS保持少量间距
+  }
+
+  // VS容器：固定宽度，居中显示
+  .vs-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80rpx; // 固定VS宽度，保证始终居中
+    flex-shrink: 0; // 不被压缩
+  }
+
+  // 队名字体样式
+  .team-name-text {
+    font-size: 28rpx;
+    color: #333;
+    line-height: 1.2;
+  }
+
+  // 胜率/平率字体样式
+  .rate-text {
+    font-size: 22rpx;
+    color: #666;
+    margin-top: 4rpx;
+    line-height: 2;
+  }
+
+  // VS文本样式
+  .vs-text {
+    color: #999;
+    font-size: 28rpx;
+    line-height: 1.2;
   }
 }
 

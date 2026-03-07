@@ -1,236 +1,254 @@
 <template>
-  <view class="match-info-container" :style="{ overflow: 'auto' }">
-    <!-- 赛事头部信息 -->
-    <view class="match-header">
-      <view class="match-title">
-        <view v-if="courseMap.league_name">
-          {{ courseMap.league_name }}
-          {{ courseMap.stage && courseMap.stage != "小组赛" ? courseMap.stage : "" }}
-          {{ courseMap.sub_group ? courseMap.sub_group : "" }}
-          {{ courseMap.round_no ? "第" + courseMap.round_no + "轮" : "" }}
-        </view>
-        <view class="match-time"> {{ forateData(courseMap.race_date) }}</view>
-      </view>
-
-      <!-- 调整对战队伍布局结构 -->
-      <view class="match-teams-container">
-        <view class="team-column home-column">
-          <text class="team-name">{{ courseMap.home_name }}</text>
-          <text v-if="info.homeHandicap" class="handicap-text">{{ info.homeHandicap }}</text>
-        </view>
-        <view class="vs-column">
-          <text class="vs-text">VS</text>
-        </view>
-        <view class="team-column away-column">
-          <text class="team-name">{{ courseMap.visiting_name }}</text>
-          <text v-if="info.visitingHandicap" class="handicap-text">{{ info.visitingHandicap }}</text>
-        </view>
-      </view>
-
-      <!-- 调整预测模块布局结构 -->
-      <view class="prediction-section">
-        <!-- 胜利预测 -->
-        <view class="prediction-row">
-          <text class="pro-text">胜利预测:</text>
-          <view class="prediction-content">
-            <view class="home-prediction">
-              <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.home_win_rate, 0) }}</text>
+  <view class="page-container">
+    <!-- 固定头部 -->
+    <CustomHeader
+      :title="'预测数据'"
+      :showBack="true"
+      :isIndex="false"
+      :showIcon="false"
+      :isSelected="false"
+      :selectedPlay="''"
+      @funnel-click="handleFunnel"
+      @back-click="onBackClick"
+    />
+    
+    <!-- 可滚动的内容区域 -->
+    <scroll-view class="content-scroll" scroll-y="true">
+      <view class="match-info-container">
+        <!-- 赛事头部信息 -->
+        <view class="match-header">
+          <view class="match-title">
+            <view v-if="courseMap.league_name">
+              {{ courseMap.league_name }}
+              {{ courseMap.stage && courseMap.stage != "小组赛" ? courseMap.stage : "" }}
+              {{ courseMap.sub_group ? courseMap.sub_group : "" }}
+              {{ courseMap.round_no ? "第" + courseMap.round_no + "轮" : "" }}
             </view>
-            <view class="draw-prediction">
-              <text class="prediction-value">平率{{ decimalToPercentage(baseMap.draw_rate) }}</text>
+            <view class="match-time"> {{ forateData(courseMap.race_date) }}</view>
+          </view>
+
+          <!-- 调整对战队伍布局结构 -->
+          <view class="match-teams-container">
+            <view class="team-column home-column">
+              <text class="team-name">{{ courseMap.home_name }}</text>
+              <text v-if="info.homeHandicap" class="handicap-text">{{ info.homeHandicap }}</text>
             </view>
-            <view class="away-prediction">
-              <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.visiting_win_rate, 0) }}</text>
+            <view class="vs-column">
+              <text class="vs-text">VS</text>
+            </view>
+            <view class="team-column away-column">
+              <text class="team-name">{{ courseMap.visiting_name }}</text>
+              <text v-if="info.visitingHandicap" class="handicap-text">{{ info.visitingHandicap }}</text>
+            </view>
+          </view>
+
+          <!-- 调整预测模块布局结构 -->
+          <view class="prediction-section">
+            <!-- 胜利预测 -->
+            <view class="prediction-row">
+              <text class="pro-text"></text>
+              <view class="prediction-content">
+                <view class="home-prediction">
+                  <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.home_win_rate, 0) }}</text>
+                </view>
+                <view class="draw-prediction">
+                  <text class="prediction-value">平率{{ decimalToPercentage(baseMap.draw_rate) }}</text>
+                </view>
+                <view class="away-prediction">
+                  <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.visiting_win_rate, 0) }}</text>
+                </view>
+              </view>
+            </view>
+            
+            <!-- 比分预测 -->
+            <view class="prediction-row">
+              <text class="pro-text"></text>
+              <view class="prediction-content">
+                <view class="home-prediction">
+                  <text class="prediction-value">{{ baseMap.homeGoalCalculate === null || baseMap.homeGoalCalculate === undefined ? "-" : baseMap.homeGoalCalculate }}</text>
+                </view>
+                <view class="draw-prediction">
+                  <text class="prediction-value">:</text>
+                </view>
+                <view class="away-prediction">
+                  <text class="prediction-value">{{ baseMap.visitingGoalCalculate === null || baseMap.visitingGoalCalculate === undefined ? "-" : baseMap.visitingGoalCalculate }}</text>
+                </view>
+              </view>
+            </view>
+            
+            <view class="win-prompt">{{ info.prompt || "" }}</view>
+          </view>
+        </view>
+
+        <!-- 以下代码保持不变 -->
+        <view class="statistic-section" v-if="baseMap">
+          <view class="section-title">
+            <text>统计数据</text>
+          </view>
+          <view class="statistic-table">
+            <view class="table-header">
+              <view class="cell item-cell">项</view>
+              <view class="cell team-cell">{{ courseMap.home_name || "切尔西" }}</view>
+              <view class="cell team-cell">{{ courseMap.visiting_name || "利兹联" }}</view>
+            </view>
+            <view class="table-row" v-if="baseMap.ls_home_points">
+              <view class="cell item-cell">积分</view>
+              <view class="cell data-cell">{{ baseMap.ls_home_points || "-" }}</view>
+              <view class="cell data-cell">{{ baseMap.ls_visiting_points || "-" }}</view>
+            </view>
+            <view class="table-row" v-if="baseMap.ls_home_win_rate">
+              <view class="cell item-cell">胜率/平率</view>
+              <view class="cell data-cell">{{ baseMap.ls_home_win_rate }}</view>
+              <view class="cell data-cell">{{ baseMap.ls_visiting_win_rate }}</view>
+            </view>
+            <view class="table-row" v-if="baseMap.ls_home_goal">
+              <view class="cell item-cell">进球/失球</view>
+              <view class="cell data-cell">{{ baseMap.ls_home_goal || "-" }}</view>
+              <view class="cell data-cell">{{ baseMap.ls_visiting_goal || "-" }}</view>
+            </view>
+            <view class="table-row" v-if="baseMap.tzk_head_home_win_rate">
+              <view class="cell item-cell">胜率(同主客对战)</view>
+              <view class="cell data-cell">{{ (baseMap.tzk_head_home_win_rate && baseMap.tzk_head_home_win_rate.split("/")[0]) || "-" }}</view>
+              <view class="cell data-cell">{{ (baseMap.tzk_head_visiting_win_rate && baseMap.tzk_head_visiting_win_rate.split("/")[0]) || "-" }}</view>
+            </view>
+            <view class="table-row" v-if="baseMap.tzk_head_home_goal">
+              <view class="cell item-cell">进球(同主客对战)</view>
+              <view class="cell data-cell">{{ (baseMap.tzk_head_home_goal && baseMap.tzk_head_home_goal.split("/")[0]) || "-" }}</view>
+              <view class="cell data-cell">{{ (baseMap.tzk_head_visiting_goal && baseMap.tzk_head_visiting_goal.split("/")[0]) || "-" }}</view>
+            </view>
+            <view class="table-row" v-if="baseMap.all_head_home_win_rate">
+              <view class="cell item-cell">胜率(全对战)</view>
+              <view class="cell data-cell">{{ baseMap.all_head_home_win_rate || "-" }}</view>
+              <view class="cell data-cell">{{ baseMap.all_head_visiting_win_rate || "-" }}</view>
+            </view>
+            <view class="table-row" v-if="baseMap.all_head_home_goal">
+              <view class="cell item-cell">进球(全对战)</view>
+              <view class="cell data-cell">{{ baseMap.all_head_home_goal || "-" }}</view>
+              <view class="cell data-cell">{{ baseMap.all_head_visiting_goal || "-" }}</view>
+            </view>
+            <view class="table-row" v-if="baseMap.tzk_all_home_win_rate">
+              <view class="cell item-cell">胜率/平率(同主客)</view>
+              <view class="cell data-cell">{{ baseMap.tzk_all_home_win_rate || "-" }}</view>
+              <view class="cell data-cell">{{ baseMap.tzk_all_visiting_win_rate || "-" }}</view>
+            </view>
+            <view class="table-row" v-if="baseMap.tzk_all_home_goal">
+              <view class="cell item-cell">进球/失球(同主客)</view>
+              <view class="cell data-cell">{{ baseMap.tzk_all_home_goal || "-" }}</view>
+              <view class="cell data-cell">{{ baseMap.tzk_all_visiting_goal || "-" }}</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="record-section">
+          <view class="tab-buttons">
+            <view class="tab-btn" :class="{ active: currentTab === '全部' }" @click="switchTab('全部')"> 全部对战 </view>
+            <view class="tab-btn" :class="{ active: currentTab === '同主客' }" @click="switchTab('同主客')"> 同主客对战 </view>
+          </view>
+          <view class="empty-tip" v-if="filteredRecords.length === 0">暂无交手记录</view>
+          <view v-if="filteredRecords.length > 0">
+            <view class="history-item" v-for="(item, index) in filteredRecords" :key="index">
+              <view class="history-header">
+                <text class="competition">
+                  {{ [item.league_name, item.stage && !["小组赛", "联赛"].includes(item.stage) ? item.stage : "", item.round_no ? `第${item.round_no}轮` : ""].filter(Boolean).join("") || "-" }}
+                </text>
+                <text class="date"></text>
+                <text class="time">{{ item.race_date || "-" }}</text>
+              </view>
+              <view class="match-result">
+                <text class="team" style="text-align: right">{{ item.home_name || "-" }}</text>
+                <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
+                <text class="team" style="text-align: left">{{ item.visiting_name || "-" }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="history-section" v-if="homeLastCourses && homeLastCourses.length > 0">
+          <view class="section-title">
+            <text>{{ info.home_lastRemark || "" }}</text>
+          </view>
+          <view class="history-item" v-for="(item, i) in homeLastCourses" :key="i">
+            <view class="history-header">
+              <text class="competition">
+                {{ [item.league_name, item.stage, item.sub_group ? `${item.sub_group}组` : "", item.round_no ? `第${item.round_no}轮` : ""].filter(Boolean).join("") }}
+              </text>
+              <text class="date"></text>
+              <text class="time">{{ item.race_date }}</text>
+            </view>
+            <view class="match-result">
+              <text class="team" style="text-align: right">{{ item.home_name }}</text>
+              <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
+              <text class="team" style="text-align: left">{{ item.visiting_name }}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="history-section" v-if="visitingLastCourses && visitingLastCourses.length > 0">
+          <view class="section-title">
+            <text>{{ info.visiting_lastRemark || "" }}</text>
+          </view>
+          <view class="history-item" v-for="(item, i) in visitingLastCourses" :key="i">
+            <view class="history-header">
+              <text class="competition">
+                {{ [item.league_name, item.stage, item.sub_group ? `${item.sub_group}组` : "", item.round_no ? `第${item.round_no}轮` : ""].filter(Boolean).join("") }}
+              </text>
+              <text class="date"></text>
+              <text class="time">{{ item.race_date }}</text>
+            </view>
+            <view class="match-result">
+              <text class="team" style="text-align: right">{{ item.home_name }}</text>
+              <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
+              <text class="team" style="text-align: left">{{ item.visiting_name }}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="ranking-section" v-if="homeScorers && homeScorers.length > 0">
+          <view class="section-title">
+            <text>{{ courseMap.home_name || "" }}-射手榜球员</text>
+          </view>
+          <view class="ranking-table scorer-table">
+            <view class="table-header">
+              <text class="cell ranking-cell">排名</text>
+              <text class="cell player-cell">球员</text>
+              <text class="cell num-cell">进球</text>
+              <text class="cell num-cell">点球</text>
+            </view>
+            <view class="scorer-row-wrap" v-for="(item, i) in homeScorers" :key="i">
+              <view class="table-row">
+                <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text>
+                <text class="cell player-cell">{{ item.player_name || "-" }}</text>
+                <text class="cell num-cell">{{ item.total_goal || 0 }}</text>
+                <text class="cell num-cell">{{ item.penalty_kick_goal || 0 }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="ranking-section" v-if="visitingScorers && visitingScorers.length > 0">
+          <view class="section-title">
+            <text>{{ courseMap.visiting_name || "" }}-射手榜球员</text>
+          </view>
+          <view class="ranking-table scorer-table">
+            <view class="table-header">
+              <text class="cell ranking-cell">排名</text>
+              <text class="cell player-cell">球员</text>
+              <text class="cell num-cell">进球</text>
+              <text class="cell num-cell">点球</text>
+            </view>
+            <view class="scorer-row-wrap" v-for="(item, i) in visitingScorers" :key="i">
+              <view class="table-row">
+                <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text>
+                <text class="cell player-cell">{{ item.player_name || "-" }}</text>
+                <text class="cell num-cell">{{ item.total_goal || 0 }}</text>
+                <text class="cell num-cell">{{ item.penalty_kick_goal || 0 }}</text>
+              </view>
             </view>
           </view>
         </view>
         
-        <!-- 比分预测 -->
-        <view class="prediction-row">
-          <text class="pro-text">比分预测:</text>
-          <view class="prediction-content">
-            <view class="home-prediction">
-              <text class="prediction-value">{{ baseMap.homeGoalCalculate || "-" }}</text>
-            </view>
-            <view class="draw-prediction">
-              <text class="prediction-value">:</text>
-            </view>
-            <view class="away-prediction">
-              <text class="prediction-value">{{ baseMap.visitingGoalCalculate || "-" }}</text>
-            </view>
-          </view>
-        </view>
-        
-        <view class="win-prompt">{{ info.prompt || "" }}</view>
       </view>
-    </view>
-
-    <!-- 以下代码保持不变 -->
-    <view class="statistic-section" v-if="baseMap">
-      <view class="section-title">
-        <text>统计数据</text>
-      </view>
-      <view class="statistic-table">
-        <view class="table-header">
-          <view class="cell item-cell">项</view>
-          <view class="cell team-cell">{{ courseMap.home_name || "切尔西" }}</view>
-          <view class="cell team-cell">{{ courseMap.visiting_name || "利兹联" }}</view>
-        </view>
-        <view class="table-row" v-if="baseMap.ls_home_points">
-          <view class="cell item-cell">积分</view>
-          <view class="cell data-cell">{{ baseMap.ls_home_points || "-" }}</view>
-          <view class="cell data-cell">{{ baseMap.ls_visiting_points || "-" }}</view>
-        </view>
-        <view class="table-row" v-if="baseMap.ls_home_win_rate">
-          <view class="cell item-cell">胜率/平率</view>
-          <view class="cell data-cell">{{ baseMap.ls_home_win_rate }}</view>
-          <view class="cell data-cell">{{ baseMap.ls_visiting_win_rate }}</view>
-        </view>
-        <view class="table-row" v-if="baseMap.ls_home_goal">
-          <view class="cell item-cell">进球/失球</view>
-          <view class="cell data-cell">{{ baseMap.ls_home_goal || "-" }}</view>
-          <view class="cell data-cell">{{ baseMap.ls_visiting_goal || "-" }}</view>
-        </view>
-        <view class="table-row" v-if="baseMap.tzk_head_home_win_rate">
-          <view class="cell item-cell">胜率(同主客对战)</view>
-          <view class="cell data-cell">{{ (baseMap.tzk_head_home_win_rate && baseMap.tzk_head_home_win_rate.split("/")[0]) || "-" }}</view>
-          <view class="cell data-cell">{{ (baseMap.tzk_head_visiting_win_rate && baseMap.tzk_head_visiting_win_rate.split("/")[0]) || "-" }}</view>
-        </view>
-        <view class="table-row" v-if="baseMap.tzk_head_home_goal">
-          <view class="cell item-cell">进球(同主客对战)</view>
-          <view class="cell data-cell">{{ (baseMap.tzk_head_home_goal && baseMap.tzk_head_home_goal.split("/")[0]) || "-" }}</view>
-          <view class="cell data-cell">{{ (baseMap.tzk_head_visiting_goal && baseMap.tzk_head_visiting_goal.split("/")[0]) || "-" }}</view>
-        </view>
-        <view class="table-row" v-if="baseMap.all_head_home_win_rate">
-          <view class="cell item-cell">胜率(全对战)</view>
-          <view class="cell data-cell">{{ baseMap.all_head_home_win_rate || "-" }}</view>
-          <view class="cell data-cell">{{ baseMap.all_head_visiting_win_rate || "-" }}</view>
-        </view>
-        <view class="table-row" v-if="baseMap.all_head_home_goal">
-          <view class="cell item-cell">进球(全对战)</view>
-          <view class="cell data-cell">{{ baseMap.all_head_home_goal || "-" }}</view>
-          <view class="cell data-cell">{{ baseMap.all_head_visiting_goal || "-" }}</view>
-        </view>
-        <view class="table-row" v-if="baseMap.tzk_all_home_win_rate">
-          <view class="cell item-cell">胜率/平率(同主客)</view>
-          <view class="cell data-cell">{{ baseMap.tzk_all_home_win_rate || "-" }}</view>
-          <view class="cell data-cell">{{ baseMap.tzk_all_visiting_win_rate || "-" }}</view>
-        </view>
-        <view class="table-row" v-if="baseMap.tzk_all_home_goal">
-          <view class="cell item-cell">进球/失球(同主客)</view>
-          <view class="cell data-cell">{{ baseMap.tzk_all_home_goal || "-" }}</view>
-          <view class="cell data-cell">{{ baseMap.tzk_all_visiting_goal || "-" }}</view>
-        </view>
-      </view>
-    </view>
-
-    <view class="record-section">
-      <view class="tab-buttons">
-        <view class="tab-btn" :class="{ active: currentTab === '全部' }" @click="switchTab('全部')"> 全部对战 </view>
-        <view class="tab-btn" :class="{ active: currentTab === '同主客' }" @click="switchTab('同主客')"> 同主客对战 </view>
-      </view>
-      <view class="empty-tip" v-if="filteredRecords.length === 0">暂无交手记录</view>
-      <view v-if="filteredRecords.length > 0">
-        <view class="history-item" v-for="(item, index) in filteredRecords" :key="index">
-          <view class="history-header">
-            <text class="competition">
-              {{ [item.league_name, item.stage && !["小组赛", "联赛"].includes(item.stage) ? item.stage : "", item.round_no ? `第${item.round_no}轮` : ""].filter(Boolean).join("") || "-" }}
-            </text>
-            <text class="date"></text>
-            <text class="time">{{ item.race_date || "-" }}</text>
-          </view>
-          <view class="match-result">
-            <text class="team" style="text-align: right">{{ item.home_name || "-" }}</text>
-            <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
-            <text class="team" style="text-align: left">{{ item.visiting_name || "-" }}</text>
-          </view>
-        </view>
-      </view>
-    </view>
-
-    <view class="history-section" v-if="homeLastCourses && homeLastCourses.length > 0">
-      <view class="section-title">
-        <text>{{ info.home_lastRemark || "" }}</text>
-      </view>
-      <view class="history-item" v-for="(item, i) in homeLastCourses" :key="i">
-        <view class="history-header">
-          <text class="competition">
-            {{ [item.league_name, item.stage, item.sub_group ? `${item.sub_group}组` : "", item.round_no ? `第${item.round_no}轮` : ""].filter(Boolean).join("") }}
-          </text>
-          <text class="date"></text>
-          <text class="time">{{ item.race_date }}</text>
-        </view>
-        <view class="match-result">
-          <text class="team" style="text-align: right">{{ item.home_name }}</text>
-          <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
-          <text class="team" style="text-align: left">{{ item.visiting_name }}</text>
-        </view>
-      </view>
-    </view>
-
-    <view class="history-section" v-if="visitingLastCourses && visitingLastCourses.length > 0">
-      <view class="section-title">
-        <text>{{ info.visiting_lastRemark || "" }}</text>
-      </view>
-      <view class="history-item" v-for="(item, i) in visitingLastCourses" :key="i">
-        <view class="history-header">
-          <text class="competition">
-            {{ [item.league_name, item.stage, item.sub_group ? `${item.sub_group}组` : "", item.round_no ? `第${item.round_no}轮` : ""].filter(Boolean).join("") }}
-          </text>
-          <text class="date"></text>
-          <text class="time">{{ item.race_date }}</text>
-        </view>
-        <view class="match-result">
-          <text class="team" style="text-align: right">{{ item.home_name }}</text>
-          <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
-          <text class="team" style="text-align: left">{{ item.visiting_name }}</text>
-        </view>
-      </view>
-    </view>
-
-    <view class="ranking-section" v-if="homeScorers && homeScorers.length > 0">
-      <view class="section-title">
-        <text>{{ courseMap.home_name || "" }}-射手榜球员</text>
-      </view>
-      <view class="ranking-table scorer-table">
-        <view class="table-header">
-          <text class="cell ranking-cell">排名</text>
-          <text class="cell player-cell">球员</text>
-          <text class="cell num-cell">进球</text>
-          <text class="cell num-cell">点球</text>
-        </view>
-        <view class="scorer-row-wrap" v-for="(item, i) in homeScorers" :key="i">
-          <view class="table-row">
-            <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text>
-            <text class="cell player-cell">{{ item.player_name || "-" }}</text>
-            <text class="cell num-cell">{{ item.total_goal || 0 }}</text>
-            <text class="cell num-cell">{{ item.penalty_kick_goal || 0 }}</text>
-          </view>
-        </view>
-      </view>
-    </view>
-
-    <view class="ranking-section" v-if="visitingScorers && visitingScorers.length > 0">
-      <view class="section-title">
-        <text>{{ courseMap.visiting_name || "" }}-射手榜球员</text>
-      </view>
-      <view class="ranking-table scorer-table">
-        <view class="table-header">
-          <text class="cell ranking-cell">排名</text>
-          <text class="cell player-cell">球员</text>
-          <text class="cell num-cell">进球</text>
-          <text class="cell num-cell">点球</text>
-        </view>
-        <view class="scorer-row-wrap" v-for="(item, i) in visitingScorers" :key="i">
-          <view class="table-row">
-            <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text>
-            <text class="cell player-cell">{{ item.player_name || "-" }}</text>
-            <text class="cell num-cell">{{ item.total_goal || 0 }}</text>
-            <text class="cell num-cell">{{ item.penalty_kick_goal || 0 }}</text>
-          </view>
-        </view>
-      </view>
-    </view>
+    </scroll-view>
   </view>
 </template>
 
@@ -238,7 +256,11 @@
 import { getAi, queryPlayer } from "@/api/demo";
 import { formatDateWithWeekday } from "@/utils/data";
 
+
+import CustomHeader from "@/components/CustomHeader.vue";
 export default {
+   
+  components: {CustomHeader},
   data() {
     return {
       info: {},
@@ -266,6 +288,11 @@ export default {
       param.isTradition = 1;
     }
     this.getAiDetail(param);
+  // 强制显示分享菜单，立刻解除置灰
+  wx.showShareMenu({
+    menus: ['shareAppMessage', 'shareTimeline']
+  })
+
   },
   onShow() {
     uni.hideTabBar();
@@ -319,20 +346,37 @@ export default {
     hideLoading() {
       uni.hideLoading();
     },
+    // 补充缺失的事件处理方法
+    handleFunnel() {},
+    onBackClick() {}
   },
 };
 </script>
 
 <style lang="scss" scoped>
+// 页面整体容器
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+// 可滚动内容区域
+.content-scroll {
+  flex: 1;
+  overflow-y: auto; // 兼容多端
+  -webkit-overflow-scrolling: touch; // 移动端顺滑滚动
+}
+
 // 容器基础样式
 .match-info-container {
   color: #444;
   padding: 20rpx;
   border-radius: 16rpx;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
-  height: 100vh;
   box-sizing: border-box;
-  overflow-y: auto;
+  // 移除原有的height: 100vh和overflow-y: auto
 }
 
 // 赛事头部样式

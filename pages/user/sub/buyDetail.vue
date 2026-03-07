@@ -2,7 +2,7 @@
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留原有 -->
     <CustomHeader  
-      :ballTitle="'竞彩足球'"
+      :ballTitle="'足球'"
       title="详情" 
       :showBack="true" 
       :showIcon="false" 
@@ -94,7 +94,7 @@ export default {
       const windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;
     } else {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       this.statusBarHeight = systemInfo.statusBarHeight;
     }
   },
@@ -272,7 +272,7 @@ async handleCancel() {
           display: inline-block;
           box-sizing: border-box;
           padding-left: 6rpx;
-          width: 40rpx;
+          width: 44rpx;
           color: #fff;
           text-align: left;
           border-top-right-radius: 15rpx;

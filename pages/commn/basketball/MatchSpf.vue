@@ -17,13 +17,13 @@
             <view class="status-left">
               <!-- 单场标签：样式统一 -->
               <!-- 单场标签：无停时，根据is_sf_single显示 -->
-              <text class="single-tag" v-if="item.is_sf_single == 1 && item.is_stop == 0">单场</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停售</text>
+              <text class="single-tag" v-if="item.is_sf_single == 1 && item.is_stop == 0">单</text>
+              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-              <view class="ai-analysis-btn" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -40,20 +40,21 @@
               </view>
             </view>
 
-            <!-- 右侧：自适应宽度，垂直排列队名VS+胜率+胜负选项 -->
+            <!-- 右侧：自适应宽度，垂直排列队名VS+胜+胜负选项 -->
             <view class="main-right">
               <view class="top-right">
                 <!-- 队名VS：样式统一 -->
                 <view class="team-name">
-                  <text>{{ item.home_name }}</text>
-                  <text class="vs-text">VS</text>
                   <text>{{ item.visiting_name }}</text>
+                  <text class="vs-text">VS</text>
+                  <text>{{ item.home_name }}</text>
                 </view>
-                <!-- 胜率&进球数行 -->
+                <!-- 胜&进球数行 -->
                 <view class="rate-row">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "--" }}</text>
                   <text class="vs-text"></text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || "--" }}</text>
+                  
                 </view>
               </view>
 
@@ -61,7 +62,7 @@
               <view class="bottom-right">
                 <view class="odds-trigger-area">
                   <view class="odds-row">
-                    <view class="match-cell away" :class="{ selected: item.awaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'awaySelected')"> 客胜{{ item.loss_multiplier || "--" }} </view>
+                    <view class="match-cell away" :class="{ selected: item.awaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'awaySelected')"> 主负{{ item.loss_multiplier || "--" }} </view>
                     <view class="match-cell home" :class="{ selected: item.homeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'homeSelected')"> 主胜{{ item.win_multiplier || "--" }} </view>
                   </view>
                 </view>
@@ -138,13 +139,10 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-        // 微信最新API：获取窗口信息（替代getSystemInfoSync的windowWidth）
+       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
-        // 兼容旧版本微信：降级使用uni.getSystemInfo（避免报错）
-        const systemInfo = uni.getSystemInfoSync();
-        this.windowWidth = systemInfo.windowWidth || 375;
         console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
     },
@@ -251,7 +249,7 @@ export default {
   .single-tag {
     display: inline-block;
     padding-left: 6rpx;
-    width: 60rpx;
+    width: 44rpx;
     background: #b71c1c;
     color: #fff;
     text-align: left;
@@ -357,7 +355,7 @@ export default {
   .vs-text {
     color: #999;
     font-size: 24rpx;
-    // 居中占位，宽度与胜率行的平率文本一致
+    // 居中占位，宽度与胜行的平文本一致
     width: 60rpx;
     text-align: center;
   }
@@ -375,7 +373,7 @@ export default {
   }
 }
 
-// 胜率&进球数行 - 核心修改：保持布局匹配
+// 胜&进球数行 - 核心修改：保持布局匹配
 .rate-row {
   width: 100%;
   display: flex;
@@ -390,14 +388,14 @@ export default {
     text-overflow: ellipsis;
   }
   .rate-text.home {
-    text-align: right; // 主队胜率靠右
+    text-align: left; // 主队胜靠右
   }
   .rate-text.away {
-    text-align: left; // 客队胜率靠左
+    text-align: right; // 客队胜靠左
   }
   .vs-text {
     width: 60rpx; // 与球队行VS文本宽度一致
-    text-align: center; // 平率居中
+    text-align: center; // 平居中
     flex-shrink: 0;
   }
 }

@@ -2,14 +2,14 @@
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
     <CustomHeader 
-      :ballTitle="'竞彩足球'" 
-      title="4场进球" 
+      :ballTitle="'足球'" 
+      title="4场" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
     />
 
-    <!-- 滚动展示区域：适配4场进球的赛事展示 -->
+    <!-- 滚动展示区域：适配4场的赛事展示 -->
     <scroll-view
       class="match-scroll"
       scroll-y
@@ -29,9 +29,14 @@
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
+              <view class="team-vs" style="color:#888;padding:0;">
+                <text class="team-name home">胜{{ item.home_win_rate }}</text>
+                <text class="vs-text">平{{item.draw_rate}}</text>
+                <text class="team-name away">胜{{ item.visiting_win_rate }}</text>
+              </view>
             </view>
 
-            <!-- 4场进球核心：主/客进球数矩阵展示（仅展示，无点击） -->
+            <!-- 4场核心：主/客进球数矩阵展示（仅展示，无点击） -->
             <view class="bottom-right">
               <view class="score-matrix">
                 <!-- 主队行 -->
@@ -60,7 +65,7 @@
       </view>
     </scroll-view>
 
-    <!-- 4场进球专属投注栏：保留倍数操作，适配4串1规则 -->
+    <!-- 4场专属投注栏：保留倍数操作，适配4串1规则 -->
     <view
       class="bet-bar"
       :style="{
@@ -84,7 +89,7 @@
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
           <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
-          <text class="combo-tip">4串1 | 4场进球</text>
+          <text class="combo-tip">4串1 | 4场</text>
         </view>
       </view>
     </view>
@@ -105,7 +110,6 @@
 
 <script>
 import CustomHeader from "@/components/CustomHeader.vue";
-
 export default {
   components: { CustomHeader },
   data() {
@@ -129,7 +133,7 @@ export default {
         return item.homeScoreSelected.length > 0 || item.awayScoreSelected.length > 0;
       }).length;
     },
-    // 计算4场进球注数：每个赛事的主/客选中项数乘积之和（4串1规则）
+    // 计算4场注数：每个赛事的主/客选中项数乘积之和（4串1规则）
     betNotes() {
       if (this.selectedMatchList.length !== 4) return 0;
       
@@ -156,7 +160,7 @@ export default {
   },
   created() {
     // 获取系统信息，适配多端
-    const sys = uni.getSystemInfoSync();
+    const sys = wx.getWindowInfo();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
     this.statusBarHeight = sys.statusBarHeight || 20;
     this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
@@ -176,7 +180,7 @@ export default {
   methods: {
     // 计算适配高度（兼容App/小程序/H5）
     calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
+      const sys = wx.getWindowInfo();
       // 导航栏高度（80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
@@ -330,7 +334,7 @@ export default {
     .team-name.home { text-align: right; padding-right: 10rpx; }
     .team-name.away { text-align: left; padding-left: 10rpx; }
     .vs-text {
-      width: 40rpx;
+      width: 80rpx;
       text-align: center;
       flex-shrink: 0;
       font-weight: 500;
@@ -344,7 +348,7 @@ export default {
     padding: 2rpx 0;
   }
 
-  // 4场进球专属矩阵样式
+  // 4场专属矩阵样式
   .bottom-right {
     width: 100%;
     box-sizing: border-box;

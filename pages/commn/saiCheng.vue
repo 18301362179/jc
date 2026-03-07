@@ -3,7 +3,7 @@
     <view v-for="(item, index) in courseList" :key="index" class="item">
       <view class="time">
         <text>{{ forateData(item.race_date) }}</text>
-        <view v-if="item.is_over == 0 && item.home_win_rate != 0" class="ai" @tap.stop="toDetail(item)"> {{ item.is_buy == 0 ? '5币比分+析' : '比分+析' }} </view>
+        <view v-if="item.is_over == 0 && item.home_win_rate != 0" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }} </view>
       </view>
       <view class="score">
         <!-- 左侧区域：主队名 + 左侧小项（自动撑开） -->
@@ -101,12 +101,12 @@ export default {
 }
 
 .item:nth-child(even) {
-  background: #f2f2f2;
+  background: #fff;
 }
 
 .score {
   width: 100%;
-  min-height: 70rpx;
+  min-height: 64rpx;
   display: flex;
   align-items: center; 
   /* 左右区域 + 冒号 总宽度100% */
@@ -162,7 +162,7 @@ export default {
   color: #d04052;
   font-size: 24rpx;
   text-align: center; 
-  line-height: 70rpx; 
+  line-height: 64rpx; 
   /* 保持原有间距，不添加额外margin */
 }
 

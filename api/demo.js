@@ -2,7 +2,7 @@ import request from './request'
 
 let baseUrl = "";
 // #ifdef H5
-baseUrl = "/api";
+baseUrl = process.env.NODE_ENV === 'development' ? '/api' : '';
 // #endif
 
 // #ifdef MP-WEIXIN
@@ -261,6 +261,13 @@ export const payConfirm = (data) => {
         data
     })
 }
+export const userShare = (data) => {
+    return request({
+        url: baseUrl + '/platform/miniProgram/share',
+        method: 'GET',
+        data
+    })
+}
 export const footballLotteryTradition = (data) => {
     return request({
         url: baseUrl + '/purchasing/football/lottery/tradition',
@@ -271,6 +278,28 @@ export const footballLotteryTradition = (data) => {
 export const footballLotteryTraditionDrawNum = (data) => {
     return request({
         url: baseUrl + '/purchasing/football/lottery/tradition/drawNum',
+        method: 'GET',
+        data
+    })
+}
+export const getH5Token = (data) => {
+    return request({
+        url: baseUrl + '/auth/login/weChatServiceAccount',
+        method: 'GET',
+        data
+    })
+}
+
+export const getH5ShareInfo = (data) => {
+    return request({
+        url: baseUrl + '/platform/serviceAccount/share/signature',
+        method: 'GET',
+        data
+    })
+}
+export const shareGiveCoin = (data) => {
+    return request({
+        url: baseUrl + '/platform/share/giveCoin',
         method: 'GET',
         data
     })

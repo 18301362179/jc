@@ -1,7 +1,7 @@
 <template>
   <!-- 模板部分完全不变，仅保留原有结构 -->
   <view style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader :showBack="true" :ballTitle="'竞彩足球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
+    <CustomHeader :showBack="true" :ballTitle="'足球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
 
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
@@ -53,6 +53,7 @@
     <!-- 全局数字软键盘组件（新增） -->
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
     <EmptyStop :hasData="hasData" />
+    
   </view>
 </template>
 
@@ -71,7 +72,10 @@ import { formatTimeToMDWeekHM } from "@/utils/data";
 import TipsPopup from "@/pages/commn/playTip";
 import { validateBetInput } from "@/utils/validate";
 import EmptyStop from "@/pages/commn/emptyStop.vue";
+
+
 export default {
+    // 局部引入Mixin
   components: {
     NativeTabbar,
     MatchSpf,
@@ -84,7 +88,14 @@ export default {
     EmptyStop,
     // 注册混合过关组件
     MixedPassList,
+    
   },
+onLoad() {
+  // 强制显示分享菜单，立刻解除置灰
+  wx.showShareMenu({
+    menus: ['shareAppMessage', 'shareTimeline']
+  })
+},
   data() {
     return {
       // 新增：玩法列表添加混合过关
@@ -121,7 +132,7 @@ export default {
       tipsContentList: [
         "1、挑选胜率差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。",
         "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。",
-        "3、本软件提供竞彩足球、竞彩篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。",
+        "3、本软件提供足球、篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。",
         "4、本系统预测数据仅供参考，无准确率保证。",
         "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。",
         "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。",
@@ -232,7 +243,7 @@ selectedMatchCount() {
       const windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;
     } else {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       this.statusBarHeight = systemInfo.statusBarHeight;
     }
   },
@@ -448,7 +459,7 @@ handleMixedSelect(item, selectType) {
     },
     handlePopupClose() {},
     calcPopupMaxHeight() {
-      const windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : uni.getSystemInfoSync();
+      const windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : wx.getWindowInfo();
       const { windowHeight, windowWidth, safeAreaInsets, safeArea, statusBarHeight } = windowInfo;
 
       this.windowHeight = windowHeight;
@@ -548,6 +559,9 @@ handleMixedSelect(item, selectType) {
                   home_name: match.home_name || match.homeTeam || "主队",
                   visiting_name: match.visiting_name || match.awayTeam || "客队",
                   is_stop: match.is_stop || false,
+                  home_win_rate: match.home_win_rate,
+                  draw_rate: match.draw_rate,
+                  visiting_win_rate:match.visiting_win_rate,
                   is_hhgg_single: match.is_hhgg_single || false,
                   // 保留所有选中数据（不修改格式，原样传递给编辑页）
                   selectedSpf: match.selectedSpf || [],
@@ -878,88 +892,17 @@ handleMixedSelect(item, selectType) {
                 r_loss_multiplier: 3.8,
                 // 完善投注项：包含胜平负、让球胜平负、比分、总进球、半全场
                 betRows: [
-                  {
-                    label: "胜平负",
-                    items: [
-                      { label: "主胜", value: "3", odds: 1.85, isSelected: false },
-                      { label: "平", value: "1", odds: 3.2, isSelected: false },
-                      { label: "客胜", value: "0", odds: 4.5, isSelected: false },
-                    ],
-                  },
-                  {
-                    label: "让球胜平负",
-                    items: [
-                      { label: "主胜【让1】", value: "3", odds: 2.1, isSelected: false },
-                      { label: "平【让1】", value: "1", odds: 3.1, isSelected: false },
-                      { label: "客胜【让1】", value: "0", odds: 3.8, isSelected: false },
-                    ],
-                  },
-                  {
-                    label: "比分",
-                    items: [
-                      { label: "1:0", value: "1:0", odds: 5.2, isSelected: false },
-                      { label: "2:0", value: "2:0", odds: 7.5, isSelected: false },
-                      { label: "2:1", value: "2:1", odds: 9.0, isSelected: false },
-                      { label: "0:0", value: "0:0", odds: 4.8, isSelected: false },
-                      { label: "1:1", value: "1:1", odds: 5.5, isSelected: false },
-                      { label: "2:2", value: "2:2", odds: 11.0, isSelected: false },
-                    ],
-                  },
-                  {
-                    label: "总进球",
-                    items: [
-                      { label: "0", value: "0", odds: 6.8, isSelected: false },
-                      { label: "1", value: "1", odds: 4.2, isSelected: false },
-                      { label: "2", value: "2", odds: 3.5, isSelected: false },
-                      { label: "3", value: "3", odds: 4.8, isSelected: false },
-                      { label: "4+", value: "4+", odds: 7.2, isSelected: false },
-                    ],
-                  },
-                  {
-                    label: "半全场",
-                    items: [
-                      { label: "胜胜", value: "33", odds: 3.8, isSelected: false },
-                      { label: "胜平", value: "31", odds: 6.5, isSelected: false },
-                      { label: "胜负", value: "30", odds: 8.2, isSelected: false },
-                      { label: "平胜", value: "13", odds: 7.8, isSelected: false },
-                      { label: "平平", value: "11", odds: 5.5, isSelected: false },
-                      { label: "平负", value: "10", odds: 9.5, isSelected: false },
-                      { label: "负胜", value: "03", odds: 12.0, isSelected: false },
-                      { label: "负平", value: "01", odds: 15.0, isSelected: false },
-                      { label: "负负", value: "00", odds: 7.5, isSelected: false },
-                    ],
-                  },
                 ],
                 popupBets: {
                   main: [
-                    { label: "主胜", value: "3", odds: 1.85, isSelected: false },
-                    { label: "平", value: "1", odds: 3.2, isSelected: false },
-                    { label: "客胜", value: "0", odds: 4.5, isSelected: false },
-                    { label: "主胜【让】", value: "3", odds: 2.1, isSelected: false },
-                    { label: "平【让】", value: "1", odds: 3.1, isSelected: false },
-                    { label: "客胜【让】", value: "0", odds: 3.8, isSelected: false },
+
                   ],
                   score: [
-                    { label: "1:0", value: "1:0", odds: 5.2, isSelected: false },
-                    { label: "2:0", value: "2:0", odds: 7.5, isSelected: false },
-                    { label: "2:1", value: "2:1", odds: 9.0, isSelected: false },
-                    { label: "0:0", value: "0:0", odds: 4.8, isSelected: false },
-                    { label: "1:1", value: "1:1", odds: 5.5, isSelected: false },
-                    { label: "2:2", value: "2:2", odds: 11.0, isSelected: false },
+
                   ],
                   totalGoals: [
-                    { label: "0", value: "0", odds: 6.8, isSelected: false },
-                    { label: "1", value: "1", odds: 4.2, isSelected: false },
-                    { label: "2", value: "2", odds: 3.5, isSelected: false },
-                    { label: "3", value: "3", odds: 4.8, isSelected: false },
-                    { label: "4+", value: "4+", odds: 7.2, isSelected: false },
                   ],
                   halfFull: [
-                    { label: "胜胜", value: "33", odds: 3.8, isSelected: false },
-                    { label: "胜平", value: "31", odds: 6.5, isSelected: false },
-                    { label: "胜负", value: "30", odds: 8.2, isSelected: false },
-                    { label: "平平", value: "11", odds: 5.5, isSelected: false },
-                    { label: "负负", value: "00", odds: 7.5, isSelected: false },
                   ],
                 },
               },
@@ -1162,7 +1105,7 @@ handleMixedSelect(item, selectType) {
       return formatTimeToMDWeekHM(time);
     },
     calcHeaderHeight() {
-      const systemInfo = uni.getSystemInfoSync();
+      const systemInfo = wx.getWindowInfo();
       const statusBarHeight = systemInfo.statusBarHeight;
       const customHeaderHeight = (80 / 750) * systemInfo.windowWidth;
       this.headerHeight = statusBarHeight + customHeaderHeight;
@@ -1205,9 +1148,9 @@ handleMixedSelect(item, selectType) {
       // 原生弹窗（和你自定义弹窗效果完全一致）
               uni.showModal({
                 title: "请充币",
-                content: "您的游戏币不足，请兑换！",
+                content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "兑换",
+                confirmText: "充币",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
