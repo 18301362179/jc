@@ -379,7 +379,6 @@ export default {
         width: 100%;
         background: #fff;
         border-radius: 12rpx;
-        padding: 20rpx;
         margin-bottom: 16rpx;
         box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
       }
