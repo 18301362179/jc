@@ -13,10 +13,7 @@
     <scroll-view
       class="match-scroll"
       scroll-y
-      :style="{
-        top: headerTotalHeight + 'px',
-        bottom: betBarTotalHeight + 'px',
-      }"
+      id="poster-content"
     >
       <view class="match-list">
         <!-- 循环展示选中的6场赛事 -->
@@ -30,9 +27,9 @@
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
               <view class="team-vs" style="color:#888;padding:0;">
-                <text class="team-name home">胜{{ item.home_win_rate }}</text>
-                <text class="vs-text">平{{item.draw_rate}}</text>
-                <text class="team-name away">胜{{ item.visiting_win_rate }}</text>
+                <text class="team-name home" v-if="item.home_win_rate">胜{{ item.home_win_rate }}</text>
+                <text class="vs-text" v-if="item.draw_rate">平{{item.draw_rate}}</text>
+                <text class="team-name away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate }}</text>
               </view>
             </view>
 
@@ -65,19 +62,17 @@
     </scroll-view>
 
     <!-- 6场专属投注栏：保留倍数操作，适配6串1规则 -->
-    <view
-      class="bet-bar"
-      :style="{
-        height: betBarFixedPx + 'px',
-        paddingBottom: (isApp ? safeAreaBottom : 0) + 'px',
-      }"
-    >
+    <view class="bet-bar">
       <view class="bet-bar-top">
         <view class="collapse-area">
+          <!-- 左边提示文字：适配6场规则 -->
+          <view class="left-tip">请输入倍数后截屏给售票人</view>
+          
+          <!-- 右边投注倍数 -->
           <view class="multi-group">
             <text class="multi-label">投</text>
             <button class="multi-btn minus" @click="handleMinus">-</button>
-            <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 6 }">
+            <view class="multi-input" @tap="showNumberKeyboard = true">
               {{ betCount }}
             </view>
             <button class="multi-btn plus" @click="handlePlus">+</button>
@@ -118,10 +113,7 @@ export default {
       statusBarHeight: 0, // 状态栏高度
       safeAreaBottom: 0, // 底部安全区高度
       headerTotalHeight: 0, // 导航栏总高度
-      betBarFixedPx: 0, // 投注栏固定高度
-      betBarTotalHeight: 0, // 投注栏总高度
       isApp: false, // 是否为App端
-      playType: "半全场", // 玩法类型
       showNumberKeyboard: false, // 数字键盘显示状态
       isNeedUserPhone: 1 // 是否需要手机号（父组件传递）
     };
@@ -166,20 +158,19 @@ export default {
   },
   created() {
     // 获取系统信息，适配多端
-    const sys = wx.getWindowInfo();
+    const sys = uni.getSystemInfoSync();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
     this.statusBarHeight = sys.statusBarHeight || 20;
-     this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+    this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
     this.calcAllHeights(); // 计算适配高度
   },
   onLoad() {
     // 接收父组件传递的数据
-    const eventChannel = this.getOpenerEventChannel();
+    const eventChannel = this.getOpenerEventChannel ? this.getOpenerEventChannel() : null;
     if (eventChannel) {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
         this.betCount = data.betCount || 1;
-        this.playType = data.playType || "半全场";
         this.isNeedUserPhone = data.isNeedUserPhone || 1;
       });
     }
@@ -187,21 +178,16 @@ export default {
   methods: {
     // 计算适配高度（兼容App/小程序/H5）
     calcAllHeights() {
-      const sys = wx.getWindowInfo();
+      const sys = uni.getSystemInfoSync();
       // 导航栏高度（80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      
-      // 投注栏高度（200rpx转px）
-      const betBarFixedRpx = 200;
-      this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-      this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
     },
     // 返回上一页
     handleBack() {
       // 回传修改后的倍数数据给父组件
-      const eventChannel = this.getOpenerEventChannel();
+      const eventChannel = this.getOpenerEventChannel ? this.getOpenerEventChannel() : null;
       if (eventChannel) {
         eventChannel.emit("updateSelectedMatches", {
           matches: this.selectedMatchList,
@@ -254,37 +240,36 @@ export default {
   height: 100vh;
   margin: 0;
   padding: 0;
-  // H5端滚动穿透兼容
-  // #ifdef H5
+  position: relative;
+  // 全局禁止滚动穿透
   overflow: hidden;
-  // #endif
 }
 
-// 滚动区样式：适配6场展示
+// 滚动区样式：适配6场展示（沿用模板核心逻辑）
 .match-scroll {
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  height: auto !important;
-  overflow-y: auto !important;
-  background-color: #f5f5f5;
   box-sizing: border-box;
-  padding: 10rpx 20rpx 20rpx;
+  // 给顶部导航留固定高度
+  padding-top: v-bind(headerTotalHeight + 'px');
+  // 给底部栏留高度
+  padding-bottom: 120rpx;
+  // 固定高度 = 屏幕高度 - 底部留白
+  height: calc(100vh - 120rpx);
+  background-color: #f5f5f5;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
 
-  // 隐藏滚动条（全端）
+  /* 隐藏滚动条 */
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
-    width: 0;
-    height: 0;
   }
 }
 
 .match-list {
   width: 100%;
   box-sizing: border-box;
+  padding-bottom: 50rpx;
 
   .match-row {
     display: flex;
@@ -348,14 +333,7 @@ export default {
     }
   }
 
-  .match-num-tip {
-    font-size: 20rpx;
-    color: #999;
-    text-align: center;
-    padding: 2rpx 0;
-  }
-
-  // 6场专属样式
+  // 6场半全场专属样式
   .bottom-right {
     width: 100%;
     box-sizing: border-box;
@@ -420,7 +398,7 @@ export default {
   }
 }
 
-// 投注栏样式：适配6场规则
+// ========== 6场专属投注栏样式（沿用模板布局逻辑） ==========
 .bet-bar {
   position: fixed !important;
   width: 100% !important;
@@ -431,85 +409,100 @@ export default {
   box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   box-sizing: border-box !important;
 
-  // 小程序/App安全区兼容
-  // #ifdef MP-WEIXIN
-  bottom: env(safe-area-inset-bottom) !important;
+  // 安全区适配（仅APP/小程序）
+  // #ifdef MP-WEIXIN || APP-PLUS
+  padding-bottom: env(safe-area-inset-bottom) !important;
   // #endif
-  // #ifdef APP-PLUS
-  bottom: constant(safe-area-inset-bottom) !important;
-  bottom: env(safe-area-inset-bottom) !important;
+
+  // H5端适配
+  // #ifdef H5
+  height: auto !important;
   // #endif
 
   .bet-bar-top {
     background: #fff;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    padding: 10rpx 30rpx;
+    box-sizing: border-box;
 
     .collapse-area {
       display: flex;
       align-items: center;
-      justify-content: space-around;
-      height: 80rpx;
+      justify-content: space-between;
+      width: 100%;
+      height: auto;
       box-sizing: border-box;
-      padding: 10rpx 20rpx;
       border-bottom: 2rpx solid #eee;
+      padding: 10rpx 0;
 
+      // 左边提示文字（适配6场规则）
+      .left-tip {
+        font-size: 24rpx;
+        color: #d92929;
+        flex: 1;
+        margin-right: 20rpx;
+        line-height: 1.4;
+      }
+
+      // 倍数选择组（缩小宽度，适配6场规则）
       .multi-group {
         display: flex;
         align-items: center;
-        gap: 10rpx;
+        gap: 6rpx;
+        flex-shrink: 0;
 
         .multi-label {
-          height: 100%;
-          font-size: 30rpx;
+          font-size: 26rpx;
           color: #333;
         }
 
         .multi-btn {
-          width: 52rpx;
-          height: 52rpx;
+          width: 44rpx;
+          height: 44rpx;
           background-color: #ddd;
           color: #333;
-          font-size: 32rpx;
+          font-size: 28rpx;
           display: flex;
           align-items: center;
           justify-content: center;
           border: 1rpx solid #ccc;
-          padding: 0;
-          margin: 0;
-          border-radius: 0;
-          // 小程序按钮样式兼容
-          // #ifdef MP-WEIXIN
+
+          // #ifdef H5
           line-height: 1;
+          outline: none;
+          -webkit-appearance: none;
           // #endif
         }
 
+        // 输入框缩小，且未选满6场时禁用
         .multi-input {
-          width: 180rpx;
-          height: 52rpx;
+          width: 100rpx;
+          height: 44rpx;
           background-color: #fff;
           color: #333;
           text-align: center;
-          font-size: 30rpx;
+          font-size: 26rpx;
           border: 1rpx solid #ccc;
-          padding: 0;
-          box-sizing: border-box;
-          border-radius: 0;
-          // H5输入框样式兼容
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
           // #ifdef H5
           outline: none;
+          -webkit-appearance: none;
           // #endif
-          
+
           &.disabled {
-            background-color: #f5f5f5;
             color: #999;
+            background-color: #f5f5f5;
             pointer-events: none;
           }
         }
 
         .multi-unit {
-          font-size: 30rpx;
+          font-size: 26rpx;
           color: #333;
         }
       }
@@ -519,40 +512,59 @@ export default {
   .bet-bar-bottom {
     display: flex;
     align-items: center;
-    height: 100rpx;
+    justify-content: center;
+    height: 80rpx; // H5端降低高度
     background-color: #232323;
     color: #fff;
     box-sizing: border-box;
     padding: 0 20rpx;
+    // H5端适配：调整高度和内边距
+    // #ifdef H5
+    height: 70rpx;
+    // #endif
 
     .bottom-middle {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      margin: 0 20rpx;
+      align-items: center;
+      margin: 0;
       height: 100%;
 
       .select-tip {
-        height: 50rpx;
+        height: 100%;
         font-size: 28rpx;
         color: #fff;
         text-align: center;
-        line-height: 50rpx;
-      }
-
-      .combo-tip {
-        font-size: 20rpx;
-        color: #999;
-        text-align: center;
-        line-height: 1;
+        display: flex;
+        align-items: center;
+        // H5端适配：调整字体大小
+        // #ifdef H5
+        font-size: 26rpx;
+        // #endif
       }
     }
   }
 }
 
-// 隐藏滚动条（全端）
+// 隐藏滚动条
 ::-webkit-scrollbar {
   display: none;
 }
+
+// H5端全局样式重置（解决按钮/输入框默认样式问题）
+// #ifdef H5
+::v-deep button {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  border: none;
+}
+::v-deep input {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+// #endif
 </style>

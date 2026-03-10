@@ -5,12 +5,12 @@
     <view class="rule-btn">{{title}}</view>
     <!-- 右侧期数选择器：增加空数据兜底 -->
     <view class="selector-wrap" @click="toggleDropdown">
-      <text class="current-num">{{ currentDrawNum || "暂无" }}期</text>
+      <text class="current-num">{{ currentDrawNum ? currentDrawNum +'期': "暂无" }}</text>
       <text class="arrow-icon" :class="{ 'arrow-rotate': isDropdownShow }">▼</text>
     </view>
     <!-- 下拉弹窗：空数据提示 -->
     <view v-if="isDropdownShow" class="dropdown-menu" @click.stop>
-      <view v-if="drawNumList.length === 0" class="empty-item">暂无可选期数</view>
+      <view v-if="drawNumList.length === 0" class="empty-item">暂无</view>
       <view v-else v-for="(num) in drawNumList" :key="num" class="dropdown-item" :class="{ active: num === currentDrawNum }" @click="selectDrawNum(num)"> {{ num }}期 </view>
     </view>
   </view>

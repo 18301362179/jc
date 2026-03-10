@@ -9,87 +9,87 @@
       @back-click="handleBack" 
     />
 
-    <!-- 滚动展示区域：仅保留main-right核心内容，无任何操作 -->
+    <!-- 滚动展示区域 -->
     <scroll-view
       class="match-scroll"
       scroll-y
-      :style="{
-        top: headerTotalHeight + 'px',
-        bottom: betBarTotalHeight + 'px',
-      }"
+      id="poster-content"
     >
       <view class="match-list">
-        <!-- 循环展示选中的赛事，仅渲染main-right内容 -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
-          <!-- 仅保留main-right核心结构，和List子组件样式对齐 -->
           <view class="main-right">
             <view class="top-right">
-              <!-- 队名VS -->
               <view class="team-vs">
                 <text class="team-name home">{{ item.home_name }}</text>
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
               <view class="team-vs" style="color:#888;padding:0;">
-                <text class="team-name home">胜{{ item.home_win_rate }}</text>
-                <text class="vs-text">平{{item.draw_rate}}</text>
-                <text class="team-name away">胜{{ item.visiting_win_rate }}</text>
+                <text class="team-name home" v-if="item.home_win_rate">胜{{ item.home_win_rate }}</text>
+                <text class="vs-text" v-if="item.draw_rate">平{{item.draw_rate}}</text>
+                <text class="team-name away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate }}</text>
               </view>
             </view>
-
-            <!-- 3/1/0展示：仅显示选中状态，无点击 -->
             <view class="bottom-right">
               <view class="score-btn-group">
-                <view 
-                  class="score-btn" 
-                  :class="{ selected: item.homeSelected }"
-                >3</view>
-                <view 
-                  class="score-btn" 
-                  :class="{ selected: item.vsSelected }"
-                >1</view>
-                <view 
-                  class="score-btn" 
-                  :class="{ selected: item.awaySelected }"
-                >0</view>
+                <view class="score-btn" :class="{ selected: item.homeSelected }">3</view>
+                <view class="score-btn" :class="{ selected: item.vsSelected }">1</view>
+                <view class="score-btn" :class="{ selected: item.awaySelected }">0</view>
               </view>
             </view>
           </view>
         </view>
-
         <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无已选赛事 </view>
       </view>
     </scroll-view>
 
-    <!-- 简化版bet-bar：仅展示，无操作（移除加减、输入、投注按钮） -->
+    <!-- 简化版bet-bar：H5端重点适配 -->
     <view
       class="bet-bar"
-      :style="{
-        height: betBarFixedPx + 'px',
-        paddingBottom: (isApp ? safeAreaBottom : 0) + 'px',
-      }"
     >
-      <view class="bet-bar-top">
-        <!-- 移除倍数操作区，仅展示固定倍数 -->
-        <view class="collapse-area">
-          <view class="multi-group">
-            <text class="multi-label">投</text>
-            <button class="multi-btn minus" @click="handleMinus">-</button>
-            <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 1 }">
-              {{ betCount }}
-            </view>
-            <button class="multi-btn plus" @click="handlePlus">+</button>
-            <text class="multi-unit">倍</text>
+    <view class="bet-bar-top">
+      <view class="collapse-area">
+        <!-- 左边文字 -->
+        <view class="left-tip">请输入倍数后截屏给售票人</view>
+
+        <!-- 右边投注倍数 -->
+        <view class="multi-group">
+          <text class="multi-label">投</text>
+          <button class="multi-btn minus" @click="handleMinus">-</button>
+          <view class="multi-input" @tap="showNumberKeyboard = true">
+            {{ betCount }}
           </view>
+          <button class="multi-btn plus" @click="handlePlus">+</button>
+          <text class="multi-unit">倍</text>
         </view>
       </view>
+    </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
           <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
         </view>
       </view>
     </view>
-        <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
+
+    <UniNumberKeyboard 
+      :show.sync="showNumberKeyboard" 
+      :value="betCount + ''" 
+      :allowDot="false" 
+      confirm-text="确认" 
+      :min="1" 
+      :max="50" 
+      @input="handleKeyboardInput" 
+      @confirm="handleKeyboardConfirm" 
+    />
+
+    <!-- 海报预览弹窗 -->
+    <view class="poster-preview" v-if="showPosterPreview">
+      <view class="preview-content">
+        <image :src="posterImageUrl" mode="widthFix" class="poster-image"></image>
+        <view class="preview-tip">长按图片保存到手机，手动分享到微信</view>
+        <button class="close-btn" @click="showPosterPreview = false">关闭</button>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -101,26 +101,26 @@ export default {
   components: { CustomHeader },
   data() {
     return {
-      selectedMatchList: [], // 接收父组件传递的选中赛事
-      betCount: 1, // 固定倍数，无修改
-      statusBarHeight: 0, // 状态栏高度
-      safeAreaBottom: 0, // 底部安全区高度
-      headerTotalHeight: 0, // 导航栏总高度
-      betBarFixedPx: 0, // 投注栏固定高度
-      betBarTotalHeight: 0, // 投注栏总高度
-      isApp: false, // 是否为App端
-      selectedCombo: "", // 串关类型
+      selectedMatchList: [],
+      betCount: 1,
+      statusBarHeight: 0,
+      safeAreaBottom: 0,
+      headerTotalHeight: 0,
+      betBarFixedPx: 0,
+      betBarTotalHeight: 0,
+      isApp: false,
+      selectedCombo: "",
       showNumberKeyboard: false,
+      showPosterPreview: false,
+      posterImageUrl: "",
     };
   },
   computed: {
-    // 仅统计选中赛事数量，无修改逻辑
     selectedMatchCount() {
       return this.selectedMatchList.filter((item) => {
         return item.homeSelected || item.vsSelected || item.awaySelected;
       }).length;
     },
-    // 计算投注注数：仅展示，无修改
     betNotes() {
       if (this.selectedMatchList.length === 0) return 0;
       let notes = 1;
@@ -135,19 +135,18 @@ export default {
       });
       return notes;
     },
-    // 计算总投注金额：仅展示
     totalBetAmount() {
       return this.betNotes * this.betCount * 2;
     },
   },
   created() {
-    const sys = wx.getWindowInfo();
+    // H5端适配：统一获取系统信息
+    const sys = uni.getSystemInfoSync();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
-    this.calcAllHeights(); // 计算适配高度
+    this.calcAllHeights();
   },
   onLoad() {
-    // 接收父组件传递的选中数据
-    const eventChannel = this.getOpenerEventChannel();
+    const eventChannel = this.getOpenerEventChannel ? this.getOpenerEventChannel() : null;
     if (eventChannel) {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
@@ -157,16 +156,12 @@ export default {
     }
   },
   methods: {
-        // 新增：处理自定义软键盘确认
     handleKeyboardConfirm(val) {
       const num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50); // 最终限制1-50
-      this.showNumberKeyboard = false; // 收起键盘
+      this.betCount = Math.min(Math.max(num, 1), 50);
+      this.showNumberKeyboard = false;
     },
-
-        // 新增：处理自定义软键盘实时输入
     handleKeyboardInput(val) {
-      // 过滤非数字，限制1-50
       const num = parseInt(val) || 1;
       if (num < 1) {
         this.betCount = 1;
@@ -176,27 +171,86 @@ export default {
         this.betCount = num;
       }
     },
-    // 计算适配高度（兼容App/小程序）
     calcAllHeights() {
-      const sys = wx.getWindowInfo();
+      const sys = uni.getSystemInfoSync();
       this.statusBarHeight = sys.statusBarHeight || 20;
-       this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
-      
-      // 导航栏高度（80rpx转px）
+      this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
       
-      // 投注栏高度（200rpx转px）
-      const betBarFixedRpx = 200;
+      // H5端适配：动态计算bet-bar高度
+      const betBarFixedRpx = this.isApp ? 200 : 180;
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-      this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
+      this.betBarTotalHeight = this.betBarFixedPx + (this.isApp ? this.safeAreaBottom : 0);
     },
-    // 仅返回，无其他操作
     handleBack() {
       uni.navigateBack({ delta: 1 });
     },
-  },
+    handleMinus() {
+      const num = this.betCount - 1;
+      this.betCount = num < 1 ? 1 : num;
+    },
+    handlePlus() {
+      const num = this.betCount + 1;
+      this.betCount = num > 50 ? 50 : num;
+    },
+    async generatePoster() {
+      // #ifdef H5
+      try {
+        uni.showLoading({ title: '生成海报中...', mask: true });
+        const posterContent = document.getElementById('poster-content');
+        if (!posterContent) {
+          uni.hideLoading();
+          uni.showToast({ title: '未找到海报内容', icon: 'none' });
+          return;
+        }
+
+        const tempContainer = document.createElement('div');
+        tempContainer.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: -9999;
+          width: ${posterContent.offsetWidth}px;
+          background: #fff;
+          padding: 20px;
+          box-sizing: border-box;
+        `;
+        tempContainer.innerHTML = posterContent.innerHTML;
+        document.body.appendChild(tempContainer);
+
+        const html2canvas = (await import('html2canvas')).default;
+        const canvas = await html2canvas(tempContainer, {
+          width: tempContainer.offsetWidth,
+          height: tempContainer.scrollHeight,
+          useCORS: true,
+          allowTaint: true,
+          scale: 2,
+          logging: false,
+          backgroundColor: '#ffffff',
+          scrollX: 0,
+          scrollY: 0,
+          windowWidth: tempContainer.offsetWidth,
+          windowHeight: tempContainer.scrollHeight
+        });
+
+        this.posterImageUrl = canvas.toDataURL('image/jpeg', 0.8);
+        document.body.removeChild(tempContainer);
+        uni.hideLoading();
+        this.showPosterPreview = true;
+      } catch (err) {
+        console.error('生成海报失败：', err);
+        uni.hideLoading();
+        uni.showToast({ title: '生成失败，请重试', icon: 'none' });
+      }
+      // #endif
+
+      // #ifndef H5
+      uni.showToast({ title: '仅H5端支持生成海报', icon: 'none' });
+      // #endif
+    }
+  }
 };
 </script>
 
@@ -207,38 +261,33 @@ export default {
   height: 100vh;
   margin: 0;
   padding: 0;
-  // H5端滚动穿透兼容
-  // #ifdef H5
+  position: relative;
+  // 全局禁止滚动穿透
   overflow: hidden;
-  // #endif
 }
 
-// 滚动区样式：适配多端
+// 替换 .match-scroll 样式
 .match-scroll {
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  height: auto !important;
-  overflow-y: auto !important;
-  background-color: #f5f5f5;
   box-sizing: border-box;
-  padding: 10rpx 20rpx 20rpx;
+  padding-top: v-bind(headerTotalHeight + 'px');
+  padding-bottom: 120rpx;
+  // 就按你说的写！
+  height: calc(100vh - 120rpx);
+  background-color: #f5f5f5;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
 
-  // 隐藏滚动条（全端）
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
-    width: 0;
-    height: 0;
   }
 }
 
 .match-list {
   width: 100%;
   box-sizing: border-box;
-
+  padding-bottom: 50rpx;
   .match-row {
     display: flex;
     background-color: #fff;
@@ -250,7 +299,6 @@ export default {
     width: 100%;
   }
 
-  // 完全复用List子组件的main-right样式
   .main-right {
     flex: 1;
     width: 100%;
@@ -301,39 +349,6 @@ export default {
     }
   }
 
-  .rate-row {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    font-size: 22rpx;
-    color: #999;
-    justify-content: space-between;
-    padding-right: 10rpx;
-
-    .rate-text {
-      flex: 1;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .rate-text.home { text-align: right; padding-right: 10rpx; }
-    .rate-text.away { text-align: left; padding-left: 10rpx; }
-    .vs-text {
-      width: 80rpx;
-      text-align: center;
-      flex-shrink: 0;
-      color: #999;
-      font-size: 20rpx;
-    }
-    .ai-analysis-text {
-      font-size: 24rpx;
-      color: #06f;
-      letter-spacing: 4rpx;
-      flex-shrink: 0;
-    }
-  }
-
   .bottom-right {
     width: 100%;
     box-sizing: border-box;
@@ -361,7 +376,7 @@ export default {
     color: #333;
     border: 1rpx solid #ddd;
     background-color: #fff;
-    pointer-events: none; // 禁用点击
+    pointer-events: none;
     &.selected {
       background-color: #d92929;
       color: #fff;
@@ -379,7 +394,7 @@ export default {
   }
 }
 
-// 简化版bet-bar：仅展示，无操作
+// ========== H5端重点适配：bet-bar样式 ==========
 .bet-bar {
   position: fixed !important;
   width: 100% !important;
@@ -390,128 +405,213 @@ export default {
   box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   box-sizing: border-box !important;
 
-  // 小程序/App安全区兼容
-  // #ifdef MP-WEIXIN
-  bottom: env(safe-area-inset-bottom) !important;
-  // #endif
-  // #ifdef APP-PLUS
-  bottom: constant(safe-area-inset-bottom) !important;
-  bottom: env(safe-area-inset-bottom) !important;
+  // 安全区适配（仅APP/小程序）
+  // #ifdef MP-WEIXIN || APP-PLUS
+  padding-bottom: env(safe-area-inset-bottom) !important;
   // #endif
 
-  .bet-bar-top {
-    background: #fff;
-    // 新增：给 bet-bar-top 加 flex 布局，让 top-left 和 collapse-area 左右排列
+  // H5端适配
+  // #ifdef H5
+  height: auto !important;
+  // #endif
+
+.bet-bar-top {
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx 30rpx;
+  box-sizing: border-box;
+
+  .collapse-area {
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    border-bottom: 2rpx solid #eee;
+    padding: 10rpx 0;
 
-    // 仅新增这一段 top-left 样式
-    .top-left {
-      font-size: 28rpx;
-      color: #333;
-      padding: 8rpx 12rpx;
-      margin-left: 20rpx;
-      max-width: 200rpx;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    // 左边提示文字
+    .left-tip {
+      font-size: 24rpx;
+      color: #d92929;
+      flex: 1;
+      margin-right: 20rpx;
+      line-height: 1.4;
     }
-    .collapse-area {
+
+    // 倍数选择组（缩小宽度）
+    .multi-group {
       display: flex;
       align-items: center;
-      justify-content: space-around;
-      height: 80rpx;
-      box-sizing: border-box;
-      padding: 10rpx 20rpx;
-      border-bottom: 2rpx solid #eee;
+      gap: 6rpx;
+      flex-shrink: 0;
 
-      .multi-group {
+      .multi-label {
+        font-size: 26rpx;
+        color: #333;
+      }
+
+      .multi-btn {
+        width: 44rpx;
+        height: 44rpx;
+        background-color: #ddd;
+        color: #333;
+        font-size: 28rpx;
         display: flex;
         align-items: center;
-        gap: 10rpx;
+        justify-content: center;
+        border: 1rpx solid #ccc;
 
-        .multi-label {
-          height: 100%;
-          font-size: 30rpx;
-          color: #333;
-        }
+        // #ifdef H5
+        line-height: 1;
+        outline: none;
+        -webkit-appearance: none;
+        // #endif
+      }
 
-        .multi-btn {
-          width: 52rpx;
-          height: 52rpx;
-          background-color: #ddd;
-          color: #333;
-          font-size: 32rpx;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1rpx solid #ccc;
-          padding: 0;
-          margin: 0;
-          border-radius: 0;
-          // 小程序按钮样式兼容
-          // #ifdef MP-WEIXIN
-          line-height: 1;
-          // #endif
-        }
+      // 输入框缩小
+      .multi-input {
+        width: 100rpx;
+        height: 44rpx;
+        background-color: #fff;
+        color: #333;
+        text-align: center;
+        font-size: 26rpx;
+        border: 1rpx solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        .multi-input {
-          width: 180rpx;
-          height: 52rpx;
-          background-color: #fff;
-          color: #333;
-          text-align: center;
-          font-size: 30rpx;
-          border: 1rpx solid #ccc;
-          padding: 0;
-          box-sizing: border-box;
-          border-radius: 0;
-          // H5输入框样式兼容
-          // #ifdef H5
-          outline: none;
-          // #endif
+        // #ifdef H5
+        outline: none;
+        -webkit-appearance: none;
+        // #endif
+
+        &.disabled {
+          color: #999;
+          background-color: #f5f5f5;
         }
+      }
+
+      .multi-unit {
+        font-size: 26rpx;
+        color: #333;
       }
     }
   }
+}
 
   .bet-bar-bottom {
     display: flex;
     align-items: center;
-    height: 100rpx;
+    justify-content: center;
+    height: 80rpx; // H5端降低高度
     background-color: #232323;
     color: #fff;
     box-sizing: border-box;
     padding: 0 20rpx;
+    // H5端适配：调整高度和内边距
+    // #ifdef H5
+    height: 70rpx;
+    // #endif
 
     .bottom-middle {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      margin: 0 20rpx;
+      align-items: center;
+      margin: 0;
       height: 100%;
 
       .select-tip {
-        height: 50rpx;
+        height: 100%;
         font-size: 28rpx;
         color: #fff;
         text-align: center;
-      }
-
-      .bonus-tip {
-        font-size: 18rpx;
-        color: #999;
-        line-height: 1.2;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        // H5端适配：调整字体大小
+        // #ifdef H5
+        font-size: 26rpx;
+        // #endif
       }
     }
   }
 }
 
-// 隐藏滚动条（全端）
+// 海报预览弹窗样式
+.poster-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx;
+  box-sizing: border-box;
+
+  .preview-content {
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20rpx;
+  }
+
+  .poster-image {
+    width: 100%;
+    border-radius: 8rpx;
+  }
+
+  .preview-tip {
+    font-size: 24rpx;
+    color: #fff;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .close-btn {
+    padding: 12rpx 40rpx;
+    background-color: #fff;
+    color: #333;
+    border: none;
+    border-radius: 8rpx;
+    font-size: 28rpx;
+    margin-top: 10rpx;
+    // H5端适配：移除默认按钮样式
+    // #ifdef H5
+    -webkit-appearance: none;
+    outline: none;
+    // #endif
+  }
+}
+
+// 隐藏滚动条
 ::-webkit-scrollbar {
   display: none;
 }
+
+// H5端全局样式重置（解决按钮/输入框默认样式问题）
+// #ifdef H5
+::v-deep button {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  border: none;
+}
+::v-deep input {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+// #endif
 </style>
