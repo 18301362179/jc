@@ -1,4 +1,3 @@
-// utils/h5Auth.js：最终修复版（和小程序逻辑对齐）
 import {
 	getToken,
 	setToken,
@@ -11,6 +10,8 @@ import {
 
 // 全局锁：防重复授权
 let isAuthorizing = false;
+// 新增：标记是否已完成过有效授权（避免重复校验）
+let hasValidAuth = false;
 
 // 仅清理URL中的code/state，不删Token（核心修复）
 const clearCodeInUrl = () => {
@@ -42,20 +43,22 @@ export const getUrlParam = (name) => {
 	return value;
 };
 
-// 跳转微信授权页
+// 优化：跳转微信授权页时，携带当前页面路径（关键修复内部页面分享）
 const redirectToWechatAuth = () => {
 	console.log('[redirectToWechatAuth] ===== 开始跳转授权页 =====');
 	const appId = 'wx8e8d3d70ba87e33c';
-	const redirectUri = encodeURIComponent('https://www.tianjifu.com');
+	// 核心修改：redirectUri 改为当前页面的完整URL（而非固定首页）
+	const currentUrl = window.location.href.split('#')[0]; // 去掉hash，避免微信授权回调异常
+	const redirectUri = encodeURIComponent(currentUrl);
 	const state = Date.now();
-	const authUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`;
+	const authUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_base&state=${state}#wechat_redirect`;
 
 	console.log('[redirectToWechatAuth] 即将跳转的微信授权URL：', authUrl);
 	window.location.href = authUrl;
 	console.log('[redirectToWechatAuth] ===== 跳转授权页结束 =====');
 };
 
-// 用code换Token（和小程序login逻辑对齐）
+// 用code换Token（和小程序login逻辑对齐
 const getTokenByCode = async (code) => {
 	console.log('[getTokenByCode] ===== 开始用code换Token =====');
 	console.log('[getTokenByCode] 待使用的code：', code);
@@ -71,10 +74,6 @@ const getTokenByCode = async (code) => {
 	}
 
 	try {
-		// uni.showLoading({
-		// 	title: '授权验证中...',
-		// 	mask: true
-		// });
 		console.log('[getTokenByCode] 开始调用后端getH5Token接口，参数：', {
 			jsCode: code
 		});
@@ -100,6 +99,9 @@ const getTokenByCode = async (code) => {
 		// 仅清理URL，不删Token（核心修复）
 		clearCodeInUrl();
 
+		// 新增：标记已完成有效授权
+		hasValidAuth = true;
+
 		// 同步全局Token（兜底）
 		if (getApp() ?.globalData) {
 			getApp().globalData.token = backendToken;
@@ -112,13 +114,14 @@ const getTokenByCode = async (code) => {
 		};
 	} catch (err) {
 		const errMsg = err.message || '接口调用失败';
-		uni.showToast({
-			title: errMsg,
-			icon: 'none',
-			duration: 5000
-		});
+		// uni.showToast({
+		// 	title: errMsg,
+		// 	icon: 'none',
+		// 	duration: 5000
+		// });
 		console.error('[getTokenByCode] 换Token流程异常：', errMsg);
 		removeToken(); // 失败才删Token
+		hasValidAuth = false; // 授权失败，重置标记
 		console.log('[getTokenByCode] ===== 换Token流程失败 =====');
 		return {
 			success: false,
@@ -132,6 +135,13 @@ const getTokenByCode = async (code) => {
 // 校验Token有效性（和小程序checkToken对齐）
 export const checkH5Token = async () => {
 	console.log('[checkH5Token] ===== 开始校验Token =====');
+	// 新增：如果已标记有效授权，直接返回true（避免重复校验）
+	if (hasValidAuth) {
+		console.log('[checkH5Token] 已标记有效授权，直接返回true');
+		console.log('[checkH5Token] ===== 校验Token结束 =====');
+		return true;
+	}
+
 	const token = getToken();
 	const invalidToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwidXNlcklkIjoiNSIsIm9wZW5JZCI6Im9PRGRWMV9qc3VWdHVFRWYxbm9LQTZFbTFZcEUiLCJpc1N5c01hbmFnZSI6IjAiLCJ0aW1lU3RhbXAiOjE3Njk5OTk5MjQ3NDJ9.SDgOKGOnz6v6bMFOOuMP_znqXB-B3lFes6MO4tWWx7Q';
 
@@ -139,6 +149,10 @@ export const checkH5Token = async () => {
 	console.log('[checkH5Token] 无效Token对比值：', invalidToken);
 
 	const isValid = !!token && token !== invalidToken;
+	// 新增：如果Token有效，标记已完成有效授权
+	if (isValid) {
+		hasValidAuth = true;
+	}
 	console.log('[checkH5Token] Token有效性：', isValid);
 	console.log('[checkH5Token] ===== 校验Token结束 =====');
 	return isValid;
@@ -150,14 +164,15 @@ export const clearAllCodeRelated = () => {
 	clearCodeInUrl();
 };
 
-// 核心：自动授权入口
+// 核心：自动授权入口（优化重复执行问题）
 export const h5WechatAuth = async () => {
 	console.log('[h5WechatAuth] ===== 自动授权流程开始 =====');
 
-	if (isAuthorizing) {
-		console.log('[h5WechatAuth] 授权锁已开启，跳过本次授权');
+	// 新增：双重锁防重复执行
+	if (isAuthorizing || hasValidAuth) {
+		console.log('[h5WechatAuth] 授权锁已开启/已完成有效授权，跳过本次授权');
 		console.log('[h5WechatAuth] ===== 自动授权流程终止 =====');
-		return false;
+		return hasValidAuth;
 	}
 	isAuthorizing = true;
 
@@ -187,7 +202,14 @@ export const h5WechatAuth = async () => {
 	} catch (error) {
 		console.error('[h5WechatAuth] 自动授权流程异常：', error);
 		isAuthorizing = false;
+		hasValidAuth = false; // 异常时重置标记
 		console.log('[h5WechatAuth] ===== 自动授权流程异常终止 =====');
 		return false;
 	}
+};
+
+// 新增：重置授权标记（供App.vue页面切换时调用，可选）
+export const resetAuthFlag = () => {
+	console.log('[resetAuthFlag] 重置授权标记');
+	hasValidAuth = false;
 };

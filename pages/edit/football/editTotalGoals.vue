@@ -55,26 +55,33 @@
         paddingBottom: (isApp ? safeAreaBottom : 0) + 'px',
       }"
     >
-      <view class="bet-bar-top">
-        <view class="top-left">
-          {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
-        </view>
-        <view class="collapse-area">
-          <view class="multi-group">
-            <text class="multi-label">投</text>
-            <button class="multi-btn minus" @click="handleMinus">-</button>
-            <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 1 }">
-              {{ betCount }}
-            </view>
-            <button class="multi-btn plus" @click="handlePlus">+</button>
-            <text class="multi-unit">倍</text>
-          </view>
-        </view>
+<view class="bet-bar-top">
+  <!-- 新增提示文本 -->
+  <view class="tips-text">请输入倍数后截屏给售票人</view>
+  <!-- 缩小 top-left 样式 -->
+  <view class="top-left">
+    {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
+  </view>
+  <view class="collapse-area">
+    <view class="multi-group">
+      <text class="multi-label">投</text>
+      <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
+      <view 
+        class="multi-input" 
+        @tap="showNumberKeyboard = true"
+        :class="{ 'disabled': selectedMatchCount < 1 }"
+      >
+        {{ betCount }}
       </view>
+      <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
+      <text class="multi-unit">倍</text>
+    </view>
+  </view>
+</view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
           <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}</text>
-          <text class="bonus-tip">{{ calculateBonusText() }}</text>
+          <text class="bonus-tip">{{ calculateHalfFullBonus() }}</text>
         </view>
         <!-- <view class="bottom-right">
           <button class="confirm-btn" :disabled="selectedMatchCount === 0 || isPayLoading" @click="handleConfirmBet(false)">
@@ -236,7 +243,7 @@ export default {
       // 6. 投注栏总高度：仅固定高度，不叠加安全区！解决两端空白/溢出问题
       this.betBarTotalHeight = this.betBarFixedPx;
     },
-    calculateBonusText() {
+    calculateHalfFullBonus() {
       // 1. 边界判断：无有效选中赛事/无投注注数，返回默认提示
       if (this.selectedMatchCount === 0 || this.betNotes === 0) {
         return "预计：0.00";
@@ -353,7 +360,7 @@ export default {
     },
     handleMinus() {
       if (this.betCount > 1) this.betCount--;
-      const v = this.calculateBonusText();
+      const v = this.calculateHalfFullBonus();
     },
     handleBetInput(e) {
       const inputVal = e.detail.value;
@@ -606,24 +613,33 @@ export default {
   bottom: calc(102rpx + env(safe-area-inset-bottom)) !important;
   // #endif
 
-  .bet-bar-top {
+.bet-bar-top {
     background: #fff;
-    // 新增：给 bet-bar-top 加 flex 布局，让 top-left 和 collapse-area 左右排列
     display: flex;
     justify-content: space-around;
     align-items: center;
+    
+    // 新增提示文本样式
+    .tips-text {
+      font-size: 24rpx;
+      color: #d92929;
+      flex: 1;
+      margin-left: 20rpx;
+      line-height: 1.4;
+    }
 
-    // 仅新增这一段 top-left 样式
+    // 缩小 top-left 样式
     .top-left {
-      font-size: 28rpx;
+      font-size: 24rpx; // 从28rpx改小
       color: #333;
       padding: 8rpx 12rpx;
-      margin-left: 20rpx;
-      max-width: 200rpx;
+      margin-left: 10rpx; // 缩小左边距
+      max-width: 150rpx; // 缩小最大宽度
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .collapse-area {
       display: flex;
       align-items: center;
@@ -640,16 +656,16 @@ export default {
 
         .multi-label {
           height: 100%;
-          font-size: 30rpx;
+          font-size: 26rpx; // 略缩小
           color: #333;
         }
 
         .multi-btn {
-          width: 52rpx;
-          height: 52rpx;
+          width: 44rpx; // 从52rpx改小
+          height: 44rpx; // 从52rpx改小
           background-color: #ddd;
           color: #333;
-          font-size: 32rpx;
+          font-size: 28rpx; // 从32rpx改小
           display: flex;
           align-items: center;
           justify-content: center;
@@ -657,24 +673,23 @@ export default {
           padding: 0;
           margin: 0;
           border-radius: 0;
-          // 小程序按钮样式兼容
           // #ifdef MP-WEIXIN
           line-height: 1;
           // #endif
         }
 
+        // 缩小输入框
         .multi-input {
-          width: 180rpx;
-          height: 52rpx;
+          width: 120rpx; // 从180rpx改小
+          height: 44rpx; // 从52rpx改小
           background-color: #fff;
           color: #333;
           text-align: center;
-          font-size: 30rpx;
+          font-size: 26rpx; // 从30rpx改小
           border: 1rpx solid #ccc;
           padding: 0;
           box-sizing: border-box;
           border-radius: 0;
-          // H5输入框样式兼容
           // #ifdef H5
           outline: none;
           // #endif
@@ -682,6 +697,7 @@ export default {
       }
     }
   }
+
 
   .bet-bar-bottom {
     display: flex;

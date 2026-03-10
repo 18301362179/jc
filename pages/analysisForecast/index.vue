@@ -44,23 +44,38 @@
               {{ item.league_name }}
             </view>
           </view>
+
+
         </view>
         
-        <view class="tab">
-          <view class="tab-two">
-            <view :class="['tab-item-two', activeIndex == 0 ? 'active' : '']" @click="clickBang(0, 'course')"> 赛程 </view>
-            <view :class="['tab-item-two', activeIndex == 1 ? 'active' : '']" @click="clickBang(1, 'points')"> 积分 </view>
-            <view  v-if="selectTopTabValue && selectTopTabValue.is_have_scorer == 1"  :class="['tab-item-two', activeIndex == 2 ? 'active' : '']" @click="clickBang(2, 'scorer')">射手榜</view>
-            <view class="picker-box">
-              <picker mode="selector" v-if="csList.length > 0" :range="csList" @change="handleChangeCs">
-                <view class="picker-content">
-                  <text class="picker-text">{{ selectedCs || "请选择" }}</text>
-                  <view class="picker-arrow"></view>
-                </view>
-              </picker>
-            </view>
-          </view>
+<view class="tab">
+  <view class="tab-two">
+    <view :class="['tab-item-two', activeIndex == 0 ? 'active' : '']" @click="clickBang(0, 'course')"> 赛程 </view>
+    <view :class="['tab-item-two', activeIndex == 1 ? 'active' : '']" @click="clickBang(1, 'points')"> 积分 </view>
+    <view  v-if="selectTopTabValue && selectTopTabValue.is_have_scorer == 1"  :class="['tab-item-two', activeIndex == 2 ? 'active' : '']" @click="clickBang(2, 'scorer')">射手榜</view>
+    
+    <!-- 自定义下拉框（替换原 picker） -->
+    <view class="dropdown-box" @click="toggleDropdown">
+      <view class="dropdown-content">
+        <text class="dropdown-text">{{ selectedCs || "请选择" }}</text>
+        <view class="dropdown-arrow" :class="{ rotate: isDropdownOpen }"></view>
+      </view>
+      
+      <!-- 下拉选项列表 -->
+      <view class="dropdown-options" v-show="isDropdownOpen" @click.stop>
+        <view 
+          v-for="(item, index) in csList" 
+          :key="index"
+          class="dropdown-option"
+          :class="{ active: selectedCs === item }"
+          @click="selectDropdownItem(index, item)"
+        >
+          {{ item }}
         </view>
+      </view>
+    </view>
+  </view>
+</view>
         
         <!-- 阶段tab（改为流式布局） -->
         <view v-if="activeIndex == 0 && stageList && stageList.length > 1" class="tabs-wrap-container">
@@ -198,6 +213,7 @@ export default {
       windowResizeCallback: null,
       touchStartX: 0, 
       swipeThreshold: 50, 
+      isDropdownOpen: false, // 控制下拉框展开/收起
     };
   },
   onShow() {
@@ -247,6 +263,30 @@ export default {
     },
   },
   methods: {
+    toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+    // 点击其他区域关闭下拉框
+    if (this.isDropdownOpen) {
+      uni.nextTick(() => {
+        document.addEventListener('click', this.closeDropdown);
+      });
+    } else {
+      document.removeEventListener('click', this.closeDropdown);
+    }
+  },
+  // 关闭下拉框
+  closeDropdown() {
+    this.isDropdownOpen = false;
+    document.removeEventListener('click', this.closeDropdown);
+  },
+  // 选择下拉框选项
+  selectDropdownItem(index, item) {
+    this.selectedCs = item;
+    this.isDropdownOpen = false;
+    // 触发原有选择逻辑
+    this.handleChangeCs({ detail: { value: index } });
+    document.removeEventListener('click', this.closeDropdown);
+  },
     // 高度计算
     calcAllHeights() {
       const rpx2px = this.windowWidth / 750;
@@ -285,7 +325,7 @@ export default {
         console.error("获取世界排名失败:", error);
         this.originalWordRankingList = [];
         this.wordRankingList = [];
-        uni.showToast({ title: "获取数据失败", icon: "none" });
+        // uni.showToast({ title: "获取数据失败", icon: "none" });
       } finally {
         this.hideLoading();
       }
@@ -302,7 +342,7 @@ export default {
         return item.team_name.toLowerCase().includes(keyword.toLowerCase());
       });
       if (this.wordRankingList.length === 0) {
-        uni.showToast({ title: "未找到相关排名", icon: "none" });
+        // uni.showToast({ title: "未找到相关排名", icon: "none" });
       }
     },
     async handleClickDetail(item) {
@@ -338,7 +378,7 @@ export default {
           });
         }
       } catch (err) {
-        uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
+        // uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
       } finally {
         this.hideLoading();
       }
@@ -1253,6 +1293,77 @@ button {
   uni-modal,
   .uni-mask {
     z-index: 99 !important;
+  }
+}
+.dropdown-box {
+  position: relative;
+  flex: 1;
+  padding: 0 15rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 999; // 确保下拉列表在最上层
+
+  .dropdown-content {
+    display: flex;
+    align-items: center;
+    padding: 8rpx 12rpx;
+    background-color: #f5f5f5;
+    border-radius: 8rpx;
+    min-width: 150rpx;
+    cursor: pointer;
+  }
+
+  .dropdown-text {
+    font-size: 28rpx;
+    color: $active-color;
+    flex: 1;
+  }
+
+  .dropdown-arrow {
+    width: 0;
+    height: 0;
+    border-left: 10rpx solid transparent;
+    border-right: 10rpx solid transparent;
+    border-top: 10rpx solid $active-color;
+    transition: transform 0.3s;
+    margin-left: 6rpx;
+  }
+
+  .dropdown-arrow.rotate {
+    transform: rotate(180deg);
+  }
+
+  // 下拉选项列表
+  .dropdown-options {
+    position: absolute;
+    top: 70rpx;
+    right: 15rpx;
+    min-width: 170rpx;
+    max-height: 300rpx;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 8rpx;
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+
+    .dropdown-option {
+      padding: 0 20rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      font-size: 28rpx;
+      color: #333;
+      white-space: nowrap;
+
+      &.active {
+        color: $active-color;
+        background-color: #f5f7fa;
+      }
+
+      &:hover {
+        background-color: #f5f7fa;
+      }
+    }
   }
 }
 </style>

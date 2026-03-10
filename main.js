@@ -19,10 +19,8 @@ Vue.prototype.$bus = new Vue();
 import UniNumberKeyboard from '@/components/UniNumberKeyboard/UniNumberKeyboard.vue'
 // 全局注册组件
 Vue.component('UniNumberKeyboard', UniNumberKeyboard)
-// 
-// ========== 核心1：加载 static 目录下的本地 vConsole 文件（原有逻辑） ==========
-	// 仅 H5 端执行，避免小程序/App 报错
-	// #ifdef H5
+
+// #ifdef H5
 	// try {
 	// 	// 创建脚本标签，加载 static/js 下的本地 vConsole
 	// 	const scriptVConsole = document.createElement('script');
@@ -50,7 +48,7 @@ Vue.component('UniNumberKeyboard', UniNumberKeyboard)
 	// } catch (error) {
 	// 	console.error('⚠️ vConsole 初始化异常：', error);
 	// }
-	// // #endif
+	// #endif
 
 
 // ========== 核心2：加载 static 目录下的本地微信 JS-SDK（新增逻辑） ==========

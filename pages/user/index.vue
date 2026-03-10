@@ -83,7 +83,7 @@
         <no-data v-if="tradeRecord.length === 0" />
         <!-- 交易记录专属表头：宽度和列表列严格对齐、高度更小 -->
         <view class="trade-header" v-if="tradeRecord.length > 0">
-          <view class="trade-header-col from-col">来源</view>
+          <!-- <view class="trade-header-col from-col">来源</view> -->
           <view class="trade-header-col type-col">类型</view>
           <view class="trade-header-col match-col">比赛</view>
           <view class="trade-header-col time-col">时间</view>
@@ -91,9 +91,9 @@
         <!-- 原有内容行 -->
         <view class="record-card" v-for="(item, index) in tradeRecord" :key="index">
           <view class="record-row">
-            <view class="normal-col from-col">
+            <!-- <view class="normal-col from-col">
               <text class="value">{{ item.be_from || '' }}</text>
-            </view>
+            </view> -->
             <view class="normal-col type-col">
               <text class="value">{{ item.goods_type || '' }}</text>
             </view>
