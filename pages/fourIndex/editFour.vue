@@ -74,7 +74,7 @@
           <view class="multi-group">
             <text class="multi-label">投</text>
             <button class="multi-btn minus" @click="handleMinus">-</button>
-            <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 4 }">
+            <view class="multi-input" @tap="showNumberKeyboard = true">
               {{ betCount }}
             </view>
             <button class="multi-btn plus" @click="handlePlus">+</button>
