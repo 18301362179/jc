@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "【云竟慧博体育】微信服务号",
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#31926e",
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "onReachBottomDistance": 50,
+  "disableScroll": true,
+  "usingComponents": {
+    "custom-header": "/components/CustomHeader",
+    "native-tabbar": "/components/tabbar",
+    "tips-popup": "/pages/commn/playTip"
+  }
+}
