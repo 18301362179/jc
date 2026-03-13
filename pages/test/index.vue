@@ -1,17 +1,8 @@
 <template>
   <view class="page-container">
     <!-- 固定头部 -->
-    <CustomHeader
-      :title="'预测数据'"
-      :showBack="true"
-      :isIndex="false"
-      :showIcon="false"
-      :isSelected="false"
-      :selectedPlay="''"
-      @funnel-click="handleFunnel"
-      @back-click="onBackClick"
-    />
-    
+    <CustomHeader :title="'预测数据'" :showBack="true" :isIndex="false" :showIcon="false" :isSelected="false" :selectedPlay="''" @funnel-click="handleFunnel" @back-click="onBackClick" />
+
     <!-- 可滚动的内容区域 -->
     <scroll-view class="content-scroll" scroll-y="true">
       <view class="match-info-container">
@@ -46,7 +37,7 @@
           <view class="prediction-section">
             <!-- 胜利预测 -->
             <view class="prediction-row">
-              <text class="pro-text"></text>
+              <text class="pro-text">胜率预测</text>
               <view class="prediction-content">
                 <view class="home-prediction">
                   <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.home_win_rate, 0) }}</text>
@@ -59,10 +50,10 @@
                 </view>
               </view>
             </view>
-            
+
             <!-- 比分预测 -->
             <view class="prediction-row">
-              <text class="pro-text"></text>
+              <text class="pro-text">比分预测</text>
               <view class="prediction-content">
                 <view class="home-prediction">
                   <text class="prediction-value">{{ baseMap.homeGoalCalculate === null || baseMap.homeGoalCalculate === undefined ? "-" : baseMap.homeGoalCalculate }}</text>
@@ -75,70 +66,86 @@
                 </view>
               </view>
             </view>
-            
+
             <view class="win-prompt">{{ info.prompt || "" }}</view>
           </view>
         </view>
 
-        <!-- 以下代码保持不变 -->
-        <view class="statistic-section" v-if="baseMap">
+        <view class="ranking-section">
           <view class="section-title">
-            <text>统计数据</text>
+            <text>积分数据</text>
           </view>
-          <view class="statistic-table">
+          <view class="ranking-table scorer-table">
             <view class="table-header">
-              <view class="cell item-cell">项</view>
-              <view class="cell team-cell">{{ courseMap.home_name || "切尔西" }}</view>
-              <view class="cell team-cell">{{ courseMap.visiting_name || "利兹联" }}</view>
+              <text class="cell player-cell">球队</text>
+              <text class="cell num-cell">场次</text>
+              <text class="cell num-cell">积分</text>
+              <text class="cell point-num-cell">胜/平率</text>
+              <text class="cell point-num-cell">胜/平负</text>
             </view>
-            <view class="table-row" v-if="baseMap.ls_home_points">
-              <view class="cell item-cell">积分</view>
-              <view class="cell data-cell">{{ baseMap.ls_home_points || "-" }}</view>
-              <view class="cell data-cell">{{ baseMap.ls_visiting_points || "-" }}</view>
-            </view>
-            <view class="table-row" v-if="baseMap.ls_home_win_rate">
-              <view class="cell item-cell">胜率/平率</view>
-              <view class="cell data-cell">{{ baseMap.ls_home_win_rate }}</view>
-              <view class="cell data-cell">{{ baseMap.ls_visiting_win_rate }}</view>
-            </view>
-            <view class="table-row" v-if="baseMap.ls_home_goal">
-              <view class="cell item-cell">进球/失球</view>
-              <view class="cell data-cell">{{ baseMap.ls_home_goal || "-" }}</view>
-              <view class="cell data-cell">{{ baseMap.ls_visiting_goal || "-" }}</view>
-            </view>
-            <view class="table-row" v-if="baseMap.tzk_head_home_win_rate">
-              <view class="cell item-cell">胜率(同主客对战)</view>
-              <view class="cell data-cell">{{ (baseMap.tzk_head_home_win_rate && baseMap.tzk_head_home_win_rate.split("/")[0]) || "-" }}</view>
-              <view class="cell data-cell">{{ (baseMap.tzk_head_visiting_win_rate && baseMap.tzk_head_visiting_win_rate.split("/")[0]) || "-" }}</view>
-            </view>
-            <view class="table-row" v-if="baseMap.tzk_head_home_goal">
-              <view class="cell item-cell">进球(同主客对战)</view>
-              <view class="cell data-cell">{{ (baseMap.tzk_head_home_goal && baseMap.tzk_head_home_goal.split("/")[0]) || "-" }}</view>
-              <view class="cell data-cell">{{ (baseMap.tzk_head_visiting_goal && baseMap.tzk_head_visiting_goal.split("/")[0]) || "-" }}</view>
-            </view>
-            <view class="table-row" v-if="baseMap.all_head_home_win_rate">
-              <view class="cell item-cell">胜率(全对战)</view>
-              <view class="cell data-cell">{{ baseMap.all_head_home_win_rate || "-" }}</view>
-              <view class="cell data-cell">{{ baseMap.all_head_visiting_win_rate || "-" }}</view>
-            </view>
-            <view class="table-row" v-if="baseMap.all_head_home_goal">
-              <view class="cell item-cell">进球(全对战)</view>
-              <view class="cell data-cell">{{ baseMap.all_head_home_goal || "-" }}</view>
-              <view class="cell data-cell">{{ baseMap.all_head_visiting_goal || "-" }}</view>
-            </view>
-            <view class="table-row" v-if="baseMap.tzk_all_home_win_rate">
-              <view class="cell item-cell">胜率/平率(同主客)</view>
-              <view class="cell data-cell">{{ baseMap.tzk_all_home_win_rate || "-" }}</view>
-              <view class="cell data-cell">{{ baseMap.tzk_all_visiting_win_rate || "-" }}</view>
-            </view>
-            <view class="table-row" v-if="baseMap.tzk_all_home_goal">
-              <view class="cell item-cell">进球/失球(同主客)</view>
-              <view class="cell data-cell">{{ baseMap.tzk_all_home_goal || "-" }}</view>
-              <view class="cell data-cell">{{ baseMap.tzk_all_visiting_goal || "-" }}</view>
+            <view class="scorer-row-wrap" v-for="(item, i) in pointsData" :key="i">
+              <view class="table-row">
+                <text class="cell player-cell">{{ item.teamName || "-" }}</text>
+                <text class="cell num-cell">{{ item.matchesNumber || "-" }}</text>
+                <text class="cell num-cell">{{ item.points || "-" }}</text>
+                <text class="cell point-num-cell">{{ item.winDrawRate || "-" }}</text>
+                <text class="cell point-num-cell">{{ item.winDrawLoss || "-" }}</text>
+              </view>
             </view>
           </view>
         </view>
-
+<view class="ranking-section">
+  <view class="section-title">
+    <text>交锋数据</text>
+  </view>
+  <!-- 只改这个ranking-table的结构和类名 -->
+  <view class="ranking-table head-data-table">
+    <!-- 重写的表头 - 左侧球队 + 右侧双列两行 -->
+    <view class="head-table-header">
+      <view class="header-col left-col">
+        <text class="header-text">球队</text>
+      </view>
+      <view class="header-col right-col">
+        <text class="header-text top-text">同主客交锋</text>
+        <text class="header-text bottom-text">胜率/均进球</text>
+      </view>
+      <view class="header-col right-col">
+        <text class="header-text top-text">全部交锋</text>
+        <text class="header-text bottom-text">胜率/均进球</text>
+      </view>
+    </view>
+    
+    <!-- 数据行保持原样，仅调整类名适配新布局 -->
+    <view class="scorer-row-wrap" v-for="(item, i) in headData" :key="i">
+      <view class="head-table-row">
+        <text class="cell left-cell">{{ item.teamName || "-" }}</text>
+        <text class="cell right-cell">{{ item.tzkHeadWinRateAndGoal || "-" }}</text>
+        <text class="cell right-cell">{{ item.allHeadWinRateAndGoal || "-" }}</text>
+      </view>
+    </view>
+  </view>
+</view>
+        <view class="ranking-section">
+          <view class="section-title">
+            <text>相同主客场数据</text>
+          </view>
+          <view class="ranking-table scorer-table">
+            <view class="table-header">
+              <!-- <text class="cell ranking-cell">排名</text> -->
+              <text class="cell player-cell">球队</text>
+              <text class="cell point-num-cell">胜率/平率</text>
+              <text class="cell point-num-cell">均进/失球</text>
+            </view>
+            <view class="scorer-row-wrap" v-for="(item, i) in tzkDataList" :key="i">
+              <view class="table-row">
+                <!-- <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text> -->
+                <text class="cell player-cell">{{ item.teamName || "-" }}</text>
+                <text class="cell point-num-cell">{{ item.winDrawRate || "-" }}</text>
+                <text class="cell point-num-cell">{{ item.goalLoss || "-" }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
         <view class="record-section">
           <view class="tab-buttons">
             <view class="tab-btn" :class="{ active: currentTab === '全部' }" @click="switchTab('全部')"> 全部对战 </view>
@@ -246,7 +253,6 @@
             </view>
           </view>
         </view>
-        
       </view>
     </scroll-view>
   </view>
@@ -256,11 +262,9 @@
 import { getAi, queryPlayer } from "@/api/demo";
 import { formatDateWithWeekday } from "@/utils/data";
 
-
 import CustomHeader from "@/components/CustomHeader.vue";
 export default {
-   
-  components: {CustomHeader},
+  components: { CustomHeader },
   data() {
     return {
       info: {},
@@ -278,6 +282,9 @@ export default {
       filteredRecords: [],
       tzkHeadRecord: [],
       allHeadRecord: [],
+      pointsData: [],
+      tzkDataList:[],
+      headData: []
     };
   },
   onLoad(options) {
@@ -288,11 +295,10 @@ export default {
       param.isTradition = 1;
     }
     this.getAiDetail(param);
-  // 强制显示分享菜单，立刻解除置灰
-  wx.showShareMenu({
-    menus: ['shareAppMessage', 'shareTimeline']
-  })
-
+    // 强制显示分享菜单，立刻解除置灰
+    wx.showShareMenu({
+      menus: ["shareAppMessage", "shareTimeline"],
+    });
   },
   onShow() {
     uni.hideTabBar();
@@ -333,6 +339,9 @@ export default {
         this.allHeadRecord = data.all_headRecord || [];
         this.tzkHeadRecord = data.tzk_headRecord || [];
         this.filteredRecords = data.all_headRecord || [];
+        this.pointsData = data.pointsData|| [];
+        this.headData = data.headData|| [];
+        this.tzkDataList =  data.tzkDataList||[];
         this.info = JSON.parse(JSON.stringify(data));
       } catch (error) {
         console.error("获取AI详情失败:", error);
@@ -348,7 +357,7 @@ export default {
     },
     // 补充缺失的事件处理方法
     handleFunnel() {},
-    onBackClick() {}
+    onBackClick() {},
   },
 };
 </script>
@@ -668,6 +677,18 @@ export default {
   .table-row:nth-child(even) {
     background: #f2f2f2;
   }
+  &.head-data-fix {
+    .table-header {
+      align-items: center; // 单元格垂直居中
+      height: 48rpx; // 统一表头行高
+      
+      &:first-of-type .player-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center; // 空白单元格水平居中
+      }
+    }
+  }
 }
 
 .scorer-table {
@@ -681,9 +702,17 @@ export default {
       width: 100rpx;
       flex: none;
     }
+    .point-num-cell {
+      width: 130rpx;
+      flex: none;
+    }
+    .headData-point-num-cell {
+      width: 200rpx;
+      flex: none;
+    }
     .player-cell {
       flex: 1;
-      text-align: left;
+      text-align: cen;
       padding-left: 20rpx;
     }
   }
@@ -791,7 +820,7 @@ export default {
   margin-bottom: 24rpx;
   overflow: hidden;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-  
+
   .tab-buttons {
     display: flex;
     border-bottom: 1rpx solid #eee;
@@ -810,6 +839,90 @@ export default {
         border-bottom: 2rpx solid #31926e;
       }
     }
+  }
+}
+// 交锋数据表格专属样式 - 完全独立，不影响其他表格
+.head-data-table {
+  border: 1rpx solid #eee;
+  
+  // 表头样式
+  .head-table-header {
+    display: flex;
+    background: #f5f7fa;
+    
+    .header-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-left: 1rpx solid #eee;
+      padding: 8rpx 0;
+      
+      // 左侧球队列
+      &.left-col {
+        flex: 1; // 自适应宽度
+      }
+      
+      // 右侧双列（同宽）
+      &.right-col {
+        width: 200rpx; // 固定相同宽度
+      }
+      
+      .header-text {
+        font-size: 26rpx;
+        color: #444;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        
+        &.top-text {
+          margin-bottom: 4rpx;
+        }
+        
+        &.bottom-text {
+          margin-top: 4rpx;
+        }
+      }
+    }
+  }
+  
+  // 数据行样式
+  .head-table-row {
+    display: flex;
+    padding: 16rpx 0;
+    border-bottom: 1rpx solid #eee;
+    
+    &:nth-child(odd) {
+      background: #f2f2f2;
+    }
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    .cell {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 26rpx;
+      border-left: 1rpx solid #eee;
+      
+      &.left-cell {
+        flex: 1;
+        padding-left: 20rpx;
+      }
+      
+      &.right-cell {
+        width: 200rpx;
+        text-align: center;
+      }
+    }
+  }
+  .scorer-row-wrap:nth-child(odd) .head-table-row {
+    background: #f2f2f2 !important;
+  }
+  .scorer-row-wrap:nth-child(even) .head-table-row {
+    background: transparent !important;
   }
 }
 </style>

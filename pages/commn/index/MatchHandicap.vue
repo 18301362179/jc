@@ -59,7 +59,7 @@
                 >
                 <text class="odds" v-if="item.r_win_multiplier">主胜{{ item.r_win_multiplier }}</text>
                 <text class="odds rate" v-if="item.home_win_rate">
-                  胜
+                  胜率
                   <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.handicapHomeSelected) }">{{ item.home_win_rate || "" }}</text>
                 </text>
               </view>
@@ -67,7 +67,7 @@
                 <text class="vs-text">VS</text>
                 <text class="vs-odds" v-if="item.r_draw_multiplier">平{{ item.r_draw_multiplier }}</text>
                 <text class="vs-odds" v-if="item.draw_rate">
-                  平
+                  平率
                   <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.handicapVsSelected) }">{{ item.draw_rate }}</text>
                 </text>
               </view>
@@ -75,7 +75,7 @@
                 <text class="team-name">{{ item.visiting_name }}</text>
                 <text class="odds" v-if="item.r_loss_multiplier">主负{{ item.r_loss_multiplier }}</text>
                 <text class="odds rate" v-if="item.visiting_win_rate">
-                  胜
+                  胜率
                   <text :style="{ color: getRateColor(item.visiting_win_rate, 'away', item.awaySelected) }">{{ item.visiting_win_rate || "" }}</text>
                 </text>
               </view>

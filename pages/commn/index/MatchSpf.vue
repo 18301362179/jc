@@ -53,7 +53,7 @@
                 <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
                 <text class="odds rate" v-if="item.home_win_rate">
-                  胜
+                  胜率
                   <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.homeSelected) }">{{ item.home_win_rate || "" }}</text>
                 </text>
               </view>
@@ -71,7 +71,7 @@
                 <text class="vs-odds" v-if="item.draw_multiplier">平{{ item.draw_multiplier }}</text>
                 <!-- 拆分文字：只让平数值变绿 -->
                 <text class="vs-odds" v-if="item.draw_rate">
-                  平
+                  平率
                   <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.vsSelected) }">{{ item.draw_rate }}</text>
                 </text>
               </view>
@@ -89,7 +89,7 @@
                 <text class="odds" v-if="item.loss_multiplier">主负{{ item.loss_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
                 <text class="odds rate" v-if="item.visiting_win_rate">
-                  胜
+                  胜率
                   <text :style="{ color: getRateColor(item.visiting_win_rate, 'away', item.awaySelected) }">{{ item.visiting_win_rate || "" }}</text>
                 </text>
               </view>

@@ -46,9 +46,9 @@
                 </view>
                 <!-- 胜&进球数行 -->
                 <view class="rate-row">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || "--" }}</text>
-                  <text class="vs-text">{{ item.draw_rate ? "平" + item.draw_rate : "" }}</text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "--" }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
+                  <text class="vs-text">{{ item.draw_rate ? "平率" + item.draw_rate : "" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
                 </view>
               </view>
               <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">

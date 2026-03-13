@@ -67,9 +67,9 @@
 
                 <!-- 胜行：样式统一 -->
                 <view class="rate-row">
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{item.visiting_win_rate || "" }}</text>
                   <text class="vs-text"></text>
-                  <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{item.home_win_rate || "" }}</text>
                 </view>
               </view>
 
@@ -78,7 +78,7 @@
                 <view class="odds-trigger-area" :class="{ 'disabled-trigger': item.is_stop == 1 }">
                   <view class="odds-row">
                     <view class="match-cell away" :class="{ selected: item.rAwaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'rAwaySelected')"> 主负{{ item.loss_multiplier || "--" }} </view>
-                    <view class="match-cell home" :class="{ selected: item.rHomeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'rHomeSelected')"> 主胜{{ item.win_multiplier || "--" }} </view>
+                    <view class="match-cell home" :class="{ selected: item.rHomeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'rHomeSelected')"> 主胜{{item.win_multiplier || "--" }} </view>
                   </view>
                 </view>
               </view>
