@@ -49,9 +49,9 @@
                     <text class="team-name home">{{ item.visiting_name }}</text>
                   </view>
                   <view class="rate-row">
-                    <text class="rate-text home" style="text-align:right;padding-right: 10px;" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
-                    <text class="vs-text" v-if="item.draw_rate">平{{ item.draw_rate }}</text>
-                    <text class="rate-text away" style="text-align:left;padding-left:10px;" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
+                    <text class="rate-text home" style="text-align:right;padding-right: 10px;" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                    <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
+                    <text class="rate-text away" style="text-align:left;padding-left:10px;" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
                   </view>
                 </view>
               </view>
@@ -120,11 +120,11 @@
           <!-- 第二行：胜、平、负率 横向排列 -->
           <view class="match-stat-info stat-spf">
             <view class="stat-item" v-if="currentMatch.home_win_rate">
-              <text class="stat-label">胜：</text>
+              <text class="stat-label">胜率：</text>
               <text class="stat-value">{{ currentMatch.home_win_rate || "--" }}</text>
             </view>
             <view class="stat-item" v-if="currentMatch.draw_rate">
-              <text class="stat-label">平：</text>
+              <text class="stat-label">平率：</text>
               <text class="stat-value">{{ currentMatch.draw_rate || "--" }}</text>
             </view>
             <view class="stat-item" v-if="currentMatch.visiting_win_rate">

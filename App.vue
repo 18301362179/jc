@@ -257,7 +257,7 @@ export default {
       return new Promise(resolve => {
         setTimeout(() => {
           // 强制固定为后端签名用的路径：不带#、末尾带/
-          const finalUrl = 'https://www.tianjifu.com/dev/';
+          const finalUrl = window.location.href.split('#')[0];
           console.log('[微信分享] 用于签名的稳定URL：', finalUrl);
           resolve(finalUrl);
         }, 300);
@@ -331,6 +331,7 @@ export default {
             'onMenuShareAppMessage',
             'onMenuShareTimeline'
           ],
+          url: currentUrl,
           beta: true
         });
 
@@ -391,13 +392,13 @@ export default {
         console.error('[微信分享] wx实例不存在');
         return;
       }
-
+      let link = window.location.href.split('#')[0];
       // 固定分享配置：链接与签名路径完全一致
       const shareConfig = {
         title: '云竞慧博体育服务号',
         desc: '足球、篮球胜负、比分分析，足球数据展示。',
         posterUrl: 'https://www.tianjifu.com/static/share-logo.jpg',
-        link: 'https://www.tianjifu.com/dev/' // 固定链接，与签名路径一致
+        link: link // 固定链接，与签名路径一致
       };
 
       // 新版分享给朋友

@@ -32,21 +32,21 @@
                 <text v-if="item.r_goal">({{item.r_goal}})</text> </view>
               <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
               <text class="odds rate"  v-if="item.home_win_rate">
-                胜{{ item.home_win_rate || '' }}
+                胜率{{ item.home_win_rate || '' }}
               </text>
             </view>
             <!-- 修复：绑定让球平局选中状态 handicapVsSelected -->
             <view class="match-cell vs" :class="{ selected: item.handicapVsSelected }" >
               <text class="vs-text">VS</text>
               <text class="vs-odds" v-if="item.r_draw_multiplier">平{{ item.r_draw_multiplier}}</text>
-              <text class="vs-odds" v-if="item.draw_rate">平{{ item.draw_rate}}</text>
+              <text class="vs-odds" v-if="item.draw_rate">平率{{ item.draw_rate}}</text>
             </view>
             <!-- 修复：绑定让球客胜选中状态 handicapAwaySelected -->
             <view class="match-cell away" :class="{ selected: item.handicapAwaySelected }">
               <text class="team-name">{{ item.visiting_name }}</text>
               <text class="odds" v-if="item.loss_multiplier">客胜{{ item.loss_multiplier }}</text>
               <text class="odds rate" v-if="item.visiting_win_rate">
-                胜{{ item.visiting_win_rate || '' }}
+                胜率{{ item.visiting_win_rate || '' }}
               </text>
             </view>
           </view>

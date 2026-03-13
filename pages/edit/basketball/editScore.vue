@@ -43,11 +43,11 @@
             <!-- 胜行：保留胜分差胜字段，布局对齐 -->
             <view class="rate-row">
               <text class="rate-text away" v-if="item.visiting_win_rate">
-                胜{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
+                胜率{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
               </text>
               <text class="vs-text"></text>
               <text class="rate-text home" v-if="item.home_win_rate">
-                胜{{ item.home_win_rate || '--' }}，约{{ item.visiting_goal_calculate || '--' }}分
+                胜率{{ item.home_win_rate || '--' }}，约{{ item.visiting_goal_calculate || '--' }}分
               </text>
             </view>
 

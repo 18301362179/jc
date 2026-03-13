@@ -23,17 +23,17 @@
             <view class="match-cell home" :class="{ selected: item.homeSelected }">
               <view class="team-name">{{ item.home_name }}</view>
               <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
-              <text class="odds rate" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
+              <text class="odds rate" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
             </view>
             <view class="match-cell vs" :class="{ selected: item.vsSelected }">
               <text class="vs-text">VS</text>
               <text class="vs-odds" v-if="item.draw_multiplier">平{{ item.draw_multiplier }}</text>
-              <text class="vs-odds" v-if="item.draw_rate">平{{ item.draw_rate }}</text>
+              <text class="vs-odds" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
             </view>
             <view class="match-cell away" :class="{ selected: item.awaySelected }">
               <text class="team-name">{{ item.visiting_name }}</text>
               <text class="odds" v-if="item.loss_multiplier">主负{{ item.loss_multiplier }}</text>
-              <text class="odds rate" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
+              <text class="odds rate" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
             </view>
           </view>
         </view>

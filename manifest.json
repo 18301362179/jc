@@ -168,8 +168,7 @@
         },
         "title": "足球联赛",
         "router": {
-            "mode": "history",
-            "base":"./"
+            "mode": "history"
         },
         "orientation": [
             "portrait-primary"

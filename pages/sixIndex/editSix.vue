@@ -27,9 +27,9 @@
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
               <view class="team-vs" style="color:#888;padding:0;">
-                <text class="team-name home" v-if="item.home_win_rate">胜{{ item.home_win_rate }}</text>
-                <text class="vs-text" v-if="item.draw_rate">平{{item.draw_rate}}</text>
-                <text class="team-name away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate }}</text>
+                <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
+                <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
+                <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
               </view>
             </view>
 
