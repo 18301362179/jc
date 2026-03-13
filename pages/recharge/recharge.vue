@@ -81,7 +81,7 @@ export default {
   },
   onLoad(options) {
     // 接收透传参数（如来源）
-    if (options?.beFrom) {
+    if (options && options.beFrom) {
       this.payExtParams.beFrom = options.beFrom;
     }
   },

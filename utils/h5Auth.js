@@ -15,7 +15,7 @@ let hasValidAuth = false;
 
 // 仅清理URL中的code/state，不删Token（核心修复）
 const clearCodeInUrl = () => {
-	if (window ?.location) {
+	if (window && window.location) {
 		let url = window.location.href;
 		url = url.replace(/[?&]code=[^&]*/, '').replace(/[?&]state=[^&]*/, '');
 		window.history.replaceState(null, '', url);
@@ -27,7 +27,8 @@ const clearCodeInUrl = () => {
 // 提取URL参数
 export const getUrlParam = (name) => {
 	console.log('[getUrlParam] ===== 开始提取URL参数 =====');
-	if (!window ?.location) {
+	if (!(window && window.location)) {
+
 		console.log('[getUrlParam] 无window.location对象，返回null');
 		console.log('[getUrlParam] ===== 提取参数结束 =====');
 		return null;
@@ -103,7 +104,7 @@ const getTokenByCode = async (code) => {
 		hasValidAuth = true;
 
 		// 同步全局Token（兜底）
-		if (getApp() ?.globalData) {
+		if (getApp() && getApp().globalData) {
 			getApp().globalData.token = backendToken;
 			getApp().updateGlobalToken(backendToken);
 			console.log('[getTokenByCode] 已同步Token到全局：', backendToken);

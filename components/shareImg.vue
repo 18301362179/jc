@@ -29,8 +29,8 @@ export default {
       startY: 0,         // 拖拽起始Y
       isDragging: false, // 拖拽状态
       isCapturing: false,// 截图状态
-      screenWidth: uni.getWindowInfo?.()?.windowWidth || 375,  // 屏幕宽度(px)
-      screenHeight: uni.getWindowInfo?.()?.windowHeight || 667 // 屏幕高度(px)
+      screenWidth: (uni.getWindowInfo && uni.getWindowInfo () && uni.getWindowInfo ().windowWidth) || 375, // 屏幕宽度 (px)
+      screenHeight: (uni.getWindowInfo && uni.getWindowInfo () && uni.getWindowInfo ().windowHeight) || 667 // 屏幕高度 (px)
     }
   },
   methods: {
@@ -153,7 +153,7 @@ export default {
             scores.forEach((score, i) => {
               const cellX = rpxToPx(20) + matrixLabelWidth + i * cellWidth;
               // 选中状态：红色背景+白色文字
-              if (item.homeScoreSelected?.includes(score)) {
+              if (item.homeScoreSelected && item.homeScoreSelected.includes(score)) {
                 ctx.setFillStyle('#d92929');
                 ctx.fillRect(cellX, matrixY, cellWidth, cellHeight);
                 ctx.setFillStyle('#ffffff');
@@ -181,7 +181,7 @@ export default {
             // 客队比分单元格（带选中状态）
             scores.forEach((score, i) => {
               const cellX = rpxToPx(20) + matrixLabelWidth + i * cellWidth;
-              if (item.awayScoreSelected?.includes(score)) {
+              if (item.awayScoreSelected && item.awayScoreSelected.includes(score)) {
                 ctx.setFillStyle('#d92929');
                 ctx.fillRect(cellX, matrixY + cellHeight, cellWidth, cellHeight);
                 ctx.setFillStyle('#ffffff');
