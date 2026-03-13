@@ -1,0 +1,46 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 核心容器：无定位、只占图片空间，居中显示 */
+.empty-stop-container.data-v-a0f7a0ce {
+  /* 去掉所有定位！改用流式布局 */
+  width: 100%;
+  /* 让图片在容器里水平居中 */
+  text-align: center;
+  /* 上下加少量间距，避免和其他内容贴太紧 */
+  padding: 400rpx 0;
+  /* 层级保留但不遮挡（只在图片区域生效） */
+  z-index: 2;
+}
+/* 图片大小：固定200rpx，不占满页面 */
+.stop-img.data-v-a0f7a0ce {
+  width: 200rpx;
+  height: 200rpx;
+  /* 图片水平居中（兼容多端） */
+  display: inline-block;
+}
+
