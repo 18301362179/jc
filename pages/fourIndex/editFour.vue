@@ -139,7 +139,7 @@ betNotes() {
   let totalNotes = 1;
   this.selectedMatchList.forEach(item => {
     // 这一行就是你说的“主选的加客选的（1场）”
-    const oneMatchTotal = (item.homeScoreSelected?.length || 0) + (item.awayScoreSelected?.length || 0);
+    const oneMatchTotal = (item.homeScoreSelected && item.homeScoreSelected.length || 0) + (item.awayScoreSelected && item.awayScoreSelected.length || 0);
     
     // 只要有1场没选，总注数直接为0
     if (oneMatchTotal === 0) {

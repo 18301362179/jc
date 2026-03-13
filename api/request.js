@@ -170,7 +170,7 @@ const doRequest = (options, token) => {
 			data: options.data || {},
 			header,
 			success: (res) => {
-				console.log('[Request封装][doRequest] 请求响应 - 状态码：%s，业务码：%s', res.statusCode, res.data ?.code || '无');
+				console.log('[Request封装][doRequest] 请求响应 - 状态码：%s，业务码：%s', res.statusCode, res.data.code || '无');
 
 				// 处理401 Token失效
 				if ((res.data.code == 401 || res.code == 401) && isNeedToken) {
