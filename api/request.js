@@ -260,11 +260,45 @@ const request = (options) => {
 						console.log('[Request封装][request] H5授权结果 - 成功：%s，Token：%s', isAuthSuccess, loginResult.token ? '有' : '无');
 					}
 					// 小程序/App环境：保留原有login逻辑
-					else if (isApp || isMpWeixin) {
+					else if ( isMpWeixin) {
 						console.log('[Request封装][request] %s环境，执行登录逻辑', isApp ? 'App' : '微信小程序');
 						loginResult = await login();
 						console.log('[Request封装][request] %s登录结果 - 成功：%s，Token：%s',
 							isApp ? 'App' : '微信小程序', loginResult.success, loginResult.token ? '有' : '无');
+					} else {
+						// App端微信授权登录
+						// uni.login({
+						// 	provider: 'weixin', // 指定微信登录
+						// 	success: (res) => {
+						// 		// 获取微信登录临时凭证code
+						// 		const code = res.code;
+						// 		// 将code传给后端，后端调用微信开放平台接口换取openid/unionid
+						// 		uni.request({
+						// 			url: '你的后端接口/weixin/app/login',
+						// 			method: 'POST',
+						// 			data: {
+						// 				code
+						// 			},
+						// 			success: (response) => {
+						// 				// 后端返回用户信息，完成登录
+						// 				console.log('授权成功：', response.data);
+						// 			},
+						// 			fail: (err) => {
+						// 				console.error('授权失败：', err);
+						// 			}
+						// 		});
+						// 	},
+						// 	fail: (err) => {
+						// 		console.error('微信登录调用失败：', err);
+						// 	}
+						// });
+						let t = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3NyIsInVzZXJJZCI6Ijc3Iiwib3BlbklkIjoib29iNk4yR210S3V2c1dxTW1fb19wSzI4LUxmMCIsImlzU3lzTWFuYWdlIjoiMCIsInRpbWVTdGFtcCI6MTc3MjU4ODE5MDQwNn0.ULO_i27weyfFPIEFzCxhy0OWzGjVFe0JwAyrwOSQxBg"
+						token = t;
+						setToken(t);
+						loginResult = {
+							success: true,
+							token: t
+						};	
 					}
 
 					if (loginResult.success) {

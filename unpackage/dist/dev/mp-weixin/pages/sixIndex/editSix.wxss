@@ -109,7 +109,7 @@
   padding-left: 10rpx;
 }
 .match-list .team-vs .vs-text.data-v-12bc2072 {
-  width: 80rpx;
+  width: 120rpx;
   text-align: center;
   flex-shrink: 0;
   font-weight: 500;

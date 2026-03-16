@@ -54,6 +54,7 @@ export default {
     // #endif
 
     try {
+      // #ifdef H5
       const isH5DevEnv = window.location.hostname.includes('localhost') 
                           || window.location.hostname.includes('127.0.0.1')
                           || window.location.port === '8080';
@@ -68,9 +69,6 @@ export default {
         console.log('[H5开发环境] 固定Token已设置完成');
         return;
       }
-
-      // H5环境：授权逻辑
-      // #ifdef H5
       console.log('[H5环境] 开始初始化授权逻辑');
       if (this.h5AuthLock) {
         console.log('[H5环境] 授权锁已开启，跳过初始化');
@@ -130,6 +128,14 @@ export default {
         console.log('[小程序环境] 登录成功，更新Token');
       }
       // #endif
+      // #ifdef APP-PLUS
+       const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3NyIsInVzZXJJZCI6Ijc3Iiwib3BlbklkIjoib29iNk4yR210S3V2c1dxTW1fb19wSzI4LUxmMCIsImlzU3lzTWFuYWdlIjoiMCIsInRpbWVTdGFtcCI6MTc3MjU4ODE5MDQwNn0.ULO_i27weyfFPIEFzCxhy0OWzGjVFe0JwAyrwOSQxBg'
+        setToken(token);
+        this.globalData.token = token;
+        this.h5AuthLock = false;
+        console.log('[H5开发环境] 固定Token已设置完成');
+        return;
+      // #endif
     } catch (error) {
       // uni.showToast({ title: "初始化失败", icon: "none", duration: 3000 });
       console.error('全局初始化异常：', error);
@@ -164,7 +170,7 @@ export default {
       // #endif
       
       // 非H5环境正常初始化
-      // #ifndef H5
+      // #ifdef H5
       if (!isWxConfigFailed && !isWxLoading && !shareInitLock) {
         this.initGlobalWxShare();
       }
@@ -172,7 +178,9 @@ export default {
     }, 500); // 延长延迟时间，避免页面切换频繁触发
 
     // 清除重复的赠币监听
+    // #ifdef H5
     window.removeEventListener('pagehide', this.handleShareSuccess);
+    // #endif
   },
 
   // 页面隐藏：重置标记，避免循环

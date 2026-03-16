@@ -182,7 +182,7 @@ var _default = {
   },
   onLaunch: function () {
     var _onLaunch = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-      var isH5DevEnv, token, mpTokenValid, loginResult;
+      var mpTokenValid, loginResult;
       return _regenerator.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -190,63 +190,48 @@ var _default = {
               uni.hideTabBar();
               console.log('==================== 全局初始化开始 ====================');
               _context.prev = 2;
-              isH5DevEnv = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') || window.location.port === '8080'; // 开发环境：强制设置测试Token
-              if (!isH5DevEnv) {
-                _context.next = 12;
-                break;
-              }
-              console.log('[H5开发环境] 强制设置固定测试Token');
-              token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3NyIsInVzZXJJZCI6Ijc3Iiwib3BlbklkIjoib29iNk4yR210S3V2c1dxTW1fb19wSzI4LUxmMCIsImlzU3lzTWFuYWdlIjoiMCIsInRpbWVTdGFtcCI6MTc3MjU4ODE5MDQwNn0.ULO_i27weyfFPIEFzCxhy0OWzGjVFe0JwAyrwOSQxBg';
-              (0, _storage.setToken)(token);
-              this.globalData.token = token;
-              this.h5AuthLock = false;
-              console.log('[H5开发环境] 固定Token已设置完成');
-              return _context.abrupt("return");
-            case 12:
-              // H5环境：授权逻辑
-
               // 小程序环境：登录逻辑
 
               console.log('[小程序环境] 开始初始化登录逻辑');
-              _context.next = 15;
+              _context.next = 6;
               return (0, _auth.checkToken)();
-            case 15:
+            case 6:
               mpTokenValid = _context.sent;
               console.log('[小程序环境] Token有效性校验结果：', mpTokenValid);
               if (!mpTokenValid) {
-                _context.next = 21;
+                _context.next = 12;
                 break;
               }
               this.globalData.token = (0, _storage.getToken)();
               console.log('[小程序环境] Token有效，直接赋值');
               return _context.abrupt("return");
-            case 21:
+            case 12:
               console.log('[小程序环境] Token无效，执行登录');
-              _context.next = 24;
+              _context.next = 15;
               return (0, _auth.login)();
-            case 24:
+            case 15:
               loginResult = _context.sent;
               console.log('[小程序环境] 登录结果：', loginResult);
               if (loginResult.success) {
                 this.globalData.token = (0, _storage.getToken)();
                 console.log('[小程序环境] 登录成功，更新Token');
               }
-              _context.next = 33;
+              _context.next = 24;
               break;
-            case 29:
-              _context.prev = 29;
+            case 20:
+              _context.prev = 20;
               _context.t0 = _context["catch"](2);
               // uni.showToast({ title: "初始化失败", icon: "none", duration: 3000 });
               console.error('全局初始化异常：', _context.t0);
               this.h5AuthLock = false;
-            case 33:
+            case 24:
               console.log('==================== 全局初始化结束 ====================');
-            case 34:
+            case 25:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, this, [[2, 29]]);
+      }, _callee, this, [[2, 20]]);
     }));
     function onLaunch() {
       return _onLaunch.apply(this, arguments);
@@ -255,7 +240,6 @@ var _default = {
   }(),
   // 页面显示：核心修复循环调用问题
   onShow: function onShow() {
-    var _this = this;
     // 重置基础标记（保留失败标记，避免重复尝试）
     this.h5AuthLock = false;
     isSharePanelOpened = false;
@@ -265,12 +249,6 @@ var _default = {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              // 非H5环境正常初始化
-
-              if (!isWxConfigFailed && !isWxLoading && !shareInitLock) {
-                _this.initGlobalWxShare();
-              }
-            case 1:
             case "end":
               return _context2.stop();
           }
@@ -279,7 +257,6 @@ var _default = {
     })), 500); // 延长延迟时间，避免页面切换频繁触发
 
     // 清除重复的赠币监听
-    window.removeEventListener('pagehide', this.handleShareSuccess);
   },
   // 页面隐藏：重置标记，避免循环
   onHide: function onHide() {
@@ -375,7 +352,7 @@ var _default = {
     },
     // 初始化微信分享：彻底修复循环+签名问题
     initGlobalWxShare: function initGlobalWxShare() {
-      var _this2 = this;
+      var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
         var wx, currentUrl, res, wxConfig;
         return _regenerator.default.wrap(function _callee5$(_context5) {
@@ -410,7 +387,7 @@ var _default = {
                   break;
                 }
                 try {
-                  _this2.setWxShareContent(window.jWeixin);
+                  _this.setWxShareContent(window.jWeixin);
                 } catch (e) {
                   console.error('[微信分享] 已初始化但设置内容失败：', e);
                 }
@@ -420,11 +397,11 @@ var _default = {
               case 14:
                 _context5.prev = 14;
                 _context5.next = 17;
-                return _this2.waitForJWeixin();
+                return _this.waitForJWeixin();
               case 17:
                 wx = _context5.sent;
                 _context5.next = 20;
-                return _this2.getStableUrl();
+                return _this.getStableUrl();
               case 20:
                 currentUrl = _context5.sent;
                 _context5.next = 23;
@@ -454,7 +431,7 @@ var _default = {
                   isWxLoading = false;
                   shareInitLock = false;
                   isWxConfigFailed = false;
-                  _this2.setWxShareContent(wx);
+                  _this.setWxShareContent(wx);
                 });
 
                 // 配置失败：修复重试逻辑
@@ -474,7 +451,7 @@ var _default = {
                               setTimeout(function () {
                                 isWxConfigInited = false; // 重置初始化标记
                                 shareInitLock = false; // 释放锁允许重试
-                                _this2.initGlobalWxShare();
+                                _this.initGlobalWxShare();
                               }, retryCount * 1500); // 递增重试间隔，避免频繁请求
                             } else {
                               // 超过重试次数，标记为彻底失败
@@ -508,7 +485,7 @@ var _default = {
                   retryCount++;
                   setTimeout(function () {
                     isWxConfigInited = false;
-                    _this2.initGlobalWxShare();
+                    _this.initGlobalWxShare();
                   }, 1000);
                 } else {
                   isWxConfigFailed = true;

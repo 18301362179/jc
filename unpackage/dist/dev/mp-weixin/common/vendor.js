@@ -11197,7 +11197,7 @@ var request = function request(options) {
       console.warn('[Request封装][request] 本地无Token，先执行登录/授权逻辑 - URL：%s', options.url);
       return new Promise( /*#__PURE__*/function () {
         var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(resolve, reject) {
-          var loginResult, _yield$import2, h5WechatAuth, isAuthSuccess;
+          var loginResult, _yield$import2, h5WechatAuth, isAuthSuccess, t;
           return _regenerator.default.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
@@ -11225,11 +11225,11 @@ var request = function request(options) {
                     token: (0, _storage.getToken)() || ''
                   };
                   console.log('[Request封装][request] H5授权结果 - 成功：%s，Token：%s', isAuthSuccess, loginResult.token ? '有' : '无');
-                  _context2.next = 21;
+                  _context2.next = 27;
                   break;
                 case 15:
-                  if (!(isApp || isMpWeixin)) {
-                    _context2.next = 21;
+                  if (!isMpWeixin) {
+                    _context2.next = 23;
                     break;
                   }
                   console.log('[Request封装][request] %s环境，执行登录逻辑', isApp ? 'App' : '微信小程序');
@@ -11238,39 +11238,75 @@ var request = function request(options) {
                 case 19:
                   loginResult = _context2.sent;
                   console.log('[Request封装][request] %s登录结果 - 成功：%s，Token：%s', isApp ? 'App' : '微信小程序', loginResult.success, loginResult.token ? '有' : '无');
-                case 21:
+                  _context2.next = 27;
+                  break;
+                case 23:
+                  // App端微信授权登录
+                  // uni.login({
+                  // 	provider: 'weixin', // 指定微信登录
+                  // 	success: (res) => {
+                  // 		// 获取微信登录临时凭证code
+                  // 		const code = res.code;
+                  // 		// 将code传给后端，后端调用微信开放平台接口换取openid/unionid
+                  // 		uni.request({
+                  // 			url: '你的后端接口/weixin/app/login',
+                  // 			method: 'POST',
+                  // 			data: {
+                  // 				code
+                  // 			},
+                  // 			success: (response) => {
+                  // 				// 后端返回用户信息，完成登录
+                  // 				console.log('授权成功：', response.data);
+                  // 			},
+                  // 			fail: (err) => {
+                  // 				console.error('授权失败：', err);
+                  // 			}
+                  // 		});
+                  // 	},
+                  // 	fail: (err) => {
+                  // 		console.error('微信登录调用失败：', err);
+                  // 	}
+                  // });
+                  t = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3NyIsInVzZXJJZCI6Ijc3Iiwib3BlbklkIjoib29iNk4yR210S3V2c1dxTW1fb19wSzI4LUxmMCIsImlzU3lzTWFuYWdlIjoiMCIsInRpbWVTdGFtcCI6MTc3MjU4ODE5MDQwNn0.ULO_i27weyfFPIEFzCxhy0OWzGjVFe0JwAyrwOSQxBg";
+                  token = t;
+                  (0, _storage.setToken)(t);
+                  loginResult = {
+                    success: true,
+                    token: t
+                  };
+                case 27:
                   if (!loginResult.success) {
-                    _context2.next = 32;
+                    _context2.next = 38;
                     break;
                   }
                   token = loginResult.token;
                   (0, _storage.setToken)(token);
                   console.log('[Request封装][request] 登录/授权成功，存储Token并发起原请求 - URL：%s', options.url);
                   _context2.t0 = resolve;
-                  _context2.next = 28;
+                  _context2.next = 34;
                   return doRequest(options, token);
-                case 28:
+                case 34:
                   _context2.t1 = _context2.sent;
                   (0, _context2.t0)(_context2.t1);
-                  _context2.next = 34;
-                  break;
-                case 32:
-                  console.error('[Request封装][request] 登录/授权失败，无法发起请求 - URL：%s', options.url);
-                  reject(new Error("获取Token失败，无法发起请求，请检查登录逻辑"));
-                case 34:
                   _context2.next = 40;
                   break;
-                case 36:
-                  _context2.prev = 36;
+                case 38:
+                  console.error('[Request封装][request] 登录/授权失败，无法发起请求 - URL：%s', options.url);
+                  reject(new Error("获取Token失败，无法发起请求，请检查登录逻辑"));
+                case 40:
+                  _context2.next = 46;
+                  break;
+                case 42:
+                  _context2.prev = 42;
                   _context2.t2 = _context2["catch"](0);
                   console.error('[Request封装][request] 登录/授权过程异常 - URL：%s，错误信息：%s', options.url, _context2.t2.message);
                   reject(new Error("\u767B\u5F55\u83B7\u53D6Token\u51FA\u9519\uFF1A".concat(_context2.t2.message)));
-                case 40:
+                case 46:
                 case "end":
                   return _context2.stop();
               }
             }
-          }, _callee2, null, [[0, 36]]);
+          }, _callee2, null, [[0, 42]]);
         }));
         return function (_x, _x2) {
           return _ref2.apply(this, arguments);

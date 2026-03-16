@@ -106,7 +106,7 @@
   padding-left: 10rpx;
 }
 .match-list .team-vs .vs-text.data-v-7385b46c {
-  width: 80rpx;
+  width: 120rpx;
   text-align: center;
   flex-shrink: 0;
   font-weight: 500;
