@@ -303,7 +303,7 @@ export default {
     .team-name.home { text-align: right; padding-right: 10rpx; }
     .team-name.away { text-align: left; padding-left: 10rpx; }
     .vs-text {
-      width: 80rpx;
+      width: 120rpx;
       text-align: center;
       flex-shrink: 0;
       font-weight: 500;

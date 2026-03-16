@@ -562,7 +562,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 80rpx; // 固定VS宽度，保证始终居中
+    width: 120rpx; // 固定VS宽度，保证始终居中
     flex-shrink: 0; // 不被压缩
   }
 
