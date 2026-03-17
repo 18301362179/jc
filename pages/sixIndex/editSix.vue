@@ -9,33 +9,30 @@
       @back-click="handleBack" 
     />
 
-    <!-- 滚动展示区域：适配6场的赛事展示 -->
     <scroll-view
       class="match-scroll"
       scroll-y
       id="poster-content"
     >
       <view class="match-list">
-        <!-- 循环展示选中的6场赛事 -->
+  
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <view class="main-right">
             <view class="top-right">
-              <!-- 队名VS -->
+
               <view class="team-vs">
                 <text class="team-name home">{{ item.home_name }}</text>
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
-              <view class="team-vs" style="color:#888;padding:0;">
+              <view class="team-vs" style="color:#888;padding:0;" v-if="$isShowStatus">
                 <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
                 <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
                 <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
               </view>
             </view>
 
-            <!-- 半全场3/1/0展示：仅显示选中状态，无点击 -->
             <view class="bottom-right">
-              <!-- 半场行 -->
               <view class="score-row half-row">
                 <text class="row-label">半</text>
                 <view class="score-btn-group">
@@ -44,7 +41,6 @@
                   <view class="score-btn" :class="{ selected: item.halfAwaySelected }">0</view>
                 </view>
               </view>
-              <!-- 全场行 -->
               <view class="score-row full-row">
                 <text class="row-label">全</text>
                 <view class="score-btn-group">
@@ -57,18 +53,16 @@
           </view>
         </view>
 
-        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无已选赛事 </view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无 </view>
       </view>
     </scroll-view>
 
-    <!-- 6场专属投注栏：保留倍数操作，适配6串1规则 -->
-    <view class="bet-bar">
+
+    <view class="bet-bar" v-if="$isShowStatus">
       <view class="bet-bar-top">
         <view class="collapse-area">
-          <!-- 左边提示文字：适配6场规则 -->
           <view class="left-tip">请输入倍数后截屏给售票人</view>
           
-          <!-- 右边投注倍数 -->
           <view class="multi-group">
             <text class="multi-label">投</text>
             <button class="multi-btn minus" @click="handleMinus">-</button>
@@ -119,30 +113,25 @@ export default {
     };
   },
   computed: {
-    // 统计选中的有效赛事数量（需有半场/全场选中）
     selectedMatchCount() {
       return this.selectedMatchList.filter((item) => {
         return item.halfHomeSelected || item.halfVsSelected || item.halfAwaySelected ||
                item.fullHomeSelected || item.fullVsSelected || item.fullAwaySelected;
       }).length;
     },
-    // 计算6场注数：每个赛事的选中项数乘积（6串1规则）
     betNotes() {
       if (this.selectedMatchList.length !== 6) return 0;
       
       let notes = 1;
       this.selectedMatchList.forEach((item) => {
         let selectedCount = 0;
-        // 统计半场选中数
         if (item.halfHomeSelected) selectedCount++;
         if (item.halfVsSelected) selectedCount++;
         if (item.halfAwaySelected) selectedCount++;
-        // 统计全场选中数
         if (item.fullHomeSelected) selectedCount++;
         if (item.fullVsSelected) selectedCount++;
         if (item.fullAwaySelected) selectedCount++;
         
-        // 无选中项则注数为0
         if (selectedCount === 0) {
           notes = 0;
           return false; // 终止循环
@@ -151,18 +140,11 @@ export default {
       });
       return notes;
     },
-    // 计算总投注金额（注数 × 倍数 × 2元/注）
     totalBetAmount() {
       return this.betNotes * this.betCount * 2;
     }
   },
   created() {
-    // 获取系统信息，适配多端
-    const sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === "android" || sys.platform === "ios";
-    this.statusBarHeight = sys.statusBarHeight || 20;
-    this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
-    this.calcAllHeights(); // 计算适配高度
   },
   onLoad() {
     // 接收父组件传递的数据
@@ -177,13 +159,6 @@ export default {
   },
   methods: {
     // 计算适配高度（兼容App/小程序/H5）
-    calcAllHeights() {
-      const sys = uni.getSystemInfoSync();
-      // 导航栏高度（80rpx转px）
-      const navBarFixedRpx = 80;
-      const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
-      this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-    },
     // 返回上一页
     handleBack() {
       // 回传修改后的倍数数据给父组件

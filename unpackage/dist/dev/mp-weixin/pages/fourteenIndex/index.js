@@ -89,32 +89,32 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var List = function List() {
   __webpack_require__.e(/*! require.ensure | pages/fourteenIndex/list */ "pages/fourteenIndex/list").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/fourteenIndex/list.vue */ 472));
+    return resolve(__webpack_require__(/*! @/pages/fourteenIndex/list.vue */ 408));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 359));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 295));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 444));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 380));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var BetBar = function BetBar() {
   __webpack_require__.e(/*! require.ensure | pages/commn/betBar/index */ "pages/commn/betBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 458));
+    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 394));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var DrawNumSelector = function DrawNumSelector() {
   __webpack_require__.e(/*! require.ensure | pages/commn/DrawNumSelector/index */ "pages/commn/DrawNumSelector/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 465));
+    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 401));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -146,7 +146,7 @@ var _default = {
       isRefreshing: false,
       // 提示弹窗配置：保留原有
       tipsTitle: "重要提示",
-      tipsContentList: ["1、挑选胜差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。", "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。", "3、本软件提供足球、篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。", "4、本系统预测数据仅供参考，无准确率保证。", "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。", "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。", "7、关于体彩相关玩法、规则请到中国体育彩票网站或app自行参阅。", "8、每天上午11点10分后本应用正式可用。"],
+      tipsContentList: ["1、挑选胜差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。", "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。", "3、本软件提供足球、篮球比赛胜负、数据分析以及详细球队对比信息，预测数据仅供参考。", "4、本系统预测数据仅供参考，无准确率保证。", "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。", "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。", "7、关于体彩相关玩法、规则请到中国体育彩票网站或app自行参阅。", "8、每天上午11点10分后本应用正式可用。"],
       windowHeight: 0,
       windowWidth: 0,
       popupMaxHeight: 0,
@@ -218,17 +218,7 @@ var _default = {
     }
   },
   created: function created() {
-    // 统一获取系统信息，兼容多端
-    var systemInfo = wx.getWindowInfo();
-    this.statusBarHeight = systemInfo.statusBarHeight;
-    this.windowWidth = systemInfo.windowWidth;
-    this.windowHeight = systemInfo.windowHeight;
-    // 🌟 新增：计算导航栏总高度（统一模板）
     this.calcNavBarTotalHeight();
-  },
-  mounted: function mounted() {
-    this.calcHeaderHeight();
-    this.calcPopupMaxHeight();
   },
   onShow: function onShow() {
     var editedData = uni.getStorageSync("editedMatchData");
@@ -303,13 +293,6 @@ var _default = {
       var touchEndX = e.changedTouches[0].clientX;
       var diffX = touchEndX - this.touchStartX;
       if (Math.abs(diffX) < this.swipeThreshold) return;
-    },
-    calcPopupMaxHeight: function calcPopupMaxHeight() {
-      var systemInfo = wx.getWindowInfo();
-      var windowHeight = systemInfo.windowHeight,
-        safeAreaInsets = systemInfo.safeAreaInsets;
-      this.popupMaxHeight = windowHeight - safeAreaInsets.bottom - this.headerHeight - 90;
-      this.popupMaxHeight = Math.min(this.popupMaxHeight, systemInfo.safeArea.height - 90);
     },
     handlePopupClose: function handlePopupClose() {
       this.isPopupShow = false;
@@ -579,12 +562,6 @@ var _default = {
         title: unifiedTitle,
         lotteryList: allMatches
       }];
-    },
-    calcHeaderHeight: function calcHeaderHeight() {
-      var systemInfo = wx.getWindowInfo();
-      var statusBarHeight = systemInfo.statusBarHeight;
-      var customHeaderHeight = 88 / 750 * systemInfo.windowWidth;
-      this.headerHeight = statusBarHeight + customHeaderHeight;
     },
     handleFunnel: function handleFunnel() {
       this.isPopupShow = true;

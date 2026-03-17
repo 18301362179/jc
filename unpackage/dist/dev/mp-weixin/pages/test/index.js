@@ -103,9 +103,15 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var m0 = _vm.forateData(_vm.courseMap.race_date)
-  var m1 = _vm.decimalToPercentage(_vm.baseMap.home_win_rate, 0)
-  var m2 = _vm.decimalToPercentage(_vm.baseMap.draw_rate)
-  var m3 = _vm.decimalToPercentage(_vm.baseMap.visiting_win_rate, 0)
+  var m1 = _vm.$isShowStatus
+    ? _vm.decimalToPercentage(_vm.baseMap.home_win_rate, 0)
+    : null
+  var m2 = _vm.$isShowStatus
+    ? _vm.decimalToPercentage(_vm.baseMap.draw_rate)
+    : null
+  var m3 = _vm.$isShowStatus
+    ? _vm.decimalToPercentage(_vm.baseMap.visiting_win_rate, 0)
+    : null
   var g0 = _vm.filteredRecords.length
   var g1 = _vm.filteredRecords.length
   var l0 =
@@ -128,27 +134,12 @@ var render = function () {
           }
         })
       : null
-  var g3 = _vm.homeLastCourses && _vm.homeLastCourses.length > 0
-  var l1 = g3
+  var g3 = _vm.homeInjurySuspension && _vm.homeInjurySuspension.length > 0
+  var g4 =
+    _vm.visitingInjurySuspension && _vm.visitingInjurySuspension.length > 0
+  var g5 = _vm.homeLastCourses && _vm.homeLastCourses.length > 0
+  var l1 = g5
     ? _vm.__map(_vm.homeLastCourses, function (item, i) {
-        var $orig = _vm.__get_orig(item)
-        var g4 = [
-          item.league_name,
-          item.stage,
-          item.sub_group ? item.sub_group + "组" : "",
-          item.round_no ? "第" + item.round_no + "轮" : "",
-        ]
-          .filter(Boolean)
-          .join("")
-        return {
-          $orig: $orig,
-          g4: g4,
-        }
-      })
-    : null
-  var g5 = _vm.visitingLastCourses && _vm.visitingLastCourses.length > 0
-  var l2 = g5
-    ? _vm.__map(_vm.visitingLastCourses, function (item, i) {
         var $orig = _vm.__get_orig(item)
         var g6 = [
           item.league_name,
@@ -164,8 +155,26 @@ var render = function () {
         }
       })
     : null
-  var g7 = _vm.homeScorers && _vm.homeScorers.length > 0
-  var g8 = _vm.visitingScorers && _vm.visitingScorers.length > 0
+  var g7 = _vm.visitingLastCourses && _vm.visitingLastCourses.length > 0
+  var l2 = g7
+    ? _vm.__map(_vm.visitingLastCourses, function (item, i) {
+        var $orig = _vm.__get_orig(item)
+        var g8 = [
+          item.league_name,
+          item.stage,
+          item.sub_group ? item.sub_group + "组" : "",
+          item.round_no ? "第" + item.round_no + "轮" : "",
+        ]
+          .filter(Boolean)
+          .join("")
+        return {
+          $orig: $orig,
+          g8: g8,
+        }
+      })
+    : null
+  var g9 = _vm.homeScorers && _vm.homeScorers.length > 0
+  var g10 = _vm.visitingScorers && _vm.visitingScorers.length > 0
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -178,11 +187,13 @@ var render = function () {
         g1: g1,
         l0: l0,
         g3: g3,
-        l1: l1,
+        g4: g4,
         g5: g5,
-        l2: l2,
+        l1: l1,
         g7: g7,
-        g8: g8,
+        l2: l2,
+        g9: g9,
+        g10: g10,
       },
     }
   )
@@ -490,9 +501,68 @@ var _data = __webpack_require__(/*! @/utils/data */ 62);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -518,7 +588,10 @@ var _default = {
       allHeadRecord: [],
       pointsData: [],
       tzkDataList: [],
-      headData: []
+      headData: [],
+      // 新增：伤停数据列表
+      homeInjurySuspension: [],
+      visitingInjurySuspension: []
     };
   },
   onLoad: function onLoad(options) {
@@ -589,22 +662,25 @@ var _default = {
                 _this.headData = data.headData || [];
                 _this.tzkDataList = data.tzkDataList || [];
                 _this.info = JSON.parse(JSON.stringify(data));
-                _context.next = 27;
+                // 新增：赋值伤停数据
+                _this.homeInjurySuspension = data.homeInjurySuspension || [];
+                _this.visitingInjurySuspension = data.visitingInjurySuspension || [];
+                _context.next = 29;
                 break;
-              case 24:
-                _context.prev = 24;
+              case 26:
+                _context.prev = 26;
                 _context.t0 = _context["catch"](1);
                 console.error("获取AI详情失败:", _context.t0);
-              case 27:
-                _context.prev = 27;
+              case 29:
+                _context.prev = 29;
                 _this.hideLoading();
-                return _context.finish(27);
-              case 30:
+                return _context.finish(29);
+              case 32:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 24, 27, 30]]);
+        }, _callee, null, [[1, 26, 29, 32]]);
       }))();
     },
     showLoading: function showLoading() {

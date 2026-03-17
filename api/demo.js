@@ -304,3 +304,10 @@ export const shareGiveCoin = (data) => {
         data
     })
 }
+export const sysParams = (data) => {
+    return request({
+        url: baseUrl + "/auth/login/sysParams",
+        method: 'GET',
+        data
+    })
+}

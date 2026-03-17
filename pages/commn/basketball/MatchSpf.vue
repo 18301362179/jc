@@ -23,7 +23,7 @@
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&$isShowStatus" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -43,14 +43,14 @@
             <!-- 右侧：自适应宽度，垂直排列队名VS+胜+胜负选项 -->
             <view class="main-right">
               <view class="top-right">
-                <!-- 队名VS：样式统一 -->
+                
                 <view class="team-name">
                   <text>{{ item.visiting_name }}</text>
                   <text class="vs-text">VS</text>
                   <text>{{ item.home_name }}</text>
                 </view>
-                <!-- 胜&进球数行 -->
-                <view class="rate-row">
+                
+                <view class="rate-row" v-if="$isShowStatus">
                   <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
                   <text class="vs-text"></text>
                   <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
@@ -360,7 +360,7 @@ export default {
     text-align: center;
   }
 
-  // 主队名称靠右
+  
   text:first-child {
     text-align: right;
     flex: 1;

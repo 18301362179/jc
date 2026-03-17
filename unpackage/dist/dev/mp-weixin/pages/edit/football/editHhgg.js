@@ -101,7 +101,7 @@ var components
 try {
   components = {
     UniNumberKeyboard: function () {
-      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 338))
+      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 274))
     },
   }
 } catch (e) {
@@ -154,9 +154,9 @@ var render = function () {
       m10: m10,
     }
   })
-  var g1 = _vm.selectedMatchList.length
-  var g2 = !(g1 == 1) ? _vm.selectedMatchList.length : null
-  var m11 = _vm.calculateHalfFullBonus()
+  var g1 = _vm.$isShowStatus ? _vm.selectedMatchList.length : null
+  var g2 = _vm.$isShowStatus && !(g1 == 1) ? _vm.selectedMatchList.length : null
+  var m11 = _vm.$isShowStatus ? _vm.calculateHalfFullBonus() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.showNumberKeyboard = true
@@ -229,7 +229,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -587,7 +587,7 @@ var _default = {
                   _this5.isPayLoading = false;
                   _this5.isSubmitSuccess = true;
                   uni.showToast({
-                    title: "投注成功！",
+                    title: "操作成功！",
                     icon: "success",
                     duration: 2000,
                     mask: true

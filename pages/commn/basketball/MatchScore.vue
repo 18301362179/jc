@@ -24,7 +24,7 @@
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&$isShowStatus" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -44,28 +44,28 @@
             <!-- 右侧：自适应宽度，垂直排列队名VS+胜+比分选择区 -->
             <view class="main-right">
               <view class="top-right">
-                <!-- 队名VS：样式统一 -->
+                
                  <view class="team-name">
                   <text>{{ item.visiting_name }}</text>
                   <text class="vs-text">VS</text>
                   <text>{{ item.home_name }}</text>
                 </view>
-                <!-- 胜&进球数行 -->
-                <view class="rate-row">
-                                   <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{item.visiting_win_rate || "--" }}</text>
+                
+                <view class="rate-row" v-if="$isShowStatus">
+                                   <text class="rate-text away" v-if="item.visiting_win_rate&&$isShowStatus">胜率{{item.visiting_win_rate || "--" }}</text>
                   <text class="vs-text"></text>
-                   <text class="rate-text home" v-if="item.home_win_rate">胜率{{item.home_win_rate || "--" }}</text>
+                   <text class="rate-text home" v-if="item.home_win_rate&&$isShowStatus">胜率{{item.home_win_rate || "--" }}</text>
 
                 </view>
               </view>
 
-              <!-- 比分选择区：样式统一 -->
+              
               <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
                 <view class="score-trigger-area odds-trigger-area" @click="item.is_stop != 1 && openScorePopup(item)" :class="{ 'selected-trigger': item.selectedScores && item.selectedScores.length > 0, 'disabled-trigger': item.is_stop == 1 }" hover-class="none">
                   <text v-if="item.selectedScores && item.selectedScores.length > 0" class="selected-text">
                     {{ item.selectedScores.join(",") }}
                   </text>
-                  <text v-else class="trigger-tip">请选择投注内容</text>
+                  <text v-else class="trigger-tip">请选择</text>
                 </view>
               </view>
             </view>
@@ -79,7 +79,7 @@
     <view class="score-popup" v-show="isPopupShow">
       <!-- 加载状态 -->
       <view v-if="isLoading" class="popup-loading">
-        <text>加载赔率中...</text>
+        <text>加载中</text>
       </view>
       <view v-else>
         <!-- 标题：客队(客) VS 主队(主)（匹配home_name/visiting_name） -->
@@ -566,7 +566,7 @@ export default {
     text-align: center;
   }
 
-  // 主队名称靠右
+  
   text:first-child {
     text-align: right;
     flex: 1;

@@ -110,11 +110,11 @@ var render = function () {
     ? _vm.decimalToPercentage(_vm.winRateAndGoalCalculate.homeWinRate, 0)
     : null
   var m3 =
-    _vm.info && _vm.homeTeam && _vm.visitingTeam
+    _vm.info && _vm.homeTeam && _vm.visitingTeam && _vm.$isShowStatus
       ? _vm.decimalToPercentage(_vm.visitingTeam.winRate, 1)
       : null
   var m4 =
-    _vm.info && _vm.homeTeam && _vm.visitingTeam
+    _vm.info && _vm.homeTeam && _vm.visitingTeam && _vm.$isShowStatus
       ? _vm.decimalToPercentage(_vm.homeTeam.winRate, 1)
       : null
   var g0 = _vm.info
@@ -395,12 +395,9 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 //
 //
-//
-//
-//
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {

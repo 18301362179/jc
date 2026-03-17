@@ -3,7 +3,7 @@
     <!-- 顶部导航：保留 -->
     <CustomHeader 
      :ballTitle="'足球'"
-      title="足球-半全场" 
+      title="半全场" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -54,7 +54,7 @@
     </scroll-view>
 
     <!-- 底部投注栏：按胜平负规则修改样式绑定 + 颜色 -->
-    <view class="bet-bar" :style="{ 
+    <view class="bet-bar" v-if="$isShowStatus" :style="{ 
       height: betBarFixedPx + 'px',
       // 核心：仅App端添加安全区padding，小程序端为0
       paddingBottom: (isApp ? safeAreaBottom : 0) + 'px' 
@@ -100,7 +100,7 @@
       <view class="modal-mask" @click="showPhoneModal = false"></view>
       <view class="modal-content">
         <view class="modal-desc">
-          <text>业务人员通过微信与您联系付款及打印彩票后给您发送图片留作兑奖凭证等后续流程</text>
+          <text>业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程</text>
         </view>
         <view class="input-wrap">
           <label><text>微信手机号：</text></label>
@@ -389,7 +389,7 @@ handlePlus() {
           this.isPayLoading = false;
           this.isSubmitSuccess = true;
           uni.showToast({
-            title: "投注成功！",
+            title: "操作成功！",
             icon: "success",
             duration: 2000,
             mask: true

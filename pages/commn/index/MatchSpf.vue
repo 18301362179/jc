@@ -24,7 +24,7 @@
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
               <!-- 兼容事件：统一用 @click.stop 适配多端 -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&$isShowStatus" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -52,7 +52,7 @@
                 <view class="team-name">{{ item.home_name }}</view>
                 <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
-                <text class="odds rate" v-if="item.home_win_rate">
+                <text class="odds rate" v-if="item.home_win_rate&&$isShowStatus">
                   胜率
                   <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.homeSelected) }">{{ item.home_win_rate || "" }}</text>
                 </text>
@@ -70,7 +70,7 @@
                 <text class="vs-text">VS</text>
                 <text class="vs-odds" v-if="item.draw_multiplier">平{{ item.draw_multiplier }}</text>
                 <!-- 拆分文字：只让平数值变绿 -->
-                <text class="vs-odds" v-if="item.draw_rate">
+                <text class="vs-odds" v-if="item.draw_rate&&$isShowStatus">
                   平率
                   <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.vsSelected) }">{{ item.draw_rate }}</text>
                 </text>
@@ -88,7 +88,7 @@
                 <text class="team-name">{{ item.visiting_name }}</text>
                 <text class="odds" v-if="item.loss_multiplier">主负{{ item.loss_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
-                <text class="odds rate" v-if="item.visiting_win_rate">
+                <text class="odds rate" v-if="item.visiting_win_rate&&$isShowStatus">
                   胜率
                   <text :style="{ color: getRateColor(item.visiting_win_rate, 'away', item.awaySelected) }">{{ item.visiting_win_rate || "" }}</text>
                 </text>

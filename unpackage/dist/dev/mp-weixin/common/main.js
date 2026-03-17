@@ -19,11 +19,12 @@ var _env = _interopRequireDefault(__webpack_require__(/*! ./config/env */ 41));
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
 var _store = _interopRequireDefault(__webpack_require__(/*! ./store */ 42));
 var _loading = __webpack_require__(/*! ./utils/loading.js */ 47);
+var _demo = __webpack_require__(/*! @/api/demo.js */ 35);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var _uniIcons = function _uniIcons() {
   Promise.all(/*! require.ensure | node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons")]).then((function () {
-    return resolve(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-icons/uni-icons */ 330));
+    return resolve(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-icons/uni-icons */ 266));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 // @ts-ignore
@@ -31,15 +32,16 @@ wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__; // main.js（你原�
 
 _vue.default.component('uni-icons', _uniIcons); // 单独注册uni-icons（避免全局注册遗漏）
 _vue.default.prototype.$bus = new _vue.default();
-
-// 引入全局软键盘组件
 var UniNumberKeyboard = function UniNumberKeyboard() {
   __webpack_require__.e(/*! require.ensure | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then((function () {
-    return resolve(__webpack_require__(/*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 338));
+    return resolve(__webpack_require__(/*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 274));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 // 全局注册组件
 _vue.default.component('UniNumberKeyboard', UniNumberKeyboard);
+_App.default.mpType = 'app';
+
+// 定义全局方法：获取系统参数并挂载全局
 
 // ========== 核心2：加载 static 目录下的本地微信 JS-SDK（新增逻辑） ==========
 // 仅 H5 端加载，小程序/App 无需加载
@@ -177,7 +179,8 @@ var _default = {
     return {
       invalidH5Token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwidXNlcklkIjoiNSIsIm9wZW5JZCI6Im9PRGRWMV9qc3VWdHVFRWYxbm9LQTZFbTFZcEUiLCJpc1N5c01hbmFnZSI6IjAiLCJ0aW1lU3RhbXAiOjE3Njk5OTk5MjQ3NDJ9.SDgOKGOnz6v6bMFOOuMP_znqXB-B3lFes6MO4tWWx7Q',
       h5AuthLock: false,
-      h5DevFixedToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwidXNlcklkIjoiNSIsIm9wZW5JZCI6Im9PRGRWMV9qc3VWdHVFRWYxbm9LQTZFbTFZcEUiLCJpc1N5c01hbmFnZSI6IjAiLCJ0aW1lU3RhbXAiOjE3Njk5OTk5MjQ3NDJ9.SDgOKGOnz6v6bMFOOuMP_znqXB-B3lFes6MO4tWWx7Q'
+      h5DevFixedToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwidXNlcklkIjoiNSIsIm9wZW5JZCI6Im9PRGRWMV9qc3VWdHVFRWYxbm9LQTZFbTFZcEUiLCJpc1N5c01hbmFnZSI6IjAiLCJ0aW1lU3RhbXAiOjE3Njk5OTk5MjQ3NDJ9.SDgOKGOnz6v6bMFOOuMP_znqXB-B3lFes6MO4tWWx7Q',
+      isShowStatus: false
     };
   },
   onLaunch: function () {
@@ -240,6 +243,27 @@ var _default = {
   }(),
   // 页面显示：核心修复循环调用问题
   onShow: function onShow() {
+    try {
+      // 调用你的 sysParams 接口
+      (0, _demo.sysParams)().then(function (res) {
+        var status = res.data.fenXiUrlShowStatus;
+        if (status === undefined || status === null) {
+          status = 0;
+        }
+        status = status === 1; // 1→true，0→false
+        uni.setStorageSync("isShowStatus", status);
+        // 2. 挂载到 Vue 原型（核心：所有页面可通过 this.$isShowStatus 访问）
+        _vue.default.prototype.$isShowStatus = status;
+      });
+
+      // 处理 status 逻辑（无 ?? 运算符，兼容所有环境）
+    } catch (err) {
+      console.error('获取系统参数失败111111111111111111', err);
+      // 异常时默认值
+      _vue.default.prototype.$isShowStatus = false;
+      uni.setStorageSync("isShowStatus", false);
+    }
+
     // 重置基础标记（保留失败标记，避免重复尝试）
     this.h5AuthLock = false;
     isSharePanelOpened = false;

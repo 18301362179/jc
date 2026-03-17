@@ -1,6 +1,6 @@
 <template>
   <view style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader :showBack="true" :ballTitle="'篮球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
+    <CustomHeader :showBack="true" :ballTitle="' '" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
       <MatchSpf ref="spfRef" v-if="currentPlay === '胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
@@ -12,7 +12,7 @@
     </scroll-view>
 
     <!-- 替换为足球同款底部投注栏 -->
-    <view class="bet-bar">
+    <view class="bet-bar" v-if="$isShowStatus">
       <view class="bet-bar-inner">
         <!-- 左侧：清空图标 + 已选场次 + 风险提示 -->
         <view class="left-section">
@@ -614,7 +614,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
 
         if (matchIdx !== -1) {
           const targetMatch = this.drawerList[drawerIdx].lotteryList[matchIdx];
-          const currentStatus = targetMatch[selectType] ?? false;
+          const currentStatus = targetMatch[selectType] !== undefined && targetMatch[selectType] !== null ? targetMatch[selectType] : false;
           // 更新drawerList
           this.$set(targetMatch, selectType, !currentStatus);
 

@@ -1,7 +1,7 @@
 <template>
   <view class="recharge-page">
     <CustomHeader
-      :title="'系统币'"
+      :title="'服务币'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
@@ -26,16 +26,16 @@
           v-for="(item, index) in list" 
           :key="index"
         >
-          {{ item.count }}元&nbsp;&nbsp;&nbsp;{{ item.bi }}币
+          {{ item.count }}元&nbsp;&nbsp;&nbsp;{{ item.bi }}服务币
         </button>
       </view>
 
       <!-- 应付金额展示（通过选中的index取值） -->
       <text class="amount-tip" v-if="list[selectedIndex]">应付金额：{{ list[selectedIndex].count }}元</text>
 
-      <!-- 付款按钮 -->
+      <!-- 确认购买按钮 -->
       <button class="pay-btn" @click="handlePay" :disabled="isPayLoading">
-        <text v-if="!isPayLoading">付款</text>
+        <text v-if="!isPayLoading">确认购买</text>
         <text v-if="isPayLoading">支付中...</text>
       </button>
     </view>
@@ -94,7 +94,7 @@ export default {
     },
 
     /**
-     * 核心：处理付款逻辑（多端适配，只用 wxPay）
+     * 核心：处理确认购买逻辑（多端适配，只用 wxPay）
      */
     async handlePay() {
       if (this.isPayLoading) return;

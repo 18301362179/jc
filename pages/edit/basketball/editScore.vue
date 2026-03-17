@@ -3,7 +3,7 @@
   <view class="scheme-edit-page">
     <CustomHeader 
       :ballTitle="'篮球'"
-      title="篮球-胜分差" 
+      title="胜分差" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -18,7 +18,7 @@
       }"
     >
       <view class="match-list">
-        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无已选赛事</view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无</view>
         
         <!-- 胜分差赛事行：保留核心结构，对齐布局样式 -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
@@ -41,7 +41,7 @@
             </view>
 
             <!-- 胜行：保留胜分差胜字段，布局对齐 -->
-            <view class="rate-row">
+            <view class="rate-row" v-if="$isShowStatus">
               <text class="rate-text away" v-if="item.visiting_win_rate">
                 胜率{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
               </text>
@@ -64,7 +64,7 @@
     </scroll-view>
 
     <!-- 底部投注栏：统一适配逻辑，对齐其他页面 -->
-    <view class="bet-bar" :style="{ 
+    <view class="bet-bar" v-if="$isShowStatus" :style="{ 
       height: betBarFixedPx + 'px',  
       paddingBottom: safeAreaBottom + 'px', 
       bottom: safeAreaBottom + 'px' 
@@ -109,7 +109,7 @@
     <view class="phone-modal" v-if="showPhoneModal">
       <view class="modal-mask" @click="showPhoneModal = false" hover-class="none"></view>
       <view class="modal-content">
-        <view class="modal-desc">业务人员通过微信与您联系付款及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
+        <view class="modal-desc">业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
         <view class="input-wrap">
           <label>微信手机号：</label>
           <input type="number" v-model="userPhone" placeholder="请输入手机号（必填）" maxlength="11" />
@@ -468,7 +468,7 @@ calcAllHeights() {
         if (res.code == 200) {
           this.isPayLoading = false;
           this.isSubmitSuccess = true;
-          uni.showToast({ title: "投注成功！", icon: "success", duration: 2000, mask: true });
+          uni.showToast({ title: "操作成功！", icon: "success", duration: 2000, mask: true });
           uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
           setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
         } else {

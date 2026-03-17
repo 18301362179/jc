@@ -102,34 +102,18 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = _vm.currentTab === 0 ? _vm.lotteryPurchasing.length : null
-  var l0 =
-    _vm.currentTab === 0
-      ? _vm.__map(_vm.lotteryPurchasing, function (item, index) {
-          var $orig = _vm.__get_orig(item)
-          var m0 = _vm.getStatusClass(item.status)
-          var m1 = _vm.getStatusText(item.status)
-          var m2 = _vm.getAvatarText(item.remarkName)
-          return {
-            $orig: $orig,
-            m0: m0,
-            m1: m1,
-            m2: m2,
-          }
-        })
-      : null
-  var g1 = _vm.currentTab === 1 ? _vm.tradeRecord.length : null
-  var g2 = _vm.currentTab === 1 ? _vm.tradeRecord.length : null
-  var g3 = _vm.currentTab === 2 ? _vm.paymentRecord.length : null
+  var g0 =
+    _vm.currentTab === 1 && _vm.$isShowStatus ? _vm.tradeRecord.length : null
+  var g1 =
+    _vm.currentTab === 1 && _vm.$isShowStatus ? _vm.tradeRecord.length : null
+  var g2 = _vm.currentTab === 2 ? _vm.paymentRecord.length : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
-        l0: l0,
         g1: g1,
         g2: g2,
-        g3: g3,
       },
     }
   )
@@ -178,17 +162,17 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 352));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 288));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var NoData = function NoData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 366));
+    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 302));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -227,21 +211,6 @@ var _default = {
       uni.navigateTo({
         url: '/pages/recharge/recharge'
       });
-    },
-    openImagePreview: function openImagePreview(imagePath) {
-      if (!imagePath) return uni.showToast({
-        title: '暂无彩票图片',
-        icon: 'none'
-      });
-      this.previewImageUrl = this.defaultLotteryImageUrl + imagePath;
-      this.isImagePreviewVisible = true;
-      uni.previewImage({
-        urls: [this.previewImageUrl],
-        current: 0
-      });
-    },
-    closeImagePreview: function closeImagePreview() {
-      this.isImagePreviewVisible = false;
     },
     switchTab: function switchTab(tabIndex) {
       this.currentTab = tabIndex;
@@ -288,89 +257,6 @@ var _default = {
           }
         }, _callee, null, [[1, 11, 14, 17]]);
       }))();
-    },
-    handleConfirm: function handleConfirm(id, item) {
-      var pathMap = {
-        '比分': '/pages/user/sub/scoreDetail?id=',
-        '足彩总进球': '/pages/user/sub/totalGoalsDetail?id=',
-        '半全场': '/pages/user/sub/halfTimeDetail?id=',
-        '篮球胜负': '/pages/user/sub/basketballSf?id=',
-        '篮球胜分差': '/pages/user/sub/basketballSfc?id=',
-        '篮球让分胜负': '/pages/user/sub/basketballHandicapDetail?id=',
-        '篮球大小分': '/pages/user/sub/basketballOverUnderDetail?id='
-      };
-      uni.navigateTo({
-        url: (pathMap[item.entityType] || "/pages/user/sub/buyDetail?id=") + id
-      });
-    },
-    handleCancel: function handleCancel(id) {
-      var _this2 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
-        return _regenerator.default.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                uni.showModal({
-                  title: '提示',
-                  content: "确认作废此代购?",
-                  success: function () {
-                    var _success = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(res) {
-                      return _regenerator.default.wrap(function _callee2$(_context2) {
-                        while (1) {
-                          switch (_context2.prev = _context2.next) {
-                            case 0:
-                              if (!res.confirm) {
-                                _context2.next = 5;
-                                break;
-                              }
-                              _context2.next = 3;
-                              return (0, _demo.purchasingLotteryConfirm)({
-                                id: id,
-                                status: 2
-                              });
-                            case 3:
-                              _this2.getData();
-                              uni.showToast({
-                                title: "操作成功",
-                                icon: "success"
-                              });
-                            case 5:
-                            case "end":
-                              return _context2.stop();
-                          }
-                        }
-                      }, _callee2);
-                    }));
-                    function success(_x) {
-                      return _success.apply(this, arguments);
-                    }
-                    return success;
-                  }()
-                });
-              case 1:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    getStatusText: function getStatusText(status) {
-      return {
-        0: '待打票',
-        1: '代购成功',
-        2: '已弃单'
-      }[status] || '未知状态';
-    },
-    getStatusClass: function getStatusClass(status) {
-      return {
-        0: 'pending',
-        1: 'success',
-        2: 'failed'
-      }[status] || '';
-    },
-    getAvatarText: function getAvatarText(name) {
-      return name && name.trim().charAt(0) || '用';
     }
   }
 };

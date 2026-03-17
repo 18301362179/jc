@@ -28,17 +28,14 @@
             <text class="vs-text">VS</text>
             <text class="home-team" style="text-align: left;">{{courseMap.home_name}}(主)</text>
           </view>
-
-          <!-- 胜率+得分预测 -->
           <view class="prediction-section">
             <view class="win-probability">
               <text class="pro-text"></text>
               <view class="probability-bars">
-                <!-- 客队胜率（前置） -->
+
                 <view class="probability-bar away-bar" :style="{ width: `${winRateAndGoalCalculate.visitingWinRate * 100}%` }">
                   <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.visitingWinRate,0)}}</text>
                 </view>
-                <!-- 主队胜率 -->
                 <view class="probability-bar home-bar" :style="{ width: `${winRateAndGoalCalculate.homeWinRate * 100}%` }">
                   <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.homeWinRate,0)}}</text>
                 </view>
@@ -51,7 +48,7 @@
         </view>
 
         <!-- 球队信息表格（7列：球队/排名/胜率/得分/篮板/助攻/抢断，客队前置） -->
-        <view class="ranking-section" v-if="homeTeam && visitingTeam">
+        <view class="ranking-section" v-if="homeTeam && visitingTeam && $isShowStatus">
           <view class="section-title">
             <text>胜率</text>
           </view>
@@ -338,7 +335,7 @@ export default {
   }
 }
 
-// 胜率预测
+// 分析
 .prediction-section {
   background: #ffffff;
   border-radius: 8rpx;

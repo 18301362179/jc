@@ -78,19 +78,6 @@
         "index",
         "basketballAi"
       ]
-    },
-    {
-      "root": "pages/user/sub",
-      "pages": [
-        "buyDetail",
-        "scoreDetail",
-        "halfTimeDetail",
-        "totalGoalsDetail",
-        "basketballSf",
-        "basketballSfc",
-        "basketballHandicapDetail",
-        "overUnderDetail"
-      ]
     }
   ],
   "tabBar": {

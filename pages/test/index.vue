@@ -34,10 +34,9 @@
           </view>
 
           <!-- 调整预测模块布局结构 -->
-          <view class="prediction-section">
-            <!-- 胜利预测 -->
+          <view class="prediction-section" v-if="$isShowStatus">
             <view class="prediction-row">
-              <text class="pro-text">胜率预测</text>
+              <text class="pro-text">数据分析</text>
               <view class="prediction-content">
                 <view class="home-prediction">
                   <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.home_win_rate, 0) }}</text>
@@ -51,9 +50,9 @@
               </view>
             </view>
 
-            <!-- 比分预测 -->
+            <!-- 数据分析 -->
             <view class="prediction-row">
-              <text class="pro-text">比分预测</text>
+              <text class="pro-text">数据分析</text>
               <view class="prediction-content">
                 <view class="home-prediction">
                   <text class="prediction-value">{{ baseMap.homeGoalCalculate === null || baseMap.homeGoalCalculate === undefined ? "-" : baseMap.homeGoalCalculate }}</text>
@@ -146,6 +145,9 @@
             </view>
           </view>
         </view>
+
+
+
         <view class="record-section">
           <view class="tab-buttons">
             <view class="tab-btn" :class="{ active: currentTab === '全部' }" @click="switchTab('全部')"> 全部对战 </view>
@@ -169,7 +171,64 @@
             </view>
           </view>
         </view>
+        <!-- 新增：球队伤停情况模块 -->
+        <view class="ranking-section">
+          <view class="section-title">
+            <text>{{ courseMap.home_name || "" }}伤停情况</text>
+          </view>
+          <view class="ranking-table scorer-table">
+            <view class="table-header">
+              <text class="cell player-cell">号码-球员-位置</text>
+              <text class="cell num-cell">总出场</text>
+              <text class="cell num-cell">首发出场</text>
+              <text class="cell point-num-cell">状态</text>
+            </view>
+            <view v-if="homeInjurySuspension && homeInjurySuspension.length > 0">
+              <view class="scorer-row-wrap" v-for="(item, i) in homeInjurySuspension" :key="i">
+                <view class="table-row">
+                  <text class="cell player-cell">{{ item.uniform_no || "-" }}-{{ item.person_name || "-" }}-{{ item.position_desc || "-" }}</text>
+                  <text class="cell num-cell">{{ item.appearance_cnt || 0 }}</text>
+                  <text class="cell num-cell">{{ item.started_match_cnt || 0 }}</text>
+                  <text class="cell point-num-cell">{{ item.injury_flag === 0 ? "停" : "伤" }}</text>
+                </view>
+              </view>
+            </view>
+            <view v-else class="scorer-row-wrap">
+              <view class="table-row">
+                <text class="cell player-cell" style="width: 100%;">无</text>
+              </view>
+            </view>
+          </view>
+        </view>
 
+        <view class="ranking-section">
+          <view class="section-title">
+            <text>{{ courseMap.visiting_name || "" }}伤停情况</text>
+          </view>
+          <view class="ranking-table scorer-table">
+            <view class="table-header">
+              <text class="cell player-cell">号码-球员-位置</text>
+              <text class="cell num-cell">总出场</text>
+              <text class="cell num-cell">首发出场</text>
+              <text class="cell point-num-cell">状态</text>
+            </view>
+            <view v-if="visitingInjurySuspension && visitingInjurySuspension.length > 0">
+              <view class="scorer-row-wrap" v-for="(item, i) in visitingInjurySuspension" :key="i">
+                <view class="table-row">
+                  <text class="cell player-cell">{{ item.uniform_no || "-" }}-{{ item.person_name || "-" }}-{{ item.position_desc || "-" }}</text>
+                  <text class="cell num-cell">{{ item.appearance_cnt || 0 }}</text>
+                  <text class="cell num-cell">{{ item.started_match_cnt || 0 }}</text>
+                  <text class="cell point-num-cell">{{ item.injury_flag === 0 ? "停" : "伤" }}</text>
+                </view>
+              </view>
+            </view>
+            <view v-else class="scorer-row-wrap">
+              <view class="table-row">
+                <text class="cell player-cell" style="width: 100%;">无</text>
+              </view>
+            </view>
+          </view>
+        </view>
         <view class="history-section" v-if="homeLastCourses && homeLastCourses.length > 0">
           <view class="section-title">
             <text>{{ info.home_lastRemark || "" }}</text>
@@ -284,7 +343,10 @@ export default {
       allHeadRecord: [],
       pointsData: [],
       tzkDataList:[],
-      headData: []
+      headData: [],
+      // 新增：伤停数据列表
+      homeInjurySuspension: [],
+      visitingInjurySuspension: []
     };
   },
   onLoad(options) {
@@ -343,6 +405,9 @@ export default {
         this.headData = data.headData|| [];
         this.tzkDataList =  data.tzkDataList||[];
         this.info = JSON.parse(JSON.stringify(data));
+        // 新增：赋值伤停数据
+        this.homeInjurySuspension = data.homeInjurySuspension || [];
+        this.visitingInjurySuspension = data.visitingInjurySuspension || [];
       } catch (error) {
         console.error("获取AI详情失败:", error);
       } finally {

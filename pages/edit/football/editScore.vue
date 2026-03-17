@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留 -->
-    <CustomHeader :ballTitle="'足球'" title="足球-比分" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'足球'" title="比分" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 核心优化：基于sysinfo精准计算高度，移除冗余padding -->
     <scroll-view
@@ -96,7 +96,7 @@
     <view class="phone-modal" v-if="showPhoneModal">
       <view class="modal-mask" @click="showPhoneModal = false"></view>
       <view class="modal-content">
-        <view class="modal-desc">业务人员通过微信与您联系付款及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
+        <view class="modal-desc">业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
         <view class="input-wrap">
           <label>微信手机号：</label>
           <input type="number" v-model="userPhone" placeholder="请输入手机号（必填）" maxlength="11" />
@@ -530,7 +530,7 @@ export default {
           this.isSubmitSuccess = true;
           // 4. 投注成功：弹出四方提示（success样式）
           uni.showToast({
-            title: "投注成功！",
+            title: "操作成功！",
             icon: "success", // 四方成功图标
             duration: 2000, // 提示显示2秒
             mask: true, // 显示透明蒙层，防止点击穿透

@@ -101,7 +101,7 @@ var components
 try {
   components = {
     UniNumberKeyboard: function () {
-      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 338))
+      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 274))
     },
   }
 } catch (e) {
@@ -142,9 +142,9 @@ var render = function () {
       g2: g2,
     }
   })
-  var g3 = _vm.selectedMatchList.length
-  var g4 = !(g3 == 1) ? _vm.selectedMatchList.length : null
-  var m0 = _vm.calculateBonusText()
+  var g3 = _vm.$isShowStatus ? _vm.selectedMatchList.length : null
+  var g4 = _vm.$isShowStatus && !(g3 == 1) ? _vm.selectedMatchList.length : null
+  var m0 = _vm.$isShowStatus ? _vm.calculateBonusText() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.showNumberKeyboard = true
@@ -217,7 +217,7 @@ var _validate = __webpack_require__(/*! @/utils/validate */ 79);
 var _methods;
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -516,7 +516,7 @@ var _default = {
                 _this4.isPayLoading = false;
                 _this4.isSubmitSuccess = true;
                 uni.showToast({
-                  title: "投注成功！",
+                  title: "操作成功！",
                   icon: "success",
                   duration: 2000,
                   mask: true

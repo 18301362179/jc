@@ -101,7 +101,7 @@ var components
 try {
   components = {
     UniNumberKeyboard: function () {
-      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 338))
+      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 274))
     },
   }
 } catch (e) {
@@ -180,7 +180,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -208,28 +208,22 @@ var _default = {
   },
 
   computed: {
-    // 统计选中的有效赛事数量（需有半场/全场选中）
     selectedMatchCount: function selectedMatchCount() {
       return this.selectedMatchList.filter(function (item) {
         return item.halfHomeSelected || item.halfVsSelected || item.halfAwaySelected || item.fullHomeSelected || item.fullVsSelected || item.fullAwaySelected;
       }).length;
     },
-    // 计算6场注数：每个赛事的选中项数乘积（6串1规则）
     betNotes: function betNotes() {
       if (this.selectedMatchList.length !== 6) return 0;
       var notes = 1;
       this.selectedMatchList.forEach(function (item) {
         var selectedCount = 0;
-        // 统计半场选中数
         if (item.halfHomeSelected) selectedCount++;
         if (item.halfVsSelected) selectedCount++;
         if (item.halfAwaySelected) selectedCount++;
-        // 统计全场选中数
         if (item.fullHomeSelected) selectedCount++;
         if (item.fullVsSelected) selectedCount++;
         if (item.fullAwaySelected) selectedCount++;
-
-        // 无选中项则注数为0
         if (selectedCount === 0) {
           notes = 0;
           return false; // 终止循环
@@ -239,19 +233,11 @@ var _default = {
       });
       return notes;
     },
-    // 计算总投注金额（注数 × 倍数 × 2元/注）
     totalBetAmount: function totalBetAmount() {
       return this.betNotes * this.betCount * 2;
     }
   },
-  created: function created() {
-    // 获取系统信息，适配多端
-    var sys = uni.getSystemInfoSync();
-    this.isApp = sys.platform === "android" || sys.platform === "ios";
-    this.statusBarHeight = sys.statusBarHeight || 20;
-    this.safeAreaBottom = sys.safeAreaInsets && sys.safeAreaInsets.bottom || 0;
-    this.calcAllHeights(); // 计算适配高度
-  },
+  created: function created() {},
   onLoad: function onLoad() {
     var _this = this;
     // 接收父组件传递的数据
@@ -266,13 +252,6 @@ var _default = {
   },
   methods: {
     // 计算适配高度（兼容App/小程序/H5）
-    calcAllHeights: function calcAllHeights() {
-      var sys = uni.getSystemInfoSync();
-      // 导航栏高度（80rpx转px）
-      var navBarFixedRpx = 80;
-      var navBarFixedPx = sys.screenWidth / 750 * navBarFixedRpx;
-      this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-    },
     // 返回上一页
     handleBack: function handleBack() {
       // 回传修改后的倍数数据给父组件

@@ -21,7 +21,7 @@
             </view>
             <view class="status-right">
               <!-- 仅改：@tap.stop 改为 @click.stop，其他不变 -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&$isShowStatus" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -44,8 +44,8 @@
                   <text class="vs-text">VS</text>
                   <text>{{ item.visiting_name }}</text>
                 </view>
-                <!-- 胜&进球数行 -->
-                <view class="rate-row">
+                
+                <view class="rate-row" v-if="$isShowStatus">
                   <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
                   <text class="vs-text">{{ item.draw_rate ? "平率" + item.draw_rate : "" }}</text>
                   <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
@@ -64,7 +64,7 @@
                     {{ item.selectedScores.map((val) => getOptionLabel(val)).join(",") }}
                   </text>
                   <!-- 停售时替换提示文字为“已停售” -->
-                  <text v-else class="trigger-tip">请选择投注内容</text>
+                  <text v-else class="trigger-tip">请选择</text>
                 </view>
               </view>
             </view>
@@ -428,7 +428,7 @@ export default {
     text-align: center;
   }
 
-  // 主队名称靠右
+  
   text:first-child {
     text-align: right;
     flex: 1;

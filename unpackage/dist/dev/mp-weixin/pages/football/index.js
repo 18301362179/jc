@@ -101,7 +101,7 @@ var components
 try {
   components = {
     UniNumberKeyboard: function () {
-      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 338))
+      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 274))
     },
   }
 } catch (e) {
@@ -193,52 +193,52 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 352));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 288));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchSpf = function MatchSpf() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchSpf */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchSpf")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 401));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 337));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHandicap = function MatchHandicap() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchHandicap */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchHandicap")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 409));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 345));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchScore = function MatchScore() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchScore */ "pages/commn/index/MatchScore").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 416));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 352));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchTotalGoals = function MatchTotalGoals() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchTotalGoals */ "pages/commn/index/MatchTotalGoals").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 423));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 359));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHalfFull = function MatchHalfFull() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchHalfFull */ "pages/commn/index/MatchHalfFull").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 430));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 366));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MixedPassList = function MixedPassList() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MixedPassList */ "pages/commn/index/MixedPassList").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 437));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 373));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 359));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 295));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 444));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 380));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -295,7 +295,7 @@ var _default = {
       keyboardHeight: 0,
       isKeyboardShow: false,
       tipsTitle: "重要提示",
-      tipsContentList: ["1、挑选胜率差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。", "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。", "3、本软件提供足球、篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。", "4、本系统预测数据仅供参考，无准确率保证。", "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。", "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。", "7、关于体彩相关玩法、规则请到中国体育彩票网站或app自行参阅。", "8、每天上午11点10分后本应用正式可用。"],
+      tipsContentList: ["1、挑选胜率差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。", "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。", "3、本软件提供足球、篮球比赛胜负、数据分析以及详细球队对比信息，预测数据仅供参考。", "4、本系统预测数据仅供参考，无准确率保证。", "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。", "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。", "7、关于体彩相关玩法、规则请到中国体育彩票网站或app自行参阅。", "8、每天上午11点10分后本应用正式可用。"],
       windowHeight: 0,
       bottomBtnBarHeight: 0,
       tabbarHeight: 0,

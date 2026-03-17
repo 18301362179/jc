@@ -4,7 +4,7 @@
     <!-- 自定义头部：不变 -->
     <CustomHeader 
       :ballTitle="'篮球'"
-      title="篮球-让分胜负" 
+      title="让分胜负" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -22,15 +22,12 @@
       <!-- 内部内容完全不变 -->
       <view class="match-list">
         <!-- 空状态 -->
-        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无已选赛事</view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无</view>
         <!-- 已选赛事列表 -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <!-- 左侧赛事分类 -->
           <view class="match-category">
             <view class="league-name" style="display: flex;justify-content: center;width: 100%;">
-              <!-- <text class="single" :style="{backgroundColor: item.is_rsf_single == 1 ? '#b71c1c':'transparent'}">
-                {{item.is_rsf_single == 1 ?  '单' : ''}}
-              </text> -->
               {{ item.league_name }}
             </view>
             <view class="serial-number">{{ item.serial_number }}</view>
@@ -54,7 +51,7 @@
                     </text>
                 </text>
             </view>
-            <view class="rate-row">
+            <view class="rate-row" v-if="$isShowStatus">
               <text class="rate-text away" v-show="item.visiting_win_rate" :title="`胜${item.visiting_win_rate}，约${item.home_goal_calculate}分`">
                 胜率{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
               </text>
@@ -77,7 +74,7 @@
     </scroll-view>
 
     <!-- 底部投注栏：完全保留你的原有代码 -->
-    <view class="bet-bar" :style="{ 
+    <view class="bet-bar" v-if="$isShowStatus" :style="{ 
       height: betBarFixedPx + 'px',  
       paddingBottom: safeAreaBottom + 'px', 
       bottom: safeAreaBottom + 'px' 
@@ -111,11 +108,6 @@
           <text class="select-tip">共{{betNotes}}注 {{betCount}}倍  {{totalBetAmount}}</text>
           <text class="bonus-tip">{{calculateBonusText()}}</text>
         </view>
-        <!-- <view class="bottom-right">
-          <button class="confirm-btn" :disabled="selectedMatchCount === 0 || isPayLoading" @click="handleConfirmBet(false)">
-            {{ isPayLoading ? "支付中..." : "模拟投注" }}
-          </button>
-        </view> -->
       </view>
     </view>
 
@@ -123,7 +115,7 @@
     <view class="phone-modal" v-if="showPhoneModal">
       <view class="modal-mask" @click="showPhoneModal = false"></view>
       <view class="modal-content">
-        <view class="modal-desc">业务人员通过微信与您联系付款及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
+        <view class="modal-desc">业务人员通过微信与您联系确认购买及打印后给您发送图片留作兑奖凭证等后续流程</view>
         <view class="input-wrap">
           <label>微信手机号：</label>
           <input type="number" v-model="userPhone" placeholder="请输入手机号" maxlength="11" />
@@ -407,7 +399,7 @@ calcAllHeights() {
         if (res.code == 200) {
           this.isPayLoading = false;
           this.isSubmitSuccess = true;
-          uni.showToast({ title: "投注成功！", icon: "success", duration: 2000, mask: true });
+          uni.showToast({ title: "操作成功！", icon: "success", duration: 2000, mask: true });
           uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
           setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
         } else {

@@ -12,7 +12,6 @@
       @funnel-click="handleFunnel"
       @back-click="onBackClick"
     />
-    <!-- 🌟 新增：期数选择组件（和4球父组件一致） -->
     <DrawNumSelector
       :title="title"
       :draw-num-list="drawNumList"
@@ -20,13 +19,11 @@
       :nav-bar-total-height="navBarTotalHeight"
       @draw-num-change="onDrawNumChange"
       @rule-click="handleFunnel"/>
-
-    <!-- 滚动列表区域：修改top样式，和4球一致 -->
     <scroll-view 
       class="match-scroll" 
       scroll-y
       :style="{ 
-        top: (navBarTotalHeight + 70 ) + 'rpx', // 动态适配期数选择器下方位置
+        top: (navBarTotalHeight + 70 ) + 'rpx', 
         bottom: '90rpx' 
       }"
     >
@@ -38,8 +35,6 @@
         :go-to-ai-analysis="goToAiAnalysis"
       />
     </scroll-view>
-
-    <!-- 底部投注栏组件：保持6球原有逻辑（min-match-count=6） -->
     <BetBar
       :min-match-count="6"
       title="6场"       
@@ -51,7 +46,6 @@
       @confirm="goToSchemeEdit"
     />
 
-    <!-- 必要的弹窗组件：保持原有 -->
     <TipsPopup
       :visible.sync="isPopupShow"
       :title="tipsTitle"
@@ -115,11 +109,11 @@ export default {
       tipsContentList: [
         "1、挑选胜差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。",
         "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。",
-        "3、本软件提供足球、篮球比赛胜负、比分预测以及详细球队对比信息，预测数据仅供参考。",
+        "3、本软件提供足球、篮球比赛胜负、数据分析以及详细球队对比信息，预测数据仅供参考。",
         "4、本系统预测数据仅供参考，无准确率保证。",
         "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。",
         "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。",
-        "7、关于体彩相关玩法、规则请到中国体育彩票网站或app自行参阅。",
+        "7、关于体彩相关玩法、规则请到中国体育网站或app自行参阅。",
         "8、每天上午11点10分后本应用正式可用。"
       ],
       windowHeight: 0,
@@ -451,8 +445,6 @@ export default {
         endTime = matchArray[0].sale_end_time;
       }
       const unifiedTitle = drawNum + "期 |  共" + totalCount + "场比赛 " + "截止时间：" + endTime;
-
-      // 2. 处理所有比赛数据，保留6球原有半全场初始化逻辑
       const allMatches = matchArray.map(item => ({
         ...item,
         halfHomeSelected: false,
@@ -463,7 +455,6 @@ export default {
         fullAwaySelected: false
       }));
 
-      // 3. 返回单抽屉结构（和4球一致）
       return [{
         title: unifiedTitle,
         lotteryList: allMatches

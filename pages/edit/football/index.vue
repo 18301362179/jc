@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留原有 -->
-    <CustomHeader :ballTitle="'足球'" title="足球-胜平负" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'足球'" title="胜平负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 核心优化：基于sysinfo精准计算高度，移除冗余padding -->
     <scroll-view
@@ -90,7 +90,7 @@
     <view class="phone-modal" v-if="showPhoneModal">
       <view class="modal-mask" @click="showPhoneModal = false"></view>
       <view class="modal-content">
-        <view class="modal-desc">业务人员通过微信与您联系付款及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
+        <view class="modal-desc">业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
         <view class="input-wrap">
           <label>微信手机号：</label>
           <input type="number" v-model="userPhone" placeholder="请输入手机号" maxlength="11" />
@@ -383,7 +383,7 @@ export default {
           this.isPayLoading = false;
           this.isSubmitSuccess = true;
           uni.showToast({
-            title: "投注成功！",
+            title: "操作成功！",
             icon: "success",
             duration: 2000,
             mask: true,

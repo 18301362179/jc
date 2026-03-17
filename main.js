@@ -14,12 +14,14 @@ import {
 } from '@dcloudio/uni-ui'
 Vue.component('uni-icons', uniIcons) // 单独注册uni-icons（避免全局注册遗漏）
 Vue.prototype.$bus = new Vue();
-
+import { sysParams } from '@/api/demo.js';
 // 引入全局软键盘组件
 import UniNumberKeyboard from '@/components/UniNumberKeyboard/UniNumberKeyboard.vue'
 // 全局注册组件
 Vue.component('UniNumberKeyboard', UniNumberKeyboard)
+App.mpType = 'app'
 
+// 定义全局方法：获取系统参数并挂载全局
 // #ifdef H5
 	// try {
 	// 	// 创建脚本标签，加载 static/js 下的本地 vConsole

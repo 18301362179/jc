@@ -27,7 +27,7 @@
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
               <!-- 胜率展示：添加模板同款v-if显示条件 -->
-              <view class="team-vs" style="color:#888;padding:0;">
+              <view class="team-vs" style="color:#888;padding:0;" v-if="$isShowStatus">
                 <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
                 <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
                 <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
@@ -64,7 +64,7 @@
     </scroll-view>
 
     <!-- 4场专属投注栏：沿用模板样式，保留4串1规则 -->
-    <view class="bet-bar">
+    <view class="bet-bar" v-if="$isShowStatus">
       <view class="bet-bar-top">
         <view class="collapse-area">
           <!-- 左边添加模板同款提示文字 -->

@@ -101,7 +101,7 @@ var components
 try {
   components = {
     UniNumberKeyboard: function () {
-      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 338))
+      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 274))
     },
   }
 } catch (e) {
@@ -126,9 +126,9 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.selectedMatchList.length
-  var g1 = _vm.selectedMatchList.length
-  var g2 = !(g1 == 1) ? _vm.selectedMatchList.length : null
-  var m0 = _vm.calculateBonusText()
+  var g1 = _vm.$isShowStatus ? _vm.selectedMatchList.length : null
+  var g2 = _vm.$isShowStatus && !(g1 == 1) ? _vm.selectedMatchList.length : null
+  var m0 = _vm.$isShowStatus ? _vm.calculateBonusText() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.showNumberKeyboard = true
@@ -200,7 +200,7 @@ var _validate = __webpack_require__(/*! @/utils/validate */ 79);
 var _methods;
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -229,30 +229,26 @@ var _default = {
       isMp: false,
       // 新增：是否为小程序端
       selectedCombo: "",
-      // 用于接收串关类型，显示单关/几串几
       showNumberKeyboard: false
     };
   },
   computed: {
-    // 统计选中的大小分赛事数量
     selectedMatchCount: function selectedMatchCount() {
       return this.selectedMatchList.filter(function (item) {
         return item.homeSelected || item.awaySelected;
       }).length;
     },
-    // 计算注数：每行选中的选项数相乘
     betNotes: function betNotes() {
       if (this.selectedMatchList.length === 0) return 0;
       var notes = 1;
       this.selectedMatchList.forEach(function (item) {
         var count = 0;
-        if (item.homeSelected) count++; // 小分
-        if (item.awaySelected) count++; // 大分
+        if (item.homeSelected) count++;
+        if (item.awaySelected) count++;
         notes *= count > 0 ? count : 1;
       });
       return notes;
     },
-    // 总投注金额（2元/注 * 注数 * 倍数）
     totalBetAmount: function totalBetAmount() {
       return this.betNotes * this.betCount * 2;
     }
@@ -289,9 +285,7 @@ var _default = {
   },
 
   methods: (_methods = {
-    // 新增：处理自定义软键盘实时输入
     handleKeyboardInput: function handleKeyboardInput(val) {
-      // 过滤非数字，限制1-50
       var num = parseInt(val) || 1;
       if (num < 1) {
         this.betCount = 1;
@@ -335,47 +329,33 @@ var _default = {
       // 6. 投注栏总高度（仅固定高度）
       this.betBarTotalHeight = this.betBarFixedPx;
     },
-    // 大小分专属 - 奖金计算方法（保留核心逻辑，优化格式）
     calculateBonusText: function calculateBonusText() {
       // 边界判断：无选中赛事时，返回空提示
       if (this.selectedMatchCount === 0) {
         return "预计：0.00";
       }
-
-      // 步骤1：收集每一行选中的赔率（转换为数字，处理"--"为空的情况）
-      var rowOddsList = []; // 二维数组：[[行1选中赔率], [行2选中赔率], ...]
+      var rowOddsList = [];
       this.selectedMatchList.forEach(function (item) {
         var selectedOdds = []; // 当前行选中的赔率集合
 
-        // 大分选中：提取大分赔率（dxf_d_multiplier）
         if (item.awaySelected) {
           var bigOdds = Number(item.dxf_d_multiplier) || 0;
           if (bigOdds > 0) selectedOdds.push(bigOdds);
         }
-
-        // 小分选中：提取小分赔率（dxf_x_multiplier）
         if (item.homeSelected) {
           var smallOdds = Number(item.dxf_x_multiplier) || 0;
           if (smallOdds > 0) selectedOdds.push(smallOdds);
         }
-
-        // 仅添加有有效赔率的行
         if (selectedOdds.length > 0) {
           rowOddsList.push(selectedOdds);
         }
       });
-
-      // 步骤2：边界判断：无有效赔率时，返回提示
       if (rowOddsList.length === 0) {
         return "预计：0.00";
       }
-
-      // 步骤3：判断是否所有行都仅选中1项（用于区分单值/区间值）
       var isAllSingleSelect = rowOddsList.every(function (oddsArr) {
         return oddsArr.length === 1;
       });
-
-      // 步骤4：计算最低赔率乘积 和 最高赔率乘积
       var minOddsProduct = 1;
       var maxOddsProduct = 1;
       rowOddsList.forEach(function (oddsArr) {
@@ -384,22 +364,17 @@ var _default = {
         minOddsProduct *= currentMin;
         maxOddsProduct *= currentMax;
       });
-
-      // 步骤5：计算奖金（×2 每注金额 × betCount 投注倍数）
       var base = 2 * this.betCount;
       var minBonus = minOddsProduct * base;
       var maxBonus = maxOddsProduct * base;
-
-      // 步骤6：格式化返回文本（保留2位小数）
       if (isAllSingleSelect) {
         return "\u9884\u8BA1\uFF1A".concat(minBonus.toFixed(2));
       } else {
         return "\u9884\u8BA1\uFF1A".concat(minBonus.toFixed(2), " ~ ").concat(maxBonus.toFixed(2));
       }
     },
-    // 新增：选中切换方法（对齐让分胜负页）
     toggleSelect: function toggleSelect(item, key) {
-      if (item.is_discontinued === 1) return; // 兼容停逻辑
+      if (item.is_discontinued === 1) return;
       this.$set(item, key, !item[key]);
     },
     // 新增：统一保存数据方法
@@ -437,7 +412,6 @@ var _default = {
         delta: 1
       });
     },
-    // 减少投注倍数
     handleMinus: function handleMinus() {
       if (this.betCount > 1) {
         this.betCount--;
@@ -455,12 +429,7 @@ var _default = {
     if (this.selectedMatchCount < 1) return;
     if (this.betCount < 50) {
       this.betCount++;
-    } else {
-      uni.showToast({
-        title: "倍数最多50倍",
-        icon: "none"
-      });
-    }
+    } else {}
   }), (0, _defineProperty2.default)(_methods, "handleConfirmBet", function handleConfirmBet(fromPhoneModal) {
     var _this4 = this;
     return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
@@ -487,7 +456,6 @@ var _default = {
               return _context.abrupt("return");
             case 6:
               _this4.isPayLoading = true;
-              // 3. 构造提交数据（保留大小分核心字段）
               list = _this4.selectedMatchList.map(function (item) {
                 return {
                   courseId: item.id,
@@ -502,7 +470,6 @@ var _default = {
                   scoreGoal: item.dxf_goal,
                   bigScoreOdds: item.dxf_d_multiplier,
                   smallScoreOdds: item.dxf_x_multiplier,
-                  // 大小分专属字段
                   big_win_rate: item.big_win_rate,
                   small_win_rate: item.small_win_rate,
                   big_goal_calculate: item.big_goal_calculate,
@@ -530,7 +497,7 @@ var _default = {
                 _this4.isPayLoading = false;
                 _this4.isSubmitSuccess = true;
                 uni.showToast({
-                  title: "投注成功！",
+                  title: "操作成功！",
                   icon: "success",
                   duration: 2000,
                   mask: true
@@ -551,7 +518,7 @@ var _default = {
                   icon: "none"
                 });
               }
-              _context.next = 21;
+              _context.next = 20;
               break;
             case 16:
               _context.prev = 16;
@@ -561,8 +528,7 @@ var _default = {
                 title: "网络异常，请稍后重试",
                 icon: "none"
               });
-              console.error("大小分投注报错：", _context.t0);
-            case 21:
+            case 20:
             case "end":
               return _context.stop();
           }

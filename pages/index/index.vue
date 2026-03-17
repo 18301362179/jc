@@ -15,11 +15,6 @@
     <view 
       class="match-scroll" 
       scroll-y
-      :style="{ 
-        top: headerHeight + 'px', // 基于导航栏实际高度定位
-        bottom: tabbarHeight + 'px', // 基于tabbar实际高度预留底部空间
-        height: `calc(100vh - ${headerHeight + tabbarHeight}px)` // 动态计算高度
-      }"
     >
       <!-- 赛事分析模块 -->
       <view class="simulation-container">
@@ -56,6 +51,7 @@
           </view>
         </view>
       </view>
+      <view style="margin-top: 20rpx;color:red;font-size: 22rpx;">本工具仅提供体育赛事客观数据统计与分析，不构成任何投注建议，严禁用于非法赌博活动。</view>
     </view>
     <TipsPopup
       :visible.sync="isPopupShow"
@@ -198,6 +194,7 @@ page {
   -webkit-transform: translateZ(0);
   padding: 20rpx; // 增加内边距，避免内容贴边
   box-sizing: border-box; // 确保padding不影响宽度
+  margin-top: 200rpx;
 }
 .match-scroll::-webkit-scrollbar {
   display: none;

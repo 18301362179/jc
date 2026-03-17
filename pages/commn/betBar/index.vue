@@ -1,5 +1,5 @@
 <template>
-  <view class="bet-bar">
+  <view class="bet-bar" v-if="$isShowStatus">
     <view class="bet-bar-content">
       <!-- 左侧清空按钮 -->
       <view 

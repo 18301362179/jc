@@ -18,7 +18,7 @@
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&$isShowStatus" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -46,7 +46,7 @@
                     <text class="vs-text">VS</text>
                     <text class="team-name home">{{ item.home_name }}</text>
                   </view>
-                  <view class="rate-row">
+                  <view class="rate-row" v-if="$isShowStatus">
                     <text class="rate-text away" style="text-align:right;padding-right: 15px;" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
                     <text class="rate-text home" style="text-align:left;padding-left: 15px;" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
                   </view>

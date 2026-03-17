@@ -8,7 +8,6 @@
       :showIcon="false"
       :isSelected="false"
     />
-    <!-- 头部（新增去充值按钮布局） -->
     <view class="header">
       <image class="avatar" v-if="userInfo.headImgUrl" :src="userInfo.headImgUrl" mode="aspectFill"></image>
       <image class="avatar" v-else src="@/static/mine1.png" mode="aspectFill"></image>
@@ -16,78 +15,22 @@
         <text class="username">{{ userInfo.remarkName || '' }}</text>
         <text class="value stone-count">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
-      <!-- 新增：去充值按钮 -->
-      <button class="recharge-btn" @click="gotoRecharge">充币</button>
+      <button class="recharge-btn" v-if="$isShowStatus" @click="gotoRecharge">购买</button>
     </view>
 
-    <!-- Tab栏：调整顺序，放第一个 -->
     <view class="tab-bar">
-      <!-- <view class="tab-item" :class="{ active: currentTab === 0 }" @click="switchTab(0)">模拟</view> -->
-      <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">分析</view>
-      <view class="tab-item" :class="{ active: currentTab === 2 }" @click="switchTab(2)">充币</view>
+      <view class="tab-item" :class="{ active: currentTab === 1 }" v-if="$isShowStatus" @click="switchTab(1)">分析</view>
+      <view class="tab-item" :class="{ active: currentTab === 2 }" v-if="$isShowStatus" @click="switchTab(2)">购买</view>
     </view>
 
-    <!-- 内容区 -->
     <scroll-view class="content-scroll" scroll-y>
-      <!-- 1. （原代购，移到第一个Tab） -->
-      <view v-if="currentTab === 0" class="purchase-section">
-        <no-data v-if="lotteryPurchasing.length === 0" />
-        <view class="purchase-card" v-for="(item, index) in lotteryPurchasing" :key="index">
-          <view class="bet-header">
-            <view class="bet-nums">
-              <view class="num-item">
-                <text class="num-label">投注注数</text>
-                <text class="num-value">{{ item.multiple || 0 }}</text>
-              </view>
-              <view class="num-item">
-                <text class="num-label">倍数</text>
-                <text class="num-value">{{ item.bet || 0 }}</text>
-              </view>
-              <view class="num-item">
-                <text class="num-label">总金额</text>
-                <text class="num-value">{{ item.payment || 0 }}</text>
-              </view>
-            </view>
-            <view class="bet-header-right">
-              <view class="status-tag" :class="[getStatusClass(item.status)]">
-                {{ getStatusText(item.status) }}
-              </view>
-              <button class="view-img-btn" v-if="item.lotteryImagePaths" @click="openImagePreview(item.lotteryImagePaths)">
-                查看彩票
-              </button>
-            </view>
-          </view>
-          <view class="card-divider"></view>
-          <view class="user-info-card">
-            <view class="user-avatar">
-              <text class="avatar-text">{{ getAvatarText(item.remarkName) }}</text>
-            </view>
-            <view class="user-detail">
-              <text class="user-name">{{ item.remarkName || '匿名用户' }}</text>
-              <text class="user-phone">{{ item.userPhone || '未填写' }}</text>
-            </view>
-          </view>
-          <view class="bet-type-wrap">
-            <text class="type-label">投注类型：</text>
-            <text class="type-value">{{ item.entityType || '足彩胜平负' }}</text>
-          </view>
-          <view class="card-actions" v-if="item.status == 0 && userInfo.isSysManage == 1" >
-            <button class="action-btn confirm-btn" @click="handleConfirm(item.id,item)">确认打票</button>
-            <!-- <button class="action-btn cancel-btn" :style="{background: item.is_accurate==1? '#31926e':'red'}" @click="handleCancel(item.id,index)">弃单</button> -->
-          </view>
-        </view>
-      </view>
-
-      <!-- 2. 交易（原第一个Tab，移到第二个） -->
-      <view v-if="currentTab === 1" class="record-section">
+      <view v-if="currentTab === 1&&$isShowStatus" class="record-section">
         <no-data v-if="tradeRecord.length === 0" />
-        <!-- 交易记录专属表头：宽度和列表列严格对齐、高度更小 -->
         <view class="trade-header" v-if="tradeRecord.length > 0">
           <view class="trade-header-col type-col">类型</view>
           <view class="trade-header-col match-col">比赛</view>
           <view class="trade-header-col time-col">时间</view>
         </view>
-        <!-- 原有内容行 -->
         <view class="record-card" v-for="(item, index) in tradeRecord" :key="index">
           <view class="record-row">
             <view class="normal-col type-col">
@@ -103,17 +46,16 @@
         </view>
       </view>
 
-      <!-- 3. 充值（原第二个Tab，移到第三个） -->
       <view v-if="currentTab === 2" class="record-section">
         <no-data v-if="paymentRecord.length === 0" />
         <view class="record-card recharge-card" v-for="(item, index) in paymentRecord" :key="index">
           <view class="record-row">
             <view class="normal-col">
-              <text class="label">付款金额</text>
+              <text class="label">购买金额</text>
               <text class="value highlight">{{ item.payment || 0 }} 元</text>
             </view>
             <view class="normal-col">
-              <text class="label">获得币</text>
+              <text class="label">购买</text>
               <text class="value accent">{{ item.coin_amount || 0 }} 个</text>
             </view>
             <view class="time-col">
@@ -121,14 +63,6 @@
               <text class="value">{{ item.update_time }}</text>
             </view>
           </view>
-        </view>
-      </view>
-
-      <!-- 图片预览弹窗 -->
-      <view class="preview-mask" v-if="isImagePreviewVisible" @click="closeImagePreview">
-        <view class="preview-container" @click.stop>
-          <view class="close-btn" @click="closeImagePreview">×</view>
-          <image class="preview-img" :src="previewImageUrl" mode="widthFix"></image>
         </view>
       </view>
     </scroll-view>
@@ -182,15 +116,6 @@ export default {
         url: '/pages/recharge/recharge'
       });
     },
-    openImagePreview(imagePath) {
-      if (!imagePath) return uni.showToast({ title: '暂无彩票图片', icon: 'none' });
-      this.previewImageUrl = this.defaultLotteryImageUrl + imagePath;
-      this.isImagePreviewVisible = true;
-      uni.previewImage({ urls: [this.previewImageUrl], current: 0 });
-    },
-    closeImagePreview() {
-      this.isImagePreviewVisible = false;
-    },
     switchTab(tabIndex) {
       this.currentTab = tabIndex;
     },
@@ -208,42 +133,6 @@ export default {
         uni.hideLoading();
       }
     },
-    handleConfirm(id, item) {
-      const pathMap = {
-        '比分':'/pages/user/sub/scoreDetail?id=',
-        '足彩总进球':'/pages/user/sub/totalGoalsDetail?id=',
-        '半全场':'/pages/user/sub/halfTimeDetail?id=',
-        '篮球胜负':'/pages/user/sub/basketballSf?id=',
-        '篮球胜分差':'/pages/user/sub/basketballSfc?id=',
-        '篮球让分胜负':'/pages/user/sub/basketballHandicapDetail?id=',
-        '篮球大小分':'/pages/user/sub/basketballOverUnderDetail?id='
-      };
-      uni.navigateTo({ 
-        url: (pathMap[item.entityType] || `/pages/user/sub/buyDetail?id=`) + id 
-      });
-    },
-    async handleCancel(id) {
-      uni.showModal({
-        title: '提示',
-        content: "确认作废此代购?",
-        success: async (res) => {
-          if (res.confirm) {
-            await purchasingLotteryConfirm({ id, status: 2 });
-            this.getData();
-            uni.showToast({ title: "操作成功", icon: "success" });
-          }
-        }
-      });
-    },
-    getStatusText(status) {
-      return { 0: '待打票', 1: '代购成功', 2: '已弃单' }[status] || '未知状态';
-    },
-    getStatusClass(status) {
-      return { 0: 'pending', 1: 'success', 2: 'failed' }[status] || '';
-    },
-    getAvatarText(name) {
-      return (name && name.trim().charAt(0)) || '用';
-    }
   }
 };
 </script>

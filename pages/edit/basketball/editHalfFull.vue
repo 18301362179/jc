@@ -4,7 +4,7 @@
     <!-- 自定义头部：结构不变，仅保留核心参数 -->
     <CustomHeader 
       :ballTitle="'篮球'"
-      title="篮球-大小分" 
+      title="大小分" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
@@ -20,7 +20,7 @@
     >
       <view class="match-list">
         <!-- 空状态：位置对齐让分胜负页 -->
-        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无已选赛事</view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无</view>
         
         <!-- 已选赛事列表：保留大小分玩法字段，移除AI分析 -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
@@ -48,7 +48,7 @@
             </view>
 
             <!-- 胜行：保留大小分胜展示 -->
-                <view class="rate-row">
+                <view class="rate-row" v-if="$isShowStatus">
                   <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || '--' }} </text>
                   <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || '--' }} </text>
                 </view>
@@ -68,7 +68,7 @@
     </scroll-view>
 
     <!-- 底部投注栏：统一适配逻辑，对齐让分胜负页 -->
-    <view class="bet-bar" :style="{ 
+    <view class="bet-bar" v-if="$isShowStatus" :style="{ 
       height: betBarFixedPx + 'px',  
       paddingBottom: safeAreaBottom + 'px', 
       bottom: safeAreaBottom + 'px' 
@@ -101,11 +101,6 @@
           <text class="select-tip">共{{betNotes}}注 {{betCount}}倍  {{totalBetAmount}}</text>
           <text class="bonus-tip">{{calculateBonusText()}}</text>
         </view>
-        <!-- <view class="bottom-right">
-          <button class="confirm-btn" :disabled="selectedMatchCount === 0 || isPayLoading" @click="handleConfirmBet(false)">
-            {{ isPayLoading ? "支付中..." : "模拟投注" }}
-          </button>
-        </view> -->
       </view>
     </view>
 
@@ -113,7 +108,7 @@
     <view class="phone-modal" v-if="showPhoneModal">
       <view class="modal-mask" @click="showPhoneModal = false"></view>
       <view class="modal-content">
-        <view class="modal-desc">业务人员通过微信与您联系付款及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
+        <view class="modal-desc">业务人员通过微信与您联系确认购买及打印后给您发送图片留作兑奖凭证等后续流程</view>
         <view class="input-wrap">
           <label>微信手机号：</label>
           <input type="number" v-model="userPhone" placeholder="请输入手机号（必填）" maxlength="11" />
@@ -159,30 +154,27 @@ export default {
       betBarFixedPx: 0,       // 新增：投注栏固定高度
       isApp: false,           // 新增：是否为APP端
       isMp: false,             // 新增：是否为小程序端
-      selectedCombo: "", // 用于接收串关类型，显示单关/几串几
+      selectedCombo: "",
        showNumberKeyboard: false,
     };
   },
   computed: {
-    // 统计选中的大小分赛事数量
     selectedMatchCount() {
       return this.selectedMatchList.filter(item => {
         return item.homeSelected || item.awaySelected;
       }).length;
     },
-    // 计算注数：每行选中的选项数相乘
     betNotes() {
       if (this.selectedMatchList.length === 0) return 0;
       let notes = 1;
       this.selectedMatchList.forEach(item => {
         let count = 0;
-        if (item.homeSelected) count++; // 小分
-        if (item.awaySelected) count++; // 大分
+        if (item.homeSelected) count++; 
+        if (item.awaySelected) count++; 
         notes *= count > 0 ? count : 1;
       });
       return notes;
     },
-    // 总投注金额（2元/注 * 注数 * 倍数）
     totalBetAmount() {
       return this.betNotes * this.betCount * 2;
     }
@@ -212,9 +204,7 @@ export default {
     uni.setTabBarStyle({ height: 'auto' }); // 恢复tabbar
   },
   methods: {
-            // 新增：处理自定义软键盘实时输入
     handleKeyboardInput(val) {
-      // 过滤非数字，限制1-50
       const num = parseInt(val) || 1;
       if (num < 1) {
         this.betCount = 1;
@@ -259,45 +249,35 @@ calcAllHeights() {
       // 6. 投注栏总高度（仅固定高度）
       this.betBarTotalHeight = this.betBarFixedPx;
 },
-    // 大小分专属 - 奖金计算方法（保留核心逻辑，优化格式）
     calculateBonusText() {
       // 边界判断：无选中赛事时，返回空提示
       if (this.selectedMatchCount === 0) {
         return "预计：0.00";
       }
-
-      // 步骤1：收集每一行选中的赔率（转换为数字，处理"--"为空的情况）
-      const rowOddsList = []; // 二维数组：[[行1选中赔率], [行2选中赔率], ...]
+      const rowOddsList = []; 
       this.selectedMatchList.forEach(item => {
         const selectedOdds = []; // 当前行选中的赔率集合
         
-        // 大分选中：提取大分赔率（dxf_d_multiplier）
         if (item.awaySelected) {
           const bigOdds = Number(item.dxf_d_multiplier) || 0; 
           if (bigOdds > 0) selectedOdds.push(bigOdds);
         }
         
-        // 小分选中：提取小分赔率（dxf_x_multiplier）
         if (item.homeSelected) {
           const smallOdds = Number(item.dxf_x_multiplier) || 0; 
           if (smallOdds > 0) selectedOdds.push(smallOdds);
         }
         
-        // 仅添加有有效赔率的行
         if (selectedOdds.length > 0) {
           rowOddsList.push(selectedOdds);
         }
       });
 
-      // 步骤2：边界判断：无有效赔率时，返回提示
       if (rowOddsList.length === 0) {
         return "预计：0.00";
       }
 
-      // 步骤3：判断是否所有行都仅选中1项（用于区分单值/区间值）
       const isAllSingleSelect = rowOddsList.every(oddsArr => oddsArr.length === 1);
-
-      // 步骤4：计算最低赔率乘积 和 最高赔率乘积
       let minOddsProduct = 1; 
       let maxOddsProduct = 1; 
       rowOddsList.forEach(oddsArr => {
@@ -307,21 +287,18 @@ calcAllHeights() {
         maxOddsProduct *= currentMax;
       });
 
-      // 步骤5：计算奖金（×2 每注金额 × betCount 投注倍数）
       const base = 2 * this.betCount;
       const minBonus = minOddsProduct * base;
       const maxBonus = maxOddsProduct * base;
 
-      // 步骤6：格式化返回文本（保留2位小数）
       if (isAllSingleSelect) {
         return `预计：${minBonus.toFixed(2)}`;
       } else {
         return `预计：${minBonus.toFixed(2)} ~ ${maxBonus.toFixed(2)}`;
       }
     },
-    // 新增：选中切换方法（对齐让分胜负页）
     toggleSelect(item, key) {
-      if (item.is_discontinued === 1) return; // 兼容停逻辑
+      if (item.is_discontinued === 1) return;
       this.$set(item, key, !item[key]);
     },
     // 新增：统一保存数据方法
@@ -351,7 +328,6 @@ calcAllHeights() {
       this.saveEditedData();
       uni.navigateBack({ delta: 1 });
     },
-    // 减少投注倍数
     handleMinus() {
       if (this.betCount > 1) {
         this.betCount--;
@@ -367,16 +343,14 @@ calcAllHeights() {
         this.betCount = validVal;
       });
     },
-    // 增加投注倍数（统一逻辑）
     handlePlus() {
       if (this.selectedMatchCount < 1) return;
       if (this.betCount < 50) {
         this.betCount++;
       } else {
-        uni.showToast({ title: "倍数最多50倍", icon: "none" });
       }
     },
-    // 确认投注（保留大小分字段，统一逻辑）
+   
     async handleConfirmBet(fromPhoneModal) {
       // 1. 校验：至少选中1场
       if (this.selectedMatchCount === 0) {
@@ -390,7 +364,7 @@ calcAllHeights() {
       }
 
       this.isPayLoading = true;
-      // 3. 构造提交数据（保留大小分核心字段）
+      
       const list = this.selectedMatchList.map(item => ({
         courseId: item.id,
         serialNumber: item.serial_number,
@@ -404,7 +378,7 @@ calcAllHeights() {
         scoreGoal: item.dxf_goal,
         bigScoreOdds: item.dxf_d_multiplier,
         smallScoreOdds: item.dxf_x_multiplier,
-        // 大小分专属字段
+        
         big_win_rate: item.big_win_rate,
         small_win_rate: item.small_win_rate,
         big_goal_calculate: item.big_goal_calculate,
@@ -429,7 +403,7 @@ calcAllHeights() {
         if (res.code == 200) {
           this.isPayLoading = false;
           this.isSubmitSuccess = true;
-          uni.showToast({ title: "投注成功！", icon: "success", duration: 2000, mask: true });
+          uni.showToast({ title: "操作成功！", icon: "success", duration: 2000, mask: true });
           uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
           setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
         } else {
@@ -439,7 +413,6 @@ calcAllHeights() {
       } catch (error) {
         this.isPayLoading = false;
         uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
-        console.error("大小分投注报错：", error);
       }
     }
   }
