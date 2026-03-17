@@ -93,37 +93,37 @@
             </view>
           </view>
         </view>
-<view class="ranking-section">
-  <view class="section-title">
-    <text>交锋数据</text>
-  </view>
-  <!-- 只改这个ranking-table的结构和类名 -->
-  <view class="ranking-table head-data-table">
-    <!-- 重写的表头 - 左侧球队 + 右侧双列两行 -->
-    <view class="head-table-header">
-      <view class="header-col left-col">
-        <text class="header-text">球队</text>
-      </view>
-      <view class="header-col right-col">
-        <text class="header-text top-text">同主客交锋</text>
-        <text class="header-text bottom-text">胜率/均进球</text>
-      </view>
-      <view class="header-col right-col">
-        <text class="header-text top-text">全部交锋</text>
-        <text class="header-text bottom-text">胜率/均进球</text>
-      </view>
-    </view>
-    
-    <!-- 数据行保持原样，仅调整类名适配新布局 -->
-    <view class="scorer-row-wrap" v-for="(item, i) in headData" :key="i">
-      <view class="head-table-row">
-        <text class="cell left-cell">{{ item.teamName || "-" }}</text>
-        <text class="cell right-cell">{{ item.tzkHeadWinRateAndGoal || "-" }}</text>
-        <text class="cell right-cell">{{ item.allHeadWinRateAndGoal || "-" }}</text>
-      </view>
-    </view>
-  </view>
-</view>
+        <view class="ranking-section">
+          <view class="section-title">
+            <text>交锋数据</text>
+          </view>
+          <!-- 只改这个ranking-table的结构和类名 -->
+          <view class="ranking-table head-data-table">
+            <!-- 重写的表头 - 左侧球队 + 右侧双列两行 -->
+            <view class="head-table-header">
+              <view class="header-col left-col">
+                <text class="header-text">球队</text>
+              </view>
+              <view class="header-col right-col">
+                <text class="header-text top-text">同主客交锋</text>
+                <text class="header-text bottom-text">胜率/均进球</text>
+              </view>
+              <view class="header-col right-col">
+                <text class="header-text top-text">全部交锋</text>
+                <text class="header-text bottom-text">胜率/均进球</text>
+              </view>
+            </view>
+
+            <!-- 数据行保持原样，仅调整类名适配新布局 -->
+            <view class="scorer-row-wrap" v-for="(item, i) in headData" :key="i">
+              <view class="head-table-row">
+                <text class="cell left-cell">{{ item.teamName || "-" }}</text>
+                <text class="cell right-cell">{{ item.tzkHeadWinRateAndGoal || "-" }}</text>
+                <text class="cell right-cell">{{ item.allHeadWinRateAndGoal || "-" }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
         <view class="ranking-section">
           <view class="section-title">
             <text>相同主客场数据</text>
@@ -145,8 +145,6 @@
             </view>
           </view>
         </view>
-
-
 
         <view class="record-section">
           <view class="tab-buttons">
@@ -173,7 +171,7 @@
         </view>
         <!-- 新增：球队伤停情况模块 -->
         <view class="ranking-section">
-          <view class="section-title">
+          <view class="section-title" style="color: red;background: #f2f2f2 !important;">
             <text>{{ courseMap.home_name || "" }}伤停情况</text>
           </view>
           <view class="ranking-table scorer-table">
@@ -195,14 +193,14 @@
             </view>
             <view v-else class="scorer-row-wrap">
               <view class="table-row">
-                <text class="cell player-cell" style="width: 100%;">无</text>
+                <text class="cell player-cell" style="width: 100%">无</text>
               </view>
             </view>
           </view>
         </view>
 
         <view class="ranking-section">
-          <view class="section-title">
+          <view class="section-title" style="color:red;background: #f2f2f2 !important;">
             <text>{{ courseMap.visiting_name || "" }}伤停情况</text>
           </view>
           <view class="ranking-table scorer-table">
@@ -224,7 +222,7 @@
             </view>
             <view v-else class="scorer-row-wrap">
               <view class="table-row">
-                <text class="cell player-cell" style="width: 100%;">无</text>
+                <text class="cell player-cell" style="width: 100%">无</text>
               </view>
             </view>
           </view>
@@ -342,11 +340,11 @@ export default {
       tzkHeadRecord: [],
       allHeadRecord: [],
       pointsData: [],
-      tzkDataList:[],
+      tzkDataList: [],
       headData: [],
       // 新增：伤停数据列表
       homeInjurySuspension: [],
-      visitingInjurySuspension: []
+      visitingInjurySuspension: [],
     };
   },
   onLoad(options) {
@@ -401,9 +399,9 @@ export default {
         this.allHeadRecord = data.all_headRecord || [];
         this.tzkHeadRecord = data.tzk_headRecord || [];
         this.filteredRecords = data.all_headRecord || [];
-        this.pointsData = data.pointsData|| [];
-        this.headData = data.headData|| [];
-        this.tzkDataList =  data.tzkDataList||[];
+        this.pointsData = data.pointsData || [];
+        this.headData = data.headData || [];
+        this.tzkDataList = data.tzkDataList || [];
         this.info = JSON.parse(JSON.stringify(data));
         // 新增：赋值伤停数据
         this.homeInjurySuspension = data.homeInjurySuspension || [];
@@ -746,7 +744,7 @@ export default {
     .table-header {
       align-items: center; // 单元格垂直居中
       height: 48rpx; // 统一表头行高
-      
+
       &:first-of-type .player-cell {
         display: flex;
         align-items: center;
@@ -909,12 +907,12 @@ export default {
 // 交锋数据表格专属样式 - 完全独立，不影响其他表格
 .head-data-table {
   border: 1rpx solid #eee;
-  
+
   // 表头样式
   .head-table-header {
     display: flex;
     background: #f5f7fa;
-    
+
     .header-col {
       display: flex;
       flex-direction: column;
@@ -922,61 +920,61 @@ export default {
       align-items: center;
       border-left: 1rpx solid #eee;
       padding: 8rpx 0;
-      
+
       // 左侧球队列
       &.left-col {
         flex: 1; // 自适应宽度
       }
-      
+
       // 右侧双列（同宽）
       &.right-col {
         width: 200rpx; // 固定相同宽度
       }
-      
+
       .header-text {
         font-size: 26rpx;
         color: #444;
         height: 50%;
         display: flex;
         align-items: center;
-        
+
         &.top-text {
           margin-bottom: 4rpx;
         }
-        
+
         &.bottom-text {
           margin-top: 4rpx;
         }
       }
     }
   }
-  
+
   // 数据行样式
   .head-table-row {
     display: flex;
     padding: 16rpx 0;
     border-bottom: 1rpx solid #eee;
-    
+
     &:nth-child(odd) {
       background: #f2f2f2;
     }
-    
+
     &:last-child {
       border-bottom: none;
     }
-    
+
     .cell {
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 26rpx;
       border-left: 1rpx solid #eee;
-      
+
       &.left-cell {
         flex: 1;
         padding-left: 20rpx;
       }
-      
+
       &.right-cell {
         width: 200rpx;
         text-align: center;
