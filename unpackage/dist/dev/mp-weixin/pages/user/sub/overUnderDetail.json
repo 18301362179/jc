@@ -3,9 +3,5 @@
   "navigationBarTextStyle": "white",
   "navigationBarBackgroundColor": "#31926e",
   "enablePullDownRefresh": false,
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "custom-header": "/components/CustomHeader",
-    "bet-info-card": "/pages/user/sub/BetInfoCard"
-  }
+  "navigationStyle": "custom"
 }
