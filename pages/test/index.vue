@@ -34,7 +34,7 @@
           </view>
 
           <!-- 调整预测模块布局结构 -->
-          <view class="prediction-section" v-if="$isShowStatus">
+          <view class="prediction-section" v-if="isShowStatus">
             <view class="prediction-row">
               <text class="pro-text">数据分析</text>
               <view class="prediction-content">
@@ -346,7 +346,8 @@ export default {
       headData: [],
       // 新增：伤停数据列表
       homeInjurySuspension: [],
-      visitingInjurySuspension: []
+      visitingInjurySuspension: [],
+      isShowStatus: null,
     };
   },
   onLoad(options) {
@@ -361,6 +362,12 @@ export default {
     wx.showShareMenu({
       menus: ["shareAppMessage", "shareTimeline"],
     });
+  },
+  created() {
+            this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
   },
   onShow() {
     uni.hideTabBar();

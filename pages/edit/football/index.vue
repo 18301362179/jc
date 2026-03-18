@@ -38,54 +38,39 @@
           </view>
         </view>
 
-        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无已选赛事 </view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无 </view>
       </view>
     </scroll-view>
 
-    <!-- 底部投注栏：条件适配paddingBottom，解决两端空白/溢出问题 -->
-    <view
+    <!-- <view
       class="bet-bar"
       :style="{
         height: betBarFixedPx + 'px',
-        // 核心：仅App端添加安全区padding，小程序端为0，避免底部空白
         paddingBottom: (isApp ? safeAreaBottom : 0) + 'px',
       }"
     >
-<view class="bet-bar-top">
-  <!-- 新增提示文本 -->
-  <view class="tips-text">请输入倍数后截屏给售票人</view>
-  <!-- 缩小 top-left 样式 -->
-  <view class="top-left">
-    {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
-  </view>
-  <view class="collapse-area">
-    <view class="multi-group">
-      <text class="multi-label">投</text>
-      <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
-      <view 
-        class="multi-input" 
-        @tap="showNumberKeyboard = true"
-        :class="{ 'disabled': selectedMatchCount < 1 }"
-      >
-        {{ betCount }}
+      <view class="bet-bar-top">
+        <view class="top-left">
+          {{ selectedMatchList.length == 1 ? "单关" : selectedMatchList.length + "串1" }}
+        </view>
+        <view class="collapse-area">
+          <view class="multi-group">
+            <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
+            <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 1 }">
+              {{ betCount }}
+            </view>
+            <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
+            <text class="multi-unit">倍</text>
+          </view>
+        </view>
       </view>
-      <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
-      <text class="multi-unit">倍</text>
-    </view>
-  </view>
-</view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
           <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}</text>
           <text class="bonus-tip">{{ calculateHalfFullBonus() }}</text>
         </view>
-        <!-- <view class="bottom-right">
-          <button class="confirm-btn" :disabled="selectedMatchCount === 0 || isPayLoading" @click="handleConfirmBet(false)">
-            {{ isPayLoading ? "支付中..." : "模拟投注" }}
-          </button>
-        </view> -->
       </view>
-    </view>
+    </view> -->
 
     <view class="phone-modal" v-if="showPhoneModal">
       <view class="modal-mask" @click="showPhoneModal = false"></view>
@@ -171,7 +156,7 @@ export default {
     if (eventChannel) {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
-        console.log(data, 'list------------------')
+        console.log(data, "list------------------");
         this.betCount = data.betCount || 1;
         this.isNeedUserPhone = data.isNeedUserPhone;
         this.selectedCombo = data.combo || "";
@@ -186,7 +171,7 @@ export default {
       matches: this.selectedMatchList,
       betCount: this.betCount,
     };
-    
+
     uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
   },
   methods: {
@@ -519,7 +504,7 @@ export default {
     .match-cells {
       flex: 1;
       display: flex;
-      border: 1rpx solid #DEDEDE;
+      border: 1rpx solid #dedede;
       border-radius: 8rpx;
       overflow: hidden;
 
@@ -633,12 +618,12 @@ export default {
   bottom: calc(102rpx + env(safe-area-inset-bottom)) !important;
   // #endif
 
-.bet-bar-top {
+  .bet-bar-top {
     background: #fff;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+
     // 新增提示文本样式
     .tips-text {
       font-size: 24rpx;
@@ -717,7 +702,6 @@ export default {
       }
     }
   }
-
 
   .bet-bar-bottom {
     display: flex;

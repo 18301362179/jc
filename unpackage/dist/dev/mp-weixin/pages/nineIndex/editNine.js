@@ -126,11 +126,6 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.selectedMatchList.length
-  if (!_vm._isMounted) {
-    _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-  }
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -193,7 +188,6 @@ var _default = {
       selectedMatchList: [],
       // 接收父组件传递的选中赛事
       betCount: 1,
-      // 投注倍数（1-50）
       statusBarHeight: 0,
       // 状态栏高度
       safeAreaBottom: 0,
@@ -208,10 +202,11 @@ var _default = {
       // 是否为App端
       selectedCombo: "",
       // 串关类型
-      showNumberKeyboard: false // 数字键盘显示状态
+      showNumberKeyboard: false,
+      // 数字键盘显示状态
+      isShowStatus: null
     };
   },
-
   computed: {
     // 任9专属：统计选中赛事数量
     selectedMatchCount: function selectedMatchCount() {
@@ -240,20 +235,24 @@ var _default = {
     }
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     // 替换为模板的系统信息获取逻辑（兼容全端）
     var sys = uni.getSystemInfoSync();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
     this.calcAllHeights(); // 计算适配高度
   },
   onLoad: function onLoad() {
-    var _this = this;
+    var _this2 = this;
     // 保留任9的接收数据逻辑，兼容模板的写法
     var eventChannel = this.getOpenerEventChannel ? this.getOpenerEventChannel() : null;
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
-        _this.selectedMatchList = data.matches || [];
-        _this.betCount = data.betCount || 1;
-        _this.selectedCombo = data.combo || "";
+        _this2.selectedMatchList = data.matches || [];
+        _this2.betCount = data.betCount || 1;
+        _this2.selectedCombo = data.combo || "";
       });
     }
   },

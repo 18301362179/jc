@@ -1,34 +1,26 @@
 <template>
   <!-- 篮球混合过关编辑页：按玩法分行展示投注项 -->
   <view class="scheme-edit-page">
-    <CustomHeader 
-      :ballTitle="'篮球'"
-      title="混合过关" 
-      :showBack="true" 
-      :showIcon="false" 
-      @back-click="handleBack" 
-    />
+    <CustomHeader :ballTitle="'篮球'" title="混合过关" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 核心修改：参考足球页面，统一scroll-view样式和高度计算 -->
-    <scroll-view 
-      class="match-scroll" 
-      scroll-y 
-      :style="{ 
-        top: headerTotalHeight + 'px',    
-        bottom: betBarTotalHeight + 'px'  
+    <scroll-view
+      class="match-scroll"
+      scroll-y
+      :style="{
+        top: headerTotalHeight + 'px',
+        bottom: betBarTotalHeight + 'px',
       }"
     >
       <view class="match-list">
-        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无已选赛事</view>
-        
+        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无</view>
+
         <!-- 混合过关赛事行：按玩法分行展示 -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <!-- 上排：编号 + 队名VS队名 -->
           <view class="match-header">
             <text class="serial-number">{{ item.serial_number }}</text>
-            <text class="team-name">
-              {{ item.home_name }} <span class="vs-text">VS</span> {{ item.visiting_name }}
-            </text>
+            <text class="team-name"> {{ item.home_name }} <span class="vs-text">VS</span> {{ item.visiting_name }} </text>
           </view>
 
           <!-- 核心修改：按玩法单独分行展示 -->
@@ -36,27 +28,27 @@
             <!-- 1. 胜负行 -->
             <view class="bet-item" v-if="getBetItem('spf', item)">
               <text class="bet-label">胜负：</text>
-              <text class="bet-value highlight">{{ getBetItem('spf', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("spf", item) }}</text>
             </view>
             <!-- 2. 让分胜负行 -->
             <view class="bet-item" v-if="getBetItem('rspf', item)">
               <text class="bet-label">让分胜负：</text>
-              <text class="bet-value highlight">{{ getBetItem('rspf', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("rspf", item) }}</text>
             </view>
             <!-- 3. 大小分行 -->
             <view class="bet-item" v-if="getBetItem('dx', item)">
               <text class="bet-label">大小分：</text>
-              <text class="bet-value highlight">{{ getBetItem('dx', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("dx", item) }}</text>
             </view>
             <!-- 4. 胜分差（客胜）行 -->
             <view class="bet-item" v-if="getBetItem('sfc_away', item)">
               <text class="bet-label">胜分差（客胜）：</text>
-              <text class="bet-value highlight">{{ getBetItem('sfc_away', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("sfc_away", item) }}</text>
             </view>
             <!-- 5. 胜分差（主胜）行 -->
             <view class="bet-item" v-if="getBetItem('sfc_home', item)">
               <text class="bet-label">胜分差（主胜）：</text>
-              <text class="bet-value highlight">{{ getBetItem('sfc_home', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("sfc_home", item) }}</text>
             </view>
             <!-- 无任何投注项时显示 -->
             <view v-if="!hasAnyBetItem(item)" class="empty-bet">
@@ -67,21 +59,16 @@
       </view>
     </scroll-view>
 
-    <!-- 底部投注栏：保留原样式 -->
-    <view class="bet-bar" v-if="$isShowStatus" :style="{ 
+    <!-- <view class="bet-bar" v-if="isShowStatus" :style="{ 
       height: betBarFixedPx + 'px',
       paddingBottom: (isApp ? safeAreaBottom : 0) + 'px' 
     }">
 <view class="bet-bar-top">
-  <!-- 新增提示文本 -->
-  <view class="tips-text">请输入倍数后截屏给售票人</view>
-  <!-- 缩小 top-left 样式 -->
   <view class="top-left">
     {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
   </view>
   <view class="collapse-area">
     <view class="multi-group">
-      <text class="multi-label">投</text>
       <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
       <view 
         class="multi-input" 
@@ -101,7 +88,7 @@
           <text class="bonus-tip">{{calculateBonusText()}}</text>
         </view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 手机号弹窗：保留原逻辑 -->
     <view class="phone-modal" v-if="showPhoneModal">
@@ -118,24 +105,15 @@
         </view>
       </view>
     </view>
-    
-    <UniNumberKeyboard
-      :show.sync="showNumberKeyboard"
-      :value="betCount + ''"
-      :allowDot="false"
-      confirm-text="确认"
-      :min="1"
-      :max="50"
-      @input="handleKeyboardInput"
-      @confirm="handleKeyboardConfirm"
-    />
+
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
 
 <script>
 import CustomHeader from "@/components/CustomHeader.vue";
 import { purchasingLotteryApply } from "@/api/demo";
-import { validateBetInput  } from '@/utils/validate';
+import { validateBetInput } from "@/utils/validate";
 
 export default {
   components: { CustomHeader },
@@ -146,7 +124,7 @@ export default {
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
-      userPhone: '',
+      userPhone: "",
       isSubmitSuccess: false,
       statusBarHeight: 0,
       safeAreaBottom: 0,
@@ -159,23 +137,24 @@ export default {
       showNumberKeyboard: false,
       // 玩法映射：转义中文展示
       spfMap: {
-        home_win: '主胜',
-        home_lose: '客胜'
+        home_win: "主胜",
+        home_lose: "客胜",
       },
       rspfMap: {
-        home_win_r: '让分主胜',
-        home_lose_r: '让分客胜'
+        home_win_r: "让分主胜",
+        home_lose_r: "让分客胜",
       },
       dxMap: {
-        '大小分_大': '大分',
-        '大小分_小': '小分'
-      }
+        大小分_大: "大分",
+        大小分_小: "小分",
+      },
+      isShowStatus: null,
     };
   },
   computed: {
     // 统计有选中投注项的赛事数量
     selectedMatchCount() {
-      return this.selectedMatchList.filter(item => this.hasAnyBetItem(item)).length;
+      return this.selectedMatchList.filter((item) => this.hasAnyBetItem(item)).length;
     },
     // 计算总注数：所有赛事的选中项数量相乘
     betNotes() {
@@ -185,8 +164,8 @@ export default {
         // 统计当前赛事所有选中项数量
         if (item.selectedSpf) {
           // 区分胜负和让分胜负
-          const spfCount = item.selectedSpf.filter(t => ['home_win', 'home_lose'].includes(t)).length;
-          const rspfCount = item.selectedSpf.filter(t => ['home_win_r', 'home_lose_r'].includes(t)).length;
+          const spfCount = item.selectedSpf.filter((t) => ["home_win", "home_lose"].includes(t)).length;
+          const rspfCount = item.selectedSpf.filter((t) => ["home_win_r", "home_lose_r"].includes(t)).length;
           itemCount += spfCount + rspfCount;
         }
         if (item.selectedDx && item.selectedDx.length > 0) itemCount += item.selectedDx.length;
@@ -197,13 +176,16 @@ export default {
     // 总投注金额
     totalBetAmount() {
       return (this.betNotes * this.betCount * 2).toFixed(2);
-    }
+    },
   },
   onShow() {
-    uni.setTabBarStyle({ height: '0px' });
+    uni.setTabBarStyle({ height: "0px" });
   },
   created() {
-
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     this.calcAllHeights();
   },
   onLoad() {
@@ -213,7 +195,7 @@ export default {
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
         this.isNeedUserPhone = data.isNeedUserPhone || 1;
-        this.selectedCombo = data.combo || ""; 
+        this.selectedCombo = data.combo || "";
       });
     }
   },
@@ -221,84 +203,95 @@ export default {
     if (!this.isSubmitSuccess) {
       this.saveEditedData();
     }
-    uni.setTabBarStyle({ height: 'auto' });
+    uni.setTabBarStyle({ height: "auto" });
   },
   methods: {
     // 核心方法：判断是否有任何投注项
     hasAnyBetItem(item) {
       if (!item) return false;
       // 胜负
-      const hasSpf = item.selectedSpf && item.selectedSpf.filter(t => ['home_win', 'home_lose'].includes(t)).length > 0;
+      const hasSpf = item.selectedSpf && item.selectedSpf.filter((t) => ["home_win", "home_lose"].includes(t)).length > 0;
       // 让分胜负
-      const hasRspf = item.selectedSpf && item.selectedSpf.filter(t => ['home_win_r', 'home_lose_r'].includes(t)).length > 0;
+      const hasRspf = item.selectedSpf && item.selectedSpf.filter((t) => ["home_win_r", "home_lose_r"].includes(t)).length > 0;
       // 大小分
       const hasDx = item.selectedDx && item.selectedDx.length > 0;
       // 胜分差（主/客）
-      const hasSfcHome = item.selectedSfc && item.selectedSfc.filter(t => t.includes('主胜')).length > 0;
-      const hasSfcAway = item.selectedSfc && item.selectedSfc.filter(t => t.includes('客胜')).length > 0;
+      const hasSfcHome = item.selectedSfc && item.selectedSfc.filter((t) => t.includes("主胜")).length > 0;
+      const hasSfcAway = item.selectedSfc && item.selectedSfc.filter((t) => t.includes("客胜")).length > 0;
       return hasSpf || hasRspf || hasDx || hasSfcHome || hasSfcAway;
     },
     // 核心方法：获取单个玩法的展示文本
-getBetItem(type, item) {
-  if (!item) return '';
-  switch (type) {
-    // 1. 胜负
-    case 'spf': {
-      const spfItems = item.selectedSpf && item.selectedSpf.filter(t => ['home_win', 'home_lose'].includes(t)) ? item.selectedSpf.filter(t => ['home_win', 'home_lose'].includes(t)) : [];
-      if (spfItems.length === 0) return '';
-      // 转义为中文并拼接赔率
-      return spfItems.map(t => {
-        const odds = t === 'home_win' ? item.win_multiplier : item.loss_multiplier;
-        return `${this.spfMap[t]}(${odds || '--'})`;
-      }).join('、');
-    }
-    // 2. 让分胜负
-    case 'rspf': {
-      const rspfItems = item.selectedSpf && item.selectedSpf.filter(t => ['home_win_r', 'home_lose_r'].includes(t)) ? item.selectedSpf.filter(t => ['home_win_r', 'home_lose_r'].includes(t)) : [];
-      if (rspfItems.length === 0) return '';
-      // 转义为中文并拼接赔率
-      return rspfItems.map(t => {
-        const odds = t === 'home_win_r' ? item.r_win_multiplier : item.r_loss_multiplier;
-        return `${this.rspfMap[t]}(${odds || '--'})`;
-      }).join('、');
-    }
-    // 3. 大小分
-    case 'dx': {
-      const dxItems = item.selectedDx || [];
-      if (dxItems.length === 0) return '';
-      // 转义为中文并拼接赔率
-      return dxItems.map(t => {
-        const odds = t === '大小分_大' ? item.dxf_d_multiplier : item.dxf_x_multiplier;
-        return `${this.dxMap[t]}(${odds || '--'})`;
-      }).join('、');
-    }
-    // 4. 胜分差（客胜）
-    case 'sfc_away': {
-      const sfcAwayItems = item.selectedSfc && item.selectedSfc.filter(t => t.includes('客胜')) ? item.selectedSfc.filter(t => t.includes('客胜')) : [];
-      if (sfcAwayItems.length === 0) return '';
-      // 提取分差区间并拼接赔率
-      return sfcAwayItems.map(t => {
-        const range = t.split('_').pop(); // 提取1-5、6-10等
-        const oddsField = `v_sfc${range.replace('+', '_jia').replace('-', '_')}`; // 匹配字段名
-        const odds = item[oddsField] || '--';
-        return `${range}(${odds})`;
-      }).join('、');
-    }
-    // 5. 胜分差（主胜）
-    case 'sfc_home': {
-      const sfcHomeItems = item.selectedSfc && item.selectedSfc.filter(t => t.includes('主胜')) ? item.selectedSfc.filter(t => t.includes('主胜')) : [];
-      if (sfcHomeItems.length === 0) return '';
-      // 提取分差区间并拼接赔率
-      return sfcHomeItems.map(t => {
-        const range = t.split('_').pop(); // 提取1-5、6-10等
-        const oddsField = `h_sfc${range.replace('+', '_jia').replace('-', '_')}`; // 匹配字段名
-        const odds = item[oddsField] || '--';
-        return `${range}(${odds})`;
-      }).join('、');
-    }
-    default: return '';
-  }
-},
+    getBetItem(type, item) {
+      if (!item) return "";
+      switch (type) {
+        // 1. 胜负
+        case "spf": {
+          const spfItems = item.selectedSpf && item.selectedSpf.filter((t) => ["home_win", "home_lose"].includes(t)) ? item.selectedSpf.filter((t) => ["home_win", "home_lose"].includes(t)) : [];
+          if (spfItems.length === 0) return "";
+          // 转义为中文并拼接赔率
+          return spfItems
+            .map((t) => {
+              const odds = t === "home_win" ? item.win_multiplier : item.loss_multiplier;
+              return `${this.spfMap[t]}(${odds || "--"})`;
+            })
+            .join("、");
+        }
+        // 2. 让分胜负
+        case "rspf": {
+          const rspfItems = item.selectedSpf && item.selectedSpf.filter((t) => ["home_win_r", "home_lose_r"].includes(t)) ? item.selectedSpf.filter((t) => ["home_win_r", "home_lose_r"].includes(t)) : [];
+          if (rspfItems.length === 0) return "";
+          // 转义为中文并拼接赔率
+          return rspfItems
+            .map((t) => {
+              const odds = t === "home_win_r" ? item.r_win_multiplier : item.r_loss_multiplier;
+              return `${this.rspfMap[t]}(${odds || "--"})`;
+            })
+            .join("、");
+        }
+        // 3. 大小分
+        case "dx": {
+          const dxItems = item.selectedDx || [];
+          if (dxItems.length === 0) return "";
+          // 转义为中文并拼接赔率
+          return dxItems
+            .map((t) => {
+              const odds = t === "大小分_大" ? item.dxf_d_multiplier : item.dxf_x_multiplier;
+              return `${this.dxMap[t]}(${odds || "--"})`;
+            })
+            .join("、");
+        }
+        // 4. 胜分差（客胜）
+        case "sfc_away": {
+          const sfcAwayItems = item.selectedSfc && item.selectedSfc.filter((t) => t.includes("客胜")) ? item.selectedSfc.filter((t) => t.includes("客胜")) : [];
+          if (sfcAwayItems.length === 0) return "";
+          // 提取分差区间并拼接赔率
+          return sfcAwayItems
+            .map((t) => {
+              const range = t.split("_").pop(); // 提取1-5、6-10等
+              const oddsField = `v_sfc${range.replace("+", "_jia").replace("-", "_")}`; // 匹配字段名
+              const odds = item[oddsField] || "--";
+              return `${range}(${odds})`;
+            })
+            .join("、");
+        }
+        // 5. 胜分差（主胜）
+        case "sfc_home": {
+          const sfcHomeItems = item.selectedSfc && item.selectedSfc.filter((t) => t.includes("主胜")) ? item.selectedSfc.filter((t) => t.includes("主胜")) : [];
+          if (sfcHomeItems.length === 0) return "";
+          // 提取分差区间并拼接赔率
+          return sfcHomeItems
+            .map((t) => {
+              const range = t.split("_").pop(); // 提取1-5、6-10等
+              const oddsField = `h_sfc${range.replace("+", "_jia").replace("-", "_")}`; // 匹配字段名
+              const odds = item[oddsField] || "--";
+              return `${range}(${odds})`;
+            })
+            .join("、");
+        }
+        default:
+          return "";
+      }
+    },
     // 处理软键盘输入
     handleKeyboardInput(val) {
       const num = parseInt(val) || 1;
@@ -316,7 +309,7 @@ getBetItem(type, item) {
       // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
       // 2. 底部安全区高度
-        this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+      this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       // 3. 导航栏固定高度（80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
@@ -330,10 +323,12 @@ getBetItem(type, item) {
     },
     // 保存数据
     saveEditedData() {
-      const editedData = JSON.parse(JSON.stringify({
-        matches: this.selectedMatchList,
-        betCount: this.betCount
-      }));
+      const editedData = JSON.parse(
+        JSON.stringify({
+          matches: this.selectedMatchList,
+          betCount: this.betCount,
+        })
+      );
       uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
     },
     // 奖金计算
@@ -341,17 +336,25 @@ getBetItem(type, item) {
       if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
       const matchOddsList = [];
 
-      this.selectedMatchList.forEach(item => {
+      this.selectedMatchList.forEach((item) => {
         const allOdds = [];
         // 1. 胜负赔率
         if (item.selectedSpf) {
-          item.selectedSpf.forEach(t => {
-            let odds = '--';
+          item.selectedSpf.forEach((t) => {
+            let odds = "--";
             switch (t) {
-              case 'home_win': odds = item.win_multiplier; break;
-              case 'home_lose': odds = item.loss_multiplier; break;
-              case 'home_win_r': odds = item.r_win_multiplier; break;
-              case 'home_lose_r': odds = item.r_loss_multiplier; break;
+              case "home_win":
+                odds = item.win_multiplier;
+                break;
+              case "home_lose":
+                odds = item.loss_multiplier;
+                break;
+              case "home_win_r":
+                odds = item.r_win_multiplier;
+                break;
+              case "home_lose_r":
+                odds = item.r_loss_multiplier;
+                break;
             }
             const numOdds = Number(odds);
             if (!isNaN(numOdds) && numOdds > 0) allOdds.push(numOdds);
@@ -359,23 +362,21 @@ getBetItem(type, item) {
         }
         // 2. 大小分赔率
         if (item.selectedDx) {
-          item.selectedDx.forEach(t => {
-            let odds = t === '大小分_大' ? item.dxf_d_multiplier : item.dxf_x_multiplier;
+          item.selectedDx.forEach((t) => {
+            let odds = t === "大小分_大" ? item.dxf_d_multiplier : item.dxf_x_multiplier;
             const numOdds = Number(odds);
             if (!isNaN(numOdds) && numOdds > 0) allOdds.push(numOdds);
           });
         }
         // 3. 胜分差赔率
         if (item.selectedSfc) {
-          item.selectedSfc.forEach(t => {
-            let odds = '--';
-            const splitArr = t.split('_');
-            const type = splitArr[1] || '';
-            const range = splitArr[2] || '';
-            const isHome = type === '主胜';
-            const oddsField = isHome 
-              ? `h_sfc${range.replace('+', '_jia').replace('-', '_')}` 
-              : `v_sfc${range.replace('+', '_jia').replace('-', '_')}`;
+          item.selectedSfc.forEach((t) => {
+            let odds = "--";
+            const splitArr = t.split("_");
+            const type = splitArr[1] || "";
+            const range = splitArr[2] || "";
+            const isHome = type === "主胜";
+            const oddsField = isHome ? `h_sfc${range.replace("+", "_jia").replace("-", "_")}` : `v_sfc${range.replace("+", "_jia").replace("-", "_")}`;
             odds = item[oddsField];
             const numOdds = Number(odds);
             if (!isNaN(numOdds) && numOdds > 0) allOdds.push(numOdds);
@@ -384,13 +385,14 @@ getBetItem(type, item) {
         if (allOdds.length > 0) {
           matchOddsList.push({
             min: Math.min(...allOdds),
-            max: Math.max(...allOdds)
+            max: Math.max(...allOdds),
           });
         }
       });
 
       if (matchOddsList.length === 0) return "预计奖金：0.00 元";
-      let totalMin = 1, totalMax = 1;
+      let totalMin = 1,
+        totalMax = 1;
       matchOddsList.forEach(({ min, max }) => {
         totalMin *= min;
         totalMax *= max;
@@ -445,7 +447,7 @@ getBetItem(type, item) {
         return;
       }
       this.isPayLoading = true;
-      const list = this.selectedMatchList.map(item => ({
+      const list = this.selectedMatchList.map((item) => ({
         courseId: item.id,
         serialNumber: item.serial_number,
         leagueName: item.league_name,
@@ -464,24 +466,24 @@ getBetItem(type, item) {
         dxfXMultiplier: item.dxf_x_multiplier,
         sfcOdds: {
           home: {
-            '1-5': item.h_sfc1_5,
-            '6-10': item.h_sfc6_10,
-            '11-15': item.h_sfc11_15,
-            '16-20': item.h_sfc16_20,
-            '21-25': item.h_sfc21_25,
-            '26+': item.h_sfc26_jia
+            "1-5": item.h_sfc1_5,
+            "6-10": item.h_sfc6_10,
+            "11-15": item.h_sfc11_15,
+            "16-20": item.h_sfc16_20,
+            "21-25": item.h_sfc21_25,
+            "26+": item.h_sfc26_jia,
           },
           away: {
-            '1-5': item.v_sfc1_5,
-            '6-10': item.v_sfc6_10,
-            '11-15': item.v_sfc11_15,
-            '16-20': item.v_sfc16_20,
-            '21-25': item.v_sfc21_25,
-            '26+': item.v_sfc26_jia
-          }
+            "1-5": item.v_sfc1_5,
+            "6-10": item.v_sfc6_10,
+            "11-15": item.v_sfc11_15,
+            "16-20": item.v_sfc16_20,
+            "21-25": item.v_sfc21_25,
+            "26+": item.v_sfc26_jia,
+          },
         },
         playType: "篮球混合过关",
-        entityType: "篮球混合过关"
+        entityType: "篮球混合过关",
       }));
       const payRequestData = {
         contentJson: JSON.stringify(list),
@@ -490,7 +492,7 @@ getBetItem(type, item) {
         bet: this.betCount,
         payment: this.totalBetAmount,
         payType: "wechat",
-        userPhone: this.userPhone
+        userPhone: this.userPhone,
       };
       try {
         const res = await purchasingLotteryApply(payRequestData);
@@ -509,8 +511,8 @@ getBetItem(type, item) {
         uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
         console.error("篮球混合过关投注报错：", error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -557,7 +559,7 @@ getBetItem(type, item) {
     background-color: #fff;
     margin-bottom: 15rpx;
     padding: 26rpx 20rpx;
-    box-shadow: 0 2rpx 5rpx rgba(0,0,0,0.05);
+    box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
     border-radius: 8rpx;
 
     /* 赛事头部 */
@@ -579,7 +581,7 @@ getBetItem(type, item) {
         text-align: center;
 
         .vs-text {
-          margin: 0 10rpx!important;
+          margin: 0 10rpx !important;
           color: #999;
         }
       }
@@ -590,28 +592,28 @@ getBetItem(type, item) {
       background: #f9f9f9;
       border-radius: 4rpx;
       padding: 12rpx;
-      
+
       .bet-item {
         display: flex;
         align-items: center;
         margin-bottom: 8rpx; /* 行间距 */
-        
+
         &:last-child {
           margin-bottom: 0;
         }
-        
+
         .bet-label {
           font-size: 24rpx;
           color: #666;
           width: 180rpx; /* 标签宽度加宽，适配"胜分差（客胜）" */
         }
-        
+
         .bet-value {
           font-size: 24rpx;
           color: #333;
           flex: 1;
         }
-        
+
         .highlight {
           color: #d92929;
           font-weight: 500;
@@ -647,30 +649,30 @@ getBetItem(type, item) {
   left: 0 !important;
   z-index: 10 !important;
   background-color: #fff;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   padding-bottom: 0 !important;
   box-sizing: border-box !important;
   height: 80rpx !important;
-  
+
   // #ifdef MP-WEIXIN
   bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
   // #endif
-  
+
   // #ifdef APP-PLUS
   bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;
   bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
   // #endif
-  
+
   // #ifdef H5
   bottom: calc(102rpx + env(safe-area-inset-bottom)) !important;
   // #endif
 
-.bet-bar-top {
+  .bet-bar-top {
     background: #fff;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+
     // 新增提示文本样式
     .tips-text {
       font-size: 24rpx;
@@ -750,7 +752,6 @@ getBetItem(type, item) {
     }
   }
 
-
   .bet-bar-bottom {
     display: flex;
     align-items: center;
@@ -758,20 +759,20 @@ getBetItem(type, item) {
     background: #232323;
     color: #fff;
     padding: 0 40rpx;
-    
+
     .bottom-middle {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
       margin: 0 20rpx;
-      
+
       .select-tip {
         font-size: 28rpx;
         color: #fff;
         text-align: center;
       }
-      
+
       .bonus-tip {
         font-size: 18rpx;
         color: #999;
@@ -779,10 +780,10 @@ getBetItem(type, item) {
         line-height: 1.2;
       }
     }
-    
+
     .bottom-right {
       width: 200rpx;
-      
+
       .confirm-btn {
         width: 100%;
         height: 76rpx;
@@ -794,13 +795,13 @@ getBetItem(type, item) {
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         &[disabled] {
           background: #666;
           color: #aaa;
           cursor: not-allowed;
         }
-        
+
         &:active {
           background: #c62828;
         }
@@ -808,7 +809,6 @@ getBetItem(type, item) {
     }
   }
 }
-
 
 /* 手机号弹窗 */
 .phone-modal {

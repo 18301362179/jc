@@ -1,74 +1,63 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留 -->
-    <CustomHeader 
-     :ballTitle="'足球'"
-      title="半全场" 
-      :showBack="true" 
-      :showIcon="false" 
-      @back-click="handleBack" 
-    ></CustomHeader>
+    <CustomHeader :ballTitle="'足球'" title="半全场" :showBack="true" :showIcon="false" @back-click="handleBack"></CustomHeader>
 
     <!-- 核心优化：按胜平负页面规则，基于sysinfo计算top/bottom -->
-    <scroll-view class="match-scroll" scroll-y :style="{ 
-      top: headerTotalHeight + 'px',    
-      bottom: betBarTotalHeight + 'px'  
-    }">
+    <scroll-view
+      class="match-scroll"
+      scroll-y
+      :style="{
+        top: headerTotalHeight + 'px',
+        bottom: betBarTotalHeight + 'px',
+      }"
+    >
       <view class="match-list">
         <!-- 赛事行：上下结构（保留原有业务内容） -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <!-- 上排：编号 + 队名VS队名 -->
-        <view class="match-header">
-          <text class="serial-number">{{ item.serial_number }}</text>
-          <!-- 重构为弹性布局，VS固定宽度，左右平分剩余空间 -->
-          <view class="team-win-rate-wrap">
-            <!-- 左侧主队区域：占剩余宽度50%，内容靠右 -->
-            <view class="team-item left-team">
-              <text class="team-name-text">{{ item.home_name }}</text>
-              <text class="rate-text" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
-            </view>
-            <!-- VS区域：固定宽度，居中显示 -->
-            <view class="vs-item">
-              <text class="vs-text">VS</text>
-              <text class="rate-text" v-if="item.draw_rate">平率{{ item.draw_rate || "0%" }}</text>
-            </view>
-            <!-- 右侧客队区域：占剩余宽度50%，内容靠左 -->
-            <view class="team-item right-team">
-              <text class="team-name-text">{{ item.visiting_name }}</text>
-              <text class="rate-text" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
+          <view class="match-header">
+            <text class="serial-number">{{ item.serial_number }}</text>
+            <!-- 重构为弹性布局，VS固定宽度，左右平分剩余空间 -->
+            <view class="team-win-rate-wrap">
+              <!-- 左侧主队区域：占剩余宽度50%，内容靠右 -->
+              <view class="team-item left-team">
+                <text class="team-name-text">{{ item.home_name }}</text>
+                <text class="rate-text" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
+              </view>
+              <!-- VS区域：固定宽度，居中显示 -->
+              <view class="vs-item">
+                <text class="vs-text">VS</text>
+                <text class="rate-text" v-if="item.draw_rate">平率{{ item.draw_rate || "0%" }}</text>
+              </view>
+              <!-- 右侧客队区域：占剩余宽度50%，内容靠左 -->
+              <view class="team-item right-team">
+                <text class="team-name-text">{{ item.visiting_name }}</text>
+                <text class="rate-text" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
+              </view>
             </view>
           </view>
-        </view>
           <!-- 下排：选中的半全场内容（一整行） -->
           <view class="selected-content">
-            {{ (item.selectedScores && item.selectedScores.length > 0) 
-              ? item.selectedScores.map(val => getOptionLabel(val)).join(',') 
-              : '无选中投注内容' }}
+            {{ item.selectedScores && item.selectedScores.length > 0 ? item.selectedScores.map((val) => getOptionLabel(val)).join(",") : "无选中投注内容" }}
           </view>
         </view>
 
-        <view class="empty-tip" v-if="selectedMatchList.length === 0">
-          暂无已选赛事
-        </view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无 </view>
       </view>
     </scroll-view>
 
-    <!-- 底部投注栏：按胜平负规则修改样式绑定 + 颜色 -->
-    <view class="bet-bar" v-if="$isShowStatus" :style="{ 
+    <!-- <view class="bet-bar" v-if="isShowStatus" :style="{ 
       height: betBarFixedPx + 'px',
-      // 核心：仅App端添加安全区padding，小程序端为0
       paddingBottom: (isApp ? safeAreaBottom : 0) + 'px' 
     }">
 <view class="bet-bar-top">
-  <!-- 新增提示文本 -->
-  <view class="tips-text">请输入倍数后截屏给售票人</view>
-  <!-- 缩小 top-left 样式 -->
+
   <view class="top-left">
     {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
   </view>
   <view class="collapse-area">
     <view class="multi-group">
-      <text class="multi-label">投</text>
       <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
       <view 
         class="multi-input" 
@@ -87,13 +76,8 @@
           <text class="select-tip">共{{betNotes}}注 {{betCount}}倍  {{totalBetAmount}}</text>
           <text class="bonus-tip">{{calculateHalfFullBonus()}}</text>
         </view>
-        <!-- <view class="bottom-right">
-          <button class="confirm-btn" :disabled="selectedMatchCount === 0 || isPayLoading" @click="handleConfirmBet(false)">
-            <text>{{ isPayLoading ? "支付中..." : "模拟投注" }}</text>
-          </button>
-        </view> -->
       </view>
-    </view>
+    </view> -->
 
     <!-- 手机号弹窗：保留 -->
     <view class="phone-modal" v-if="showPhoneModal">
@@ -112,16 +96,7 @@
         </view>
       </view>
     </view>
-        <UniNumberKeyboard
-      :show.sync="showNumberKeyboard"
-      :value="betCount + ''"
-      :allowDot="false"
-      confirm-text="确认"
-      :min="1"
-      :max="50"
-      @input="handleKeyboardInput"
-      @confirm="handleKeyboardConfirm"
-    />
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
 
@@ -129,25 +104,25 @@
 // 集成胜平负页面的高度计算逻辑 + 保留半全场业务逻辑
 import CustomHeader from "@/components/CustomHeader.vue";
 import { purchasingLotteryApply } from "@/api/demo";
-import { validateBetInput  } from '@/utils/validate';
+import { validateBetInput } from "@/utils/validate";
 export default {
   components: { CustomHeader },
   data() {
     return {
-      selectedMatchList: [], 
-      betCount: 1, 
+      selectedMatchList: [],
+      betCount: 1,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
-      userPhone: '',
+      userPhone: "",
       isSubmitSuccess: false,
-      statusBarHeight: 0,       // 状态栏高度
-      safeAreaBottom: 0,        // 底部安全区高度
-      headerTotalHeight: 0,     // 导航栏总高度
-      betBarFixedPx: 0,         // 投注栏固定高度（200rpx转px）
-      betBarTotalHeight: 0,     // 投注栏总高度（仅固定高度）
-      isApp: false,             // App端标记
-      isMp: false,              // 小程序端标记
+      statusBarHeight: 0, // 状态栏高度
+      safeAreaBottom: 0, // 底部安全区高度
+      headerTotalHeight: 0, // 导航栏总高度
+      betBarFixedPx: 0, // 投注栏固定高度（200rpx转px）
+      betBarTotalHeight: 0, // 投注栏总高度（仅固定高度）
+      isApp: false, // App端标记
+      isMp: false, // 小程序端标记
       halfFullOptions: [
         { label: "胜胜", value: "ss", oddsField: "ss" },
         { label: "胜平", value: "sp", oddsField: "sp" },
@@ -157,22 +132,21 @@ export default {
         { label: "平负", value: "pf", oddsField: "pf" },
         { label: "负胜", value: "fs", oddsField: "fs" },
         { label: "负平", value: "fp", oddsField: "fp" },
-        { label: "负负", value: "ff", oddsField: "ff" }
+        { label: "负负", value: "ff", oddsField: "ff" },
       ],
       selectedCombo: "",
-       showNumberKeyboard: false,
+      showNumberKeyboard: false,
+      isShowStatus: null,
     };
   },
   computed: {
     selectedMatchCount() {
-      return this.selectedMatchList.filter(item => {
+      return this.selectedMatchList.filter((item) => {
         return item.selectedScores && item.selectedScores.length > 0;
       }).length;
     },
     betNotes() {
-      const selectedRows = this.selectedMatchList.filter(item => 
-        item.selectedScores && Array.isArray(item.selectedScores) && item.selectedScores.length > 0
-      );
+      const selectedRows = this.selectedMatchList.filter((item) => item.selectedScores && Array.isArray(item.selectedScores) && item.selectedScores.length > 0);
 
       if (selectedRows.length === 0) return 0;
 
@@ -183,10 +157,10 @@ export default {
     },
     totalBetAmount() {
       return this.betNotes * this.betCount * 2;
-    }
+    },
   },
   methods: {
-            // 新增：处理自定义软键盘实时输入
+    // 新增：处理自定义软键盘实时输入
     handleKeyboardInput(val) {
       // 过滤非数字，限制1-50
       const num = parseInt(val) || 1;
@@ -215,68 +189,68 @@ export default {
         this.betCount = validVal;
       });
     },
-calculateHalfFullBonus() {
-  if (this.selectedMatchCount === 0 || this.betNotes === 0) {
-    return "0.00元 ~ 0.00元";
-  }
-
-  const rowOddsList = [];
-  this.selectedMatchList.forEach((item, itemIdx) => {
-    const currentRowOdds = [];
-    const selectedScores = item.selectedScores || [];
-
-    selectedScores.forEach(scoreValue => {
-      const option = this.halfFullOptions.find(opt => opt.value === scoreValue);
-      if (!option) return;
-
-      const oddsFieldName = option.oddsField.replace('_odds', '');
-      const rawOddValue = item[oddsFieldName];
-      const odd = Number(rawOddValue) || 0;
-
-      if (!isNaN(odd) && odd > 0) {
-        currentRowOdds.push(odd);
+    calculateHalfFullBonus() {
+      if (this.selectedMatchCount === 0 || this.betNotes === 0) {
+        return "0.00元 ~ 0.00元";
       }
-    });
 
-    if (currentRowOdds.length > 0) {
-      rowOddsList.push(currentRowOdds);
-    }
-  });
+      const rowOddsList = [];
+      this.selectedMatchList.forEach((item, itemIdx) => {
+        const currentRowOdds = [];
+        const selectedScores = item.selectedScores || [];
 
-  if (rowOddsList.length === 0) {
-    return "0.00元 ~ 0.00元";
-  }
+        selectedScores.forEach((scoreValue) => {
+          const option = this.halfFullOptions.find((opt) => opt.value === scoreValue);
+          if (!option) return;
 
-  let minOddsProduct = 1;
-  let maxOddsProduct = 1;
+          const oddsFieldName = option.oddsField.replace("_odds", "");
+          const rawOddValue = item[oddsFieldName];
+          const odd = Number(rawOddValue) || 0;
 
-  rowOddsList.forEach(oddsArr => {
-    const currentMin = oddsArr.length > 0 ? Math.min(...oddsArr) : 1;
-    const currentMax = oddsArr.length > 0 ? Math.max(...oddsArr) : 1;
+          if (!isNaN(odd) && odd > 0) {
+            currentRowOdds.push(odd);
+          }
+        });
 
-    minOddsProduct *= currentMin;
-    maxOddsProduct *= currentMax;
-  });
+        if (currentRowOdds.length > 0) {
+          rowOddsList.push(currentRowOdds);
+        }
+      });
 
-  const base = 2 * this.betCount;
-  const minBonus = minOddsProduct * base;
-  const maxBonus = maxOddsProduct * base;
+      if (rowOddsList.length === 0) {
+        return "0.00元 ~ 0.00元";
+      }
 
-  const formatBonus = (bonus) => {
-    const num = Number(bonus);
-    if (isNaN(num) || num <= 0) {
-      return "0.00";
-    }
-    return num.toFixed(2);
-  };
+      let minOddsProduct = 1;
+      let maxOddsProduct = 1;
 
-  const minBonusText = formatBonus(minBonus);
-  const maxBonusText = formatBonus(maxBonus);
+      rowOddsList.forEach((oddsArr) => {
+        const currentMin = oddsArr.length > 0 ? Math.min(...oddsArr) : 1;
+        const currentMax = oddsArr.length > 0 ? Math.max(...oddsArr) : 1;
 
-  return `${minBonusText} ~ ${maxBonusText}`;
-},
+        minOddsProduct *= currentMin;
+        maxOddsProduct *= currentMax;
+      });
+
+      const base = 2 * this.betCount;
+      const minBonus = minOddsProduct * base;
+      const maxBonus = maxOddsProduct * base;
+
+      const formatBonus = (bonus) => {
+        const num = Number(bonus);
+        if (isNaN(num) || num <= 0) {
+          return "0.00";
+        }
+        return num.toFixed(2);
+      };
+
+      const minBonusText = formatBonus(minBonus);
+      const maxBonusText = formatBonus(maxBonus);
+
+      return `${minBonusText} ~ ${maxBonusText}`;
+    },
     getOptionLabel(value) {
-      const opt = this.halfFullOptions.find(item => item.value === value);
+      const opt = this.halfFullOptions.find((item) => item.value === value);
       return opt ? opt.label : value;
     },
     confirmPhone() {
@@ -300,7 +274,7 @@ calculateHalfFullBonus() {
       // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
       // 2. 底部安全区高度
-        this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+      this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       // 3. 导航栏固定高度（80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
@@ -317,10 +291,12 @@ calculateHalfFullBonus() {
       uni.navigateBack({ delta: 1 });
     },
     saveEditedData() {
-      const deepCopyData = JSON.parse(JSON.stringify({
-        matches: this.selectedMatchList,
-        betCount: this.betCount
-      }));
+      const deepCopyData = JSON.parse(
+        JSON.stringify({
+          matches: this.selectedMatchList,
+          betCount: this.betCount,
+        })
+      );
       uni.setStorageSync("editedMatchData", JSON.stringify(deepCopyData));
     },
     handleMinus() {
@@ -330,20 +306,20 @@ calculateHalfFullBonus() {
     handleBetInput(e) {
       const inputVal = e.detail.value;
       const validVal = validateBetInput(inputVal);
-      
+
       this.betCount = null;
       this.$nextTick(() => {
         this.betCount = validVal;
       });
     },
-handlePlus() {
-  if (this.selectedMatchCount < 1) return;
-  if (this.betCount < 50) {
-    this.betCount++;
-  } else {
-    uni.showToast({ title: "倍数最多50倍", icon: "none" });
-  }
-},
+    handlePlus() {
+      if (this.selectedMatchCount < 1) return;
+      if (this.betCount < 50) {
+        this.betCount++;
+      } else {
+        uni.showToast({ title: "倍数最多50倍", icon: "none" });
+      }
+    },
     async handleConfirmBet(fromPhoneModal) {
       if (this.selectedMatchCount === 0) {
         uni.showToast({ title: "请先选择至少一场赛事的投注内容", icon: "none", duration: 1500 });
@@ -360,7 +336,7 @@ handlePlus() {
       }
 
       this.isPayLoading = true;
-      const list = this.selectedMatchList.map(item => ({
+      const list = this.selectedMatchList.map((item) => ({
         courseId: item.id,
         serialNumber: item.serial_number,
         leagueName: item.league_name,
@@ -370,7 +346,7 @@ handlePlus() {
         dateStr: item.date_str,
         homeAndVisitingGaols: item.selectedScores,
         selectedScores: item.selectedScores || [],
-        playType: "半全场"
+        playType: "半全场",
       }));
 
       const payRequestData = {
@@ -380,7 +356,7 @@ handlePlus() {
         bet: this.betCount,
         payment: this.totalBetAmount,
         payType: "wechat",
-        userPhone: this.userPhone
+        userPhone: this.userPhone,
       };
 
       try {
@@ -392,7 +368,7 @@ handlePlus() {
             title: "操作成功！",
             icon: "success",
             duration: 2000,
-            mask: true
+            mask: true,
           });
           uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
           setTimeout(() => {
@@ -436,11 +412,15 @@ handlePlus() {
         },
         complete: () => {
           this.isPayLoading = false;
-        }
+        },
       });
-    }
+    },
   },
   created() {
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     // 计算所有高度
     this.calcAllHeights();
   },
@@ -451,21 +431,21 @@ handlePlus() {
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
         this.isNeedUserPhone = data.isNeedUserPhone;
-        this.selectedCombo = data.combo || ""; 
+        this.selectedCombo = data.combo || "";
       });
     }
   },
   onShow() {
-    uni.setTabBarStyle({ height: '0px' });
+    uni.setTabBarStyle({ height: "0px" });
   },
   onUnload() {
     if (this.isSubmitSuccess) return;
     const editedData = {
       matches: this.selectedMatchList,
-      betCount: this.betCount
+      betCount: this.betCount,
     };
     uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
-  }
+  },
 };
 </script>
 
@@ -514,84 +494,84 @@ handlePlus() {
     background-color: #fff;
     margin-bottom: 15rpx;
     padding: 26rpx 20rpx;
-    box-shadow: 0 2rpx 5rpx rgba(0,0,0,0.05);
+    box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
     border-radius: 8rpx;
 
     /* 上排：编号 + 队名VS队名 */
-.match-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15rpx;
-  font-size: 28rpx;
-  color: #333;
+    .match-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15rpx;
+      font-size: 28rpx;
+      color: #333;
 
-  .serial-number {
-    margin-right: 20rpx;
-    font-weight: 400;
-    color: #999;
-  }
+      .serial-number {
+        margin-right: 20rpx;
+        font-weight: 400;
+        color: #999;
+      }
 
-  // 核心：外层容器 - VS固定宽度，左右平分剩余空间
-  .team-win-rate-wrap {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
+      // 核心：外层容器 - VS固定宽度，左右平分剩余空间
+      .team-win-rate-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
 
-  // 左右队容器：平分剩余宽度
-  .team-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
+      // 左右队容器：平分剩余宽度
+      .team-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
 
-  // 左侧队：内容靠右对齐
-  .left-team {
-    align-items: flex-end;
-    padding-right: 10rpx; // 和VS保持少量间距
-  }
+      // 左侧队：内容靠右对齐
+      .left-team {
+        align-items: flex-end;
+        padding-right: 10rpx; // 和VS保持少量间距
+      }
 
-  // 右侧队：内容靠左对齐
-  .right-team {
-    align-items: flex-start;
-    padding-left: 10rpx; // 和VS保持少量间距
-  }
+      // 右侧队：内容靠左对齐
+      .right-team {
+        align-items: flex-start;
+        padding-left: 10rpx; // 和VS保持少量间距
+      }
 
-  // VS容器：固定宽度，居中显示
-  .vs-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 120rpx; // 固定VS宽度，保证始终居中
-    flex-shrink: 0; // 不被压缩
-  }
+      // VS容器：固定宽度，居中显示
+      .vs-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 120rpx; // 固定VS宽度，保证始终居中
+        flex-shrink: 0; // 不被压缩
+      }
 
-  // 队名字体样式
-  .team-name-text {
-    font-size: 28rpx;
-    color: #333;
-    line-height: 1.2;
-  }
+      // 队名字体样式
+      .team-name-text {
+        font-size: 28rpx;
+        color: #333;
+        line-height: 1.2;
+      }
 
-  // 胜率/平率字体样式
-  .rate-text {
-    font-size: 22rpx;
-    color: #666;
-    margin-top: 4rpx;
-    line-height: 2;
-  }
+      // 胜率/平率字体样式
+      .rate-text {
+        font-size: 22rpx;
+        color: #666;
+        margin-top: 4rpx;
+        line-height: 2;
+      }
 
-  // VS文本样式
-  .vs-text {
-    color: #999;
-    font-size: 28rpx;
-    line-height: 1.2;
-  }
-}
+      // VS文本样式
+      .vs-text {
+        color: #999;
+        font-size: 28rpx;
+        line-height: 1.2;
+      }
+    }
 
     /* 下排：选中内容（一整行） */
     .selected-content {
@@ -623,31 +603,30 @@ handlePlus() {
   left: 0 !important;
   z-index: 10 !important;
   background-color: #fff;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   padding-bottom: 0 !important;
   box-sizing: border-box !important;
   height: 80rpx !important;
-  
+
   // #ifdef MP-WEIXIN
   bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
   // #endif
-  
+
   // #ifdef APP-PLUS
   bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;
   bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
   // #endif
-  
+
   // #ifdef H5
   bottom: calc(102rpx + env(safe-area-inset-bottom)) !important;
   // #endif
 
-
-.bet-bar-top {
+  .bet-bar-top {
     background: #fff;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+
     // 新增提示文本样式
     .tips-text {
       font-size: 24rpx;

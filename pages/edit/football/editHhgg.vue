@@ -1,73 +1,67 @@
 <template>
   <!-- 模板部分保持不变 -->
   <view class="scheme-edit-page">
-    <CustomHeader 
-      :ballTitle="'足球'"
-      title="混合过关" 
-      :showBack="true" 
-      :showIcon="false" 
-      @back-click="handleBack" 
-    />
+    <CustomHeader :ballTitle="'足球'" title="混合过关" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
-    <scroll-view 
-      class="match-scroll" 
-      scroll-y 
-      :style="{ 
-        top: headerTotalHeight + 'px',    
-        bottom: betBarTotalHeight + 'px'  
+    <scroll-view
+      class="match-scroll"
+      scroll-y
+      :style="{
+        top: headerTotalHeight + 'px',
+        bottom: betBarTotalHeight + 'px',
       }"
     >
       <view class="match-list">
-        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无已选赛事</view>
-        
-        <view v-for="(item,index) in selectedMatchList" :key="index" class="match-row">
-        <view class="match-header">
-          <text class="serial-number">{{ item.serial_number }}</text>
-          <!-- 重构为弹性布局，VS固定宽度，左右平分剩余空间 -->
-          <view class="team-win-rate-wrap">
-            <!-- 左侧主队区域：占剩余宽度50%，内容靠右 -->
-            <view class="team-item left-team">
-              <text class="team-name-text">{{ item.home_name }}</text>
-              <text class="rate-text" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
-            </view>
-            <!-- VS区域：固定宽度，居中显示 -->
-            <view class="vs-item">
-              <text class="vs-text">VS</text>
-              <text class="rate-text" v-if="item.draw_rate">平率{{ item.draw_rate || "" }}</text>
-            </view>
-            <!-- 右侧客队区域：占剩余宽度50%，内容靠左 -->
-            <view class="team-item right-team">
-              <text class="team-name-text">{{ item.visiting_name }}</text>
-              <text class="rate-text" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无</view>
+
+        <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
+          <view class="match-header">
+            <text class="serial-number">{{ item.serial_number }}</text>
+            <!-- 重构为弹性布局，VS固定宽度，左右平分剩余空间 -->
+            <view class="team-win-rate-wrap">
+              <!-- 左侧主队区域：占剩余宽度50%，内容靠右 -->
+              <view class="team-item left-team">
+                <text class="team-name-text">{{ item.home_name }}</text>
+                <text class="rate-text" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
+              </view>
+              <!-- VS区域：固定宽度，居中显示 -->
+              <view class="vs-item">
+                <text class="vs-text">VS</text>
+                <text class="rate-text" v-if="item.draw_rate">平率{{ item.draw_rate || "" }}</text>
+              </view>
+              <!-- 右侧客队区域：占剩余宽度50%，内容靠左 -->
+              <view class="team-item right-team">
+                <text class="team-name-text">{{ item.visiting_name }}</text>
+                <text class="rate-text" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
+              </view>
             </view>
           </view>
-        </view>
 
           <view class="selected-content">
             <!-- 胜平负 -->
             <view class="bet-item" v-if="getBetItem('spf', item)">
               <text class="bet-label">胜平负：</text>
-              <text class="bet-value highlight">{{ getBetItem('spf', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("spf", item) }}</text>
             </view>
             <!-- 让球胜平负 -->
             <view class="bet-item" v-if="getBetItem('rspf', item)">
               <text class="bet-label">让球胜平负：</text>
-              <text class="bet-value highlight">{{ getBetItem('rspf', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("rspf", item) }}</text>
             </view>
             <!-- 比分 -->
             <view class="bet-item" v-if="getBetItem('bf', item)">
               <text class="bet-label">比分：</text>
-              <text class="bet-value highlight">{{ getBetItem('bf', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("bf", item) }}</text>
             </view>
             <!-- 总进球 -->
             <view class="bet-item" v-if="getBetItem('zjq', item)">
               <text class="bet-label">总进球：</text>
-              <text class="bet-value highlight">{{ getBetItem('zjq', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("zjq", item) }}</text>
             </view>
             <!-- 半全场 -->
             <view class="bet-item" v-if="getBetItem('bqc', item)">
               <text class="bet-label">半全场：</text>
-              <text class="bet-value highlight">{{ getBetItem('bqc', item) }}</text>
+              <text class="bet-value highlight">{{ getBetItem("bqc", item) }}</text>
             </view>
 
             <view v-if="!hasAnyBetItem(item)" class="empty-bet">
@@ -78,41 +72,36 @@
       </view>
     </scroll-view>
 
-    <!-- 底部投注栏 -->
-    <view class="bet-bar" v-if="$isShowStatus" :style="{ 
-      height: betBarFixedPx + 'px',
-      paddingBottom: (isApp ? safeAreaBottom : 0) + 'px' 
-    }">
-<view class="bet-bar-top">
-  <!-- 新增提示文本 -->
-  <view class="tips-text">请输入倍数后截屏给售票人</view>
-  <!-- 缩小 top-left 样式 -->
-  <view class="top-left">
-    {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
-  </view>
-  <view class="collapse-area">
-    <view class="multi-group">
-      <text class="multi-label">投</text>
-      <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
-      <view 
-        class="multi-input" 
-        @tap="showNumberKeyboard = true"
-        :class="{ 'disabled': selectedMatchCount < 1 }"
-      >
-        {{ betCount }}
-      </view>
-      <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
-      <text class="multi-unit">倍</text>
-    </view>
-  </view>
-</view>
-      <view class="bet-bar-bottom">
-        <view class="bottom-middle">
-          <text class="select-tip">共{{betNotes}}注 {{betCount}}倍  {{totalBetAmount}}元</text>
-          <text class="bonus-tip">{{calculateHalfFullBonus()}}</text>
+    <!-- <view
+      class="bet-bar"
+      v-if="isShowStatus"
+      :style="{
+        height: betBarFixedPx + 'px',
+        paddingBottom: (isApp ? safeAreaBottom : 0) + 'px',
+      }"
+    >
+      <view class="bet-bar-top">
+        <view class="top-left">
+          {{ selectedMatchList.length == 1 ? "单关" : selectedMatchList.length + "串1" }}
+        </view>
+        <view class="collapse-area">
+          <view class="multi-group">
+            <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
+            <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 1 }">
+              {{ betCount }}
+            </view>
+            <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
+            <text class="multi-unit">倍</text>
+          </view>
         </view>
       </view>
-    </view>
+      <view class="bet-bar-bottom">
+        <view class="bottom-middle">
+          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
+          <text class="bonus-tip">{{ calculateHalfFullBonus() }}</text>
+        </view>
+      </view>
+    </view> -->
 
     <!-- 手机号弹窗+数字键盘 -->
     <view class="phone-modal" v-if="showPhoneModal">
@@ -129,17 +118,8 @@
         </view>
       </view>
     </view>
-    
-    <UniNumberKeyboard
-      :show.sync="showNumberKeyboard"
-      :value="betCount + ''"
-      :allowDot="false"
-      confirm-text="确认"
-      :min="1"
-      :max="50"
-      @input="handleKeyboardInput"
-      @confirm="handleKeyboardConfirm"
-    />
+
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
 
@@ -156,7 +136,7 @@ export default {
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
-      userPhone: '',
+      userPhone: "",
       isSubmitSuccess: false,
       statusBarHeight: 0,
       safeAreaBottom: 0,
@@ -169,73 +149,75 @@ export default {
       showNumberKeyboard: false,
       // 映射表保持不变
       spfTextMap: {
-        'home_0': '主胜',
-        'draw_0': '平',
-        'away_0': '主负',
-        '3': '主胜',
-        '1': '平',
-        '0': '主负'
+        home_0: "主胜",
+        draw_0: "平",
+        away_0: "主负",
+        3: "主胜",
+        1: "平",
+        0: "主负",
       },
       rspfTextMap: {
-        'home_-1': '主胜',
-        'draw_-1': '平',
-        'away_-1': '主负',
-        '3': '主胜',
-        '1': '平',
-        '0': '主负'
+        "home_-1": "主胜",
+        "draw_-1": "平",
+        "away_-1": "主负",
+        3: "主胜",
+        1: "平",
+        0: "主负",
       },
       zjqTextMap: {
-        '0': '0',
-        '1': '1',
-        '2': '2',
-        '3': '3',
-        '4': '4',
-        '5': '5',
-        '6': '6',
-        '4+': '7+',
-        '5+': '7+',
-        '6+': '7+',
-        '7+': '7+',
-        '总进球_0': '0',
-        '总进球_1': '1',
-        '总进球_2': '2',
-        '总进球_3': '3',
-        '总进球_4': '4',
-        '总进球_5': '5',
-        '总进球_6': '6',
-        '总进球_7+': '7+'
+        0: "0",
+        1: "1",
+        2: "2",
+        3: "3",
+        4: "4",
+        5: "5",
+        6: "6",
+        "4+": "7+",
+        "5+": "7+",
+        "6+": "7+",
+        "7+": "7+",
+        总进球_0: "0",
+        总进球_1: "1",
+        总进球_2: "2",
+        总进球_3: "3",
+        总进球_4: "4",
+        总进球_5: "5",
+        总进球_6: "6",
+        "总进球_7+": "7+",
       },
       bqcTextMap: {
-        '33': '胜胜',
-        '31': '胜平',
-        '30': '胜负',
-        '13': '平胜',
-        '11': '平平',
-        '10': '平负',
-        '03': '负胜',
-        '01': '负平',
-        '00': '负负',
-        '半全场_胜胜': '胜胜',
-        '半全场_胜平': '胜平',
-        '半全场_胜负': '胜负',
-        '半全场_平胜': '平胜',
-        '半全场_平平': '平平',
-        '半全场_平负': '平负',
-        '半全场_负胜': '负胜',
-        '半全场_负平': '负平',
-        '半全场_负负': '负负'
-      }
+        33: "胜胜",
+        31: "胜平",
+        30: "胜负",
+        13: "平胜",
+        11: "平平",
+        10: "平负",
+        "03": "负胜",
+        "01": "负平",
+        "00": "负负",
+        半全场_胜胜: "胜胜",
+        半全场_胜平: "胜平",
+        半全场_胜负: "胜负",
+        半全场_平胜: "平胜",
+        半全场_平平: "平平",
+        半全场_平负: "平负",
+        半全场_负胜: "负胜",
+        半全场_负平: "负平",
+        半全场_负负: "负负",
+
+      },
+      isShowStatus: null,
     };
   },
   computed: {
     selectedMatchCount() {
-      return this.selectedMatchList.filter(item => this.hasAnyBetItem(item)).length;
+      return this.selectedMatchList.filter((item) => this.hasAnyBetItem(item)).length;
     },
     betNotes() {
       if (this.selectedMatchCount === 0) return 0;
-      const validMatches = this.selectedMatchList.filter(item => this.hasAnyBetItem(item));
+      const validMatches = this.selectedMatchList.filter((item) => this.hasAnyBetItem(item));
       if (validMatches.length === 0) return 0;
-      
+
       return validMatches.reduce((total, item) => {
         let itemCount = 0;
         if (item.spfList && Array.isArray(item.spfList)) itemCount += item.spfList.length;
@@ -248,14 +230,17 @@ export default {
     },
     totalBetAmount() {
       return (this.betNotes * this.betCount * 2).toFixed(2);
-    }
+    },
   },
   onShow() {
-    uni.setTabBarStyle({ height: '0px' });
+    uni.setTabBarStyle({ height: "0px" });
     this.calcAllHeights();
   },
   created() {
-
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     this.calcAllHeights();
   },
   onLoad() {
@@ -263,17 +248,17 @@ export default {
     if (eventChannel) {
       eventChannel.on("selectedData", (data) => {
         try {
-          const rawMatches = JSON.parse(JSON.stringify(data.matches || [])); 
-          this.selectedMatchList = rawMatches.map(item => {
+          const rawMatches = JSON.parse(JSON.stringify(data.matches || []));
+          this.selectedMatchList = rawMatches.map((item) => {
             const newItem = { ...item };
             // 1. 拆分胜平负/让球胜平负（保持不变）
             newItem.spfList = [];
             newItem.rspfList = [];
             const allSpfValues = item.selectedSpf || item.selectedAll || [];
-            allSpfValues.forEach(val => {
-              if (val.includes('_0')) {
+            allSpfValues.forEach((val) => {
+              if (val.includes("_0")) {
                 newItem.spfList.push(val);
-              } else if (val.includes('_')) {
+              } else if (val.includes("_")) {
                 newItem.rspfList.push(val);
               }
             });
@@ -281,26 +266,28 @@ export default {
             // 2. 修复：拆分比分（核心修改部分）
             newItem.bfList = [];
             // 优先从selectedAll获取，再补充selectedBf（反转优先级）
-            const allPossibleBf = [...(item.selectedAll || []), ...(item.selectedBf || [])];   
+            const allPossibleBf = [...(item.selectedAll || []), ...(item.selectedBf || [])];
             // 增加类型校验+去空格，避免startsWith报错
-            const bfValues = allPossibleBf.filter(val => {
-              const valStr = String(val).trim(); // 转字符串+去空格
-              return valStr.startsWith('比分_');
-            }).map(val => {
-              const valStr = String(val).trim();
-              const pureBf = valStr.replace('比分_', ''); // 去掉前缀
-              return pureBf;
-            });
-            
+            const bfValues = allPossibleBf
+              .filter((val) => {
+                const valStr = String(val).trim(); // 转字符串+去空格
+                return valStr.startsWith("比分_");
+              })
+              .map((val) => {
+                const valStr = String(val).trim();
+                const pureBf = valStr.replace("比分_", ""); // 去掉前缀
+                return pureBf;
+              });
+
             newItem.bfList = bfValues;
             // 3. 拆分总进球（保持不变）
-            newItem.zjqList = (item.selectedZjq || item.selectedAll || []).filter(val => {
-              return String(val).trim().startsWith('总进球_');
+            newItem.zjqList = (item.selectedZjq || item.selectedAll || []).filter((val) => {
+              return String(val).trim().startsWith("总进球_");
             });
 
             // 4. 拆分半全场（保持不变）
-            newItem.bqcList = (item.selectedBqc || item.selectedAll || []).filter(val => {
-              return String(val).trim().startsWith('半全场_');
+            newItem.bqcList = (item.selectedBqc || item.selectedAll || []).filter((val) => {
+              return String(val).trim().startsWith("半全场_");
             });
 
             return newItem;
@@ -316,7 +303,7 @@ export default {
   },
   onUnload() {
     if (!this.isSubmitSuccess) this.saveEditedData();
-    uni.setTabBarStyle({ height: 'auto' });
+    uni.setTabBarStyle({ height: "auto" });
   },
   methods: {
     hasAnyBetItem(item) {
@@ -329,29 +316,42 @@ export default {
       return hasSpf || hasRspf || hasZjq || hasBqc || hasBf;
     },
     getBetItem(type, item) {
-      if (!item) return '';
+      if (!item) return "";
       switch (type) {
-        case 'spf': {
+        case "spf": {
           const list = item.spfList || [];
-          return list.map(t => this.spfTextMap[t] || t).filter(Boolean).join(',');
+          return list
+            .map((t) => this.spfTextMap[t] || t)
+            .filter(Boolean)
+            .join(",");
         }
-        case 'rspf': {
+        case "rspf": {
           const list = item.rspfList || [];
-          return list.map(t => this.rspfTextMap[t] || t).filter(Boolean).join(',');
+          return list
+            .map((t) => this.rspfTextMap[t] || t)
+            .filter(Boolean)
+            .join(",");
         }
-        case 'zjq': {
+        case "zjq": {
           const list = item.zjqList || [];
-          return list.map(t => this.zjqTextMap[t] || t.replace('总进球_', '')).filter(Boolean).join(',');
+          return list
+            .map((t) => this.zjqTextMap[t] || t.replace("总进球_", ""))
+            .filter(Boolean)
+            .join(",");
         }
-        case 'bqc': {
+        case "bqc": {
           const list = item.bqcList || [];
-          return list.map(t => this.bqcTextMap[t] || t.replace('半全场_', '')).filter(Boolean).join(',');
+          return list
+            .map((t) => this.bqcTextMap[t] || t.replace("半全场_", ""))
+            .filter(Boolean)
+            .join(",");
         }
-        case 'bf': {
+        case "bf": {
           const list = item.bfList || [];
-          return list.filter(Boolean).join(',');
+          return list.filter(Boolean).join(",");
         }
-        default: return '';
+        default:
+          return "";
       }
     },
     handleKeyboardInput(val) {
@@ -366,7 +366,7 @@ export default {
     calcAllHeights() {
       const sys = wx.getWindowInfo();
       this.statusBarHeight = sys.statusBarHeight || 20;
-       this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+      this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       const navBarFixedRpx = 80;
       const betBarFixedRpx = 200;
       const pxPerRpx = sys.screenWidth / 750;
@@ -416,20 +416,20 @@ export default {
         return;
       }
       this.isPayLoading = true;
-      const list = this.selectedMatchList.map(item => ({
+      const list = this.selectedMatchList.map((item) => ({
         courseId: item.id,
         serialNumber: item.serial_number,
-        leagueName: item.league_name || '',
-        homeName: item.home_name || '',
-        visitingName: item.visiting_name || '',
-        raceDate: item.race_date || '',
+        leagueName: item.league_name || "",
+        homeName: item.home_name || "",
+        visitingName: item.visiting_name || "",
+        raceDate: item.race_date || "",
         selectedSpf: item.spfList || [],
         selectedRspf: item.rspfList || [],
         selectedZjq: item.zjqList || [],
         selectedBqc: item.bqcList || [],
         selectedBf: item.bfList || [],
         playType: "足球混合过关",
-        entityType: "足球混合过关"
+        entityType: "足球混合过关",
       }));
       const payRequestData = {
         contentJson: JSON.stringify(list),
@@ -438,7 +438,7 @@ export default {
         bet: this.betCount,
         payment: this.totalBetAmount,
         payType: "wechat",
-        userPhone: this.userPhone
+        userPhone: this.userPhone,
       };
       try {
         const res = await purchasingLotteryApply(payRequestData);
@@ -460,13 +460,15 @@ export default {
       }
     },
     saveEditedData() {
-      const editedData = JSON.parse(JSON.stringify({
-        matches: this.selectedMatchList,
-        betCount: this.betCount
-      }));
+      const editedData = JSON.parse(
+        JSON.stringify({
+          matches: this.selectedMatchList,
+          betCount: this.betCount,
+        })
+      );
       uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -511,110 +513,110 @@ export default {
     background-color: #fff;
     margin-bottom: 15rpx;
     padding: 26rpx 20rpx;
-    box-shadow: 0 2rpx 5rpx rgba(0,0,0,0.05);
+    box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
     border-radius: 8rpx;
 
-.match-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15rpx;
-  font-size: 28rpx;
-  color: #333;
+    .match-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15rpx;
+      font-size: 28rpx;
+      color: #333;
 
-  .serial-number {
-    margin-right: 20rpx;
-    font-weight: 400;
-    color: #999;
-  }
+      .serial-number {
+        margin-right: 20rpx;
+        font-weight: 400;
+        color: #999;
+      }
 
-  // 核心：外层容器 - VS固定宽度，左右平分剩余空间
-  .team-win-rate-wrap {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
+      // 核心：外层容器 - VS固定宽度，左右平分剩余空间
+      .team-win-rate-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
 
-  // 左右队容器：平分剩余宽度
-  .team-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
+      // 左右队容器：平分剩余宽度
+      .team-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
 
-  // 左侧队：内容靠右对齐
-  .left-team {
-    align-items: flex-end;
-    padding-right: 10rpx; // 和VS保持少量间距
-  }
+      // 左侧队：内容靠右对齐
+      .left-team {
+        align-items: flex-end;
+        padding-right: 10rpx; // 和VS保持少量间距
+      }
 
-  // 右侧队：内容靠左对齐
-  .right-team {
-    align-items: flex-start;
-    padding-left: 10rpx; // 和VS保持少量间距
-  }
+      // 右侧队：内容靠左对齐
+      .right-team {
+        align-items: flex-start;
+        padding-left: 10rpx; // 和VS保持少量间距
+      }
 
-  // VS容器：固定宽度，居中显示
-  .vs-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 120rpx; // 固定VS宽度，保证始终居中
-    flex-shrink: 0; // 不被压缩
-  }
+      // VS容器：固定宽度，居中显示
+      .vs-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 120rpx; // 固定VS宽度，保证始终居中
+        flex-shrink: 0; // 不被压缩
+      }
 
-  // 队名字体样式
-  .team-name-text {
-    font-size: 28rpx;
-    color: #333;
-    line-height: 1.2;
-  }
+      // 队名字体样式
+      .team-name-text {
+        font-size: 28rpx;
+        color: #333;
+        line-height: 1.2;
+      }
 
-  // 胜率/平率字体样式
-  .rate-text {
-    font-size: 22rpx;
-    color: #666;
-    margin-top: 4rpx;
-    line-height: 2;
-  }
+      // 胜率/平率字体样式
+      .rate-text {
+        font-size: 22rpx;
+        color: #666;
+        margin-top: 4rpx;
+        line-height: 2;
+      }
 
-  // VS文本样式
-  .vs-text {
-    color: #999;
-    font-size: 28rpx;
-    line-height: 1.2;
-  }
-}
+      // VS文本样式
+      .vs-text {
+        color: #999;
+        font-size: 28rpx;
+        line-height: 1.2;
+      }
+    }
 
     .selected-content {
       background: #f9f9f9;
       border-radius: 4rpx;
       padding: 12rpx;
-      
+
       .bet-item {
         display: flex;
         align-items: center;
         margin-bottom: 8rpx;
-        
+
         &:last-child {
           margin-bottom: 0;
         }
-        
+
         .bet-label {
           font-size: 24rpx;
           color: #666;
           width: 180rpx;
         }
-        
+
         .bet-value {
           font-size: 24rpx;
           color: #333;
           flex: 1;
         }
-        
+
         .highlight {
           color: #d92929;
           font-weight: 500;
@@ -649,18 +651,18 @@ export default {
   left: 0 !important;
   z-index: 10 !important;
   background-color: #fff;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   padding-bottom: 0 !important;
   box-sizing: border-box !important;
   height: auto !important;
   bottom: 0 !important;
 
-.bet-bar-top {
+  .bet-bar-top {
     background: #fff;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+
     // 新增提示文本样式
     .tips-text {
       font-size: 24rpx;
@@ -740,7 +742,6 @@ export default {
     }
   }
 
-
   .bet-bar-bottom {
     display: flex;
     align-items: center;
@@ -748,20 +749,20 @@ export default {
     background: #232323;
     color: #fff;
     padding: 0 40rpx;
-    
+
     .bottom-middle {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
       margin: 0 20rpx;
-      
+
       .select-tip {
         font-size: 28rpx;
         color: #fff;
         text-align: center;
       }
-      
+
       .bonus-tip {
         font-size: 18rpx;
         color: #999;

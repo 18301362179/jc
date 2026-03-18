@@ -13,7 +13,6 @@ let retryCount = 0;              // 当前重试次数
 let isSharePanelOpened = false;  // 分享面板是否打开
 let isWxConfigFailed = false;    // 分享配置是否彻底失败（超过重试次数）
 let shareInitLock = false;       // 分享初始化锁（彻底杜绝循环调用）
-
 export default {
   globalData: {
     baseUrl:  'https://www.tianjifu.com/qwxt',
@@ -24,7 +23,6 @@ export default {
       invalidH5Token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwidXNlcklkIjoiNSIsIm9wZW5JZCI6Im9PRGRWMV9qc3VWdHVFRWYxbm9LQTZFbTFZcEUiLCJpc1N5c01hbmFnZSI6IjAiLCJ0aW1lU3RhbXAiOjE3Njk5OTk5MjQ3NDJ9.SDgOKGOnz6v6bMFOOuMP_znqXB-B3lFes6MO4tWWx7Q',
       h5AuthLock: false,
       h5DevFixedToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwidXNlcklkIjoiNSIsIm9wZW5JZCI6Im9PRGRWMV9qc3VWdHVFRWYxbm9LQTZFbTFZcEUiLCJpc1N5c01hbmFnZSI6IjAiLCJ0aW1lU3RhbXAiOjE3Njk5OTk5MjQ3NDJ9.SDgOKGOnz6v6bMFOOuMP_znqXB-B3lFes6MO4tWWx7Q',
-      isShowStatus: false,
     };
   },
   onLaunch: async function() {
@@ -145,35 +143,19 @@ export default {
 
   // 页面显示：核心修复循环调用问题
   onShow() {
+        // #ifdef MP-WEIXIN
+    // 第一步：先请求接口，把值存到 App.vue 的 data 里
+
+         sysParams().then((res)=>{
+        let status = res.data.fenXiUrlShowStatus;
+        // 处理值：兼容字符串/数字，兜底false
+        status = status === undefined || status === null ? false : (status == '1' );
+        uni.setStorageSync("isShowStatus", status);
+         });
+    // #endif
     // #ifdef H5
-          this.$nextTick(()=>{Vue.prototype.$isShowStatus = true;
-      })
+    this.$nextTick(()=>{Vue.prototype.isShowStatus = true;})
       // #endif
-    // #ifdef MP-WEIXIN
-	try {
-		// 调用你的 sysParams 接口
-		sysParams().then((res)=>{
-		let status = res.data.fenXiUrlShowStatus;
-		if (status === undefined || status === null) {
-			status = 0;
-		}
-		status = status === 1; // 1→true，0→false
-		uni.setStorageSync("isShowStatus", status);
-		// 2. 挂载到 Vue 原型（核心：所有页面可通过 this.$isShowStatus 访问）
-		Vue.prototype.$isShowStatus = status;
-		});
-
-
-		// 处理 status 逻辑（无 ?? 运算符，兼容所有环境）
-
-
-	} catch (err) {
-		console.error('获取系统参数失败111111111111111111', err);
-		// 异常时默认值
-		Vue.prototype.$isShowStatus = false;
-		uni.setStorageSync("isShowStatus", false);
-	}
-// #endif
     // #ifdef APP-PLUS
     try { plus.screen.lockOrientation('portrait-primary'); } catch (e) {}
     // #endif
@@ -243,6 +225,9 @@ export default {
   },
 
   methods: {
+    getIsShowStatus(){
+      return this.globalData.isShowStatus
+    },
     // 更新全局Token：过滤无效Token
     updateGlobalToken(newToken) {
       console.log('[全局方法] 开始更新Token');

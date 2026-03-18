@@ -1,26 +1,24 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留原有 -->
-    <CustomHeader 
-      :ballTitle="'足球'"
-      title="让球胜平负" 
-      :showBack="true" 
-      :showIcon="false" 
-      @back-click="handleBack" 
-    />
+    <CustomHeader :ballTitle="'足球'" title="让球胜平负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 核心优化：基于sysinfo精准计算高度，移除冗余padding -->
-    <scroll-view class="match-scroll" scroll-y :style="{ 
-      top: headerTotalHeight + 'px',    
-      bottom: betBarTotalHeight + 'px'  
-    }">
+    <scroll-view
+      class="match-scroll"
+      scroll-y
+      :style="{
+        top: headerTotalHeight + 'px',
+        bottom: betBarTotalHeight + 'px',
+      }"
+    >
       <view class="match-list">
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <view class="match-category">
             <view class="league-name">{{ item.league_name }}</view>
-            <view class="league-name" style="display: flex;justify-content: flex-start;width: 100%;">
+            <view class="league-name" style="display: flex; justify-content: flex-start; width: 100%">
               <!-- 新增让球标识，区分玩法 -->
-              <text class="single" :style="{background:item.is_rspf_single == 1?'#d92929':''}">{{item.is_rspf_single == 1? '单':''}}</text>
+              <text class="single" :style="{ background: item.is_rspf_single == 1 ? '#d92929' : '' }">{{ item.is_rspf_single == 1 ? "单" : "" }}</text>
               {{ item.serial_number }}
             </view>
             <view class="match-time">{{ item.race_date }}</view>
@@ -28,77 +26,62 @@
           <view class="match-cells">
             <!-- 修复：绑定让球主胜选中状态 handicapHomeSelected -->
             <view class="match-cell home" :class="{ selected: item.handicapHomeSelected }">
-              <view class="team-name">{{ item.home_name }}
-                <text v-if="item.r_goal">({{item.r_goal}})</text> </view>
+              <view class="team-name"
+                >{{ item.home_name }} <text v-if="item.r_goal">({{ item.r_goal }})</text>
+              </view>
               <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
-              <text class="odds rate"  v-if="item.home_win_rate">
-                胜率{{ item.home_win_rate || '' }}
-              </text>
+              <text class="odds rate" v-if="item.home_win_rate"> 胜率{{ item.home_win_rate || "" }} </text>
             </view>
             <!-- 修复：绑定让球平局选中状态 handicapVsSelected -->
-            <view class="match-cell vs" :class="{ selected: item.handicapVsSelected }" >
+            <view class="match-cell vs" :class="{ selected: item.handicapVsSelected }">
               <text class="vs-text">VS</text>
-              <text class="vs-odds" v-if="item.r_draw_multiplier">平{{ item.r_draw_multiplier}}</text>
-              <text class="vs-odds" v-if="item.draw_rate">平率{{ item.draw_rate}}</text>
+              <text class="vs-odds" v-if="item.r_draw_multiplier">平{{ item.r_draw_multiplier }}</text>
+              <text class="vs-odds" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
             </view>
             <!-- 修复：绑定让球客胜选中状态 handicapAwaySelected -->
             <view class="match-cell away" :class="{ selected: item.handicapAwaySelected }">
               <text class="team-name">{{ item.visiting_name }}</text>
               <text class="odds" v-if="item.loss_multiplier">客胜{{ item.loss_multiplier }}</text>
-              <text class="odds rate" v-if="item.visiting_win_rate">
-                胜率{{ item.visiting_win_rate || '' }}
-              </text>
+              <text class="odds rate" v-if="item.visiting_win_rate"> 胜率{{ item.visiting_win_rate || "" }} </text>
             </view>
           </view>
         </view>
 
-        <view class="empty-tip" v-if="selectedMatchList.length === 0">
-          暂无已选赛事
-        </view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无 </view>
       </view>
     </scroll-view>
 
-    <!-- 底部投注栏：条件适配paddingBottom，解决两端空白/溢出问题 -->
-    <view class="bet-bar" v-if="$isShowStatus" :style="{ 
-      height: betBarFixedPx + 'px',
-      // 核心：仅App端添加安全区padding，小程序端为0，避免底部空白
-      paddingBottom: (isApp ? safeAreaBottom : 0) + 'px' 
-    }">
-<view class="bet-bar-top">
-  <!-- 新增提示文本 -->
-  <view class="tips-text">请输入倍数后截屏给售票人</view>
-  <!-- 缩小 top-left 样式 -->
-  <view class="top-left">
-    {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
-  </view>
-  <view class="collapse-area">
-    <view class="multi-group">
-      <text class="multi-label">投</text>
-      <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
-      <view 
-        class="multi-input" 
-        @tap="showNumberKeyboard = true"
-        :class="{ 'disabled': selectedMatchCount < 1 }"
-      >
-        {{ betCount }}
+    <!-- <view
+      class="bet-bar"
+      v-if="isShowStatus"
+      :style="{
+        height: betBarFixedPx + 'px',
+
+        paddingBottom: (isApp ? safeAreaBottom : 0) + 'px',
+      }"
+    >
+      <view class="bet-bar-top">
+        <view class="top-left">
+          {{ selectedMatchList.length == 1 ? "单关" : selectedMatchList.length + "串1" }}
+        </view>
+        <view class="collapse-area">
+          <view class="multi-group">
+            <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
+            <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 1 }">
+              {{ betCount }}
+            </view>
+            <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
+            <text class="multi-unit">倍</text>
+          </view>
+        </view>
       </view>
-      <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
-      <text class="multi-unit">倍</text>
-    </view>
-  </view>
-</view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="select-tip">共{{betNotes}}注 {{betCount}}倍  {{totalBetAmount}}</text>
-          <text class="bonus-tip">{{calculateHalfFullBonus()}}</text>
+          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}</text>
+          <text class="bonus-tip">{{ calculateHalfFullBonus() }}</text>
         </view>
-        <!-- <view class="bottom-right">
-          <button class="confirm-btn" :disabled="selectedMatchCount === 0 || isPayLoading" @click="handleConfirmBet(false)">
-            {{ isPayLoading ? "支付中..." : "模拟投注" }}
-          </button>
-        </view> -->
       </view>
-    </view>
+    </view> -->
 
     <!-- 手机号弹窗：保留原有 -->
     <view class="phone-modal" v-if="showPhoneModal">
@@ -115,16 +98,7 @@
         </view>
       </view>
     </view>
-        <UniNumberKeyboard
-      :show.sync="showNumberKeyboard"
-      :value="betCount + ''"
-      :allowDot="false"
-      confirm-text="确认"
-      :min="1"
-      :max="50"
-      @input="handleKeyboardInput"
-      @confirm="handleKeyboardConfirm"
-    />
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
 
@@ -132,7 +106,7 @@
 import CustomHeader from "@/components/CustomHeader.vue";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 import { purchasingLotteryApply } from "@/api/demo";
-import { validateBetInput  } from '@/utils/validate';
+import { validateBetInput } from "@/utils/validate";
 
 export default {
   components: { CustomHeader },
@@ -143,55 +117,60 @@ export default {
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
-      userPhone: '',
+      userPhone: "",
       isSubmitSuccess: false,
-      statusBarHeight: 0,       // 状态栏高度
-      safeAreaBottom: 0,        // 底部安全区高度
-      headerTotalHeight: 0,     // 导航栏总高度
-      betBarFixedPx: 0,         // 投注栏固定高度（200rpx转px）
-      betBarTotalHeight: 0,     // 投注栏总高度（仅固定高度，不叠加安全区）
-      isApp: false,             // 标记是否为App端
+      statusBarHeight: 0, // 状态栏高度
+      safeAreaBottom: 0, // 底部安全区高度
+      headerTotalHeight: 0, // 导航栏总高度
+      betBarFixedPx: 0, // 投注栏固定高度（200rpx转px）
+      betBarTotalHeight: 0, // 投注栏总高度（仅固定高度，不叠加安全区）
+      isApp: false, // 标记是否为App端
       isMp: false,
-      selectedCombo: "",               // 标记是否为小程序端
-       showNumberKeyboard: false,
+      selectedCombo: "", // 标记是否为小程序端
+      showNumberKeyboard: false,
+      isShowStatus: null,
     };
   },
   computed: {
     // 修复：统计让球胜平负的选中场次数量
     selectedMatchCount() {
-      return this.selectedMatchList.filter(item => {
+      return this.selectedMatchList.filter((item) => {
         return item.handicapHomeSelected || item.handicapVsSelected || item.handicapAwaySelected;
       }).length;
     },
     // 修复：计算让球胜平负的投注注数（每行选中的让球选项数量相乘）
     betNotes() {
       if (this.selectedMatchList.length === 0) return 0;
-      
+
       let notes = 1;
-      this.selectedMatchList.forEach(item => {
+      this.selectedMatchList.forEach((item) => {
         // 统计当前行「让球胜平负」选中的选项数量
         let selectedCount = 0;
         if (item.handicapHomeSelected) selectedCount++;
         if (item.handicapVsSelected) selectedCount++;
         if (item.handicapAwaySelected) selectedCount++;
-        
+
         // 只有选中了选项才参与计算
         if (selectedCount > 0) {
           notes *= selectedCount;
         }
       });
-      
+
       return notes;
     },
     // 总投注金额（逻辑不变）
     totalBetAmount() {
-      return (this.betNotes * this.betCount * 2);
-    }
+      return this.betNotes * this.betCount * 2;
+    },
   },
   onShow() {
-    uni.setTabBarStyle({ height: '0px' });
+    uni.setTabBarStyle({ height: "0px" });
   },
   created() {
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     // 计算所有高度
     this.calcAllHeights();
   },
@@ -202,7 +181,7 @@ export default {
         this.selectedMatchList = data.matches || [];
         this.betCount = data.betCount || 1;
         this.isNeedUserPhone = data.isNeedUserPhone;
-                this.selectedCombo = data.combo || ""; 
+        this.selectedCombo = data.combo || "";
       });
     }
   },
@@ -213,12 +192,12 @@ export default {
     }
     const editedData = {
       matches: this.selectedMatchList,
-      betCount: this.betCount
+      betCount: this.betCount,
     };
     uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
   },
   methods: {
-            // 新增：处理自定义软键盘实时输入
+    // 新增：处理自定义软键盘实时输入
     handleKeyboardInput(val) {
       // 过滤非数字，限制1-50
       const num = parseInt(val) || 1;
@@ -273,27 +252,30 @@ export default {
 
       // 步骤1：收集每一行选中的【让球】赔率（转换为数字，处理"--"为空的情况）
       const rowOddsList = []; // 二维数组：[[行1选中赔率], [行2选中赔率], ...]
-      this.selectedMatchList.forEach(item => {
+      this.selectedMatchList.forEach((item) => {
         const selectedOdds = []; // 当前行选中的【让球】赔率集合
-        
+
         // 让球主胜选中：提取让球主胜赔率（win_multiplier，让球玩法中该字段为让球后主胜赔率）
-        if (item.handicapHomeSelected) { // 对应让球主胜选中状态
+        if (item.handicapHomeSelected) {
+          // 对应让球主胜选中状态
           const homeOdds = Number(item.win_multiplier) || 0; // 转换为数字，无效值设为0
           if (homeOdds > 0) selectedOdds.push(homeOdds);
         }
-        
+
         // 让球平局选中：提取让球平局赔率（r_draw_multiplier，对应让球平赔率字段）
-        if (item.handicapVsSelected) { // 对应让球平局选中状态
+        if (item.handicapVsSelected) {
+          // 对应让球平局选中状态
           const drawOdds = Number(item.r_draw_multiplier) || 0; // 转换为数字，无效值设为0
           if (drawOdds > 0) selectedOdds.push(drawOdds);
         }
-        
+
         // 让球客胜选中：提取让球客胜赔率（loss_multiplier，让球玩法中该字段为让球后客胜赔率）
-        if (item.handicapAwaySelected) { // 对应让球客胜选中状态
+        if (item.handicapAwaySelected) {
+          // 对应让球客胜选中状态
           const awayOdds = Number(item.loss_multiplier) || 0; // 转换为数字，无效值设为0
           if (awayOdds > 0) selectedOdds.push(awayOdds);
         }
-        
+
         // 仅添加有有效赔率的行
         if (selectedOdds.length > 0) {
           rowOddsList.push(selectedOdds);
@@ -306,12 +288,12 @@ export default {
       }
 
       // 步骤3：判断是否所有行都仅选中1项（用于区分单值/区间值）
-      const isAllSingleSelect = rowOddsList.every(oddsArr => oddsArr.length === 1);
+      const isAllSingleSelect = rowOddsList.every((oddsArr) => oddsArr.length === 1);
 
       // 步骤4：计算最低赔率乘积 和 最高赔率乘积
       let minOddsProduct = 1; // 各行最小值乘积（区间下限）
       let maxOddsProduct = 1; // 各行最大值乘积（区间上限）
-      rowOddsList.forEach(oddsArr => {
+      rowOddsList.forEach((oddsArr) => {
         const currentMin = Math.min(...oddsArr);
         const currentMax = Math.max(...oddsArr);
         minOddsProduct *= currentMin;
@@ -342,7 +324,7 @@ export default {
       }
       this.showPhoneModal = false;
       // 手机号验证通过后执行投注
-      this.handleConfirmBet(true); 
+      this.handleConfirmBet(true);
     },
     // 时间格式化方法
     formDate(time) {
@@ -364,10 +346,12 @@ export default {
     },
     // 保存编辑数据到缓存
     saveEditedData() {
-      const deepCopyData = JSON.parse(JSON.stringify({
-        matches: this.selectedMatchList,
-        betCount: this.betCount
-      }));
+      const deepCopyData = JSON.parse(
+        JSON.stringify({
+          matches: this.selectedMatchList,
+          betCount: this.betCount,
+        })
+      );
       uni.setStorageSync("editedMatchData", JSON.stringify(deepCopyData));
     },
     // 删除单场赛事
@@ -386,10 +370,11 @@ export default {
     handleBetInput(e) {
       const inputVal = e.detail.value;
       const validVal = validateBetInput(inputVal);
-      
+
       // 关键修复：先赋值为null/空，再赋值目标值（触发输入框重渲染）
       this.betCount = null; // 先清空，打破响应式缓存
-      this.$nextTick(() => { // 等待DOM更新后赋值
+      this.$nextTick(() => {
+        // 等待DOM更新后赋值
         this.betCount = validVal;
       });
     },
@@ -411,7 +396,7 @@ export default {
         uni.showToast({ title: "请先选择至少一场赛事的投注选项", icon: "none", duration: 1500 });
         return;
       }
-      
+
       if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
         this.showPhoneModal = true;
         return;
@@ -419,39 +404,39 @@ export default {
 
       this.isPayLoading = true;
       // 修复：传递让球胜平负的选中状态
-      const list = this.selectedMatchList.map(item => ({
-          courseId: item.id,
-          // 替换为让球胜平负的选中字段
-          isSelectWin: item.handicapHomeSelected ? 1 : 0,
-          isSelectDraw: item.handicapVsSelected ? 1 : 0,
-          isSelectLoss: item.handicapAwaySelected ? 1 : 0,
-          serialNumber: item.serial_number,
-          leagueName: item.league_name,
-          homeName: item.home_name,
-          visitingName: item.visiting_name,
-          raceDate: item.race_date,
-          dateStr: item.date_str,
-          // 补充让球相关字段（接口需要时）
-          homeHandicap: item.homeHandicap,
-          visitingHandicap: item.visitingHandicap,
-          homeGoalCalculate: item.home_goal_calculate,
-          visitingGoalCalculate:item.visiting_goal_calculate,
-          winMultiplier: item.win_multiplier,
-          homeWinRate: item.home_win_rate,
-          drawMultiplier: item.r_draw_multiplier,
-          drawRate: item.draw_rate,
-          lossMultiplier: item.loss_multiplier,
-          visitingWinRate: item.visiting_win_rate,
-        }));
+      const list = this.selectedMatchList.map((item) => ({
+        courseId: item.id,
+        // 替换为让球胜平负的选中字段
+        isSelectWin: item.handicapHomeSelected ? 1 : 0,
+        isSelectDraw: item.handicapVsSelected ? 1 : 0,
+        isSelectLoss: item.handicapAwaySelected ? 1 : 0,
+        serialNumber: item.serial_number,
+        leagueName: item.league_name,
+        homeName: item.home_name,
+        visitingName: item.visiting_name,
+        raceDate: item.race_date,
+        dateStr: item.date_str,
+        // 补充让球相关字段（接口需要时）
+        homeHandicap: item.homeHandicap,
+        visitingHandicap: item.visitingHandicap,
+        homeGoalCalculate: item.home_goal_calculate,
+        visitingGoalCalculate: item.visiting_goal_calculate,
+        winMultiplier: item.win_multiplier,
+        homeWinRate: item.home_win_rate,
+        drawMultiplier: item.r_draw_multiplier,
+        drawRate: item.draw_rate,
+        lossMultiplier: item.loss_multiplier,
+        visitingWinRate: item.visiting_win_rate,
+      }));
 
       const payRequestData = {
         contentJson: JSON.stringify(list),
         entityType: "足彩让球胜平负", // 修复：标注为让球胜平负
-        multiple: this.betNotes,      // 注数
-        bet: this.betCount,           // 倍数
+        multiple: this.betNotes, // 注数
+        bet: this.betCount, // 倍数
         payment: this.totalBetAmount, // 总额
-        payType: "wechat",            // 支付方式
-        userPhone: this.userPhone     // 手机号
+        payType: "wechat", // 支付方式
+        userPhone: this.userPhone, // 手机号
       };
 
       try {
@@ -459,12 +444,12 @@ export default {
         const res = await purchasingLotteryApply(payRequestData);
         if (res.code == 200) {
           this.isPayLoading = false;
-          this.isSubmitSuccess = true; 
+          this.isSubmitSuccess = true;
           uni.showToast({
             title: "操作成功！",
             icon: "success",
             duration: 2000,
-            mask: true
+            mask: true,
           });
           // 清空缓存
           uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
@@ -512,10 +497,10 @@ export default {
         },
         complete: () => {
           this.isPayLoading = false;
-        }
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -582,7 +567,7 @@ export default {
           display: inline-block;
           box-sizing: border-box;
           padding-left: 6rpx;
-         width: 44rpx;
+          width: 44rpx;
           color: #fff;
           text-align: left;
           border-top-right-radius: 15rpx;
@@ -600,7 +585,7 @@ export default {
     .match-cells {
       flex: 1;
       display: flex;
-      border: 1rpx solid #DEDEDE;
+      border: 1rpx solid #dedede;
       border-radius: 8rpx;
       overflow: hidden;
 
@@ -696,31 +681,30 @@ export default {
   left: 0 !important;
   z-index: 10 !important;
   background-color: #fff;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   padding-bottom: 0 !important;
   box-sizing: border-box !important;
   height: 80rpx !important;
-  
+
   // #ifdef MP-WEIXIN
   bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
   // #endif
-  
+
   // #ifdef APP-PLUS
   bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;
   bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
   // #endif
-  
+
   // #ifdef H5
   bottom: calc(102rpx + env(safe-area-inset-bottom)) !important;
   // #endif
 
-
-.bet-bar-top {
+  .bet-bar-top {
     background: #fff;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+
     // 新增提示文本样式
     .tips-text {
       font-size: 24rpx;
@@ -799,7 +783,6 @@ export default {
       }
     }
   }
-
 
   .bet-bar-bottom {
     display: flex;

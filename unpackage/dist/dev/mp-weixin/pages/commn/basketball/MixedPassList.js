@@ -307,7 +307,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(wx, uni) {
+/* WEBPACK VAR INJECTION */(function(uni, wx) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -675,7 +675,8 @@ var _default2 = {
         home_lose: "胜负_客胜",
         home_win_r: "让分_主胜",
         home_lose_r: "让分_客胜"
-      }
+      },
+      isShowStatus: null
     };
   },
   computed: {
@@ -740,6 +741,10 @@ var _default2 = {
     }
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
     this.expandedDrawers = [];
@@ -1011,7 +1016,7 @@ var _default2 = {
   }
 };
 exports.default = _default2;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
 

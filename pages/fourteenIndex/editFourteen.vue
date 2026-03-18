@@ -1,20 +1,10 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
-    <CustomHeader 
-      :ballTitle="'足球'" 
-      title="胜负" 
-      :showBack="true" 
-      :showIcon="false" 
-      @back-click="handleBack" 
-    />
+    <CustomHeader :ballTitle="'足球'" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 滚动展示区域 -->
-    <scroll-view
-      class="match-scroll"
-      scroll-y
-      id="poster-content"
-    >
+    <scroll-view class="match-scroll" scroll-y id="poster-content">
       <view class="match-list">
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <view class="main-right">
@@ -24,9 +14,9 @@
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
-              <view class="team-vs" style="color:#888;padding:0;" v-if="$isShowStatus">
+              <view class="team-vs" style="color: #888; padding: 0" v-if="isShowStatus">
                 <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
-                <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
+                <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
                 <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
               </view>
             </view>
@@ -39,48 +29,33 @@
             </view>
           </view>
         </view>
-        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无已选赛事 </view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无 </view>
       </view>
     </scroll-view>
 
     <!-- 简化版bet-bar：H5端重点适配 -->
-    <view
-      class="bet-bar"
-    >
-    <view class="bet-bar-top">
-      <view class="collapse-area">
-        <!-- 左边文字 -->
-        <view class="left-tip">请输入倍数后截屏给售票人</view>
-
-        <!-- 右边投注倍数 -->
-        <view class="multi-group">
-          <text class="multi-label">投</text>
-          <button class="multi-btn minus" @click="handleMinus">-</button>
-          <view class="multi-input" @tap="showNumberKeyboard = true">
-            {{ betCount }}
+    <!-- <view class="bet-bar">
+      <view class="bet-bar-top">
+        <view class="collapse-area">
+          <view class="left-tip">请输入倍数后截屏给售票人</view>
+          <view class="multi-group">
+            <button class="multi-btn minus" @click="handleMinus">-</button>
+            <view class="multi-input" @tap="showNumberKeyboard = true">
+              {{ betCount }}
+            </view>
+            <button class="multi-btn plus" @click="handlePlus">+</button>
+            <text class="multi-unit">倍</text>
           </view>
-          <button class="multi-btn plus" @click="handlePlus">+</button>
-          <text class="multi-unit">倍</text>
         </view>
       </view>
-    </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
           <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
         </view>
       </view>
-    </view>
+    </view> -->
 
-    <UniNumberKeyboard 
-      :show.sync="showNumberKeyboard" 
-      :value="betCount + ''" 
-      :allowDot="false" 
-      confirm-text="确认" 
-      :min="1" 
-      :max="50" 
-      @input="handleKeyboardInput" 
-      @confirm="handleKeyboardConfirm" 
-    />
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
 
     <!-- 海报预览弹窗 -->
     <view class="poster-preview" v-if="showPosterPreview">
@@ -113,6 +88,7 @@ export default {
       showNumberKeyboard: false,
       showPosterPreview: false,
       posterImageUrl: "",
+      isShowStatus: null,
     };
   },
   computed: {
@@ -140,6 +116,10 @@ export default {
     },
   },
   created() {
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     // H5端适配：统一获取系统信息
     const sys = uni.getSystemInfoSync();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
@@ -178,7 +158,7 @@ export default {
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      
+
       // H5端适配：动态计算bet-bar高度
       const betBarFixedRpx = this.isApp ? 200 : 180;
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
@@ -198,15 +178,15 @@ export default {
     async generatePoster() {
       // #ifdef H5
       try {
-        uni.showLoading({ title: '生成海报中...', mask: true });
-        const posterContent = document.getElementById('poster-content');
+        uni.showLoading({ title: "生成海报中...", mask: true });
+        const posterContent = document.getElementById("poster-content");
         if (!posterContent) {
           uni.hideLoading();
-          uni.showToast({ title: '未找到海报内容', icon: 'none' });
+          uni.showToast({ title: "未找到海报内容", icon: "none" });
           return;
         }
 
-        const tempContainer = document.createElement('div');
+        const tempContainer = document.createElement("div");
         tempContainer.style.cssText = `
           position: fixed;
           top: 0;
@@ -220,7 +200,7 @@ export default {
         tempContainer.innerHTML = posterContent.innerHTML;
         document.body.appendChild(tempContainer);
 
-        const html2canvas = (await import('html2canvas')).default;
+        const html2canvas = (await import("html2canvas")).default;
         const canvas = await html2canvas(tempContainer, {
           width: tempContainer.offsetWidth,
           height: tempContainer.scrollHeight,
@@ -228,29 +208,29 @@ export default {
           allowTaint: true,
           scale: 2,
           logging: false,
-          backgroundColor: '#ffffff',
+          backgroundColor: "#ffffff",
           scrollX: 0,
           scrollY: 0,
           windowWidth: tempContainer.offsetWidth,
-          windowHeight: tempContainer.scrollHeight
+          windowHeight: tempContainer.scrollHeight,
         });
 
-        this.posterImageUrl = canvas.toDataURL('image/jpeg', 0.8);
+        this.posterImageUrl = canvas.toDataURL("image/jpeg", 0.8);
         document.body.removeChild(tempContainer);
         uni.hideLoading();
         this.showPosterPreview = true;
       } catch (err) {
-        console.error('生成海报失败：', err);
+        console.error("生成海报失败：", err);
         uni.hideLoading();
-        uni.showToast({ title: '生成失败，请重试', icon: 'none' });
+        uni.showToast({ title: "生成失败，请重试", icon: "none" });
       }
       // #endif
 
       // #ifndef H5
-      uni.showToast({ title: '仅H5端支持生成海报', icon: 'none' });
+      uni.showToast({ title: "仅H5端支持生成海报", icon: "none" });
       // #endif
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -269,7 +249,7 @@ export default {
 // 替换 .match-scroll 样式
 .match-scroll {
   box-sizing: border-box;
-  padding-top: v-bind(headerTotalHeight + 'px');
+  padding-top: v-bind(headerTotalHeight + "px");
   padding-bottom: 120rpx;
   // 就按你说的写！
   height: calc(100vh - 120rpx);
@@ -291,7 +271,7 @@ export default {
   .match-row {
     display: flex;
     background-color: #fff;
-    border-bottom: 1rpx solid #DEDEDE;
+    border-bottom: 1rpx solid #dedede;
     box-sizing: border-box;
     padding: 8rpx 20rpx;
     margin-bottom: 10rpx;
@@ -339,8 +319,14 @@ export default {
       text-overflow: ellipsis;
     }
 
-    .team-name.home { text-align: right; padding-right: 10rpx; }
-    .team-name.away { text-align: left; padding-left: 10rpx; }
+    .team-name.home {
+      text-align: right;
+      padding-right: 10rpx;
+    }
+    .team-name.away {
+      text-align: left;
+      padding-left: 10rpx;
+    }
     .vs-text {
       width: 120rpx;
       text-align: center;
@@ -415,94 +401,94 @@ export default {
   height: auto !important;
   // #endif
 
-.bet-bar-top {
-  background: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10rpx 30rpx;
-  box-sizing: border-box;
-
-  .collapse-area {
+  .bet-bar-top {
+    background: #fff;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    width: 100%;
-    height: auto;
+    align-items: center;
+    padding: 10rpx 30rpx;
     box-sizing: border-box;
-    border-bottom: 2rpx solid #eee;
-    padding: 10rpx 0;
 
-    // 左边提示文字
-    .left-tip {
-      font-size: 24rpx;
-      color: #d92929;
-      flex: 1;
-      margin-right: 20rpx;
-      line-height: 1.4;
-    }
-
-    // 倍数选择组（缩小宽度）
-    .multi-group {
+    .collapse-area {
       display: flex;
       align-items: center;
-      gap: 6rpx;
-      flex-shrink: 0;
+      justify-content: space-between;
+      width: 100%;
+      height: auto;
+      box-sizing: border-box;
+      border-bottom: 2rpx solid #eee;
+      padding: 10rpx 0;
 
-      .multi-label {
-        font-size: 26rpx;
-        color: #333;
+      // 左边提示文字
+      .left-tip {
+        font-size: 24rpx;
+        color: #d92929;
+        flex: 1;
+        margin-right: 20rpx;
+        line-height: 1.4;
       }
 
-      .multi-btn {
-        width: 44rpx;
-        height: 44rpx;
-        background-color: #ddd;
-        color: #333;
-        font-size: 28rpx;
+      // 倍数选择组（缩小宽度）
+      .multi-group {
         display: flex;
         align-items: center;
-        justify-content: center;
-        border: 1rpx solid #ccc;
+        gap: 6rpx;
+        flex-shrink: 0;
 
-        // #ifdef H5
-        line-height: 1;
-        outline: none;
-        -webkit-appearance: none;
-        // #endif
-      }
-
-      // 输入框缩小
-      .multi-input {
-        width: 100rpx;
-        height: 44rpx;
-        background-color: #fff;
-        color: #333;
-        text-align: center;
-        font-size: 26rpx;
-        border: 1rpx solid #ccc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        // #ifdef H5
-        outline: none;
-        -webkit-appearance: none;
-        // #endif
-
-        &.disabled {
-          color: #999;
-          background-color: #f5f5f5;
+        .multi-label {
+          font-size: 26rpx;
+          color: #333;
         }
-      }
 
-      .multi-unit {
-        font-size: 26rpx;
-        color: #333;
+        .multi-btn {
+          width: 44rpx;
+          height: 44rpx;
+          background-color: #ddd;
+          color: #333;
+          font-size: 28rpx;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1rpx solid #ccc;
+
+          // #ifdef H5
+          line-height: 1;
+          outline: none;
+          -webkit-appearance: none;
+          // #endif
+        }
+
+        // 输入框缩小
+        .multi-input {
+          width: 100rpx;
+          height: 44rpx;
+          background-color: #fff;
+          color: #333;
+          text-align: center;
+          font-size: 26rpx;
+          border: 1rpx solid #ccc;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          // #ifdef H5
+          outline: none;
+          -webkit-appearance: none;
+          // #endif
+
+          &.disabled {
+            color: #999;
+            background-color: #f5f5f5;
+          }
+        }
+
+        .multi-unit {
+          font-size: 26rpx;
+          color: #333;
+        }
       }
     }
   }
-}
 
   .bet-bar-bottom {
     display: flex;

@@ -15,16 +15,16 @@
         <text class="username">{{ userInfo.remarkName || '' }}</text>
         <text class="value stone-count">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
-      <button class="recharge-btn" v-if="$isShowStatus" @click="gotoRecharge">购买</button>
+      <button class="recharge-btn" v-if="isShowStatus" @click="getUrl">获取</button>
     </view>
 
     <view class="tab-bar">
-      <view class="tab-item" :class="{ active: currentTab === 1 }" v-if="$isShowStatus" @click="switchTab(1)">分析</view>
-      <view class="tab-item" :class="{ active: currentTab === 2 }" v-if="$isShowStatus" @click="switchTab(2)">购买</view>
+      <view class="tab-item" :class="{ active: currentTab === 1 }" v-if="isShowStatus" @click="switchTab(1)">分析</view>
+      <view class="tab-item" :class="{ active: currentTab === 2 }" v-if="isShowStatus" @click="switchTab(2)">购买</view>
     </view>
 
     <scroll-view class="content-scroll" scroll-y>
-      <view v-if="currentTab === 1&&$isShowStatus" class="record-section">
+      <view v-if="currentTab === 1&&isShowStatus" class="record-section">
         <no-data v-if="tradeRecord.length === 0" />
         <view class="trade-header" v-if="tradeRecord.length > 0">
           <view class="trade-header-col type-col">类型</view>
@@ -59,7 +59,7 @@
               <text class="value accent">{{ item.coin_amount || 0 }} 个</text>
             </view>
             <view class="time-col">
-              <text class="label">充值时间</text>
+              <text class="label">购买时间</text>
               <text class="value">{{ item.update_time }}</text>
             </view>
           </view>
@@ -89,12 +89,17 @@ export default {
       paymentRecord: [],
       touchStartX: 0,
       swipeThreshold: 50,
-      betForm: ''
+      betForm: '',
+      isShowStatus: null,
     };
   },
   created() {
     this.initBetForm();
     this.getData();
+            this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
   },
   onShow() {
     this.getData();
@@ -111,10 +116,13 @@ export default {
       this.betForm = 'weChatMiniProgram';
       // #endif
     },
-    gotoRecharge() {
-      uni.navigateTo({
-        url: '/pages/recharge/recharge'
-      });
+    getUrl() {
+      if(this.isShowStatus) {
+        uni.navigateTo({
+          url: '/pages/recharge/recharge'
+        });
+      };
+
     },
     switchTab(tabIndex) {
       this.currentTab = tabIndex;

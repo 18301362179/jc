@@ -103,9 +103,9 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 =
-    _vm.currentTab === 1 && _vm.$isShowStatus ? _vm.tradeRecord.length : null
+    _vm.currentTab === 1 && _vm.isShowStatus ? _vm.tradeRecord.length : null
   var g1 =
-    _vm.currentTab === 1 && _vm.$isShowStatus ? _vm.tradeRecord.length : null
+    _vm.currentTab === 1 && _vm.isShowStatus ? _vm.tradeRecord.length : null
   var g2 = _vm.currentTab === 2 ? _vm.paymentRecord.length : null
   _vm.$mp.data = Object.assign(
     {},
@@ -193,12 +193,17 @@ var _default = {
       paymentRecord: [],
       touchStartX: 0,
       swipeThreshold: 50,
-      betForm: ''
+      betForm: '',
+      isShowStatus: null
     };
   },
   created: function created() {
+    var _this = this;
     this.initBetForm();
     this.getData();
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
   },
   onShow: function onShow() {
     this.getData();
@@ -207,16 +212,19 @@ var _default = {
     initBetForm: function initBetForm() {
       this.betForm = 'weChatMiniProgram';
     },
-    gotoRecharge: function gotoRecharge() {
-      uni.navigateTo({
-        url: '/pages/recharge/recharge'
-      });
+    getUrl: function getUrl() {
+      if (this.isShowStatus) {
+        uni.navigateTo({
+          url: '/pages/recharge/recharge'
+        });
+      }
+      ;
     },
     switchTab: function switchTab(tabIndex) {
       this.currentTab = tabIndex;
     },
     getData: function getData() {
-      var _this = this;
+      var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var res;
         return _regenerator.default.wrap(function _callee$(_context) {
@@ -229,14 +237,14 @@ var _default = {
                 _context.prev = 1;
                 _context.next = 4;
                 return (0, _demo.getUser)({
-                  betForm: _this.betForm
+                  betForm: _this2.betForm
                 });
               case 4:
                 res = _context.sent;
-                _this.userInfo = res.data.user || res.data.userInfo || {};
-                _this.lotteryPurchasing = res.data.lotteryPurchasing || [];
-                _this.paymentRecord = res.data.paymentRecord || [];
-                _this.tradeRecord = res.data.tradeRecord || [];
+                _this2.userInfo = res.data.user || res.data.userInfo || {};
+                _this2.lotteryPurchasing = res.data.lotteryPurchasing || [];
+                _this2.paymentRecord = res.data.paymentRecord || [];
+                _this2.tradeRecord = res.data.tradeRecord || [];
                 _context.next = 14;
                 break;
               case 11:

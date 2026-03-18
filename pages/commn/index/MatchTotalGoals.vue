@@ -21,7 +21,7 @@
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 → 修复@tap.stop改为@click.stop -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&$isShowStatus" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&isShowStatus" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -43,7 +43,7 @@
                 <text>{{ item.visiting_name }}</text>
               </view>
               
-              <view class="rate-row" v-if="$isShowStatus">
+              <view class="rate-row" v-if="isShowStatus">
                 <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
                 <text class="vs-text">{{ item.draw_rate ? "平率" + item.draw_rate : "" }}</text>
                 <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
@@ -116,6 +116,7 @@ export default {
       expandedDrawers: [],
       statusBarHeightRpx: 0,
       windowWidth: 0, // 修正：删除多余空格
+      isShowStatus: null,
     };
   },
   computed: {
@@ -159,6 +160,10 @@ export default {
     },
   },
   created() {
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);

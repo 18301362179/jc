@@ -110,11 +110,11 @@ var render = function () {
     ? _vm.decimalToPercentage(_vm.winRateAndGoalCalculate.homeWinRate, 0)
     : null
   var m3 =
-    _vm.info && _vm.homeTeam && _vm.visitingTeam && _vm.$isShowStatus
+    _vm.info && _vm.homeTeam && _vm.visitingTeam && _vm.isShowStatus
       ? _vm.decimalToPercentage(_vm.visitingTeam.winRate, 1)
       : null
   var m4 =
-    _vm.info && _vm.homeTeam && _vm.visitingTeam && _vm.$isShowStatus
+    _vm.info && _vm.homeTeam && _vm.visitingTeam && _vm.isShowStatus
       ? _vm.decimalToPercentage(_vm.homeTeam.winRate, 1)
       : null
   var g0 = _vm.info
@@ -414,13 +414,20 @@ var _default = {
       homeLastCourses: [],
       visitingLastCourses: [],
       homeScorers: [],
-      visitingScorers: []
+      visitingScorers: [],
+      isShowStatus: null
     };
   },
   onLoad: function onLoad(options) {
     this.getAiDetail(options.id, options.isLottery, options.serialNumber, options.dateStr);
     wx.showShareMenu({
       menus: ['shareAppMessage', 'shareTimeline']
+    });
+  },
+  created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
     });
   },
   onShow: function onShow() {
@@ -455,7 +462,7 @@ var _default = {
     },
     // 获取AI分析数据
     getAiDetail: function getAiDetail(id, isLottery) {
-      var _this = this;
+      var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var res, data;
         return _regenerator.default.wrap(function _callee$(_context) {
@@ -474,15 +481,15 @@ var _default = {
               case 4:
                 res = _context.sent;
                 data = res.data.data; // 核心数据赋值
-                _this.courseMap = data.baseMap || {};
-                _this.winRateAndGoalCalculate = data.winRateAndGoalCalculate || {};
-                _this.homeTeam = data.homeTeam || {};
-                _this.visitingTeam = data.visitingTeam || {};
-                _this.homeLastCourses = data.homeLastCourses || [];
-                _this.visitingLastCourses = data.visitingLastCourses || [];
-                _this.homeScorers = data.homeScorers || [];
-                _this.visitingScorers = data.visitingScorers || [];
-                _this.info = JSON.parse(JSON.stringify(data));
+                _this2.courseMap = data.baseMap || {};
+                _this2.winRateAndGoalCalculate = data.winRateAndGoalCalculate || {};
+                _this2.homeTeam = data.homeTeam || {};
+                _this2.visitingTeam = data.visitingTeam || {};
+                _this2.homeLastCourses = data.homeLastCourses || [];
+                _this2.visitingLastCourses = data.visitingLastCourses || [];
+                _this2.homeScorers = data.homeScorers || [];
+                _this2.visitingScorers = data.visitingScorers || [];
+                _this2.info = JSON.parse(JSON.stringify(data));
                 _context.next = 21;
                 break;
               case 17:

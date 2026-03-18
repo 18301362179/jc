@@ -12,14 +12,13 @@
     </scroll-view>
 
     <!-- 替换为足球同款底部投注栏 -->
-    <view class="bet-bar" v-if="$isShowStatus">
+    <view class="bet-bar" v-if="isShowStatus">
       <view class="bet-bar-inner">
         <!-- 左侧：清空图标 + 已选场次 + 风险提示 -->
         <view class="left-section">
           <image class="clear-icon" src="/static/trash.png" mode="widthFix" @click="clearAllSelection" :class="{ disabled: selectedMatchCount === 0 }"></image>
           <view class="text-group">
             <text class="selected-text">已选{{ selectedMatchCount }}场</text>
-            <text class="risk-tip">页面固定奖金仅供参考，请以出票时固定奖金为准</text>
           </view>
         </view>
 
@@ -113,6 +112,7 @@ export default {
       hasData: false,
       // 新增：全局选中状态缓存（和足球逻辑对齐）
       matchSelectedState: {},
+      isShowStatus: false,
     };
   },
 onLoad() {
@@ -250,6 +250,7 @@ onLoad() {
     }
   },
   mounted() {
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },

@@ -94,7 +94,7 @@ var render = function () {
           ? item.r_goal && !item.r_goal.includes("+")
           : null
       var m0 =
-        item.home_win_rate && _vm.$isShowStatus
+        item.home_win_rate && _vm.isShowStatus
           ? _vm.getRateColor(
               item.home_win_rate,
               "home",
@@ -102,11 +102,11 @@ var render = function () {
             )
           : null
       var m1 =
-        item.draw_rate && _vm.$isShowStatus
+        item.draw_rate && _vm.isShowStatus
           ? _vm.getRateColor(item.draw_rate, "draw", item.handicapVsSelected)
           : null
       var m2 =
-        item.visiting_win_rate && _vm.$isShowStatus
+        item.visiting_win_rate && _vm.isShowStatus
           ? _vm.getRateColor(item.visiting_win_rate, "away", item.awaySelected)
           : null
       return {
@@ -197,7 +197,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(wx, uni) {
+/* WEBPACK VAR INJECTION */(function(uni, wx) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -323,7 +323,8 @@ var _default2 = {
       expandedDrawers: [],
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
-      windowWidth: 0
+      windowWidth: 0,
+      isShowStatus: null
     };
   },
   computed: {
@@ -375,6 +376,10 @@ var _default2 = {
     }
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
@@ -436,7 +441,7 @@ var _default2 = {
   }
 };
 exports.default = _default2;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
 

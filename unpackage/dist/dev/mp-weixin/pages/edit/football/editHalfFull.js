@@ -142,17 +142,11 @@ var render = function () {
     }
   })
   var g2 = _vm.selectedMatchList.length
-  var g3 = _vm.$isShowStatus ? _vm.selectedMatchList.length : null
-  var g4 = _vm.$isShowStatus && !(g3 == 1) ? _vm.selectedMatchList.length : null
-  var m0 = _vm.$isShowStatus ? _vm.calculateHalfFullBonus() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
-    _vm.e2 = function ($event) {
+    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
   }
@@ -162,9 +156,6 @@ var render = function () {
       $root: {
         l0: l0,
         g2: g2,
-        g3: g3,
-        g4: g4,
-        m0: m0,
       },
     }
   )
@@ -231,7 +222,7 @@ var _default = {
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
-      userPhone: '',
+      userPhone: "",
       isSubmitSuccess: false,
       statusBarHeight: 0,
       // 状态栏高度
@@ -285,7 +276,8 @@ var _default = {
         oddsField: "ff"
       }],
       selectedCombo: "",
-      showNumberKeyboard: false
+      showNumberKeyboard: false,
+      isShowStatus: null
     };
   },
   computed: {
@@ -351,7 +343,7 @@ var _default = {
             return opt.value === scoreValue;
           });
           if (!option) return;
-          var oddsFieldName = option.oddsField.replace('_odds', '');
+          var oddsFieldName = option.oddsField.replace("_odds", "");
           var rawOddValue = item[oddsFieldName];
           var odd = Number(rawOddValue) || 0;
           if (!isNaN(odd) && odd > 0) {
@@ -640,24 +632,28 @@ var _default = {
     });
   }), _methods),
   created: function created() {
+    var _this7 = this;
+    this.$nextTick(function () {
+      _this7.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     // 计算所有高度
     this.calcAllHeights();
   },
   onLoad: function onLoad() {
-    var _this7 = this;
+    var _this8 = this;
     var eventChannel = this.getOpenerEventChannel();
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
-        _this7.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
-        _this7.betCount = data.betCount || 1;
-        _this7.isNeedUserPhone = data.isNeedUserPhone;
-        _this7.selectedCombo = data.combo || "";
+        _this8.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
+        _this8.betCount = data.betCount || 1;
+        _this8.isNeedUserPhone = data.isNeedUserPhone;
+        _this8.selectedCombo = data.combo || "";
       });
     }
   },
   onShow: function onShow() {
     uni.setTabBarStyle({
-      height: '0px'
+      height: "0px"
     });
   },
   onUnload: function onUnload() {

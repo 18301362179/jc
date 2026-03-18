@@ -154,17 +154,11 @@ var render = function () {
       m10: m10,
     }
   })
-  var g1 = _vm.$isShowStatus ? _vm.selectedMatchList.length : null
-  var g2 = _vm.$isShowStatus && !(g1 == 1) ? _vm.selectedMatchList.length : null
-  var m11 = _vm.$isShowStatus ? _vm.calculateBonusText() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
-    _vm.e2 = function ($event) {
+    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
   }
@@ -174,9 +168,6 @@ var render = function () {
       $root: {
         g0: g0,
         l0: l0,
-        g1: g1,
-        g2: g2,
-        m11: m11,
       },
     }
   )
@@ -241,7 +232,7 @@ var _default = {
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
-      userPhone: '',
+      userPhone: "",
       isSubmitSuccess: false,
       statusBarHeight: 0,
       safeAreaBottom: 0,
@@ -254,17 +245,18 @@ var _default = {
       showNumberKeyboard: false,
       // 玩法映射：转义中文展示
       spfMap: {
-        home_win: '主胜',
-        home_lose: '客胜'
+        home_win: "主胜",
+        home_lose: "客胜"
       },
       rspfMap: {
-        home_win_r: '让分主胜',
-        home_lose_r: '让分客胜'
+        home_win_r: "让分主胜",
+        home_lose_r: "让分客胜"
       },
       dxMap: {
-        '大小分_大': '大分',
-        '大小分_小': '小分'
-      }
+        大小分_大: "大分",
+        大小分_小: "小分"
+      },
+      isShowStatus: null
     };
   },
   computed: {
@@ -284,10 +276,10 @@ var _default = {
         if (item.selectedSpf) {
           // 区分胜负和让分胜负
           var spfCount = item.selectedSpf.filter(function (t) {
-            return ['home_win', 'home_lose'].includes(t);
+            return ["home_win", "home_lose"].includes(t);
           }).length;
           var rspfCount = item.selectedSpf.filter(function (t) {
-            return ['home_win_r', 'home_lose_r'].includes(t);
+            return ["home_win_r", "home_lose_r"].includes(t);
           }).length;
           itemCount += spfCount + rspfCount;
         }
@@ -303,21 +295,25 @@ var _default = {
   },
   onShow: function onShow() {
     uni.setTabBarStyle({
-      height: '0px'
+      height: "0px"
     });
   },
   created: function created() {
+    var _this2 = this;
+    this.$nextTick(function () {
+      _this2.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     this.calcAllHeights();
   },
   onLoad: function onLoad() {
-    var _this2 = this;
+    var _this3 = this;
     var eventChannel = this.getOpenerEventChannel();
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
-        _this2.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
-        _this2.betCount = data.betCount || 1;
-        _this2.isNeedUserPhone = data.isNeedUserPhone || 1;
-        _this2.selectedCombo = data.combo || "";
+        _this3.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
+        _this3.betCount = data.betCount || 1;
+        _this3.isNeedUserPhone = data.isNeedUserPhone || 1;
+        _this3.selectedCombo = data.combo || "";
       });
     }
   },
@@ -326,7 +322,7 @@ var _default = {
       this.saveEditedData();
     }
     uni.setTabBarStyle({
-      height: 'auto'
+      height: "auto"
     });
   },
   methods: {
@@ -335,105 +331,105 @@ var _default = {
       if (!item) return false;
       // 胜负
       var hasSpf = item.selectedSpf && item.selectedSpf.filter(function (t) {
-        return ['home_win', 'home_lose'].includes(t);
+        return ["home_win", "home_lose"].includes(t);
       }).length > 0;
       // 让分胜负
       var hasRspf = item.selectedSpf && item.selectedSpf.filter(function (t) {
-        return ['home_win_r', 'home_lose_r'].includes(t);
+        return ["home_win_r", "home_lose_r"].includes(t);
       }).length > 0;
       // 大小分
       var hasDx = item.selectedDx && item.selectedDx.length > 0;
       // 胜分差（主/客）
       var hasSfcHome = item.selectedSfc && item.selectedSfc.filter(function (t) {
-        return t.includes('主胜');
+        return t.includes("主胜");
       }).length > 0;
       var hasSfcAway = item.selectedSfc && item.selectedSfc.filter(function (t) {
-        return t.includes('客胜');
+        return t.includes("客胜");
       }).length > 0;
       return hasSpf || hasRspf || hasDx || hasSfcHome || hasSfcAway;
     },
     // 核心方法：获取单个玩法的展示文本
     getBetItem: function getBetItem(type, item) {
-      var _this3 = this;
-      if (!item) return '';
+      var _this4 = this;
+      if (!item) return "";
       switch (type) {
         // 1. 胜负
-        case 'spf':
+        case "spf":
           {
             var spfItems = item.selectedSpf && item.selectedSpf.filter(function (t) {
-              return ['home_win', 'home_lose'].includes(t);
+              return ["home_win", "home_lose"].includes(t);
             }) ? item.selectedSpf.filter(function (t) {
-              return ['home_win', 'home_lose'].includes(t);
+              return ["home_win", "home_lose"].includes(t);
             }) : [];
-            if (spfItems.length === 0) return '';
+            if (spfItems.length === 0) return "";
             // 转义为中文并拼接赔率
             return spfItems.map(function (t) {
-              var odds = t === 'home_win' ? item.win_multiplier : item.loss_multiplier;
-              return "".concat(_this3.spfMap[t], "(").concat(odds || '--', ")");
-            }).join('、');
+              var odds = t === "home_win" ? item.win_multiplier : item.loss_multiplier;
+              return "".concat(_this4.spfMap[t], "(").concat(odds || "--", ")");
+            }).join("、");
           }
         // 2. 让分胜负
-        case 'rspf':
+        case "rspf":
           {
             var rspfItems = item.selectedSpf && item.selectedSpf.filter(function (t) {
-              return ['home_win_r', 'home_lose_r'].includes(t);
+              return ["home_win_r", "home_lose_r"].includes(t);
             }) ? item.selectedSpf.filter(function (t) {
-              return ['home_win_r', 'home_lose_r'].includes(t);
+              return ["home_win_r", "home_lose_r"].includes(t);
             }) : [];
-            if (rspfItems.length === 0) return '';
+            if (rspfItems.length === 0) return "";
             // 转义为中文并拼接赔率
             return rspfItems.map(function (t) {
-              var odds = t === 'home_win_r' ? item.r_win_multiplier : item.r_loss_multiplier;
-              return "".concat(_this3.rspfMap[t], "(").concat(odds || '--', ")");
-            }).join('、');
+              var odds = t === "home_win_r" ? item.r_win_multiplier : item.r_loss_multiplier;
+              return "".concat(_this4.rspfMap[t], "(").concat(odds || "--", ")");
+            }).join("、");
           }
         // 3. 大小分
-        case 'dx':
+        case "dx":
           {
             var dxItems = item.selectedDx || [];
-            if (dxItems.length === 0) return '';
+            if (dxItems.length === 0) return "";
             // 转义为中文并拼接赔率
             return dxItems.map(function (t) {
-              var odds = t === '大小分_大' ? item.dxf_d_multiplier : item.dxf_x_multiplier;
-              return "".concat(_this3.dxMap[t], "(").concat(odds || '--', ")");
-            }).join('、');
+              var odds = t === "大小分_大" ? item.dxf_d_multiplier : item.dxf_x_multiplier;
+              return "".concat(_this4.dxMap[t], "(").concat(odds || "--", ")");
+            }).join("、");
           }
         // 4. 胜分差（客胜）
-        case 'sfc_away':
+        case "sfc_away":
           {
             var sfcAwayItems = item.selectedSfc && item.selectedSfc.filter(function (t) {
-              return t.includes('客胜');
+              return t.includes("客胜");
             }) ? item.selectedSfc.filter(function (t) {
-              return t.includes('客胜');
+              return t.includes("客胜");
             }) : [];
-            if (sfcAwayItems.length === 0) return '';
+            if (sfcAwayItems.length === 0) return "";
             // 提取分差区间并拼接赔率
             return sfcAwayItems.map(function (t) {
-              var range = t.split('_').pop(); // 提取1-5、6-10等
-              var oddsField = "v_sfc".concat(range.replace('+', '_jia').replace('-', '_')); // 匹配字段名
-              var odds = item[oddsField] || '--';
+              var range = t.split("_").pop(); // 提取1-5、6-10等
+              var oddsField = "v_sfc".concat(range.replace("+", "_jia").replace("-", "_")); // 匹配字段名
+              var odds = item[oddsField] || "--";
               return "".concat(range, "(").concat(odds, ")");
-            }).join('、');
+            }).join("、");
           }
         // 5. 胜分差（主胜）
-        case 'sfc_home':
+        case "sfc_home":
           {
             var sfcHomeItems = item.selectedSfc && item.selectedSfc.filter(function (t) {
-              return t.includes('主胜');
+              return t.includes("主胜");
             }) ? item.selectedSfc.filter(function (t) {
-              return t.includes('主胜');
+              return t.includes("主胜");
             }) : [];
-            if (sfcHomeItems.length === 0) return '';
+            if (sfcHomeItems.length === 0) return "";
             // 提取分差区间并拼接赔率
             return sfcHomeItems.map(function (t) {
-              var range = t.split('_').pop(); // 提取1-5、6-10等
-              var oddsField = "h_sfc".concat(range.replace('+', '_jia').replace('-', '_')); // 匹配字段名
-              var odds = item[oddsField] || '--';
+              var range = t.split("_").pop(); // 提取1-5、6-10等
+              var oddsField = "h_sfc".concat(range.replace("+", "_jia").replace("-", "_")); // 匹配字段名
+              var odds = item[oddsField] || "--";
               return "".concat(range, "(").concat(odds, ")");
-            }).join('、');
+            }).join("、");
           }
         default:
-          return '';
+          return "";
       }
     },
     // 处理软键盘输入
@@ -482,18 +478,18 @@ var _default = {
         // 1. 胜负赔率
         if (item.selectedSpf) {
           item.selectedSpf.forEach(function (t) {
-            var odds = '--';
+            var odds = "--";
             switch (t) {
-              case 'home_win':
+              case "home_win":
                 odds = item.win_multiplier;
                 break;
-              case 'home_lose':
+              case "home_lose":
                 odds = item.loss_multiplier;
                 break;
-              case 'home_win_r':
+              case "home_win_r":
                 odds = item.r_win_multiplier;
                 break;
-              case 'home_lose_r':
+              case "home_lose_r":
                 odds = item.r_loss_multiplier;
                 break;
             }
@@ -504,7 +500,7 @@ var _default = {
         // 2. 大小分赔率
         if (item.selectedDx) {
           item.selectedDx.forEach(function (t) {
-            var odds = t === '大小分_大' ? item.dxf_d_multiplier : item.dxf_x_multiplier;
+            var odds = t === "大小分_大" ? item.dxf_d_multiplier : item.dxf_x_multiplier;
             var numOdds = Number(odds);
             if (!isNaN(numOdds) && numOdds > 0) allOdds.push(numOdds);
           });
@@ -512,12 +508,12 @@ var _default = {
         // 3. 胜分差赔率
         if (item.selectedSfc) {
           item.selectedSfc.forEach(function (t) {
-            var odds = '--';
-            var splitArr = t.split('_');
-            var type = splitArr[1] || '';
-            var range = splitArr[2] || '';
-            var isHome = type === '主胜';
-            var oddsField = isHome ? "h_sfc".concat(range.replace('+', '_jia').replace('-', '_')) : "v_sfc".concat(range.replace('+', '_jia').replace('-', '_'));
+            var odds = "--";
+            var splitArr = t.split("_");
+            var type = splitArr[1] || "";
+            var range = splitArr[2] || "";
+            var isHome = type === "主胜";
+            var oddsField = isHome ? "h_sfc".concat(range.replace("+", "_jia").replace("-", "_")) : "v_sfc".concat(range.replace("+", "_jia").replace("-", "_"));
             odds = item[oddsField];
             var numOdds = Number(odds);
             if (!isNaN(numOdds) && numOdds > 0) allOdds.push(numOdds);
@@ -591,14 +587,14 @@ var _default = {
     },
     // 提交投注
     handleConfirmBet: function handleConfirmBet(fromPhoneModal) {
-      var _this4 = this;
+      var _this5 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var list, payRequestData, res;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this4.selectedMatchCount === 0)) {
+                if (!(_this5.selectedMatchCount === 0)) {
                   _context.next = 3;
                   break;
                 }
@@ -608,15 +604,15 @@ var _default = {
                 });
                 return _context.abrupt("return");
               case 3:
-                if (!(_this4.isNeedUserPhone == 1 && !fromPhoneModal)) {
+                if (!(_this5.isNeedUserPhone == 1 && !fromPhoneModal)) {
                   _context.next = 6;
                   break;
                 }
-                _this4.showPhoneModal = true;
+                _this5.showPhoneModal = true;
                 return _context.abrupt("return");
               case 6:
-                _this4.isPayLoading = true;
-                list = _this4.selectedMatchList.map(function (item) {
+                _this5.isPayLoading = true;
+                list = _this5.selectedMatchList.map(function (item) {
                   return {
                     courseId: item.id,
                     serialNumber: item.serial_number,
@@ -636,20 +632,20 @@ var _default = {
                     dxfXMultiplier: item.dxf_x_multiplier,
                     sfcOdds: {
                       home: {
-                        '1-5': item.h_sfc1_5,
-                        '6-10': item.h_sfc6_10,
-                        '11-15': item.h_sfc11_15,
-                        '16-20': item.h_sfc16_20,
-                        '21-25': item.h_sfc21_25,
-                        '26+': item.h_sfc26_jia
+                        "1-5": item.h_sfc1_5,
+                        "6-10": item.h_sfc6_10,
+                        "11-15": item.h_sfc11_15,
+                        "16-20": item.h_sfc16_20,
+                        "21-25": item.h_sfc21_25,
+                        "26+": item.h_sfc26_jia
                       },
                       away: {
-                        '1-5': item.v_sfc1_5,
-                        '6-10': item.v_sfc6_10,
-                        '11-15': item.v_sfc11_15,
-                        '16-20': item.v_sfc16_20,
-                        '21-25': item.v_sfc21_25,
-                        '26+': item.v_sfc26_jia
+                        "1-5": item.v_sfc1_5,
+                        "6-10": item.v_sfc6_10,
+                        "11-15": item.v_sfc11_15,
+                        "16-20": item.v_sfc16_20,
+                        "21-25": item.v_sfc21_25,
+                        "26+": item.v_sfc26_jia
                       }
                     },
                     playType: "篮球混合过关",
@@ -659,11 +655,11 @@ var _default = {
                 payRequestData = {
                   contentJson: JSON.stringify(list),
                   entityType: "篮球混合过关",
-                  multiple: _this4.betNotes,
-                  bet: _this4.betCount,
-                  payment: _this4.totalBetAmount,
+                  multiple: _this5.betNotes,
+                  bet: _this5.betCount,
+                  payment: _this5.totalBetAmount,
                   payType: "wechat",
-                  userPhone: _this4.userPhone
+                  userPhone: _this5.userPhone
                 };
                 _context.prev = 9;
                 _context.next = 12;
@@ -671,8 +667,8 @@ var _default = {
               case 12:
                 res = _context.sent;
                 if (res.code == 200) {
-                  _this4.isPayLoading = false;
-                  _this4.isSubmitSuccess = true;
+                  _this5.isPayLoading = false;
+                  _this5.isSubmitSuccess = true;
                   uni.showToast({
                     title: "操作成功！",
                     icon: "success",
@@ -689,7 +685,7 @@ var _default = {
                     });
                   }, 2000);
                 } else {
-                  _this4.isPayLoading = false;
+                  _this5.isPayLoading = false;
                   uni.showToast({
                     title: res.message || "获取支付信息失败",
                     icon: "none"
@@ -700,7 +696,7 @@ var _default = {
               case 16:
                 _context.prev = 16;
                 _context.t0 = _context["catch"](9);
-                _this4.isPayLoading = false;
+                _this5.isPayLoading = false;
                 uni.showToast({
                   title: "网络异常，请稍后重试",
                   icon: "none"

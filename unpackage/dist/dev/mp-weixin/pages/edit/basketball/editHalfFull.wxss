@@ -46,7 +46,7 @@
   scrollbar-width: none;
   top: v-bind(headerTotalHeightpx) !important;
   bottom: calc(100rpx + env(safe-area-inset-bottom) + 90rpx) !important;
-  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 100rpx - env(safe-area-inset-bottom) - 90rpx) !important;
+  height: calc(100vh - v-bind(headerTotalHeight + "px") - 100rpx - env(safe-area-inset-bottom) - 90rpx) !important;
 }
 .match-scroll.data-v-0d38480a::-webkit-scrollbar {
   display: none;
@@ -104,7 +104,8 @@
   font-size: 20rpx;
   padding: 2rpx 0;
 }
-.match-list .match-row .match-category .serial-number.data-v-0d38480a, .match-list .match-row .match-category .match-time.data-v-0d38480a {
+.match-list .match-row .match-category .serial-number.data-v-0d38480a,
+.match-list .match-row .match-category .match-time.data-v-0d38480a {
   font-size: 22rpx;
   color: #999;
   text-align: center;

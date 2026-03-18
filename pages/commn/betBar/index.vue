@@ -1,5 +1,5 @@
 <template>
-  <view class="bet-bar" v-if="$isShowStatus">
+  <view class="bet-bar" v-if="isShowStatus">
     <view class="bet-bar-content">
       <!-- 左侧清空按钮 -->
       <view 
@@ -40,6 +40,17 @@ export default {
     showClearBtn: { type: Boolean, default: true },
     confirmBtnEnabled: { type: Boolean, default: false },
     selectedCount: { type: Number, default: 0 }
+  },
+  data() {
+    return {
+      isShowStatus: null,
+    }
+  },
+  created(){
+    this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
   },
   methods: {
     handleClear() { this.$emit('clear'); },

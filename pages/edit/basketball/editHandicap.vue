@@ -2,20 +2,14 @@
   <!-- 篮球让分胜负编辑页：仅调整内容区高度，保留bet-bar原有兼容 -->
   <view class="scheme-edit-page">
     <!-- 自定义头部：不变 -->
-    <CustomHeader 
-      :ballTitle="'篮球'"
-      title="让分胜负" 
-      :showBack="true" 
-      :showIcon="false" 
-      @back-click="handleBack" 
-    />
+    <CustomHeader :ballTitle="'篮球'" title="让分胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 内容区：仅修改style，适配bet-bar的分端定位 -->
-    <scroll-view 
-      class="match-scroll" 
-      scroll-y 
-      :style="{ 
-        top: headerTotalHeight + 'px',    // 头部高度仍用动态计算
+    <scroll-view
+      class="match-scroll"
+      scroll-y
+      :style="{
+        top: headerTotalHeight + 'px', // 头部高度仍用动态计算
         // 关键：删除原有的bottom和height，改为通过样式分端适配
       }"
     >
@@ -27,7 +21,7 @@
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <!-- 左侧赛事分类 -->
           <view class="match-category">
-            <view class="league-name" style="display: flex;justify-content: center;width: 100%;">
+            <view class="league-name" style="display: flex; justify-content: center; width: 100%">
               {{ item.league_name }}
             </view>
             <view class="serial-number">{{ item.serial_number }}</view>
@@ -38,78 +32,67 @@
             <view class="name-row">
               <text class="team-name away" :title="item.visiting_name">{{ item.visiting_name }}</text>
               <text class="vs-text">VS</text>
-              <text class="team-name home">{{ item.home_name }}
-                    <text v-if="item.r_goal && item.r_goal !== ''" class="handicap-num">
-                      (
-                      <text :class="{ 
-                        'text-red': item.r_goal && item.r_goal.includes('+'), 
-                        'text-green': item.r_goal && !item.r_goal.includes('+') 
-                      }">
-                        {{ item.r_goal }}
-                      </text>
-                      )
-                    </text>
+              <text class="team-name home"
+                >{{ item.home_name }}
+                <text v-if="item.r_goal && item.r_goal !== ''" class="handicap-num">
+                  (
+                  <text
+                    :class="{
+                      'text-red': item.r_goal && item.r_goal.includes('+'),
+                      'text-green': item.r_goal && !item.r_goal.includes('+'),
+                    }"
+                  >
+                    {{ item.r_goal }}
+                  </text>
+                  )
                 </text>
+              </text>
             </view>
-            <view class="rate-row" v-if="$isShowStatus">
-              <text class="rate-text away" v-show="item.visiting_win_rate" :title="`胜${item.visiting_win_rate}，约${item.home_goal_calculate}分`">
-                胜率{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
-              </text>
+            <view class="rate-row" v-if="isShowStatus">
+              <text class="rate-text away" v-show="item.visiting_win_rate" :title="`胜${item.visiting_win_rate}，约${item.home_goal_calculate}分`"> 胜率{{ item.visiting_win_rate || "--" }}，约{{ item.home_goal_calculate || "--" }}分 </text>
               <text class="vs-text"></text>
-              <text class="rate-text home" v-show="item.home_win_rate" :title="`胜${item.home_win_rate}，约${item.visiting_goal_calculate}分`">
-                胜率{{ item.home_win_rate || '--' }}，约{{ item.visiting_goal_calculate || '--' }}分
-              </text>
+              <text class="rate-text home" v-show="item.home_win_rate" :title="`胜${item.home_win_rate}，约${item.visiting_goal_calculate}分`"> 胜率{{ item.home_win_rate || "--" }}，约{{ item.visiting_goal_calculate || "--" }}分 </text>
             </view>
             <view class="odds-row">
-              <view class="match-cell away" :class="{ selected: item.rAwaySelected }" >
-                主负{{ item.loss_multiplier || '--' }}
-              </view>
-              <view class="match-cell home" :class="{ selected: item.rHomeSelected }">
-                主胜{{ item.win_multiplier || '--' }}
-              </view>
+              <view class="match-cell away" :class="{ selected: item.rAwaySelected }"> 主负{{ item.loss_multiplier || "--" }} </view>
+              <view class="match-cell home" :class="{ selected: item.rHomeSelected }"> 主胜{{ item.win_multiplier || "--" }} </view>
             </view>
           </view>
         </view>
       </view>
     </scroll-view>
 
-    <!-- 底部投注栏：完全保留你的原有代码 -->
-    <view class="bet-bar" v-if="$isShowStatus" :style="{ 
-      height: betBarFixedPx + 'px',  
-      paddingBottom: safeAreaBottom + 'px', 
-      bottom: safeAreaBottom + 'px' 
-    }">
-      <!-- 投注栏内部内容完全不变 -->
-<view class="bet-bar-top">
-  <!-- 新增提示文本 -->
-  <view class="tips-text">请输入倍数后截屏给售票人</view>
-  <!-- 缩小 top-left 样式 -->
-  <view class="top-left">
-    {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
-  </view>
-  <view class="collapse-area">
-    <view class="multi-group">
-      <text class="multi-label">投</text>
-      <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
-      <view 
-        class="multi-input" 
-        @tap="showNumberKeyboard = true"
-        :class="{ 'disabled': selectedMatchCount < 1 }"
-      >
-        {{ betCount }}
-      </view>
-      <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
-      <text class="multi-unit">倍</text>
-    </view>
-  </view>
-</view>
-      <view class="bet-bar-bottom">
-        <view class="bottom-middle">
-          <text class="select-tip">共{{betNotes}}注 {{betCount}}倍  {{totalBetAmount}}</text>
-          <text class="bonus-tip">{{calculateBonusText()}}</text>
+    <!-- <view
+      class="bet-bar"
+      v-if="isShowStatus"
+      :style="{
+        height: betBarFixedPx + 'px',
+        paddingBottom: safeAreaBottom + 'px',
+        bottom: safeAreaBottom + 'px',
+      }"
+    >
+      <view class="bet-bar-top">
+        <view class="top-left">
+          {{ selectedMatchList.length == 1 ? "单关" : selectedMatchList.length + "串1" }}
+        </view>
+        <view class="collapse-area">
+          <view class="multi-group">
+            <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
+            <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 1 }">
+              {{ betCount }}
+            </view>
+            <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
+            <text class="multi-unit">倍</text>
+          </view>
         </view>
       </view>
-    </view>
+      <view class="bet-bar-bottom">
+        <view class="bottom-middle">
+          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}</text>
+          <text class="bonus-tip">{{ calculateBonusText() }}</text>
+        </view>
+      </view>
+    </view> -->
 
     <!-- 手机号弹窗：完全不变 -->
     <view class="phone-modal" v-if="showPhoneModal">
@@ -126,16 +109,7 @@
         </view>
       </view>
     </view>
-        <UniNumberKeyboard
-      :show.sync="showNumberKeyboard"
-      :value="betCount + ''"
-      :allowDot="false"
-      confirm-text="确认"
-      :min="1"
-      :max="50"
-      @input="handleKeyboardInput"
-      @confirm="handleKeyboardConfirm"
-    />
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
 
@@ -143,38 +117,39 @@
 // script部分完全保留你的原有代码（包括calcAllHeights、各种方法等）
 import CustomHeader from "@/components/CustomHeader.vue";
 import { purchasingLotteryApply } from "@/api/demo";
-import { validateBetInput  } from '@/utils/validate';
+import { validateBetInput } from "@/utils/validate";
 
 export default {
   components: { CustomHeader },
   data() {
     return {
-      selectedMatchList: [], 
-      betCount: 1,           
-      isPayLoading: false,   
-      isNeedUserPhone: 1,    
-      showPhoneModal: false, 
-      userPhone: '',         
+      selectedMatchList: [],
+      betCount: 1,
+      isPayLoading: false,
+      isNeedUserPhone: 1,
+      showPhoneModal: false,
+      userPhone: "",
       isSubmitSuccess: false,
-      statusBarHeight: 0,    
-      safeAreaBottom: 0,     
-      headerTotalHeight: 0,  
-      betBarFixedPx: 0,      
-      betBarTotalHeight: 0,  
-      selectedCombo: "", // 用于接收串关类型，显示单关/几串几   
-       showNumberKeyboard: false,         
+      statusBarHeight: 0,
+      safeAreaBottom: 0,
+      headerTotalHeight: 0,
+      betBarFixedPx: 0,
+      betBarTotalHeight: 0,
+      selectedCombo: "", // 用于接收串关类型，显示单关/几串几
+      showNumberKeyboard: false,
+      isShowStatus: null,
     };
   },
   computed: {
     selectedMatchCount() {
-      return this.selectedMatchList.filter(item => {
+      return this.selectedMatchList.filter((item) => {
         return item.rHomeSelected || item.rAwaySelected;
       }).length;
     },
     betNotes() {
       if (this.selectedMatchList.length === 0) return 0;
       let notes = 1;
-      this.selectedMatchList.forEach(item => {
+      this.selectedMatchList.forEach((item) => {
         let count = 0;
         if (item.rHomeSelected) count++;
         if (item.rAwaySelected) count++;
@@ -184,13 +159,16 @@ export default {
     },
     totalBetAmount() {
       return this.betNotes * this.betCount * 2;
-    }
+    },
   },
   onShow() {
-    uni.setTabBarStyle({ height: '0px' });
+    uni.setTabBarStyle({ height: "0px" });
   },
   created() {
-
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     this.calcAllHeights();
   },
   onLoad() {
@@ -200,7 +178,7 @@ export default {
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
         this.isNeedUserPhone = data.isNeedUserPhone || 1;
-        this.selectedCombo = data.combo || ""; 
+        this.selectedCombo = data.combo || "";
       });
     }
   },
@@ -208,10 +186,10 @@ export default {
     if (!this.isSubmitSuccess) {
       this.saveEditedData();
     }
-    uni.setTabBarStyle({ height: 'auto' });
+    uni.setTabBarStyle({ height: "auto" });
   },
   methods: {
-            // 新增：处理自定义软键盘实时输入
+    // 新增：处理自定义软键盘实时输入
     handleKeyboardInput(val) {
       // 过滤非数字，限制1-50
       const num = parseInt(val) || 1;
@@ -240,12 +218,12 @@ export default {
         this.betCount = validVal;
       });
     },
-calcAllHeights() {
+    calcAllHeights() {
       const sys = wx.getWindowInfo();
       // 1. 状态栏高度
       this.statusBarHeight = sys.statusBarHeight || 20;
       // 2. 底部安全区高度
-        this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
+      this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
       // 3. 导航栏固定高度（80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
@@ -256,13 +234,13 @@ calcAllHeights() {
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
       // 6. 投注栏总高度（仅固定高度）
       this.betBarTotalHeight = this.betBarFixedPx;
-},
+    },
     calculateBonusText() {
       if (this.selectedMatchCount === 0) {
         return "预计：0.00";
       }
       const rowOddsList = [];
-      this.selectedMatchList.forEach(item => {
+      this.selectedMatchList.forEach((item) => {
         const selectedOdds = [];
         if (item.rHomeSelected) {
           const homeOdds = Number(item.win_multiplier) || 0;
@@ -279,10 +257,10 @@ calcAllHeights() {
       if (rowOddsList.length === 0) {
         return "预计：0.00";
       }
-      const isAllSingleSelect = rowOddsList.every(oddsArr => oddsArr.length === 1);
+      const isAllSingleSelect = rowOddsList.every((oddsArr) => oddsArr.length === 1);
       let minOddsProduct = 1;
       let maxOddsProduct = 1;
-      rowOddsList.forEach(oddsArr => {
+      rowOddsList.forEach((oddsArr) => {
         const currentMin = Math.min(...oddsArr);
         const currentMax = Math.max(...oddsArr);
         minOddsProduct *= currentMin;
@@ -299,8 +277,8 @@ calcAllHeights() {
     },
     goToAiAnalysis(item) {
       try {
-        uni.navigateTo({ 
-          url: `/pages/test/index?id=${item.id}&isLottery=1&type=篮球让分胜负` 
+        uni.navigateTo({
+          url: `/pages/test/index?id=${item.id}&isLottery=1&type=篮球让分胜负`,
         });
       } catch (err) {
         uni.showToast({ title: "暂未开放AI分析", icon: "none" });
@@ -312,10 +290,12 @@ calcAllHeights() {
       this.$set(item, key, !item[key]);
     },
     saveEditedData() {
-      const editedData = JSON.parse(JSON.stringify({
-        matches: this.selectedMatchList,
-        betCount: this.betCount
-      }));
+      const editedData = JSON.parse(
+        JSON.stringify({
+          matches: this.selectedMatchList,
+          betCount: this.betCount,
+        })
+      );
       uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
     },
     handleBack() {
@@ -367,32 +347,34 @@ calcAllHeights() {
       }
       this.isPayLoading = true;
       const submitData = {
-        contentJson: JSON.stringify(this.selectedMatchList.map(item => ({
-          courseId: item.id,
-          serialNumber: item.serial_number,
-          leagueName: item.league_name,
-          homeName: item.home_name,
-          visitingName: item.visiting_name,
-          raceDate: item.race_date,
-          dateStr: item.date_str,
-          isRHomeWin: item.rHomeSelected ? 1 : 0,
-          isRAwayWin: item.rAwaySelected ? 1 : 0,
-          rGoal: item.r_goal,
-          rHomeOdds: item.win_multiplier,
-          rAwayOdds: item.loss_multiplier,
-          playType: "让分胜负",
-          entityType: "篮球让分胜负",
-          visitingWinRate: item.visiting_win_rate,
-          homeWinRate: item.home_win_rate,
-          homeGoalCalculate: item.home_goal_calculate,
-          visitingGoalCalculate: item.visiting_goal_calculate
-        }))),
+        contentJson: JSON.stringify(
+          this.selectedMatchList.map((item) => ({
+            courseId: item.id,
+            serialNumber: item.serial_number,
+            leagueName: item.league_name,
+            homeName: item.home_name,
+            visitingName: item.visiting_name,
+            raceDate: item.race_date,
+            dateStr: item.date_str,
+            isRHomeWin: item.rHomeSelected ? 1 : 0,
+            isRAwayWin: item.rAwaySelected ? 1 : 0,
+            rGoal: item.r_goal,
+            rHomeOdds: item.win_multiplier,
+            rAwayOdds: item.loss_multiplier,
+            playType: "让分胜负",
+            entityType: "篮球让分胜负",
+            visitingWinRate: item.visiting_win_rate,
+            homeWinRate: item.home_win_rate,
+            homeGoalCalculate: item.home_goal_calculate,
+            visitingGoalCalculate: item.visiting_goal_calculate,
+          }))
+        ),
         entityType: "篮球让分胜负",
         multiple: this.betNotes,
         bet: this.betCount,
         payment: this.totalBetAmount,
         payType: "wechat",
-        userPhone: this.userPhone
+        userPhone: this.userPhone,
       };
       try {
         const res = await purchasingLotteryApply(submitData);
@@ -411,8 +393,8 @@ calcAllHeights() {
         uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
         console.error("篮球让分胜负投注报错：", error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -451,25 +433,25 @@ calcAllHeights() {
 
   // ========== 关键：分端设置bottom和height，匹配你的bet-bar ==========
   // 头部高度：动态计算的headerTotalHeight（已转px）
-  top: v-bind(headerTotalHeight + 'px') !important;
+  top: v-bind(headerTotalHeight + "px") !important;
 
   // 小程序端：bottom = tabbar(100rpx) + 安全区 + bet-bar高度(90rpx)
   // #ifdef MP-WEIXIN
   bottom: calc(100rpx + env(safe-area-inset-bottom) + 90rpx) !important;
-  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 100rpx - env(safe-area-inset-bottom) - 90rpx) !important;
+  height: calc(100vh - v-bind(headerTotalHeight + "px") - 100rpx - env(safe-area-inset-bottom) - 90rpx) !important;
   // #endif
 
   // APP端：bottom = tabbar(90rpx) + 安全区 + bet-bar高度(90rpx)
   // #ifdef APP-PLUS
   bottom: calc(90rpx + constant(safe-area-inset-bottom) + 90rpx) !important;
   bottom: calc(90rpx + env(safe-area-inset-bottom) + 90rpx) !important;
-  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 90rpx - env(safe-area-inset-bottom) - 90rpx) !important;
+  height: calc(100vh - v-bind(headerTotalHeight + "px") - 90rpx - env(safe-area-inset-bottom) - 90rpx) !important;
   // #endif
 
   // H5端：bottom = 92rpx + 安全区 + bet-bar高度(90rpx)
   // #ifdef H5
   bottom: calc(92rpx + env(safe-area-inset-bottom) + 90rpx) !important;
-  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 92rpx - env(safe-area-inset-bottom) - 90rpx) !important;
+  height: calc(100vh - v-bind(headerTotalHeight + "px") - 92rpx - env(safe-area-inset-bottom) - 90rpx) !important;
   // #endif
 }
 
@@ -496,8 +478,8 @@ calcAllHeights() {
     align-items: center;
     margin-bottom: 4rpx;
     border-radius: 8rpx;
-    box-shadow: 0 2rpx 5rpx rgba(0,0,0,0.05);
-    
+    box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
+
     .match-category {
       width: 170rpx;
       display: flex;
@@ -509,19 +491,20 @@ calcAllHeights() {
         color: #777;
         width: 100%;
         .single {
-          display: inline-block; 
-         width: 44rpx;
-          background: #b71c1c; 
-          color: #fff; 
-          text-align: center; 
-          border-top-right-radius: 15rpx; 
-          border-bottom-right-radius: 16rpx; 
-          margin-right: 10rpx; 
-          font-size: 20rpx; 
+          display: inline-block;
+          width: 44rpx;
+          background: #b71c1c;
+          color: #fff;
+          text-align: center;
+          border-top-right-radius: 15rpx;
+          border-bottom-right-radius: 16rpx;
+          margin-right: 10rpx;
+          font-size: 20rpx;
           padding: 2rpx 0;
         }
       }
-      .serial-number, .match-time {
+      .serial-number,
+      .match-time {
         font-size: 22rpx;
         color: #999;
         text-align: center;
@@ -564,19 +547,19 @@ calcAllHeights() {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-              .handicap-num {
-                font-weight:900;
-      margin-left: 6rpx;
-      // 让分正负颜色区分：+号红色，-号绿色
-      .text-red {
-        color: #d92929 !important;
-        font-weight: 500;
-      }
-      .text-green {
-        color: #31926e !important;
-        font-weight: 500;
-      }
-    }
+          .handicap-num {
+            font-weight: 900;
+            margin-left: 6rpx;
+            // 让分正负颜色区分：+号红色，-号绿色
+            .text-red {
+              color: #d92929 !important;
+              font-weight: 500;
+            }
+            .text-green {
+              color: #31926e !important;
+              font-weight: 500;
+            }
+          }
         }
         .team-name.away {
           text-align: right;
@@ -660,30 +643,30 @@ calcAllHeights() {
   left: 0 !important;
   z-index: 10 !important;
   background-color: #fff;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
   padding-bottom: 0 !important;
   box-sizing: border-box !important;
   height: 80rpx !important;
-  
+
   // #ifdef MP-WEIXIN
   bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
   // #endif
-  
+
   // #ifdef APP-PLUS
   bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;
   bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;
   // #endif
-  
+
   // #ifdef H5
   bottom: calc(102rpx + env(safe-area-inset-bottom)) !important;
   // #endif
 
- .bet-bar-top {
+  .bet-bar-top {
     background: #fff;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+
     // 新增提示文本样式
     .tips-text {
       font-size: 24rpx;
@@ -763,7 +746,6 @@ calcAllHeights() {
     }
   }
 
-
   .bet-bar-bottom {
     display: flex;
     align-items: center;
@@ -832,7 +814,7 @@ calcAllHeights() {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
   }
   .modal-content {
     width: 80%;

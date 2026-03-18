@@ -1,33 +1,21 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
-    <CustomHeader 
-      :ballTitle="'足球'" 
-      title="6场半全" 
-      :showBack="true" 
-      :showIcon="false" 
-      @back-click="handleBack" 
-    />
+    <CustomHeader :ballTitle="'足球'" title="6场半全" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
-    <scroll-view
-      class="match-scroll"
-      scroll-y
-      id="poster-content"
-    >
+    <scroll-view class="match-scroll" scroll-y id="poster-content">
       <view class="match-list">
-  
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <view class="main-right">
             <view class="top-right">
-
               <view class="team-vs">
                 <text class="team-name home">{{ item.home_name }}</text>
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
-              <view class="team-vs" style="color:#888;padding:0;" v-if="$isShowStatus">
+              <view class="team-vs" style="color: #888; padding: 0" v-if="isShowStatus">
                 <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
-                <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
+                <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
                 <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
               </view>
             </view>
@@ -57,14 +45,11 @@
       </view>
     </scroll-view>
 
-
-    <view class="bet-bar" v-if="$isShowStatus">
+    <!-- <view class="bet-bar" v-if="isShowStatus">
       <view class="bet-bar-top">
         <view class="collapse-area">
           <view class="left-tip">请输入倍数后截屏给售票人</view>
-          
           <view class="multi-group">
-            <text class="multi-label">投</text>
             <button class="multi-btn minus" @click="handleMinus">-</button>
             <view class="multi-input" @tap="showNumberKeyboard = true">
               {{ betCount }}
@@ -79,19 +64,10 @@
           <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
         </view>
       </view>
-    </view>
-    
+    </view> -->
+
     <!-- 自定义数字键盘：限制1-50倍 -->
-    <UniNumberKeyboard 
-      :show.sync="showNumberKeyboard" 
-      :value="betCount + ''" 
-      :allowDot="false" 
-      confirm-text="确认" 
-      :min="1" 
-      :max="50" 
-      @input="handleKeyboardInput" 
-      @confirm="handleKeyboardConfirm" 
-    />
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
 
@@ -103,25 +79,25 @@ export default {
   data() {
     return {
       selectedMatchList: [], // 接收父组件传递的6场选中赛事
-      betCount: 1, // 投注倍数（1-50）
+      betCount: 1, 
       statusBarHeight: 0, // 状态栏高度
       safeAreaBottom: 0, // 底部安全区高度
       headerTotalHeight: 0, // 导航栏总高度
       isApp: false, // 是否为App端
       showNumberKeyboard: false, // 数字键盘显示状态
-      isNeedUserPhone: 1 // 是否需要手机号（父组件传递）
+      isNeedUserPhone: 1, // 是否需要手机号（父组件传递）
+      isShowStatus: false,
     };
   },
   computed: {
     selectedMatchCount() {
       return this.selectedMatchList.filter((item) => {
-        return item.halfHomeSelected || item.halfVsSelected || item.halfAwaySelected ||
-               item.fullHomeSelected || item.fullVsSelected || item.fullAwaySelected;
+        return item.halfHomeSelected || item.halfVsSelected || item.halfAwaySelected || item.fullHomeSelected || item.fullVsSelected || item.fullAwaySelected;
       }).length;
     },
     betNotes() {
       if (this.selectedMatchList.length !== 6) return 0;
-      
+
       let notes = 1;
       this.selectedMatchList.forEach((item) => {
         let selectedCount = 0;
@@ -131,7 +107,7 @@ export default {
         if (item.fullHomeSelected) selectedCount++;
         if (item.fullVsSelected) selectedCount++;
         if (item.fullAwaySelected) selectedCount++;
-        
+
         if (selectedCount === 0) {
           notes = 0;
           return false; // 终止循环
@@ -142,9 +118,13 @@ export default {
     },
     totalBetAmount() {
       return this.betNotes * this.betCount * 2;
-    }
+    },
   },
   created() {
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
   },
   onLoad() {
     // 接收父组件传递的数据
@@ -166,7 +146,7 @@ export default {
       if (eventChannel) {
         eventChannel.emit("updateSelectedMatches", {
           matches: this.selectedMatchList,
-          betCount: this.betCount
+          betCount: this.betCount,
         });
       }
       uni.navigateBack({ delta: 1 });
@@ -186,9 +166,9 @@ export default {
     // 数字键盘实时输入处理
     handleKeyboardInput(val) {
       // 过滤非数字，限制1-50
-      const pureNum = val.replace(/\D/g, '');
+      const pureNum = val.replace(/\D/g, "");
       if (!pureNum) return;
-      
+
       const num = parseInt(pureNum) || 1;
       if (num < 1) {
         this.betCount = 1;
@@ -203,8 +183,8 @@ export default {
       const num = parseInt(val) || 1;
       this.betCount = Math.min(Math.max(num, 1), 50); // 最终限制1-50
       this.showNumberKeyboard = false; // 收起键盘
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -224,7 +204,7 @@ export default {
 .match-scroll {
   box-sizing: border-box;
   // 给顶部导航留固定高度
-  padding-top: v-bind(headerTotalHeight + 'px');
+  padding-top: v-bind(headerTotalHeight + "px");
   // 给底部栏留高度
   padding-bottom: 120rpx;
   // 固定高度 = 屏幕高度 - 底部留白
@@ -249,7 +229,7 @@ export default {
   .match-row {
     display: flex;
     background-color: #fff;
-    border-bottom: 1rpx solid #DEDEDE;
+    border-bottom: 1rpx solid #dedede;
     box-sizing: border-box;
     padding: 8rpx 20rpx;
     margin-bottom: 10rpx;
@@ -298,8 +278,14 @@ export default {
       text-overflow: ellipsis;
     }
 
-    .team-name.home { text-align: right; padding-right: 10rpx; }
-    .team-name.away { text-align: left; padding-left: 10rpx; }
+    .team-name.home {
+      text-align: right;
+      padding-right: 10rpx;
+    }
+    .team-name.away {
+      text-align: left;
+      padding-left: 10rpx;
+    }
     .vs-text {
       width: 120rpx;
       text-align: center;

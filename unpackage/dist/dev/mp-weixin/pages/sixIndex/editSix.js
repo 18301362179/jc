@@ -126,11 +126,6 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.selectedMatchList.length
-  if (!_vm._isMounted) {
-    _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-  }
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -192,7 +187,6 @@ var _default = {
       selectedMatchList: [],
       // 接收父组件传递的6场选中赛事
       betCount: 1,
-      // 投注倍数（1-50）
       statusBarHeight: 0,
       // 状态栏高度
       safeAreaBottom: 0,
@@ -203,10 +197,11 @@ var _default = {
       // 是否为App端
       showNumberKeyboard: false,
       // 数字键盘显示状态
-      isNeedUserPhone: 1 // 是否需要手机号（父组件传递）
+      isNeedUserPhone: 1,
+      // 是否需要手机号（父组件传递）
+      isShowStatus: false
     };
   },
-
   computed: {
     selectedMatchCount: function selectedMatchCount() {
       return this.selectedMatchList.filter(function (item) {
@@ -237,16 +232,21 @@ var _default = {
       return this.betNotes * this.betCount * 2;
     }
   },
-  created: function created() {},
-  onLoad: function onLoad() {
+  created: function created() {
     var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
+  },
+  onLoad: function onLoad() {
+    var _this2 = this;
     // 接收父组件传递的数据
     var eventChannel = this.getOpenerEventChannel ? this.getOpenerEventChannel() : null;
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
-        _this.selectedMatchList = data.matches || [];
-        _this.betCount = data.betCount || 1;
-        _this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        _this2.selectedMatchList = data.matches || [];
+        _this2.betCount = data.betCount || 1;
+        _this2.isNeedUserPhone = data.isNeedUserPhone || 1;
       });
     }
   },
@@ -281,7 +281,7 @@ var _default = {
     // 数字键盘实时输入处理
     handleKeyboardInput: function handleKeyboardInput(val) {
       // 过滤非数字，限制1-50
-      var pureNum = val.replace(/\D/g, '');
+      var pureNum = val.replace(/\D/g, "");
       if (!pureNum) return;
       var num = parseInt(pureNum) || 1;
       if (num < 1) {

@@ -82,7 +82,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 =
-    _vm.$isShowStatus && _vm.selectedCount > 0
+    _vm.isShowStatus && _vm.selectedCount > 0
       ? Math.max(0, _vm.minMatchCount - _vm.selectedCount)
       : null
   _vm.$mp.data = Object.assign(
@@ -188,6 +188,17 @@ var _default = {
       type: Number,
       default: 0
     }
+  },
+  data: function data() {
+    return {
+      isShowStatus: null
+    };
+  },
+  created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
   },
   methods: {
     handleClear: function handleClear() {

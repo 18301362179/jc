@@ -182,7 +182,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(wx, uni) {
+/* WEBPACK VAR INJECTION */(function(uni, wx) {
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
@@ -283,7 +283,8 @@ var _default2 = {
       expandedDrawers: [],
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
-      windowWidth: 0
+      windowWidth: 0,
+      isShowStatus: null
     };
   },
   computed: {
@@ -329,6 +330,10 @@ var _default2 = {
     }
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
@@ -356,7 +361,7 @@ var _default2 = {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
     openScorePopup: function openScorePopup(match) {
-      var _this = this;
+      var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var isCurrentMatchUnselected, res, oddsData;
         return _regenerator.default.wrap(function _callee$(_context) {
@@ -365,7 +370,7 @@ var _default2 = {
               case 0:
                 // 最多8场校验
                 isCurrentMatchUnselected = !match.selectedScores || match.selectedScores.length === 0;
-                if (!(isCurrentMatchUnselected && _this.selectedMatchCount >= 8)) {
+                if (!(isCurrentMatchUnselected && _this2.selectedMatchCount >= 8)) {
                   _context.next = 4;
                   break;
                 }
@@ -376,10 +381,10 @@ var _default2 = {
                 });
                 return _context.abrupt("return");
               case 4:
-                _this.isLoading = true;
-                _this.selectedScores = Array.isArray(match.selectedScores) ? (0, _toConsumableArray2.default)(match.selectedScores) : [];
-                _this.currentMatch = match;
-                _this.isPopupShow = true;
+                _this2.isLoading = true;
+                _this2.selectedScores = Array.isArray(match.selectedScores) ? (0, _toConsumableArray2.default)(match.selectedScores) : [];
+                _this2.currentMatch = match;
+                _this2.isPopupShow = true;
                 _context.prev = 8;
                 _context.next = 11;
                 return (0, _demo.queryHomeAndVisitingGoalOdds)({
@@ -391,7 +396,7 @@ var _default2 = {
                 if (res.code === "200" && res.data) {
                   // 直接使用当前赛事的赔率数据（无需额外接口，drawerList已包含h_sfc/v_sfc字段）
                   oddsData = match; // 映射主胜胜分差赔率（h_sfc开头字段）
-                  _this.mainWinScores = _this.mainWinScores.map(function (item) {
+                  _this2.mainWinScores = _this2.mainWinScores.map(function (item) {
                     var odds = "";
                     switch (item.value) {
                       case "主胜1-5":
@@ -421,7 +426,7 @@ var _default2 = {
                   });
 
                   // 映射客胜胜分差赔率（v_sfc开头字段）
-                  _this.awayWinScores = _this.awayWinScores.map(function (item) {
+                  _this2.awayWinScores = _this2.awayWinScores.map(function (item) {
                     var odds = "";
                     switch (item.value) {
                       case "客胜1-5":
@@ -462,7 +467,7 @@ var _default2 = {
                 });
               case 19:
                 _context.prev = 19;
-                _this.isLoading = false;
+                _this2.isLoading = false;
                 return _context.finish(19);
               case 22:
               case "end":
@@ -510,7 +515,7 @@ var _default2 = {
   }
 };
 exports.default = _default2;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
 

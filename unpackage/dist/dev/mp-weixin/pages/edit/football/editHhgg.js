@@ -154,17 +154,11 @@ var render = function () {
       m10: m10,
     }
   })
-  var g1 = _vm.$isShowStatus ? _vm.selectedMatchList.length : null
-  var g2 = _vm.$isShowStatus && !(g1 == 1) ? _vm.selectedMatchList.length : null
-  var m11 = _vm.$isShowStatus ? _vm.calculateHalfFullBonus() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
-    _vm.e2 = function ($event) {
+    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
   }
@@ -174,9 +168,6 @@ var render = function () {
       $root: {
         g0: g0,
         l0: l0,
-        g1: g1,
-        g2: g2,
-        m11: m11,
       },
     }
   )
@@ -243,7 +234,7 @@ var _default = {
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
-      userPhone: '',
+      userPhone: "",
       isSubmitSuccess: false,
       statusBarHeight: 0,
       safeAreaBottom: 0,
@@ -256,62 +247,63 @@ var _default = {
       showNumberKeyboard: false,
       // 映射表保持不变
       spfTextMap: {
-        'home_0': '主胜',
-        'draw_0': '平',
-        'away_0': '主负',
-        '3': '主胜',
-        '1': '平',
-        '0': '主负'
+        home_0: "主胜",
+        draw_0: "平",
+        away_0: "主负",
+        3: "主胜",
+        1: "平",
+        0: "主负"
       },
       rspfTextMap: {
-        'home_-1': '主胜',
-        'draw_-1': '平',
-        'away_-1': '主负',
-        '3': '主胜',
-        '1': '平',
-        '0': '主负'
+        "home_-1": "主胜",
+        "draw_-1": "平",
+        "away_-1": "主负",
+        3: "主胜",
+        1: "平",
+        0: "主负"
       },
       zjqTextMap: {
-        '0': '0',
-        '1': '1',
-        '2': '2',
-        '3': '3',
-        '4': '4',
-        '5': '5',
-        '6': '6',
-        '4+': '7+',
-        '5+': '7+',
-        '6+': '7+',
-        '7+': '7+',
-        '总进球_0': '0',
-        '总进球_1': '1',
-        '总进球_2': '2',
-        '总进球_3': '3',
-        '总进球_4': '4',
-        '总进球_5': '5',
-        '总进球_6': '6',
-        '总进球_7+': '7+'
+        0: "0",
+        1: "1",
+        2: "2",
+        3: "3",
+        4: "4",
+        5: "5",
+        6: "6",
+        "4+": "7+",
+        "5+": "7+",
+        "6+": "7+",
+        "7+": "7+",
+        总进球_0: "0",
+        总进球_1: "1",
+        总进球_2: "2",
+        总进球_3: "3",
+        总进球_4: "4",
+        总进球_5: "5",
+        总进球_6: "6",
+        "总进球_7+": "7+"
       },
       bqcTextMap: {
-        '33': '胜胜',
-        '31': '胜平',
-        '30': '胜负',
-        '13': '平胜',
-        '11': '平平',
-        '10': '平负',
-        '03': '负胜',
-        '01': '负平',
-        '00': '负负',
-        '半全场_胜胜': '胜胜',
-        '半全场_胜平': '胜平',
-        '半全场_胜负': '胜负',
-        '半全场_平胜': '平胜',
-        '半全场_平平': '平平',
-        '半全场_平负': '平负',
-        '半全场_负胜': '负胜',
-        '半全场_负平': '负平',
-        '半全场_负负': '负负'
-      }
+        33: "胜胜",
+        31: "胜平",
+        30: "胜负",
+        13: "平胜",
+        11: "平平",
+        10: "平负",
+        "03": "负胜",
+        "01": "负平",
+        "00": "负负",
+        半全场_胜胜: "胜胜",
+        半全场_胜平: "胜平",
+        半全场_胜负: "胜负",
+        半全场_平胜: "平胜",
+        半全场_平平: "平平",
+        半全场_平负: "平负",
+        半全场_负胜: "负胜",
+        半全场_负平: "负平",
+        半全场_负负: "负负"
+      },
+      isShowStatus: null
     };
   },
   computed: {
@@ -344,30 +336,34 @@ var _default = {
   },
   onShow: function onShow() {
     uni.setTabBarStyle({
-      height: '0px'
+      height: "0px"
     });
     this.calcAllHeights();
   },
   created: function created() {
+    var _this3 = this;
+    this.$nextTick(function () {
+      _this3.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     this.calcAllHeights();
   },
   onLoad: function onLoad() {
-    var _this3 = this;
+    var _this4 = this;
     var eventChannel = this.getOpenerEventChannel();
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
         try {
           var rawMatches = JSON.parse(JSON.stringify(data.matches || []));
-          _this3.selectedMatchList = rawMatches.map(function (item) {
+          _this4.selectedMatchList = rawMatches.map(function (item) {
             var newItem = _objectSpread({}, item);
             // 1. 拆分胜平负/让球胜平负（保持不变）
             newItem.spfList = [];
             newItem.rspfList = [];
             var allSpfValues = item.selectedSpf || item.selectedAll || [];
             allSpfValues.forEach(function (val) {
-              if (val.includes('_0')) {
+              if (val.includes("_0")) {
                 newItem.spfList.push(val);
-              } else if (val.includes('_')) {
+              } else if (val.includes("_")) {
                 newItem.rspfList.push(val);
               }
             });
@@ -379,37 +375,37 @@ var _default = {
             // 增加类型校验+去空格，避免startsWith报错
             var bfValues = allPossibleBf.filter(function (val) {
               var valStr = String(val).trim(); // 转字符串+去空格
-              return valStr.startsWith('比分_');
+              return valStr.startsWith("比分_");
             }).map(function (val) {
               var valStr = String(val).trim();
-              var pureBf = valStr.replace('比分_', ''); // 去掉前缀
+              var pureBf = valStr.replace("比分_", ""); // 去掉前缀
               return pureBf;
             });
             newItem.bfList = bfValues;
             // 3. 拆分总进球（保持不变）
             newItem.zjqList = (item.selectedZjq || item.selectedAll || []).filter(function (val) {
-              return String(val).trim().startsWith('总进球_');
+              return String(val).trim().startsWith("总进球_");
             });
 
             // 4. 拆分半全场（保持不变）
             newItem.bqcList = (item.selectedBqc || item.selectedAll || []).filter(function (val) {
-              return String(val).trim().startsWith('半全场_');
+              return String(val).trim().startsWith("半全场_");
             });
             return newItem;
           });
         } catch (e) {
-          _this3.selectedMatchList = [];
+          _this4.selectedMatchList = [];
         }
-        _this3.betCount = Math.max(1, parseInt(data.betCount || 1));
-        _this3.isNeedUserPhone = data.isNeedUserPhone || 1;
-        _this3.selectedCombo = data.combo || "";
+        _this4.betCount = Math.max(1, parseInt(data.betCount || 1));
+        _this4.isNeedUserPhone = data.isNeedUserPhone || 1;
+        _this4.selectedCombo = data.combo || "";
       });
     }
   },
   onUnload: function onUnload() {
     if (!this.isSubmitSuccess) this.saveEditedData();
     uni.setTabBarStyle({
-      height: 'auto'
+      height: "auto"
     });
   },
   methods: {
@@ -423,44 +419,44 @@ var _default = {
       return hasSpf || hasRspf || hasZjq || hasBqc || hasBf;
     },
     getBetItem: function getBetItem(type, item) {
-      var _this4 = this;
-      if (!item) return '';
+      var _this5 = this;
+      if (!item) return "";
       switch (type) {
-        case 'spf':
+        case "spf":
           {
             var list = item.spfList || [];
             return list.map(function (t) {
-              return _this4.spfTextMap[t] || t;
-            }).filter(Boolean).join(',');
+              return _this5.spfTextMap[t] || t;
+            }).filter(Boolean).join(",");
           }
-        case 'rspf':
+        case "rspf":
           {
             var _list = item.rspfList || [];
             return _list.map(function (t) {
-              return _this4.rspfTextMap[t] || t;
-            }).filter(Boolean).join(',');
+              return _this5.rspfTextMap[t] || t;
+            }).filter(Boolean).join(",");
           }
-        case 'zjq':
+        case "zjq":
           {
             var _list2 = item.zjqList || [];
             return _list2.map(function (t) {
-              return _this4.zjqTextMap[t] || t.replace('总进球_', '');
-            }).filter(Boolean).join(',');
+              return _this5.zjqTextMap[t] || t.replace("总进球_", "");
+            }).filter(Boolean).join(",");
           }
-        case 'bqc':
+        case "bqc":
           {
             var _list3 = item.bqcList || [];
             return _list3.map(function (t) {
-              return _this4.bqcTextMap[t] || t.replace('半全场_', '');
-            }).filter(Boolean).join(',');
+              return _this5.bqcTextMap[t] || t.replace("半全场_", "");
+            }).filter(Boolean).join(",");
           }
-        case 'bf':
+        case "bf":
           {
             var _list4 = item.bfList || [];
-            return _list4.filter(Boolean).join(',');
+            return _list4.filter(Boolean).join(",");
           }
         default:
-          return '';
+          return "";
       }
     },
     handleKeyboardInput: function handleKeyboardInput(val) {
@@ -527,14 +523,14 @@ var _default = {
       }
     },
     handleConfirmBet: function handleConfirmBet(fromPhoneModal) {
-      var _this5 = this;
+      var _this6 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var list, payRequestData, res;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this5.selectedMatchCount === 0)) {
+                if (!(_this6.selectedMatchCount === 0)) {
                   _context.next = 3;
                   break;
                 }
@@ -544,22 +540,22 @@ var _default = {
                 });
                 return _context.abrupt("return");
               case 3:
-                if (!(_this5.isNeedUserPhone == 1 && !fromPhoneModal)) {
+                if (!(_this6.isNeedUserPhone == 1 && !fromPhoneModal)) {
                   _context.next = 6;
                   break;
                 }
-                _this5.showPhoneModal = true;
+                _this6.showPhoneModal = true;
                 return _context.abrupt("return");
               case 6:
-                _this5.isPayLoading = true;
-                list = _this5.selectedMatchList.map(function (item) {
+                _this6.isPayLoading = true;
+                list = _this6.selectedMatchList.map(function (item) {
                   return {
                     courseId: item.id,
                     serialNumber: item.serial_number,
-                    leagueName: item.league_name || '',
-                    homeName: item.home_name || '',
-                    visitingName: item.visiting_name || '',
-                    raceDate: item.race_date || '',
+                    leagueName: item.league_name || "",
+                    homeName: item.home_name || "",
+                    visitingName: item.visiting_name || "",
+                    raceDate: item.race_date || "",
                     selectedSpf: item.spfList || [],
                     selectedRspf: item.rspfList || [],
                     selectedZjq: item.zjqList || [],
@@ -572,11 +568,11 @@ var _default = {
                 payRequestData = {
                   contentJson: JSON.stringify(list),
                   entityType: "足球混合过关",
-                  multiple: _this5.betNotes,
-                  bet: _this5.betCount,
-                  payment: _this5.totalBetAmount,
+                  multiple: _this6.betNotes,
+                  bet: _this6.betCount,
+                  payment: _this6.totalBetAmount,
                   payType: "wechat",
-                  userPhone: _this5.userPhone
+                  userPhone: _this6.userPhone
                 };
                 _context.prev = 9;
                 _context.next = 12;
@@ -584,8 +580,8 @@ var _default = {
               case 12:
                 res = _context.sent;
                 if (res.code == 200) {
-                  _this5.isPayLoading = false;
-                  _this5.isSubmitSuccess = true;
+                  _this6.isPayLoading = false;
+                  _this6.isSubmitSuccess = true;
                   uni.showToast({
                     title: "操作成功！",
                     icon: "success",
@@ -593,14 +589,14 @@ var _default = {
                     mask: true
                   });
                   uni.removeStorageSync("editedMatchData");
-                  _this5.selectedMatchList = [];
+                  _this6.selectedMatchList = [];
                   setTimeout(function () {
                     return uni.navigateBack({
                       delta: 1
                     });
                   }, 2000);
                 } else {
-                  _this5.isPayLoading = false;
+                  _this6.isPayLoading = false;
                   uni.showToast({
                     title: res.message || "获取支付信息失败",
                     icon: "none"
@@ -611,7 +607,7 @@ var _default = {
               case 16:
                 _context.prev = 16;
                 _context.t0 = _context["catch"](9);
-                _this5.isPayLoading = false;
+                _this6.isPayLoading = false;
                 uni.showToast({
                   title: "网络异常，请稍后重试",
                   icon: "none"

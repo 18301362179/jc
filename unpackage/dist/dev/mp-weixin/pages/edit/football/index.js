@@ -126,17 +126,11 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.selectedMatchList.length
-  var g1 = _vm.selectedMatchList.length
-  var g2 = !(g1 == 1) ? _vm.selectedMatchList.length : null
-  var m0 = _vm.calculateHalfFullBonus()
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
-    _vm.e2 = function ($event) {
+    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
   }
@@ -145,9 +139,6 @@ var render = function () {
     {
       $root: {
         g0: g0,
-        g1: g1,
-        g2: g2,
-        m0: m0,
       },
     }
   )
@@ -277,7 +268,7 @@ var _default = {
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
         _this.selectedMatchList = data.matches || [];
-        console.log(data, 'list------------------');
+        console.log(data, "list------------------");
         _this.betCount = data.betCount || 1;
         _this.isNeedUserPhone = data.isNeedUserPhone;
         _this.selectedCombo = data.combo || "";

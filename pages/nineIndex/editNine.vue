@@ -1,20 +1,10 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：适配任9标题 -->
-    <CustomHeader 
-      :ballTitle="'足球'" 
-      title="任9" 
-      :showBack="true" 
-      :showIcon="false" 
-      @back-click="handleBack" 
-    />
+    <CustomHeader :ballTitle="'足球'" title="任9" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 滚动展示区域：沿用模板布局逻辑，保留任9业务展示 -->
-    <scroll-view
-      class="match-scroll"
-      scroll-y
-      id="poster-content"
-    >
+    <scroll-view class="match-scroll" scroll-y id="poster-content">
       <view class="match-list">
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <view class="main-right">
@@ -24,47 +14,31 @@
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
-              <view class="team-vs" style="color:#888;padding:0;" v-if="$isShowStatus">
+              <view class="team-vs" style="color: #888; padding: 0" v-if="isShowStatus">
                 <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
-                <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
+                <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
                 <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
               </view>
             </view>
-
-            <!-- 任9专属：仅展示3/1/0选中状态，无点击 -->
             <view class="bottom-right">
               <view class="score-btn-group">
-                <view 
-                  class="score-btn" 
-                  :class="{ selected: item.homeSelected }"
-                >3</view>
-                <view 
-                  class="score-btn" 
-                  :class="{ selected: item.vsSelected }"
-                >1</view>
-                <view 
-                  class="score-btn" 
-                  :class="{ selected: item.awaySelected }"
-                >0</view>
+                <view class="score-btn" :class="{ selected: item.homeSelected }">3</view>
+                <view class="score-btn" :class="{ selected: item.vsSelected }">1</view>
+                <view class="score-btn" :class="{ selected: item.awaySelected }">0</view>
               </view>
             </view>
           </view>
         </view>
 
-        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无已选赛事 </view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无 </view>
       </view>
     </scroll-view>
 
-    <!-- 任9专属投注栏：沿用模板样式，保留倍数操作逻辑 -->
-    <view class="bet-bar" v-if="$isShowStatus">
+    <!-- <view class="bet-bar" v-if="isShowStatus">
       <view class="bet-bar-top">
         <view class="collapse-area">
-          <!-- 左边添加模板同款提示文字 -->
           <view class="left-tip">请输入倍数后截屏给售票人</view>
-
-          <!-- 右边倍数操作区：沿用模板缩小样式，保留任9逻辑 -->
           <view class="multi-group">
-            <text class="multi-label">投</text>
             <button class="multi-btn minus" @click="handleMinus">-</button>
             <view class="multi-input" @tap="showNumberKeyboard = true">
               {{ betCount }}
@@ -79,19 +53,10 @@
           <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
         </view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 数字键盘：完全复用模板逻辑 -->
-    <UniNumberKeyboard 
-      :show.sync="showNumberKeyboard" 
-      :value="betCount + ''" 
-      :allowDot="false" 
-      confirm-text="确认" 
-      :min="1" 
-      :max="50" 
-      @input="handleKeyboardInput" 
-      @confirm="handleKeyboardConfirm" 
-    />
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
 
@@ -104,7 +69,7 @@ export default {
   data() {
     return {
       selectedMatchList: [], // 接收父组件传递的选中赛事
-      betCount: 1, // 投注倍数（1-50）
+      betCount: 1, 
       statusBarHeight: 0, // 状态栏高度
       safeAreaBottom: 0, // 底部安全区高度
       headerTotalHeight: 0, // 导航栏总高度
@@ -113,6 +78,7 @@ export default {
       isApp: false, // 是否为App端
       selectedCombo: "", // 串关类型
       showNumberKeyboard: false, // 数字键盘显示状态
+      isShowStatus: null,
     };
   },
   computed: {
@@ -143,6 +109,10 @@ export default {
     },
   },
   created() {
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     // 替换为模板的系统信息获取逻辑（兼容全端）
     const sys = uni.getSystemInfoSync();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
@@ -193,12 +163,12 @@ export default {
       const sys = uni.getSystemInfoSync();
       this.statusBarHeight = sys.statusBarHeight || 20;
       this.safeAreaBottom = (sys.safeAreaInsets && sys.safeAreaInsets.bottom) || 0;
-      
+
       // 导航栏高度（80rpx转px）
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      
+
       // 投注栏高度（模板同款逻辑）
       const betBarFixedRpx = this.isApp ? 200 : 180;
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
@@ -228,7 +198,7 @@ export default {
 // 替换为模板的滚动区样式（放弃absolute定位，用模板的calc高度）
 .match-scroll {
   box-sizing: border-box;
-  padding-top: v-bind(headerTotalHeight + 'px');
+  padding-top: v-bind(headerTotalHeight + "px");
   padding-bottom: 120rpx;
   height: calc(100vh - 120rpx);
   background-color: #f5f5f5;
@@ -251,7 +221,7 @@ export default {
   .match-row {
     display: flex;
     background-color: #fff;
-    border-bottom: 1rpx solid #DEDEDE;
+    border-bottom: 1rpx solid #dedede;
     box-sizing: border-box;
     padding: 8rpx 20rpx;
     margin-bottom: 10rpx;
@@ -300,8 +270,14 @@ export default {
       text-overflow: ellipsis;
     }
 
-    .team-name.home { text-align: right; padding-right: 10rpx; }
-    .team-name.away { text-align: left; padding-left: 10rpx; }
+    .team-name.home {
+      text-align: right;
+      padding-right: 10rpx;
+    }
+    .team-name.away {
+      text-align: left;
+      padding-left: 10rpx;
+    }
     .vs-text {
       width: 120rpx;
       text-align: center;

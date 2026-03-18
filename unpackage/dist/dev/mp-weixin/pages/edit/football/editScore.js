@@ -136,17 +136,11 @@ var render = function () {
     }
   })
   var g2 = _vm.selectedMatchList.length
-  var g3 = _vm.selectedMatchList.length
-  var g4 = !(g3 == 1) ? _vm.selectedMatchList.length : null
-  var m0 = _vm.calculateScoreBonus()
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
-    _vm.e2 = function ($event) {
+    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
   }
@@ -156,9 +150,6 @@ var render = function () {
       $root: {
         l0: l0,
         g2: g2,
-        g3: g3,
-        g4: g4,
-        m0: m0,
       },
     }
   )

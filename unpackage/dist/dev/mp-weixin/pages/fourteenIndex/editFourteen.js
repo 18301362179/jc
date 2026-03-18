@@ -128,9 +128,6 @@ var render = function () {
   var g0 = _vm.selectedMatchList.length
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-    _vm.e1 = function ($event) {
       _vm.showPosterPreview = false
     }
   }
@@ -207,7 +204,8 @@ var _default = {
       selectedCombo: "",
       showNumberKeyboard: false,
       showPosterPreview: false,
-      posterImageUrl: ""
+      posterImageUrl: "",
+      isShowStatus: null
     };
   },
   computed: {
@@ -235,19 +233,23 @@ var _default = {
     }
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     // H5端适配：统一获取系统信息
     var sys = uni.getSystemInfoSync();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
     this.calcAllHeights();
   },
   onLoad: function onLoad() {
-    var _this = this;
+    var _this2 = this;
     var eventChannel = this.getOpenerEventChannel ? this.getOpenerEventChannel() : null;
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
-        _this.selectedMatchList = data.matches || [];
-        _this.betCount = data.betCount || 1;
-        _this.selectedCombo = data.combo || "";
+        _this2.selectedMatchList = data.matches || [];
+        _this2.betCount = data.betCount || 1;
+        _this2.selectedCombo = data.combo || "";
       });
     }
   },
@@ -300,8 +302,8 @@ var _default = {
             switch (_context.prev = _context.next) {
               case 0:
                 uni.showToast({
-                  title: '仅H5端支持生成海报',
-                  icon: 'none'
+                  title: "仅H5端支持生成海报",
+                  icon: "none"
                 });
               case 1:
               case "end":

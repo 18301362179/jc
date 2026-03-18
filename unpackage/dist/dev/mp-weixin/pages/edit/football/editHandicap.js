@@ -126,17 +126,11 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.selectedMatchList.length
-  var g1 = _vm.$isShowStatus ? _vm.selectedMatchList.length : null
-  var g2 = _vm.$isShowStatus && !(g1 == 1) ? _vm.selectedMatchList.length : null
-  var m0 = _vm.$isShowStatus ? _vm.calculateHalfFullBonus() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
-    _vm.e2 = function ($event) {
+    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
   }
@@ -145,9 +139,6 @@ var render = function () {
     {
       $root: {
         g0: g0,
-        g1: g1,
-        g2: g2,
-        m0: m0,
       },
     }
   )
@@ -215,7 +206,7 @@ var _default = {
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
-      userPhone: '',
+      userPhone: "",
       isSubmitSuccess: false,
       statusBarHeight: 0,
       // 状态栏高度
@@ -232,7 +223,8 @@ var _default = {
       isMp: false,
       selectedCombo: "",
       // 标记是否为小程序端
-      showNumberKeyboard: false
+      showNumberKeyboard: false,
+      isShowStatus: null
     };
   },
   computed: {
@@ -267,22 +259,26 @@ var _default = {
   },
   onShow: function onShow() {
     uni.setTabBarStyle({
-      height: '0px'
+      height: "0px"
     });
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     // 计算所有高度
     this.calcAllHeights();
   },
   onLoad: function onLoad() {
-    var _this = this;
+    var _this2 = this;
     var eventChannel = this.getOpenerEventChannel();
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
-        _this.selectedMatchList = data.matches || [];
-        _this.betCount = data.betCount || 1;
-        _this.isNeedUserPhone = data.isNeedUserPhone;
-        _this.selectedCombo = data.combo || "";
+        _this2.selectedMatchList = data.matches || [];
+        _this2.betCount = data.betCount || 1;
+        _this2.isNeedUserPhone = data.isNeedUserPhone;
+        _this2.selectedCombo = data.combo || "";
       });
     }
   },
@@ -318,12 +314,12 @@ var _default = {
     },
     // 原有handleBetInput方法可以保留（兼容备用），也可以删除（因为改用自定义键盘了）
     handleBetInput: function handleBetInput(e) {
-      var _this2 = this;
+      var _this3 = this;
       var inputVal = e.detail.value;
       var validVal = (0, _validate.validateBetInput)(inputVal);
       this.betCount = null;
       this.$nextTick(function () {
-        _this2.betCount = validVal;
+        _this3.betCount = validVal;
       });
     },
     // 核心优化：统一计算所有高度，投注栏总高度仅保留固定高度，不叠加安全区
@@ -475,7 +471,7 @@ var _default = {
       var v = this.calculateHalfFullBonus();
     }
   }, (0, _defineProperty2.default)(_methods, "handleBetInput", function handleBetInput(e) {
-    var _this3 = this;
+    var _this4 = this;
     var inputVal = e.detail.value;
     var validVal = (0, _validate.validateBetInput)(inputVal);
 
@@ -483,7 +479,7 @@ var _default = {
     this.betCount = null; // 先清空，打破响应式缓存
     this.$nextTick(function () {
       // 等待DOM更新后赋值
-      _this3.betCount = validVal;
+      _this4.betCount = validVal;
     });
   }), (0, _defineProperty2.default)(_methods, "handlePlus", function handlePlus() {
     // 1. 校验：未选中赛事时直接返回
@@ -499,14 +495,14 @@ var _default = {
       });
     }
   }), (0, _defineProperty2.default)(_methods, "handleConfirmBet", function handleConfirmBet(fromPhoneModal) {
-    var _this4 = this;
+    var _this5 = this;
     return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
       var list, payRequestData, res;
       return _regenerator.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(_this4.selectedMatchCount === 0)) {
+              if (!(_this5.selectedMatchCount === 0)) {
                 _context.next = 3;
                 break;
               }
@@ -517,16 +513,16 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this4.isNeedUserPhone == 1 && !fromPhoneModal)) {
+              if (!(_this5.isNeedUserPhone == 1 && !fromPhoneModal)) {
                 _context.next = 6;
                 break;
               }
-              _this4.showPhoneModal = true;
+              _this5.showPhoneModal = true;
               return _context.abrupt("return");
             case 6:
-              _this4.isPayLoading = true;
+              _this5.isPayLoading = true;
               // 修复：传递让球胜平负的选中状态
-              list = _this4.selectedMatchList.map(function (item) {
+              list = _this5.selectedMatchList.map(function (item) {
                 return {
                   courseId: item.id,
                   // 替换为让球胜平负的选中字段
@@ -556,15 +552,15 @@ var _default = {
                 contentJson: JSON.stringify(list),
                 entityType: "足彩让球胜平负",
                 // 修复：标注为让球胜平负
-                multiple: _this4.betNotes,
+                multiple: _this5.betNotes,
                 // 注数
-                bet: _this4.betCount,
+                bet: _this5.betCount,
                 // 倍数
-                payment: _this4.totalBetAmount,
+                payment: _this5.totalBetAmount,
                 // 总额
                 payType: "wechat",
                 // 支付方式
-                userPhone: _this4.userPhone // 手机号
+                userPhone: _this5.userPhone // 手机号
               };
               _context.prev = 9;
               _context.next = 12;
@@ -572,8 +568,8 @@ var _default = {
             case 12:
               res = _context.sent;
               if (res.code == 200) {
-                _this4.isPayLoading = false;
-                _this4.isSubmitSuccess = true;
+                _this5.isPayLoading = false;
+                _this5.isSubmitSuccess = true;
                 uni.showToast({
                   title: "操作成功！",
                   icon: "success",
@@ -592,7 +588,7 @@ var _default = {
                   });
                 }, 2000);
               } else {
-                _this4.isPayLoading = false;
+                _this5.isPayLoading = false;
                 uni.showToast({
                   title: res.message || "获取支付信息失败",
                   icon: "none",
@@ -604,7 +600,7 @@ var _default = {
             case 16:
               _context.prev = 16;
               _context.t0 = _context["catch"](9);
-              _this4.isPayLoading = false;
+              _this5.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
                 icon: "none",
@@ -619,7 +615,7 @@ var _default = {
       }, _callee, null, [[9, 16]]);
     }))();
   }), (0, _defineProperty2.default)(_methods, "invokeWxPayment", function invokeWxPayment(payParams) {
-    var _this5 = this;
+    var _this6 = this;
     var timeStamp = payParams.timeStamp,
       nonceStr = payParams.nonceStr,
       prepayPackage = payParams.package,
@@ -634,7 +630,7 @@ var _default = {
       signType: signType,
       paySign: paySign,
       success: function success(res) {
-        _this5.isPayLoading = false;
+        _this6.isPayLoading = false;
         uni.showToast({
           title: "支付成功",
           icon: "success",
@@ -644,12 +640,12 @@ var _default = {
           uni.navigateTo({
             url: "/pages/orderDetail/orderDetail?orderId=".concat(orderId)
           });
-          _this5.selectedMatchList = [];
-          _this5.betCount = 1;
+          _this6.selectedMatchList = [];
+          _this6.betCount = 1;
         }, 1500);
       },
       fail: function fail(err) {
-        _this5.isPayLoading = false;
+        _this6.isPayLoading = false;
         if (err.errMsg.includes("cancel")) {
           uni.showToast({
             title: "已取消支付",
@@ -666,7 +662,7 @@ var _default = {
         }
       },
       complete: function complete() {
-        _this5.isPayLoading = false;
+        _this6.isPayLoading = false;
       }
     });
   }), _methods)

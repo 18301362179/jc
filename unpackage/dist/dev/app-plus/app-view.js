@@ -15396,7 +15396,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(20, "sc"), attrs: { _i: 20 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -16782,7 +16782,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(20, "sc"), attrs: { _i: 20 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -18417,7 +18417,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(28, "sc"), attrs: { _i: 28 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -20048,7 +20048,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(29, "sc"), attrs: { _i: 29 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -26634,7 +26634,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(23, "sc"), attrs: { _i: 23 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -27266,7 +27266,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(18, "sc"), attrs: { _i: 18 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -27898,7 +27898,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(18, "sc"), attrs: { _i: 18 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -28550,7 +28550,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(18, "sc"), attrs: { _i: 18 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -29264,7 +29264,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(24, "sc"), attrs: { _i: 24 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -29751,7 +29751,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
               _vm._l(_vm._$g(5, "f"), function (item, index, $20, $30) {
@@ -30546,7 +30546,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
               _vm._l(_vm._$g(5, "f"), function (item, index, $20, $30) {
@@ -31198,7 +31198,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
               _vm._l(_vm._$g(5, "f"), function (item, index, $20, $30) {
@@ -31907,7 +31907,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
               _vm._l(_vm._$g(5, "f"), function (item, index, $20, $30) {
@@ -32614,7 +32614,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
               _vm._l(_vm._$g(5, "f"), function (item, index, $20, $30) {
@@ -33280,7 +33280,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
               _vm._l(_vm._$g(5, "f"), function (item, index, $20, $30) {
@@ -36846,7 +36846,7 @@ var render = function () {
                               staticClass: _vm._$g(28, "sc"),
                               attrs: { _i: 28 },
                             },
-                            [_vm._v("暂无已选赛事")]
+                            [_vm._v("暂无")]
                           )
                         : _vm._e(),
                     ],
@@ -37515,7 +37515,7 @@ var render = function () {
                     { staticClass: _vm._$g(12, "sc"), attrs: { _i: 12 } },
                     [
                       _c("v-uni-text", { attrs: { _i: 13 } }, [
-                        _vm._v("暂无已选赛事"),
+                        _vm._v("暂无"),
                       ]),
                     ],
                     1
@@ -37842,7 +37842,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(11, "sc"), attrs: { _i: 11 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -38170,7 +38170,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(11, "sc"), attrs: { _i: 11 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -38563,7 +38563,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(17, "sc"), attrs: { _i: 17 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -38969,7 +38969,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(19, "sc"), attrs: { _i: 19 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -39362,7 +39362,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(17, "sc"), attrs: { _i: 17 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],
@@ -39725,7 +39725,7 @@ var render = function () {
                 ? _c(
                     "uni-view",
                     { staticClass: _vm._$g(15, "sc"), attrs: { _i: 15 } },
-                    [_vm._v("暂无已选赛事")]
+                    [_vm._v("暂无")]
                   )
                 : _vm._e(),
             ],

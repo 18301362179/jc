@@ -16,14 +16,13 @@
     </scroll-view>
 
     <!-- 底部投注栏（完全匹配原型图） -->
-    <view class="bet-bar" v-if="$isShowStatus">
+    <view class="bet-bar" v-if="isShowStatus">
       <view class="bet-bar-inner">
         <!-- 左侧：清空图标 + 已选场次 + 风险提示 -->
         <view class="left-section">
           <image class="clear-icon" src="/static/trash.png" mode="widthFix" @click="clearAllSelection" :class="{ disabled: selectedMatchCount === 0 }"></image>
           <view class="text-group">
             <text class="selected-text">已选{{ selectedMatchCount }}场</text>
-            <text class="risk-tip">页面固定奖金仅供参考，请以出票时固定奖金为准</text>
           </view>
         </view>
 
@@ -150,6 +149,7 @@ onLoad() {
       touchStartX: 0, // 新增：触摸起始X坐标
       swipeThreshold: 50, // 新增：滑动判定阈值（px）
       hasData: false,
+      isShowStatus: null,
     };
   },
   async onPullDownRefresh() {
@@ -239,6 +239,10 @@ selectedMatchCount() {
     },
   },
   created() {
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     if (uni.getWindowInfo) {
       const windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;

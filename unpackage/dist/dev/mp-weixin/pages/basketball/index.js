@@ -297,7 +297,8 @@ var _default = {
       swipeThreshold: 50,
       hasData: false,
       // 新增：全局选中状态缓存（和足球逻辑对齐）
-      matchSelectedState: {}
+      matchSelectedState: {},
+      isShowStatus: false
     };
   },
   onLoad: function onLoad() {
@@ -460,6 +461,7 @@ var _default = {
     }
   },
   mounted: function mounted() {
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },

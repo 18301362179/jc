@@ -92,7 +92,7 @@
 .match-list .match-row .match-cells.data-v-a6da1e28 {
   flex: 1;
   display: flex;
-  border: 1rpx solid #DEDEDE;
+  border: 1rpx solid #dedede;
   border-radius: 8rpx;
   overflow: hidden;
 }

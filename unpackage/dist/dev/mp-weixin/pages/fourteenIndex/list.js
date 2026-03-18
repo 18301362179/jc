@@ -126,7 +126,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(wx) {
+/* WEBPACK VAR INJECTION */(function(uni, wx) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -241,7 +241,8 @@ var _default2 = {
     return {
       expandedDrawers: [],
       statusBarHeightRpx: 0,
-      windowWidth: 0
+      windowWidth: 0,
+      isShowStatus: null
     };
   },
   computed: {
@@ -294,6 +295,10 @@ var _default2 = {
     }
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
     this.expandedDrawers = this.finalDrawerList.map(function () {
@@ -330,23 +335,23 @@ var _default2 = {
     },
     // 保留14场原有3/1/0按钮切换逻辑
     toggleScoreBtn: function toggleScoreBtn(item, key) {
-      var _this = this;
+      var _this2 = this;
       this.finalDrawerList.forEach(function (drawer, dIdx) {
         var idx = drawer.lotteryList.findIndex(function (i) {
           return i.id === item.id;
         });
         if (idx > -1) {
           // 仅切换当前按钮状态，不影响其他按钮（支持3/1/0同时选中）
-          _this.$set(drawer.lotteryList[idx], key, !drawer.lotteryList[idx][key]);
+          _this2.$set(drawer.lotteryList[idx], key, !drawer.lotteryList[idx][key]);
           // 通知父组件同步状态
-          _this.$emit("toggle-select", drawer.lotteryList[idx], key);
+          _this2.$emit("toggle-select", drawer.lotteryList[idx], key);
         }
       });
     }
   }
 };
 exports.default = _default2;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
 

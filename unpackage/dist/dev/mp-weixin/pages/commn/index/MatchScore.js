@@ -199,7 +199,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(wx, uni) {
+/* WEBPACK VAR INJECTION */(function(uni, wx) {
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
@@ -363,10 +363,11 @@ var _default2 = {
       expandedDrawers: [],
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
-      windowWidth: 0 // 设备窗口宽度（用于px转rpx）
+      windowWidth: 0,
+      // 设备窗口宽度（用于px转rpx）
+      isShowStatus: null
     };
   },
-
   computed: {
     // 最终抽屉列表（兼容原有matchList和drawerList）
     finalDrawerList: function finalDrawerList() {
@@ -413,6 +414,10 @@ var _default2 = {
     }
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
     // 初始化状态栏高度（rpx）
@@ -452,7 +457,7 @@ var _default2 = {
     },
     // 打开比分选择弹窗
     openScorePopup: function openScorePopup(match) {
-      var _this = this;
+      var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var isCurrentMatchUnselected, res, oddsData;
         return _regenerator.default.wrap(function _callee$(_context) {
@@ -461,7 +466,7 @@ var _default2 = {
               case 0:
                 // 校验最多选择8场比赛
                 isCurrentMatchUnselected = !match.selectedScores || match.selectedScores.length === 0;
-                if (!(isCurrentMatchUnselected && _this.selectedMatchCount >= 8)) {
+                if (!(isCurrentMatchUnselected && _this2.selectedMatchCount >= 8)) {
                   _context.next = 4;
                   break;
                 }
@@ -473,13 +478,13 @@ var _default2 = {
                 return _context.abrupt("return");
               case 4:
                 // 初始化弹窗状态
-                _this.isLoading = true;
-                _this.selectedScores = Array.isArray(match.selectedScores) ? (0, _toConsumableArray2.default)(match.selectedScores) : [];
-                _this.currentMatch = match;
-                _this.isPopupShow = true;
-                _this.currentOddsData = match.oddsData || null;
+                _this2.isLoading = true;
+                _this2.selectedScores = Array.isArray(match.selectedScores) ? (0, _toConsumableArray2.default)(match.selectedScores) : [];
+                _this2.currentMatch = match;
+                _this2.isPopupShow = true;
+                _this2.currentOddsData = match.oddsData || null;
                 _context.prev = 9;
-                if (_this.currentOddsData) {
+                if (_this2.currentOddsData) {
                   _context.next = 15;
                   break;
                 }
@@ -491,13 +496,13 @@ var _default2 = {
               case 13:
                 res = _context.sent;
                 if (res.code === "200" && res.data) {
-                  _this.currentOddsData = res.data;
+                  _this2.currentOddsData = res.data;
                 }
               case 15:
                 // 填充赔率数据到比分选项
-                if (_this.currentOddsData) {
-                  oddsData = _this.currentOddsData; // 主胜比分赔率
-                  _this.mainWinScores = _this.mainWinScores.map(function (item) {
+                if (_this2.currentOddsData) {
+                  oddsData = _this2.currentOddsData; // 主胜比分赔率
+                  _this2.mainWinScores = _this2.mainWinScores.map(function (item) {
                     var odds = item.odds;
                     switch (item.value) {
                       case "1:0":
@@ -545,7 +550,7 @@ var _default2 = {
                   });
 
                   // 平比分赔率
-                  _this.drawScores = _this.drawScores.map(function (item) {
+                  _this2.drawScores = _this2.drawScores.map(function (item) {
                     var odds = item.odds;
                     switch (item.value) {
                       case "0:0":
@@ -569,7 +574,7 @@ var _default2 = {
                   });
 
                   // 客胜比分赔率
-                  _this.awayWinScores = _this.awayWinScores.map(function (item) {
+                  _this2.awayWinScores = _this2.awayWinScores.map(function (item) {
                     var odds = item.odds;
                     switch (item.value) {
                       case "0:1":
@@ -617,7 +622,7 @@ var _default2 = {
                   });
 
                   // 其它比分赔率
-                  _this.currentMatch.score_odds = {
+                  _this2.currentMatch.score_odds = {
                     winOther: oddsData.sqt && oddsData.sqt.toString() ? oddsData.sqt.toString() : "",
                     drawOther: oddsData.pqt && oddsData.pqt.toString() ? oddsData.pqt.toString() : "",
                     loseOther: oddsData.fqt && oddsData.fqt.toString() ? oddsData.fqt.toString() : ""
@@ -635,7 +640,7 @@ var _default2 = {
                 });
               case 22:
                 _context.prev = 22;
-                _this.isLoading = false;
+                _this2.isLoading = false;
                 return _context.finish(22);
               case 25:
               case "end":
@@ -657,7 +662,7 @@ var _default2 = {
     },
     // 确认比分选择
     confirmSelection: function confirmSelection() {
-      var _this2 = this;
+      var _this3 = this;
       if (!this.currentMatch || this.isLoading) return;
 
       // 查找当前选中的比赛项
@@ -666,7 +671,7 @@ var _default2 = {
       var targetItemIdx = -1;
       this.finalDrawerList.forEach(function (drawer, dIdx) {
         var idx = drawer.lotteryList.findIndex(function (item) {
-          return item.id === _this2.currentMatch.id;
+          return item.id === _this3.currentMatch.id;
         });
         if (idx > -1) {
           targetDrawerIdx = dIdx;
@@ -707,7 +712,7 @@ var _default2 = {
   }
 };
 exports.default = _default2;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
 

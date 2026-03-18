@@ -103,13 +103,13 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var m0 = _vm.forateData(_vm.courseMap.race_date)
-  var m1 = _vm.$isShowStatus
+  var m1 = _vm.isShowStatus
     ? _vm.decimalToPercentage(_vm.baseMap.home_win_rate, 0)
     : null
-  var m2 = _vm.$isShowStatus
+  var m2 = _vm.isShowStatus
     ? _vm.decimalToPercentage(_vm.baseMap.draw_rate)
     : null
-  var m3 = _vm.$isShowStatus
+  var m3 = _vm.isShowStatus
     ? _vm.decimalToPercentage(_vm.baseMap.visiting_win_rate, 0)
     : null
   var g0 = _vm.filteredRecords.length
@@ -591,7 +591,8 @@ var _default = {
       headData: [],
       // 新增：伤停数据列表
       homeInjurySuspension: [],
-      visitingInjurySuspension: []
+      visitingInjurySuspension: [],
+      isShowStatus: null
     };
   },
   onLoad: function onLoad(options) {
@@ -605,6 +606,12 @@ var _default = {
     // 强制显示分享菜单，立刻解除置灰
     wx.showShareMenu({
       menus: ["shareAppMessage", "shareTimeline"]
+    });
+  },
+  created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
     });
   },
   onShow: function onShow() {
@@ -632,39 +639,39 @@ var _default = {
       return "".concat(percentage.toFixed(fixed), "%");
     },
     getAiDetail: function getAiDetail(param) {
-      var _this = this;
+      var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var res, data;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.showLoading();
+                _this2.showLoading();
                 _context.prev = 1;
                 _context.next = 4;
                 return (0, _demo.getAi)(param);
               case 4:
                 res = _context.sent;
                 data = res.data.data || {};
-                _this.courseMap = data.baseMap || {};
-                _this.baseMap = data.baseMap || {};
-                _this.goalCalculate = data.goalCalculate || {};
-                _this.homeTeam = data.homeTeam || {};
-                _this.visitingTeam = data.visitingTeam || {};
-                _this.homeLastCourses = data.homeLastCourses || [];
-                _this.visitingLastCourses = data.visitingLastCourses || [];
-                _this.homeScorers = data.homeScorers || [];
-                _this.visitingScorers = data.visitingScorers || [];
-                _this.allHeadRecord = data.all_headRecord || [];
-                _this.tzkHeadRecord = data.tzk_headRecord || [];
-                _this.filteredRecords = data.all_headRecord || [];
-                _this.pointsData = data.pointsData || [];
-                _this.headData = data.headData || [];
-                _this.tzkDataList = data.tzkDataList || [];
-                _this.info = JSON.parse(JSON.stringify(data));
+                _this2.courseMap = data.baseMap || {};
+                _this2.baseMap = data.baseMap || {};
+                _this2.goalCalculate = data.goalCalculate || {};
+                _this2.homeTeam = data.homeTeam || {};
+                _this2.visitingTeam = data.visitingTeam || {};
+                _this2.homeLastCourses = data.homeLastCourses || [];
+                _this2.visitingLastCourses = data.visitingLastCourses || [];
+                _this2.homeScorers = data.homeScorers || [];
+                _this2.visitingScorers = data.visitingScorers || [];
+                _this2.allHeadRecord = data.all_headRecord || [];
+                _this2.tzkHeadRecord = data.tzk_headRecord || [];
+                _this2.filteredRecords = data.all_headRecord || [];
+                _this2.pointsData = data.pointsData || [];
+                _this2.headData = data.headData || [];
+                _this2.tzkDataList = data.tzkDataList || [];
+                _this2.info = JSON.parse(JSON.stringify(data));
                 // 新增：赋值伤停数据
-                _this.homeInjurySuspension = data.homeInjurySuspension || [];
-                _this.visitingInjurySuspension = data.visitingInjurySuspension || [];
+                _this2.homeInjurySuspension = data.homeInjurySuspension || [];
+                _this2.visitingInjurySuspension = data.visitingInjurySuspension || [];
                 _context.next = 29;
                 break;
               case 26:
@@ -673,7 +680,7 @@ var _default = {
                 console.error("获取AI详情失败:", _context.t0);
               case 29:
                 _context.prev = 29;
-                _this.hideLoading();
+                _this2.hideLoading();
                 return _context.finish(29);
               case 32:
               case "end":

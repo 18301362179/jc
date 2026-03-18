@@ -312,7 +312,8 @@ var _default = {
       // 新增：触摸起始X坐标
       swipeThreshold: 50,
       // 新增：滑动判定阈值（px）
-      hasData: false
+      hasData: false,
+      isShowStatus: null
     };
   },
   onPullDownRefresh: function onPullDownRefresh() {
@@ -435,6 +436,10 @@ var _default = {
     }
   },
   created: function created() {
+    var _this4 = this;
+    this.$nextTick(function () {
+      _this4.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     if (uni.getWindowInfo) {
       var windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;
@@ -462,7 +467,7 @@ var _default = {
   },
   methods: {
     handleConfirmMixedSelect: function handleConfirmMixedSelect(confirmData) {
-      var _this4 = this;
+      var _this5 = this;
       try {
         // 容错：数据为空时提示用户，避免后续逻辑报错
         if (!confirmData || !confirmData.finalDrawerList) {
@@ -478,7 +483,7 @@ var _default = {
 
         // DOM更新后重新计数（$nextTick保证DOM同步后计算，避免计数延迟）
         this.$nextTick(function () {
-          _this4.updateMixedSelectedCount();
+          _this5.updateMixedSelectedCount();
         });
       } catch (error) {
         uni.showToast({
@@ -510,40 +515,40 @@ var _default = {
       this.mixedSelectedCount = count;
     },
     clearAllSelection: function clearAllSelection() {
-      var _this5 = this;
+      var _this6 = this;
       if (this.selectedMatchCount === 0) return;
       uni.showModal({
         title: "提示",
         content: "确定清空所有已选场次吗？",
         success: function success(res) {
           if (res.confirm) {
-            _this5.drawerList.forEach(function (drawer, drawerIdx) {
+            _this6.drawerList.forEach(function (drawer, drawerIdx) {
               drawer.lotteryList.forEach(function (match, matchIdx) {
                 // ======================================
                 // 混合过关：清空 4 个选中数组（核心修复）
                 // ======================================
-                if (_this5.currentPlay === "混合过关") {
-                  _this5.$set(match, "selectedSpf", []);
-                  _this5.$set(match, "selectedBifen", []);
-                  _this5.$set(match, "selectedZjq", []);
-                  _this5.$set(match, "selectedBqc", []);
+                if (_this6.currentPlay === "混合过关") {
+                  _this6.$set(match, "selectedSpf", []);
+                  _this6.$set(match, "selectedBifen", []);
+                  _this6.$set(match, "selectedZjq", []);
+                  _this6.$set(match, "selectedBqc", []);
                   return;
                 }
 
                 // 其他玩法不动（原来逻辑）
-                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "homeSelected", false);
-                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "vsSelected", false);
-                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "awaySelected", false);
-                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "handicapHomeSelected", false);
-                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "handicapVsSelected", false);
-                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "handicapAwaySelected", false);
-                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", []);
-                _this5.$set(_this5.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", []);
+                _this6.$set(_this6.drawerList[drawerIdx].lotteryList[matchIdx], "homeSelected", false);
+                _this6.$set(_this6.drawerList[drawerIdx].lotteryList[matchIdx], "vsSelected", false);
+                _this6.$set(_this6.drawerList[drawerIdx].lotteryList[matchIdx], "awaySelected", false);
+                _this6.$set(_this6.drawerList[drawerIdx].lotteryList[matchIdx], "handicapHomeSelected", false);
+                _this6.$set(_this6.drawerList[drawerIdx].lotteryList[matchIdx], "handicapVsSelected", false);
+                _this6.$set(_this6.drawerList[drawerIdx].lotteryList[matchIdx], "handicapAwaySelected", false);
+                _this6.$set(_this6.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", []);
+                _this6.$set(_this6.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", []);
               });
             });
 
             // 强制刷新混合过关计数
-            _this5.updateMixedSelectedCount();
+            _this6.updateMixedSelectedCount();
             uni.showToast({
               title: "已清空",
               icon: "success"
@@ -561,7 +566,7 @@ var _default = {
       return !!this.selectedCombo && this.selectedMatchCount >= 1;
     },
     handleMixedSelect: function handleMixedSelect(item, selectType) {
-      var _this6 = this;
+      var _this7 = this;
       // 基础容错（严格校验）
       if (!item || !selectType || !item.id || this.currentPlay !== "混合过关") {
         return;
@@ -613,12 +618,12 @@ var _default = {
 
       // 5. 强制更新计数+视图（nextTick确保DOM更新后统计）
       this.$nextTick(function () {
-        _this6.updateMixedSelectedCount();
+        _this7.updateMixedSelectedCount();
       });
     },
     // 混合过关新增：清空指定场次选中状态（供编辑页返回调用）
     clearMixedMatchSelection: function clearMixedMatchSelection(matchId) {
-      var _this7 = this;
+      var _this8 = this;
       this.drawerList.forEach(function (drawer) {
         var matchIdx = drawer.lotteryList.findIndex(function (m) {
           return m.id === matchId;
@@ -628,7 +633,7 @@ var _default = {
           if (targetMatch.betRows) {
             targetMatch.betRows.forEach(function (row, rIdx) {
               row.items.forEach(function (item, iIdx) {
-                _this7.$set(targetMatch.betRows[rIdx].items[iIdx], "isSelected", false);
+                _this8.$set(targetMatch.betRows[rIdx].items[iIdx], "isSelected", false);
               });
             });
           }
@@ -652,12 +657,12 @@ var _default = {
       this.showNumberKeyboard = false;
     },
     handleBetInput: function handleBetInput(e) {
-      var _this8 = this;
+      var _this9 = this;
       var inputVal = e.detail.value;
       var validVal = (0, _validate.validateBetInput)(inputVal);
       this.betCount = null;
       this.$nextTick(function () {
-        _this8.betCount = validVal;
+        _this9.betCount = validVal;
       });
     },
     handlePopupClose: function handlePopupClose() {},
@@ -685,12 +690,12 @@ var _default = {
       this.isPopupShowType = !this.isPopupShowType;
     },
     getSelectedMatches: function getSelectedMatches() {
-      var _this9 = this;
+      var _this10 = this;
       var selected = [];
       this.drawerList.forEach(function (drawer) {
         drawer.lotteryList.forEach(function (item) {
           var isSelected = false;
-          switch (_this9.currentPlay) {
+          switch (_this10.currentPlay) {
             case "胜平负":
               isSelected = item.homeSelected || item.vsSelected || item.awaySelected;
               break;
@@ -722,7 +727,7 @@ var _default = {
     * 修复点：混合过关场景下选中场次收集逻辑与计数逻辑不一致的问题
     */
     goToSchemeEdit: function goToSchemeEdit() {
-      var _this10 = this;
+      var _this11 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
         var _selectedMatches, hasSingleMatch, selectedMatches, formattedMatches, playToPageMap;
         return _regenerator.default.wrap(function _callee2$(_context2) {
@@ -730,7 +735,7 @@ var _default = {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.prev = 0;
-                if (!(_this10.selectedMatchCount === 0)) {
+                if (!(_this11.selectedMatchCount === 0)) {
                   _context2.next = 4;
                   break;
                 }
@@ -740,11 +745,11 @@ var _default = {
                 });
                 return _context2.abrupt("return");
               case 4:
-                if (!(_this10.currentPlay != "混合过关")) {
+                if (!(_this11.currentPlay != "混合过关")) {
                   _context2.next = 8;
                   break;
                 }
-                if (!(!_this10.hasSingleMatch && _this10.selectedMatchCount < 2)) {
+                if (!(!_this11.hasSingleMatch && _this11.selectedMatchCount < 2)) {
                   _context2.next = 8;
                   break;
                 }
@@ -754,13 +759,13 @@ var _default = {
                 });
                 return _context2.abrupt("return");
               case 8:
-                if (!(_this10.currentPlay === "混合过关")) {
+                if (!(_this11.currentPlay === "混合过关")) {
                   _context2.next = 18;
                   break;
                 }
                 // 关键修复1：遍历所有drawer，收集所有有选中项的场次（不再只取第一条）
                 _selectedMatches = [];
-                _this10.drawerList.forEach(function (drawer) {
+                _this11.drawerList.forEach(function (drawer) {
                   // 容错：跳过非数组的lotteryList
                   if (!Array.isArray(drawer.lotteryList)) {
                     return;
@@ -852,7 +857,7 @@ var _default = {
               case 17:
                 return _context2.abrupt("return");
               case 18:
-                selectedMatches = _this10.getSelectedMatches(); // 组装其他玩法的场次数据（原有逻辑，无需修改）
+                selectedMatches = _this11.getSelectedMatches(); // 组装其他玩法的场次数据（原有逻辑，无需修改）
                 formattedMatches = selectedMatches.map(function (item) {
                   return _objectSpread(_objectSpread({}, item), {}, {
                     id: item.id,
@@ -908,7 +913,7 @@ var _default = {
                 };
                 _context2.next = 23;
                 return uni.navigateTo({
-                  url: "/pages/edit/football/".concat(playToPageMap[_this10.currentPlay]),
+                  url: "/pages/edit/football/".concat(playToPageMap[_this11.currentPlay]),
                   events: {
                     // 可选：接收编辑页返回的回调数据（如果需要）
                     editCallback: function editCallback(data) {}
@@ -941,34 +946,34 @@ var _default = {
       }))();
     },
     syncUpdatedMatches: function syncUpdatedMatches(updatedData) {
-      var _this11 = this;
+      var _this12 = this;
       if (!updatedData || !updatedData.matches) return;
       this.drawerList.forEach(function (drawer, drawerIdx) {
         drawer.lotteryList.forEach(function (item, matchIdx) {
-          _this11.$set(_this11.drawerList[drawerIdx].lotteryList[matchIdx], "homeSelected", false);
-          _this11.$set(_this11.drawerList[drawerIdx].lotteryList[matchIdx], "vsSelected", false);
-          _this11.$set(_this11.drawerList[drawerIdx].lotteryList[matchIdx], "awaySelected", false);
-          _this11.$set(_this11.drawerList[drawerIdx].lotteryList[matchIdx], "handicapHomeSelected", false);
-          _this11.$set(_this11.drawerList[drawerIdx].lotteryList[matchIdx], "handicapVsSelected", false);
-          _this11.$set(_this11.drawerList[drawerIdx].lotteryList[matchIdx], "handicapAwaySelected", false);
-          _this11.$set(_this11.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", []);
-          _this11.$set(_this11.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", []);
+          _this12.$set(_this12.drawerList[drawerIdx].lotteryList[matchIdx], "homeSelected", false);
+          _this12.$set(_this12.drawerList[drawerIdx].lotteryList[matchIdx], "vsSelected", false);
+          _this12.$set(_this12.drawerList[drawerIdx].lotteryList[matchIdx], "awaySelected", false);
+          _this12.$set(_this12.drawerList[drawerIdx].lotteryList[matchIdx], "handicapHomeSelected", false);
+          _this12.$set(_this12.drawerList[drawerIdx].lotteryList[matchIdx], "handicapVsSelected", false);
+          _this12.$set(_this12.drawerList[drawerIdx].lotteryList[matchIdx], "handicapAwaySelected", false);
+          _this12.$set(_this12.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", []);
+          _this12.$set(_this12.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", []);
         });
       });
       updatedData.matches.forEach(function (updatedItem) {
-        _this11.drawerList.forEach(function (drawer, drawerIdx) {
+        _this12.drawerList.forEach(function (drawer, drawerIdx) {
           var targetMatchIdx = drawer.lotteryList.findIndex(function (item) {
             return item.race_date === updatedItem.race_date && item.home_name === updatedItem.home_name && item.visiting_name === updatedItem.visiting_name;
           });
           if (targetMatchIdx !== -1) {
-            _this11.$set(_this11.drawerList[drawerIdx].lotteryList[targetMatchIdx], "homeSelected", updatedItem.homeSelected || false);
-            _this11.$set(_this11.drawerList[drawerIdx].lotteryList[targetMatchIdx], "vsSelected", updatedItem.vsSelected || false);
-            _this11.$set(_this11.drawerList[drawerIdx].lotteryList[targetMatchIdx], "awaySelected", updatedItem.awaySelected || false);
-            _this11.$set(_this11.drawerList[drawerIdx].lotteryList[targetMatchIdx], "handicapHomeSelected", updatedItem.handicapHomeSelected || false);
-            _this11.$set(_this11.drawerList[drawerIdx].lotteryList[targetMatchIdx], "handicapVsSelected", updatedItem.handicapVsSelected || false);
-            _this11.$set(_this11.drawerList[drawerIdx].lotteryList[targetMatchIdx], "handicapAwaySelected", updatedItem.handicapAwaySelected || false);
-            _this11.$set(_this11.drawerList[drawerIdx].lotteryList[targetMatchIdx], "selectedScores", updatedItem.selectedScores || []);
-            _this11.$set(_this11.drawerList[drawerIdx].lotteryList[targetMatchIdx], "selectedGoals", updatedItem.selectedGoals || []);
+            _this12.$set(_this12.drawerList[drawerIdx].lotteryList[targetMatchIdx], "homeSelected", updatedItem.homeSelected || false);
+            _this12.$set(_this12.drawerList[drawerIdx].lotteryList[targetMatchIdx], "vsSelected", updatedItem.vsSelected || false);
+            _this12.$set(_this12.drawerList[drawerIdx].lotteryList[targetMatchIdx], "awaySelected", updatedItem.awaySelected || false);
+            _this12.$set(_this12.drawerList[drawerIdx].lotteryList[targetMatchIdx], "handicapHomeSelected", updatedItem.handicapHomeSelected || false);
+            _this12.$set(_this12.drawerList[drawerIdx].lotteryList[targetMatchIdx], "handicapVsSelected", updatedItem.handicapVsSelected || false);
+            _this12.$set(_this12.drawerList[drawerIdx].lotteryList[targetMatchIdx], "handicapAwaySelected", updatedItem.handicapAwaySelected || false);
+            _this12.$set(_this12.drawerList[drawerIdx].lotteryList[targetMatchIdx], "selectedScores", updatedItem.selectedScores || []);
+            _this12.$set(_this12.drawerList[drawerIdx].lotteryList[targetMatchIdx], "selectedGoals", updatedItem.selectedGoals || []);
           }
         });
       });
@@ -992,24 +997,24 @@ var _default = {
       }
     },
     toggleSelect: function toggleSelect(targetItem, key) {
-      var _this12 = this;
-      this.drawerList.forEach(function (drawer, drawerIdx) {
-        var matchIdx = drawer.lotteryList.findIndex(function (item) {
-          return item.id === targetItem.id;
-        });
-        if (matchIdx !== -1) {
-          _this12.$set(_this12.drawerList[drawerIdx].lotteryList[matchIdx], key, !_this12.drawerList[drawerIdx].lotteryList[matchIdx][key]);
-        }
-      });
-    },
-    toggleScoreSelect: function toggleScoreSelect(targetItem, value) {
       var _this13 = this;
       this.drawerList.forEach(function (drawer, drawerIdx) {
         var matchIdx = drawer.lotteryList.findIndex(function (item) {
           return item.id === targetItem.id;
         });
         if (matchIdx !== -1) {
-          var selectedScores = _this13.drawerList[drawerIdx].lotteryList[matchIdx].selectedScores || [];
+          _this13.$set(_this13.drawerList[drawerIdx].lotteryList[matchIdx], key, !_this13.drawerList[drawerIdx].lotteryList[matchIdx][key]);
+        }
+      });
+    },
+    toggleScoreSelect: function toggleScoreSelect(targetItem, value) {
+      var _this14 = this;
+      this.drawerList.forEach(function (drawer, drawerIdx) {
+        var matchIdx = drawer.lotteryList.findIndex(function (item) {
+          return item.id === targetItem.id;
+        });
+        if (matchIdx !== -1) {
+          var selectedScores = _this14.drawerList[drawerIdx].lotteryList[matchIdx].selectedScores || [];
           if (!Array.isArray(selectedScores)) selectedScores = [];
           var index = selectedScores.indexOf(value);
           if (index === -1) {
@@ -1017,18 +1022,18 @@ var _default = {
           } else {
             selectedScores.splice(index, 1);
           }
-          _this13.$set(_this13.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", selectedScores);
+          _this14.$set(_this14.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", selectedScores);
         }
       });
     },
     toggleGoalSelect: function toggleGoalSelect(targetItem, value) {
-      var _this14 = this;
+      var _this15 = this;
       this.drawerList.forEach(function (drawer, drawerIdx) {
         var matchIdx = drawer.lotteryList.findIndex(function (item) {
           return item.id === targetItem.id;
         });
         if (matchIdx !== -1) {
-          var selectedGoals = _this14.drawerList[drawerIdx].lotteryList[matchIdx].selectedGoals || [];
+          var selectedGoals = _this15.drawerList[drawerIdx].lotteryList[matchIdx].selectedGoals || [];
           if (!Array.isArray(selectedGoals)) selectedGoals = [];
           var index = selectedGoals.indexOf(value);
           if (index === -1) {
@@ -1036,18 +1041,18 @@ var _default = {
           } else {
             selectedGoals.splice(index, 1);
           }
-          _this14.$set(_this14.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", selectedGoals);
+          _this15.$set(_this15.drawerList[drawerIdx].lotteryList[matchIdx], "selectedGoals", selectedGoals);
         }
       });
     },
     toggleHalfFullSelect: function toggleHalfFullSelect(targetItem, value) {
-      var _this15 = this;
+      var _this16 = this;
       this.drawerList.forEach(function (drawer, drawerIdx) {
         var matchIdx = drawer.lotteryList.findIndex(function (item) {
           return item.id === targetItem.id;
         });
         if (matchIdx !== -1) {
-          var selectedScores = _this15.drawerList[drawerIdx].lotteryList[matchIdx].selectedScores || [];
+          var selectedScores = _this16.drawerList[drawerIdx].lotteryList[matchIdx].selectedScores || [];
           if (!Array.isArray(selectedScores)) selectedScores = [];
           var index = selectedScores.indexOf(value);
           if (index === -1) {
@@ -1055,7 +1060,7 @@ var _default = {
           } else {
             selectedScores.splice(index, 1);
           }
-          _this15.$set(_this15.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", selectedScores);
+          _this16.$set(_this16.drawerList[drawerIdx].lotteryList[matchIdx], "selectedScores", selectedScores);
         }
       });
     },
@@ -1065,7 +1070,7 @@ var _default = {
       this.showModal = !localToken;
     },
     wxLoginHandler: function wxLoginHandler() {
-      var _this16 = this;
+      var _this17 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
         var _yield$uni$login, code, res;
         return _regenerator.default.wrap(function _callee3$(_context3) {
@@ -1073,7 +1078,7 @@ var _default = {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.prev = 0;
-                _this16.showLoading();
+                _this17.showLoading();
                 _context3.next = 4;
                 return uni.login({
                   provider: "weixin"
@@ -1095,7 +1100,7 @@ var _default = {
                 res = _context3.sent;
                 if (res.data.token) {
                   uni.setStorageSync("requestToken", res.data.token);
-                  _this16.hasToken = true;
+                  _this17.hasToken = true;
                   uni.showToast({
                     title: "操作成功",
                     icon: "success"
@@ -1118,7 +1123,7 @@ var _default = {
                 });
               case 18:
                 _context3.prev = 18;
-                _this16.hideLoading();
+                _this17.hideLoading();
                 return _context3.finish(18);
               case 21:
               case "end":
@@ -1130,7 +1135,7 @@ var _default = {
     },
     // ========== 核心修正：loadMatchData兼容混合过关 ==========
     loadMatchData: function loadMatchData() {
-      var _this17 = this;
+      var _this18 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
         var res;
         return _regenerator.default.wrap(function _callee4$(_context4) {
@@ -1138,39 +1143,39 @@ var _default = {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.prev = 0;
-                _this17.drawerList = [];
-                _this17.isLoading = true;
-                _this17.showLoading();
+                _this18.drawerList = [];
+                _this18.isLoading = true;
+                _this18.showLoading();
 
                 // 调用统一的赛事接口（混合过关使用hhgg类型）
                 _context4.next = 6;
                 return (0, _demo.queryFootBallLLottery)({
-                  lotteryType: _this17.targetLotteryType
+                  lotteryType: _this18.targetLotteryType
                 });
               case 6:
                 res = _context4.sent;
                 // 如果是混合过关，格式化数据为混合过关所需结构
-                if (_this17.currentPlay === "混合过关") {
-                  _this17.drawerList = _this17.formatMixedPassDrawerList(res.data);
+                if (_this18.currentPlay === "混合过关") {
+                  _this18.drawerList = _this18.formatMixedPassDrawerList(res.data);
                 } else {
                   // 原有玩法使用原有格式化逻辑
-                  _this17.drawerList = _this17.formatDrawerList(res.data);
+                  _this18.drawerList = _this18.formatDrawerList(res.data);
                 }
-                _this17.hasData = _this17.drawerList.length === 0;
-                _this17.isLoading = false;
-                _this17.hideLoading();
+                _this18.hasData = _this18.drawerList.length === 0;
+                _this18.isLoading = false;
+                _this18.hideLoading();
 
                 // 如果是混合过关，初始化选中计数
-                if (_this17.currentPlay === "混合过关") {
-                  _this17.updateMixedSelectedCount();
+                if (_this18.currentPlay === "混合过关") {
+                  _this18.updateMixedSelectedCount();
                 }
                 _context4.next = 20;
                 break;
               case 14:
                 _context4.prev = 14;
                 _context4.t0 = _context4["catch"](0);
-                _this17.isLoading = false;
-                _this17.hideLoading();
+                _this18.isLoading = false;
+                _this18.hideLoading();
                 console.error("加载赛事失败:", _context4.t0);
                 uni.showToast({
                   title: "加载失败，请重试",
@@ -1659,7 +1664,7 @@ var _default = {
     },
     // AI分析跳转（核心修改）
     goToAiAnalysis: function goToAiAnalysis(item) {
-      var _this18 = this;
+      var _this19 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
         var reqParams, res;
         return _regenerator.default.wrap(function _callee5$(_context5) {
@@ -1683,7 +1688,7 @@ var _default = {
                   break;
                 }
                 // isLottery=1 表示无灵石，显示充值弹窗
-                _this18.hideLoading();
+                _this19.hideLoading();
                 // 原生弹窗（和你自定义弹窗效果完全一致）
                 uni.showModal({
                   title: "请充币",

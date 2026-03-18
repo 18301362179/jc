@@ -138,17 +138,11 @@ var render = function () {
       g3: g3,
     }
   })
-  var g4 = _vm.$isShowStatus ? _vm.selectedMatchList.length : null
-  var g5 = _vm.$isShowStatus && !(g4 == 1) ? _vm.selectedMatchList.length : null
-  var m0 = _vm.$isShowStatus ? _vm.calculateBonusText() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
-      _vm.showNumberKeyboard = true
-    }
-    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
-    _vm.e2 = function ($event) {
+    _vm.e1 = function ($event) {
       _vm.showPhoneModal = false
     }
   }
@@ -158,9 +152,6 @@ var render = function () {
       $root: {
         g0: g0,
         l0: l0,
-        g4: g4,
-        g5: g5,
-        m0: m0,
       },
     }
   )
@@ -227,7 +218,7 @@ var _default = {
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
-      userPhone: '',
+      userPhone: "",
       isSubmitSuccess: false,
       statusBarHeight: 0,
       safeAreaBottom: 0,
@@ -242,7 +233,8 @@ var _default = {
       // 新增：是否为小程序端'
       selectedCombo: "",
       // 用于接收串关类型，显示单关/几串几
-      showNumberKeyboard: false
+      showNumberKeyboard: false,
+      isShowStatus: null
     };
   },
   computed: {
@@ -267,21 +259,25 @@ var _default = {
   },
   onShow: function onShow() {
     uni.setTabBarStyle({
-      height: '0px'
+      height: "0px"
     });
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     this.calcAllHeights(); // 统一计算高度
   },
   onLoad: function onLoad() {
-    var _this = this;
+    var _this2 = this;
     var eventChannel = this.getOpenerEventChannel();
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
-        _this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
-        _this.betCount = data.betCount || 1;
-        _this.isNeedUserPhone = data.isNeedUserPhone || 1;
-        _this.selectedCombo = data.combo || "";
+        _this2.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
+        _this2.betCount = data.betCount || 1;
+        _this2.isNeedUserPhone = data.isNeedUserPhone || 1;
+        _this2.selectedCombo = data.combo || "";
       });
     }
   },
@@ -291,7 +287,7 @@ var _default = {
     }
 
     uni.setTabBarStyle({
-      height: 'auto'
+      height: "auto"
     }); // 恢复tabbar
   },
 
@@ -316,12 +312,12 @@ var _default = {
     },
     // 原有handleBetInput方法可以保留（兼容备用），也可以删除（因为改用自定义键盘了）
     handleBetInput: function handleBetInput(e) {
-      var _this2 = this;
+      var _this3 = this;
       var inputVal = e.detail.value;
       var validVal = (0, _validate.validateBetInput)(inputVal);
       this.betCount = null;
       this.$nextTick(function () {
-        _this2.betCount = validVal;
+        _this3.betCount = validVal;
       });
     },
     // 统一高度计算逻辑，对齐其他篮球玩法页面
@@ -364,29 +360,29 @@ var _default = {
 
       // 步骤1：胜分差赔率映射表（匹配后端返回的字段名）
       var oddsMap = {
-        '1-5': {
-          home: 'h_sfc1_5',
-          away: 'v_sfc1_5'
+        "1-5": {
+          home: "h_sfc1_5",
+          away: "v_sfc1_5"
         },
-        '6-10': {
-          home: 'h_sfc6_10',
-          away: 'v_sfc6_10'
+        "6-10": {
+          home: "h_sfc6_10",
+          away: "v_sfc6_10"
         },
-        '11-15': {
-          home: 'h_sfc11_15',
-          away: 'v_sfc11_15'
+        "11-15": {
+          home: "h_sfc11_15",
+          away: "v_sfc11_15"
         },
-        '16-20': {
-          home: 'h_sfc16_20',
-          away: 'v_sfc16_20'
+        "16-20": {
+          home: "h_sfc16_20",
+          away: "v_sfc16_20"
         },
-        '21-25': {
-          home: 'h_sfc21_25',
-          away: 'v_sfc21_25'
+        "21-25": {
+          home: "h_sfc21_25",
+          away: "v_sfc21_25"
         },
-        '26+': {
-          home: 'h_sfc26_jia',
-          away: 'v_sfc26_jia'
+        "26+": {
+          home: "h_sfc26_jia",
+          away: "v_sfc26_jia"
         }
       };
 
@@ -406,12 +402,12 @@ var _default = {
             // 适配「客胜xxx」/「主胜xxx」格式
             var isAway = false;
             var cleanScore = pureScore;
-            if (pureScore.startsWith('主负')) {
+            if (pureScore.startsWith("主负")) {
               isAway = true;
-              cleanScore = pureScore.slice(2).trim().replace(/\s+/g, '');
-            } else if (pureScore.startsWith('主胜')) {
+              cleanScore = pureScore.slice(2).trim().replace(/\s+/g, "");
+            } else if (pureScore.startsWith("主胜")) {
               isAway = false;
-              cleanScore = pureScore.slice(2).trim().replace(/\s+/g, '');
+              cleanScore = pureScore.slice(2).trim().replace(/\s+/g, "");
             }
 
             // 匹配赔率映射表
@@ -424,7 +420,7 @@ var _default = {
 
             // 过滤无效值，转换为数字
             var validOdds = Number(oddsValue);
-            if (!isNaN(validOdds) && validOdds > 0 && oddsValue !== '--') {
+            if (!isNaN(validOdds) && validOdds > 0 && oddsValue !== "--") {
               allSelectedOdds.push(validOdds);
             }
           });
@@ -495,12 +491,12 @@ var _default = {
       }
     }
   }, (0, _defineProperty2.default)(_methods, "handleBetInput", function handleBetInput(e) {
-    var _this3 = this;
+    var _this4 = this;
     var inputVal = e.detail.value;
     var validVal = (0, _validate.validateBetInput)(inputVal);
     this.betCount = null;
     this.$nextTick(function () {
-      _this3.betCount = validVal;
+      _this4.betCount = validVal;
     });
   }), (0, _defineProperty2.default)(_methods, "handlePlus", function handlePlus() {
     if (this.selectedMatchCount < 1) return;
@@ -513,14 +509,14 @@ var _default = {
       });
     }
   }), (0, _defineProperty2.default)(_methods, "handleConfirmBet", function handleConfirmBet(fromPhoneModal) {
-    var _this4 = this;
+    var _this5 = this;
     return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
       var list, payRequestData, res;
       return _regenerator.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(_this4.selectedMatchCount === 0)) {
+              if (!(_this5.selectedMatchCount === 0)) {
                 _context.next = 3;
                 break;
               }
@@ -530,16 +526,16 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this4.isNeedUserPhone == 1 && !fromPhoneModal)) {
+              if (!(_this5.isNeedUserPhone == 1 && !fromPhoneModal)) {
                 _context.next = 6;
                 break;
               }
-              _this4.showPhoneModal = true;
+              _this5.showPhoneModal = true;
               return _context.abrupt("return");
             case 6:
-              _this4.isPayLoading = true;
+              _this5.isPayLoading = true;
               // 构造胜分差提交数据
-              list = _this4.selectedMatchList.map(function (item) {
+              list = _this5.selectedMatchList.map(function (item) {
                 return {
                   courseId: item.id,
                   serialNumber: item.serial_number,
@@ -551,20 +547,20 @@ var _default = {
                   selectedScoreDiff: item.selectedScores,
                   // 胜分差赔率
                   homeScoreDiffOdds: {
-                    '1-5': item.h_sfc1_5,
-                    '6-10': item.h_sfc6_10,
-                    '11-15': item.h_sfc11_15,
-                    '16-20': item.h_sfc16_20,
-                    '21-25': item.h_sfc21_25,
-                    '26+': item.h_sfc26_jia
+                    "1-5": item.h_sfc1_5,
+                    "6-10": item.h_sfc6_10,
+                    "11-15": item.h_sfc11_15,
+                    "16-20": item.h_sfc16_20,
+                    "21-25": item.h_sfc21_25,
+                    "26+": item.h_sfc26_jia
                   },
                   awayScoreDiffOdds: {
-                    '1-5': item.v_sfc1_5,
-                    '6-10': item.v_sfc6_10,
-                    '11-15': item.v_sfc11_15,
-                    '16-20': item.v_sfc16_20,
-                    '21-25': item.v_sfc21_25,
-                    '26+': item.v_sfc26_jia
+                    "1-5": item.v_sfc1_5,
+                    "6-10": item.v_sfc6_10,
+                    "11-15": item.v_sfc11_15,
+                    "16-20": item.v_sfc16_20,
+                    "21-25": item.v_sfc21_25,
+                    "26+": item.v_sfc26_jia
                   },
                   // 胜/分数字段
                   away_win_rate: item.away_win_rate,
@@ -578,11 +574,11 @@ var _default = {
               payRequestData = {
                 contentJson: JSON.stringify(list),
                 entityType: "篮球胜分差",
-                multiple: _this4.betNotes,
-                bet: _this4.betCount,
-                payment: _this4.totalBetAmount,
+                multiple: _this5.betNotes,
+                bet: _this5.betCount,
+                payment: _this5.totalBetAmount,
                 payType: "wechat",
-                userPhone: _this4.userPhone
+                userPhone: _this5.userPhone
               };
               _context.prev = 9;
               _context.next = 12;
@@ -590,8 +586,8 @@ var _default = {
             case 12:
               res = _context.sent;
               if (res.code == 200) {
-                _this4.isPayLoading = false;
-                _this4.isSubmitSuccess = true;
+                _this5.isPayLoading = false;
+                _this5.isSubmitSuccess = true;
                 uni.showToast({
                   title: "操作成功！",
                   icon: "success",
@@ -608,7 +604,7 @@ var _default = {
                   });
                 }, 2000);
               } else {
-                _this4.isPayLoading = false;
+                _this5.isPayLoading = false;
                 uni.showToast({
                   title: res.message || "获取支付信息失败",
                   icon: "none"
@@ -619,7 +615,7 @@ var _default = {
             case 16:
               _context.prev = 16;
               _context.t0 = _context["catch"](9);
-              _this4.isPayLoading = false;
+              _this5.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
                 icon: "none"

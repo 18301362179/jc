@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(uni) {
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
@@ -183,8 +183,15 @@ var _default = {
   data: function data() {
     return {
       courseList: [],
-      goal: '比分'
+      goal: '比分',
+      isShowStatus: null
     };
+  },
+  created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
   },
   methods: {
     forateData: function forateData(time) {
@@ -197,13 +204,13 @@ var _default = {
       this.$router.go(-1);
     },
     toDetail: function toDetail(item) {
-      var _this = this;
+      var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.$emit("detail-click", item);
+                _this2.$emit("detail-click", item);
               case 1:
               case "end":
                 return _context.stop();
@@ -225,6 +232,7 @@ var _default = {
   }
 };
 exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
 

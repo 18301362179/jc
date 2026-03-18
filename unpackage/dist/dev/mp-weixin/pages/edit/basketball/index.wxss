@@ -46,7 +46,7 @@
   scrollbar-width: none;
   top: v-bind(headerTotalHeightpx) !important;
   bottom: calc(100rpx + env(safe-area-inset-bottom) + 90rpx) !important;
-  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 100rpx - env(safe-area-inset-bottom) - 90rpx) !important;
+  height: calc(100vh - v-bind(headerTotalHeight + "px") - 100rpx - env(safe-area-inset-bottom) - 90rpx) !important;
 }
 .match-scroll.data-v-a4636978::-webkit-scrollbar {
   display: none;
@@ -101,7 +101,8 @@
   font-size: 20rpx;
   padding: 2rpx 0;
 }
-.match-list .match-row .match-category .serial-number.data-v-a4636978, .match-list .match-row .match-category .match-time.data-v-a4636978 {
+.match-list .match-row .match-category .serial-number.data-v-a4636978,
+.match-list .match-row .match-category .match-time.data-v-a4636978 {
   font-size: 22rpx;
   color: #999;
   text-align: center;

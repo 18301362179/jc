@@ -48,7 +48,7 @@
         </view>
 
         <!-- 球队信息表格（7列：球队/排名/胜率/得分/篮板/助攻/抢断，客队前置） -->
-        <view class="ranking-section" v-if="homeTeam && visitingTeam && $isShowStatus">
+        <view class="ranking-section" v-if="homeTeam && visitingTeam && isShowStatus">
           <view class="section-title">
             <text>胜率</text>
           </view>
@@ -199,7 +199,8 @@ export default {
       homeLastCourses: [],
       visitingLastCourses: [],
       homeScorers: [],
-      visitingScorers: []
+      visitingScorers: [],
+      isShowStatus: null,
     };
   },
   onLoad(options) {
@@ -208,6 +209,12 @@ export default {
     menus: ['shareAppMessage', 'shareTimeline']
   })
 
+  },
+  created() {
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
   },
   onShow() {
     uni.hideTabBar();

@@ -1,21 +1,11 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：适配4场标题 -->
-    <CustomHeader 
-      :ballTitle="'足球'" 
-      title="4场" 
-      :showBack="true" 
-      :showIcon="false" 
-      @back-click="handleBack" 
-    />
+    <CustomHeader :ballTitle="'足球'" title="4场" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 滚动展示区域：沿用模板布局逻辑，保留4场业务展示 + 胜率显示条件 -->
-    <scroll-view
-      class="match-scroll"
-      scroll-y
-      id="poster-content"
-    >
-      <view class="match-list" >
+    <scroll-view class="match-scroll" scroll-y id="poster-content">
+      <view class="match-list">
         <!-- 循环展示选中的4场赛事 -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <view class="main-right">
@@ -27,9 +17,9 @@
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
               <!-- 胜率展示：添加模板同款v-if显示条件 -->
-              <view class="team-vs" style="color:#888;padding:0;" v-if="$isShowStatus">
+              <view class="team-vs" style="color: #888; padding: 0" v-if="isShowStatus">
                 <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
-                <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
+                <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
                 <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
               </view>
             </view>
@@ -59,20 +49,16 @@
           </view>
         </view>
 
-        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无已选赛事 </view>
+        <view class="empty-tip" v-if="selectedMatchList.length === 0"> 暂无 </view>
       </view>
     </scroll-view>
 
-    <!-- 4场专属投注栏：沿用模板样式，保留4串1规则 -->
-    <view class="bet-bar" v-if="$isShowStatus">
+    <!-- <view class="bet-bar" v-if="isShowStatus">
       <view class="bet-bar-top">
         <view class="collapse-area">
-          <!-- 左边添加模板同款提示文字 -->
           <view class="left-tip">请输入倍数后截屏给售票人</view>
 
-          <!-- 右边倍数操作区：模板缩小样式 + 4场禁用条件 -->
           <view class="multi-group">
-            <text class="multi-label">投</text>
             <button class="multi-btn minus" @click="handleMinus">-</button>
             <view class="multi-input" @tap="showNumberKeyboard = true">
               {{ betCount }}
@@ -87,19 +73,10 @@
           <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
         </view>
       </view>
-    </view>
-    
+    </view> -->
+
     <!-- 自定义数字键盘：限制1-50倍 -->
-    <UniNumberKeyboard 
-      :show.sync="showNumberKeyboard" 
-      :value="betCount + ''" 
-      :allowDot="false" 
-      confirm-text="确认" 
-      :min="1" 
-      :max="50" 
-      @input="handleKeyboardInput" 
-      @confirm="handleKeyboardConfirm" 
-    />
+    <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
 
@@ -110,7 +87,7 @@ export default {
   data() {
     return {
       selectedMatchList: [], // 接收父组件传递的4场选中赛事
-      betCount: 1, // 投注倍数（1-50）
+      betCount: 1, 
       statusBarHeight: 0, // 状态栏高度
       safeAreaBottom: 0, // 底部安全区高度
       headerTotalHeight: 0, // 导航栏总高度
@@ -118,48 +95,52 @@ export default {
       betBarTotalHeight: 0, // 投注栏总高度
       isApp: false, // 是否为App端
       showNumberKeyboard: false, // 数字键盘显示状态
-      isNeedUserPhone: 1 // 是否需要手机号（父组件传递）
+      isNeedUserPhone: 1, // 是否需要手机号（父组件传递）
+      isShowStatus: null,
     };
   },
-computed: {
+  computed: {
+    selectedMatchCount() {
+      return this.selectedMatchList.filter((item) => {
+        const homeValid = Array.isArray(item.homeScoreSelected) && item.homeScoreSelected.length > 0;
+        const awayValid = Array.isArray(item.awayScoreSelected) && item.awayScoreSelected.length > 0;
+        return homeValid && awayValid;
+      }).length;
+    },
 
-  selectedMatchCount() {
-    return this.selectedMatchList.filter((item) => {
-      const homeValid = Array.isArray(item.homeScoreSelected) && item.homeScoreSelected.length > 0;
-      const awayValid = Array.isArray(item.awayScoreSelected) && item.awayScoreSelected.length > 0;
-      return homeValid && awayValid;
-    }).length;
+    // 计算4场注数：4串1规则（每场单场注数相乘，核心正确逻辑）
+    betNotes() {
+      // 必须选够4场比赛，否则注数为0
+      if (this.selectedMatchList.length !== 4) return 0;
+
+      let totalNotes = 1;
+      this.selectedMatchList.forEach((item) => {
+        // 这一行就是你说的“主选的加客选的（1场）”
+        const oneMatchTotal = ((item.homeScoreSelected && item.homeScoreSelected.length) || 0) + ((item.awayScoreSelected && item.awayScoreSelected.length) || 0);
+
+        // 只要有1场没选，总注数直接为0
+        if (oneMatchTotal === 0) {
+          totalNotes = 0;
+          return false;
+        }
+
+        // 4场的总数相乘
+        totalNotes *= oneMatchTotal;
+      });
+
+      return totalNotes;
+    },
+    // 计算总金额（注数 × 倍数 × 2元/注）
+    totalBetAmount() {
+      // 空值保护：注数/倍数为0时金额为0
+      return Math.max(this.betNotes * this.betCount * 2, 0);
+    },
   },
-
-  // 计算4场注数：4串1规则（每场单场注数相乘，核心正确逻辑）
-betNotes() {
-  // 必须选够4场比赛，否则注数为0
-  if (this.selectedMatchList.length !== 4) return 0;
-
-  let totalNotes = 1;
-  this.selectedMatchList.forEach(item => {
-    // 这一行就是你说的“主选的加客选的（1场）”
-    const oneMatchTotal = (item.homeScoreSelected && item.homeScoreSelected.length || 0) + (item.awayScoreSelected && item.awayScoreSelected.length || 0);
-    
-    // 只要有1场没选，总注数直接为0
-    if (oneMatchTotal === 0) {
-      totalNotes = 0;
-      return false;
-    }
-    
-    // 4场的总数相乘
-    totalNotes *= oneMatchTotal;
-  });
-
-  return totalNotes;
-},
-  // 计算总金额（注数 × 倍数 × 2元/注）
-  totalBetAmount() {
-    // 空值保护：注数/倍数为0时金额为0
-    return Math.max(this.betNotes * this.betCount * 2, 0);
-  }
-},
   created() {
+        this.$nextTick(()=>{
+    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    
+    })
     // 替换为模板的系统信息获取逻辑（兼容全端）
     const sys = uni.getSystemInfoSync();
     this.isApp = sys.platform === "android" || sys.platform === "ios";
@@ -186,7 +167,7 @@ betNotes() {
       const navBarFixedRpx = 80;
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      
+
       // 投注栏高度（模板同款逻辑）
       const betBarFixedRpx = this.isApp ? 200 : 180;
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
@@ -199,7 +180,7 @@ betNotes() {
       if (eventChannel) {
         eventChannel.emit("updateSelectedMatches", {
           matches: this.selectedMatchList,
-          betCount: this.betCount
+          betCount: this.betCount,
         });
       }
       uni.navigateBack({ delta: 1 });
@@ -217,9 +198,9 @@ betNotes() {
     // 数字键盘实时输入处理
     handleKeyboardInput(val) {
       // 过滤非数字，限制1-50
-      const pureNum = val.replace(/\D/g, '');
+      const pureNum = val.replace(/\D/g, "");
       if (!pureNum) return;
-      
+
       const num = parseInt(pureNum) || 1;
       if (num < 1) {
         this.betCount = 1;
@@ -234,8 +215,8 @@ betNotes() {
       const num = parseInt(val) || 1;
       this.betCount = Math.min(Math.max(num, 1), 50); // 最终限制1-50
       this.showNumberKeyboard = false; // 收起键盘
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -255,7 +236,7 @@ betNotes() {
 // 替换为模板的滚动区样式（放弃absolute定位，用模板的calc高度）
 .match-scroll {
   box-sizing: border-box;
-  padding-top: v-bind(headerTotalHeight + 'px');
+  padding-top: v-bind(headerTotalHeight + "px");
   background-color: #f5f5f5;
   padding-left: 20rpx;
   padding-right: 20rpx;
@@ -276,7 +257,7 @@ betNotes() {
   .match-row {
     display: flex;
     background-color: #fff;
-    border-bottom: 1rpx solid #DEDEDE;
+    border-bottom: 1rpx solid #dedede;
     box-sizing: border-box;
     padding: 8rpx 20rpx;
     margin-bottom: 10rpx;
@@ -325,8 +306,14 @@ betNotes() {
       text-overflow: ellipsis;
     }
 
-    .team-name.home { text-align: right; padding-right: 10rpx; }
-    .team-name.away { text-align: left; padding-left: 10rpx; }
+    .team-name.home {
+      text-align: right;
+      padding-right: 10rpx;
+    }
+    .team-name.away {
+      text-align: left;
+      padding-left: 10rpx;
+    }
     .vs-text {
       width: 120rpx;
       text-align: center;

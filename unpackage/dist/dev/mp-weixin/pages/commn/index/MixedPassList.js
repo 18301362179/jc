@@ -602,7 +602,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(wx, uni) {
+/* WEBPACK VAR INJECTION */(function(uni, wx) {
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
@@ -1109,7 +1109,8 @@ var _default2 = {
         "home_-1": "让胜平负_让主胜",
         "draw_-1": "让胜平负_让平",
         "away_-1": "让胜平负_让客胜"
-      }
+      },
+      isShowStatus: null
     };
   },
   computed: {
@@ -1180,6 +1181,10 @@ var _default2 = {
     }
   },
   created: function created() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+    });
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
   },
@@ -1243,10 +1248,10 @@ var _default2 = {
       this.$emit("toggle-mixed-select", item, selectType);
     },
     getScoreClass: function getScoreClass(plate, value, multiplier) {
-      var _this = this;
+      var _this2 = this;
       var arr = this.selectedScores[plate] || [];
       var isDisabled = function () {
-        if (_this.currentMatch.is_stop == 1) return true;
+        if (_this2.currentMatch.is_stop == 1) return true;
         if (plate === "spf" && (multiplier === undefined || multiplier === null)) return true;
         return false;
       }();
@@ -1302,7 +1307,7 @@ var _default2 = {
       }
     },
     openScorePopup: function openScorePopup(match) {
-      var _this2 = this;
+      var _this3 = this;
       // 停售状态下禁止打开弹窗
       if (match.is_stop == 1) {
         return;
@@ -1318,7 +1323,7 @@ var _default2 = {
       var initRspf = [];
       if (Array.isArray(match.selectedSpf) && match.selectedSpf.length > 0) {
         match.selectedSpf.forEach(function (val) {
-          var key = _this2.reverseSpfMapping[val];
+          var key = _this3.reverseSpfMapping[val];
           if (key) {
             if (key.indexOf("胜平负_") === 0) {
               initSpf.push(key);
@@ -1347,11 +1352,11 @@ var _default2 = {
         if (res && res.data) {
           // 更新当前匹配数据（拷贝数据）
           Object.keys(res.data.data1 || {}).forEach(function (key) {
-            _this2.$set(_this2.currentMatch, key, res.data.data1[key]);
+            _this3.$set(_this3.currentMatch, key, res.data.data1[key]);
           });
           if (res.data.data2) {
             Object.keys(res.data.data2).forEach(function (key2) {
-              _this2.$set(_this2.currentMatch.data2, key2, res.data.data2[key2]);
+              _this3.$set(_this3.currentMatch.data2, key2, res.data.data2[key2]);
             });
           }
         }
@@ -1362,18 +1367,18 @@ var _default2 = {
           icon: "none"
         });
       }).finally(function () {
-        _this2.isLoading = false;
+        _this3.isLoading = false;
       });
     },
     // 深拷贝工具函数
     deepClone: function deepClone(obj) {
-      var _this3 = this;
+      var _this4 = this;
       if (obj === null || (0, _typeof2.default)(obj) !== "object") {
         return obj;
       }
       if (obj instanceof Array) {
         return obj.map(function (item) {
-          return _this3.deepClone(item);
+          return _this4.deepClone(item);
         });
       }
       if (obj instanceof Object) {
@@ -1388,7 +1393,7 @@ var _default2 = {
       return obj;
     },
     confirmSelection: function confirmSelection() {
-      var _this4 = this;
+      var _this5 = this;
       try {
         // 增强：停售状态下禁止确认
         if (!this.currentMatch || this.isLoading || this.currentMatch.is_stop == 1) {
@@ -1405,7 +1410,7 @@ var _default2 = {
         var targetItem = null;
         this.finalDrawerList.some(function (drawer, drawerIdx) {
           return drawer.lotteryList.some(function (item, itemIdx) {
-            if (item.id === _this4.currentMatch.id) {
+            if (item.id === _this5.currentMatch.id) {
               targetDrawerIdx = drawerIdx;
               targetItemIdx = itemIdx;
               targetItem = item;
@@ -1425,10 +1430,10 @@ var _default2 = {
         var selectedList = [];
         // 处理胜平负/让球胜平负（关键：映射成列表需要的home_0/draw_0等值）
         var mappedSpf = (this.selectedScores.spf || []).map(function (val) {
-          return _this4.spfMapping[val];
+          return _this5.spfMapping[val];
         }).filter(Boolean);
         var mappedRspf = (this.selectedScores.rspf || []).map(function (val) {
-          return _this4.spfMapping[val];
+          return _this5.spfMapping[val];
         }).filter(Boolean);
         mappedSpf.forEach(function (val) {
           return selectedList.push(val);
@@ -1490,7 +1495,7 @@ var _default2 = {
   }
 };
 exports.default = _default2;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
 

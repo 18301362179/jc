@@ -53,7 +53,7 @@
 .match-list .match-row.data-v-7385b46c {
   display: flex;
   background-color: #fff;
-  border-bottom: 1rpx solid #DEDEDE;
+  border-bottom: 1rpx solid #dedede;
   box-sizing: border-box;
   padding: 8rpx 20rpx;
   margin-bottom: 10rpx;
