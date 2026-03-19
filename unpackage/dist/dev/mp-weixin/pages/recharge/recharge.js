@@ -156,7 +156,7 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -485,122 +485,208 @@ var _default = {
       }))();
     },
     /**
-     * H5公众号支付（用 wxPay 返回的参数）
+     * H5公众号支付
      */
     handleH5Pay: function handleH5Pay(payParams) {
       var _this3 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
         var pr, config;
-        return _regenerator.default.wrap(function _callee4$(_context4) {
+        return _regenerator.default.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context4.prev = 0;
+                _context8.prev = 0;
                 if (window.jWeixin) {
-                  _context4.next = 3;
+                  _context8.next = 3;
                   break;
                 }
                 throw new Error("微信支付插件未加载，请刷新页面");
               case 3:
-                console.log(window, 'window-----------');
-                console.log(payParams, 'payParams----------------');
-                // 2. 公众号JSAPI支付
                 pr = payParams.paymentResult;
                 config = {
-                  // 用于wx.config初始化的参数
                   appId: pr.appId,
-                  // 服务号AppID
                   timestamp: pr.timeStamp,
-                  // 时间戳（后端返回的timeStamp）
                   nonceStr: pr.nonceStr,
-                  // 随机串
                   signature: pr.paySign,
-                  // 签名（后端返回的签名）
-                  jsApiList: ['chooseWXPay'] // 固定值，必须包含chooseWXPay
-                  // 用于chooseWXPay调起支付的参数（补充字段）
+                  jsApiList: ['chooseWXPay']
                 };
-
                 window.jWeixin.config(_objectSpread({}, config));
                 window.jWeixin.ready(function () {
-                  console.log('【SDK已就绪】开始调起支付');
                   window.jWeixin.chooseWXPay({
                     appId: pr.appId,
                     timestamp: pr.timeStamp,
                     nonceStr: pr.nonceStr,
                     package: pr.packageVal,
-                    // 重点：字段名是package，不是packageVal
                     signType: pr.signType || 'MD5',
                     paySign: pr.paySign,
-                    success: function success(res) {
-                      console.log('【支付成功】', res);
-                      uni.showToast({
-                        title: '支付成功',
-                        icon: 'success'
-                      });
-                      _this3.confirmPayResult(payParams.order.tradeNo, 1);
-                    },
-                    fail: function fail(err) {
-                      console.error('【支付失败】', err);
-                      uni.showModal({
-                        title: '支付失败',
-                        content: "\u539F\u751F\u9519\u8BEF\uFF1A".concat(err.errMsg || JSON.stringify(err)),
-                        showCancel: false
-                      });
-                      _this3.confirmPayResult(payParams.order.tradeNo, 0);
-                    },
+                    success: function () {
+                      var _success = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(res) {
+                        return _regenerator.default.wrap(function _callee4$(_context4) {
+                          while (1) {
+                            switch (_context4.prev = _context4.next) {
+                              case 0:
+                                console.log('【支付成功】', res);
+                                _context4.next = 3;
+                                return new Promise(function (resolve) {
+                                  return setTimeout(resolve, 500);
+                                });
+                              case 3:
+                                _context4.next = 5;
+                                return _this3.confirmPayResult(payParams.order.tradeNo, 1);
+                              case 5:
+                                uni.showToast({
+                                  title: '支付成功',
+                                  icon: 'success'
+                                });
+                              case 6:
+                              case "end":
+                                return _context4.stop();
+                            }
+                          }
+                        }, _callee4);
+                      }));
+                      function success(_x) {
+                        return _success.apply(this, arguments);
+                      }
+                      return success;
+                    }(),
+                    fail: function () {
+                      var _fail = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(err) {
+                        return _regenerator.default.wrap(function _callee5$(_context5) {
+                          while (1) {
+                            switch (_context5.prev = _context5.next) {
+                              case 0:
+                                console.error('【支付失败】', err);
+
+                                // 失败也用 await 确保接口调用
+                                _context5.next = 3;
+                                return _this3.confirmPayResult(payParams.order.tradeNo, 0);
+                              case 3:
+                                uni.showModal({
+                                  title: '支付失败',
+                                  content: "\u652F\u4ED8\u5F02\u5E38\uFF1A".concat(err.errMsg || ''),
+                                  showCancel: false
+                                });
+                              case 4:
+                              case "end":
+                                return _context5.stop();
+                            }
+                          }
+                        }, _callee5);
+                      }));
+                      function fail(_x2) {
+                        return _fail.apply(this, arguments);
+                      }
+                      return fail;
+                    }(),
+                    cancel: function () {
+                      var _cancel = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+                        return _regenerator.default.wrap(function _callee6$(_context6) {
+                          while (1) {
+                            switch (_context6.prev = _context6.next) {
+                              case 0:
+                                _context6.next = 2;
+                                return _this3.confirmPayResult(payParams.order.tradeNo, 0);
+                              case 2:
+                                uni.showToast({
+                                  title: '已取消支付',
+                                  icon: 'none'
+                                });
+                              case 3:
+                              case "end":
+                                return _context6.stop();
+                            }
+                          }
+                        }, _callee6);
+                      }));
+                      function cancel() {
+                        return _cancel.apply(this, arguments);
+                      }
+                      return cancel;
+                    }(),
                     complete: function complete() {
                       _this3.isPayLoading = false;
                       uni.hideLoading();
                     }
                   });
                 });
-                _context4.next = 16;
+                window.jWeixin.error( /*#__PURE__*/function () {
+                  var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(err) {
+                    return _regenerator.default.wrap(function _callee7$(_context7) {
+                      while (1) {
+                        switch (_context7.prev = _context7.next) {
+                          case 0:
+                            console.error("微信SDK配置失败：", err);
+                            _context7.next = 3;
+                            return _this3.confirmPayResult(payParams.order.tradeNo, 2);
+                          case 3:
+                            uni.showToast({
+                              title: "支付验证失败",
+                              icon: "none"
+                            });
+                            _this3.isPayLoading = false;
+                            uni.hideLoading();
+                          case 6:
+                          case "end":
+                            return _context7.stop();
+                        }
+                      }
+                    }, _callee7);
+                  }));
+                  return function (_x3) {
+                    return _ref.apply(this, arguments);
+                  };
+                }());
+                _context8.next = 17;
                 break;
-              case 11:
-                _context4.prev = 11;
-                _context4.t0 = _context4["catch"](0);
+              case 10:
+                _context8.prev = 10;
+                _context8.t0 = _context8["catch"](0);
                 uni.hideLoading();
                 _this3.isPayLoading = false;
+                _context8.next = 16;
+                return _this3.confirmPayResult(payParams.order.tradeNo, 2);
+              case 16:
                 uni.showToast({
-                  title: "支付发起失败：" + _context4.t0.message,
+                  title: "支付发起失败：" + _context8.t0.message,
                   icon: "none"
                 });
-              case 16:
+              case 17:
               case "end":
-                return _context4.stop();
+                return _context8.stop();
             }
           }
-        }, _callee4, null, [[0, 11]]);
+        }, _callee8, null, [[0, 10]]);
       }))();
     },
     /**
      * 确认支付结果
      */
     confirmPayResult: function confirmPayResult(tradeNo, status) {
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
-        return _regenerator.default.wrap(function _callee5$(_context5) {
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee9() {
+        return _regenerator.default.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _context5.prev = 0;
-                _context5.next = 3;
+                _context9.prev = 0;
+                _context9.next = 3;
                 return (0, _demo.payConfirm)({
                   tradeNo: tradeNo,
                   status: status
                 });
               case 3:
-                _context5.next = 8;
+                _context9.next = 8;
                 break;
               case 5:
-                _context5.prev = 5;
-                _context5.t0 = _context5["catch"](0);
-                console.error("[确认支付结果失败]：", _context5.t0);
+                _context9.prev = 5;
+                _context9.t0 = _context9["catch"](0);
+                console.error("[确认支付结果失败]：", _context9.t0);
               case 8:
               case "end":
-                return _context5.stop();
+                return _context9.stop();
             }
           }
-        }, _callee5, null, [[0, 5]]);
+        }, _callee9, null, [[0, 5]]);
       }))();
     }
   }

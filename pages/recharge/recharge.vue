@@ -10,7 +10,6 @@
       @funnel-click="handleFunnel"
       @back-click="onBackClick"
     />
-    <!-- 充值区域 -->
     <view class="recharge-section">
       <!-- 提示显示区域 -->
       <view class="tip-container" v-if="showTip">
@@ -244,68 +243,83 @@ export default {
       }
     },
 
-    /**
-     * H5公众号支付（用 wxPay 返回的参数）
-     */
-    async handleH5Pay(payParams) {
-      try {
-        // 1. 检查微信JS-SDK是否加载
-        if (!window.jWeixin) {
-          throw new Error("微信支付插件未加载，请刷新页面");
+/**
+ * H5公众号支付
+ */
+async handleH5Pay(payParams) {
+  try {
+    if (!window.jWeixin) {
+      throw new Error("微信支付插件未加载，请刷新页面");
+    }
+
+    const pr = payParams.paymentResult;
+    const config = {
+      appId: pr.appId,
+      timestamp: pr.timeStamp,
+      nonceStr: pr.nonceStr,
+      signature: pr.paySign,
+      jsApiList: ['chooseWXPay'],
+    };
+
+    window.jWeixin.config({
+      ...config
+    });
+
+    window.jWeixin.ready(() => {
+      window.jWeixin.chooseWXPay({
+        appId: pr.appId,
+        timestamp: pr.timeStamp,
+        nonceStr: pr.nonceStr,
+        package: pr.packageVal,
+        signType: pr.signType || 'MD5',
+        paySign: pr.paySign,
+        success: async (res) => {
+          console.log('【支付成功】', res);
+         
+          
+          await new Promise(resolve => setTimeout(resolve, 500));
+          // 确认支付结果（不会被阻拦，await 保证执行）
+          await this.confirmPayResult(payParams.order.tradeNo, 1);
+          uni.showToast({ title: '支付成功', icon: 'success' });
+        },
+        fail: async (err) => {
+          console.error('【支付失败】', err);
+
+          // 失败也用 await 确保接口调用
+          await this.confirmPayResult(payParams.order.tradeNo, 0);
+            uni.showModal({
+            title: '支付失败',
+            content: `支付异常：${err.errMsg || ''}`,
+            showCancel: false
+          });
+        },
+        cancel: async () => {
+          // 用户取消：0
+          await this.confirmPayResult(payParams.order.tradeNo, 0);
+          uni.showToast({ title: '已取消支付', icon: 'none' });
+        },
+        complete: () => {
+          this.isPayLoading = false;
+          uni.hideLoading();
         }
-        console.log(window, 'window-----------')
-        console.log(payParams, 'payParams----------------')
-        // 2. 公众号JSAPI支付
-        const pr = payParams.paymentResult;
-        const config = {
-          // 用于wx.config初始化的参数
-          appId: pr.appId,          // 服务号AppID
-          timestamp: pr.timeStamp,  // 时间戳（后端返回的timeStamp）
-          nonceStr: pr.nonceStr,    // 随机串
-          signature: pr.paySign,  // 签名（后端返回的签名）
-          jsApiList: ['chooseWXPay'],// 固定值，必须包含chooseWXPay
-          // 用于chooseWXPay调起支付的参数（补充字段）
-        };
-      
-          window.jWeixin.config({
-            // debug: true,              // 调试模式，可看到config:ok提示
-            ...config
-          });
-          window.jWeixin.ready(() => {
-          console.log('【SDK已就绪】开始调起支付');
-          window.jWeixin.chooseWXPay({
-            appId: pr.appId,
-            timestamp: pr.timeStamp,
-            nonceStr: pr.nonceStr,
-            package: pr.packageVal, // 重点：字段名是package，不是packageVal
-            signType: pr.signType || 'MD5',
-            paySign: pr.paySign,
-            success: (res) => {
-              console.log('【支付成功】', res);
-              uni.showToast({ title: '支付成功', icon: 'success' });
-              this.confirmPayResult(payParams.order.tradeNo, 1);
-            },
-            fail: (err) => {
-              console.error('【支付失败】', err);
-              uni.showModal({
-                title: '支付失败',
-                content: `原生错误：${err.errMsg || JSON.stringify(err)}`,
-                showCancel: false
-              });
-              this.confirmPayResult(payParams.order.tradeNo, 0);
-            },
-            complete: () => {
-              this.isPayLoading = false;
-              uni.hideLoading();
-            }
-          });
-        });
-      } catch (error) {
-        uni.hideLoading();
-        this.isPayLoading = false;
-        uni.showToast({ title: "支付发起失败：" + error.message, icon: "none" });
-      }
-    },
+      });
+    });
+
+    window.jWeixin.error(async (err) => {
+      console.error("微信SDK配置失败：", err);
+      await this.confirmPayResult(payParams.order.tradeNo, 2);
+      uni.showToast({ title: "支付验证失败", icon: "none" });
+      this.isPayLoading = false;
+      uni.hideLoading();
+    });
+
+  } catch (error) {
+    uni.hideLoading();
+    this.isPayLoading = false;
+    await this.confirmPayResult(payParams.order.tradeNo, 2);
+    uni.showToast({ title: "支付发起失败：" + error.message, icon: "none" });
+  }
+},
 
     /**
      * 确认支付结果

@@ -400,7 +400,7 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {

@@ -1154,7 +1154,7 @@ handleMixedSelect(item, selectType) {
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
-                    // 点击兑换跳充值页
+                    
                     uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=football&isLottery=1` });
                   }
                 }

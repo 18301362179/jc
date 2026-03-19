@@ -841,7 +841,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
         const res = await recharge(reqParams);
         console.log(res, "res------");
         if (res.data.status == 'fail') {
-          // isLottery=1 表示无灵石，显示充值弹窗
+          
           this.hideLoading();
           uni.showModal({
                 title: "请充币",
@@ -851,7 +851,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
-                    // 点击兑换跳充值页
+                    
                     uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
                   }
                 }
