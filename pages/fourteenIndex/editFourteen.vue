@@ -529,7 +529,6 @@ export default {
   }
 }
 
-// 海报预览弹窗样式
 .poster-preview {
   position: fixed;
   top: 0;

@@ -21,9 +21,9 @@
             <text class="selected-text">已选{{ selectedMatchCount }}场</text>
           </view>
         </view>
-
-        <!-- 右侧：选好了按钮 -->
-        <button class="confirm-btn" @click="goToSchemeEdit" :disabled="selectedMatchCount === 0">选好了</button>
+        <!-- <view class="risk-tip">数据仅供参考</view> -->
+        <!-- 右侧：预览按钮 -->
+        <button class="confirm-btn" @click="goToSchemeEdit" :disabled="selectedMatchCount === 0">预览</button>
       </view>
     </view>
 
