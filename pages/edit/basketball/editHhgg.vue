@@ -142,7 +142,7 @@ export default {
   data() {
     return {
       selectedMatchList: [], // 接收混合过关选中的赛事
-      betCount: 1,
+      betCount: 50,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
@@ -498,7 +498,7 @@ getBetItem(type, item) {
           this.isPayLoading = false;
           this.isSubmitSuccess = true;
           uni.showToast({ title: "投注成功！", icon: "success", duration: 2000, mask: true });
-          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
+          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 50 }));
           setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
         } else {
           this.isPayLoading = false;

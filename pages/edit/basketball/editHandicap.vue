@@ -158,7 +158,7 @@ export default {
   data() {
     return {
       selectedMatchList: [], 
-      betCount: 1,           
+      betCount: 50,           
       isPayLoading: false,   
       isNeedUserPhone: 1,    
       showPhoneModal: false, 
@@ -206,7 +206,7 @@ export default {
     if (eventChannel) {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
-        this.betCount = data.betCount || 1;
+        this.betCount = data.betCount || 50;
         this.isNeedUserPhone = data.isNeedUserPhone || 1;
         this.selectedCombo = data.combo || ""; 
       });
@@ -224,7 +224,7 @@ export default {
       // 过滤非数字，限制1-50
       const num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
@@ -408,7 +408,7 @@ calcAllHeights() {
           this.isPayLoading = false;
           this.isSubmitSuccess = true;
           uni.showToast({ title: "投注成功！", icon: "success", duration: 2000, mask: true });
-          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
+          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 50 }));
           setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
         } else {
           this.isPayLoading = false;

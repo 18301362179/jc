@@ -271,7 +271,7 @@ var _default = {
       drawerList: [],
       isLoading: false,
       headerHeight: 0,
-      betCount: 1,
+      betCount: 50,
       statusBarHeight: 0,
       playTypeMap: {
         胜负: "sf",
@@ -315,7 +315,7 @@ var _default = {
             case 0:
               _context.prev = 0;
               _this.isRefreshing = true;
-              _this.betCount = 1;
+              _this.betCount = 50;
               _context.next = 5;
               return _this.loadMatchData();
             case 5:
@@ -533,7 +533,7 @@ var _default = {
     handleKeyboardInput: function handleKeyboardInput(val) {
       var num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
@@ -699,7 +699,7 @@ var _default = {
                       if (modalRes.confirm) {
                         _this9.drawerList = [];
                         _this9.loadMatchData();
-                        _this9.betCount = 1;
+                        _this9.betCount = 50;
                         _this9.selectedCombo = "";
                       }
                     }
@@ -720,7 +720,7 @@ var _default = {
                     if (modalRes.confirm) {
                       _this9.drawerList = [];
                       _this9.loadMatchData();
-                      _this9.betCount = 1;
+                      _this9.betCount = 50;
                       _this9.selectedCombo = "";
                     }
                   }
@@ -1156,7 +1156,7 @@ var _default = {
       this.selectedType = [value];
       this.currentPlay = value;
       this.isPopupShowType = false;
-      this.betCount = 1;
+      this.betCount = 50;
       this.selectedCombo = "";
       this.loadMatchData();
     },

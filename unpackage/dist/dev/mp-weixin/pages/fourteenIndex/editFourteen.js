@@ -197,7 +197,7 @@ var _default = {
   data: function data() {
     return {
       selectedMatchList: [],
-      betCount: 1,
+      betCount: 50,
       statusBarHeight: 0,
       safeAreaBottom: 0,
       headerTotalHeight: 0,
@@ -246,7 +246,7 @@ var _default = {
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
         _this.selectedMatchList = data.matches || [];
-        _this.betCount = data.betCount || 1;
+        _this.betCount = data.betCount || 50;
         _this.selectedCombo = data.combo || "";
       });
     }
@@ -260,7 +260,7 @@ var _default = {
     handleKeyboardInput: function handleKeyboardInput(val) {
       var num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {

@@ -135,7 +135,7 @@ export default {
   data() {
     return {
       selectedMatchList: [], 
-      betCount: 1, 
+      betCount: 50, 
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
@@ -191,7 +191,7 @@ export default {
       // 过滤非数字，限制1-50
       const num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
@@ -394,7 +394,7 @@ handlePlus() {
             duration: 2000,
             mask: true
           });
-          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
+          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 50 }));
           setTimeout(() => {
             uni.navigateBack({ delta: 1 });
           }, 2000);
@@ -423,7 +423,7 @@ handlePlus() {
           setTimeout(() => {
             uni.navigateTo({ url: `/pages/orderDetail/orderDetail?orderId=${orderId}` });
             this.selectedMatchList = [];
-            this.betCount = 1;
+            this.betCount = 50;
           }, 1500);
         },
         fail: (err) => {

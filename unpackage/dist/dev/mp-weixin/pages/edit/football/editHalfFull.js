@@ -227,7 +227,7 @@ var _default = {
   data: function data() {
     return {
       selectedMatchList: [],
-      betCount: 1,
+      betCount: 50,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
@@ -314,7 +314,7 @@ var _default = {
       // 过滤非数字，限制1-50
       var num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
@@ -555,7 +555,7 @@ var _default = {
                 });
                 uni.setStorageSync("editedMatchData", JSON.stringify({
                   matches: [],
-                  betCount: 1
+                  betCount: 50
                 }));
                 setTimeout(function () {
                   uni.navigateBack({
@@ -615,7 +615,7 @@ var _default = {
             url: "/pages/orderDetail/orderDetail?orderId=".concat(orderId)
           });
           _this6.selectedMatchList = [];
-          _this6.betCount = 1;
+          _this6.betCount = 50;
         }, 1500);
       },
       fail: function fail(err) {

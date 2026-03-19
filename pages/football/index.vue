@@ -113,7 +113,7 @@ onLoad() {
       isLoading: false,
       selectedTime: "",
       headerHeight: 0,
-      betCount: 1,
+      betCount: 50,
       selectedWays: [],
       statusBarHeight: 0,
       playTypeMap: {
@@ -155,7 +155,7 @@ onLoad() {
   async onPullDownRefresh() {
     try {
       this.isRefreshing = true;
-      this.betCount = 1;
+      this.betCount = 50;
       await this.loadMatchData();
     } catch (err) {
       console.error("下拉刷新失败：", err);
@@ -437,7 +437,7 @@ handleMixedSelect(item, selectType) {
     handleKeyboardInput(val) {
       const num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
@@ -614,7 +614,7 @@ handleMixedSelect(item, selectType) {
               // 向编辑页传递选中数据
               res.eventChannel.emit("selectedData", {
                 matches: selectedMatches,
-                betCount: 1,
+                betCount: 50,
                 isNeedUserPhone: 1,
                 combo: `${selectedMatches.length}串1`,
               });
@@ -681,7 +681,7 @@ handleMixedSelect(item, selectType) {
               // 向编辑页传递选中数据
               res.eventChannel.emit("selectedData", {
                 matches: formattedMatches,
-                betCount: 1,
+                betCount: 50,
                 isNeedUserPhone: 1,
                 combo: `${selectedMatches.length}串1`,
               });
@@ -1116,7 +1116,7 @@ handleMixedSelect(item, selectType) {
       this.selectedType.push(value);
       this.currentPlay = value;
       this.isPopupShowType = false;
-      this.betCount = 1;
+      this.betCount = 50;
       this.selectedCombo = "";
       // 所有玩法都使用统一的加载方法
       this.loadMatchData();

@@ -279,7 +279,7 @@ var _default = {
       isLoading: false,
       selectedTime: "",
       headerHeight: 0,
-      betCount: 1,
+      betCount: 50,
       selectedWays: [],
       statusBarHeight: 0,
       playTypeMap: {
@@ -324,7 +324,7 @@ var _default = {
             case 0:
               _context.prev = 0;
               _this.isRefreshing = true;
-              _this.betCount = 1;
+              _this.betCount = 50;
               _context.next = 5;
               return _this.loadMatchData();
             case 5:
@@ -639,7 +639,7 @@ var _default = {
     handleKeyboardInput: function handleKeyboardInput(val) {
       var num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
@@ -843,7 +843,7 @@ var _default = {
                     // 向编辑页传递选中数据
                     res.eventChannel.emit("selectedData", {
                       matches: _selectedMatches,
-                      betCount: 1,
+                      betCount: 50,
                       isNeedUserPhone: 1,
                       combo: "".concat(_selectedMatches.length, "\u4E321")
                     });
@@ -917,7 +917,7 @@ var _default = {
                     // 向编辑页传递选中数据
                     res.eventChannel.emit("selectedData", {
                       matches: formattedMatches,
-                      betCount: 1,
+                      betCount: 50,
                       isNeedUserPhone: 1,
                       combo: "".concat(selectedMatches.length, "\u4E321")
                     });
@@ -1643,7 +1643,7 @@ var _default = {
       this.selectedType.push(value);
       this.currentPlay = value;
       this.isPopupShowType = false;
-      this.betCount = 1;
+      this.betCount = 50;
       this.selectedCombo = "";
       // 所有玩法都使用统一的加载方法
       this.loadMatchData();

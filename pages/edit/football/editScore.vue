@@ -121,7 +121,7 @@ export default {
   data() {
     return {
       selectedMatchList: [],
-      betCount: 1,
+      betCount: 50,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
@@ -236,7 +236,7 @@ export default {
       // 过滤非数字，限制1-50
       const num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
@@ -536,7 +536,7 @@ export default {
             mask: true, // 显示透明蒙层，防止点击穿透
           });
           // 提交成功清空缓存
-          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
+          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 50 }));
           // 5. 延迟2秒后跳转（和提示时长匹配）
           setTimeout(() => {
             uni.navigateBack({ delta: 1 });
@@ -567,7 +567,7 @@ export default {
           setTimeout(() => {
             uni.navigateTo({ url: `/pages/orderDetail/orderDetail?orderId=${orderId}` });
             this.selectedMatchList = [];
-            this.betCount = 1;
+            this.betCount = 50;
           }, 1500);
         },
         fail: (err) => {

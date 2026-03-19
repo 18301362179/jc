@@ -87,7 +87,7 @@ export default {
       drawerList: [],
       isLoading: false,
       headerHeight: 0,
-      betCount: 1,
+      betCount: 50,
       statusBarHeight: 0,
       playTypeMap: {
         胜负: "sf",
@@ -124,7 +124,7 @@ onLoad() {
   async onPullDownRefresh() {
     try {
       this.isRefreshing = true;
-      this.betCount = 1;
+      this.betCount = 50;
       await this.loadMatchData();
     } catch (err) {
       console.error("下拉刷新失败：", err);
@@ -323,7 +323,7 @@ onLoad() {
     handleKeyboardInput(val) {
       const num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
@@ -463,7 +463,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
               if (modalRes.confirm) {
                 this.drawerList = [];
                 this.loadMatchData();
-                this.betCount = 1;
+                this.betCount = 50;
                 this.selectedCombo = "";
               }
             },
@@ -480,7 +480,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
             if (modalRes.confirm) {
               this.drawerList = [];
               this.loadMatchData();
-              this.betCount = 1;
+              this.betCount = 50;
               this.selectedCombo = "";
             }
           },
@@ -817,7 +817,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
       this.selectedType = [value];
       this.currentPlay = value;
       this.isPopupShowType = false;
-      this.betCount = 1;
+      this.betCount = 50;
       this.selectedCombo = "";
       this.loadMatchData();
     },

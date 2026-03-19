@@ -109,7 +109,7 @@ export default {
   data() {
     return {
       selectedMatchList: [], // 接收父组件传递的6场选中赛事
-      betCount: 1, // 投注倍数（1-50）
+      betCount: 50, // 投注倍数（1-50）
       statusBarHeight: 0, // 状态栏高度
       safeAreaBottom: 0, // 底部安全区高度
       headerTotalHeight: 0, // 导航栏总高度
@@ -216,7 +216,7 @@ export default {
       
       const num = parseInt(pureNum) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {

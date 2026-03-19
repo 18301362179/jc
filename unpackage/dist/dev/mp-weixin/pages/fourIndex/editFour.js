@@ -214,7 +214,7 @@ var _default = {
     return {
       selectedMatchList: [],
       // 接收父组件传递的4场选中赛事
-      betCount: 1,
+      betCount: 50,
       // 投注倍数（1-50）
       statusBarHeight: 0,
       // 状态栏高度
@@ -333,7 +333,7 @@ var _default = {
       if (!pureNum) return;
       var num = parseInt(pureNum) || 1;
       if (num < 1) {
-        this.betCount = 1;
+        this.betCount = 50;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
