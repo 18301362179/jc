@@ -118,7 +118,7 @@ export default {
   data() {
     return {
       selectedMatchList: [], // 接收列表页的选中数据
-      betCount: 1,
+      betCount: 50,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
@@ -387,7 +387,7 @@ export default {
           this.isPayLoading = false;
           this.isSubmitSuccess = true;
           uni.showToast({ title: "操作成功！", icon: "success", duration: 2000, mask: true });
-          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
+          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 50 }));
           setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
         } else {
           this.isPayLoading = false;

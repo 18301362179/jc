@@ -112,7 +112,7 @@ onLoad() {
       isLoading: false,
       selectedTime: "",
       headerHeight: 0,
-      betCount: 1,
+      betCount: 50,
       selectedWays: [],
       statusBarHeight: 0,
       playTypeMap: {
@@ -618,7 +618,7 @@ handleMixedSelect(item, selectType) {
               // 向编辑页传递选中数据
               res.eventChannel.emit("selectedData", {
                 matches: selectedMatches,
-                betCount: 1,
+                betCount: 50,
                 isNeedUserPhone: 1,
                 combo: `${selectedMatches.length}串1`,
               });
@@ -685,7 +685,7 @@ handleMixedSelect(item, selectType) {
               // 向编辑页传递选中数据
               res.eventChannel.emit("selectedData", {
                 matches: formattedMatches,
-                betCount: 1,
+                betCount: 50,
                 isNeedUserPhone: 1,
                 combo: `${selectedMatches.length}串1`,
               });

@@ -214,7 +214,7 @@ var _default = {
     return {
       selectedMatchList: [],
       // 接收列表的selectedScores数组
-      betCount: 1,
+      betCount: 50,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
@@ -596,7 +596,7 @@ var _default = {
                 });
                 uni.setStorageSync("editedMatchData", JSON.stringify({
                   matches: [],
-                  betCount: 1
+                  betCount: 50
                 }));
                 setTimeout(function () {
                   return uni.navigateBack({

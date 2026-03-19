@@ -106,7 +106,7 @@ export default {
   data() {
     return {
       selectedMatchList: [],
-      betCount: 1,
+      betCount: 50,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
@@ -521,7 +521,7 @@ export default {
             mask: true, // 显示透明蒙层，防止点击穿透
           });
           // 提交成功清空缓存
-          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
+          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 50 }));
           // 5. 延迟2秒后跳转（和提示时长匹配）
           setTimeout(() => {
             uni.navigateBack({ delta: 1 });

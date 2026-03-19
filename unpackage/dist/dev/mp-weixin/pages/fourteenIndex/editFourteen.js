@@ -194,7 +194,7 @@ var _default = {
   data: function data() {
     return {
       selectedMatchList: [],
-      betCount: 1,
+      betCount: 50,
       statusBarHeight: 0,
       safeAreaBottom: 0,
       headerTotalHeight: 0,
@@ -248,7 +248,7 @@ var _default = {
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
         _this2.selectedMatchList = data.matches || [];
-        _this2.betCount = data.betCount || 1;
+        _this2.betCount = data.betCount || 50;
         _this2.selectedCombo = data.combo || "";
       });
     }

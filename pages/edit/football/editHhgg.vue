@@ -132,7 +132,7 @@ export default {
   data() {
     return {
       selectedMatchList: [],
-      betCount: 1,
+      betCount: 50,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,

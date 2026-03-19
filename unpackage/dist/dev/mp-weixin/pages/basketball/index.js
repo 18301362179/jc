@@ -271,7 +271,7 @@ var _default = {
       drawerList: [],
       isLoading: false,
       headerHeight: 0,
-      betCount: 1,
+      betCount: 50,
       statusBarHeight: 0,
       playTypeMap: {
         胜负: "sf",

@@ -110,7 +110,7 @@ export default {
   data() {
     return {
       selectedMatchList: [],
-      betCount: 1,
+      betCount: 50,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
@@ -370,7 +370,7 @@ export default {
             duration: 2000,
             mask: true,
           });
-          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 1 }));
+          uni.setStorageSync("editedMatchData", JSON.stringify({ matches: [], betCount: 50 }));
           setTimeout(() => {
             uni.navigateBack({ delta: 1 });
           }, 2000);

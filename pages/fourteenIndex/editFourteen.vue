@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       selectedMatchList: [],
-      betCount: 1,
+      betCount: 50,
       statusBarHeight: 0,
       safeAreaBottom: 0,
       headerTotalHeight: 0,
@@ -130,7 +130,7 @@ export default {
     if (eventChannel) {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
-        this.betCount = data.betCount || 1;
+        this.betCount = data.betCount || 50;
         this.selectedCombo = data.combo || "";
       });
     }

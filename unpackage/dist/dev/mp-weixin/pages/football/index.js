@@ -279,7 +279,7 @@ var _default = {
       isLoading: false,
       selectedTime: "",
       headerHeight: 0,
-      betCount: 1,
+      betCount: 50,
       selectedWays: [],
       statusBarHeight: 0,
       playTypeMap: {
@@ -848,7 +848,7 @@ var _default = {
                     // 向编辑页传递选中数据
                     res.eventChannel.emit("selectedData", {
                       matches: _selectedMatches,
-                      betCount: 1,
+                      betCount: 50,
                       isNeedUserPhone: 1,
                       combo: "".concat(_selectedMatches.length, "\u4E321")
                     });
@@ -922,7 +922,7 @@ var _default = {
                     // 向编辑页传递选中数据
                     res.eventChannel.emit("selectedData", {
                       matches: formattedMatches,
-                      betCount: 1,
+                      betCount: 50,
                       isNeedUserPhone: 1,
                       combo: "".concat(selectedMatches.length, "\u4E321")
                     });

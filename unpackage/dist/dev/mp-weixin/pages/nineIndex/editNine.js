@@ -187,7 +187,7 @@ var _default = {
     return {
       selectedMatchList: [],
       // 接收父组件传递的选中赛事
-      betCount: 1,
+      betCount: 50,
       statusBarHeight: 0,
       // 状态栏高度
       safeAreaBottom: 0,

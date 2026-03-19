@@ -218,7 +218,7 @@ var _default = {
   data: function data() {
     return {
       selectedMatchList: [],
-      betCount: 1,
+      betCount: 50,
       isPayLoading: false,
       isNeedUserPhone: 1,
       showPhoneModal: false,
@@ -274,7 +274,7 @@ var _default = {
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
         _this2.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
-        _this2.betCount = data.betCount || 1;
+        _this2.betCount = data.betCount || 50;
         _this2.isNeedUserPhone = data.isNeedUserPhone || 1;
         _this2.selectedCombo = data.combo || "";
       });
@@ -519,7 +519,7 @@ var _default = {
                 });
                 uni.setStorageSync("editedMatchData", JSON.stringify({
                   matches: [],
-                  betCount: 1
+                  betCount: 50
                 }));
                 setTimeout(function () {
                   return uni.navigateBack({
