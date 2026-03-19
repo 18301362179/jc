@@ -5275,7 +5275,7 @@ var render = function () {
                       _c(
                         "v-uni-text",
                         { staticClass: _vm._$g(15, "sc"), attrs: { _i: 15 } },
-                        [_vm._v("页面固定奖金仅供参考，请以出票时固定奖金为准")]
+                        [_vm._v("数据仅供参考")]
                       ),
                     ],
                     1
@@ -5294,7 +5294,7 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v("选好了")]
+                [_vm._v("预览")]
               ),
             ],
             1
@@ -14677,7 +14677,7 @@ var render = function () {
                 },
               },
             },
-            [_vm._v("选好了")]
+            [_vm._v("预览")]
           ),
         ],
         1
@@ -20515,7 +20515,7 @@ var render = function () {
                       _c(
                         "v-uni-text",
                         { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
-                        [_vm._v("页面固定奖金仅供参考，请以出票时固定奖金为准")]
+                        [_vm._v("数据仅供参考")]
                       ),
                     ],
                     1
@@ -20534,7 +20534,7 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v("选好了")]
+                [_vm._v("预览")]
               ),
             ],
             1

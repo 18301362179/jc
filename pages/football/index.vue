@@ -23,12 +23,12 @@
           <image class="clear-icon" src="/static/trash.png" mode="widthFix" @click="clearAllSelection" :class="{ disabled: selectedMatchCount === 0 }"></image>
           <view class="text-group">
             <text class="selected-text">已选{{ selectedMatchCount }}场</text>
-            <text class="risk-tip">页面固定奖金仅供参考，请以出票时固定奖金为准</text>
+            <text class="risk-tip">数据仅供参考</text>
           </view>
         </view>
 
-        <!-- 右侧：选好了按钮 -->
-        <button class="confirm-btn" @click="goToSchemeEdit" :disabled="selectedMatchCount === 0">选好了</button>
+        <!-- 右侧：预览按钮 -->
+        <button class="confirm-btn" @click="goToSchemeEdit" :disabled="selectedMatchCount === 0">预览</button>
       </view>
     </view>
 

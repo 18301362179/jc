@@ -25,7 +25,7 @@
         @click="handleConfirm"
         :disabled="!confirmBtnEnabled"
       >
-        选好了
+        预览
       </button>
     </view>
   </view>
