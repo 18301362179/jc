@@ -323,7 +323,7 @@ onLoad() {
     handleKeyboardInput(val) {
       const num = parseInt(val) || 1;
       if (num < 1) {
-        this.betCount = 50;
+        this.betCount = 1;
       } else if (num > 50) {
         this.betCount = 50;
       } else {
