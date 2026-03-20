@@ -47,15 +47,15 @@
           </view>
         </view>
 
-        <!-- 球队信息表格（7列：球队/排名/胜率/得分/篮板/助攻/抢断，客队前置） -->
-        <view class="ranking-section" v-if="homeTeam && visitingTeam && isShowStatus">
+        <!-- 球队信息表格（7列：球队/排名/胜/得分/篮板/助攻/抢断，客队前置） -->
+        <view class="ranking-section" v-if="homeTeam && visitingTeam && urlValue">
           <view class="section-title">
-            <text>胜率</text>
+            <text>胜</text>
           </view>
           <view class="ranking-table team-data-table">
             <view class="table-header">
               <text class="cell">球队</text>
-              <text class="cell">胜率</text>
+              <text class="cell">胜</text>
               <text class="cell">场均得分</text>
               <text class="cell">场均失分</text>
             </view>
@@ -200,7 +200,7 @@ export default {
       visitingLastCourses: [],
       homeScorers: [],
       visitingScorers: [],
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   onLoad(options) {
@@ -212,7 +212,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
   },

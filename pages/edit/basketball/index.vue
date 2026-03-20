@@ -34,10 +34,10 @@
               <text class="vs-text">VS</text>
               <text class="team-name home" :title="item.home_name">{{ item.home_name }}</text>
             </view>
-            <view class="rate-row" v-if="isShowStatus">
-              <text class="rate-text away" v-show="item.visiting_win_rate" :title="`胜${item.visiting_win_rate}，约${item.home_goal_calculate}分`"> 胜率{{ item.visiting_win_rate || "--" }}，约{{ item.home_goal_calculate || "--" }}分 </text>
+            <view class="rate-row" v-if="urlValue">
+              <text class="rate-text away" v-show="item.visiting_win_rate" :title="`胜${item.visiting_win_rate}，约${item.home_goal_calculate}分`"> 胜{{ item.visiting_win_rate || "--" }}，约{{ item.home_goal_calculate || "--" }}分 </text>
               <text class="vs-text"></text>
-              <text class="rate-text home" v-show="item.home_win_rate" :title="`胜${item.home_win_rate}，约${item.visiting_goal_calculate}分`"> 胜率{{ item.home_win_rate || "--" }}，约{{ item.visiting_goal_calculate || "--" }}分 </text>
+              <text class="rate-text home" v-show="item.home_win_rate" :title="`胜${item.home_win_rate}，约${item.visiting_goal_calculate}分`"> 胜{{ item.home_win_rate || "--" }}，约{{ item.visiting_goal_calculate || "--" }}分 </text>
             </view>
             <view class="odds-row">
               <view class="match-cell away" :class="{ selected: item.awaySelected }"> 主负{{ item.loss_multiplier || "--" }} </view>
@@ -48,9 +48,9 @@
       </view>
     </scroll-view>
 
-    <!-- <view
+    <view
       class="bet-bar"
-      v-if="isShowStatus"
+      v-if="urlValue"
       :style="{
         height: betBarFixedPx + 'px',
         paddingBottom: safeAreaBottom + 'px',
@@ -58,9 +58,7 @@
       }"
     >
       <view class="bet-bar-top">
-        <view class="top-left">
-          {{ selectedMatchList.length == 1 ? "单关" : selectedMatchList.length + "串1" }}
-        </view>
+       
         <view class="collapse-area">
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
@@ -68,33 +66,18 @@
               {{ betCount }}
             </view>
             <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
-            <text class="multi-unit">倍</text>
+            
           </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}</text>
+          
           <text class="bonus-tip">{{ calculateBonusText() }}</text>
         </view>
       </view>
-    </view> -->
-
-    <!-- 手机号弹窗：结构完全不变 -->
-    <view class="phone-modal" v-if="showPhoneModal">
-      <view class="modal-mask" @click="showPhoneModal = false"></view>
-      <view class="modal-content">
-        <view class="modal-desc">业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
-        <view class="input-wrap">
-          <label>微信手机号：</label>
-          <input type="number" v-model="userPhone" placeholder="请输入手机号" maxlength="11" />
-        </view>
-        <view class="modal-btns">
-          <button class="cancel-btn" @click="showPhoneModal = false" hover-class="none">取消</button>
-          <button class="confirm-btn" @click="confirmPhone" hover-class="none">提交</button>
-        </view>
-      </view>
     </view>
+
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
@@ -118,13 +101,13 @@ export default {
       statusBarHeight: 0, // 状态栏高度
       safeAreaBottom: 0, // 底部安全区高度
       headerTotalHeight: 0, // 导航栏总高度
-      betBarFixedPx: 0, // 投注栏固定高度（180rpx转px，对齐让分胜负页）
-      betBarTotalHeight: 0, // 投注栏总高度（备用）
+      betBarFixedPx: 0, // （180rpx转px，对齐让分胜负页）
+      betBarTotalHeight: 0, // （备用）
       isApp: false, // 标记是否为App端
       isMp: false, // 标记是否为小程序端
       selectedCombo: "", // 用于接收串关类型，显示单关/几串几
       showNumberKeyboard: false,
-      isShowStatus:null
+      urlValue: false,
     };
   },
   computed: {
@@ -154,7 +137,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
     this.calcAllHeights();
@@ -207,7 +190,7 @@ export default {
         this.betCount = validVal;
       });
     },
-    // 统一高度计算逻辑，投注栏改回180rpx（对齐让分胜负页）
+    // 统一高度计算逻辑，栏改回180rpx（对齐让分胜负页）
     calcAllHeights() {
       const sys = wx.getWindowInfo();
       // 1. 状态栏高度
@@ -219,10 +202,10 @@ export default {
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       // 4. 导航栏总高度
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      // 5. 投注栏固定高度（200rpx转px）
+      
       const betBarFixedRpx = 200;
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-      // 6. 投注栏总高度（仅固定高度）
+      
       this.betBarTotalHeight = this.betBarFixedPx;
     },
     // 保留胜负玩法的奖金计算逻辑
@@ -297,13 +280,13 @@ export default {
       this.saveEditedData();
       uni.navigateBack({ delta: 1 });
     },
-    // 统一倍数操作逻辑
+    // 统一操作逻辑
     handleMinus() {
       if (this.betCount > 1) {
         this.betCount--;
       }
     },
-    // 统一倍数输入校验逻辑（恢复nextTick，避免输入闪烁）
+    // 统一输入校验逻辑（恢复nextTick，避免输入闪烁）
     handleBetInput(e) {
       const inputVal = e.detail.value;
       const validVal = validateBetInput(inputVal);
@@ -317,7 +300,7 @@ export default {
       if (this.betCount < 50) {
         this.betCount++;
       } else {
-        uni.showToast({ title: "倍数最多50倍", icon: "none" });
+        uni.showToast({ title: "最多50倍", icon: "none" });
       }
     },
     // 统一手机号校验逻辑
@@ -334,7 +317,7 @@ export default {
       this.showPhoneModal = false;
       this.handleConfirmBet(true);
     },
-    // 统一投注逻辑，保留胜负玩法字段
+    // 统一逻辑，保留胜负玩法字段
     async handleConfirmBet(fromPhoneModal) {
       if (this.selectedMatchCount === 0) {
         uni.showToast({ title: "请先选择至少一场赛事", icon: "none" });
@@ -383,12 +366,12 @@ export default {
           setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
         } else {
           this.isPayLoading = false;
-          uni.showToast({ title: res.message || "投注失败", icon: "none" });
+          uni.showToast({ title: res.message || "操作失败", icon: "none" });
         }
       } catch (error) {
         this.isPayLoading = false;
         uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
-        console.error("篮球胜负投注报错：", error);
+        console.error("篮球胜负报错：", error);
       }
     },
     // 移除冗余方法（handleGotoHome/handleDeleteMatch/handleClearAll/invokeWxPayment/formDate）
@@ -634,7 +617,7 @@ export default {
   }
 }
 
-/* 投注栏样式：统一对齐让分胜负页 */
+/* 栏样式：统一对齐让分胜负页 */
 .bet-bar {
   position: fixed !important;
   width: 100% !important;

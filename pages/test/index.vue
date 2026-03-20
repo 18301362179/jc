@@ -34,18 +34,18 @@
           </view>
 
           <!-- 调整预测模块布局结构 -->
-          <view class="prediction-section" v-if="isShowStatus">
+          <view class="prediction-section" v-if="urlValue">
             <view class="prediction-row">
               <text class="pro-text">数据分析</text>
               <view class="prediction-content">
                 <view class="home-prediction">
-                  <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.home_win_rate, 0) }}</text>
+                  <text class="prediction-value">胜{{ decimalToPercentage(baseMap.home_win_rate, 0) }}</text>
                 </view>
                 <view class="draw-prediction">
-                  <text class="prediction-value">平率{{ decimalToPercentage(baseMap.draw_rate) }}</text>
+                  <text class="prediction-value">平{{ decimalToPercentage(baseMap.draw_rate) }}</text>
                 </view>
                 <view class="away-prediction">
-                  <text class="prediction-value">胜率{{ decimalToPercentage(baseMap.visiting_win_rate, 0) }}</text>
+                  <text class="prediction-value">胜{{ decimalToPercentage(baseMap.visiting_win_rate, 0) }}</text>
                 </view>
               </view>
             </view>
@@ -79,7 +79,7 @@
               <text class="cell player-cell">球队</text>
               <text class="cell num-cell">场次</text>
               <text class="cell num-cell">积分</text>
-              <text class="cell point-num-cell">胜/平率</text>
+              <text class="cell point-num-cell">胜/平</text>
               <text class="cell point-num-cell">胜/平负</text>
             </view>
             <view class="scorer-row-wrap" v-for="(item, i) in pointsData" :key="i">
@@ -106,11 +106,11 @@
       </view>
       <view class="header-col right-col">
         <text class="header-text top-text">同主客交锋</text>
-        <text class="header-text bottom-text">胜率/均进球</text>
+        <text class="header-text bottom-text">胜/均进球</text>
       </view>
       <view class="header-col right-col">
         <text class="header-text top-text">全部交锋</text>
-        <text class="header-text bottom-text">胜率/均进球</text>
+        <text class="header-text bottom-text">胜/均进球</text>
       </view>
     </view>
     
@@ -132,7 +132,7 @@
             <view class="table-header">
               <!-- <text class="cell ranking-cell">排名</text> -->
               <text class="cell player-cell">球队</text>
-              <text class="cell point-num-cell">胜率/平率</text>
+              <text class="cell point-num-cell">胜/平</text>
               <text class="cell point-num-cell">均进/失球</text>
             </view>
             <view class="scorer-row-wrap" v-for="(item, i) in tzkDataList" :key="i">
@@ -347,7 +347,7 @@ export default {
       // 新增：伤停数据列表
       homeInjurySuspension: [],
       visitingInjurySuspension: [],
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   onLoad(options) {
@@ -365,7 +365,7 @@ export default {
   },
   created() {
             this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
   },

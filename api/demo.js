@@ -311,3 +311,10 @@ export const sysParams = (data) => {
         data
     })
 }
+export const getTradeRecord = (data) => {
+    return request({
+        url: baseUrl + "/platform/user/tradeRecord",
+        method: 'GET',
+        data
+    })
+}

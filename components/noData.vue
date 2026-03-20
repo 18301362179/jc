@@ -4,7 +4,7 @@
     <view class="empty-card">
       <image 
         class="empty-icon" 
-        src="/static/nodata.png" 
+        src="https://www.tianjifu.com/static/nodata.png" 
         mode="aspectFit"
         alt="空数据图标"
       ></image>

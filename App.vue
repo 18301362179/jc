@@ -4,15 +4,7 @@ import { login, checkToken } from '@/utils/auth';
 import { h5WechatAuth, checkH5Token, clearAllCodeRelated } from '@/utils/h5Auth';
 import { getToken, setToken, removeToken } from '@/utils/storage';
 import { getH5ShareInfo, sysParams ,shareGiveCoin } from '@/api/demo';
-// 全局变量：解决循环+签名问题的核心标记
-let isWxConfigInited = false;    // 分享配置是否已初始化
-let hasGrantCoin = false;        // 是否已赠币
-let isWxLoading = false;         // 分享配置是否正在加载（防止重复请求）
-const MAX_RETRY = 3;             // 最大重试次数
-let retryCount = 0;              // 当前重试次数
-let isSharePanelOpened = false;  // 分享面板是否打开
-let isWxConfigFailed = false;    // 分享配置是否彻底失败（超过重试次数）
-let shareInitLock = false;       // 分享初始化锁（彻底杜绝循环调用）
+// 全局变量：删除所有分享相关标记
 export default {
   globalData: {
     baseUrl:  'https://www.tianjifu.com/qwxt',
@@ -141,68 +133,33 @@ export default {
     console.log('==================== 全局初始化结束 ====================');
   },
 
-  // 页面显示：核心修复循环调用问题
+  // 页面显示：移除所有分享相关逻辑
   onShow() {
-        // #ifdef MP-WEIXIN
+    // #ifdef MP-WEIXIN
     // 第一步：先请求接口，把值存到 App.vue 的 data 里
-
-         sysParams().then((res)=>{
-        let status = res.data.fenXiUrlShowStatus;
-        // 处理值：兼容字符串/数字，兜底false
-        status = status === undefined || status === null ? false : (status == '1' );
-        uni.setStorageSync("isShowStatus", status);
-         });
+    sysParams().then((res)=>{
+      let v = res.data[1].param_value;
+      // 处理值：兼容字符串/数字，兜底false
+      v = v === undefined || v === null ? false : (v == '1' );
+      uni.setStorageSync("urlValue", v);
+    });
     // #endif
     // #ifdef H5
-    this.$nextTick(()=>{Vue.prototype.isShowStatus = true;})
-      // #endif
+    uni.setStorageSync("urlValue", v);
+    this.$nextTick(()=>{Vue.prototype.urlValue = v;})
+    // #endif
     // #ifdef APP-PLUS
     try { plus.screen.lockOrientation('portrait-primary'); } catch (e) {}
     // #endif
     
-    // 重置基础标记（保留失败标记，避免重复尝试）
+    // 仅保留授权锁重置
     this.h5AuthLock = false;
-    isSharePanelOpened = false;
-    // 延迟执行分享初始化：避免页面未加载完成就触发
-    setTimeout(async () => {
-      // #ifdef H5
-      console.log('[onShow] H5环境：开始校验Token并初始化分享');
-      // 双重校验：Token有效 + 配置未失败 + 未在加载 + 无初始化锁
-      const tokenValid = await checkH5Token();
-      const canInit = tokenValid && !isWxConfigFailed && !isWxLoading && !shareInitLock;
-      
-      if (canInit) {
-        console.log('[onShow] 满足初始化条件，执行分享配置');
-        this.initGlobalWxShare();
-      } else {
-        console.log('[onShow] 不满足初始化条件：', {tokenValid, isWxConfigFailed, isWxLoading, shareInitLock});
-      }
-      // #endif
-      
-      // 非H5环境正常初始化
-      // #ifdef H5
-      if (!isWxConfigFailed && !isWxLoading && !shareInitLock) {
-        this.initGlobalWxShare();
-      }
-      // #endif
-    }, 500); // 延长延迟时间，避免页面切换频繁触发
-
-    // 清除重复的赠币监听
-    // #ifdef H5
-    window.removeEventListener('pagehide', this.handleShareSuccess);
-    // #endif
   },
 
-  // 页面隐藏：重置标记，避免循环
+  // 页面隐藏：移除所有分享相关逻辑
   onHide() {
-    if (isSharePanelOpened && !hasGrantCoin) {
-      this.callShareGiveCoin();
-    }
-    // 仅重置非核心标记
-    hasGrantCoin = false;
-    isWxLoading = false;
-    isSharePanelOpened = false;
-    shareInitLock = false; // 释放初始化锁
+    // 仅保留授权锁重置
+    this.h5AuthLock = false;
     
     // #ifdef H5
     import('@/utils/h5Auth').then(module => {
@@ -211,22 +168,14 @@ export default {
     // #endif
   },
 
-  // 页面卸载：彻底清理
+  // 页面卸载：移除所有分享相关逻辑
   onUnload() {
-    if (isSharePanelOpened && !hasGrantCoin) {
-      this.callShareGiveCoin();
-    }
-    isWxConfigInited = false;
-    isWxLoading = false;
-    retryCount = 0;
-    isSharePanelOpened = false;
-    shareInitLock = false;
-    window.removeEventListener('pagehide', this.handleShareSuccess);
+    this.h5AuthLock = false;
   },
 
   methods: {
-    getIsShowStatus(){
-      return this.globalData.isShowStatus
+    geturlValue(){
+      return this.globalData.urlValue
     },
     // 更新全局Token：过滤无效Token
     updateGlobalToken(newToken) {
@@ -253,268 +202,6 @@ export default {
     },
     hideLoading() {
       uni.hideLoading();
-    },
-
-    // 等待微信JS-SDK加载完成
-    async waitForJWeixin() {
-      return new Promise((resolve, reject) => {
-        const startTime = Date.now();
-        const checkInterval = setInterval(() => {
-          if (window.jWeixin && typeof window.jWeixin.config === 'function') {
-            clearInterval(checkInterval);
-            resolve(window.jWeixin);
-          }
-          // 超时5秒则拒绝
-          if (Date.now() - startTime > 5000) {
-            clearInterval(checkInterval);
-            reject(new Error('微信JS-SDK加载超时'));
-          }
-        }, 50);
-      });
-    },
-
-    // 获取稳定URL：彻底解决签名无效问题（核心修改）
-    getStableUrl() {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          // 强制固定为后端签名用的路径：不带#、末尾带/
-          const finalUrl = window.location.href.split('#')[0];
-          console.log('[微信分享] 用于签名的稳定URL：', finalUrl);
-          resolve(finalUrl);
-        }, 300);
-      });
-    },
-
-    // 初始化微信分享：彻底修复循环+签名问题
-    async initGlobalWxShare() {
-      // 多重锁：彻底杜绝循环调用
-      if (shareInitLock || isWxLoading || isWxConfigFailed) {
-        console.log('[微信分享] 初始化被拦截：', {shareInitLock, isWxLoading, isWxConfigFailed});
-        return;
-      }
-      
-      // 标记初始化锁
-      shareInitLock = true;
-      isWxLoading = true;
-
-      // H5环境二次校验Token
-      // #ifdef H5
-      const tokenValid = await checkH5Token();
-      if (!tokenValid) {
-        console.log('[微信分享] H5 Token无效，终止初始化');
-        isWxLoading = false;
-        shareInitLock = false;
-        return;
-      }
-      // #endif
-
-      // 非H5/非微信环境直接返回
-      if (process.env.VUE_APP_PLATFORM !== 'h5' || !/MicroMessenger/i.test(navigator.userAgent)) {
-        isWxLoading = false;
-        shareInitLock = false;
-        return;
-      }
-
-      // 已初始化则直接设置分享内容
-      if (isWxConfigInited) {
-        try {
-          this.setWxShareContent(window.jWeixin);
-        } catch (e) {
-          console.error('[微信分享] 已初始化但设置内容失败：', e);
-        }
-        isWxLoading = false;
-        shareInitLock = false;
-        return;
-      }
-
-      try {
-        // 等待微信SDK加载
-        const wx = await this.waitForJWeixin();
-        // 获取稳定签名URL
-        const currentUrl = await this.getStableUrl();
-        // 请求后端签名配置
-        const res = await getH5ShareInfo({
-          shareUrl: currentUrl,
-          _t: Date.now() // 加时间戳避免缓存
-        });
-        const wxConfig = res.data;
-
-        // 微信配置：参数与后端完全一致
-        wx.config({
-          debug: false, // 关闭调试，避免日志干扰
-          appId: wxConfig.appId,
-          timestamp: wxConfig.timestamp,
-          nonceStr: wxConfig.nonceStr,
-          signature: wxConfig.signature,
-          jsApiList: [
-            'updateAppMessageShareData',
-            'updateTimelineShareData',
-            'onMenuShareAppMessage',
-            'onMenuShareTimeline'
-          ],
-          url: currentUrl,
-          beta: true
-        });
-
-        // 配置成功
-        wx.ready(() => {
-          console.log('[微信分享] 配置初始化成功');
-          isWxConfigInited = true;
-          isWxLoading = false;
-          shareInitLock = false;
-          isWxConfigFailed = false;
-          this.setWxShareContent(wx);
-        });
-
-        // 配置失败：修复重试逻辑
-        wx.error(async (err) => {
-          console.error(`[微信分享] 配置失败（第${retryCount + 1}次）：`, err);
-          isWxLoading = false;
-          
-          // 签名无效且未超过重试次数则重试
-          if (err.errMsg.includes('invalid signature') && retryCount < MAX_RETRY) {
-            retryCount++;
-            console.log(`[微信分享] 签名无效，${retryCount}秒后重试（第${retryCount}次）`);
-            setTimeout(() => {
-              isWxConfigInited = false; // 重置初始化标记
-              shareInitLock = false;    // 释放锁允许重试
-              this.initGlobalWxShare();
-            }, retryCount * 1500); // 递增重试间隔，避免频繁请求
-          } else {
-            // 超过重试次数，标记为彻底失败
-            isWxConfigFailed = true;
-            shareInitLock = false;
-            retryCount = 0;
-            console.log('[微信分享] 超过最大重试次数，停止初始化（避免循环）');
-          }
-        });
-      } catch (err) {
-        console.error('[微信分享] 初始化异常：', err);
-        isWxLoading = false;
-        shareInitLock = false;
-        
-        // 异常重试逻辑
-        if (retryCount < MAX_RETRY) {
-          retryCount++;
-          setTimeout(() => {
-            isWxConfigInited = false;
-            this.initGlobalWxShare();
-          }, 1000);
-        } else {
-          isWxConfigFailed = true;
-          retryCount = 0;
-        }
-      }
-    },
-
-    // 设置分享内容：固定分享链接，避免签名问题
-    setWxShareContent(wx) {
-      if (!wx) {
-        console.error('[微信分享] wx实例不存在');
-        return;
-      }
-      let link = window.location.href.split('#')[0];
-      // 固定分享配置：链接与签名路径完全一致
-      const shareConfig = {
-        title: '云竞慧博体育服务号',
-        desc: '足球、篮球胜负、比分分析，足球数据展示。',
-        posterUrl: 'https://www.tianjifu.com/static/share-logo.jpg',
-        link: link // 固定链接，与签名路径一致
-      };
-
-      // 新版分享给朋友
-      try {
-        wx.updateAppMessageShareData({
-          title: shareConfig.title,
-          desc: shareConfig.desc,
-          link: shareConfig.link,
-          imgUrl: shareConfig.posterUrl,
-          success: () => {
-            console.log('分享卡片配置成功（好友）');
-            isSharePanelOpened = true;
-          }
-        });
-      } catch (e) {
-        console.error('[微信分享] 新版分享给朋友接口失败：', e);
-      }
-
-      // 新版分享到朋友圈
-      try {
-        wx.updateTimelineShareData({
-          title: shareConfig.title,
-          link: shareConfig.link,
-          imgUrl: shareConfig.posterUrl,
-          success: () => {
-            console.log('分享卡片配置成功（朋友圈）');
-            isSharePanelOpened = true;
-          }
-        });
-      } catch (e) {
-        console.error('[微信分享] 新版分享到朋友圈接口失败：', e);
-      }
-
-      // 兼容旧版接口
-      try {
-        wx.onMenuShareAppMessage({
-          title: shareConfig.title,
-          desc: shareConfig.desc,
-          link: shareConfig.link,
-          imgUrl: shareConfig.posterUrl,
-          trigger: () => {
-            console.log('用户打开了分享面板（好友）');
-            isSharePanelOpened = true;
-          },
-          success: () => {
-            console.log('旧版分享卡片配置成功（好友）');
-          }
-        });
-      } catch (e) {
-        console.error('[微信分享] 旧版分享给朋友接口失败：', e);
-      }
-
-      try {
-        wx.onMenuShareTimeline({
-          title: shareConfig.title,
-          link: shareConfig.link,
-          imgUrl: shareConfig.posterUrl,
-          trigger: () => {
-            console.log('用户打开了分享面板（朋友圈）');
-            isSharePanelOpened = true;
-          },
-          success: () => {
-            console.log('旧版分享卡片配置成功（朋友圈）');
-          }
-        });
-      } catch (e) {
-        console.error('[微信分享] 旧版分享到朋友圈接口失败：', e);
-      }
-
-      // 监听分享成功事件
-      window.addEventListener('pagehide', this.handleShareSuccess);
-    },
-
-    // 处理分享成功赠币
-    handleShareSuccess() {
-      if (!hasGrantCoin && isSharePanelOpened) {
-        this.callShareGiveCoin();
-      }
-    },
-
-    // 调用赠币接口
-    async callShareGiveCoin() {
-      if (hasGrantCoin) {
-        console.log('已赠币，跳过重复调用');
-        return;
-      }
-
-      try {
-        await shareGiveCoin(); 
-        hasGrantCoin = true; 
-        console.log('赠币接口调用成功');
-      } catch (err) {
-        console.error('赠币接口调用失败：', err);
-        hasGrantCoin = false;
-      }
     }
   }
 };

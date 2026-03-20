@@ -23,17 +23,17 @@
             <view class="match-cell home" :class="{ selected: item.homeSelected }">
               <view class="team-name">{{ item.home_name }}</view>
               <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
-              <text class="odds rate" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+              <text class="odds rate" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
             </view>
             <view class="match-cell vs" :class="{ selected: item.vsSelected }">
               <text class="vs-text">VS</text>
               <text class="vs-odds" v-if="item.draw_multiplier">平{{ item.draw_multiplier }}</text>
-              <text class="vs-odds" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
+              <text class="vs-odds" v-if="item.draw_rate">平{{ item.draw_rate }}</text>
             </view>
             <view class="match-cell away" :class="{ selected: item.awaySelected }">
               <text class="team-name">{{ item.visiting_name }}</text>
               <text class="odds" v-if="item.loss_multiplier">主负{{ item.loss_multiplier }}</text>
-              <text class="odds rate" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+              <text class="odds rate" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
             </view>
           </view>
         </view>
@@ -42,7 +42,8 @@
       </view>
     </scroll-view>
 
-    <!-- <view
+    <view
+       v-if="urlValue"
       class="bet-bar"
       :style="{
         height: betBarFixedPx + 'px',
@@ -50,9 +51,7 @@
       }"
     >
       <view class="bet-bar-top">
-        <view class="top-left">
-          {{ selectedMatchList.length == 1 ? "单关" : selectedMatchList.length + "串1" }}
-        </view>
+        <!-- -->
         <view class="collapse-area">
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
@@ -60,29 +59,14 @@
               {{ betCount }}
             </view>
             <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
-            <text class="multi-unit">倍</text>
+            <!--  -->
           </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}</text>
+          <!--  -->
           <text class="bonus-tip">{{ calculateHalfFullBonus() }}</text>
-        </view>
-      </view>
-    </view> -->
-
-    <view class="phone-modal" v-if="showPhoneModal">
-      <view class="modal-mask" @click="showPhoneModal = false"></view>
-      <view class="modal-content">
-        <view class="modal-desc">业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
-        <view class="input-wrap">
-          <label>微信手机号：</label>
-          <input type="number" v-model="userPhone" placeholder="请输入手机号" maxlength="11" />
-        </view>
-        <view class="modal-btns">
-          <button class="cancel-btn" @click="showPhoneModal = false">取消</button>
-          <button class="confirm-btn" @click="confirmPhone">提交</button>
         </view>
       </view>
     </view>
@@ -110,12 +94,13 @@ export default {
       statusBarHeight: 0, // 状态栏高度
       safeAreaBottom: 0, // 底部安全区高度
       headerTotalHeight: 0, // 导航栏总高度
-      betBarFixedPx: 0, // 投注栏固定高度（200rpx转px）
-      betBarTotalHeight: 0, // 投注栏总高度（仅固定高度，不叠加安全区）
+      betBarFixedPx: 0, // （200rpx转px）
+      betBarTotalHeight: 0, // 栏总高度（仅固定高度，不叠加安全区）
       isApp: false, // 标记是否为App端
       isMp: false, // 标记是否为小程序端
       selectedCombo: "", // 用于接收串关类型，显示单关/几串几
       showNumberKeyboard: false,
+      urlValue: false,
     };
   },
   computed: {
@@ -124,7 +109,7 @@ export default {
         return item.homeSelected || item.vsSelected || item.awaySelected;
       }).length;
     },
-    // 计算投注注数：每行选中的选项数量相乘
+    // 计算注数：每行选中的选项数量相乘
     betNotes() {
       if (this.selectedMatchList.length === 0) return 0;
       let notes = 1;
@@ -139,7 +124,7 @@ export default {
       });
       return notes;
     },
-    // 计算总投注金额（注数 × 倍数 × 2）
+    // 计算总金额（注数 ×  × 2）
     totalBetAmount() {
       return this.betNotes * this.betCount * 2;
     },
@@ -150,6 +135,10 @@ export default {
   created() {
     // 计算所有高度
     this.calcAllHeights();
+    this.$nextTick(()=>{
+    this.urlValue = uni.getStorageSync('urlValue');
+    
+    })
   },
   onLoad() {
     const eventChannel = this.getOpenerEventChannel();
@@ -204,7 +193,7 @@ export default {
         this.betCount = validVal;
       });
     },
-    // 核心优化：统一计算所有高度，投注栏总高度仅保留固定高度，不叠加安全区
+    // 核心优化：统一计算所有高度，栏总高度仅保留固定高度，不叠加安全区
     calcAllHeights() {
       const sys = wx.getWindowInfo();
       // 1. 状态栏高度
@@ -216,10 +205,10 @@ export default {
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       // 4. 导航栏总高度
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      // 5. 投注栏固定高度（200rpx转px）
+      
       const betBarFixedRpx = 200;
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-      // 6. 投注栏总高度：固定高度 + iOS 安全区高度（让 scroll-view 底部留出足够空间）
+      // 6. 栏总高度：固定高度 + iOS 安全区高度（让 scroll-view 底部留出足够空间）
       this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
     },
     calculateHalfFullBonus() {
@@ -320,12 +309,12 @@ export default {
       if (this.betCount < 50) {
         this.betCount++;
       } else {
-        uni.showToast({ title: "倍数最多50倍", icon: "none" });
+        uni.showToast({ title: "最多50倍", icon: "none" });
       }
     },
     async handleConfirmBet(fromPhoneModal) {
       if (this.selectedMatchCount === 0) {
-        uni.showToast({ title: "请先选择至少一场赛事的投注选项", icon: "none", duration: 1500 });
+        uni.showToast({ title: "请先选择至少一场赛事的选项", icon: "none", duration: 1500 });
         return;
       }
       if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
@@ -593,7 +582,7 @@ export default {
   }
 }
 
-// 核心优化：投注栏强制固定高度，解决两端溢出/空白问题
+// 核心优化：栏强制固定高度，解决两端溢出/空白问题
 .bet-bar {
   position: fixed !important;
   width: 100% !important;

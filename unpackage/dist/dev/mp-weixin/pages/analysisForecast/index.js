@@ -189,37 +189,37 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var _data = __webpack_require__(/*! @/utils/data */ 62);
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 288));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 296));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var noData = function noData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 302));
+    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 310));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SaiCheng = function SaiCheng() {
   __webpack_require__.e(/*! require.ensure | pages/commn/saiCheng */ "pages/commn/saiCheng").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 309));
+    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 317));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var JiFen = function JiFen() {
   __webpack_require__.e(/*! require.ensure | pages/commn/jiFen */ "pages/commn/jiFen").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 316));
+    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 324));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SheShou = function SheShou() {
   __webpack_require__.e(/*! require.ensure | pages/commn/sheShou */ "pages/commn/sheShou").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 323));
+    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 331));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var WordRanking = function WordRanking() {
   __webpack_require__.e(/*! require.ensure | pages/commn/WordRanking */ "pages/commn/WordRanking").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 330));
+    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 338));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 281));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 289));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -467,7 +467,7 @@ var _default = {
                   title: "请充币",
                   content: "您的游戏币不足，请充币！",
                   cancelText: "取消",
-                  confirmText: "充币",
+                  confirmText: "获取",
                   confirmColor: "#d92929",
                   success: function success(res) {
                     if (res.confirm) {

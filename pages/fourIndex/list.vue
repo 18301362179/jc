@@ -35,11 +35,11 @@
                   <text class="team-name away">{{ item.visiting_name }}</text>
                 </view>
                 <!-- 胜+分析：接口无此字段，自动隐藏 -->
-                <view class="rate-row" v-if="item.home_win_rate && isShowStatus">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || '' }}</text>
-                  <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || '' }}</text>
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&isShowStatus" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+                <view class="rate-row" v-if="item.home_win_rate && urlValue">
+                  <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || '' }}</text>
+                  <text class="vs-text" v-if="item.draw_rate">平{{item.draw_rate}}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || '' }}</text>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&urlValue" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
                 </view>
               </view>
 
@@ -123,7 +123,7 @@ export default {
       expandedDrawers: [],
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   computed: {
@@ -171,7 +171,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
     this.initWindowInfo();

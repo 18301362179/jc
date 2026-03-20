@@ -13,10 +13,10 @@
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
-              <view class="team-vs" style="color: #888; padding: 0" v-if="isShowStatus">
-                <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
-                <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
-                <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
+              <view class="team-vs" style="color: #888; padding: 0" v-if="urlValue">
+                <text class="team-name home" v-if="item.home_win_rate">胜{{ item.home_win_rate }}</text>
+                <text class="vs-text" v-if="item.draw_rate">平{{ item.draw_rate }}</text>
+                <text class="team-name away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate }}</text>
               </view>
             </view>
 
@@ -45,26 +45,26 @@
       </view>
     </scroll-view>
 
-    <!-- <view class="bet-bar" v-if="isShowStatus">
+    <view class="bet-bar" v-if="urlValue">
       <view class="bet-bar-top">
         <view class="collapse-area">
-          <view class="left-tip">请输入倍数后截屏给售票人</view>
+          <view class="left-tip">请输入后截屏给售票人</view>
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus">-</button>
             <view class="multi-input" @tap="showNumberKeyboard = true">
               {{ betCount }}
             </view>
             <button class="multi-btn plus" @click="handlePlus">+</button>
-            <text class="multi-unit">倍</text>
+            
           </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
+          
         </view>
       </view>
-    </view> -->
+    </view>
 
     <!-- 自定义数字键盘：限制1-50倍 -->
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
@@ -86,7 +86,7 @@ export default {
       isApp: false, // 是否为App端
       showNumberKeyboard: false, // 数字键盘显示状态
       isNeedUserPhone: 1, // 是否需要手机号（父组件传递）
-      isShowStatus: false,
+      urlValue: false,
     };
   },
   computed: {
@@ -122,7 +122,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
   },
@@ -141,7 +141,7 @@ export default {
     // 计算适配高度（兼容App/小程序/H5）
     // 返回上一页
     handleBack() {
-      // 回传修改后的倍数数据给父组件
+      // 回传修改后的数据给父组件
       const eventChannel = this.getOpenerEventChannel ? this.getOpenerEventChannel() : null;
       if (eventChannel) {
         eventChannel.emit("updateSelectedMatches", {
@@ -151,13 +151,13 @@ export default {
       }
       uni.navigateBack({ delta: 1 });
     },
-    // 倍数减
+    // 减
     handleMinus() {
       if (this.betCount > 1) {
         this.betCount--;
       }
     },
-    // 倍数加
+    // 加
     handlePlus() {
       if (this.betCount < 50) {
         this.betCount++;
@@ -359,7 +359,7 @@ export default {
   }
 }
 
-// ========== 6场专属投注栏样式（沿用模板布局逻辑） ==========
+// ========== 6场专属栏样式（沿用模板布局逻辑） ==========
 .bet-bar {
   position: fixed !important;
   width: 100% !important;
@@ -407,7 +407,7 @@ export default {
         line-height: 1.4;
       }
 
-      // 倍数选择组（缩小宽度，适配6场规则）
+      // 选择组（缩小宽度，适配6场规则）
       .multi-group {
         display: flex;
         align-items: center;

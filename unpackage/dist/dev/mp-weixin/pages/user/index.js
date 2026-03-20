@@ -102,18 +102,14 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 =
-    _vm.currentTab === 1 && _vm.isShowStatus ? _vm.tradeRecord.length : null
-  var g1 =
-    _vm.currentTab === 1 && _vm.isShowStatus ? _vm.tradeRecord.length : null
-  var g2 = _vm.currentTab === 2 ? _vm.paymentRecord.length : null
+  var g0 = _vm.currentTab === 1 && _vm.urlValue ? _vm.tradeRecord.length : null
+  var g1 = _vm.currentTab === 1 && _vm.urlValue ? _vm.tradeRecord.length : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
         g1: g1,
-        g2: g2,
       },
     }
   )
@@ -162,17 +158,17 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 352));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 296));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var NoData = function NoData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 366));
+    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 310));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 345));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 289));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -190,11 +186,10 @@ var _default = {
       previewImageUrl: '',
       defaultLotteryImageUrl: 'http://www.tianjifu.com/qwxt/outside/common/fileDownload?fileFullPathName=',
       tradeRecord: [],
-      paymentRecord: [],
       touchStartX: 0,
       swipeThreshold: 50,
       betForm: '',
-      isShowStatus: null
+      urlValue: false
     };
   },
   created: function created() {
@@ -202,18 +197,26 @@ var _default = {
     this.initBetForm();
     this.getData();
     this.$nextTick(function () {
-      _this.isShowStatus = uni.getStorageSync('isShowStatus');
+      _this.urlValue = uni.getStorageSync('urlValue');
     });
   },
   onShow: function onShow() {
     this.getData();
   },
   methods: {
+    getList: function getList() {
+      if (this.urlValue) {
+        uni.navigateTo({
+          url: '/pages/getList/getList'
+        });
+      }
+      ;
+    },
     initBetForm: function initBetForm() {
       this.betForm = 'weChatMiniProgram';
     },
     getUrl: function getUrl() {
-      if (this.isShowStatus) {
+      if (this.urlValue) {
         uni.navigateTo({
           url: '/pages/recharge/recharge'
         });
@@ -243,27 +246,26 @@ var _default = {
                 res = _context.sent;
                 _this2.userInfo = res.data.user || res.data.userInfo || {};
                 _this2.lotteryPurchasing = res.data.lotteryPurchasing || [];
-                _this2.paymentRecord = res.data.paymentRecord || [];
                 _this2.tradeRecord = res.data.tradeRecord || [];
-                _context.next = 14;
+                _context.next = 13;
                 break;
-              case 11:
-                _context.prev = 11;
+              case 10:
+                _context.prev = 10;
                 _context.t0 = _context["catch"](1);
                 uni.showToast({
                   title: "加载失败",
                   icon: "none"
                 });
-              case 14:
-                _context.prev = 14;
+              case 13:
+                _context.prev = 13;
                 uni.hideLoading();
-                return _context.finish(14);
-              case 17:
+                return _context.finish(13);
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 11, 14, 17]]);
+        }, _callee, null, [[1, 10, 13, 16]]);
       }))();
     }
   }

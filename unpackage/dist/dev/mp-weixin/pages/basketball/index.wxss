@@ -126,7 +126,7 @@ page.data-v-21272b81 {
   background-color: #ccc;
   color: #999;
 }
-/* 彻底删除原有串关和倍数相关样式 */
+/* 彻底删除原有串关和相关样式 */
 .bet-bar-top.data-v-21272b81,
 .bet-bar-bottom.data-v-21272b81,
 .top-middle.data-v-21272b81 {

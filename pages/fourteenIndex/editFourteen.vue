@@ -14,10 +14,10 @@
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
-              <view class="team-vs" style="color: #888; padding: 0" v-if="isShowStatus">
-                <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
-                <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
-                <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
+              <view class="team-vs" style="color: #888; padding: 0" v-if="urlValue">
+                <text class="team-name home" v-if="item.home_win_rate">胜{{ item.home_win_rate }}</text>
+                <text class="vs-text" v-if="item.draw_rate">平{{ item.draw_rate }}</text>
+                <text class="team-name away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate }}</text>
               </view>
             </view>
             <view class="bottom-right">
@@ -33,27 +33,26 @@
       </view>
     </scroll-view>
 
-    <!-- 简化版bet-bar：H5端重点适配 -->
-    <!-- <view class="bet-bar">
+    <view class="bet-bar" v-if="urlValue">
       <view class="bet-bar-top">
         <view class="collapse-area">
-          <view class="left-tip">请输入倍数后截屏给售票人</view>
+          <view class="left-tip">请输入后截屏给售票人</view>
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus">-</button>
             <view class="multi-input" @tap="showNumberKeyboard = true">
               {{ betCount }}
             </view>
             <button class="multi-btn plus" @click="handlePlus">+</button>
-            <text class="multi-unit">倍</text>
+            
           </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
+          
         </view>
       </view>
-    </view> -->
+    </view>
 
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
 
@@ -88,7 +87,7 @@ export default {
       showNumberKeyboard: false,
       showPosterPreview: false,
       posterImageUrl: "",
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   computed: {
@@ -117,7 +116,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
     // H5端适配：统一获取系统信息
@@ -428,7 +427,7 @@ export default {
         line-height: 1.4;
       }
 
-      // 倍数选择组（缩小宽度）
+      // 选择组（缩小宽度）
       .multi-group {
         display: flex;
         align-items: center;

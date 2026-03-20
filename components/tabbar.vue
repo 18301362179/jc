@@ -25,9 +25,9 @@ export default {
   data() {
     return {
       baseTabList: [
-        { text: '首页', icon: '/static/home1.png', activeIcon: '/static/home.png', path: '/pages/index/index' },
-        { text: '预测', icon: '/static/yu.png', activeIcon: '/static/yu1.png', path: '/pages/analysisForecast/index' },
-        { text: '我的', icon: '/static/mine.png', activeIcon: '/static/mine1.png', path: '/pages/user/index' }
+        { text: '首页', icon: 'https://www.tianjifu.com/static/home1.png', activeIcon: 'https://www.tianjifu.com/static/home.png', path: '/pages/index/index' },
+        { text: '预测', icon: 'https://www.tianjifu.com/static/yu.png', activeIcon: 'https://www.tianjifu.com/static/yu1.png', path: '/pages/analysisForecast/index' },
+        { text: '我的', icon: 'https://www.tianjifu.com/static/mine.png', activeIcon: 'https://www.tianjifu.com/static/mine1.png', path: '/pages/user/index' }
       ],
       iconCache: new Set()
     };

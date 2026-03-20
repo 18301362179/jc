@@ -37,8 +37,9 @@
       />
     </scroll-view>
 
-    <!-- 底部投注栏组件 -->
+    <!-- 底部栏组件 -->
     <BetBar
+      v-if="urlValue"
       :min-match-count="4"
       title="4场"       
       :show-clear-btn="true"
@@ -124,7 +125,8 @@ export default {
       swipeThreshold: 50,
       hasData: false,
       title:'',
-      navBarTotalHeight: 88 // 🌟 补全缺失的变量声明，兜底默认值
+      navBarTotalHeight: 88, // 🌟 补全缺失的变量声明，兜底默认值
+      urlValue: false,
     };
   },
   async onPullDownRefresh() {
@@ -175,6 +177,10 @@ export default {
     
     // 🌟 计算导航栏总高度（适配所有机型）
     this.calcNavBarTotalHeight();
+    this.$nextTick(()=>{
+    this.urlValue = uni.getStorageSync('urlValue');
+    
+    })
   },
   mounted() {
     this.calcHeaderHeight();
@@ -495,11 +501,11 @@ export default {
                 title: "请充币",
                 content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "充币",
+                confirmText: "获取",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
-                    // 点击兑换跳充值页
+                    
                     uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
                   }
                 }

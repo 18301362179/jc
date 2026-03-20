@@ -4,7 +4,7 @@
   <view v-show="hasData" class="empty-stop-container">
     <image 
       class="stop-img" 
-      src="/static/stop.png" 
+      src="https://www.tianjifu.com/static/stop.png" 
       mode="aspectFit" 
       lazy-load="true"
     ></image>

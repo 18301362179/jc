@@ -1,5 +1,5 @@
 <template>
-  <!-- 篮球混合过关编辑页：按玩法分行展示投注项 -->
+  <!-- 篮球混合过关编辑页 -->
   <view class="scheme-edit-page">
     <CustomHeader :ballTitle="'篮球'" title="混合过关" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
@@ -50,23 +50,20 @@
               <text class="bet-label">胜分差（主胜）：</text>
               <text class="bet-value highlight">{{ getBetItem("sfc_home", item) }}</text>
             </view>
-            <!-- 无任何投注项时显示 -->
+  
             <view v-if="!hasAnyBetItem(item)" class="empty-bet">
-              <text class="trigger-tip">无选中投注内容</text>
+              <text class="trigger-tip">无选中内容</text>
             </view>
           </view>
         </view>
       </view>
     </scroll-view>
 
-    <!-- <view class="bet-bar" v-if="isShowStatus" :style="{ 
+    <view class="bet-bar" v-if="urlValue" :style="{ 
       height: betBarFixedPx + 'px',
       paddingBottom: (isApp ? safeAreaBottom : 0) + 'px' 
     }">
 <view class="bet-bar-top">
-  <view class="top-left">
-    {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
-  </view>
   <view class="collapse-area">
     <view class="multi-group">
       <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
@@ -78,7 +75,7 @@
         {{ betCount }}
       </view>
       <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
-      <text class="multi-unit">倍</text>
+      
     </view>
   </view>
 </view>
@@ -86,22 +83,6 @@
         <view class="bottom-middle">
           <text class="select-tip">共{{betNotes}}注 {{betCount}}倍  {{totalBetAmount}}元</text>
           <text class="bonus-tip">{{calculateBonusText()}}</text>
-        </view>
-      </view>
-    </view> -->
-
-    <!-- 手机号弹窗：保留原逻辑 -->
-    <view class="phone-modal" v-if="showPhoneModal">
-      <view class="modal-mask" @click="showPhoneModal = false" hover-class="none"></view>
-      <view class="modal-content">
-        <view class="modal-desc">业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
-        <view class="input-wrap">
-          <label>微信手机号：</label>
-          <input type="number" v-model="userPhone" placeholder="请输入手机号（必填）" maxlength="11" />
-        </view>
-        <view class="modal-btns">
-          <button class="cancel-btn" @click="showPhoneModal = false" hover-class="none">取消</button>
-          <button class="confirm-btn" @click="confirmPhone" hover-class="none">提交</button>
         </view>
       </view>
     </view>
@@ -148,11 +129,11 @@ export default {
         大小分_大: "大分",
         大小分_小: "小分",
       },
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   computed: {
-    // 统计有选中投注项的赛事数量
+
     selectedMatchCount() {
       return this.selectedMatchList.filter((item) => this.hasAnyBetItem(item)).length;
     },
@@ -173,7 +154,6 @@ export default {
         return total * (itemCount > 0 ? itemCount : 1);
       }, 1);
     },
-    // 总投注金额
     totalBetAmount() {
       return (this.betNotes * this.betCount * 2).toFixed(2);
     },
@@ -183,7 +163,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
     this.calcAllHeights();
@@ -206,7 +186,6 @@ export default {
     uni.setTabBarStyle({ height: "auto" });
   },
   methods: {
-    // 核心方法：判断是否有任何投注项
     hasAnyBetItem(item) {
       if (!item) return false;
       // 胜负
@@ -315,10 +294,10 @@ export default {
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       // 4. 导航栏总高度
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
-      // 5. 投注栏固定高度（200rpx转px）
+      
       const betBarFixedRpx = 200;
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
-      // 6. 投注栏总高度（仅固定高度）
+      
       this.betBarTotalHeight = this.betBarFixedPx;
     },
     // 保存数据
@@ -421,25 +400,24 @@ export default {
       this.saveEditedData();
       uni.navigateBack({ delta: 1 });
     },
-    // 减倍数
+    // 减
     handleMinus() {
       if (this.betCount > 1) {
         this.betCount--;
       }
     },
-    // 加倍数
+    // 加
     handlePlus() {
       if (this.selectedMatchCount < 1) return;
       if (this.betCount < 50) {
         this.betCount++;
       } else {
-        uni.showToast({ title: "倍数最多50倍", icon: "none" });
+        uni.showToast({ title: "最多50倍", icon: "none" });
       }
     },
-    // 提交投注
     async handleConfirmBet(fromPhoneModal) {
       if (this.selectedMatchCount === 0) {
-        uni.showToast({ title: "请先选择至少一场赛事的投注内容", icon: "none" });
+        uni.showToast({ title: "请先选择至少一场", icon: "none" });
         return;
       }
       if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
@@ -509,7 +487,6 @@ export default {
       } catch (error) {
         this.isPayLoading = false;
         uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
-        console.error("篮球混合过关投注报错：", error);
       }
     },
   },
@@ -587,7 +564,7 @@ export default {
       }
     }
 
-    /* 投注项：按行展示 */
+    /* 项：按行展示 */
     .selected-content {
       background: #f9f9f9;
       border-radius: 4rpx;
@@ -642,7 +619,7 @@ export default {
   }
 }
 
-/* 底部投注栏：保持不变 */
+/* 底部栏：保持不变 */
 .bet-bar {
   position: fixed !important;
   width: 100% !important;

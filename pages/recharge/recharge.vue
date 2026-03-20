@@ -10,7 +10,6 @@
       @funnel-click="handleFunnel"
       @back-click="onBackClick"
     />
-    <!-- 充值区域 -->
     <view class="recharge-section">
       <!-- 提示显示区域 -->
       <view class="tip-container" v-if="showTip">
@@ -33,9 +32,9 @@
       <!-- 应付金额展示（通过选中的index取值） -->
       <text class="amount-tip" v-if="list[selectedIndex]">应付金额：{{ list[selectedIndex].count }}元</text>
 
-      <!-- 确认购买按钮 -->
+      <!-- 确认按钮 -->
       <button class="pay-btn" @click="handlePay" :disabled="isPayLoading">
-        <text v-if="!isPayLoading">确认购买</text>
+        <text v-if="!isPayLoading">确认</text>
         <text v-if="isPayLoading">支付中...</text>
       </button>
     </view>
@@ -94,7 +93,7 @@ export default {
     },
 
     /**
-     * 核心：处理确认购买逻辑（多端适配，只用 wxPay）
+     * 核心：处理确认逻辑（多端适配，只用 wxPay）
      */
     async handlePay() {
       if (this.isPayLoading) return;

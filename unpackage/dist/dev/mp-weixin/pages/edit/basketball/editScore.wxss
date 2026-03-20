@@ -232,7 +232,7 @@
   /* 增加选项之间的间距 */
   width: 100%;
 }
-/* 底部投注栏：保持不变 */
+/* 底部栏：保持不变 */
 .bet-bar.data-v-099e611a {
   position: fixed !important;
   width: 100% !important;

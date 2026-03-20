@@ -40,8 +40,9 @@
       />
     </scroll-view>
 
-    <!-- 底部投注栏组件：保留14场核心规则 -->
+    <!-- 底部栏组件：保留14场核心规则 -->
     <BetBar
+    v-if="urlValue"
       :min-match-count="14"
       title="胜负"       
       :show-clear-btn="true"
@@ -130,7 +131,8 @@ export default {
       touchStartX: 0,
       swipeThreshold: 50,
       hasData: false,
-      title:""
+      title:"",
+      urlValue: false,
     };
   },
     onLoad() {
@@ -172,6 +174,10 @@ export default {
     }
   },
   created() {
+  this.$nextTick(()=>{
+    this.urlValue = uni.getStorageSync('urlValue');
+    
+    })
     this.calcNavBarTotalHeight();
   },
   onShow() {
@@ -267,7 +273,7 @@ export default {
       });
       return selected;
     },
-    // 保留14场核心投注逻辑（选9场即可），仅修正comboText为14串1
+    // 保留14场核心逻辑（选9场即可），仅修正comboText为14串1
     async goToSchemeEdit() {
       try {
         const selectedMatches = this.getSelectedMatches();
@@ -451,11 +457,11 @@ let isNeedUserPhone = res.data && res.data.isNeedUserPhone ? res.data.isNeedUser
                 title: "请充币",
                 content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "充币",
+                confirmText: "获取",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
-                    // 点击兑换跳充值页
+                    
                     uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
                   }
                 }

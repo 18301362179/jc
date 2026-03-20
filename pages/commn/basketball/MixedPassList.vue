@@ -18,7 +18,7 @@
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&isShowStatus" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&urlValue" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 
@@ -46,9 +46,9 @@
                     <text class="vs-text">VS</text>
                     <text class="team-name home">{{ item.home_name }}</text>
                   </view>
-                  <view class="rate-row" v-if="isShowStatus">
-                    <text class="rate-text away" style="text-align:right;padding-right: 15px;" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
-                    <text class="rate-text home" style="text-align:left;padding-left: 15px;" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                  <view class="rate-row" v-if="urlValue">
+                    <text class="rate-text away" style="text-align:right;padding-right: 15px;" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
+                    <text class="rate-text home" style="text-align:left;padding-left: 15px;" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
                   </view>
                 </view>
               </view>
@@ -106,7 +106,7 @@
       <view v-else class="popup-content-wrapper">
         <view class="popup-header">
           <view class="popup-title"> {{ currentMatch.visiting_name + "(客)" }} VS {{ currentMatch.home_name + "(主)" }} </view>
-          <!-- 第二行：胜、平、负率 横向排列 -->
+          <!-- 第二行：胜、平、负 横向排列 -->
           <view class="match-stat-info stat-spf">
             <view class="stat-item" v-if="currentMatch.visiting_win_rate">
               <text class="stat-label">胜：</text>
@@ -117,7 +117,7 @@
               <text class="stat-value">{{ currentMatch.draw_rate || "--" }}</text>
             </view>
             <view class="stat-item" v-if="currentMatch.home_win_rate">
-              <text class="stat-label">负率：</text>
+              <text class="stat-label">负：</text>
               <text class="stat-value">{{ currentMatch.home_win_rate || "--" }}</text>
             </view>
           </view>
@@ -351,7 +351,7 @@ export default {
         home_win_r: "让分_主胜",
         home_lose_r: "让分_客胜",
       },
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   computed: {
@@ -418,7 +418,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
     this.initWindowInfo();
@@ -1188,7 +1188,7 @@ export default {
   }
 }
 
-// 胜/平/负率 样式（第二行）
+// 胜/平/负 样式（第二行）
 .match-stat-info.stat-spf {
   display: flex;
   justify-content: center;

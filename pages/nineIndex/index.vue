@@ -39,8 +39,9 @@
       />
     </scroll-view>
 
-    <!-- 底部投注栏组件：保留9场原有逻辑（min-match-count=9） -->
+    <!-- 底部栏组件：保留9场原有逻辑（min-match-count=9） -->
     <BetBar
+      v-if="urlValue"
       :min-match-count="9"
       title="9场"       
       :show-clear-btn="true"
@@ -128,7 +129,8 @@ export default {
       touchStartX: 0,
       swipeThreshold: 50,
       hasData: false,
-      title:""
+      title:"",
+      urlValue: false,
     };
   },
   async onPullDownRefresh() {
@@ -164,6 +166,10 @@ export default {
     }
   },
   created() {
+  this.$nextTick(()=>{
+    this.urlValue = uni.getStorageSync('urlValue');
+    
+    })
     this.calcNavBarTotalHeight();
   },
     onLoad() {
@@ -443,11 +449,11 @@ let isNeedUserPhone = res.data && res.data.isNeedUserPhone ? res.data.isNeedUser
                 title: "请充币",
                 content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "充币",
+                confirmText: "获取",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
-                    // 点击兑换跳充值页
+                    
                     uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
                   }
                 }

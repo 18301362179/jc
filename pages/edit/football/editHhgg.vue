@@ -22,17 +22,17 @@
               <!-- 左侧主队区域：占剩余宽度50%，内容靠右 -->
               <view class="team-item left-team">
                 <text class="team-name-text">{{ item.home_name }}</text>
-                <text class="rate-text" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
+                <text class="rate-text" v-if="item.home_win_rate">胜{{ item.home_win_rate }}</text>
               </view>
               <!-- VS区域：固定宽度，居中显示 -->
               <view class="vs-item">
                 <text class="vs-text">VS</text>
-                <text class="rate-text" v-if="item.draw_rate">平率{{ item.draw_rate || "" }}</text>
+                <text class="rate-text" v-if="item.draw_rate">平{{ item.draw_rate || "" }}</text>
               </view>
               <!-- 右侧客队区域：占剩余宽度50%，内容靠左 -->
               <view class="team-item right-team">
                 <text class="team-name-text">{{ item.visiting_name }}</text>
-                <text class="rate-text" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
+                <text class="rate-text" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate }}</text>
               </view>
             </view>
           </view>
@@ -65,25 +65,23 @@
             </view>
 
             <view v-if="!hasAnyBetItem(item)" class="empty-bet">
-              <text class="trigger-tip">无选中投注内容</text>
+              <text class="trigger-tip">无选中内容</text>
             </view>
           </view>
         </view>
       </view>
     </scroll-view>
 
-    <!-- <view
+    <view
       class="bet-bar"
-      v-if="isShowStatus"
+      v-if="urlValue"
       :style="{
         height: betBarFixedPx + 'px',
         paddingBottom: (isApp ? safeAreaBottom : 0) + 'px',
       }"
     >
       <view class="bet-bar-top">
-        <view class="top-left">
-          {{ selectedMatchList.length == 1 ? "单关" : selectedMatchList.length + "串1" }}
-        </view>
+       
         <view class="collapse-area">
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
@@ -91,34 +89,16 @@
               {{ betCount }}
             </view>
             <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
-            <text class="multi-unit">倍</text>
           </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
+          
           <text class="bonus-tip">{{ calculateHalfFullBonus() }}</text>
         </view>
       </view>
-    </view> -->
-
-    <!-- 手机号弹窗+数字键盘 -->
-    <view class="phone-modal" v-if="showPhoneModal">
-      <view class="modal-mask" @click="showPhoneModal = false" hover-class="none"></view>
-      <view class="modal-content">
-        <view class="modal-desc">业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
-        <view class="input-wrap">
-          <label>微信手机号：</label>
-          <input type="number" v-model="userPhone" placeholder="请输入手机号（必填）" maxlength="11" />
-        </view>
-        <view class="modal-btns">
-          <button class="cancel-btn" @click="showPhoneModal = false" hover-class="none">取消</button>
-          <button class="confirm-btn" @click="confirmPhone" hover-class="none">提交</button>
-        </view>
-      </view>
     </view>
-
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
   </view>
 </template>
@@ -206,7 +186,7 @@ export default {
         半全场_负负: "负负",
 
       },
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   computed: {
@@ -238,7 +218,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
     this.calcAllHeights();
@@ -403,12 +383,12 @@ export default {
       if (this.betCount < 50) {
         this.betCount++;
       } else {
-        uni.showToast({ title: "倍数最多50倍", icon: "none" });
+        uni.showToast({ title: "最多50倍", icon: "none" });
       }
     },
     async handleConfirmBet(fromPhoneModal) {
       if (this.selectedMatchCount === 0) {
-        uni.showToast({ title: "请先选择至少一场赛事的投注内容", icon: "none" });
+        uni.showToast({ title: "请先选择至少一场", icon: "none" });
         return;
       }
       if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
@@ -456,7 +436,7 @@ export default {
       } catch (error) {
         this.isPayLoading = false;
         uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
-        console.error("足球混合过关投注报错：", error);
+        console.error("足球混合过关报错：", error);
       }
     },
     saveEditedData() {
@@ -575,7 +555,7 @@ export default {
         line-height: 1.2;
       }
 
-      // 胜率/平率字体样式
+      // 胜/平字体样式
       .rate-text {
         font-size: 22rpx;
         color: #666;

@@ -63,7 +63,7 @@
   box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
   border-radius: 8rpx;
   /* 赛事头部 */
-  /* 投注项：按行展示 */
+  /* 项：按行展示 */
 }
 .match-list .match-row .match-header.data-v-323e94f0 {
   display: flex;
@@ -131,7 +131,7 @@
   border-radius: 8rpx;
   margin-top: 20rpx;
 }
-/* 底部投注栏：保持不变 */
+/* 底部栏：保持不变 */
 .bet-bar.data-v-323e94f0 {
   position: fixed !important;
   width: 100% !important;

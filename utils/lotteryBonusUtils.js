@@ -3,7 +3,7 @@
 /**
  * 通用彩票预计计算方法（支持足球/篮球所有编辑页面）
  * @param {Array} selectedMatchList - 选中的赛事列表（核心入参，格式见下方说明）
- * @param {Number} betCount - 投注倍数（必填，如1、2、3）
+ * @param {Number} betCount - （必填，如1、2、3）
  * @returns {String} 格式化的奖金文本（单值："预计：XX.XX元"；区间值："预计：XX.XX元 约 XX.XX元"）
  * 
  * @selectedMatchList 入参格式（每个赛事对象必须包含以下字段，足球/篮球通用）：
@@ -18,8 +18,8 @@
  * 说明：足球（半全场、胜平负）、篮球（让分胜负、大小分）均按此格式构造入参，方法不关心具体玩法，只处理赔率数值
  */
 export function calculateLotteryBonus(selectedMatchList = [], betCount = 1) {
-	// 步骤1：边界判断（空列表、无效投注倍数）
-	const validBetCount = Math.max(1, Number(betCount) || 1); // 投注倍数至少为1，处理非数字情况
+	// 步骤1：边界判断（空列表、无效）
+	const validBetCount = Math.max(1, Number(betCount) || 1); // 至少为1，处理非数字情况
 	if (!Array.isArray(selectedMatchList) || selectedMatchList.length === 0) {
 		return "预计：0.00";
 	}
@@ -61,7 +61,7 @@ export function calculateLotteryBonus(selectedMatchList = [], betCount = 1) {
 		maxOddsProduct *= currentRowMax;
 	});
 
-	// 步骤6：计算最终奖金（每注固定2元 × 投注倍数 × 赔率乘积）
+	// 步骤6：计算最终奖金（每注固定2元 ×  × 赔率乘积）
 	const perNoteAmount = 2; // 每注固定2元（彩票通用规则，无需修改）
 	const minBonus = minOddsProduct * perNoteAmount * validBetCount;
 	const maxBonus = maxOddsProduct * perNoteAmount * validBetCount;

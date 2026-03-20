@@ -199,7 +199,6 @@
 .match-list .match-row .match-cells .odds-row .match-cell.selected.data-v-0d38480a:active {
   background: #c62828;
 }
-/* 底部投注栏：统一对齐让分胜负页样式 */
 .bet-bar.data-v-0d38480a {
   position: fixed !important;
   width: 100% !important;

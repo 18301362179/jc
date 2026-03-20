@@ -36,6 +36,7 @@
       />
     </scroll-view>
     <BetBar
+      v-if="urlValue"
       :min-match-count="6"
       title="6场"       
       :show-clear-btn="true"
@@ -122,7 +123,8 @@ export default {
       touchStartX: 0,
       swipeThreshold: 50,
       hasData: false,
-      title:""
+      title:"",
+      urlValue: false,
     };
   },
     onLoad() {
@@ -166,6 +168,10 @@ export default {
     }
   },
   created() {
+        this.$nextTick(()=>{
+    this.urlValue = uni.getStorageSync('urlValue');
+    
+    })
     // 统一获取系统信息，兼容多端
     const systemInfo = wx.getWindowInfo();
     this.statusBarHeight = systemInfo.statusBarHeight;
@@ -491,11 +497,11 @@ export default {
                 title: "请充币",
                 content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "充币",
+                confirmText: "获取",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
-                    // 点击兑换跳充值页
+                    
                     uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
                   }
                 }

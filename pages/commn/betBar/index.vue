@@ -7,7 +7,7 @@
         @click="handleClear"
         v-if="showClearBtn"
       >
-        <image class="trash-icon" src="/static/trash.png" mode="widthFix" />
+        <image class="trash-icon" src="https://www.tianjifu.com/static/trash.png" mode="widthFix" />
       </view>
       
       <!-- 中间提示文字：横向不换行 -->

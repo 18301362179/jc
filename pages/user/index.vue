@@ -10,21 +10,20 @@
     />
     <view class="header">
       <image class="avatar" v-if="userInfo.headImgUrl" :src="userInfo.headImgUrl" mode="aspectFill"></image>
-      <image class="avatar" v-else src="@/static/mine1.png" mode="aspectFill"></image>
+      <image class="avatar" v-else src="https://www.tianjifu.com/static/mine1.png" mode="aspectFill"></image>
       <view class="user-info">
         <text class="username">{{ userInfo.remarkName || '' }}</text>
-        <text class="value stone-count">{{ userInfo.coinAmount || 0 }} 币</text>
+        <text class="value stone-count" v-if="urlValue" @click="getList">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
-      <button class="recharge-btn" v-if="isShowStatus" @click="getUrl">获取</button>
+      <button class="recharge-btn" v-if="urlValue" @click="getUrl">获取</button>
     </view>
 
     <view class="tab-bar">
-      <view class="tab-item" :class="{ active: currentTab === 1 }" v-if="isShowStatus" @click="switchTab(1)">分析</view>
-      <view class="tab-item" :class="{ active: currentTab === 2 }" v-if="isShowStatus" @click="switchTab(2)">购买</view>
+      <view class="tab-item" :class="{ active: currentTab === 1 }" v-if="urlValue" @click="switchTab(1)">分析</view>
     </view>
 
     <scroll-view class="content-scroll" scroll-y>
-      <view v-if="currentTab === 1&&isShowStatus" class="record-section">
+      <view v-if="currentTab === 1&&urlValue" class="record-section">
         <no-data v-if="tradeRecord.length === 0" />
         <view class="trade-header" v-if="tradeRecord.length > 0">
           <view class="trade-header-col type-col">类型</view>
@@ -40,26 +39,6 @@
               <text class="value accent">{{ item.show_str || '' }}</text>
             </view>
             <view class="time-col">
-              <text class="value">{{ item.update_time }}</text>
-            </view>
-          </view>
-        </view>
-      </view>
-
-      <view v-if="currentTab === 2" class="record-section">
-        <no-data v-if="paymentRecord.length === 0" />
-        <view class="record-card recharge-card" v-for="(item, index) in paymentRecord" :key="index">
-          <view class="record-row">
-            <view class="normal-col">
-              <text class="label">购买金额</text>
-              <text class="value highlight">{{ item.payment || 0 }} 元</text>
-            </view>
-            <view class="normal-col">
-              <text class="label">购买</text>
-              <text class="value accent">{{ item.coin_amount || 0 }} 个</text>
-            </view>
-            <view class="time-col">
-              <text class="label">购买时间</text>
               <text class="value">{{ item.update_time }}</text>
             </view>
           </view>
@@ -86,18 +65,17 @@ export default {
       previewImageUrl: '',
       defaultLotteryImageUrl: 'http://www.tianjifu.com/qwxt/outside/common/fileDownload?fileFullPathName=',
       tradeRecord: [],
-      paymentRecord: [],
       touchStartX: 0,
       swipeThreshold: 50,
       betForm: '',
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   created() {
     this.initBetForm();
     this.getData();
             this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
   },
@@ -105,6 +83,13 @@ export default {
     this.getData();
   },
   methods: {
+    getList() {
+      if (this.urlValue) {
+        uni.navigateTo({
+          url: '/pages/getList/getList'
+        });
+      };
+    },
     initBetForm() {
       // #ifdef APP-PLUS
       this.betForm = 'app';
@@ -117,7 +102,7 @@ export default {
       // #endif
     },
     getUrl() {
-      if(this.isShowStatus) {
+      if(this.urlValue) {
         uni.navigateTo({
           url: '/pages/recharge/recharge'
         });
@@ -133,7 +118,6 @@ export default {
         const res = await getUser({ betForm: this.betForm });
         this.userInfo = res.data.user || res.data.userInfo || {};
         this.lotteryPurchasing = res.data.lotteryPurchasing || [];
-        this.paymentRecord = res.data.paymentRecord || [];
         this.tradeRecord = res.data.tradeRecord || [];
       } catch (e) {
         uni.showToast({ title: "加载失败", icon: "none" });
@@ -155,7 +139,6 @@ export default {
   flex-direction: column;
   box-sizing: border-box;
 
-  // 头部（新增去充值按钮样式）
   .header {
     background: #fff;
     box-sizing: border-box;
@@ -172,7 +155,7 @@ export default {
     }
     .user-info {
       .username { font-size: 26rpx; color: #333; display: block; margin-bottom: 6rpx; }
-      .stone-count { font-size: 24rpx; color: #666; }
+      .stone-count { font-size: 24rpx; color: #31926e; }
     }
     .recharge-btn {
       background: #31926e;
@@ -235,7 +218,6 @@ export default {
     // #endif
     box-sizing: border-box !important;
 
-    // 交易/充值通用样式
     .record-section {
       display: flex;
       flex-direction: column;
@@ -341,7 +323,6 @@ export default {
         }
       }
 
-      // 充值记录样式：完全保留，不受影响
       .recharge-card {
         .normal-col {
           flex: 1;

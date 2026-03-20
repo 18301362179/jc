@@ -4,12 +4,12 @@
       <!-- 左侧返回区 -->
       <view class="header-left" v-if="showBack" >
         <view class="header-back"  @click="onBackClick">
-          <image class="back-icon" src="/static/back.png" mode="aspectFit"></image>
+          <image class="back-icon" src="https://www.tianjifu.com/static/back.png" mode="aspectFit"></image>
         </view>
       </view>
       <view class="header-left"  v-if="showIcon">
         <view class="header-back" @click="onFunnelClick">
-          <image class="funnel-icon" src="/static/funnel.png" mode="aspectFit"></image>
+          <image class="funnel-icon" src="https://www.tianjifu.com/static/funnel.png" mode="aspectFit"></image>
         </view>
       </view>
       <!-- 中间标题区：仅做居中容器 -->

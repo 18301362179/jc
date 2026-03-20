@@ -1,6 +1,6 @@
 // utils/validate.js
 /**
- * 投注倍数输入实时校验（输入框专用，立刻修正）
+ * 输入实时校验（输入框专用，立刻修正）
  * @param {string|number} value - 输入框原始值
  * @returns {number} 修正后的合法值（1-50整数）
  */

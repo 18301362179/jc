@@ -15,23 +15,18 @@
       <MixedPassList ref="mixedPassRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight" @toggle-mixed-select="handleMixedSelect" @update-selected-count="updateMixedSelectedCount" @confirm-mixed-select="handleConfirmMixedSelect" :go-to-ai-analysis="goToAiAnalysis" />
     </scroll-view>
 
-    <!-- 底部投注栏（完全匹配原型图） -->
-    <view class="bet-bar" v-if="isShowStatus">
+    <view class="bet-bar" v-if="urlValue">
       <view class="bet-bar-inner">
-        <!-- 左侧：清空图标 + 已选场次 + 风险提示 -->
         <view class="left-section">
-          <image class="clear-icon" src="/static/trash.png" mode="widthFix" @click="clearAllSelection" :class="{ disabled: selectedMatchCount === 0 }"></image>
+          <image class="clear-icon" src="https://www.tianjifu.com/static/trash.png" mode="widthFix" @click="clearAllSelection" :class="{ disabled: selectedMatchCount === 0 }"></image>
           <view class="text-group">
             <text class="selected-text">已选{{ selectedMatchCount }}场</text>
+            <text class="risk-tip">数据仅供参考</text>
           </view>
         </view>
-
-        <!-- 右侧：预览按钮 -->
         <button class="confirm-btn" @click="goToSchemeEdit" :disabled="selectedMatchCount === 0">预览</button>
       </view>
     </view>
-
-    <!-- 玩法切换弹窗 -->
     <view class="type-popup" :class="{ show: isPopupShowType }">
       <view class="popup-mask" @tap="closePopupType"></view>
       <view class="popup-box" :style="{ top: headerHeight + 'px' }">
@@ -40,7 +35,7 @@
             <view v-for="typeText in typesList" :key="typeText" class="option-item" :class="{ active: selectedType.includes(typeText) }" @click="toggleType(typeText)">
               {{ typeText }}
               <view class="check-mark" v-if="selectedType.includes(typeText)">
-                <image class="check-icon" src="/static/check.png" mode="widthFix"></image>
+                <image class="check-icon" src="https://www.tianjifu.com/static/check.png" mode="widthFix"></image>
               </view>
             </view>
           </view>
@@ -129,14 +124,6 @@ onLoad() {
       isKeyboardShow: false,
       tipsTitle: "重要提示",
       tipsContentList: [
-        "1、挑选胜率差较大的比赛，进入《分析》查看对战情况、近期表现等因素综合评估预测比赛（半年内的数据采信度比较高）。",
-        "2、建议选择欧洲五大联赛、各洲杯赛等不容易被操纵的比赛作为参考目标。",
-        "3、本软件提供足球、篮球比赛胜负、数据分析以及详细球队对比信息，预测数据仅供参考。",
-        "4、本系统预测数据仅供参考，无准确率保证。",
-        "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。",
-        "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。",
-        "7、关于体彩相关玩法、规则请到中国体育彩票网站或app自行参阅。",
-        "8、每天上午11点10分后本应用正式可用。",
       ],
       windowHeight: 0,
       bottomBtnBarHeight: 0,
@@ -149,7 +136,7 @@ onLoad() {
       touchStartX: 0, // 新增：触摸起始X坐标
       swipeThreshold: 50, // 新增：滑动判定阈值（px）
       hasData: false,
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   async onPullDownRefresh() {
@@ -240,7 +227,7 @@ selectedMatchCount() {
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
     if (uni.getWindowInfo) {
@@ -743,7 +730,7 @@ handleMixedSelect(item, selectType) {
       if (this.betCount < 50) {
         this.betCount++;
       } else {
-        uni.showToast({ title: "倍数最多50倍", icon: "none" });
+        uni.showToast({ title: "最多50倍", icon: "none" });
       }
     },
     toggleSelect(targetItem, key) {
@@ -864,7 +851,7 @@ handleMixedSelect(item, selectType) {
         uni.showToast({ title: "加载失败，请重试", icon: "none" });
       }
     },
-    // 混合过关数据格式化（完善：补充更多投注类型）
+    // 混合过关数据格式化（完善：补充更多类型）
     formatMixedPassDrawerList(data) {
       if (!data) {
         // 返回默认的混合过关示例数据（完善：补充选中数组初始化）
@@ -879,8 +866,8 @@ handleMixedSelect(item, selectType) {
                 race_date: "01-23 01:30",
                 home_name: "胡巴卡德",
                 visiting_name: "吉达联合",
-                home_win_rate: "65%", // 胜率字段
-                visiting_win_rate: "35%", // 胜率字段
+                home_win_rate: "65%", // 胜字段
+                visiting_win_rate: "35%", // 胜字段
                 is_stop: false, // 改为未停售
                 // ========== 核心新增：初始化所有玩法的选中数组 ==========
                 selectedSpf: [], // 胜平负/让球胜平负选中数组
@@ -894,7 +881,7 @@ handleMixedSelect(item, selectType) {
                 r_win_multiplier: 2.1,
                 r_draw_multiplier: 3.1,
                 r_loss_multiplier: 3.8,
-                // 完善投注项：包含胜平负、让球胜平负、比分、总进球、半全场
+                // 完善项：包含胜平负、让球胜平负、比分、总进球、半全场
                 betRows: [
                 ],
                 popupBets: {
@@ -915,7 +902,7 @@ handleMixedSelect(item, selectType) {
         ];
       }
 
-      // 格式化接口返回的混合过关数据（保留所有原始字段，完善投注项+初始化选中数组）
+      // 格式化接口返回的混合过关数据（保留所有原始字段，完善项+初始化选中数组）
       const drawerList = [];
       Object.keys(data).forEach((key) => {
         if (key.startsWith("data_") && data[key].title && data[key].lotteryList) {
@@ -1084,7 +1071,7 @@ handleMixedSelect(item, selectType) {
           // 保留所有原始字段，不做字段过滤
           drawerList.push({
             title: data[key].title,
-            // 直接使用原始数据，不做修改（保留胜率、赔率等所有字段）
+            // 直接使用原始数据，不做修改（保留胜、赔率等所有字段）
             lotteryList:
               data[key].lotteryList.map((item) => ({
                 ...item,
@@ -1147,18 +1134,18 @@ handleMixedSelect(item, selectType) {
         // 调用recharge接口
         const res = await recharge(reqParams);
         if (res.data.status == 'fail') {
-          // isLottery=1 表示无灵石，显示充值弹窗
+          
          this.hideLoading();
       // 原生弹窗（和你自定义弹窗效果完全一致）
               uni.showModal({
                 title: "请充币",
                 content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "充币",
+                confirmText: "获取",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
-                    // 点击兑换跳充值页
+                    
                     uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=football&isLottery=1` });
                   }
                 }
@@ -1319,7 +1306,7 @@ page {
     }
 }
 
-/* 彻底删除原有串关和倍数相关样式 */
+/* 彻底删除原有串关和相关样式 */
 .bet-bar-top, .bet-bar-bottom, .top-middle {
   display: none !important;
 }

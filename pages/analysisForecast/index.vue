@@ -363,7 +363,7 @@ export default {
             title: "请充币",
             content: "您的游戏币不足，请充币！",
             cancelText: "取消",
-            confirmText: "充币",
+            confirmText: "获取",
             confirmColor: "#d92929",
             success: (res) => {
               if (res.confirm) {

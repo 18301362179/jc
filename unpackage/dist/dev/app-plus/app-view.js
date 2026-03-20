@@ -398,7 +398,7 @@ var render = function () {
                       _c("v-uni-image", {
                         staticClass: _vm._$g(7, "sc"),
                         attrs: {
-                          src: "/static/jczq.png",
+                          src: "https://www.tianjifu.com/static/jczq.png",
                           mode: "widthFix",
                           _i: 7,
                         },
@@ -426,7 +426,7 @@ var render = function () {
                       _c("v-uni-image", {
                         staticClass: _vm._$g(10, "sc"),
                         attrs: {
-                          src: "/static/jclq.png",
+                          src: "https://www.tianjifu.com/static/jclq.png",
                           mode: "widthFix",
                           _i: 10,
                         },
@@ -454,7 +454,7 @@ var render = function () {
                       _c("v-uni-image", {
                         staticClass: _vm._$g(13, "sc"),
                         attrs: {
-                          src: "/static/ctzq.png",
+                          src: "https://www.tianjifu.com/static/ctzq.png",
                           mode: "widthFix",
                           _i: 13,
                         },
@@ -482,7 +482,7 @@ var render = function () {
                       _c("v-uni-image", {
                         staticClass: _vm._$g(16, "sc"),
                         attrs: {
-                          src: "/static/ctzq.png",
+                          src: "https://www.tianjifu.com/static/ctzq.png",
                           mode: "widthFix",
                           _i: 16,
                         },
@@ -510,7 +510,7 @@ var render = function () {
                       _c("v-uni-image", {
                         staticClass: _vm._$g(19, "sc"),
                         attrs: {
-                          src: "/static/ctzq.png",
+                          src: "https://www.tianjifu.com/static/ctzq.png",
                           mode: "widthFix",
                           _i: 19,
                         },
@@ -538,7 +538,7 @@ var render = function () {
                       _c("v-uni-image", {
                         staticClass: _vm._$g(22, "sc"),
                         attrs: {
-                          src: "/static/ctzq.png",
+                          src: "https://www.tianjifu.com/static/ctzq.png",
                           mode: "widthFix",
                           _i: 22,
                         },
@@ -753,7 +753,7 @@ var render = function () {
                       _c("v-uni-image", {
                         staticClass: _vm._$g(4, "sc"),
                         attrs: {
-                          src: "/static/back.png",
+                          src: "https://www.tianjifu.com/static/back.png",
                           mode: "aspectFit",
                           _i: 4,
                         },
@@ -785,7 +785,7 @@ var render = function () {
                       _c("v-uni-image", {
                         staticClass: _vm._$g(7, "sc"),
                         attrs: {
-                          src: "/static/funnel.png",
+                          src: "https://www.tianjifu.com/static/funnel.png",
                           mode: "aspectFit",
                           _i: 7,
                         },
@@ -4296,7 +4296,7 @@ var render = function () {
               })
             : _c("v-uni-image", {
                 staticClass: _vm._$g(4, "sc"),
-                attrs: { src: "/static/mine1.png", mode: "aspectFill", _i: 4 },
+                attrs: { src: "https://www.tianjifu.com/static/mine1.png", mode: "aspectFill", _i: 4 },
               }),
           _c(
             "uni-view",
@@ -4414,7 +4414,7 @@ var render = function () {
                                         staticClass: _vm._$g("19-" + $30, "sc"),
                                         attrs: { _i: "19-" + $30 },
                                       },
-                                      [_vm._v("投注注数")]
+                                      [_vm._v("注数")]
                                     ),
                                     _c(
                                       "v-uni-text",
@@ -4440,7 +4440,7 @@ var render = function () {
                                         staticClass: _vm._$g("22-" + $30, "sc"),
                                         attrs: { _i: "22-" + $30 },
                                       },
-                                      [_vm._v("倍数")]
+                                      [_vm._v("")]
                                     ),
                                     _c(
                                       "v-uni-text",
@@ -4590,7 +4590,7 @@ var render = function () {
                                 staticClass: _vm._$g("38-" + $30, "sc"),
                                 attrs: { _i: "38-" + $30 },
                               },
-                              [_vm._v("投注类型：")]
+                              [_vm._v("类型：")]
                             ),
                             _c(
                               "v-uni-text",
@@ -4795,7 +4795,7 @@ var render = function () {
                                     staticClass: _vm._$g("61-" + $32, "sc"),
                                     attrs: { _i: "61-" + $32 },
                                   },
-                                  [_vm._v("确认购买金额")]
+                                  [_vm._v("确认金额")]
                                 ),
                                 _c(
                                   "v-uni-text",
@@ -4847,7 +4847,7 @@ var render = function () {
                                     staticClass: _vm._$g("67-" + $32, "sc"),
                                     attrs: { _i: "67-" + $32 },
                                   },
-                                  [_vm._v("充值时间")]
+                                  [_vm._v("时间")]
                                 ),
                                 _c(
                                   "v-uni-text",
@@ -5253,7 +5253,7 @@ var render = function () {
                     staticClass: _vm._$g(12, "sc"),
                     class: _vm._$g(12, "c"),
                     attrs: {
-                      src: "/static/trash.png",
+                      src: "https://www.tianjifu.com/static/trash.png",
                       mode: "widthFix",
                       _i: 12,
                     },
@@ -5363,7 +5363,7 @@ var render = function () {
                                     _c("v-uni-image", {
                                       staticClass: _vm._$g("24-" + $30, "sc"),
                                       attrs: {
-                                        src: "/static/check.png",
+                                        src: "https://www.tianjifu.com/static/check.png",
                                         mode: "widthFix",
                                         _i: "24-" + $30,
                                       },
@@ -6269,7 +6269,7 @@ var render = function () {
                                         attrs: { _i: "22-" + $30 + "-" + $31 },
                                       },
                                       [
-                                        _vm._v("胜率"),
+                                        _vm._v("胜"),
                                         _c(
                                           "v-uni-text",
                                           {
@@ -6356,7 +6356,7 @@ var render = function () {
                                         attrs: { _i: "27-" + $30 + "-" + $31 },
                                       },
                                       [
-                                        _vm._v("平率"),
+                                        _vm._v("平"),
                                         _c(
                                           "v-uni-text",
                                           {
@@ -6447,7 +6447,7 @@ var render = function () {
                                         attrs: { _i: "32-" + $30 + "-" + $31 },
                                       },
                                       [
-                                        _vm._v("胜率"),
+                                        _vm._v("胜"),
                                         _c(
                                           "v-uni-text",
                                           {
@@ -6992,7 +6992,7 @@ var render = function () {
                                         attrs: { _i: "24-" + $30 + "-" + $31 },
                                       },
                                       [
-                                        _vm._v("胜率"),
+                                        _vm._v("胜"),
                                         _c(
                                           "v-uni-text",
                                           {
@@ -7079,7 +7079,7 @@ var render = function () {
                                         attrs: { _i: "29-" + $30 + "-" + $31 },
                                       },
                                       [
-                                        _vm._v("平率"),
+                                        _vm._v("平"),
                                         _c(
                                           "v-uni-text",
                                           {
@@ -7170,7 +7170,7 @@ var render = function () {
                                         attrs: { _i: "34-" + $30 + "-" + $31 },
                                       },
                                       [
-                                        _vm._v("胜率"),
+                                        _vm._v("胜"),
                                         _c(
                                           "v-uni-text",
                                           {
@@ -7753,7 +7753,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "27-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -7796,7 +7796,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "29-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -8723,7 +8723,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "胜率" +
+                                        "胜" +
                                           _vm._$g(
                                             "24-" + $30 + "-" + $31,
                                             "t0-0"
@@ -8759,7 +8759,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "胜率" +
+                                        "胜" +
                                           _vm._$g(
                                             "26-" + $30 + "-" + $31,
                                             "t0-0"
@@ -9562,7 +9562,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "27-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -9605,7 +9605,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "29-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -10043,7 +10043,7 @@ var render = function () {
       _c("v-uni-image", {
         staticClass: _vm._$g(1, "sc"),
         attrs: {
-          src: "/static/stop.png",
+          src: "https://www.tianjifu.com/static/stop.png",
           mode: "aspectFit",
           "lazy-load": "true",
           _i: 1,
@@ -10654,7 +10654,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "胜率" +
+                                                    "胜" +
                                                       _vm._$g(
                                                         "31-" + $30 + "-" + $31,
                                                         "t0-0"
@@ -10677,7 +10677,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "平率" +
+                                                    "平" +
                                                       _vm._$g(
                                                         "32-" + $30 + "-" + $31,
                                                         "t0-0"
@@ -10704,7 +10704,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "胜率" +
+                                                    "胜" +
                                                       _vm._$g(
                                                         "33-" + $30 + "-" + $31,
                                                         "t0-0"
@@ -11334,7 +11334,7 @@ var render = function () {
                                           staticClass: _vm._$g(71, "sc"),
                                           attrs: { _i: 71 },
                                         },
-                                        [_vm._v("胜率：")]
+                                        [_vm._v("胜：")]
                                       ),
                                       _c(
                                         "v-uni-text",
@@ -11362,7 +11362,7 @@ var render = function () {
                                           staticClass: _vm._$g(74, "sc"),
                                           attrs: { _i: 74 },
                                         },
-                                        [_vm._v("平率：")]
+                                        [_vm._v("平：")]
                                       ),
                                       _c(
                                         "v-uni-text",
@@ -11390,7 +11390,7 @@ var render = function () {
                                           staticClass: _vm._$g(77, "sc"),
                                           attrs: { _i: 77 },
                                         },
-                                        [_vm._v("负率：")]
+                                        [_vm._v("负：")]
                                       ),
                                       _c(
                                         "v-uni-text",
@@ -13729,7 +13729,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\nbody[data-v-d918978e] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\n[data-v-d918978e] .custom-header {\r\n  position: fixed !important;\r\n  top: 0 !important;\r\n  left: 0 !important;\r\n  width: 100% !important;\r\n  z-index: 10 !important;\n}\n.match-scroll[data-v-d918978e] {\r\n  touch-action: pan-y;\r\n  position: absolute !important;\r\n  left: 0;\r\n  right: 0;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  height: calc(100vh - var(--status-bar-height)) !important;\r\n  top: 0 !important;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\n}\n.match-scroll[data-v-d918978e]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 替换为足球同款bet-bar样式 */\n.bet-bar[data-v-d918978e] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  box-sizing: border-box !important;\r\n  padding: 10rpx 20rpx;\r\n  bottom: calc(constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-inner[data-v-d918978e] {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  height: 80rpx;\n}\n.bet-bar .left-section[data-v-d918978e] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 12rpx;\r\n  flex: 1;\r\n  padding: 10rpx 0rpx 10rpx 20rpx;\n}\n.bet-bar .clear-icon[data-v-d918978e] {\r\n  width: 42rpx;\r\n  height: 42rpx;\r\n  opacity: 1;\n}\n.bet-bar .clear-icon.disabled[data-v-d918978e] {\r\n  opacity: 0.2;\r\n  pointer-events: none;\n}\n.bet-bar .text-group[data-v-d918978e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 4rpx;\n}\n.bet-bar .selected-text[data-v-d918978e] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  font-weight: 400;\n}\n.bet-bar .risk-tip[data-v-d918978e] {\r\n  font-size: 20rpx;\r\n  color: #999;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .confirm-btn[data-v-d918978e] {\r\n  width: 180rpx;\r\n  height: 70rpx;\r\n  line-height: 70rpx;\r\n  background-color: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  box-sizing: border-box;\n}\n.bet-bar .confirm-btn[data-v-d918978e]:disabled {\r\n  background-color: #ccc;\r\n  color: #999;\n}\r\n/* 彻底删除原有串关和倍数相关样式 */\n.bet-bar-top[data-v-d918978e], .bet-bar-bottom[data-v-d918978e], .top-middle[data-v-d918978e] {\r\n  display: none !important;\n}\n.type-popup[data-v-d918978e] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 999999;\r\n  opacity: 0;\r\n  pointer-events: none;\r\n  transition: opacity 0.3s ease;\n}\n.type-popup .popup-mask[data-v-d918978e] {\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  transition: background 0.3s ease;\n}\n.type-popup .popup-box[data-v-d918978e] {\r\n  position: absolute;\r\n  left: 0;\r\n  width: 100%;\r\n  background: #fff;\r\n  box-shadow: 0 5rpx 20rpx rgba(0, 0, 0, 0.2);\r\n  -webkit-transform: translateY(-100%);\r\n          transform: translateY(-100%);\r\n  transition: -webkit-transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), -webkit-transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  overflow-y: auto;\n}\n.type-popup.show[data-v-d918978e] {\r\n  opacity: 1;\r\n  pointer-events: auto;\n}\n.type-popup.show .popup-box[data-v-d918978e] {\r\n  -webkit-transform: translateY(0);\r\n          transform: translateY(0);\n}\n.type-popup.show .popup-mask[data-v-d918978e] {\r\n  background: rgba(0, 0, 0, 0.6);\n}\n.filter-section[data-v-d918978e] {\r\n  padding: 20rpx 24rpx;\r\n  border-bottom: 1rpx solid #f5f5f5;\n}\n.filter-section .section-title[data-v-d918978e] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  margin-bottom: 16rpx;\r\n  font-weight: 500;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\n}\n.filter-section .options-container[data-v-d918978e] {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 4rpx;\n}\n.filter-section .option-item[data-v-d918978e] {\r\n  min-width: calc((100% - 3 * 4rpx) / 5.05);\r\n  height: 90rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ddd;\r\n  border-radius: 6rpx;\r\n  box-sizing: border-box;\r\n  cursor: pointer;\r\n  font-size: 26rpx;\r\n  color: #666;\r\n  position: relative;\r\n  transition: all 0.2s ease;\n}\n.filter-section .option-item.active[data-v-d918978e] {\r\n  border-color: #d92929;\r\n  color: #d92929;\r\n  background-color: #fff5f5;\n}\n.filter-section .option-item .check-mark[data-v-d918978e] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  right: 0;\r\n  width: 40rpx;\r\n  height: 40rpx;\r\n  background-color: #d92929;\r\n  -webkit-clip-path: polygon(100% 0, 0 100%, 100% 100%);\r\n          clip-path: polygon(100% 0, 0 100%, 100% 100%);\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  overflow: hidden;\n}\n.filter-section .option-item .check-mark .check-icon[data-v-d918978e] {\r\n  width: 28rpx;\r\n  height: 28rpx;\r\n  -webkit-transform: translate(10rpx, 8rpx);\r\n          transform: translate(10rpx, 8rpx);\n}\n[data-v-d918978e] .tips-container {\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 0;\n}\n[data-v-d918978e] .tips-title {\r\n  font-size: 32rpx;\r\n  color: #d92929;\r\n  font-weight: bold;\r\n  margin-bottom: 20rpx;\r\n  text-align: center;\n}\n[data-v-d918978e] .tips-list {\r\n  width: 100%;\n}\n[data-v-d918978e] .tips-item {\r\n  font-size: 26rpx;\r\n  color: #333;\r\n  line-height: 1.8;\r\n  margin-bottom: 16rpx;\r\n  text-align: justify;\r\n  padding: 0 10rpx;\r\n  word-break: break-all;\n}\n[data-v-d918978e] .tips-item:last-child {\r\n  margin-bottom: 0;\n}\n.popup-btn-bar[data-v-d918978e] {\r\n  display: flex;\r\n  padding: 20rpx 24rpx;\r\n  gap: 20rpx;\r\n  background-color: #fff;\r\n  margin-top: 20rpx;\r\n  box-sizing: border-box;\n}\n.popup-btn-bar .popup-btn[data-v-d918978e] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 30rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  line-height: 1;\r\n  transition: all 0.2s ease;\n}\n.popup-btn-bar .cancel-btn[data-v-d918978e] {\r\n  background-color: #fff;\r\n  color: #666;\r\n  border: 1rpx solid #ddd;\n}\n.popup-btn-bar .cancel-btn[data-v-d918978e]:hover {\r\n  background-color: #f5f5f5;\n}\n.popup-btn-bar .cancel-btn[data-v-d918978e]:active {\r\n  background-color: #eee;\n}\n.popup-btn-bar .confirm-btn[data-v-d918978e] {\r\n  background-color: #d92929;\r\n  color: #fff;\r\n  border: none;\n}\n.popup-btn-bar .confirm-btn[data-v-d918978e]:hover {\r\n  background-color: #c62828;\n}\n.popup-btn-bar .confirm-btn[data-v-d918978e]:active {\r\n  background-color: #b71c1c;\n}\n[data-v-d918978e] .native-tabbar {\r\n  position: fixed;\r\n  bottom: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  z-index: 9;\n}\n[data-v-d918978e]::-webkit-scrollbar {\r\n  display: none;\n}\n.uni-modal-wrapper .uni-modal[data-v-d918978e] {\r\n  border-radius: 20rpx !important;\r\n  background-color: #fff !important;\n}\n.uni-modal-wrapper .uni-modal-header[data-v-d918978e] {\r\n  font-size: 32rpx !important;\r\n  color: #d92929 !important;\r\n  font-weight: bold !important;\n}\n.uni-modal-wrapper .uni-modal-body[data-v-d918978e] {\r\n  font-size: 28rpx !important;\r\n  color: #666 !important;\r\n  padding: 30rpx 20rpx !important;\n}\n.uni-modal-wrapper .uni-modal-footer .uni-modal-btn[data-v-d918978e] {\r\n  border-radius: 40rpx !important;\n}\n.uni-modal-wrapper .uni-modal-footer .uni-modal-btn.uni-modal-confirm[data-v-d918978e] {\r\n  background-color: #d92929 !important;\r\n  color: #fff !important;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\nbody[data-v-d918978e] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\n[data-v-d918978e] .custom-header {\r\n  position: fixed !important;\r\n  top: 0 !important;\r\n  left: 0 !important;\r\n  width: 100% !important;\r\n  z-index: 10 !important;\n}\n.match-scroll[data-v-d918978e] {\r\n  touch-action: pan-y;\r\n  position: absolute !important;\r\n  left: 0;\r\n  right: 0;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  height: calc(100vh - var(--status-bar-height)) !important;\r\n  top: 0 !important;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\n}\n.match-scroll[data-v-d918978e]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 替换为足球同款bet-bar样式 */\n.bet-bar[data-v-d918978e] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  box-sizing: border-box !important;\r\n  padding: 10rpx 20rpx;\r\n  bottom: calc(constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-inner[data-v-d918978e] {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  height: 80rpx;\n}\n.bet-bar .left-section[data-v-d918978e] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 12rpx;\r\n  flex: 1;\r\n  padding: 10rpx 0rpx 10rpx 20rpx;\n}\n.bet-bar .clear-icon[data-v-d918978e] {\r\n  width: 42rpx;\r\n  height: 42rpx;\r\n  opacity: 1;\n}\n.bet-bar .clear-icon.disabled[data-v-d918978e] {\r\n  opacity: 0.2;\r\n  pointer-events: none;\n}\n.bet-bar .text-group[data-v-d918978e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 4rpx;\n}\n.bet-bar .selected-text[data-v-d918978e] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  font-weight: 400;\n}\n.bet-bar .risk-tip[data-v-d918978e] {\r\n  font-size: 20rpx;\r\n  color: #999;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .confirm-btn[data-v-d918978e] {\r\n  width: 180rpx;\r\n  height: 70rpx;\r\n  line-height: 70rpx;\r\n  background-color: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  box-sizing: border-box;\n}\n.bet-bar .confirm-btn[data-v-d918978e]:disabled {\r\n  background-color: #ccc;\r\n  color: #999;\n}\r\n/* 彻底删除原有串关和相关样式 */\n.bet-bar-top[data-v-d918978e], .bet-bar-bottom[data-v-d918978e], .top-middle[data-v-d918978e] {\r\n  display: none !important;\n}\n.type-popup[data-v-d918978e] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 999999;\r\n  opacity: 0;\r\n  pointer-events: none;\r\n  transition: opacity 0.3s ease;\n}\n.type-popup .popup-mask[data-v-d918978e] {\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  transition: background 0.3s ease;\n}\n.type-popup .popup-box[data-v-d918978e] {\r\n  position: absolute;\r\n  left: 0;\r\n  width: 100%;\r\n  background: #fff;\r\n  box-shadow: 0 5rpx 20rpx rgba(0, 0, 0, 0.2);\r\n  -webkit-transform: translateY(-100%);\r\n          transform: translateY(-100%);\r\n  transition: -webkit-transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), -webkit-transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  overflow-y: auto;\n}\n.type-popup.show[data-v-d918978e] {\r\n  opacity: 1;\r\n  pointer-events: auto;\n}\n.type-popup.show .popup-box[data-v-d918978e] {\r\n  -webkit-transform: translateY(0);\r\n          transform: translateY(0);\n}\n.type-popup.show .popup-mask[data-v-d918978e] {\r\n  background: rgba(0, 0, 0, 0.6);\n}\n.filter-section[data-v-d918978e] {\r\n  padding: 20rpx 24rpx;\r\n  border-bottom: 1rpx solid #f5f5f5;\n}\n.filter-section .section-title[data-v-d918978e] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  margin-bottom: 16rpx;\r\n  font-weight: 500;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\n}\n.filter-section .options-container[data-v-d918978e] {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 4rpx;\n}\n.filter-section .option-item[data-v-d918978e] {\r\n  min-width: calc((100% - 3 * 4rpx) / 5.05);\r\n  height: 90rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ddd;\r\n  border-radius: 6rpx;\r\n  box-sizing: border-box;\r\n  cursor: pointer;\r\n  font-size: 26rpx;\r\n  color: #666;\r\n  position: relative;\r\n  transition: all 0.2s ease;\n}\n.filter-section .option-item.active[data-v-d918978e] {\r\n  border-color: #d92929;\r\n  color: #d92929;\r\n  background-color: #fff5f5;\n}\n.filter-section .option-item .check-mark[data-v-d918978e] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  right: 0;\r\n  width: 40rpx;\r\n  height: 40rpx;\r\n  background-color: #d92929;\r\n  -webkit-clip-path: polygon(100% 0, 0 100%, 100% 100%);\r\n          clip-path: polygon(100% 0, 0 100%, 100% 100%);\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  overflow: hidden;\n}\n.filter-section .option-item .check-mark .check-icon[data-v-d918978e] {\r\n  width: 28rpx;\r\n  height: 28rpx;\r\n  -webkit-transform: translate(10rpx, 8rpx);\r\n          transform: translate(10rpx, 8rpx);\n}\n[data-v-d918978e] .tips-container {\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 0;\n}\n[data-v-d918978e] .tips-title {\r\n  font-size: 32rpx;\r\n  color: #d92929;\r\n  font-weight: bold;\r\n  margin-bottom: 20rpx;\r\n  text-align: center;\n}\n[data-v-d918978e] .tips-list {\r\n  width: 100%;\n}\n[data-v-d918978e] .tips-item {\r\n  font-size: 26rpx;\r\n  color: #333;\r\n  line-height: 1.8;\r\n  margin-bottom: 16rpx;\r\n  text-align: justify;\r\n  padding: 0 10rpx;\r\n  word-break: break-all;\n}\n[data-v-d918978e] .tips-item:last-child {\r\n  margin-bottom: 0;\n}\n.popup-btn-bar[data-v-d918978e] {\r\n  display: flex;\r\n  padding: 20rpx 24rpx;\r\n  gap: 20rpx;\r\n  background-color: #fff;\r\n  margin-top: 20rpx;\r\n  box-sizing: border-box;\n}\n.popup-btn-bar .popup-btn[data-v-d918978e] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 30rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  line-height: 1;\r\n  transition: all 0.2s ease;\n}\n.popup-btn-bar .cancel-btn[data-v-d918978e] {\r\n  background-color: #fff;\r\n  color: #666;\r\n  border: 1rpx solid #ddd;\n}\n.popup-btn-bar .cancel-btn[data-v-d918978e]:hover {\r\n  background-color: #f5f5f5;\n}\n.popup-btn-bar .cancel-btn[data-v-d918978e]:active {\r\n  background-color: #eee;\n}\n.popup-btn-bar .confirm-btn[data-v-d918978e] {\r\n  background-color: #d92929;\r\n  color: #fff;\r\n  border: none;\n}\n.popup-btn-bar .confirm-btn[data-v-d918978e]:hover {\r\n  background-color: #c62828;\n}\n.popup-btn-bar .confirm-btn[data-v-d918978e]:active {\r\n  background-color: #b71c1c;\n}\n[data-v-d918978e] .native-tabbar {\r\n  position: fixed;\r\n  bottom: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  z-index: 9;\n}\n[data-v-d918978e]::-webkit-scrollbar {\r\n  display: none;\n}\n.uni-modal-wrapper .uni-modal[data-v-d918978e] {\r\n  border-radius: 20rpx !important;\r\n  background-color: #fff !important;\n}\n.uni-modal-wrapper .uni-modal-header[data-v-d918978e] {\r\n  font-size: 32rpx !important;\r\n  color: #d92929 !important;\r\n  font-weight: bold !important;\n}\n.uni-modal-wrapper .uni-modal-body[data-v-d918978e] {\r\n  font-size: 28rpx !important;\r\n  color: #666 !important;\r\n  padding: 30rpx 20rpx !important;\n}\n.uni-modal-wrapper .uni-modal-footer .uni-modal-btn[data-v-d918978e] {\r\n  border-radius: 40rpx !important;\n}\n.uni-modal-wrapper .uni-modal-footer .uni-modal-btn.uni-modal-confirm[data-v-d918978e] {\r\n  background-color: #d92929 !important;\r\n  color: #fff !important;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -14212,7 +14212,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "15-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -14235,7 +14235,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "平率" +
+                                                "平" +
                                                   _vm._$g(
                                                     "16-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -14258,7 +14258,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "17-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -14626,7 +14626,7 @@ var render = function () {
                   _c("v-uni-image", {
                     staticClass: _vm._$g(3, "sc"),
                     attrs: {
-                      src: "/static/trash.png",
+                      src: "https://www.tianjifu.com/static/trash.png",
                       mode: "widthFix",
                       _i: 3,
                     },
@@ -15299,7 +15299,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("12-" + $30, "t0-0")
+                                          "胜" + _vm._$g("12-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -15313,7 +15313,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "平率" + _vm._$g("13-" + $30, "t0-0")
+                                          "平" + _vm._$g("13-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -15327,7 +15327,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("14-" + $30, "t0-0")
+                                          "胜" + _vm._$g("14-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -15420,7 +15420,7 @@ var render = function () {
                   _c(
                     "uni-view",
                     { staticClass: _vm._$g(24, "sc"), attrs: { _i: 24 } },
-                    [_vm._v("请输入倍数后截屏给售票人")]
+                    [_vm._v("请输入后截屏给售票人")]
                   ),
                   _c(
                     "uni-view",
@@ -16123,7 +16123,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "15-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -16146,7 +16146,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "平率" +
+                                                "平" +
                                                   _vm._$g(
                                                     "16-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -16169,7 +16169,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "17-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -16685,7 +16685,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("12-" + $30, "t0-0")
+                                          "胜" + _vm._$g("12-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -16699,7 +16699,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "平率" + _vm._$g("13-" + $30, "t0-0")
+                                          "平" + _vm._$g("13-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -16713,7 +16713,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("14-" + $30, "t0-0")
+                                          "胜" + _vm._$g("14-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -16806,7 +16806,7 @@ var render = function () {
                   _c(
                     "uni-view",
                     { staticClass: _vm._$g(24, "sc"), attrs: { _i: 24 } },
-                    [_vm._v("请输入倍数后截屏给售票人")]
+                    [_vm._v("请输入后截屏给售票人")]
                   ),
                   _c(
                     "uni-view",
@@ -17543,7 +17543,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "15-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -17566,7 +17566,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "平率" +
+                                                "平" +
                                                   _vm._$g(
                                                     "16-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -17589,7 +17589,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "17-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -18247,7 +18247,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("12-" + $30, "t0-0")
+                                          "胜" + _vm._$g("12-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -18261,7 +18261,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "平率" + _vm._$g("13-" + $30, "t0-0")
+                                          "平" + _vm._$g("13-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -18275,7 +18275,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("14-" + $30, "t0-0")
+                                          "胜" + _vm._$g("14-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -18441,7 +18441,7 @@ var render = function () {
                   _c(
                     "uni-view",
                     { staticClass: _vm._$g(32, "sc"), attrs: { _i: 32 } },
-                    [_vm._v("请输入倍数后截屏给售票人")]
+                    [_vm._v("请输入后截屏给售票人")]
                   ),
                   _c(
                     "uni-view",
@@ -19133,7 +19133,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "15-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -19156,7 +19156,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "平率" +
+                                                "平" +
                                                   _vm._$g(
                                                     "16-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -19179,7 +19179,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "17-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -19870,7 +19870,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("12-" + $30, "t0-0")
+                                          "胜" + _vm._$g("12-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -19884,7 +19884,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "平率" + _vm._$g("13-" + $30, "t0-0")
+                                          "平" + _vm._$g("13-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -19898,7 +19898,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("14-" + $30, "t0-0")
+                                          "胜" + _vm._$g("14-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -20072,7 +20072,7 @@ var render = function () {
                   _c(
                     "uni-view",
                     { staticClass: _vm._$g(33, "sc"), attrs: { _i: 33 } },
-                    [_vm._v("请输入倍数后截屏给售票人")]
+                    [_vm._v("请输入后截屏给售票人")]
                   ),
                   _c(
                     "uni-view",
@@ -20493,7 +20493,7 @@ var render = function () {
                     staticClass: _vm._$g(11, "sc"),
                     class: _vm._$g(11, "c"),
                     attrs: {
-                      src: "/static/trash.png",
+                      src: "https://www.tianjifu.com/static/trash.png",
                       mode: "widthFix",
                       _i: 11,
                     },
@@ -20603,7 +20603,7 @@ var render = function () {
                                     _c("v-uni-image", {
                                       staticClass: _vm._$g("23-" + $30, "sc"),
                                       attrs: {
-                                        src: "/static/check.png",
+                                        src: "https://www.tianjifu.com/static/check.png",
                                         mode: "widthFix",
                                         _i: "23-" + $30,
                                       },
@@ -21136,7 +21136,7 @@ var render = function () {
                                           },
                                           [
                                             _vm._v(
-                                              "胜率" +
+                                              "胜" +
                                                 _vm._$g(
                                                   "27-" + $30 + "-" + $31,
                                                   "t0-0"
@@ -21166,7 +21166,7 @@ var render = function () {
                                           },
                                           [
                                             _vm._v(
-                                              "胜率" +
+                                              "胜" +
                                                 _vm._$g(
                                                   "29-" + $30 + "-" + $31,
                                                   "t0-0"
@@ -21865,7 +21865,7 @@ var render = function () {
                                           },
                                           [
                                             _vm._v(
-                                              "胜率" +
+                                              "胜" +
                                                 _vm._$g(
                                                   "29-" + $30 + "-" + $31,
                                                   "t0-0"
@@ -21895,7 +21895,7 @@ var render = function () {
                                           },
                                           [
                                             _vm._v(
-                                              "胜率" +
+                                              "胜" +
                                                 _vm._$g(
                                                   "31-" + $30 + "-" + $31,
                                                   "t0-0"
@@ -22573,7 +22573,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "27-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -22603,7 +22603,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "胜率" +
+                                                "胜" +
                                                   _vm._$g(
                                                     "29-" + $30 + "-" + $31,
                                                     "t0-0"
@@ -23431,7 +23431,7 @@ var render = function () {
                                           },
                                           [
                                             _vm._v(
-                                              "胜率" +
+                                              "胜" +
                                                 _vm._$g(
                                                   "27-" + $30 + "-" + $31,
                                                   "t0-0"
@@ -23461,7 +23461,7 @@ var render = function () {
                                           },
                                           [
                                             _vm._v(
-                                              "胜率" +
+                                              "胜" +
                                                 _vm._$g(
                                                   "29-" + $30 + "-" + $31,
                                                   "t0-0"
@@ -24229,7 +24229,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "胜率" +
+                                                    "胜" +
                                                       _vm._$g(
                                                         "31-" + $30 + "-" + $31,
                                                         "t0-0"
@@ -24256,7 +24256,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "胜率" +
+                                                    "胜" +
                                                       _vm._$g(
                                                         "32-" + $30 + "-" + $31,
                                                         "t0-0"
@@ -24803,7 +24803,7 @@ var render = function () {
                                           staticClass: _vm._$g(70, "sc"),
                                           attrs: { _i: 70 },
                                         },
-                                        [_vm._v("负率：")]
+                                        [_vm._v("负：")]
                                       ),
                                       _c(
                                         "v-uni-text",
@@ -26012,7 +26012,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 原有样式保持不变，仅替换bet-bar部分样式 */\nbody[data-v-e0f7815e] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\n[data-v-e0f7815e] .custom-header {\r\n  position: fixed !important;\r\n  top: 0 !important;\r\n  left: 0 !important;\r\n  width: 100% !important;\r\n  z-index: 10 !important;\n}\n.match-scroll[data-v-e0f7815e] {\r\n  touch-action: pan-y;\r\n  position: absolute !important;\r\n  left: 0;\r\n  right: 0;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  height: calc(100vh - var(--status-bar-height)) !important;\r\n  top: 0 !important;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\n}\n.match-scroll[data-v-e0f7815e]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 替换为足球同款bet-bar样式 */\n.bet-bar[data-v-e0f7815e] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  box-sizing: border-box !important;\r\n  padding: 10rpx 20rpx;\r\n  bottom: calc(constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-inner[data-v-e0f7815e] {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  height: 80rpx;\n}\n.bet-bar .left-section[data-v-e0f7815e] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 12rpx;\r\n  flex: 1;\r\n  padding: 10rpx 0rpx 10rpx 20rpx;\n}\n.bet-bar .clear-icon[data-v-e0f7815e] {\r\n  width: 42rpx;\r\n  height: 42rpx;\r\n  opacity: 1;\n}\n.bet-bar .clear-icon.disabled[data-v-e0f7815e] {\r\n  opacity: 0.2;\r\n  pointer-events: none;\n}\n.bet-bar .text-group[data-v-e0f7815e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 4rpx;\n}\n.bet-bar .selected-text[data-v-e0f7815e] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  font-weight: 400;\n}\n.bet-bar .risk-tip[data-v-e0f7815e] {\r\n  font-size: 20rpx;\r\n  color: #999;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .confirm-btn[data-v-e0f7815e] {\r\n  width: 180rpx;\r\n  height: 70rpx;\r\n  line-height: 70rpx;\r\n  background-color: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  box-sizing: border-box;\n}\n.bet-bar .confirm-btn[data-v-e0f7815e]:disabled {\r\n  background-color: #ccc;\r\n  color: #999;\n}\r\n/* 彻底删除原有串关和倍数相关样式 */\n.bet-bar-top[data-v-e0f7815e],\r\n.bet-bar-bottom[data-v-e0f7815e],\r\n.top-middle[data-v-e0f7815e] {\r\n  display: none !important;\n}\n.type-popup[data-v-e0f7815e] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 999999;\r\n  opacity: 0;\r\n  pointer-events: none;\r\n  transition: opacity 0.3s ease;\n}\n.type-popup .popup-mask[data-v-e0f7815e] {\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  transition: background 0.3s ease;\n}\n.type-popup .popup-box[data-v-e0f7815e] {\r\n  position: absolute;\r\n  left: 0;\r\n  width: 100%;\r\n  background: #fff;\r\n  box-shadow: 0 5rpx 20rpx rgba(0, 0, 0, 0.2);\r\n  -webkit-transform: translateY(-100%);\r\n          transform: translateY(-100%);\r\n  transition: -webkit-transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), -webkit-transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  overflow-y: auto;\r\n  box-sizing: border-box;\n}\n.type-popup.show[data-v-e0f7815e] {\r\n  opacity: 1;\r\n  pointer-events: auto;\n}\n.type-popup.show .popup-box[data-v-e0f7815e] {\r\n  -webkit-transform: translateY(0);\r\n          transform: translateY(0);\n}\n.type-popup.show .popup-mask[data-v-e0f7815e] {\r\n  background: rgba(0, 0, 0, 0.6);\n}\n.filter-section[data-v-e0f7815e] {\r\n  padding: 20rpx 24rpx;\r\n  border-bottom: 1rpx solid #f5f5f5;\n}\n.filter-section .section-title[data-v-e0f7815e] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  margin-bottom: 16rpx;\r\n  font-weight: 500;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\n}\n.filter-section .reset-single-btn[data-v-e0f7815e] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  background: transparent;\r\n  border: none;\r\n  padding: 6rpx 32rpx;\r\n  margin: 0;\r\n  height: auto;\r\n  border-radius: 6rpx;\r\n  background-color: #fff5f5;\r\n  transition: all 0.2s ease;\n}\n.filter-section .reset-single-btn[data-v-e0f7815e]:hover {\r\n  background-color: #ffe6e6;\n}\n.filter-section .reset-single-btn[data-v-e0f7815e]:active {\r\n  background-color: #ffd9d9;\n}\n.filter-section .options-container[data-v-e0f7815e] {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 4rpx;\n}\n.filter-section .option-item[data-v-e0f7815e] {\r\n  min-width: calc((100% - 3 * 4rpx) / 4);\r\n  height: 90rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ddd;\r\n  border-radius: 6rpx;\r\n  box-sizing: border-box;\r\n  cursor: pointer;\r\n  font-size: 26rpx;\r\n  color: #666;\r\n  position: relative;\r\n  transition: all 0.2s ease;\n}\n.filter-section .option-item.active[data-v-e0f7815e] {\r\n  border-color: #d92929;\r\n  color: #d92929;\r\n  background-color: #fff5f5;\n}\n.filter-section .option-item .check-mark[data-v-e0f7815e] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  right: 0;\r\n  width: 40rpx;\r\n  height: 40rpx;\r\n  background-color: #d92929;\r\n  -webkit-clip-path: polygon(100% 0, 0 100%, 100% 100%);\r\n          clip-path: polygon(100% 0, 0 100%, 100% 100%);\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  overflow: hidden;\n}\n.filter-section .option-item .check-mark .check-icon[data-v-e0f7815e] {\r\n  width: 28rpx;\r\n  height: 28rpx;\r\n  -webkit-transform: translate(10rpx, 8rpx);\r\n          transform: translate(10rpx, 8rpx);\n}\n[data-v-e0f7815e] .tips-container {\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 0;\n}\n[data-v-e0f7815e] .tips-title {\r\n  font-size: 32rpx;\r\n  color: #d92929;\r\n  font-weight: bold;\r\n  margin-bottom: 20rpx;\r\n  text-align: center;\n}\n[data-v-e0f7815e] .tips-list {\r\n  width: 100%;\n}\n[data-v-e0f7815e] .tips-item {\r\n  font-size: 26rpx;\r\n  color: #333;\r\n  line-height: 1.8;\r\n  margin-bottom: 16rpx;\r\n  text-align: justify;\r\n  padding: 0 10rpx;\r\n  word-break: break-all;\n}\n[data-v-e0f7815e] .tips-item:last-child {\r\n  margin-bottom: 0;\n}\n.popup-btn-bar[data-v-e0f7815e] {\r\n  display: flex;\r\n  padding: 20rpx 24rpx;\r\n  gap: 20rpx;\r\n  background-color: #fff;\r\n  margin-top: 20rpx;\r\n  box-sizing: border-box;\n}\n.popup-btn-bar .popup-btn[data-v-e0f7815e] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 30rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  line-height: 1;\r\n  transition: all 0.2s ease;\n}\n.popup-btn-bar .cancel-btn[data-v-e0f7815e] {\r\n  background-color: #fff;\r\n  color: #666;\r\n  border: 1rpx solid #ddd;\n}\n.popup-btn-bar .cancel-btn[data-v-e0f7815e]:hover {\r\n  background-color: #f5f5f5;\n}\n.popup-btn-bar .cancel-btn[data-v-e0f7815e]:active {\r\n  background-color: #eee;\n}\n.popup-btn-bar .confirm-btn[data-v-e0f7815e] {\r\n  background-color: #d92929;\r\n  color: #fff;\r\n  border: none;\n}\n.popup-btn-bar .confirm-btn[data-v-e0f7815e]:hover {\r\n  background-color: #c62828;\n}\n.popup-btn-bar .confirm-btn[data-v-e0f7815e]:active {\r\n  background-color: #b71c1c;\n}\n[data-v-e0f7815e] .native-tabbar {\r\n  position: fixed;\r\n  bottom: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  z-index: 9;\n}\n[data-v-e0f7815e]::-webkit-scrollbar {\r\n  display: none;\n}\n.uni-modal-wrapper .uni-modal[data-v-e0f7815e] {\r\n  border-radius: 20rpx !important;\r\n  background-color: #fff !important;\n}\n.uni-modal-wrapper .uni-modal-header[data-v-e0f7815e] {\r\n  font-size: 32rpx !important;\r\n  color: #d92929 !important;\r\n  font-weight: bold !important;\n}\n.uni-modal-wrapper .uni-modal-body[data-v-e0f7815e] {\r\n  font-size: 28rpx !important;\r\n  color: #666 !important;\r\n  padding: 30rpx 20rpx !important;\n}\n.uni-modal-wrapper .uni-modal-footer .uni-modal-btn[data-v-e0f7815e] {\r\n  border-radius: 40rpx !important;\n}\n.uni-modal-wrapper .uni-modal-footer .uni-modal-btn.uni-modal-confirm[data-v-e0f7815e] {\r\n  background-color: #d92929 !important;\r\n  color: #fff !important;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 原有样式保持不变，仅替换bet-bar部分样式 */\nbody[data-v-e0f7815e] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\n[data-v-e0f7815e] .custom-header {\r\n  position: fixed !important;\r\n  top: 0 !important;\r\n  left: 0 !important;\r\n  width: 100% !important;\r\n  z-index: 10 !important;\n}\n.match-scroll[data-v-e0f7815e] {\r\n  touch-action: pan-y;\r\n  position: absolute !important;\r\n  left: 0;\r\n  right: 0;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  height: calc(100vh - var(--status-bar-height)) !important;\r\n  top: 0 !important;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\n}\n.match-scroll[data-v-e0f7815e]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 替换为足球同款bet-bar样式 */\n.bet-bar[data-v-e0f7815e] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  box-sizing: border-box !important;\r\n  padding: 10rpx 20rpx;\r\n  bottom: calc(constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-inner[data-v-e0f7815e] {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  height: 80rpx;\n}\n.bet-bar .left-section[data-v-e0f7815e] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 12rpx;\r\n  flex: 1;\r\n  padding: 10rpx 0rpx 10rpx 20rpx;\n}\n.bet-bar .clear-icon[data-v-e0f7815e] {\r\n  width: 42rpx;\r\n  height: 42rpx;\r\n  opacity: 1;\n}\n.bet-bar .clear-icon.disabled[data-v-e0f7815e] {\r\n  opacity: 0.2;\r\n  pointer-events: none;\n}\n.bet-bar .text-group[data-v-e0f7815e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 4rpx;\n}\n.bet-bar .selected-text[data-v-e0f7815e] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  font-weight: 400;\n}\n.bet-bar .risk-tip[data-v-e0f7815e] {\r\n  font-size: 20rpx;\r\n  color: #999;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .confirm-btn[data-v-e0f7815e] {\r\n  width: 180rpx;\r\n  height: 70rpx;\r\n  line-height: 70rpx;\r\n  background-color: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  box-sizing: border-box;\n}\n.bet-bar .confirm-btn[data-v-e0f7815e]:disabled {\r\n  background-color: #ccc;\r\n  color: #999;\n}\r\n/* 彻底删除原有串关和相关样式 */\n.bet-bar-top[data-v-e0f7815e],\r\n.bet-bar-bottom[data-v-e0f7815e],\r\n.top-middle[data-v-e0f7815e] {\r\n  display: none !important;\n}\n.type-popup[data-v-e0f7815e] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 999999;\r\n  opacity: 0;\r\n  pointer-events: none;\r\n  transition: opacity 0.3s ease;\n}\n.type-popup .popup-mask[data-v-e0f7815e] {\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  transition: background 0.3s ease;\n}\n.type-popup .popup-box[data-v-e0f7815e] {\r\n  position: absolute;\r\n  left: 0;\r\n  width: 100%;\r\n  background: #fff;\r\n  box-shadow: 0 5rpx 20rpx rgba(0, 0, 0, 0.2);\r\n  -webkit-transform: translateY(-100%);\r\n          transform: translateY(-100%);\r\n  transition: -webkit-transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), -webkit-transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\r\n  overflow-y: auto;\r\n  box-sizing: border-box;\n}\n.type-popup.show[data-v-e0f7815e] {\r\n  opacity: 1;\r\n  pointer-events: auto;\n}\n.type-popup.show .popup-box[data-v-e0f7815e] {\r\n  -webkit-transform: translateY(0);\r\n          transform: translateY(0);\n}\n.type-popup.show .popup-mask[data-v-e0f7815e] {\r\n  background: rgba(0, 0, 0, 0.6);\n}\n.filter-section[data-v-e0f7815e] {\r\n  padding: 20rpx 24rpx;\r\n  border-bottom: 1rpx solid #f5f5f5;\n}\n.filter-section .section-title[data-v-e0f7815e] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  margin-bottom: 16rpx;\r\n  font-weight: 500;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\n}\n.filter-section .reset-single-btn[data-v-e0f7815e] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  background: transparent;\r\n  border: none;\r\n  padding: 6rpx 32rpx;\r\n  margin: 0;\r\n  height: auto;\r\n  border-radius: 6rpx;\r\n  background-color: #fff5f5;\r\n  transition: all 0.2s ease;\n}\n.filter-section .reset-single-btn[data-v-e0f7815e]:hover {\r\n  background-color: #ffe6e6;\n}\n.filter-section .reset-single-btn[data-v-e0f7815e]:active {\r\n  background-color: #ffd9d9;\n}\n.filter-section .options-container[data-v-e0f7815e] {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 4rpx;\n}\n.filter-section .option-item[data-v-e0f7815e] {\r\n  min-width: calc((100% - 3 * 4rpx) / 4);\r\n  height: 90rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ddd;\r\n  border-radius: 6rpx;\r\n  box-sizing: border-box;\r\n  cursor: pointer;\r\n  font-size: 26rpx;\r\n  color: #666;\r\n  position: relative;\r\n  transition: all 0.2s ease;\n}\n.filter-section .option-item.active[data-v-e0f7815e] {\r\n  border-color: #d92929;\r\n  color: #d92929;\r\n  background-color: #fff5f5;\n}\n.filter-section .option-item .check-mark[data-v-e0f7815e] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  right: 0;\r\n  width: 40rpx;\r\n  height: 40rpx;\r\n  background-color: #d92929;\r\n  -webkit-clip-path: polygon(100% 0, 0 100%, 100% 100%);\r\n          clip-path: polygon(100% 0, 0 100%, 100% 100%);\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  overflow: hidden;\n}\n.filter-section .option-item .check-mark .check-icon[data-v-e0f7815e] {\r\n  width: 28rpx;\r\n  height: 28rpx;\r\n  -webkit-transform: translate(10rpx, 8rpx);\r\n          transform: translate(10rpx, 8rpx);\n}\n[data-v-e0f7815e] .tips-container {\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 0;\n}\n[data-v-e0f7815e] .tips-title {\r\n  font-size: 32rpx;\r\n  color: #d92929;\r\n  font-weight: bold;\r\n  margin-bottom: 20rpx;\r\n  text-align: center;\n}\n[data-v-e0f7815e] .tips-list {\r\n  width: 100%;\n}\n[data-v-e0f7815e] .tips-item {\r\n  font-size: 26rpx;\r\n  color: #333;\r\n  line-height: 1.8;\r\n  margin-bottom: 16rpx;\r\n  text-align: justify;\r\n  padding: 0 10rpx;\r\n  word-break: break-all;\n}\n[data-v-e0f7815e] .tips-item:last-child {\r\n  margin-bottom: 0;\n}\n.popup-btn-bar[data-v-e0f7815e] {\r\n  display: flex;\r\n  padding: 20rpx 24rpx;\r\n  gap: 20rpx;\r\n  background-color: #fff;\r\n  margin-top: 20rpx;\r\n  box-sizing: border-box;\n}\n.popup-btn-bar .popup-btn[data-v-e0f7815e] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 30rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  line-height: 1;\r\n  transition: all 0.2s ease;\n}\n.popup-btn-bar .cancel-btn[data-v-e0f7815e] {\r\n  background-color: #fff;\r\n  color: #666;\r\n  border: 1rpx solid #ddd;\n}\n.popup-btn-bar .cancel-btn[data-v-e0f7815e]:hover {\r\n  background-color: #f5f5f5;\n}\n.popup-btn-bar .cancel-btn[data-v-e0f7815e]:active {\r\n  background-color: #eee;\n}\n.popup-btn-bar .confirm-btn[data-v-e0f7815e] {\r\n  background-color: #d92929;\r\n  color: #fff;\r\n  border: none;\n}\n.popup-btn-bar .confirm-btn[data-v-e0f7815e]:hover {\r\n  background-color: #c62828;\n}\n.popup-btn-bar .confirm-btn[data-v-e0f7815e]:active {\r\n  background-color: #b71c1c;\n}\n[data-v-e0f7815e] .native-tabbar {\r\n  position: fixed;\r\n  bottom: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  z-index: 9;\n}\n[data-v-e0f7815e]::-webkit-scrollbar {\r\n  display: none;\n}\n.uni-modal-wrapper .uni-modal[data-v-e0f7815e] {\r\n  border-radius: 20rpx !important;\r\n  background-color: #fff !important;\n}\n.uni-modal-wrapper .uni-modal-header[data-v-e0f7815e] {\r\n  font-size: 32rpx !important;\r\n  color: #d92929 !important;\r\n  font-weight: bold !important;\n}\n.uni-modal-wrapper .uni-modal-body[data-v-e0f7815e] {\r\n  font-size: 28rpx !important;\r\n  color: #666 !important;\r\n  padding: 30rpx 20rpx !important;\n}\n.uni-modal-wrapper .uni-modal-footer .uni-modal-btn[data-v-e0f7815e] {\r\n  border-radius: 40rpx !important;\n}\n.uni-modal-wrapper .uni-modal-footer .uni-modal-btn.uni-modal-confirm[data-v-e0f7815e] {\r\n  background-color: #d92929 !important;\r\n  color: #fff !important;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -26179,7 +26179,7 @@ var render = function () {
             },
             [
               _vm._$g(9, "i")
-                ? _c("v-uni-text", { attrs: { _i: 9 } }, [_vm._v("确认购买")])
+                ? _c("v-uni-text", { attrs: { _i: 9 } }, [_vm._v("确认")])
                 : _vm._e(),
               _vm._$g(10, "i")
                 ? _c("v-uni-text", { attrs: { _i: 10 } }, [_vm._v("支付中...")])
@@ -26525,7 +26525,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "胜率" + _vm._$g("14-" + $30, "t0-0")
+                                      "胜" + _vm._$g("14-" + $30, "t0-0")
                                     ),
                                   ]
                                 )
@@ -26568,7 +26568,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "平率" + _vm._$g("18-" + $30, "t0-0")
+                                      "平" + _vm._$g("18-" + $30, "t0-0")
                                     ),
                                   ]
                                 )
@@ -26615,7 +26615,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "胜率" + _vm._$g("22-" + $30, "t0-0")
+                                      "胜" + _vm._$g("22-" + $30, "t0-0")
                                     ),
                                   ]
                                 )
@@ -26658,7 +26658,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(26, "sc"), attrs: { _i: 26 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -26801,7 +26801,7 @@ var render = function () {
                     { staticClass: _vm._$g(44, "sc"), attrs: { _i: 44 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -27172,7 +27172,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("10-" + $30, "t0-0")
+                                          "胜" + _vm._$g("10-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -27204,7 +27204,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "平率" + _vm._$g("13-" + $30, "t0-0")
+                                          "平" + _vm._$g("13-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -27236,7 +27236,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("16-" + $30, "t0-0")
+                                          "胜" + _vm._$g("16-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -27290,7 +27290,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(21, "sc"), attrs: { _i: 21 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -27433,7 +27433,7 @@ var render = function () {
                     { staticClass: _vm._$g(39, "sc"), attrs: { _i: 39 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -27804,7 +27804,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("10-" + $30, "t0-0")
+                                          "胜" + _vm._$g("10-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -27836,7 +27836,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "平率" + _vm._$g("13-" + $30, "t0-0")
+                                          "平" + _vm._$g("13-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -27868,7 +27868,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("16-" + $30, "t0-0")
+                                          "胜" + _vm._$g("16-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -27922,7 +27922,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(21, "sc"), attrs: { _i: 21 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -28066,7 +28066,7 @@ var render = function () {
                     [
                       _c("v-uni-text", { attrs: { _i: 40 } }, [
                         _vm._v(
-                          "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                          "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                         ),
                       ]),
                     ],
@@ -28456,7 +28456,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("10-" + $30, "t0-0")
+                                          "胜" + _vm._$g("10-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -28488,7 +28488,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "平率" + _vm._$g("13-" + $30, "t0-0")
+                                          "平" + _vm._$g("13-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -28520,7 +28520,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("16-" + $30, "t0-0")
+                                          "胜" + _vm._$g("16-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -28574,7 +28574,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(21, "sc"), attrs: { _i: 21 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -28717,7 +28717,7 @@ var render = function () {
                     { staticClass: _vm._$g(39, "sc"), attrs: { _i: 39 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -29155,7 +29155,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "胜率" + _vm._$g("15-" + $30, "t0-0")
+                                      "胜" + _vm._$g("15-" + $30, "t0-0")
                                     ),
                                   ]
                                 )
@@ -29198,7 +29198,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "平率" + _vm._$g("19-" + $30, "t0-0")
+                                      "平" + _vm._$g("19-" + $30, "t0-0")
                                     ),
                                   ]
                                 )
@@ -29245,7 +29245,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "胜率" + _vm._$g("23-" + $30, "t0-0")
+                                      "胜" + _vm._$g("23-" + $30, "t0-0")
                                     ),
                                   ]
                                 )
@@ -29288,7 +29288,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(27, "sc"), attrs: { _i: 27 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -29431,7 +29431,7 @@ var render = function () {
                     { staticClass: _vm._$g(45, "sc"), attrs: { _i: 45 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -29809,7 +29809,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("11-" + $30, "t0-0")
+                                          "胜" + _vm._$g("11-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -29841,7 +29841,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "平率" + _vm._$g("14-" + $30, "t0-0")
+                                          "平" + _vm._$g("14-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -29873,7 +29873,7 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "胜率" + _vm._$g("17-" + $30, "t0-0")
+                                          "胜" + _vm._$g("17-" + $30, "t0-0")
                                         ),
                                       ]
                                     )
@@ -30048,7 +30048,7 @@ var render = function () {
                                     staticClass: _vm._$g("35-" + $30, "sc"),
                                     attrs: { _i: "35-" + $30 },
                                   },
-                                  [_vm._v("无选中投注内容")]
+                                  [_vm._v("无选中内容")]
                                 ),
                               ],
                               1
@@ -30082,7 +30082,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(38, "sc"), attrs: { _i: 38 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -30226,7 +30226,7 @@ var render = function () {
                     { staticClass: _vm._$g(56, "sc"), attrs: { _i: 56 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -30657,7 +30657,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "胜率" + _vm._$g("16-" + $30, "t0-0")
+                                      "胜" + _vm._$g("16-" + $30, "t0-0")
                                     ),
                                   ]
                                 )
@@ -30671,7 +30671,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "胜率" + _vm._$g("17-" + $30, "t0-0")
+                                      "胜" + _vm._$g("17-" + $30, "t0-0")
                                     ),
                                   ]
                                 )
@@ -30735,7 +30735,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(23, "sc"), attrs: { _i: 23 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -30878,7 +30878,7 @@ var render = function () {
                     { staticClass: _vm._$g(41, "sc"), attrs: { _i: 41 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -31063,7 +31063,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 全局样式：统一对齐让分胜负页 */\n.scheme-edit-page[data-v-3a2c534c] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\r\n/* 核心修改：统一分端适配逻辑，移除content-wrap嵌套 */\n.match-scroll[data-v-3a2c534c] {\r\n  position: absolute !important;\r\n  left: 0 !important;\r\n  right: 0 !important;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx 20rpx;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\r\n  top: v-bind(headerTotalHeightpx) !important;\r\n  bottom: calc(90rpx + constant(safe-area-inset-bottom) + 90rpx) !important;\r\n  bottom: calc(90rpx + env(safe-area-inset-bottom) + 90rpx) !important;\r\n  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 90rpx - env(safe-area-inset-bottom) - 90rpx) !important;\n}\n.match-scroll[data-v-3a2c534c]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 赛事列表样式：统一对齐让分胜负页 */\n.match-list[data-v-3a2c534c] {\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  /* 赛事行：统一flex布局，样式对齐 */\n}\n.match-list .empty-tip[data-v-3a2c534c] {\r\n  text-align: center;\r\n  padding: 50rpx 0;\r\n  font-size: 26rpx;\r\n  color: #999;\r\n  background: #fff;\r\n  border-radius: 8rpx;\r\n  margin: 20rpx 0;\n}\n.match-list .match-row[data-v-3a2c534c] {\r\n  display: flex;\r\n  background-color: #fff;\r\n  border-bottom: 1rpx solid #eee;\r\n  padding: 12rpx 20rpx;\r\n  align-items: center;\r\n  margin-bottom: 4rpx;\r\n  border-radius: 8rpx;\r\n  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);\r\n  /* 左侧：统一170rpx+居中 */\r\n  /* 右侧：统一三列布局，移除AI分析 */\n}\n.match-list .match-row .match-category[data-v-3a2c534c] {\r\n  width: 170rpx;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  gap: 4rpx;\n}\n.match-list .match-row .match-category .league-name[data-v-3a2c534c] {\r\n  font-size: 24rpx;\r\n  color: #777;\r\n  width: 100%;\n}\n.match-list .match-row .match-category .league-name .single[data-v-3a2c534c] {\r\n  display: inline-block;\r\n  width: 44rpx;\r\n  background: #b71c1c;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-top-right-radius: 15rpx;\r\n  border-bottom-right-radius: 16rpx;\r\n  margin-right: 10rpx;\r\n  font-size: 20rpx;\r\n  padding: 2rpx 0;\n}\n.match-list .match-row .match-category .serial-number[data-v-3a2c534c], .match-list .match-row .match-category .match-time[data-v-3a2c534c] {\r\n  font-size: 22rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  width: 100%;\n}\n.match-list .match-row .match-cells[data-v-3a2c534c] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 6rpx;\r\n  padding-left: 16rpx;\r\n  position: relative;\n}\n.match-list .match-row .match-cells .name-row[data-v-3a2c534c] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 24rpx;\r\n  color: #333;\n}\n.match-list .match-row .match-cells .name-row .team-name[data-v-3a2c534c] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .name-row .team-name.away[data-v-3a2c534c] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .team-name.home[data-v-3a2c534c] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .vs-text[data-v-3a2c534c] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\r\n  font-weight: 500;\n}\n.match-list .match-row .match-cells .rate-row[data-v-3a2c534c] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 22rpx;\r\n  color: #999;\n}\n.match-list .match-row .match-cells .rate-row .rate-text[data-v-3a2c534c] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.away[data-v-3a2c534c] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.home[data-v-3a2c534c] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .vs-text[data-v-3a2c534c] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\n}\n.match-list .match-row .match-cells .odds-row[data-v-3a2c534c] {\r\n  width: 100%;\r\n  display: flex;\r\n  gap: 2rpx;\r\n  margin-top: 4rpx;\n}\n.match-list .match-row .match-cells .odds-row .match-cell[data-v-3a2c534c] {\r\n  flex: 1;\r\n  text-align: center;\r\n  padding: 12rpx 0;\r\n  background-color: #f0f0f0;\r\n  color: #333;\r\n  font-size: 24rpx;\r\n  border-radius: 4rpx;\n}\n.match-list .match-row .match-cells .odds-row .match-cell.selected[data-v-3a2c534c] {\r\n  background-color: #d92929;\r\n  color: #fff;\n}\n.match-list .match-row .match-cells .odds-row .match-cell[data-v-3a2c534c]:active {\r\n  background: #e5e5e5;\n}\n.match-list .match-row .match-cells .odds-row .match-cell.selected[data-v-3a2c534c]:active {\r\n  background: #c62828;\n}\r\n/* 底部投注栏：统一对齐让分胜负页样式 */\n.bet-bar[data-v-3a2c534c] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  padding-bottom: 0 !important;\r\n  box-sizing: border-box !important;\r\n  height: 80rpx !important;\r\n  bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-top[data-v-3a2c534c] {\r\n  background: #fff;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\n}\n.bet-bar .bet-bar-top .tips-text[data-v-3a2c534c] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  flex: 1;\r\n  margin-left: 20rpx;\r\n  line-height: 1.4;\n}\n.bet-bar .bet-bar-top .top-left[data-v-3a2c534c] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  padding: 8rpx 12rpx;\r\n  margin-left: 10rpx;\r\n  max-width: 150rpx;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .bet-bar-top .collapse-area[data-v-3a2c534c] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-around;\r\n  height: 80rpx;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx;\r\n  border-bottom: 2rpx solid #eee;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group[data-v-3a2c534c] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10rpx;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-label[data-v-3a2c534c] {\r\n  height: 100%;\r\n  font-size: 26rpx;\r\n  color: #333;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-btn[data-v-3a2c534c] {\r\n  width: 44rpx;\r\n  height: 44rpx;\r\n  background-color: #ddd;\r\n  color: #333;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  margin: 0;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-input[data-v-3a2c534c] {\r\n  width: 120rpx;\r\n  height: 44rpx;\r\n  background-color: #fff;\r\n  color: #333;\r\n  text-align: center;\r\n  font-size: 26rpx;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-bottom[data-v-3a2c534c] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100rpx;\r\n  background: #232323;\r\n  color: #fff;\r\n  padding: 0 40rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle[data-v-3a2c534c] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin: 0 20rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .select-tip[data-v-3a2c534c] {\r\n  font-size: 28rpx;\r\n  color: #fff;\r\n  text-align: center;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .bonus-tip[data-v-3a2c534c] {\r\n  font-size: 18rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  line-height: 1.2;\n}\n.bet-bar .bet-bar-bottom .bottom-right[data-v-3a2c534c] {\r\n  width: 200rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-3a2c534c] {\r\n  width: 100%;\r\n  height: 76rpx;\r\n  background: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[disabled][data-v-3a2c534c] {\r\n  background: #666;\r\n  color: #aaa;\r\n  cursor: not-allowed;\n}\r\n/* 手机号弹窗：样式不变 */\n.phone-modal[data-v-3a2c534c] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 9999;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n.phone-modal .modal-mask[data-v-3a2c534c] {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\n}\n.phone-modal .modal-content[data-v-3a2c534c] {\r\n  width: 80%;\r\n  background: #fff;\r\n  border-radius: 16rpx;\r\n  padding: 40rpx;\r\n  position: relative;\n}\n.phone-modal .modal-content .modal-desc[data-v-3a2c534c] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  line-height: 1.5;\r\n  margin-bottom: 30rpx;\n}\n.phone-modal .modal-content .input-wrap[data-v-3a2c534c] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 40rpx;\n}\n.phone-modal .modal-content .input-wrap uni-label[data-v-3a2c534c] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  width: 180rpx;\n}\n.phone-modal .modal-content .input-wrap uni-input[data-v-3a2c534c] {\r\n  flex: 1;\r\n  height: 70rpx;\r\n  border: 1rpx solid #eee;\r\n  border-radius: 8rpx;\r\n  padding: 0 20rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns[data-v-3a2c534c] {\r\n  display: flex;\r\n  gap: 20rpx;\n}\n.phone-modal .modal-content .modal-btns uni-button[data-v-3a2c534c] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-3a2c534c] {\r\n  background: #f5f5f5;\r\n  color: #666;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-3a2c534c] {\r\n  background: #d92929;\r\n  color: #fff;\n}\r\n/* 全局样式兼容：统一保留 */\n[data-v-3a2c534c]::-webkit-scrollbar {\r\n  display: none;\n}\nuni-button[data-v-3a2c534c]::after {\r\n  border: none;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 全局样式：统一对齐让分胜负页 */\n.scheme-edit-page[data-v-3a2c534c] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\r\n/* 核心修改：统一分端适配逻辑，移除content-wrap嵌套 */\n.match-scroll[data-v-3a2c534c] {\r\n  position: absolute !important;\r\n  left: 0 !important;\r\n  right: 0 !important;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx 20rpx;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\r\n  top: v-bind(headerTotalHeightpx) !important;\r\n  bottom: calc(90rpx + constant(safe-area-inset-bottom) + 90rpx) !important;\r\n  bottom: calc(90rpx + env(safe-area-inset-bottom) + 90rpx) !important;\r\n  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 90rpx - env(safe-area-inset-bottom) - 90rpx) !important;\n}\n.match-scroll[data-v-3a2c534c]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 赛事列表样式：统一对齐让分胜负页 */\n.match-list[data-v-3a2c534c] {\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  /* 赛事行：统一flex布局，样式对齐 */\n}\n.match-list .empty-tip[data-v-3a2c534c] {\r\n  text-align: center;\r\n  padding: 50rpx 0;\r\n  font-size: 26rpx;\r\n  color: #999;\r\n  background: #fff;\r\n  border-radius: 8rpx;\r\n  margin: 20rpx 0;\n}\n.match-list .match-row[data-v-3a2c534c] {\r\n  display: flex;\r\n  background-color: #fff;\r\n  border-bottom: 1rpx solid #eee;\r\n  padding: 12rpx 20rpx;\r\n  align-items: center;\r\n  margin-bottom: 4rpx;\r\n  border-radius: 8rpx;\r\n  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);\r\n  /* 左侧：统一170rpx+居中 */\r\n  /* 右侧：统一三列布局，移除AI分析 */\n}\n.match-list .match-row .match-category[data-v-3a2c534c] {\r\n  width: 170rpx;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  gap: 4rpx;\n}\n.match-list .match-row .match-category .league-name[data-v-3a2c534c] {\r\n  font-size: 24rpx;\r\n  color: #777;\r\n  width: 100%;\n}\n.match-list .match-row .match-category .league-name .single[data-v-3a2c534c] {\r\n  display: inline-block;\r\n  width: 44rpx;\r\n  background: #b71c1c;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-top-right-radius: 15rpx;\r\n  border-bottom-right-radius: 16rpx;\r\n  margin-right: 10rpx;\r\n  font-size: 20rpx;\r\n  padding: 2rpx 0;\n}\n.match-list .match-row .match-category .serial-number[data-v-3a2c534c], .match-list .match-row .match-category .match-time[data-v-3a2c534c] {\r\n  font-size: 22rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  width: 100%;\n}\n.match-list .match-row .match-cells[data-v-3a2c534c] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 6rpx;\r\n  padding-left: 16rpx;\r\n  position: relative;\n}\n.match-list .match-row .match-cells .name-row[data-v-3a2c534c] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 24rpx;\r\n  color: #333;\n}\n.match-list .match-row .match-cells .name-row .team-name[data-v-3a2c534c] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .name-row .team-name.away[data-v-3a2c534c] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .team-name.home[data-v-3a2c534c] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .vs-text[data-v-3a2c534c] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\r\n  font-weight: 500;\n}\n.match-list .match-row .match-cells .rate-row[data-v-3a2c534c] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 22rpx;\r\n  color: #999;\n}\n.match-list .match-row .match-cells .rate-row .rate-text[data-v-3a2c534c] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.away[data-v-3a2c534c] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.home[data-v-3a2c534c] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .vs-text[data-v-3a2c534c] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\n}\n.match-list .match-row .match-cells .odds-row[data-v-3a2c534c] {\r\n  width: 100%;\r\n  display: flex;\r\n  gap: 2rpx;\r\n  margin-top: 4rpx;\n}\n.match-list .match-row .match-cells .odds-row .match-cell[data-v-3a2c534c] {\r\n  flex: 1;\r\n  text-align: center;\r\n  padding: 12rpx 0;\r\n  background-color: #f0f0f0;\r\n  color: #333;\r\n  font-size: 24rpx;\r\n  border-radius: 4rpx;\n}\n.match-list .match-row .match-cells .odds-row .match-cell.selected[data-v-3a2c534c] {\r\n  background-color: #d92929;\r\n  color: #fff;\n}\n.match-list .match-row .match-cells .odds-row .match-cell[data-v-3a2c534c]:active {\r\n  background: #e5e5e5;\n}\n.match-list .match-row .match-cells .odds-row .match-cell.selected[data-v-3a2c534c]:active {\r\n  background: #c62828;\n}\r\n/* 底部栏：统一对齐让分胜负页样式 */\n.bet-bar[data-v-3a2c534c] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  padding-bottom: 0 !important;\r\n  box-sizing: border-box !important;\r\n  height: 80rpx !important;\r\n  bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-top[data-v-3a2c534c] {\r\n  background: #fff;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\n}\n.bet-bar .bet-bar-top .tips-text[data-v-3a2c534c] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  flex: 1;\r\n  margin-left: 20rpx;\r\n  line-height: 1.4;\n}\n.bet-bar .bet-bar-top .top-left[data-v-3a2c534c] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  padding: 8rpx 12rpx;\r\n  margin-left: 10rpx;\r\n  max-width: 150rpx;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .bet-bar-top .collapse-area[data-v-3a2c534c] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-around;\r\n  height: 80rpx;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx;\r\n  border-bottom: 2rpx solid #eee;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group[data-v-3a2c534c] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10rpx;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-label[data-v-3a2c534c] {\r\n  height: 100%;\r\n  font-size: 26rpx;\r\n  color: #333;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-btn[data-v-3a2c534c] {\r\n  width: 44rpx;\r\n  height: 44rpx;\r\n  background-color: #ddd;\r\n  color: #333;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  margin: 0;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-input[data-v-3a2c534c] {\r\n  width: 120rpx;\r\n  height: 44rpx;\r\n  background-color: #fff;\r\n  color: #333;\r\n  text-align: center;\r\n  font-size: 26rpx;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-bottom[data-v-3a2c534c] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100rpx;\r\n  background: #232323;\r\n  color: #fff;\r\n  padding: 0 40rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle[data-v-3a2c534c] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin: 0 20rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .select-tip[data-v-3a2c534c] {\r\n  font-size: 28rpx;\r\n  color: #fff;\r\n  text-align: center;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .bonus-tip[data-v-3a2c534c] {\r\n  font-size: 18rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  line-height: 1.2;\n}\n.bet-bar .bet-bar-bottom .bottom-right[data-v-3a2c534c] {\r\n  width: 200rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-3a2c534c] {\r\n  width: 100%;\r\n  height: 76rpx;\r\n  background: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[disabled][data-v-3a2c534c] {\r\n  background: #666;\r\n  color: #aaa;\r\n  cursor: not-allowed;\n}\r\n/* 手机号弹窗：样式不变 */\n.phone-modal[data-v-3a2c534c] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 9999;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n.phone-modal .modal-mask[data-v-3a2c534c] {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\n}\n.phone-modal .modal-content[data-v-3a2c534c] {\r\n  width: 80%;\r\n  background: #fff;\r\n  border-radius: 16rpx;\r\n  padding: 40rpx;\r\n  position: relative;\n}\n.phone-modal .modal-content .modal-desc[data-v-3a2c534c] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  line-height: 1.5;\r\n  margin-bottom: 30rpx;\n}\n.phone-modal .modal-content .input-wrap[data-v-3a2c534c] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 40rpx;\n}\n.phone-modal .modal-content .input-wrap uni-label[data-v-3a2c534c] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  width: 180rpx;\n}\n.phone-modal .modal-content .input-wrap uni-input[data-v-3a2c534c] {\r\n  flex: 1;\r\n  height: 70rpx;\r\n  border: 1rpx solid #eee;\r\n  border-radius: 8rpx;\r\n  padding: 0 20rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns[data-v-3a2c534c] {\r\n  display: flex;\r\n  gap: 20rpx;\n}\n.phone-modal .modal-content .modal-btns uni-button[data-v-3a2c534c] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-3a2c534c] {\r\n  background: #f5f5f5;\r\n  color: #666;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-3a2c534c] {\r\n  background: #d92929;\r\n  color: #fff;\n}\r\n/* 全局样式兼容：统一保留 */\n[data-v-3a2c534c]::-webkit-scrollbar {\r\n  display: none;\n}\nuni-button[data-v-3a2c534c]::after {\r\n  border: none;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -31409,7 +31409,7 @@ var render = function () {
                                     staticClass: _vm._$g("27-" + $30, "sc"),
                                     attrs: { _i: "27-" + $30 },
                                   },
-                                  [_vm._v("无选中投注内容")]
+                                  [_vm._v("无选中内容")]
                                 ),
                               ],
                               1
@@ -31443,7 +31443,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(30, "sc"), attrs: { _i: 30 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -31587,7 +31587,7 @@ var render = function () {
                     { staticClass: _vm._$g(48, "sc"), attrs: { _i: 48 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -31772,7 +31772,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 全局样式 */\n.scheme-edit-page[data-v-a2581250] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\r\n/* 滚动区域 */\n.match-scroll[data-v-a2581250] {\r\n  position: absolute !important;\r\n  left: 0 !important;\r\n  right: 0 !important;\r\n  width: 100% !important;\r\n  height: auto !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx 20rpx;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\n}\n.match-scroll[data-v-a2581250]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 赛事列表 */\n.match-list[data-v-a2581250] {\r\n  width: 100%;\r\n  box-sizing: border-box;\n}\n.match-list .match-row[data-v-a2581250] {\r\n  background-color: #fff;\r\n  margin-bottom: 15rpx;\r\n  padding: 26rpx 20rpx;\r\n  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);\r\n  border-radius: 8rpx;\r\n  /* 赛事头部 */\r\n  /* 投注项：按行展示 */\n}\n.match-list .match-row .match-header[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 15rpx;\r\n  font-size: 28rpx;\r\n  color: #333;\n}\n.match-list .match-row .match-header .serial-number[data-v-a2581250] {\r\n  margin-right: 20rpx;\r\n  font-weight: 400;\r\n  color: #999;\n}\n.match-list .match-row .match-header .team-name[data-v-a2581250] {\r\n  flex: 1;\r\n  text-align: center;\n}\n.match-list .match-row .match-header .team-name .vs-text[data-v-a2581250] {\r\n  margin: 0 10rpx !important;\r\n  color: #999;\n}\n.match-list .match-row .selected-content[data-v-a2581250] {\r\n  background: #f9f9f9;\r\n  border-radius: 4rpx;\r\n  padding: 12rpx;\n}\n.match-list .match-row .selected-content .bet-item[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 8rpx;\r\n  /* 行间距 */\n}\n.match-list .match-row .selected-content .bet-item[data-v-a2581250]:last-child {\r\n  margin-bottom: 0;\n}\n.match-list .match-row .selected-content .bet-item .bet-label[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #666;\r\n  width: 180rpx;\r\n  /* 标签宽度加宽，适配\"胜分差（客胜）\" */\n}\n.match-list .match-row .selected-content .bet-item .bet-value[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  flex: 1;\n}\n.match-list .match-row .selected-content .bet-item .highlight[data-v-a2581250] {\r\n  color: #d92929;\r\n  font-weight: 500;\n}\n.match-list .match-row .selected-content .empty-bet[data-v-a2581250] {\r\n  text-align: center;\r\n  padding: 10rpx 0;\n}\n.match-list .match-row .selected-content .empty-bet .trigger-tip[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #999;\n}\n.match-list .empty-tip[data-v-a2581250] {\r\n  text-align: center;\r\n  padding: 50rpx 0;\r\n  font-size: 26rpx;\r\n  color: #999;\r\n  background-color: #fff;\r\n  border-radius: 8rpx;\r\n  margin-top: 20rpx;\n}\r\n/* 底部投注栏：保持不变 */\n.bet-bar[data-v-a2581250] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  padding-bottom: 0 !important;\r\n  box-sizing: border-box !important;\r\n  height: 80rpx !important;\r\n  bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-top[data-v-a2581250] {\r\n  background: #fff;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\n}\n.bet-bar .bet-bar-top .tips-text[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  flex: 1;\r\n  margin-left: 20rpx;\r\n  line-height: 1.4;\n}\n.bet-bar .bet-bar-top .top-left[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  padding: 8rpx 12rpx;\r\n  margin-left: 10rpx;\r\n  max-width: 150rpx;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .bet-bar-top .collapse-area[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-around;\r\n  height: 80rpx;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx;\r\n  border-bottom: 2rpx solid #eee;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10rpx;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-label[data-v-a2581250] {\r\n  height: 100%;\r\n  font-size: 26rpx;\r\n  color: #333;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-btn[data-v-a2581250] {\r\n  width: 44rpx;\r\n  height: 44rpx;\r\n  background-color: #ddd;\r\n  color: #333;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  margin: 0;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-input[data-v-a2581250] {\r\n  width: 120rpx;\r\n  height: 44rpx;\r\n  background-color: #fff;\r\n  color: #333;\r\n  text-align: center;\r\n  font-size: 26rpx;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-bottom[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100rpx;\r\n  background: #232323;\r\n  color: #fff;\r\n  padding: 0 40rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle[data-v-a2581250] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin: 0 20rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .select-tip[data-v-a2581250] {\r\n  font-size: 28rpx;\r\n  color: #fff;\r\n  text-align: center;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .bonus-tip[data-v-a2581250] {\r\n  font-size: 18rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  line-height: 1.2;\n}\n.bet-bar .bet-bar-bottom .bottom-right[data-v-a2581250] {\r\n  width: 200rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-a2581250] {\r\n  width: 100%;\r\n  height: 76rpx;\r\n  background: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[disabled][data-v-a2581250] {\r\n  background: #666;\r\n  color: #aaa;\r\n  cursor: not-allowed;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-a2581250]:active {\r\n  background: #c62828;\n}\r\n/* 手机号弹窗 */\n.phone-modal[data-v-a2581250] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 9999;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n.phone-modal .modal-mask[data-v-a2581250] {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\n}\n.phone-modal .modal-content[data-v-a2581250] {\r\n  width: 80%;\r\n  background: #fff;\r\n  border-radius: 16rpx;\r\n  padding: 40rpx;\r\n  position: relative;\n}\n.phone-modal .modal-content .modal-desc[data-v-a2581250] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  line-height: 1.5;\r\n  margin-bottom: 30rpx;\n}\n.phone-modal .modal-content .input-wrap[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 40rpx;\n}\n.phone-modal .modal-content .input-wrap uni-label[data-v-a2581250] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  width: 180rpx;\n}\n.phone-modal .modal-content .input-wrap uni-input[data-v-a2581250] {\r\n  flex: 1;\r\n  height: 70rpx;\r\n  border: 1rpx solid #eee;\r\n  border-radius: 8rpx;\r\n  padding: 0 20rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns[data-v-a2581250] {\r\n  display: flex;\r\n  gap: 20rpx;\n}\n.phone-modal .modal-content .modal-btns uni-button[data-v-a2581250] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-a2581250] {\r\n  background: #f5f5f5;\r\n  color: #666;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-a2581250] {\r\n  background: #d92929;\r\n  color: #fff;\n}\r\n/* 全局兼容 */\n[data-v-a2581250]::-webkit-scrollbar {\r\n  display: none;\n}\nuni-button[data-v-a2581250]::after {\r\n  border: none;\n}\n.disabled[data-v-a2581250] {\r\n  color: #999 !important;\r\n  border-color: #eee !important;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 全局样式 */\n.scheme-edit-page[data-v-a2581250] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\r\n/* 滚动区域 */\n.match-scroll[data-v-a2581250] {\r\n  position: absolute !important;\r\n  left: 0 !important;\r\n  right: 0 !important;\r\n  width: 100% !important;\r\n  height: auto !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx 20rpx;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\n}\n.match-scroll[data-v-a2581250]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 赛事列表 */\n.match-list[data-v-a2581250] {\r\n  width: 100%;\r\n  box-sizing: border-box;\n}\n.match-list .match-row[data-v-a2581250] {\r\n  background-color: #fff;\r\n  margin-bottom: 15rpx;\r\n  padding: 26rpx 20rpx;\r\n  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);\r\n  border-radius: 8rpx;\r\n  /* 赛事头部 */\r\n  /* 项：按行展示 */\n}\n.match-list .match-row .match-header[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 15rpx;\r\n  font-size: 28rpx;\r\n  color: #333;\n}\n.match-list .match-row .match-header .serial-number[data-v-a2581250] {\r\n  margin-right: 20rpx;\r\n  font-weight: 400;\r\n  color: #999;\n}\n.match-list .match-row .match-header .team-name[data-v-a2581250] {\r\n  flex: 1;\r\n  text-align: center;\n}\n.match-list .match-row .match-header .team-name .vs-text[data-v-a2581250] {\r\n  margin: 0 10rpx !important;\r\n  color: #999;\n}\n.match-list .match-row .selected-content[data-v-a2581250] {\r\n  background: #f9f9f9;\r\n  border-radius: 4rpx;\r\n  padding: 12rpx;\n}\n.match-list .match-row .selected-content .bet-item[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 8rpx;\r\n  /* 行间距 */\n}\n.match-list .match-row .selected-content .bet-item[data-v-a2581250]:last-child {\r\n  margin-bottom: 0;\n}\n.match-list .match-row .selected-content .bet-item .bet-label[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #666;\r\n  width: 180rpx;\r\n  /* 标签宽度加宽，适配\"胜分差（客胜）\" */\n}\n.match-list .match-row .selected-content .bet-item .bet-value[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  flex: 1;\n}\n.match-list .match-row .selected-content .bet-item .highlight[data-v-a2581250] {\r\n  color: #d92929;\r\n  font-weight: 500;\n}\n.match-list .match-row .selected-content .empty-bet[data-v-a2581250] {\r\n  text-align: center;\r\n  padding: 10rpx 0;\n}\n.match-list .match-row .selected-content .empty-bet .trigger-tip[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #999;\n}\n.match-list .empty-tip[data-v-a2581250] {\r\n  text-align: center;\r\n  padding: 50rpx 0;\r\n  font-size: 26rpx;\r\n  color: #999;\r\n  background-color: #fff;\r\n  border-radius: 8rpx;\r\n  margin-top: 20rpx;\n}\r\n/* 底部栏：保持不变 */\n.bet-bar[data-v-a2581250] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  padding-bottom: 0 !important;\r\n  box-sizing: border-box !important;\r\n  height: 80rpx !important;\r\n  bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-top[data-v-a2581250] {\r\n  background: #fff;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\n}\n.bet-bar .bet-bar-top .tips-text[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  flex: 1;\r\n  margin-left: 20rpx;\r\n  line-height: 1.4;\n}\n.bet-bar .bet-bar-top .top-left[data-v-a2581250] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  padding: 8rpx 12rpx;\r\n  margin-left: 10rpx;\r\n  max-width: 150rpx;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .bet-bar-top .collapse-area[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-around;\r\n  height: 80rpx;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx;\r\n  border-bottom: 2rpx solid #eee;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10rpx;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-label[data-v-a2581250] {\r\n  height: 100%;\r\n  font-size: 26rpx;\r\n  color: #333;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-btn[data-v-a2581250] {\r\n  width: 44rpx;\r\n  height: 44rpx;\r\n  background-color: #ddd;\r\n  color: #333;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  margin: 0;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-input[data-v-a2581250] {\r\n  width: 120rpx;\r\n  height: 44rpx;\r\n  background-color: #fff;\r\n  color: #333;\r\n  text-align: center;\r\n  font-size: 26rpx;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-bottom[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100rpx;\r\n  background: #232323;\r\n  color: #fff;\r\n  padding: 0 40rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle[data-v-a2581250] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin: 0 20rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .select-tip[data-v-a2581250] {\r\n  font-size: 28rpx;\r\n  color: #fff;\r\n  text-align: center;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .bonus-tip[data-v-a2581250] {\r\n  font-size: 18rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  line-height: 1.2;\n}\n.bet-bar .bet-bar-bottom .bottom-right[data-v-a2581250] {\r\n  width: 200rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-a2581250] {\r\n  width: 100%;\r\n  height: 76rpx;\r\n  background: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[disabled][data-v-a2581250] {\r\n  background: #666;\r\n  color: #aaa;\r\n  cursor: not-allowed;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-a2581250]:active {\r\n  background: #c62828;\n}\r\n/* 手机号弹窗 */\n.phone-modal[data-v-a2581250] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 9999;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n.phone-modal .modal-mask[data-v-a2581250] {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\n}\n.phone-modal .modal-content[data-v-a2581250] {\r\n  width: 80%;\r\n  background: #fff;\r\n  border-radius: 16rpx;\r\n  padding: 40rpx;\r\n  position: relative;\n}\n.phone-modal .modal-content .modal-desc[data-v-a2581250] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  line-height: 1.5;\r\n  margin-bottom: 30rpx;\n}\n.phone-modal .modal-content .input-wrap[data-v-a2581250] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 40rpx;\n}\n.phone-modal .modal-content .input-wrap uni-label[data-v-a2581250] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  width: 180rpx;\n}\n.phone-modal .modal-content .input-wrap uni-input[data-v-a2581250] {\r\n  flex: 1;\r\n  height: 70rpx;\r\n  border: 1rpx solid #eee;\r\n  border-radius: 8rpx;\r\n  padding: 0 20rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns[data-v-a2581250] {\r\n  display: flex;\r\n  gap: 20rpx;\n}\n.phone-modal .modal-content .modal-btns uni-button[data-v-a2581250] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-a2581250] {\r\n  background: #f5f5f5;\r\n  color: #666;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-a2581250] {\r\n  background: #d92929;\r\n  color: #fff;\n}\r\n/* 全局兼容 */\n[data-v-a2581250]::-webkit-scrollbar {\r\n  display: none;\n}\nuni-button[data-v-a2581250]::after {\r\n  border: none;\n}\n.disabled[data-v-a2581250] {\r\n  color: #999 !important;\r\n  border-color: #eee !important;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -32053,7 +32053,7 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "胜率" +
+                                  "胜" +
                                     _vm._$g("18-" + $30, "t0-0") +
                                     "，约" +
                                     _vm._$g("18-" + $30, "t0-1") +
@@ -32084,7 +32084,7 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "胜率" +
+                                  "胜" +
                                     _vm._$g("20-" + $30, "t0-0") +
                                     "，约" +
                                     _vm._$g("20-" + $30, "t0-1") +
@@ -32151,7 +32151,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(26, "sc"), attrs: { _i: 26 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -32294,7 +32294,7 @@ var render = function () {
                     { staticClass: _vm._$g(44, "sc"), attrs: { _i: 44 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -32727,7 +32727,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "胜率" +
+                                      "胜" +
                                         _vm._$g("17-" + $30, "t0-0") +
                                         "，约" +
                                         _vm._$g("17-" + $30, "t0-1") +
@@ -32749,7 +32749,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "胜率" +
+                                      "胜" +
                                         _vm._$g("19-" + $30, "t0-0") +
                                         "，约" +
                                         _vm._$g("19-" + $30, "t0-1") +
@@ -32784,7 +32784,7 @@ var render = function () {
                                     staticClass: _vm._$g("22-" + $30, "sc"),
                                     attrs: { _i: "22-" + $30 },
                                   },
-                                  [_vm._v("无选中投注内容")]
+                                  [_vm._v("无选中内容")]
                                 ),
                           ],
                           1
@@ -32817,7 +32817,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(25, "sc"), attrs: { _i: 25 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -32960,7 +32960,7 @@ var render = function () {
                     { staticClass: _vm._$g(43, "sc"), attrs: { _i: 43 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -33145,7 +33145,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 全局样式：统一对齐其他篮球玩法页面 */\n.scheme-edit-page[data-v-2a22d76a] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\r\n/* 核心修改：修复适配逻辑，确保内容区高度正确 */\n.match-scroll[data-v-2a22d76a] {\r\n  position: absolute !important;\r\n  left: 0 !important;\r\n  right: 0 !important;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx 20rpx;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\r\n  top: v-bind(headerTotalHeightpx) !important;\r\n  bottom: calc(90rpx + constant(safe-area-inset-bottom) + 90rpx) !important;\r\n  bottom: calc(90rpx + env(safe-area-inset-bottom) + 90rpx) !important;\r\n  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 90rpx - env(safe-area-inset-bottom) - 90rpx) !important;\n}\n.match-scroll[data-v-2a22d76a]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 赛事列表样式：修复selected-content布局 */\n.match-list[data-v-2a22d76a] {\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  /* 赛事行：调整内边距，避免拥挤 */\n}\n.match-list .empty-tip[data-v-2a22d76a] {\r\n  text-align: center;\r\n  padding: 50rpx 0;\r\n  font-size: 26rpx;\r\n  color: #999;\r\n  background: #fff;\r\n  border-radius: 8rpx;\r\n  margin: 20rpx 0;\n}\n.match-list .match-row[data-v-2a22d76a] {\r\n  display: flex;\r\n  background-color: #fff;\r\n  border-radius: 8rpx;\r\n  padding: 16rpx 20rpx;\r\n  /* 增加内边距，优化间距 */\r\n  align-items: flex-start;\r\n  /* 改为顶部对齐，避免内容被压缩 */\r\n  margin-bottom: 15rpx;\r\n  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);\r\n  /* 左侧分类信息：统一170rpx宽度+居中 */\r\n  /* 右侧核心内容：修复selected-content布局 */\n}\n.match-list .match-row .match-category[data-v-2a22d76a] {\r\n  width: 170rpx;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  gap: 6rpx;\r\n  /* 增加间距，优化排版 */\n}\n.match-list .match-row .match-category .league-name-row[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  width: 100%;\r\n  font-size: 24rpx;\r\n  color: #777;\n}\n.match-list .match-row .match-category .league-name-row .single-tag[data-v-2a22d76a] {\r\n  display: inline-block;\r\n  width: 44rpx;\r\n  background: #b71c1c;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-top-right-radius: 15rpx;\r\n  border-bottom-right-radius: 16rpx;\r\n  margin-right: 10rpx;\r\n  font-size: 20rpx;\r\n  padding: 2rpx 0;\n}\n.match-list .match-row .match-category .serial-number[data-v-2a22d76a], .match-list .match-row .match-category .match-time[data-v-2a22d76a] {\r\n  font-size: 22rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  width: 100%;\n}\n.match-list .match-row .match-category .match-time[data-v-2a22d76a] {\r\n  font-size: 16rpx;\r\n  margin-top: 20rpx;\n}\n.match-list .match-row .match-cells[data-v-2a22d76a] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 8rpx;\r\n  /* 增加间距，优化排版 */\r\n  padding-left: 16rpx;\n}\n.match-list .match-row .match-cells .name-row[data-v-2a22d76a] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 26rpx;\r\n  /* 减小字体，优化排版 */\r\n  font-weight: 500;\r\n  color: #333;\r\n  cursor: pointer;\n}\n.match-list .match-row .match-cells .name-row .team-name[data-v-2a22d76a] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .name-row .team-name.away[data-v-2a22d76a] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .team-name.home[data-v-2a22d76a] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .vs-text[data-v-2a22d76a] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\r\n  font-weight: 500;\n}\n.match-list .match-row .match-cells .name-row[data-v-2a22d76a]:active {\r\n  color: #d92929;\n}\n.match-list .match-row .match-cells .rate-row[data-v-2a22d76a] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 20rpx;\r\n  /* 减小字体，优化排版 */\r\n  color: #999;\n}\n.match-list .match-row .match-cells .rate-row .rate-text[data-v-2a22d76a] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.away[data-v-2a22d76a] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.home[data-v-2a22d76a] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .vs-text[data-v-2a22d76a] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\n}\n.match-list .match-row .match-cells .selected-content[data-v-2a22d76a] {\r\n  box-sizing: border-box;\r\n  width: 100%;\r\n  /* 横向填满父容器 */\r\n  border: 1rpx solid #66cdaa;\r\n  border-radius: 8rpx;\r\n  padding: 12rpx 16rpx;\r\n  /* 调整内边距 */\r\n  background-color: #f9f9f9;\r\n  min-height: 60rpx;\r\n  /* 固定最小高度 */\r\n  max-height: 120rpx;\r\n  /* 限制最大高度，避免占用过多空间 */\r\n  display: -webkit-box;\r\n  /* 核心：多行省略需要的弹性盒 */\r\n  -webkit-box-orient: vertical;\r\n  /* 垂直排列 */\r\n  -webkit-line-clamp: 1;\r\n  /* 最多显示2行，超出省略 */\r\n  overflow: hidden;\r\n  /* 隐藏超出内容 */\r\n  text-overflow: ellipsis;\r\n  /* 省略号 */\n}\n.match-list .match-row .match-cells .selected-content .trigger-tip[data-v-2a22d76a] {\r\n  font-size: 24rpx;\r\n  color: #999;\n}\n.match-list .match-row .match-cells .selected-content.selected-trigger[data-v-2a22d76a] {\r\n  background-color: #d92929;\r\n  border-color: #d92929;\r\n  color: #fff;\n}\n.match-list .match-row .match-cells .selected-content .selected-text[data-v-2a22d76a] {\r\n  font-size: 24rpx;\r\n  color: #fff;\r\n  line-height: 36rpx;\r\n  /* 增加行高，优化换行排版 */\r\n  margin-right: 10rpx;\r\n  /* 增加选项之间的间距 */\r\n  width: 100%;\n}\r\n/* 底部投注栏：保持不变 */\n.bet-bar[data-v-2a22d76a] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  padding-bottom: 0 !important;\r\n  box-sizing: border-box !important;\r\n  height: 80rpx !important;\r\n  bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-top[data-v-2a22d76a] {\r\n  background: #fff;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\n}\n.bet-bar .bet-bar-top .tips-text[data-v-2a22d76a] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  flex: 1;\r\n  margin-left: 20rpx;\r\n  line-height: 1.4;\n}\n.bet-bar .bet-bar-top .top-left[data-v-2a22d76a] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  padding: 8rpx 12rpx;\r\n  margin-left: 10rpx;\r\n  max-width: 150rpx;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .bet-bar-top .collapse-area[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-around;\r\n  height: 80rpx;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx;\r\n  border-bottom: 2rpx solid #eee;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10rpx;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-label[data-v-2a22d76a] {\r\n  height: 100%;\r\n  font-size: 26rpx;\r\n  color: #333;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-btn[data-v-2a22d76a] {\r\n  width: 44rpx;\r\n  height: 44rpx;\r\n  background-color: #ddd;\r\n  color: #333;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  margin: 0;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-input[data-v-2a22d76a] {\r\n  width: 120rpx;\r\n  height: 44rpx;\r\n  background-color: #fff;\r\n  color: #333;\r\n  text-align: center;\r\n  font-size: 26rpx;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-bottom[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100rpx;\r\n  background: #232323;\r\n  color: #fff;\r\n  padding: 0 40rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle[data-v-2a22d76a] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin: 0 20rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .select-tip[data-v-2a22d76a] {\r\n  font-size: 28rpx;\r\n  color: #fff;\r\n  text-align: center;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .bonus-tip[data-v-2a22d76a] {\r\n  font-size: 18rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  line-height: 1.2;\n}\n.bet-bar .bet-bar-bottom .bottom-right[data-v-2a22d76a] {\r\n  width: 200rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-2a22d76a] {\r\n  width: 100%;\r\n  height: 76rpx;\r\n  background: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[disabled][data-v-2a22d76a] {\r\n  background: #666;\r\n  color: #aaa;\r\n  cursor: not-allowed;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-2a22d76a]:active {\r\n  background: #c62828;\n}\r\n/* 手机号弹窗：保持不变 */\n.phone-modal[data-v-2a22d76a] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 9999;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n.phone-modal .modal-mask[data-v-2a22d76a] {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.6);\n}\n.phone-modal .modal-content[data-v-2a22d76a] {\r\n  width: 90%;\r\n  max-height: 80vh;\r\n  background: #fff;\r\n  border-radius: 12rpx;\r\n  z-index: 9999999;\r\n  overflow-y: auto;\r\n  box-sizing: border-box;\r\n  padding: 20rpx;\r\n  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));\r\n  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));\n}\n.phone-modal .modal-content .modal-desc[data-v-2a22d76a] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  line-height: 1.5;\r\n  margin-bottom: 30rpx;\n}\n.phone-modal .modal-content .input-wrap[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 40rpx;\n}\n.phone-modal .modal-content .input-wrap uni-label[data-v-2a22d76a] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  width: 180rpx;\n}\n.phone-modal .modal-content .input-wrap uni-input[data-v-2a22d76a] {\r\n  flex: 1;\r\n  height: 70rpx;\r\n  border: 1rpx solid #eee;\r\n  border-radius: 8rpx;\r\n  padding: 0 20rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns[data-v-2a22d76a] {\r\n  display: flex;\r\n  gap: 8rpx;\n}\n.phone-modal .modal-content .modal-btns uni-button[data-v-2a22d76a] {\r\n  flex: 1;\r\n  height: 76rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  margin: 0;\r\n  padding: 0;\r\n  border: none;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-2a22d76a] {\r\n  background: #f0f0f0;\r\n  color: #333;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-2a22d76a]:active {\r\n  background: #e0e0e0;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-2a22d76a] {\r\n  background: #d92929;\r\n  color: #fff;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-2a22d76a]:active {\r\n  background: #c62828;\n}\r\n/* 全局样式兼容 */\n[data-v-2a22d76a]::-webkit-scrollbar {\r\n  display: none;\n}\nuni-button[data-v-2a22d76a]::after {\r\n  border: none;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 全局样式：统一对齐其他篮球玩法页面 */\n.scheme-edit-page[data-v-2a22d76a] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\r\n/* 核心修改：修复适配逻辑，确保内容区高度正确 */\n.match-scroll[data-v-2a22d76a] {\r\n  position: absolute !important;\r\n  left: 0 !important;\r\n  right: 0 !important;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx 20rpx;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\r\n  top: v-bind(headerTotalHeightpx) !important;\r\n  bottom: calc(90rpx + constant(safe-area-inset-bottom) + 90rpx) !important;\r\n  bottom: calc(90rpx + env(safe-area-inset-bottom) + 90rpx) !important;\r\n  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 90rpx - env(safe-area-inset-bottom) - 90rpx) !important;\n}\n.match-scroll[data-v-2a22d76a]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 赛事列表样式：修复selected-content布局 */\n.match-list[data-v-2a22d76a] {\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  /* 赛事行：调整内边距，避免拥挤 */\n}\n.match-list .empty-tip[data-v-2a22d76a] {\r\n  text-align: center;\r\n  padding: 50rpx 0;\r\n  font-size: 26rpx;\r\n  color: #999;\r\n  background: #fff;\r\n  border-radius: 8rpx;\r\n  margin: 20rpx 0;\n}\n.match-list .match-row[data-v-2a22d76a] {\r\n  display: flex;\r\n  background-color: #fff;\r\n  border-radius: 8rpx;\r\n  padding: 16rpx 20rpx;\r\n  /* 增加内边距，优化间距 */\r\n  align-items: flex-start;\r\n  /* 改为顶部对齐，避免内容被压缩 */\r\n  margin-bottom: 15rpx;\r\n  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);\r\n  /* 左侧分类信息：统一170rpx宽度+居中 */\r\n  /* 右侧核心内容：修复selected-content布局 */\n}\n.match-list .match-row .match-category[data-v-2a22d76a] {\r\n  width: 170rpx;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  gap: 6rpx;\r\n  /* 增加间距，优化排版 */\n}\n.match-list .match-row .match-category .league-name-row[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  width: 100%;\r\n  font-size: 24rpx;\r\n  color: #777;\n}\n.match-list .match-row .match-category .league-name-row .single-tag[data-v-2a22d76a] {\r\n  display: inline-block;\r\n  width: 44rpx;\r\n  background: #b71c1c;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-top-right-radius: 15rpx;\r\n  border-bottom-right-radius: 16rpx;\r\n  margin-right: 10rpx;\r\n  font-size: 20rpx;\r\n  padding: 2rpx 0;\n}\n.match-list .match-row .match-category .serial-number[data-v-2a22d76a], .match-list .match-row .match-category .match-time[data-v-2a22d76a] {\r\n  font-size: 22rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  width: 100%;\n}\n.match-list .match-row .match-category .match-time[data-v-2a22d76a] {\r\n  font-size: 16rpx;\r\n  margin-top: 20rpx;\n}\n.match-list .match-row .match-cells[data-v-2a22d76a] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 8rpx;\r\n  /* 增加间距，优化排版 */\r\n  padding-left: 16rpx;\n}\n.match-list .match-row .match-cells .name-row[data-v-2a22d76a] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 26rpx;\r\n  /* 减小字体，优化排版 */\r\n  font-weight: 500;\r\n  color: #333;\r\n  cursor: pointer;\n}\n.match-list .match-row .match-cells .name-row .team-name[data-v-2a22d76a] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .name-row .team-name.away[data-v-2a22d76a] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .team-name.home[data-v-2a22d76a] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .vs-text[data-v-2a22d76a] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\r\n  font-weight: 500;\n}\n.match-list .match-row .match-cells .name-row[data-v-2a22d76a]:active {\r\n  color: #d92929;\n}\n.match-list .match-row .match-cells .rate-row[data-v-2a22d76a] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 20rpx;\r\n  /* 减小字体，优化排版 */\r\n  color: #999;\n}\n.match-list .match-row .match-cells .rate-row .rate-text[data-v-2a22d76a] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.away[data-v-2a22d76a] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.home[data-v-2a22d76a] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .vs-text[data-v-2a22d76a] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\n}\n.match-list .match-row .match-cells .selected-content[data-v-2a22d76a] {\r\n  box-sizing: border-box;\r\n  width: 100%;\r\n  /* 横向填满父容器 */\r\n  border: 1rpx solid #66cdaa;\r\n  border-radius: 8rpx;\r\n  padding: 12rpx 16rpx;\r\n  /* 调整内边距 */\r\n  background-color: #f9f9f9;\r\n  min-height: 60rpx;\r\n  /* 固定最小高度 */\r\n  max-height: 120rpx;\r\n  /* 限制最大高度，避免占用过多空间 */\r\n  display: -webkit-box;\r\n  /* 核心：多行省略需要的弹性盒 */\r\n  -webkit-box-orient: vertical;\r\n  /* 垂直排列 */\r\n  -webkit-line-clamp: 1;\r\n  /* 最多显示2行，超出省略 */\r\n  overflow: hidden;\r\n  /* 隐藏超出内容 */\r\n  text-overflow: ellipsis;\r\n  /* 省略号 */\n}\n.match-list .match-row .match-cells .selected-content .trigger-tip[data-v-2a22d76a] {\r\n  font-size: 24rpx;\r\n  color: #999;\n}\n.match-list .match-row .match-cells .selected-content.selected-trigger[data-v-2a22d76a] {\r\n  background-color: #d92929;\r\n  border-color: #d92929;\r\n  color: #fff;\n}\n.match-list .match-row .match-cells .selected-content .selected-text[data-v-2a22d76a] {\r\n  font-size: 24rpx;\r\n  color: #fff;\r\n  line-height: 36rpx;\r\n  /* 增加行高，优化换行排版 */\r\n  margin-right: 10rpx;\r\n  /* 增加选项之间的间距 */\r\n  width: 100%;\n}\r\n/* 底部栏：保持不变 */\n.bet-bar[data-v-2a22d76a] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  padding-bottom: 0 !important;\r\n  box-sizing: border-box !important;\r\n  height: 80rpx !important;\r\n  bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-top[data-v-2a22d76a] {\r\n  background: #fff;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\n}\n.bet-bar .bet-bar-top .tips-text[data-v-2a22d76a] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  flex: 1;\r\n  margin-left: 20rpx;\r\n  line-height: 1.4;\n}\n.bet-bar .bet-bar-top .top-left[data-v-2a22d76a] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  padding: 8rpx 12rpx;\r\n  margin-left: 10rpx;\r\n  max-width: 150rpx;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .bet-bar-top .collapse-area[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-around;\r\n  height: 80rpx;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx;\r\n  border-bottom: 2rpx solid #eee;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10rpx;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-label[data-v-2a22d76a] {\r\n  height: 100%;\r\n  font-size: 26rpx;\r\n  color: #333;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-btn[data-v-2a22d76a] {\r\n  width: 44rpx;\r\n  height: 44rpx;\r\n  background-color: #ddd;\r\n  color: #333;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  margin: 0;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-input[data-v-2a22d76a] {\r\n  width: 120rpx;\r\n  height: 44rpx;\r\n  background-color: #fff;\r\n  color: #333;\r\n  text-align: center;\r\n  font-size: 26rpx;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-bottom[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100rpx;\r\n  background: #232323;\r\n  color: #fff;\r\n  padding: 0 40rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle[data-v-2a22d76a] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin: 0 20rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .select-tip[data-v-2a22d76a] {\r\n  font-size: 28rpx;\r\n  color: #fff;\r\n  text-align: center;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .bonus-tip[data-v-2a22d76a] {\r\n  font-size: 18rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  line-height: 1.2;\n}\n.bet-bar .bet-bar-bottom .bottom-right[data-v-2a22d76a] {\r\n  width: 200rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-2a22d76a] {\r\n  width: 100%;\r\n  height: 76rpx;\r\n  background: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[disabled][data-v-2a22d76a] {\r\n  background: #666;\r\n  color: #aaa;\r\n  cursor: not-allowed;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-2a22d76a]:active {\r\n  background: #c62828;\n}\r\n/* 手机号弹窗：保持不变 */\n.phone-modal[data-v-2a22d76a] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 9999;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n.phone-modal .modal-mask[data-v-2a22d76a] {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.6);\n}\n.phone-modal .modal-content[data-v-2a22d76a] {\r\n  width: 90%;\r\n  max-height: 80vh;\r\n  background: #fff;\r\n  border-radius: 12rpx;\r\n  z-index: 9999999;\r\n  overflow-y: auto;\r\n  box-sizing: border-box;\r\n  padding: 20rpx;\r\n  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));\r\n  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));\n}\n.phone-modal .modal-content .modal-desc[data-v-2a22d76a] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  line-height: 1.5;\r\n  margin-bottom: 30rpx;\n}\n.phone-modal .modal-content .input-wrap[data-v-2a22d76a] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 40rpx;\n}\n.phone-modal .modal-content .input-wrap uni-label[data-v-2a22d76a] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  width: 180rpx;\n}\n.phone-modal .modal-content .input-wrap uni-input[data-v-2a22d76a] {\r\n  flex: 1;\r\n  height: 70rpx;\r\n  border: 1rpx solid #eee;\r\n  border-radius: 8rpx;\r\n  padding: 0 20rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns[data-v-2a22d76a] {\r\n  display: flex;\r\n  gap: 8rpx;\n}\n.phone-modal .modal-content .modal-btns uni-button[data-v-2a22d76a] {\r\n  flex: 1;\r\n  height: 76rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  margin: 0;\r\n  padding: 0;\r\n  border: none;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-2a22d76a] {\r\n  background: #f0f0f0;\r\n  color: #333;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-2a22d76a]:active {\r\n  background: #e0e0e0;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-2a22d76a] {\r\n  background: #d92929;\r\n  color: #fff;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-2a22d76a]:active {\r\n  background: #c62828;\n}\r\n/* 全局样式兼容 */\n[data-v-2a22d76a]::-webkit-scrollbar {\r\n  display: none;\n}\nuni-button[data-v-2a22d76a]::after {\r\n  border: none;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -33404,7 +33404,7 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "胜率" +
+                                  "胜" +
                                     _vm._$g("16-" + $30, "t0-0") +
                                     "，约" +
                                     _vm._$g("16-" + $30, "t0-1") +
@@ -33435,7 +33435,7 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "胜率" +
+                                  "胜" +
                                     _vm._$g("18-" + $30, "t0-0") +
                                     "，约" +
                                     _vm._$g("18-" + $30, "t0-1") +
@@ -33502,7 +33502,7 @@ var render = function () {
               _c(
                 "uni-view",
                 { staticClass: _vm._$g(24, "sc"), attrs: { _i: 24 } },
-                [_vm._v("请输入倍数后截屏给售票人")]
+                [_vm._v("请输入后截屏给售票人")]
               ),
               _c(
                 "uni-view",
@@ -33645,7 +33645,7 @@ var render = function () {
                     { staticClass: _vm._$g(42, "sc"), attrs: { _i: 42 } },
                     [
                       _vm._v(
-                        "业务人员通过微信与您联系确认购买及打印彩票后给您发送图片留作兑奖凭证等后续流程"
+                        "业务人员通过微信与您联系确认及打印彩票后给您发送图片留作兑奖凭证等后续流程"
                       ),
                     ]
                   ),
@@ -33830,7 +33830,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../Desktop/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 全局样式：统一对齐让分胜负页 */\n.scheme-edit-page[data-v-357a5ad8] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\r\n/* 核心修改：统一分端适配逻辑，对齐让分胜负页 */\n.match-scroll[data-v-357a5ad8] {\r\n  position: absolute !important;\r\n  left: 0 !important;\r\n  right: 0 !important;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx 20rpx;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\r\n  top: v-bind(headerTotalHeightpx) !important;\r\n  bottom: calc(90rpx + constant(safe-area-inset-bottom) + 90rpx) !important;\r\n  bottom: calc(90rpx + env(safe-area-inset-bottom) + 90rpx) !important;\r\n  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 90rpx - env(safe-area-inset-bottom) - 90rpx) !important;\n}\n.match-scroll[data-v-357a5ad8]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 赛事列表样式：统一对齐让分胜负页 */\n.match-list[data-v-357a5ad8] {\r\n  width: 100%;\r\n  box-sizing: border-box;\n}\n.match-list .empty-tip[data-v-357a5ad8] {\r\n  text-align: center;\r\n  padding: 50rpx 0;\r\n  font-size: 26rpx;\r\n  color: #999;\r\n  background: #fff;\r\n  border-radius: 8rpx;\r\n  margin: 20rpx 0;\n}\n.match-list .match-row[data-v-357a5ad8] {\r\n  display: flex;\r\n  background-color: #fff;\r\n  border-bottom: 1rpx solid #eee;\r\n  padding: 12rpx 20rpx;\r\n  align-items: center;\r\n  margin-bottom: 4rpx;\r\n  border-radius: 8rpx;\r\n  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);\n}\n.match-list .match-row .match-category[data-v-357a5ad8] {\r\n  width: 170rpx;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  gap: 4rpx;\n}\n.match-list .match-row .match-category .league-name[data-v-357a5ad8] {\r\n  font-size: 24rpx;\r\n  color: #777;\r\n  width: 100%;\n}\n.match-list .match-row .match-category .league-name .single[data-v-357a5ad8] {\r\n  display: inline-block;\r\n  width: 44rpx;\r\n  background: #b71c1c;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-top-right-radius: 15rpx;\r\n  border-bottom-right-radius: 16rpx;\r\n  margin-right: 10rpx;\r\n  font-size: 20rpx;\r\n  padding: 2rpx 0;\n}\n.match-list .match-row .match-category .serial-number[data-v-357a5ad8], .match-list .match-row .match-category .match-time[data-v-357a5ad8] {\r\n  font-size: 22rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  width: 100%;\n}\n.match-list .match-row .match-cells[data-v-357a5ad8] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 6rpx;\r\n  padding-left: 16rpx;\r\n  position: relative;\n}\n.match-list .match-row .match-cells .ai[data-v-357a5ad8] {\r\n  position: absolute;\r\n  right: 0;\r\n  top: 0;\r\n  font-size: 22rpx;\r\n  color: #06f;\r\n  letter-spacing: 4rpx;\r\n  padding: 4rpx 8rpx;\r\n  cursor: pointer;\n}\n.match-list .match-row .match-cells .ai[data-v-357a5ad8]:active {\r\n  color: #049;\n}\n.match-list .match-row .match-cells .name-row[data-v-357a5ad8] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 24rpx;\r\n  color: #333;\n}\n.match-list .match-row .match-cells .name-row .team-name[data-v-357a5ad8] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .name-row .team-name.away[data-v-357a5ad8] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .team-name.home[data-v-357a5ad8] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .vs-text[data-v-357a5ad8] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\r\n  font-weight: 500;\n}\n.match-list .match-row .match-cells .rate-row[data-v-357a5ad8] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 22rpx;\r\n  color: #999;\n}\n.match-list .match-row .match-cells .rate-row .rate-text[data-v-357a5ad8] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.away[data-v-357a5ad8] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.home[data-v-357a5ad8] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .vs-text[data-v-357a5ad8] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\n}\n.match-list .match-row .match-cells .odds-row[data-v-357a5ad8] {\r\n  width: 100%;\r\n  display: flex;\r\n  gap: 2rpx;\r\n  margin-top: 4rpx;\n}\n.match-list .match-row .match-cells .odds-row .match-cell[data-v-357a5ad8] {\r\n  flex: 1;\r\n  text-align: center;\r\n  padding: 12rpx 0;\r\n  background-color: #f0f0f0;\r\n  color: #333;\r\n  font-size: 24rpx;\r\n  border-radius: 4rpx;\n}\n.match-list .match-row .match-cells .odds-row .match-cell.selected[data-v-357a5ad8] {\r\n  background-color: #d92929;\r\n  color: #fff;\n}\n.match-list .match-row .match-cells .odds-row .match-cell[data-v-357a5ad8]:active {\r\n  background: #e5e5e5;\n}\n.match-list .match-row .match-cells .odds-row .match-cell.selected[data-v-357a5ad8]:active {\r\n  background: #c62828;\n}\r\n/* 投注栏样式：统一对齐让分胜负页 */\n.bet-bar[data-v-357a5ad8] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  padding-bottom: 0 !important;\r\n  box-sizing: border-box !important;\r\n  height: 80rpx !important;\r\n  bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-top[data-v-357a5ad8] {\r\n  background: #fff;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\n}\n.bet-bar .bet-bar-top .tips-text[data-v-357a5ad8] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  flex: 1;\r\n  margin-left: 20rpx;\r\n  line-height: 1.4;\n}\n.bet-bar .bet-bar-top .top-left[data-v-357a5ad8] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  padding: 8rpx 12rpx;\r\n  margin-left: 10rpx;\r\n  max-width: 150rpx;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .bet-bar-top .collapse-area[data-v-357a5ad8] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-around;\r\n  height: 80rpx;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx;\r\n  border-bottom: 2rpx solid #eee;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group[data-v-357a5ad8] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10rpx;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-label[data-v-357a5ad8] {\r\n  height: 100%;\r\n  font-size: 26rpx;\r\n  color: #333;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-btn[data-v-357a5ad8] {\r\n  width: 44rpx;\r\n  height: 44rpx;\r\n  background-color: #ddd;\r\n  color: #333;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  margin: 0;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-input[data-v-357a5ad8] {\r\n  width: 120rpx;\r\n  height: 44rpx;\r\n  background-color: #fff;\r\n  color: #333;\r\n  text-align: center;\r\n  font-size: 26rpx;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-bottom[data-v-357a5ad8] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100rpx;\r\n  background: #232323;\r\n  color: #fff;\r\n  padding: 0 40rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle[data-v-357a5ad8] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin: 0 20rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .select-tip[data-v-357a5ad8] {\r\n  font-size: 28rpx;\r\n  color: #fff;\r\n  text-align: center;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .bonus-tip[data-v-357a5ad8] {\r\n  font-size: 18rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  line-height: 1.2;\n}\n.bet-bar .bet-bar-bottom .bottom-right[data-v-357a5ad8] {\r\n  width: 200rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-357a5ad8] {\r\n  width: 100%;\r\n  height: 76rpx;\r\n  background: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[disabled][data-v-357a5ad8] {\r\n  background: #666;\r\n  color: #aaa;\r\n  cursor: not-allowed;\n}\r\n/* 手机号弹窗：样式完全不变 */\n.phone-modal[data-v-357a5ad8] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 9999;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n.phone-modal .modal-mask[data-v-357a5ad8] {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\n}\n.phone-modal .modal-content[data-v-357a5ad8] {\r\n  width: 80%;\r\n  background: #fff;\r\n  border-radius: 16rpx;\r\n  padding: 40rpx;\r\n  position: relative;\n}\n.phone-modal .modal-content .modal-desc[data-v-357a5ad8] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  line-height: 1.5;\r\n  margin-bottom: 30rpx;\n}\n.phone-modal .modal-content .input-wrap[data-v-357a5ad8] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 40rpx;\n}\n.phone-modal .modal-content .input-wrap uni-label[data-v-357a5ad8] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  width: 180rpx;\n}\n.phone-modal .modal-content .input-wrap uni-input[data-v-357a5ad8] {\r\n  flex: 1;\r\n  height: 70rpx;\r\n  border: 1rpx solid #eee;\r\n  border-radius: 8rpx;\r\n  padding: 0 20rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns[data-v-357a5ad8] {\r\n  display: flex;\r\n  gap: 20rpx;\n}\n.phone-modal .modal-content .modal-btns uni-button[data-v-357a5ad8] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-357a5ad8] {\r\n  background: #f5f5f5;\r\n  color: #666;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-357a5ad8] {\r\n  background: #d92929;\r\n  color: #fff;\n}\r\n/* 全局样式兼容：统一保留 */\n[data-v-357a5ad8]::-webkit-scrollbar {\r\n  display: none;\n}\nuni-button[data-v-357a5ad8]::after {\r\n  border: none;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\r\n/* 全局样式：统一对齐让分胜负页 */\n.scheme-edit-page[data-v-357a5ad8] {\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  height: 100vh;\r\n  margin: 0;\r\n  padding: 0;\n}\r\n/* 核心修改：统一分端适配逻辑，对齐让分胜负页 */\n.match-scroll[data-v-357a5ad8] {\r\n  position: absolute !important;\r\n  left: 0 !important;\r\n  right: 0 !important;\r\n  width: 100% !important;\r\n  overflow-y: auto !important;\r\n  background-color: #f5f5f5;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx 20rpx;\r\n  -ms-overflow-style: none;\r\n  scrollbar-width: none;\r\n  top: v-bind(headerTotalHeightpx) !important;\r\n  bottom: calc(90rpx + constant(safe-area-inset-bottom) + 90rpx) !important;\r\n  bottom: calc(90rpx + env(safe-area-inset-bottom) + 90rpx) !important;\r\n  height: calc(100vh - v-bind(headerTotalHeight + 'px') - 90rpx - env(safe-area-inset-bottom) - 90rpx) !important;\n}\n.match-scroll[data-v-357a5ad8]::-webkit-scrollbar {\r\n  display: none;\r\n  width: 0;\r\n  height: 0;\n}\r\n/* 赛事列表样式：统一对齐让分胜负页 */\n.match-list[data-v-357a5ad8] {\r\n  width: 100%;\r\n  box-sizing: border-box;\n}\n.match-list .empty-tip[data-v-357a5ad8] {\r\n  text-align: center;\r\n  padding: 50rpx 0;\r\n  font-size: 26rpx;\r\n  color: #999;\r\n  background: #fff;\r\n  border-radius: 8rpx;\r\n  margin: 20rpx 0;\n}\n.match-list .match-row[data-v-357a5ad8] {\r\n  display: flex;\r\n  background-color: #fff;\r\n  border-bottom: 1rpx solid #eee;\r\n  padding: 12rpx 20rpx;\r\n  align-items: center;\r\n  margin-bottom: 4rpx;\r\n  border-radius: 8rpx;\r\n  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);\n}\n.match-list .match-row .match-category[data-v-357a5ad8] {\r\n  width: 170rpx;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  gap: 4rpx;\n}\n.match-list .match-row .match-category .league-name[data-v-357a5ad8] {\r\n  font-size: 24rpx;\r\n  color: #777;\r\n  width: 100%;\n}\n.match-list .match-row .match-category .league-name .single[data-v-357a5ad8] {\r\n  display: inline-block;\r\n  width: 44rpx;\r\n  background: #b71c1c;\r\n  color: #fff;\r\n  text-align: center;\r\n  border-top-right-radius: 15rpx;\r\n  border-bottom-right-radius: 16rpx;\r\n  margin-right: 10rpx;\r\n  font-size: 20rpx;\r\n  padding: 2rpx 0;\n}\n.match-list .match-row .match-category .serial-number[data-v-357a5ad8], .match-list .match-row .match-category .match-time[data-v-357a5ad8] {\r\n  font-size: 22rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  width: 100%;\n}\n.match-list .match-row .match-cells[data-v-357a5ad8] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 6rpx;\r\n  padding-left: 16rpx;\r\n  position: relative;\n}\n.match-list .match-row .match-cells .ai[data-v-357a5ad8] {\r\n  position: absolute;\r\n  right: 0;\r\n  top: 0;\r\n  font-size: 22rpx;\r\n  color: #06f;\r\n  letter-spacing: 4rpx;\r\n  padding: 4rpx 8rpx;\r\n  cursor: pointer;\n}\n.match-list .match-row .match-cells .ai[data-v-357a5ad8]:active {\r\n  color: #049;\n}\n.match-list .match-row .match-cells .name-row[data-v-357a5ad8] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 24rpx;\r\n  color: #333;\n}\n.match-list .match-row .match-cells .name-row .team-name[data-v-357a5ad8] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .name-row .team-name.away[data-v-357a5ad8] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .team-name.home[data-v-357a5ad8] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .name-row .vs-text[data-v-357a5ad8] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\r\n  font-weight: 500;\n}\n.match-list .match-row .match-cells .rate-row[data-v-357a5ad8] {\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  font-size: 22rpx;\r\n  color: #999;\n}\n.match-list .match-row .match-cells .rate-row .rate-text[data-v-357a5ad8] {\r\n  flex: 1;\r\n  text-align: center;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.away[data-v-357a5ad8] {\r\n  text-align: right;\r\n  padding-right: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .rate-text.home[data-v-357a5ad8] {\r\n  text-align: left;\r\n  padding-left: 10rpx;\n}\n.match-list .match-row .match-cells .rate-row .vs-text[data-v-357a5ad8] {\r\n  width: 40rpx;\r\n  text-align: center;\r\n  flex-shrink: 0;\n}\n.match-list .match-row .match-cells .odds-row[data-v-357a5ad8] {\r\n  width: 100%;\r\n  display: flex;\r\n  gap: 2rpx;\r\n  margin-top: 4rpx;\n}\n.match-list .match-row .match-cells .odds-row .match-cell[data-v-357a5ad8] {\r\n  flex: 1;\r\n  text-align: center;\r\n  padding: 12rpx 0;\r\n  background-color: #f0f0f0;\r\n  color: #333;\r\n  font-size: 24rpx;\r\n  border-radius: 4rpx;\n}\n.match-list .match-row .match-cells .odds-row .match-cell.selected[data-v-357a5ad8] {\r\n  background-color: #d92929;\r\n  color: #fff;\n}\n.match-list .match-row .match-cells .odds-row .match-cell[data-v-357a5ad8]:active {\r\n  background: #e5e5e5;\n}\n.match-list .match-row .match-cells .odds-row .match-cell.selected[data-v-357a5ad8]:active {\r\n  background: #c62828;\n}\r\n/* 栏样式：统一对齐让分胜负页 */\n.bet-bar[data-v-357a5ad8] {\r\n  position: fixed !important;\r\n  width: 100% !important;\r\n  left: 0 !important;\r\n  z-index: 10 !important;\r\n  background-color: #fff;\r\n  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);\r\n  padding-bottom: 0 !important;\r\n  box-sizing: border-box !important;\r\n  height: 80rpx !important;\r\n  bottom: calc(100rpx + constant(safe-area-inset-bottom)) !important;\r\n  bottom: calc(100rpx + env(safe-area-inset-bottom)) !important;\n}\n.bet-bar .bet-bar-top[data-v-357a5ad8] {\r\n  background: #fff;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\n}\n.bet-bar .bet-bar-top .tips-text[data-v-357a5ad8] {\r\n  font-size: 24rpx;\r\n  color: #d92929;\r\n  flex: 1;\r\n  margin-left: 20rpx;\r\n  line-height: 1.4;\n}\n.bet-bar .bet-bar-top .top-left[data-v-357a5ad8] {\r\n  font-size: 24rpx;\r\n  color: #333;\r\n  padding: 8rpx 12rpx;\r\n  margin-left: 10rpx;\r\n  max-width: 150rpx;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.bet-bar .bet-bar-top .collapse-area[data-v-357a5ad8] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-around;\r\n  height: 80rpx;\r\n  box-sizing: border-box;\r\n  padding: 10rpx 20rpx;\r\n  border-bottom: 2rpx solid #eee;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group[data-v-357a5ad8] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10rpx;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-label[data-v-357a5ad8] {\r\n  height: 100%;\r\n  font-size: 26rpx;\r\n  color: #333;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-btn[data-v-357a5ad8] {\r\n  width: 44rpx;\r\n  height: 44rpx;\r\n  background-color: #ddd;\r\n  color: #333;\r\n  font-size: 28rpx;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  margin: 0;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-top .collapse-area .multi-group .multi-input[data-v-357a5ad8] {\r\n  width: 120rpx;\r\n  height: 44rpx;\r\n  background-color: #fff;\r\n  color: #333;\r\n  text-align: center;\r\n  font-size: 26rpx;\r\n  border: 1rpx solid #ccc;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n  border-radius: 0;\n}\n.bet-bar .bet-bar-bottom[data-v-357a5ad8] {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 100rpx;\r\n  background: #232323;\r\n  color: #fff;\r\n  padding: 0 40rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle[data-v-357a5ad8] {\r\n  flex: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin: 0 20rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .select-tip[data-v-357a5ad8] {\r\n  font-size: 28rpx;\r\n  color: #fff;\r\n  text-align: center;\n}\n.bet-bar .bet-bar-bottom .bottom-middle .bonus-tip[data-v-357a5ad8] {\r\n  font-size: 18rpx;\r\n  color: #999;\r\n  text-align: center;\r\n  line-height: 1.2;\n}\n.bet-bar .bet-bar-bottom .bottom-right[data-v-357a5ad8] {\r\n  width: 200rpx;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[data-v-357a5ad8] {\r\n  width: 100%;\r\n  height: 76rpx;\r\n  background: #d92929;\r\n  color: #fff;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\n}\n.bet-bar .bet-bar-bottom .bottom-right .confirm-btn[disabled][data-v-357a5ad8] {\r\n  background: #666;\r\n  color: #aaa;\r\n  cursor: not-allowed;\n}\r\n/* 手机号弹窗：样式完全不变 */\n.phone-modal[data-v-357a5ad8] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 9999;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n.phone-modal .modal-mask[data-v-357a5ad8] {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  background: rgba(0, 0, 0, 0.5);\n}\n.phone-modal .modal-content[data-v-357a5ad8] {\r\n  width: 80%;\r\n  background: #fff;\r\n  border-radius: 16rpx;\r\n  padding: 40rpx;\r\n  position: relative;\n}\n.phone-modal .modal-content .modal-desc[data-v-357a5ad8] {\r\n  font-size: 28rpx;\r\n  color: #666;\r\n  line-height: 1.5;\r\n  margin-bottom: 30rpx;\n}\n.phone-modal .modal-content .input-wrap[data-v-357a5ad8] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-bottom: 40rpx;\n}\n.phone-modal .modal-content .input-wrap uni-label[data-v-357a5ad8] {\r\n  font-size: 28rpx;\r\n  color: #333;\r\n  width: 180rpx;\n}\n.phone-modal .modal-content .input-wrap uni-input[data-v-357a5ad8] {\r\n  flex: 1;\r\n  height: 70rpx;\r\n  border: 1rpx solid #eee;\r\n  border-radius: 8rpx;\r\n  padding: 0 20rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns[data-v-357a5ad8] {\r\n  display: flex;\r\n  gap: 20rpx;\n}\n.phone-modal .modal-content .modal-btns uni-button[data-v-357a5ad8] {\r\n  flex: 1;\r\n  height: 80rpx;\r\n  border-radius: 8rpx;\r\n  font-size: 28rpx;\n}\n.phone-modal .modal-content .modal-btns .cancel-btn[data-v-357a5ad8] {\r\n  background: #f5f5f5;\r\n  color: #666;\n}\n.phone-modal .modal-content .modal-btns .confirm-btn[data-v-357a5ad8] {\r\n  background: #d92929;\r\n  color: #fff;\n}\r\n/* 全局样式兼容：统一保留 */\n[data-v-357a5ad8]::-webkit-scrollbar {\r\n  display: none;\n}\nuni-button[data-v-357a5ad8]::after {\r\n  border: none;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -34075,7 +34075,7 @@ var render = function () {
                                       staticClass: _vm._$g(22, "sc"),
                                       attrs: { _i: 22 },
                                     },
-                                    [_vm._v("胜率" + _vm._$g(22, "t0-0"))]
+                                    [_vm._v("胜" + _vm._$g(22, "t0-0"))]
                                   ),
                                 ],
                                 1
@@ -34093,7 +34093,7 @@ var render = function () {
                                       staticClass: _vm._$g(24, "sc"),
                                       attrs: { _i: 24 },
                                     },
-                                    [_vm._v("平率" + _vm._$g(24, "t0-0"))]
+                                    [_vm._v("平" + _vm._$g(24, "t0-0"))]
                                   ),
                                 ],
                                 1
@@ -34111,7 +34111,7 @@ var render = function () {
                                       staticClass: _vm._$g(26, "sc"),
                                       attrs: { _i: 26 },
                                     },
-                                    [_vm._v("胜率" + _vm._$g(26, "t0-0"))]
+                                    [_vm._v("胜" + _vm._$g(26, "t0-0"))]
                                   ),
                                 ],
                                 1
@@ -34264,7 +34264,7 @@ var render = function () {
                               staticClass: _vm._$g(45, "sc"),
                               attrs: { _i: 45 },
                             },
-                            [_vm._v("胜/平率")]
+                            [_vm._v("胜/平")]
                           ),
                           _c(
                             "v-uni-text",
@@ -34407,7 +34407,7 @@ var render = function () {
                                   staticClass: _vm._$g(63, "sc"),
                                   attrs: { _i: 63 },
                                 },
-                                [_vm._v("胜率/均进球")]
+                                [_vm._v("胜/均进球")]
                               ),
                             ],
                             1
@@ -34433,7 +34433,7 @@ var render = function () {
                                   staticClass: _vm._$g(66, "sc"),
                                   attrs: { _i: 66 },
                                 },
-                                [_vm._v("胜率/均进球")]
+                                [_vm._v("胜/均进球")]
                               ),
                             ],
                             1
@@ -34530,7 +34530,7 @@ var render = function () {
                               staticClass: _vm._$g(78, "sc"),
                               attrs: { _i: 78 },
                             },
-                            [_vm._v("胜率/平率")]
+                            [_vm._v("胜/平")]
                           ),
                           _c(
                             "v-uni-text",
@@ -35594,7 +35594,7 @@ var render = function () {
                             },
                             [
                               _c("v-uni-text", { attrs: { _i: 23 } }, [
-                                _vm._v("胜率"),
+                                _vm._v("胜"),
                               ]),
                             ],
                             1
@@ -35627,7 +35627,7 @@ var render = function () {
                                       staticClass: _vm._$g(27, "sc"),
                                       attrs: { _i: 27 },
                                     },
-                                    [_vm._v("胜率")]
+                                    [_vm._v("胜")]
                                   ),
                                   _c(
                                     "v-uni-text",
@@ -36713,7 +36713,7 @@ var render = function () {
                                           },
                                           [
                                             _vm._v(
-                                              "胜率" +
+                                              "胜" +
                                                 _vm._$g("19-" + $30, "t0-0")
                                             ),
                                           ]
@@ -36768,7 +36768,7 @@ var render = function () {
                                           },
                                           [
                                             _vm._v(
-                                              "平率" +
+                                              "平" +
                                                 _vm._$g("23-" + $30, "t0-0")
                                             ),
                                           ]
@@ -36823,7 +36823,7 @@ var render = function () {
                                           },
                                           [
                                             _vm._v(
-                                              "胜率" +
+                                              "胜" +
                                                 _vm._$g("27-" + $30, "t0-0")
                                             ),
                                           ]
@@ -37062,7 +37062,7 @@ var render = function () {
                       _c(
                         "v-uni-text",
                         { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
-                        [_vm._v("投注注数")]
+                        [_vm._v("注数")]
                       ),
                       _c(
                         "v-uni-text",
@@ -37079,7 +37079,7 @@ var render = function () {
                       _c(
                         "v-uni-text",
                         { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
-                        [_vm._v("倍数")]
+                        [_vm._v("")]
                       ),
                       _c(
                         "v-uni-text",
@@ -37165,7 +37165,7 @@ var render = function () {
               _c(
                 "v-uni-text",
                 { staticClass: _vm._$g(22, "sc"), attrs: { _i: 22 } },
-                [_vm._v("投注类型：")]
+                [_vm._v("类型：")]
               ),
               _c(
                 "v-uni-text",
@@ -37500,7 +37500,7 @@ var render = function () {
                                 staticClass: _vm._$g("11-" + $30, "sc"),
                                 attrs: { _i: "11-" + $30 },
                               },
-                              [_vm._v("无选中投注内容")]
+                              [_vm._v("无选中内容")]
                             ),
                       ],
                       1
@@ -38953,7 +38953,7 @@ var render = function () {
                               : _c(
                                   "v-uni-text",
                                   { attrs: { _i: "18-" + $30 } },
-                                  [_vm._v("无选中投注内容")]
+                                  [_vm._v("无选中内容")]
                                 ),
                           ],
                           1
@@ -39711,7 +39711,7 @@ var render = function () {
                           : _vm._e(),
                         _vm._$g("14-" + $30, "i")
                           ? _c("v-uni-text", { attrs: { _i: "14-" + $30 } }, [
-                              _vm._v("无选中投注内容"),
+                              _vm._v("无选中内容"),
                             ])
                           : _vm._e(),
                       ],

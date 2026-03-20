@@ -3,7 +3,7 @@
     <view v-for="(item, index) in courseList" :key="index" class="item">
       <view class="time">
         <text>{{ forateData(item.race_date) }}</text>
-        <view v-if="item.is_over == 0 && item.home_win_rate != 0&&isShowStatus" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }} </view>
+        <view v-if="item.is_over == 0 && item.home_win_rate != 0&&urlValue" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }} </view>
       </view>
       <view class="score">
         <!-- 左侧区域：主队名 + 左侧小项（自动撑开） -->
@@ -44,12 +44,12 @@ export default {
     return {
       courseList: [],
       goal: '比分',
-      isShowStatus: null,
+      urlValue: false,
     }
   },
   created(){
     this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
   },

@@ -3,7 +3,7 @@
     <!-- 顶部导航：适配4场标题 -->
     <CustomHeader :ballTitle="'足球'" title="4场" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
-    <!-- 滚动展示区域：沿用模板布局逻辑，保留4场业务展示 + 胜率显示条件 -->
+    <!-- 滚动展示区域：沿用模板布局逻辑，保留4场业务展示 + 胜显示条件 -->
     <scroll-view class="match-scroll" scroll-y id="poster-content">
       <view class="match-list">
         <!-- 循环展示选中的4场赛事 -->
@@ -16,11 +16,11 @@
                 <text class="vs-text">VS</text>
                 <text class="team-name away">{{ item.visiting_name }}</text>
               </view>
-              <!-- 胜率展示：添加模板同款v-if显示条件 -->
-              <view class="team-vs" style="color: #888; padding: 0" v-if="isShowStatus">
-                <text class="team-name home" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
-                <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
-                <text class="team-name away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
+              <!-- 胜展示：添加模板同款v-if显示条件 -->
+              <view class="team-vs" style="color: #888; padding: 0" v-if="urlValue">
+                <text class="team-name home" v-if="item.home_win_rate">胜{{ item.home_win_rate }}</text>
+                <text class="vs-text" v-if="item.draw_rate">平{{ item.draw_rate }}</text>
+                <text class="team-name away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate }}</text>
               </view>
             </view>
 
@@ -53,10 +53,10 @@
       </view>
     </scroll-view>
 
-    <!-- <view class="bet-bar" v-if="isShowStatus">
+    <view class="bet-bar" v-if="urlValue">
       <view class="bet-bar-top">
         <view class="collapse-area">
-          <view class="left-tip">请输入倍数后截屏给售票人</view>
+          <view class="left-tip">请输入后截屏给售票人</view>
 
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus">-</button>
@@ -64,16 +64,16 @@
               {{ betCount }}
             </view>
             <button class="multi-btn plus" @click="handlePlus">+</button>
-            <text class="multi-unit">倍</text>
+            
           </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}元</text>
+          
         </view>
       </view>
-    </view> -->
+    </view>
 
     <!-- 自定义数字键盘：限制1-50倍 -->
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
@@ -91,12 +91,12 @@ export default {
       statusBarHeight: 0, // 状态栏高度
       safeAreaBottom: 0, // 底部安全区高度
       headerTotalHeight: 0, // 导航栏总高度
-      betBarFixedPx: 0, // 投注栏固定高度
-      betBarTotalHeight: 0, // 投注栏总高度
+      betBarFixedPx: 0, // 
+      betBarTotalHeight: 0, // 
       isApp: false, // 是否为App端
       showNumberKeyboard: false, // 数字键盘显示状态
       isNeedUserPhone: 1, // 是否需要手机号（父组件传递）
-      isShowStatus: null,
+      urlValue: false,
     };
   },
   computed: {
@@ -130,15 +130,15 @@ export default {
 
       return totalNotes;
     },
-    // 计算总金额（注数 × 倍数 × 2元/注）
+    // 计算总金额（注数 ×  × 2元/注）
     totalBetAmount() {
-      // 空值保护：注数/倍数为0时金额为0
+      // 空值保护：注数/为0时金额为0
       return Math.max(this.betNotes * this.betCount * 2, 0);
     },
   },
   created() {
         this.$nextTick(()=>{
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     
     })
     // 替换为模板的系统信息获取逻辑（兼容全端）
@@ -168,14 +168,14 @@ export default {
       const navBarFixedPx = (sys.screenWidth / 750) * navBarFixedRpx;
       this.headerTotalHeight = this.statusBarHeight + navBarFixedPx;
 
-      // 投注栏高度（模板同款逻辑）
+      // （模板同款逻辑）
       const betBarFixedRpx = this.isApp ? 200 : 180;
       this.betBarFixedPx = (sys.screenWidth / 750) * betBarFixedRpx;
       this.betBarTotalHeight = this.betBarFixedPx + (this.isApp ? this.safeAreaBottom : 0);
     },
     // 返回上一页 + 回传数据
     handleBack() {
-      // 回传修改后的倍数数据给父组件
+      // 回传修改后的数据给父组件
       const eventChannel = this.getOpenerEventChannel ? this.getOpenerEventChannel() : null;
       if (eventChannel) {
         eventChannel.emit("updateSelectedMatches", {
@@ -185,12 +185,12 @@ export default {
       }
       uni.navigateBack({ delta: 1 });
     },
-    // 倍数减（模板同款逻辑）
+    // 减（模板同款逻辑）
     handleMinus() {
       const num = this.betCount - 1;
       this.betCount = num < 1 ? 1 : num;
     },
-    // 倍数加（模板同款逻辑）
+    // 加（模板同款逻辑）
     handlePlus() {
       const num = this.betCount + 1;
       this.betCount = num > 50 ? 50 : num;
@@ -437,7 +437,7 @@ export default {
         line-height: 1.4;
       }
 
-      // 模板同款缩小版倍数操作区
+      // 模板同款缩小版操作区
       .multi-group {
         display: flex;
         align-items: center;

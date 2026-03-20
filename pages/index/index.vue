@@ -25,33 +25,32 @@
         <view class="game-grid">
           <!-- 第一行（3个） -->
           <view class="game-item" @click="goToGame('football/index')">
-            <image class="game-icon" src="/static/jczq.png" mode="widthFix"></image>
+            <image class="game-icon" src="https://www.tianjifu.com/static/jczq.png" mode="widthFix"></image>
             <text class="game-name">足球</text>
           </view>
           <view class="game-item" @click="goToGame('basketball/index')">
-            <image class="game-icon" src="/static/jclq.png" mode="widthFix"></image>
+            <image class="game-icon" src="https://www.tianjifu.com/static/jclq.png" mode="widthFix"></image>
             <text class="game-name">篮球</text>
           </view>
           <view class="game-item" @click="goToGame('fourteenIndex/index')">
-            <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
+            <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">胜负</text>
           </view>
           <!-- 第二行（3个） -->
           <view class="game-item two" @click="goToGame('nineIndex/index')">
-            <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
+            <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">任9</text>
           </view>
           <view class="game-item two" @click="goToGame('sixIndex/index')">
-            <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
+            <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">6场半全</text>
           </view>
           <view class="game-item two" @click="goToGame('fourIndex/index')">
-            <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
+            <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">4进球</text>
           </view>
         </view>
       </view>
-      <view style="margin-top: 20rpx;color:red;font-size: 22rpx;">本工具仅提供体育赛事客观数据统计与分析，不构成任何投注建议，严禁用于非法赌博活动。</view>
     </view>
     <TipsPopup
       :visible.sync="isPopupShow"

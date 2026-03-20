@@ -10,24 +10,19 @@
       <!-- 新增：混合过关组件 -->
       <MixedPassList ref="hhggRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :match-list="drawerList.flatMap((d) => d.lotteryList)" :status-bar-height="statusBarHeight" :go-to-ai-analysis="goToAiAnalysis" @toggle-spf-multi-select="handleHhggSpfSelect" @toggle-multi-select="handleHhggMultiSelect" />
     </scroll-view>
-
-    <!-- 替换为足球同款底部投注栏 -->
-    <view class="bet-bar" v-if="isShowStatus">
+    <view class="bet-bar" v-if="urlValue">
       <view class="bet-bar-inner">
-        <!-- 左侧：清空图标 + 已选场次 + 风险提示 -->
+
         <view class="left-section">
-          <image class="clear-icon" src="/static/trash.png" mode="widthFix" @click="clearAllSelection" :class="{ disabled: selectedMatchCount === 0 }"></image>
+          <image class="clear-icon" src="https://www.tianjifu.com/static/trash.png" mode="widthFix" @click="clearAllSelection" :class="{ disabled: selectedMatchCount === 0 }"></image>
           <view class="text-group">
             <text class="selected-text">已选{{ selectedMatchCount }}场</text>
+            <text class="risk-tip">数据仅供参考</text>
           </view>
         </view>
-        <!-- <view class="risk-tip">数据仅供参考</view> -->
-        <!-- 右侧：预览按钮 -->
         <button class="confirm-btn" @click="goToSchemeEdit" :disabled="selectedMatchCount === 0">预览</button>
       </view>
     </view>
-
-    <!-- 原有弹窗/组件 -->
     <view class="type-popup" :class="{ show: isPopupShowType }">
       <view class="popup-mask" @tap="closePopupType"></view>
       <view class="popup-box" :style="{ top: headerHeight + 'px' }">
@@ -35,7 +30,7 @@
           <view class="options-container">
             <view v-for="typeText in typesList" :key="typeText" class="option-item" :class="{ active: selectedType.includes(typeText) }" @click="toggleType(typeText)">
               {{ typeText }}
-              <view class="check-mark" v-if="selectedType.includes(typeText)"><image class="check-icon" src="/static/check.png" mode="widthFix"></image></view>
+              <view class="check-mark" v-if="selectedType.includes(typeText)"><image class="check-icon" src="https://www.tianjifu.com/static/check.png" mode="widthFix"></image></view>
             </view>
           </view>
         </view>
@@ -112,7 +107,7 @@ export default {
       hasData: false,
       // 新增：全局选中状态缓存（和足球逻辑对齐）
       matchSelectedState: {},
-      isShowStatus: false,
+      urlValue: false,
     };
   },
 onLoad() {
@@ -250,7 +245,7 @@ onLoad() {
     }
   },
   mounted() {
-    this.isShowStatus = uni.getStorageSync('isShowStatus');
+    this.urlValue = uni.getStorageSync('urlValue');
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
@@ -406,7 +401,6 @@ onLoad() {
       // 2. 单场判断
       const hasSingleMatch = this.hasSingleMatch;
 
-      // 3. 投注场次校验
       if (hasSingleMatch) {
         if (totalSelectedCount < 1) {
           uni.showToast({ title: "单场赛事至少选择1场", icon: "none" });
@@ -558,12 +552,12 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
         this.betCount = updatedData.betCount;
       }
     },
-    // 倍数减
+    // 减
     handleMinus() {
       if (this.selectedMatchCount < 1) return;
       if (this.betCount > 1) this.betCount--;
     },
-    // 倍数输入
+    // 输入
     handleBetInput(e) {
       const inputVal = e.detail.value;
       const validVal = validateBetInput(inputVal);
@@ -573,13 +567,13 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
         this.betCount = validVal;
       });
     },
-    // 倍数加
+    // 加
     handlePlus() {
       if (this.selectedMatchCount < 1) return;
       if (this.betCount < 50) {
         this.betCount++;
       } else {
-        uni.showToast({ title: "倍数最多50倍", icon: "none" });
+        uni.showToast({ title: "最多50倍", icon: "none" });
       }
     },
     // 胜负选中切换（和足球逻辑对齐）
@@ -842,17 +836,17 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
         const res = await recharge(reqParams);
         console.log(res, "res------");
         if (res.data.status == 'fail') {
-          // isLottery=1 表示无灵石，显示充值弹窗
+          
           this.hideLoading();
           uni.showModal({
                 title: "请充币",
                 content: "您的游戏币不足，请充币！",
                 cancelText: "取消",
-                confirmText: "充币",
+                confirmText: "获取",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {
-                    // 点击兑换跳充值页
+                    
                     uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
                   }
                 }
@@ -1012,7 +1006,7 @@ page {
     }
 }
 
-/* 彻底删除原有串关和倍数相关样式 */
+/* 彻底删除原有串关和相关样式 */
 .bet-bar-top,
 .bet-bar-bottom,
 .top-middle {
