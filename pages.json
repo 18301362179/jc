@@ -1,7 +1,5 @@
 {
-	
 	"pages": [
-		
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -36,7 +34,6 @@
 					"disableScroll": true,
 					"navigationStyle": "custom"
 				}
-
 			}
 		},
 		{
@@ -55,7 +52,6 @@
 					"disableScroll": true,
 					"navigationStyle": "custom"
 				}
-
 			},
 			"app-plus": {
 				"titleNView": true
@@ -273,6 +269,54 @@
 				}
 			]
 		},
+		// 🌟 新增：足球数据子包路由
+		{
+			"root": "pages/footballData",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
+						"navigationBarTextStyle": "white",
+						"navigationBarBackgroundColor": "#31926e",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom",
+						"onReachBottomDistance": 50,
+						"app-plus": {
+							"softinputMode": "adjustResize"
+						},
+						"mp-weixin": {
+							"disableScroll": false,
+							"navigationStyle": "custom"
+						}
+					}
+				}
+			]
+		},
+		// 🌟 新增：篮球数据子包路由
+		{
+			"root": "pages/basketballData",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
+						"navigationBarTextStyle": "white",
+						"navigationBarBackgroundColor": "#31926e",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom",
+						"onReachBottomDistance": 50,
+						"app-plus": {
+							"softinputMode": "adjustResize"
+						},
+						"mp-weixin": {
+							"disableScroll": false,
+							"navigationStyle": "custom"
+						}
+					}
+				}
+			]
+		},
 		{
 			"root": "pages/recharge",
 			"pages": [
@@ -292,7 +336,6 @@
 					"disableScroll": true,
 					"navigationStyle": "custom"
 				}
-
 			}
 				}
 			]
@@ -511,7 +554,6 @@
 					"disableScroll": true,
 					"navigationStyle": "custom"
 				}
-
 					}
 				},
 				{
@@ -530,7 +572,6 @@
 					"disableScroll": true,
 					"navigationStyle": "custom"
 				}
-
 			}
 				}
 			]

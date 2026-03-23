@@ -42,17 +42,29 @@
             <text class="game-name">胜负</text>
           </view>
           <!-- 第二行（3个） -->
-          <view class="game-item two" @click="goToGame('nineIndex/index')">
+          <view class="game-item" @click="goToGame('nineIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">任9</text>
           </view>
-          <view class="game-item two" @click="goToGame('sixIndex/index')">
+          <view class="game-item" @click="goToGame('sixIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">6场半全</text>
           </view>
-          <view class="game-item two" @click="goToGame('fourIndex/index')">
+          <view class="game-item" @click="goToGame('fourIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">4进球</text>
+          </view>
+        </view>
+        
+        <!-- 🌟 数据模块：和上面一样靠左，保持对应 -->
+        <view class="game-grid">
+          <view class="game-item" @click="goToGame('footballData/index')">
+            <image class="game-icon" src="/static/f.png" mode="widthFix"></image>
+            <text class="game-name">足球数据</text>
+          </view>
+          <view class="game-item" @click="goToGame('basketballData/index')">
+            <image class="game-icon" src="/static/b.png" mode="widthFix"></image>
+            <text class="game-name">篮球数据</text>
           </view>
         </view>
       </view>
@@ -74,6 +86,7 @@
 import CustomHeader from "@/components/CustomHeader.vue";
 import NativeTabbar from "@/components/tabbar.vue";
 import TipsPopup from "@/pages/commn/playTip";
+
 export default {
   components: {
     CustomHeader,
@@ -230,7 +243,7 @@ page {
   flex-wrap: wrap;
   // 计算间距：左右各20rpx，中间两个间距，总间距40rpx，平分到3个item之间
   gap: 20rpx; 
-  justify-content: space-between; // 两端对齐，保证一行三个均匀分布
+  justify-content: flex-start; // 靠左显示
 }
 
 .game-item {
@@ -244,17 +257,7 @@ page {
   cursor: pointer;
   box-sizing: border-box;
 }
-.two {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  // 宽度计算：(100% - 2个间距) / 3 = (100% - 40rpx) / 3
-  width: calc((100% - 40rpx) / 3);
-  margin-top: 40rpx;
-  margin-bottom: 90rpx!important; // 行间距
-  cursor: pointer;
-  box-sizing: border-box;
-}
+
 .game-icon {
   width: 80rpx;
   height: 80rpx;

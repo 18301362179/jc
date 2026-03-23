@@ -304,3 +304,18 @@ export const shareGiveCoin = (data) => {
         data
     })
 }
+export const footLotteryLive = (data) => {
+    return request({
+        url: baseUrl + "/purchasing/foot/lottery/live",
+        method: 'GET',
+        data
+    })
+}
+export const basketLotteryLive = (data) => {
+    return request({
+        url: baseUrl + "/purchasing/basket/lottery/live",
+        method: 'GET',
+        data
+    })
+}
+

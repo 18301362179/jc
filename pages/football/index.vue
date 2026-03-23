@@ -1274,45 +1274,51 @@ page {
     }
   }
 
+  // ========== 核心修改部分 ==========
   .text-group {
     display: flex;
-    flex-direction: column;
-    gap: 4rpx;
+    flex-direction: row; /* 改成水平排列 */
+    align-items: center;  /* 垂直居中 */
+    margin-left: 16rpx;   /* 可选：和清空图标拉开点距离 */
   }
 
   .selected-text {
     font-size: 28rpx;
     color: #666;
     font-weight: 400;
+    margin-right: 16rpx; /* 这里控制和提示文字的间距，16rpx≈4个字符 */
+    white-space: nowrap;
   }
 
   .risk-tip {
     font-size: 20rpx;
-    color: #999;
+    color: #b71c1c;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-left: 40rpx;
   }
+  // ========== 核心修改结束 ==========
 
-    .confirm-btn {
-      width: 180rpx;
-      height: 70rpx;
-      line-height: 70rpx;
-      background-color: #d92929;
-      color: #fff;
-      border-radius: 8rpx;
-      font-size: 28rpx;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
+  .confirm-btn {
+    width: 180rpx;
+    height: 70rpx;
+    line-height: 70rpx;
+    background-color: #d92929;
+    color: #fff;
+    border-radius: 8rpx;
+    font-size: 28rpx;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 
-      &:disabled {
-        background-color: #ccc;
-        color: #999;
-      }
+    &:disabled {
+      background-color: #ccc;
+      color: #999;
     }
+  }
 }
 
 /* 彻底删除原有串关和倍数相关样式 */
