@@ -427,7 +427,7 @@ var _default = {
                   provider: "wxpay",
                   timeStamp: payParams.paymentResult.timeStamp + "",
                   nonceStr: payParams.paymentResult.nonceStr,
-                  packageVal: payParams.paymentResult.packageVal,
+                  package: payParams.paymentResult.packageVal,
                   signType: payParams.paymentResult.signType || "MD5",
                   paySign: payParams.paymentResult.paySign,
                   // 支付成功
