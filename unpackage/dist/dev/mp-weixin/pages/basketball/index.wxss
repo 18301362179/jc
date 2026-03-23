@@ -93,13 +93,20 @@ page.data-v-21272b81 {
 }
 .bet-bar .text-group.data-v-21272b81 {
   display: flex;
-  flex-direction: column;
-  gap: 4rpx;
+  flex-direction: row;
+  /* 改成水平排列 */
+  align-items: center;
+  /* 垂直居中 */
+  margin-left: 16rpx;
+  /* 可选：和清空图标拉开点距离 */
 }
 .bet-bar .selected-text.data-v-21272b81 {
   font-size: 28rpx;
   color: #666;
   font-weight: 400;
+  margin-right: 16rpx;
+  /* 这里控制和提示文字的间距，16rpx≈4个字符 */
+  white-space: nowrap;
 }
 .bet-bar .risk-tip.data-v-21272b81 {
   font-size: 20rpx;
