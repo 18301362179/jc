@@ -15,21 +15,6 @@
           <view class="item-num">{{ item.num }}、</view>
           <view class="item-content">{{ item.content }}</view>
         </view>
-
-        <!-- 第8条：序号+内容对齐 + 步骤递进 -->
-        <view class="tips-item step-wrap">
-          <view class="item-num">8、</view>
-          <view class="item-content">
-            <view class="step-title">系统操作提示:</view>
-            <!-- 步骤列表：和截图一致的缩进 -->
-            <view class="step-list">
-              <view class="step-item" v-for="(step, idx) in stepList" :key="idx">
-                <view class="step-num">{{ step.num }}</view>
-                <view class="step-text">{{ step.text }}</view>
-              </view>
-            </view>
-          </view>
-        </view>
         <view class="blank-area"></view>
       </view>
     </view>
@@ -59,13 +44,7 @@ export default {
         { num: 6, content: "系统数据仅是历史数据分析，对于球队求胜欲望情况、是否有策略性控制胜负以规避对手等等场外因素没有纳入分析，所有数据仅供参考，还需您睿智分析，多方搜集信息以做出最优判断。" },
         { num: 7, content: "给服务号随便发送一条信息，信息列表就会有记录，方便使用。" },
         { num: 8, content: "每次分享会赠送5个系统币，24小时内限送两次，赛事数据都是小编手工采集录入，希望体谅辛苦，多多支持，谢谢!!!" },
-      ],
-      // 替换为新的3步操作指引（对应新的第4点）
-      stepList: [
-        { num: "第一步", text: "首选胜率较大的场次。" },
-        { num: "第二步", text: "查看分析，参考球队积分、胜率、场均进球、场均失球、相同主客场数据、对战记录，近期表现等因素智慧分析判断。" },
-        { num: "第三步", text: "选好投注，点击预览进入确认页面后截图。" },
-      ],
+      ]
     };
   },
   methods: {

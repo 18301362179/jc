@@ -175,7 +175,8 @@ export default {
         // 组装请求参数（区分端，给后端传标识）
         const requestData = {
           coinSum: selectedItem.bi,     
-          payment: selectedItem.count
+          payment: selectedItem.count,
+          channel: 'serviceAccount'
         };
 
         // 只调用 wxPay 接口
@@ -202,7 +203,7 @@ export default {
           provider: "wxpay",
           timeStamp: payParams.paymentResult.timeStamp + "",
           nonceStr: payParams.paymentResult.nonceStr,
-          packageVal: payParams.paymentResult.packageVal,
+          package: payParams.paymentResult.packageVal,
           signType: payParams.paymentResult.signType || "MD5",
           paySign: payParams.paymentResult.paySign,
           // 支付成功
