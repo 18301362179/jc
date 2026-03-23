@@ -145,6 +145,7 @@ export default {
         console.log(payParams, 'payParams2222222222222222222')
         // ========== 分端处理支付 ==========
         // 1. 小程序支付
+        console.log(process.env.UNI_PLATFORM, 'shishazi ---------')
         if (process.env.UNI_PLATFORM === 'mp-weixin') {
           await this.handleMpWeixinPay(payParams);
         }
@@ -197,6 +198,7 @@ export default {
      * 小程序微信支付
      */
     async handleMpWeixinPay(payParams) {
+      console.log(payParams,'payParams------')
       try {
         uni.requestPayment({
           provider: "wxpay",

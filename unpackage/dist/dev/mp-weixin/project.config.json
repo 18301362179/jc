@@ -7,14 +7,13 @@
     "urlCheck": false,
     "es6": true,
     "postcss": false,
-    "minified": true,
+    "minified": false,
     "newFeature": true,
     "bigPackageSizeSupport": true,
     "minifyJS": true,
     "minifyWXSS": true,
     "minifyXML": true,
-    "enhance": true,
-    "uglifyFileName": true
+    "enhance": true
   },
   "compileType": "miniprogram",
   "libVersion": "",

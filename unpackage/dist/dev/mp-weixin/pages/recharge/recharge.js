@@ -317,34 +317,35 @@ var _default = {
                 console.log(payParams, 'payParams2222222222222222222');
                 // ========== 分端处理支付 ==========
                 // 1. 小程序支付
+                console.log("mp-weixin", 'shishazi ---------');
                 if (false) {}
-                _context.next = 49;
+                _context.next = 50;
                 return _this.handleMpWeixinPay(payParams);
-              case 49:
-                _context.next = 59;
+              case 50:
+                _context.next = 60;
                 break;
-              case 51:
+              case 52:
                 if (true) {
-                  _context.next = 56;
+                  _context.next = 57;
                   break;
                 }
-                _context.next = 54;
+                _context.next = 55;
                 return _this.handleH5Pay(payParams);
-              case 54:
-                _context.next = 59;
+              case 55:
+                _context.next = 60;
                 break;
-              case 56:
+              case 57:
                 uni.showToast({
                   title: "当前平台暂不支持支付",
                   icon: "none"
                 });
                 uni.hideLoading();
                 _this.isPayLoading = false;
-              case 59:
-                _context.next = 67;
+              case 60:
+                _context.next = 68;
                 break;
-              case 61:
-                _context.prev = 61;
+              case 62:
+                _context.prev = 62;
                 _context.t0 = _context["catch"](3);
                 console.error("[支付异常]：", _context.t0);
                 uni.hideLoading();
@@ -353,12 +354,12 @@ var _default = {
                   title: "支付发起失败，请重试",
                   icon: "none"
                 });
-              case 67:
+              case 68:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 61]]);
+        }, _callee, null, [[3, 62]]);
       }))();
     },
     /**
@@ -420,7 +421,8 @@ var _default = {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.prev = 0;
+                console.log(payParams, 'payParams------');
+                _context3.prev = 1;
                 uni.requestPayment({
                   provider: "wxpay",
                   timeStamp: payParams.paymentResult.timeStamp + "",
@@ -470,18 +472,18 @@ var _default = {
                     _this2.isPayLoading = false;
                   }
                 });
-                _context3.next = 7;
+                _context3.next = 8;
                 break;
-              case 4:
-                _context3.prev = 4;
-                _context3.t0 = _context3["catch"](0);
+              case 5:
+                _context3.prev = 5;
+                _context3.t0 = _context3["catch"](1);
                 throw _context3.t0;
-              case 7:
+              case 8:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[0, 4]]);
+        }, _callee3, null, [[1, 5]]);
       }))();
     },
     /**
