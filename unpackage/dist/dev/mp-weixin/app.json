@@ -2,8 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/analysisForecast/index",
-    "pages/user/index",
-    "pages/getList/getList"
+    "pages/user/index"
   ],
   "subPackages": [
     {
@@ -42,6 +41,18 @@
     },
     {
       "root": "pages/basketball",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/footballData",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/basketballData",
       "pages": [
         "index"
       ]

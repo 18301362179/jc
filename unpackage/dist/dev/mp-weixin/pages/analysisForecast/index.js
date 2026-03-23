@@ -189,37 +189,37 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var _data = __webpack_require__(/*! @/utils/data */ 62);
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 296));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 304));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var noData = function noData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 310));
+    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 318));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SaiCheng = function SaiCheng() {
   __webpack_require__.e(/*! require.ensure | pages/commn/saiCheng */ "pages/commn/saiCheng").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 317));
+    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 325));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var JiFen = function JiFen() {
   __webpack_require__.e(/*! require.ensure | pages/commn/jiFen */ "pages/commn/jiFen").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 324));
+    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 332));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SheShou = function SheShou() {
   __webpack_require__.e(/*! require.ensure | pages/commn/sheShou */ "pages/commn/sheShou").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 331));
+    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 339));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var WordRanking = function WordRanking() {
   __webpack_require__.e(/*! require.ensure | pages/commn/WordRanking */ "pages/commn/WordRanking").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 338));
+    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 346));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 289));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 297));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {

@@ -138,7 +138,7 @@ export default {
     // #ifdef MP-WEIXIN
     // 第一步：先请求接口，把值存到 App.vue 的 data 里
     sysParams().then((res)=>{
-      let v = res.data[1].param_value;
+      let v = res.data.fenXiUrlShowStatus;
       // 处理值：兼容字符串/数字，兜底false
       v = v === undefined || v === null ? false : (v == '1' );
       uni.setStorageSync("urlValue", v);

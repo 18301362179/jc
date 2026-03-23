@@ -24,7 +24,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var _uniIcons = function _uniIcons() {
   Promise.all(/*! require.ensure | node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons")]).then((function () {
-    return resolve(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-icons/uni-icons */ 274));
+    return resolve(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-icons/uni-icons */ 282));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 // @ts-ignore
@@ -34,7 +34,7 @@ _vue.default.component('uni-icons', _uniIcons); // 单独注册uni-icons（避�
 _vue.default.prototype.$bus = new _vue.default();
 var UniNumberKeyboard = function UniNumberKeyboard() {
   __webpack_require__.e(/*! require.ensure | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then((function () {
-    return resolve(__webpack_require__(/*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 282));
+    return resolve(__webpack_require__(/*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 290));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 // 全局注册组件
@@ -231,7 +231,7 @@ var _default = {
   onShow: function onShow() {
     // 第一步：先请求接口，把值存到 App.vue 的 data 里
     (0, _demo.sysParams)().then(function (res) {
-      var v = res.data[1].param_value;
+      var v = res.data.fenXiUrlShowStatus;
       // 处理值：兼容字符串/数字，兜底false
       v = v === undefined || v === null ? false : v == '1';
       uni.setStorageSync("urlValue", v);

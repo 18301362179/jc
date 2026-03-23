@@ -15,6 +15,10 @@
     <view 
       class="match-scroll" 
       scroll-y
+    :style="{ 
+    top: headerHeight + 'px',  // 动态适配导航栏高度
+    bottom: tabbarHeight + 'px' // 避开底部tabbar
+  }"
     >
       <!-- 赛事分析模块 -->
       <view class="simulation-container">
@@ -48,6 +52,16 @@
           <view class="game-item two" @click="goToGame('fourIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name">4进球</text>
+          </view>
+        </view>
+        <view class="game-grid">
+          <view class="game-item" @click="goToGame('footballData/index')">
+            <image class="game-icon" src="https://www.tianjifu.com/static/f.png" mode="widthFix"></image>
+            <text class="game-name">足球数据</text>
+          </view>
+          <view class="game-item" @click="goToGame('basketballData/index')">
+            <image class="game-icon" src="https://www.tianjifu.com/static/b.png" mode="widthFix"></image>
+            <text class="game-name">篮球数据</text>
           </view>
         </view>
       </view>
@@ -172,14 +186,6 @@ page {
   padding: 0;
 }
 
-::v-deep .custom-header {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  z-index: 10 !important;
-}
-
 // 🌟 重构滚动区域样式：删除固定值，全端统一动态适配
 .match-scroll {
   touch-action: pan-y;
@@ -187,18 +193,31 @@ page {
   left: 0;
   right: 0;
   width: 100% !important;
+  height: auto !important; // 取消固定高度，由top/bottom自动计算
   overflow-y: auto !important;
   background-color: #f5f5f5;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  padding: 20rpx; // 增加内边距，避免内容贴边
-  box-sizing: border-box; // 确保padding不影响宽度
-  margin-top: 200rpx;
+  padding: 20rpx; // 保留内边距，避免内容贴边
+  // 删掉固定的padding-top，改用动态top避开导航栏
+  box-sizing: border-box; 
 }
+
+// 其他样式不变，保留你的原有设置
 .match-scroll::-webkit-scrollbar {
   display: none;
   width: 0;
   height: 0;
+}
+
+::v-deep .custom-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 10 !important;
+  // 新增：确保导航栏背景不透明，避免内容穿透
+  background-color: #f5f5f5;
 }
 
 /* 赛事分析模块样式 */
@@ -226,7 +245,7 @@ page {
   flex-wrap: wrap;
   // 计算间距：左右各20rpx，中间两个间距，总间距40rpx，平分到3个item之间
   gap: 20rpx; 
-  justify-content: space-between; // 两端对齐，保证一行三个均匀分布
+  justify-content: flex-start; // 靠左显示
 }
 
 .game-item {
@@ -240,17 +259,7 @@ page {
   cursor: pointer;
   box-sizing: border-box;
 }
-.two {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  // 宽度计算：(100% - 2个间距) / 3 = (100% - 40rpx) / 3
-  width: calc((100% - 40rpx) / 3);
-  margin-top: 40rpx;
-  margin-bottom: 90rpx!important; // 行间距
-  cursor: pointer;
-  box-sizing: border-box;
-}
+
 .game-icon {
   width: 80rpx;
   height: 80rpx;

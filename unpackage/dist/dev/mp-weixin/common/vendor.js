@@ -9436,7 +9436,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 279:
+/***/ 287:
 /*!*******************************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/node_modules/@dcloudio/uni-ui/lib/uni-icons/uniicons_file_vue.js ***!
   \*******************************************************************************************************************************/
@@ -10593,7 +10593,7 @@ var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/inte
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.wxPay = exports.wxLogin = exports.userShare = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = void 0;
+exports.wxPay = exports.wxLogin = exports.userShare = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.footLotteryLive = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = exports.basketLotteryLive = void 0;
 var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ 36));
 var baseUrl = "";
 baseUrl = "";
@@ -10920,10 +10920,26 @@ var getTradeRecord = function getTradeRecord(data) {
   });
 };
 exports.getTradeRecord = getTradeRecord;
+var footLotteryLive = function footLotteryLive(data) {
+  return (0, _request.default)({
+    url: baseUrl + "/purchasing/foot/lottery/live",
+    method: 'GET',
+    data: data
+  });
+};
+exports.footLotteryLive = footLotteryLive;
+var basketLotteryLive = function basketLotteryLive(data) {
+  return (0, _request.default)({
+    url: baseUrl + "/purchasing/basket/lottery/live",
+    method: 'GET',
+    data: data
+  });
+};
+exports.basketLotteryLive = basketLotteryLive;
 
 /***/ }),
 
-/***/ 350:
+/***/ 358:
 /*!*****************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/index.js ***!
   \*****************************************************************************/
@@ -13502,27 +13518,7 @@ module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module
 
 /***/ }),
 
-/***/ 8:
-/*!***************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ 9);
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ 87:
+/***/ 79:
 /*!********************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/validate.js ***!
   \********************************************************************************/
@@ -13552,6 +13548,26 @@ function validateBetInput(value) {
   // 3. 大于50 → 返回50；小于1 → 返回1；否则返回自身
   return num > 50 ? 50 : num < 1 ? 1 : num;
 }
+
+/***/ }),
+
+/***/ 8:
+/*!***************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ 9);
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
+}
+module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 
