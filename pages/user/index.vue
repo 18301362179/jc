@@ -8,22 +8,22 @@
       :showIcon="false"
       :isSelected="false"
     />
-    <view class="header">
+    <view class="header" v-if="getRemark">
       <image class="avatar" v-if="userInfo.headImgUrl" :src="userInfo.headImgUrl" mode="aspectFill"></image>
       <image class="avatar" v-else src="https://www.tianjifu.com/static/mine1.png" mode="aspectFill"></image>
       <view class="user-info">
         <text class="username">{{ userInfo.remarkName || '' }}</text>
-        <text class="value stone-count" v-if="urlValue" @click="getList">{{ userInfo.coinAmount || 0 }} 币</text>
+        <text class="value stone-count" v-if="getRemark" @click="getList">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
-      <button class="recharge-btn" v-if="urlValue" @click="getUrl">获取</button>
+      <view class="recharge-btn" v-if="getRemark" @click="getRemark">获&nbsp;&nbsp;取</view>
     </view>
 
     <view class="tab-bar">
-      <view class="tab-item" :class="{ active: currentTab === 1 }" v-if="urlValue" @click="switchTab(1)">分析</view>
+      <view class="tab-item" :class="{ active: currentTab === 1 }" v-if="getRemark" @click="switchTab(1)">分析</view>
     </view>
 
     <scroll-view class="content-scroll" scroll-y>
-      <view v-if="currentTab === 1&&urlValue" class="record-section">
+      <view v-if="currentTab === 1&&getRemark" class="record-section">
         <no-data v-if="tradeRecord.length === 0" />
         <view class="trade-header" v-if="tradeRecord.length > 0">
           <view class="trade-header-col type-col">类型</view>
@@ -68,15 +68,14 @@ export default {
       touchStartX: 0,
       swipeThreshold: 50,
       betForm: '',
-      urlValue: false,
+      getRemark: false,
     };
   },
   created() {
     this.initBetForm();
     this.getData();
-            this.$nextTick(()=>{
-    this.urlValue = uni.getStorageSync('urlValue');
-    
+    this.$nextTick(()=>{
+      this.getRemark = uni.getStorageSync('urlValue');
     })
   },
   onShow() {
@@ -84,7 +83,7 @@ export default {
   },
   methods: {
     getList() {
-      if (this.urlValue) {
+      if (this.getRemark) {
         uni.navigateTo({
           url: '/pages/getList/getList'
         });
@@ -101,8 +100,8 @@ export default {
       this.betForm = 'weChatMiniProgram';
       // #endif
     },
-    getUrl() {
-      if(this.urlValue) {
+    getRemark() {
+      if(this.getRemark) {
         uni.navigateTo({
           url: '/pages/recharge/recharge'
         });

@@ -102,8 +102,8 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = _vm.currentTab === 1 && _vm.urlValue ? _vm.tradeRecord.length : null
-  var g1 = _vm.currentTab === 1 && _vm.urlValue ? _vm.tradeRecord.length : null
+  var g0 = _vm.currentTab === 1 && _vm.getRemark ? _vm.tradeRecord.length : null
+  var g1 = _vm.currentTab === 1 && _vm.getRemark ? _vm.tradeRecord.length : null
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -189,7 +189,7 @@ var _default = {
       touchStartX: 0,
       swipeThreshold: 50,
       betForm: '',
-      urlValue: false
+      getRemark: false
     };
   },
   created: function created() {
@@ -197,7 +197,7 @@ var _default = {
     this.initBetForm();
     this.getData();
     this.$nextTick(function () {
-      _this.urlValue = uni.getStorageSync('urlValue');
+      _this.getRemark = uni.getStorageSync('urlValue');
     });
   },
   onShow: function onShow() {
@@ -205,7 +205,7 @@ var _default = {
   },
   methods: {
     getList: function getList() {
-      if (this.urlValue) {
+      if (this.getRemark) {
         uni.navigateTo({
           url: '/pages/getList/getList'
         });
@@ -215,8 +215,8 @@ var _default = {
     initBetForm: function initBetForm() {
       this.betForm = 'weChatMiniProgram';
     },
-    getUrl: function getUrl() {
-      if (this.urlValue) {
+    getRemark: function getRemark() {
+      if (this.getRemark) {
         uni.navigateTo({
           url: '/pages/recharge/recharge'
         });

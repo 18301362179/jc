@@ -138,22 +138,53 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(uni) {
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ 13);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 30));
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
 var _auth = __webpack_require__(/*! @/utils/auth */ 33);
-var _h5Auth = __webpack_require__(/*! @/utils/h5Auth */ 37);
-var _storage = __webpack_require__(/*! @/utils/storage */ 34);
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
     return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 289));
@@ -166,7 +197,6 @@ var _default = {
   },
   data: function data() {
     return {
-      // 灵石档位列表
       list: [{
         count: 10,
         bi: 50
@@ -180,36 +210,25 @@ var _default = {
         count: 80,
         bi: 500
       }],
-      // 选中的列表索引
       selectedIndex: 1,
-      // 提示相关
       showTip: false,
       currentTip: "",
-      // 支付透传参数
       payExtParams: {
         beFrom: "",
         isLottery: 1
       },
-      // 支付加载状态（防止重复点击）
       isPayLoading: false
     };
   },
   onLoad: function onLoad(options) {
-    // 接收透传参数（如来源）
     if (options && options.beFrom) {
       this.payExtParams.beFrom = options.beFrom;
     }
   },
   methods: {
-    /**
-     * 选择灵石档位
-     */
     selectStone: function selectStone(item, index) {
       this.selectedIndex = index;
     },
-    /**
-     * 核心：处理确认逻辑（多端适配，只用 wxPay）
-     */
     handlePay: function handlePay() {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
@@ -226,67 +245,36 @@ var _default = {
               case 2:
                 _this.isPayLoading = true;
                 _context.prev = 3;
-                // ========== 前置校验 ==========
                 selectedItem = _this.list[_this.selectedIndex];
                 if (selectedItem) {
                   _context.next = 9;
                   break;
                 }
                 uni.showToast({
-                  title: "请先选择灵石数量",
+                  title: "请先选择",
                   icon: "none"
                 });
                 _this.isPayLoading = false;
                 return _context.abrupt("return");
               case 9:
-                // 多端登录态校验
-                isTokenValid = false;
-                if (true) {
-                  _context.next = 16;
-                  break;
-                }
-                _context.next = 13;
-                return (0, _h5Auth.checkH5Token)();
-              case 13:
-                isTokenValid = _context.sent;
-                _context.next = 20;
-                break;
-              case 16:
-                if (false) {}
-                _context.next = 19;
+                _context.next = 11;
                 return (0, _auth.checkToken)();
-              case 19:
+              case 11:
                 isTokenValid = _context.sent;
-              case 20:
                 if (isTokenValid) {
-                  _context.next = 37;
+                  _context.next = 21;
                   break;
                 }
                 uni.showToast({
                   title: "登录态失效，正在重新验证...",
                   icon: "none"
                 });
-                if (true) {
-                  _context.next = 29;
-                  break;
-                }
-                _context.next = 25;
-                return Promise.resolve().then(function () {
-                  return _interopRequireWildcard(__webpack_require__(/*! @/utils/h5Auth */ 37));
-                }).then(function (mod) {
-                  return mod.h5WechatAuth();
-                });
-              case 25:
-                _this.isPayLoading = false;
-                return _context.abrupt("return");
-              case 29:
-                if (false) {}
-                _context.next = 32;
+                _context.next = 16;
                 return (0, _auth.login)();
-              case 32:
+              case 16:
                 loginResult = _context.sent;
                 if (loginResult.success) {
-                  _context.next = 37;
+                  _context.next = 21;
                   break;
                 }
                 uni.showToast({
@@ -295,57 +283,30 @@ var _default = {
                 });
                 _this.isPayLoading = false;
                 return _context.abrupt("return");
-              case 37:
+              case 21:
                 uni.showLoading({
                   title: "支付中...",
                   mask: true
                 });
-
-                // ========== 统一调用 wxPay 获取支付参数 ==========
-                _context.next = 40;
+                _context.next = 24;
                 return _this.getPayParams(selectedItem);
-              case 40:
+              case 24:
                 payParams = _context.sent;
                 if (payParams) {
-                  _context.next = 45;
+                  _context.next = 29;
                   break;
                 }
                 uni.hideLoading();
                 _this.isPayLoading = false;
                 return _context.abrupt("return");
-              case 45:
-                console.log(payParams, 'payParams2222222222222222222');
-                // ========== 分端处理支付 ==========
-                // 1. 小程序支付
-                console.log("mp-weixin", 'shishazi ---------');
-                if (false) {}
-                _context.next = 50;
+              case 29:
+                _context.next = 31;
                 return _this.handleMpWeixinPay(payParams);
-              case 50:
-                _context.next = 60;
+              case 31:
+                _context.next = 39;
                 break;
-              case 52:
-                if (true) {
-                  _context.next = 57;
-                  break;
-                }
-                _context.next = 55;
-                return _this.handleH5Pay(payParams);
-              case 55:
-                _context.next = 60;
-                break;
-              case 57:
-                uni.showToast({
-                  title: "当前平台暂不支持支付",
-                  icon: "none"
-                });
-                uni.hideLoading();
-                _this.isPayLoading = false;
-              case 60:
-                _context.next = 68;
-                break;
-              case 62:
-                _context.prev = 62;
+              case 33:
+                _context.prev = 33;
                 _context.t0 = _context["catch"](3);
                 console.error("[支付异常]：", _context.t0);
                 uni.hideLoading();
@@ -354,17 +315,14 @@ var _default = {
                   title: "支付发起失败，请重试",
                   icon: "none"
                 });
-              case 68:
+              case 39:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 62]]);
+        }, _callee, null, [[3, 33]]);
       }))();
     },
-    /**
-     * 统一获取支付参数（只用 wxPay，不分小程序/H5）
-     */
     getPayParams: function getPayParams(selectedItem) {
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
         var requestData, res;
@@ -373,18 +331,17 @@ var _default = {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.prev = 0;
-                // 组装请求参数（区分端，给后端传标识）
                 requestData = {
                   coinSum: selectedItem.bi,
-                  payment: selectedItem.count
-                }; // 只调用 wxPay 接口
+                  payment: selectedItem.count,
+                  channel: "miniProgram"
+                };
                 _context2.next = 4;
                 return (0, _demo.wxPay)(requestData);
               case 4:
                 res = _context2.sent;
-                console.log("支付参数：", res);
                 if (res.data) {
-                  _context2.next = 9;
+                  _context2.next = 8;
                   break;
                 }
                 uni.showToast({
@@ -392,10 +349,10 @@ var _default = {
                   icon: "none"
                 });
                 return _context2.abrupt("return", null);
-              case 9:
+              case 8:
                 return _context2.abrupt("return", res.data);
-              case 12:
-                _context2.prev = 12;
+              case 11:
+                _context2.prev = 11;
                 _context2.t0 = _context2["catch"](0);
                 console.error("[获取支付参数失败]：", _context2.t0);
                 uni.showToast({
@@ -403,17 +360,14 @@ var _default = {
                   icon: "none"
                 });
                 return _context2.abrupt("return", null);
-              case 17:
+              case 16:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 12]]);
+        }, _callee2, null, [[0, 11]]);
       }))();
     },
-    /**
-     * 小程序微信支付
-     */
     handleMpWeixinPay: function handleMpWeixinPay(payParams) {
       var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
@@ -421,8 +375,7 @@ var _default = {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                console.log(payParams, 'payParams------');
-                _context3.prev = 1;
+                _context3.prev = 0;
                 uni.requestPayment({
                   provider: "wxpay",
                   timeStamp: payParams.paymentResult.timeStamp + "",
@@ -430,7 +383,6 @@ var _default = {
                   package: payParams.paymentResult.packageVal,
                   signType: payParams.paymentResult.signType || "MD5",
                   paySign: payParams.paymentResult.paySign,
-                  // 支付成功
                   success: function success(payResult) {
                     if (payResult.errMsg === "requestPayment:ok") {
                       uni.showToast({
@@ -446,7 +398,6 @@ var _default = {
                       }, 2000);
                     }
                   },
-                  // 支付失败
                   fail: function fail(error) {
                     console.error("[小程序支付失败]：", error);
                     var status = 0;
@@ -466,143 +417,50 @@ var _default = {
                       icon: "none"
                     });
                   },
-                  // 完成
                   complete: function complete() {
                     uni.hideLoading();
                     _this2.isPayLoading = false;
                   }
                 });
-                _context3.next = 8;
+                _context3.next = 7;
                 break;
-              case 5:
-                _context3.prev = 5;
-                _context3.t0 = _context3["catch"](1);
+              case 4:
+                _context3.prev = 4;
+                _context3.t0 = _context3["catch"](0);
                 throw _context3.t0;
-              case 8:
+              case 7:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[1, 5]]);
+        }, _callee3, null, [[0, 4]]);
       }))();
     },
-    /**
-     * H5公众号支付（用 wxPay 返回的参数）
-     */
-    handleH5Pay: function handleH5Pay(payParams) {
-      var _this3 = this;
+    confirmPayResult: function confirmPayResult(tradeNo, status) {
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
-        var pr, config;
         return _regenerator.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.prev = 0;
-                if (window.jWeixin) {
-                  _context4.next = 3;
-                  break;
-                }
-                throw new Error("微信支付插件未加载，请刷新页面");
-              case 3:
-                console.log(window, 'window-----------');
-                console.log(payParams, 'payParams----------------');
-                // 2. 公众号JSAPI支付
-                pr = payParams.paymentResult;
-                config = {
-                  // 用于wx.config初始化的参数
-                  appId: pr.appId,
-                  // 服务号AppID
-                  timestamp: pr.timeStamp,
-                  // 时间戳（后端返回的timeStamp）
-                  nonceStr: pr.nonceStr,
-                  // 随机串
-                  signature: pr.paySign,
-                  // 签名（后端返回的签名）
-                  jsApiList: ['chooseWXPay'] // 固定值，必须包含chooseWXPay
-                  // 用于chooseWXPay调起支付的参数（补充字段）
-                };
-
-                window.jWeixin.config(_objectSpread({}, config));
-                window.jWeixin.ready(function () {
-                  console.log('【SDK已就绪】开始调起支付');
-                  window.jWeixin.chooseWXPay({
-                    appId: pr.appId,
-                    timestamp: pr.timeStamp,
-                    nonceStr: pr.nonceStr,
-                    package: pr.packageVal,
-                    // 重点：字段名是package，不是packageVal
-                    signType: pr.signType || 'MD5',
-                    paySign: pr.paySign,
-                    success: function success(res) {
-                      console.log('【支付成功】', res);
-                      uni.showToast({
-                        title: '支付成功',
-                        icon: 'success'
-                      });
-                      _this3.confirmPayResult(payParams.order.tradeNo, 1);
-                    },
-                    fail: function fail(err) {
-                      console.error('【支付失败】', err);
-                      uni.showModal({
-                        title: '支付失败',
-                        content: "\u539F\u751F\u9519\u8BEF\uFF1A".concat(err.errMsg || JSON.stringify(err)),
-                        showCancel: false
-                      });
-                      _this3.confirmPayResult(payParams.order.tradeNo, 0);
-                    },
-                    complete: function complete() {
-                      _this3.isPayLoading = false;
-                      uni.hideLoading();
-                    }
-                  });
-                });
-                _context4.next = 16;
-                break;
-              case 11:
-                _context4.prev = 11;
-                _context4.t0 = _context4["catch"](0);
-                uni.hideLoading();
-                _this3.isPayLoading = false;
-                uni.showToast({
-                  title: "支付发起失败：" + _context4.t0.message,
-                  icon: "none"
-                });
-              case 16:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, null, [[0, 11]]);
-      }))();
-    },
-    /**
-     * 确认支付结果
-     */
-    confirmPayResult: function confirmPayResult(tradeNo, status) {
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
-        return _regenerator.default.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.prev = 0;
-                _context5.next = 3;
+                _context4.next = 3;
                 return (0, _demo.payConfirm)({
                   tradeNo: tradeNo,
                   status: status
                 });
               case 3:
-                _context5.next = 8;
+                _context4.next = 8;
                 break;
               case 5:
-                _context5.prev = 5;
-                _context5.t0 = _context5["catch"](0);
-                console.error("[确认支付结果失败]：", _context5.t0);
+                _context4.prev = 5;
+                _context4.t0 = _context4["catch"](0);
+                console.error("[确认支付结果失败]：", _context4.t0);
               case 8:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5, null, [[0, 5]]);
+        }, _callee4, null, [[0, 5]]);
       }))();
     }
   }
