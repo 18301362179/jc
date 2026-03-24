@@ -47,7 +47,7 @@
     </scroll-view>
 
     <view
-      v-if="urlValue"
+       v-if="urlValue"
       class="bet-bar"
       :style="{
         height: betBarFixedPx + 'px',
@@ -55,19 +55,25 @@
       }"
     >
       <view class="bet-bar-top">
+        <!-- -->
         <view class="collapse-area">
-          <view class="multi-group">
-            <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
+          <view class="multi-group" style="color: #d92929;">
+            <!-- <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
             <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 1 }">
               {{ betCount }}
             </view>
-            <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
+            <button class="multi-btn plus" @click="handlePlus"><text>+</text></button> -->
+            请截屏
+            <!--  -->
           </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="bonus-tip">{{ calculateHalfFullBonus() }}</text>
+          <!--  -->
+          <text class="bonus-tip">
+            <!-- {{ calculateHalfFullBonus() }} -->
+            </text>
         </view>
       </view>
     </view>

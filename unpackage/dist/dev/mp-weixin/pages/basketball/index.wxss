@@ -114,6 +114,7 @@ page.data-v-21272b81 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-left: 40rpx;
 }
 .bet-bar .confirm-btn.data-v-21272b81 {
   width: 180rpx;

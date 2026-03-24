@@ -64,6 +64,12 @@
       ]
     },
     {
+      "root": "pages/getList",
+      "pages": [
+        "index"
+      ]
+    },
+    {
       "root": "pages/edit/football",
       "pages": [
         "index",

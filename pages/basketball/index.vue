@@ -987,6 +987,7 @@ page {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-left: 40rpx;
   }
   // ========== 核心修改结束 ==========
 

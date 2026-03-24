@@ -15,7 +15,7 @@
         <text class="username">{{ userInfo.remarkName || '' }}</text>
         <text class="value stone-count" v-if="getRemark" @click="getList">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
-      <view class="recharge-btn" v-if="getRemark" @click="getRemark">获&nbsp;&nbsp;取</view>
+      <view class="recharge-btn" v-if="getRemark" @click="getRemarkFc">获&nbsp;&nbsp;取</view>
     </view>
 
     <view class="tab-bar">
@@ -85,7 +85,7 @@ export default {
     getList() {
       if (this.getRemark) {
         uni.navigateTo({
-          url: '/pages/getList/getList'
+          url: '/pages/getList/index'
         });
       };
     },
@@ -100,7 +100,7 @@ export default {
       this.betForm = 'weChatMiniProgram';
       // #endif
     },
-    getRemark() {
+    getRemarkFc() {
       if(this.getRemark) {
         uni.navigateTo({
           url: '/pages/recharge/recharge'

@@ -332,3 +332,10 @@ export const basketLotteryLive = (data) => {
         data
     })
 }
+export const userTradeRecord = (data) => {
+    return request({
+        url: baseUrl + "/platform/user/tradeRecord",
+        method: 'GET',
+        data
+    })
+}

@@ -1026,7 +1026,7 @@ function populateParameters(result) {
 
   var parameters = {
     appId: "__UNI__870511F",
-    appName: "云竞慧博",
+    appName: "KeepSeek",
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
@@ -1127,7 +1127,7 @@ var getAppBaseInfo = {
     var hostLanguage = (language || '').replace('_', '-');
     result = sortObject(Object.assign(result, {
       appId: "__UNI__870511F",
-      appName: "云竞慧博",
+      appName: "KeepSeek",
       appVersion: "1.0.0",
       appVersionCode: "100",
       appLanguage: getAppLanguage(hostLanguage),
@@ -1830,7 +1830,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"云竞慧博","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"KeepSeek","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8882,7 +8882,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"云竞慧博","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"KeepSeek","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8903,14 +8903,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"云竞慧博","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"KeepSeek","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"云竞慧博","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"KeepSeek","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9006,7 +9006,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"云竞慧博","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"KeepSeek","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -9436,7 +9436,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 287:
+/***/ 295:
 /*!*******************************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/node_modules/@dcloudio/uni-ui/lib/uni-icons/uniicons_file_vue.js ***!
   \*******************************************************************************************************************************/
@@ -10593,7 +10593,7 @@ var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/inte
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.wxPay = exports.wxLogin = exports.userShare = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.footLotteryLive = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = exports.basketLotteryLive = void 0;
+exports.wxPay = exports.wxLogin = exports.userTradeRecord = exports.userShare = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.footLotteryLive = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = exports.basketLotteryLive = void 0;
 var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ 36));
 var baseUrl = "";
 baseUrl = "";
@@ -10936,65 +10936,14 @@ var basketLotteryLive = function basketLotteryLive(data) {
   });
 };
 exports.basketLotteryLive = basketLotteryLive;
-
-/***/ }),
-
-/***/ 358:
-/*!*****************************************************************************!*\
-  !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/index.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getRateColor = void 0;
-// utils/index.js
-
-/**
- * 计算胜文字的显示颜色
- * @param {string} rateStr - 胜字符串（如"60%"）
- * @param {string} type - 类型：home/away（主/客胜）、draw（平局）
- * @param {boolean} isSelected - 是否被选中（新增参数）
- * @returns {string} 文字颜色值
- */
-var getRateColor = function getRateColor(rateStr, type, isSelected) {
-  // 优先判断：如果被选中，直接返回白色
-  if (isSelected === true) {
-    return '#fff';
-  }
-
-  // 原有容错处理：如果rateStr为空/不是字符串，返回空（使用默认样式）
-  if (!rateStr || typeof rateStr !== 'string') return '';
-
-  // 处理百分比字符串，转换为小数（如"60%" → 0.6）
-  var rate = parseFloat(rateStr.replace('%', '')) / 100;
-
-  // 容错：转换失败则返回空（使用默认样式）
-  if (isNaN(rate)) return '';
-
-  // 未被选中时，按原规则判断颜色
-  if (type === 'home' || type === 'away') {
-    // 主/客队胜 ≥ 0.6（60%）显示绿色，否则返回空（默认色）
-    return rate >= 0.6 ? '#31926e' : '';
-  } else if (type === 'draw') {
-    // 平局胜 ≥ 0.5（50%）显示绿色，否则返回空（默认色）
-    return rate >= 0.5 ? '#31926e' : '';
-  }
-
-  // 默认返回空（使用默认样式）
-  return '';
+var userTradeRecord = function userTradeRecord(data) {
+  return (0, _request.default)({
+    url: baseUrl + "/platform/user/tradeRecord",
+    method: 'GET',
+    data: data
+  });
 };
-
-// 兼容小程序CommonJS模块化
-exports.getRateColor = getRateColor;
-module.exports = {
-  getRateColor: getRateColor
-};
+exports.userTradeRecord = userTradeRecord;
 
 /***/ }),
 
@@ -11409,6 +11358,65 @@ var request = function request(options) {
 var _default = request;
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+
+/***/ 366:
+/*!*****************************************************************************!*\
+  !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/index.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getRateColor = void 0;
+// utils/index.js
+
+/**
+ * 计算胜文字的显示颜色
+ * @param {string} rateStr - 胜字符串（如"60%"）
+ * @param {string} type - 类型：home/away（主/客胜）、draw（平局）
+ * @param {boolean} isSelected - 是否被选中（新增参数）
+ * @returns {string} 文字颜色值
+ */
+var getRateColor = function getRateColor(rateStr, type, isSelected) {
+  // 优先判断：如果被选中，直接返回白色
+  if (isSelected === true) {
+    return '#fff';
+  }
+
+  // 原有容错处理：如果rateStr为空/不是字符串，返回空（使用默认样式）
+  if (!rateStr || typeof rateStr !== 'string') return '';
+
+  // 处理百分比字符串，转换为小数（如"60%" → 0.6）
+  var rate = parseFloat(rateStr.replace('%', '')) / 100;
+
+  // 容错：转换失败则返回空（使用默认样式）
+  if (isNaN(rate)) return '';
+
+  // 未被选中时，按原规则判断颜色
+  if (type === 'home' || type === 'away') {
+    // 主/客队胜 ≥ 0.6（60%）显示绿色，否则返回空（默认色）
+    return rate >= 0.6 ? '#31926e' : '';
+  } else if (type === 'draw') {
+    // 平局胜 ≥ 0.5（50%）显示绿色，否则返回空（默认色）
+    return rate >= 0.5 ? '#31926e' : '';
+  }
+
+  // 默认返回空（使用默认样式）
+  return '';
+};
+
+// 兼容小程序CommonJS模块化
+exports.getRateColor = getRateColor;
+module.exports = {
+  getRateColor: getRateColor
+};
 
 /***/ }),
 

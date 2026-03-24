@@ -158,17 +158,17 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 304));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 312));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var NoData = function NoData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 318));
+    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 326));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 297));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 305));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -207,7 +207,7 @@ var _default = {
     getList: function getList() {
       if (this.getRemark) {
         uni.navigateTo({
-          url: '/pages/getList/getList'
+          url: '/pages/getList/index'
         });
       }
       ;
@@ -215,7 +215,7 @@ var _default = {
     initBetForm: function initBetForm() {
       this.betForm = 'weChatMiniProgram';
     },
-    getRemark: function getRemark() {
+    getRemarkFc: function getRemarkFc() {
       if (this.getRemark) {
         uni.navigateTo({
           url: '/pages/recharge/recharge'

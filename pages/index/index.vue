@@ -4,7 +4,7 @@
     <CustomHeader
       :showBack="false"
       :ballTitle="''"
-      :title="' 云竞慧博'"
+      :title="'KeepSeek'"
       :isIndex="false"
       :showIcon="true"
       :isSelected="false"
@@ -30,38 +30,38 @@
           <!-- 第一行（3个） -->
           <view class="game-item" @click="goToGame('football/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/jczq.png" mode="widthFix"></image>
-            <text class="game-name">足球</text>
+            <text class="game-name" v-if="showText">足&nbsp;&nbsp;球</text>
           </view>
           <view class="game-item" @click="goToGame('basketball/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/jclq.png" mode="widthFix"></image>
-            <text class="game-name">篮球</text>
+            <text class="game-name" v-if="showText">篮&nbsp;&nbsp;球</text>
           </view>
           <view class="game-item" @click="goToGame('fourteenIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">胜负</text>
+            <text class="game-name" v-if="showText">胜&nbsp;&nbsp;负</text>
           </view>
           <!-- 第二行（3个） -->
           <view class="game-item two" @click="goToGame('nineIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">任9</text>
+            <text class="game-name" v-if="showText">任&nbsp;&nbsp;9</text>
           </view>
           <view class="game-item two" @click="goToGame('sixIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">6场半全</text>
+            <text class="game-name" v-if="showText">6场半全</text>
           </view>
           <view class="game-item two" @click="goToGame('fourIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">4进球</text>
+            <text class="game-name" v-if="showText">4进球</text>
           </view>
         </view>
         <view class="game-grid">
           <view class="game-item" @click="goToGame('footballData/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/f.png" mode="widthFix"></image>
-            <text class="game-name">足球数据</text>
+            <text class="game-name" v-if="showText">实时数据</text>
           </view>
           <view class="game-item" @click="goToGame('basketballData/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/b.png" mode="widthFix"></image>
-            <text class="game-name">篮球数据</text>
+            <text class="game-name" v-if="showText">实时数据</text>
           </view>
         </view>
       </view>
@@ -99,6 +99,7 @@ export default {
       statusBarHeight: 0,
       tabbarHeight: 0, // tabbar高度（px
       popupMaxHeight: 0,
+      showText: false
     };
   },
   created() {
@@ -116,6 +117,9 @@ export default {
     this.calcHeaderHeight();
     this.calcTabbarHeight();
     this.calcPopupMaxHeight();
+    this.$nextTick(()=>{
+      this.showText = uni.getStorageSync('urlValue');
+    })
   },
   
   methods: {

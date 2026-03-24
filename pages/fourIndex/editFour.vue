@@ -55,8 +55,9 @@
 
     <view class="bet-bar" v-if="urlValue">
       <view class="bet-bar-top">
-        <view class="collapse-area">
-          <view class="left-tip">请输入后截屏给售票人</view>
+        <view class="collapse-area" style="text-align:center; color: #d92929;">
+          请截屏
+          <!-- <view class="left-tip">请截屏</view>
 
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus">-</button>
@@ -65,7 +66,7 @@
             </view>
             <button class="multi-btn plus" @click="handlePlus">+</button>
             
-          </view>
+          </view> -->
         </view>
       </view>
       <view class="bet-bar-bottom">

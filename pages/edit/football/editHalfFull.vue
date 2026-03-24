@@ -47,33 +47,34 @@
       </view>
     </scroll-view>
 
-    <view class="bet-bar" v-if="urlValue" :style="{ 
-      height: betBarFixedPx + 'px',
-      paddingBottom: (isApp ? safeAreaBottom : 0) + 'px' 
-    }">
-<view class="bet-bar-top">
-
-  <view class="top-left">
-    {{selectedMatchList.length == 1 ? '单关': selectedMatchList.length + '串1'}}
-  </view>
-  <view class="collapse-area">
-    <view class="multi-group">
-      <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
-      <view 
-        class="multi-input" 
-        @tap="showNumberKeyboard = true"
-        :class="{ 'disabled': selectedMatchCount < 1 }"
-      >
-        {{ betCount }}
+    <view
+       v-if="urlValue"
+      class="bet-bar"
+      :style="{
+        height: betBarFixedPx + 'px',
+        paddingBottom: (isApp ? safeAreaBottom : 0) + 'px',
+      }"
+    >
+      <view class="bet-bar-top">
+        <!-- -->
+        <view class="collapse-area">
+          <view class="multi-group" style="color: #d92929;">
+            <!-- <button class="multi-btn minus" @click="handleMinus"><text>-</text></button>
+            <view class="multi-input" @tap="showNumberKeyboard = true" :class="{ disabled: selectedMatchCount < 1 }">
+              {{ betCount }}
+            </view>
+            <button class="multi-btn plus" @click="handlePlus"><text>+</text></button> -->
+            请截屏
+            <!--  -->
+          </view>
+        </view>
       </view>
-      <button class="multi-btn plus" @click="handlePlus"><text>+</text></button>
-      
-    </view>
-  </view>
-</view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          <text class="bonus-tip">{{calculateHalfFullBonus()}}</text>
+          <!--  -->
+          <text class="bonus-tip">
+            <!-- {{ calculateHalfFullBonus() }} -->
+            </text>
         </view>
       </view>
     </view>

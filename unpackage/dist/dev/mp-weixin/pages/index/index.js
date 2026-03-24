@@ -143,17 +143,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 297));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 305));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 304));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 312));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 311));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 319));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -173,7 +173,8 @@ var _default = {
       statusBarHeight: 0,
       tabbarHeight: 0,
       // tabbar高度（px
-      popupMaxHeight: 0
+      popupMaxHeight: 0,
+      showText: false
     };
   },
   created: function created() {
@@ -187,10 +188,14 @@ var _default = {
     }
   },
   mounted: function mounted() {
+    var _this = this;
     console.log(uni, 'uni-----------', window, 'window----------');
     this.calcHeaderHeight();
     this.calcTabbarHeight();
     this.calcPopupMaxHeight();
+    this.$nextTick(function () {
+      _this.showText = uni.getStorageSync('urlValue');
+    });
   },
   methods: {
     handlePopupClose: function handlePopupClose() {},
