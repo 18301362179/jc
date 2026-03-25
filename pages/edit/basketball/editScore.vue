@@ -1,7 +1,7 @@
 <template>
-  <!-- 篮球胜分差编辑页：统一适配逻辑，对齐其他篮球玩法页面 -->
+  <!-- 胜分差编辑页：统一适配逻辑 -->
   <view class="scheme-edit-page">
-    <CustomHeader :ballTitle="'篮球'" title="胜分差" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'篮 球'" title="胜分差" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 核心修改：移除content-wrap嵌套，统一用scroll-view绝对定位 -->
     <scroll-view
@@ -188,7 +188,6 @@ export default {
         this.betCount = validVal;
       });
     },
-    // 统一高度计算逻辑，对齐其他篮球玩法页面
     calcAllHeights() {
       const sys = wx.getWindowInfo();
       // 1. 状态栏高度
@@ -218,20 +217,19 @@ export default {
       uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
     },
 
-    // AI分析方法（保留空实现，避免报错）
+    
     handleAiAnalysis(item) {
-      // 可补充AI分析逻辑，此处保留空方法
-      console.log("AI分析：", item);
+      
+      
     },
 
-    // 篮球胜分差 - 优化版奖金计算方法（保留核心逻辑，统一格式）
     calculateBonusText() {
       // 边界判断：无选中赛事时，返回空提示
       if (this.selectedMatchCount === 0) {
         return "预计：0.00";
       }
 
-      // 步骤1：胜分差赔率映射表（匹配后端返回的字段名）
+ 
       const oddsMap = {
         "1-5": { home: "h_sfc1_5", away: "v_sfc1_5" },
         "6-10": { home: "h_sfc6_10", away: "v_sfc6_10" },
@@ -445,7 +443,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/* 全局样式：统一对齐其他篮球玩法页面 */
 .scheme-edit-page {
   background-color: #f5f5f5;
   box-sizing: border-box;

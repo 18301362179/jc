@@ -1218,7 +1218,7 @@ page {
   height: 0;
 }
 
-/* 替换为足球同款bet-bar样式 */
+
 .bet-bar {
   position: fixed !important;
   width: 100% !important;

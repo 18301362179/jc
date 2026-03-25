@@ -2,7 +2,7 @@
   <view class="page-container">
     <!-- 固定头部 -->
     <CustomHeader
-      :title="'预测数据'"
+      :title="'析'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
@@ -221,7 +221,6 @@ export default {
   },
 
   methods: {
-    // 日期格式化（兼容篮球赛事日期）
     formatDateWithWeekday(time) {
       if (!time) return '-';
       const date = new Date(time.replace(/\//g, '-'));
@@ -262,7 +261,6 @@ export default {
         this.visitingScorers = data.visitingScorers || [];
         this.info = JSON.parse(JSON.stringify(data));
       } catch (error) {
-        console.error('获取篮球AI数据失败：', error);
         uni.showToast({ title: '数据加载失败', icon: 'none' });
       } finally {
         uni.hideLoading();

@@ -434,7 +434,6 @@ var _default = {
     uni.hideTabBar();
   },
   methods: {
-    // 日期格式化（兼容篮球赛事日期）
     formatDateWithWeekday: function formatDateWithWeekday(time) {
       if (!time) return '-';
       var date = new Date(time.replace(/\//g, '-'));
@@ -490,26 +489,25 @@ var _default = {
                 _this2.homeScorers = data.homeScorers || [];
                 _this2.visitingScorers = data.visitingScorers || [];
                 _this2.info = JSON.parse(JSON.stringify(data));
-                _context.next = 21;
+                _context.next = 20;
                 break;
               case 17:
                 _context.prev = 17;
                 _context.t0 = _context["catch"](1);
-                console.error('获取篮球AI数据失败：', _context.t0);
                 uni.showToast({
                   title: '数据加载失败',
                   icon: 'none'
                 });
-              case 21:
-                _context.prev = 21;
+              case 20:
+                _context.prev = 20;
                 uni.hideLoading();
-                return _context.finish(21);
-              case 24:
+                return _context.finish(20);
+              case 23:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 17, 21, 24]]);
+        }, _callee, null, [[1, 17, 20, 23]]);
       }))();
     },
     // 补充缺失的方法（避免报错）

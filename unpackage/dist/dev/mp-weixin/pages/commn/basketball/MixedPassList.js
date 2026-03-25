@@ -582,8 +582,6 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 //
 //
-//
-//
 var _default2 = {
   props: {
     matchList: {
@@ -632,7 +630,6 @@ var _default2 = {
         v_sfc21_25: "",
         v_sfc26_jia: ""
       },
-      // 适配篮球玩法：spf(胜负/让分)、dx(大小分)、sfc(胜分差)
       selectedScores: {
         spf: [],
         rspf: [],
@@ -645,7 +642,6 @@ var _default2 = {
       expandedDrawers: [],
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      // 核心修改：适配首页的篮球玩法映射
       spfMapping: {
         胜负_主胜: "home_win",
         胜负_客胜: "home_lose",
@@ -723,7 +719,6 @@ var _default2 = {
       }
       newVal.forEach(function (drawer) {
         drawer.lotteryList.forEach(function (item) {
-          // 初始化篮球玩法选中数组
           if (!item.selectedSpf) {
             this.$set(item, "selectedSpf", []);
           }
@@ -812,7 +807,6 @@ var _default2 = {
     toggleDrawer: function toggleDrawer(drawerIdx) {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
-    // 胜负/让分选中事件（适配篮球）
     handleSpfMultiClick: function handleSpfMultiClick(item, spfType) {
       if (item.is_stop == 1) {
         uni.showToast({
@@ -851,7 +845,6 @@ var _default2 = {
       }
       this.$emit("toggle-spf-multi-select", item);
     },
-    // 获取选中样式（适配篮球玩法）
     getScoreClass: function getScoreClass(plate, value, multiplier) {
       // 1. 基础选中/禁用判断（和原有逻辑一致）
       var targetArr = this.selectedScores && this.selectedScores[plate] ? this.selectedScores[plate] : [];
@@ -870,7 +863,6 @@ var _default2 = {
       // 3. 去除多余空格，返回纯字符串
       return classStr.trim();
     },
-    // 核心修改：篮球玩法选中切换（适配胜负/让分/大小分/胜分差）
     handleScoreToggle: function handleScoreToggle(plate, value) {
       if (this.isLoading || this.currentMatch.is_stop == 1) {
         uni.showToast({
@@ -926,7 +918,6 @@ var _default2 = {
         this.$set(this.selectedScores, plate, newArr);
       }
     },
-    // 打开弹框（初始化篮球玩法选中状态）
     openScorePopup: function openScorePopup(match) {
       if (match.is_stop == 1) {
         return;
@@ -935,8 +926,6 @@ var _default2 = {
       this.currentMatch = JSON.parse(JSON.stringify(match));
       this.isLoading = false; // 无需加载，直接设为false
       this.isPopupShow = true;
-
-      // 初始化选中状态（适配篮球玩法）
       var initSpf = [];
       var initRspf = [];
       if (match.selectedSpf) {
@@ -951,8 +940,6 @@ var _default2 = {
           }
         }.bind(this));
       }
-
-      // 初始化所有篮球玩法选中状态
       this.selectedScores = {
         spf: initSpf,
         rspf: initRspf,
@@ -960,7 +947,6 @@ var _default2 = {
         sfc: match.selectedSfc ? match.selectedSfc.concat() : []
       };
     },
-    // 核心修改：确认选中（适配首页的篮球玩法映射）
     confirmSelection: function confirmSelection() {
       if (!this.currentMatch || this.isLoading || this.currentMatch.is_stop == 1) return;
       this.finalDrawerList.forEach(function (drawer) {

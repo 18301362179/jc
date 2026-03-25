@@ -132,7 +132,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "足球联赛",
+    "navigationBarTitleText": "足 球",
     "navigationBarTextStyle": "black"
   },
   "lazyCodeLoading": "requiredComponents",

@@ -284,7 +284,7 @@ var _default = {
       isRefreshing: false,
       isPopupShow: false,
       tipsTitle: "重要提示",
-      tipsContentList: ["1、本软件无任何彩票销售业务，仅提供足球、篮球相关模拟玩法。", "2、本软件截图可作为彩票站打票依据。", "3、本软件预测数据仅供参考。", "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。", "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。", "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。", "7、每天上午11点10分后本软件正式可用。"],
+      tipsContentList: [],
       windowHeight: 0,
       bottomBtnBarHeight: 0,
       tabbarHeight: 0,
@@ -296,7 +296,6 @@ var _default = {
       touchStartX: 0,
       swipeThreshold: 50,
       hasData: false,
-      // 新增：全局选中状态缓存（和足球逻辑对齐）
       matchSelectedState: {},
       urlValue: false
     };
@@ -347,7 +346,6 @@ var _default = {
     targetLotteryType: function targetLotteryType() {
       return this.playTypeMap[this.currentPlay] || "rsf";
     },
-    // 核心修复：selectedMatchCount 实时精准统计，和足球逻辑完全对齐
     selectedMatchCount: function selectedMatchCount() {
       var _this2 = this;
       var count = 0;
@@ -476,7 +474,6 @@ var _default = {
     }
   },
   methods: {
-    // ========== 新增：清空所有选中场次方法（和足球一致） ==========
     clearAllSelection: function clearAllSelection() {
       var _this7 = this;
       if (this.selectedMatchCount === 0) return;
@@ -524,7 +521,6 @@ var _default = {
         }
       });
     },
-    // 核心新增：校验选中状态（和足球逻辑对齐）
     checkSelected: function checkSelected(item, val) {
       if (!item || !val) return false;
       // 优先读取全局缓存
@@ -563,7 +559,6 @@ var _default = {
     togglePopup: function togglePopup() {
       this.isPopupShowType = !this.isPopupShowType;
     },
-    // 获取选中的赛事（适配混合过关，和足球逻辑对齐）
     getSelectedMatches: function getSelectedMatches() {
       var _this8 = this;
       var selected = [];
@@ -739,7 +734,6 @@ var _default = {
         }, _callee2, null, [[16, 25, 29, 32]]);
       }))();
     },
-    // 同步编辑页面返回的数据（适配混合过关，和足球逻辑对齐）
     syncUpdatedMatches: function syncUpdatedMatches(updatedData) {
       var _this10 = this;
       if (!updatedData || !updatedData.matches) return;
@@ -836,7 +830,6 @@ var _default = {
         });
       }
     },
-    // 胜负选中切换（和足球逻辑对齐）
     toggleSelect: function toggleSelect(targetItem, key) {
       var _this12 = this;
       this.drawerList.forEach(function (drawer, drawerIdx) {
@@ -912,7 +905,6 @@ var _default = {
         }
       });
     },
-    // 核心修复：混合过关 - 胜负/让分胜负选中事件处理（和足球逻辑对齐）
     handleHhggSpfSelect: function handleHhggSpfSelect(item) {
       var _this15 = this;
       if (!item || !item.serial_number) return;

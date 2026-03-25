@@ -4,7 +4,7 @@
     <CustomHeader
       :showBack="true"
       :ballTitle="''"
-      :title="'篮球数据'"
+      :title="'篮 球'"
       :isIndex="false"
       :showIcon="false"
       :isSelected="false"

@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：适配4场标题 -->
-    <CustomHeader :ballTitle="'足球'" title="4场" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'足 球'" title="4场" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 滚动展示区域：沿用模板布局逻辑，保留4场业务展示 + 胜显示条件 -->
     <scroll-view class="match-scroll" scroll-y id="poster-content">

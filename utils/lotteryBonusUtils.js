@@ -1,12 +1,12 @@
 // utils/lotteryBonusUtils.js （新建该文件，存放通用奖金计算方法）
 
 /**
- * 通用彩票预计计算方法（支持足球/篮球所有编辑页面）
+ * 
  * @param {Array} selectedMatchList - 选中的赛事列表（核心入参，格式见下方说明）
  * @param {Number} betCount - （必填，如1、2、3）
  * @returns {String} 格式化的奖金文本（单值："预计：XX.XX元"；区间值："预计：XX.XX元 约 XX.XX元"）
  * 
- * @selectedMatchList 入参格式（每个赛事对象必须包含以下字段，足球/篮球通用）：
+ * @selectedMatchList 入参格式
  * [
  *   {
  *     // 玩法对应的选中项赔率（至少包含1个有效赔率，支持多选中）
@@ -15,7 +15,7 @@
  *   },
  *   ...
  * ]
- * 说明：足球（半全场、胜平负）、篮球（让分胜负、大小分）均按此格式构造入参，方法不关心具体玩法，只处理赔率数值
+ * 
  */
 export function calculateLotteryBonus(selectedMatchList = [], betCount = 1) {
 	// 步骤1：边界判断（空列表、无效）

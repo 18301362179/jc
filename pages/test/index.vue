@@ -1,7 +1,7 @@
 <template>
   <view class="page-container">
     <!-- 固定头部 -->
-    <CustomHeader :title="'预测数据'" :showBack="true" :isIndex="false" :showIcon="false" :isSelected="false" :selectedPlay="''" @funnel-click="handleFunnel" @back-click="onBackClick" />
+    <CustomHeader :title="'析'" :showBack="true" :isIndex="false" :showIcon="false" :isSelected="false" :selectedPlay="''" @funnel-click="handleFunnel" @back-click="onBackClick" />
 
     <!-- 可滚动的内容区域 -->
     <scroll-view class="content-scroll" scroll-y="true">

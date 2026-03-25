@@ -1,8 +1,8 @@
 <template>
-  <!-- 篮球大小分编辑页：统一适配逻辑，对齐让分胜负页结构 -->
+
   <view class="scheme-edit-page">
     <!-- 自定义头部：结构不变，仅保留核心参数 -->
-    <CustomHeader :ballTitle="'篮球'" title="大小分" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'篮 球'" title="大小分" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 内容区：移除content-wrap嵌套，统一用style分端适配 -->
     <scroll-view

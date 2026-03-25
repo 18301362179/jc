@@ -522,7 +522,7 @@ var _default = {
                   icon: "none"
                 });
               }
-              _context.next = 20;
+              _context.next = 19;
               break;
             case 15:
               _context.prev = 15;
@@ -532,8 +532,7 @@ var _default = {
                 title: "网络异常，请稍后重试",
                 icon: "none"
               });
-              console.error("篮球胜负报错：", _context.t0);
-            case 20:
+            case 19:
             case "end":
               return _context.stop();
           }

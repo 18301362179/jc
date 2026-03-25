@@ -11,17 +11,16 @@
         <view class="drawer-title-text">{{ drawer.title }}</view>
       </view> -->
 
-      <!-- 抽屉内容：比赛列表 -->
+      
       <view v-show="expandedDrawers[drawerIdx]" class="drawer-content">
-        <!-- 🌟 修改1：循环仅保留item，index仅作为备用（和4/6/9场一致） -->
+        
         <view v-for="item in drawer.lotteryList" :key="item.id" class="match-row">
           <!-- 核心内容行 -->
           <view class="main-content-row">
-            <!-- 左侧场次号 -->
+            
             <view class="main-left">
               <view class="match-num-wrapper">
-                <!-- 🌟 修改2：场次号改用接口的match_num字段（和4/6/9场一致） -->
-                <text class="match-num">第{{ item.match_num }}场</text>
+                <text class="match-num">{{ item.match_num }}</text>
               </view>
             </view>
 
@@ -34,7 +33,7 @@
                   <text class="vs-text">VS</text>
                   <text class="team-name away">{{ item.visiting_name }}</text>
                 </view>
-                <!-- 胜+分析：接口无此字段，自动隐藏 -->
+                
                 <view class="rate-row" v-if="item.home_win_rate && urlValue">
                   <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || '' }}</text>
                   <text class="vs-text" v-if="item.draw_rate">平{{item.draw_rate}}</text>
@@ -43,7 +42,7 @@
                 </view>
               </view>
 
-              <!-- 保留14场原有3/1/0按钮布局 -->
+              
               <view class="bottom-right">
                 <view class="score-btn-group">
                   <view 

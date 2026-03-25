@@ -2,7 +2,7 @@
   <!-- 篮球让分胜负编辑页：仅调整内容区高度，保留bet-bar原有兼容 -->
   <view class="scheme-edit-page">
     <!-- 自定义头部：不变 -->
-    <CustomHeader :ballTitle="'篮球'" title="让分胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'篮 球'" title="让分胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 内容区：仅修改style，适配bet-bar的分端定位 -->
     <scroll-view

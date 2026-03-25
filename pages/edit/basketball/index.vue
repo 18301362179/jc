@@ -1,22 +1,20 @@
 <template>
-  <!-- 篮球胜负编辑页：统一适配逻辑，对齐让分胜负页结构 -->
+
   <view class="scheme-edit-page">
     <!-- 自定义头部：仅保留核心参数，结构不变 -->
-    <CustomHeader :ballTitle="'篮球'" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'篮 球'" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 内容区：统一用样式分端适配，移除template中的bottom绑定 -->
     <scroll-view
       class="match-scroll"
       scroll-y
       :style="{
-        top: headerTotalHeight + 'px', // 仅保留top动态绑定，bottom由样式分端控制
+        top: headerTotalHeight + 'px',
       }"
     >
       <view class="match-list">
-        <!-- 空状态：调整位置到列表顶部，对齐让分胜负页 -->
         <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无</view>
 
-        <!-- 已选赛事列表：保留胜负玩法字段，结构对齐 -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <view class="match-category">
             <view class="league-name" style="display: flex; justify-content: center; width: 100%">
@@ -373,7 +371,7 @@ export default {
       } catch (error) {
         this.isPayLoading = false;
         uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
-        console.error("篮球胜负报错：", error);
+
       }
     },
     // 移除冗余方法（handleGotoHome/handleDeleteMatch/handleClearAll/invokeWxPayment/formDate）

@@ -93,7 +93,7 @@ export default {
       isRefreshing: false,
       isPopupShow: false,
       tipsTitle: "重要提示",
-      tipsContentList: ["1、本软件无任何彩票销售业务，仅提供足球、篮球相关模拟玩法。", "2、本软件截图可作为彩票站打票依据。", "3、本软件预测数据仅供参考。", "4、体彩相关玩法、规则请到中国体育彩票官方渠道了解。", "5、本软件固定奖金数据可能存在未及时更新情况，通常浮动比例较小，可供参考。", "6、体彩爱好者可以设置小程序允许接收消息通知，会有更多交流机会及足不出户方便购彩方式。", "7、每天上午11点10分后本软件正式可用。"],
+      tipsContentList: [],
       windowHeight: 0,
       bottomBtnBarHeight: 0,
       tabbarHeight: 0,
@@ -105,7 +105,7 @@ export default {
       touchStartX: 0,
       swipeThreshold: 50,
       hasData: false,
-      // 新增：全局选中状态缓存（和足球逻辑对齐）
+      
       matchSelectedState: {},
       urlValue: false,
     };
@@ -133,7 +133,7 @@ onLoad() {
     targetLotteryType() {
       return this.playTypeMap[this.currentPlay] || "rsf";
     },
-    // 核心修复：selectedMatchCount 实时精准统计，和足球逻辑完全对齐
+    
     selectedMatchCount() {
       let count = 0;
       // 深遍历所有赛事，确保不遗漏
@@ -263,7 +263,6 @@ onLoad() {
     }
   },
   methods: {
-    // ========== 新增：清空所有选中场次方法（和足球一致） ==========
     clearAllSelection() {
       if (this.selectedMatchCount === 0) return;
 
@@ -308,7 +307,7 @@ onLoad() {
         },
       });
     },
-    // 核心新增：校验选中状态（和足球逻辑对齐）
+   
     checkSelected(item, val) {
       if (!item || !val) return false;
       // 优先读取全局缓存
@@ -349,7 +348,6 @@ onLoad() {
     togglePopup() {
       this.isPopupShowType = !this.isPopupShowType;
     },
-    // 获取选中的赛事（适配混合过关，和足球逻辑对齐）
     getSelectedMatches() {
       const selected = [];
       this.drawerList.forEach((drawer) => {
@@ -484,7 +482,6 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
         this.hideLoading();
       }
     },
-    // 同步编辑页面返回的数据（适配混合过关，和足球逻辑对齐）
     syncUpdatedMatches(updatedData) {
       if (!updatedData || !updatedData.matches) return;
 
@@ -576,7 +573,6 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
         uni.showToast({ title: "最多50倍", icon: "none" });
       }
     },
-    // 胜负选中切换（和足球逻辑对齐）
     toggleSelect(targetItem, key) {
       this.drawerList.forEach((drawer, drawerIdx) => {
         const targetMatchIdx = drawer.lotteryList.findIndex((item) => item.serial_number == targetItem.serial_number);
@@ -642,7 +638,6 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
         }
       });
     },
-    // 核心修复：混合过关 - 胜负/让分胜负选中事件处理（和足球逻辑对齐）
     handleHhggSpfSelect(item) {
       if (!item || !item.serial_number) return;
 
@@ -917,8 +912,6 @@ page {
   width: 0;
   height: 0;
 }
-
-/* 替换为足球同款bet-bar样式 */
 .bet-bar {
   position: fixed !important;
   width: 100% !important;

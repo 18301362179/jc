@@ -97,7 +97,6 @@
       </view>
     </view>
 
-    <!-- 混合过关弹框：替换为篮球玩法（胜负、让分胜负、大小分） -->
     <view class="score-popup-mask" v-if="isPopupShow && currentMatch" @click="closePopup" hover-class="none"></view>
     <view class="score-popup" v-if="isPopupShow && currentMatch">
       <view v-if="isLoading" class="popup-loading">
@@ -145,7 +144,6 @@
             </view>
           </view>
 
-          <!-- 2. 让分胜负板块（保留，适配篮球逻辑） -->
           <view class="score-section">
             <view class="section-label rspf-label">让分胜负</view>
             <view class="rspf-container">
@@ -312,7 +310,6 @@ export default {
         v_sfc21_25: "",
         v_sfc26_jia: "",
       },
-      // 适配篮球玩法：spf(胜负/让分)、dx(大小分)、sfc(胜分差)
       selectedScores: { spf: [], rspf: [], dx: [], sfc: [] },
       MAX_SELECT_COUNT: 10,
       MAX_MATCH_COUNT: 8,
@@ -320,7 +317,6 @@ export default {
       expandedDrawers: [],
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      // 核心修改：适配首页的篮球玩法映射
       spfMapping: {
         胜负_主胜: "home_win",
         胜负_客胜: "home_lose",
@@ -397,7 +393,6 @@ export default {
         function (drawer) {
           drawer.lotteryList.forEach(
             function (item) {
-              // 初始化篮球玩法选中数组
               if (!item.selectedSpf) {
                 this.$set(item, "selectedSpf", []);
               }
@@ -492,7 +487,6 @@ export default {
     toggleDrawer(drawerIdx) {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
-    // 胜负/让分选中事件（适配篮球）
     handleSpfMultiClick(item, spfType) {
       if (item.is_stop == 1) {
         uni.showToast({ title: "该场次已停售", icon: "none" });
@@ -525,7 +519,6 @@ export default {
       }
       this.$emit("toggle-spf-multi-select", item);
     },
-    // 获取选中样式（适配篮球玩法）
     getScoreClass(plate, value, multiplier) {
       // 1. 基础选中/禁用判断（和原有逻辑一致）
       const targetArr = this.selectedScores && this.selectedScores[plate] ? this.selectedScores[plate] : [];
@@ -544,7 +537,6 @@ export default {
       // 3. 去除多余空格，返回纯字符串
       return classStr.trim();
     },
-    // 核心修改：篮球玩法选中切换（适配胜负/让分/大小分/胜分差）
     handleScoreToggle(plate, value) {
       if (this.isLoading || this.currentMatch.is_stop == 1) {
         uni.showToast({ title: "操作不可用", icon: "none" });
@@ -591,7 +583,6 @@ export default {
         this.$set(this.selectedScores, plate, newArr);
       }
     },
-    // 打开弹框（初始化篮球玩法选中状态）
     openScorePopup(match) {
       if (match.is_stop == 1) {
         return;
@@ -601,7 +592,6 @@ export default {
       this.isLoading = false; // 无需加载，直接设为false
       this.isPopupShow = true;
 
-      // 初始化选中状态（适配篮球玩法）
       var initSpf = [];
       var initRspf = [];
       if (match.selectedSpf) {
@@ -619,7 +609,6 @@ export default {
         );
       }
 
-      // 初始化所有篮球玩法选中状态
       this.selectedScores = {
         spf: initSpf,
         rspf: initRspf,
@@ -627,7 +616,6 @@ export default {
         sfc: match.selectedSfc ? match.selectedSfc.concat() : [],
       };
     },
-    // 核心修改：确认选中（适配首页的篮球玩法映射）
     confirmSelection() {
       if (!this.currentMatch || this.isLoading || this.currentMatch.is_stop == 1) return;
       this.finalDrawerList.forEach(
@@ -1550,7 +1538,7 @@ export default {
   font-weight: 500;
   border-top: 1rpx solid #eee;
 }
-// 弹窗底部按钮栏【足球原版】
+
 .popup-btn-bar {
   display: flex;
   gap: 8rpx;
@@ -1583,7 +1571,7 @@ export default {
   }
 }
 
-// 通用兼容【足球原版】
+
 button::after {
   border: none;
 }

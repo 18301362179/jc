@@ -312,7 +312,6 @@ var _default = {
         _this3.betCount = validVal;
       });
     },
-    // 统一高度计算逻辑，对齐其他篮球玩法页面
     calcAllHeights: function calcAllHeights() {
       var sys = wx.getWindowInfo();
       // 1. 状态栏高度
@@ -336,19 +335,12 @@ var _default = {
       }));
       uni.setStorageSync("editedMatchData", JSON.stringify(editedData));
     },
-    // AI分析方法（保留空实现，避免报错）
-    handleAiAnalysis: function handleAiAnalysis(item) {
-      // 可补充AI分析逻辑，此处保留空方法
-      console.log("AI分析：", item);
-    },
-    // 篮球胜分差 - 优化版奖金计算方法（保留核心逻辑，统一格式）
+    handleAiAnalysis: function handleAiAnalysis(item) {},
     calculateBonusText: function calculateBonusText() {
       // 边界判断：无选中赛事时，返回空提示
       if (this.selectedMatchCount === 0) {
         return "预计：0.00";
       }
-
-      // 步骤1：胜分差赔率映射表（匹配后端返回的字段名）
       var oddsMap = {
         "1-5": {
           home: "h_sfc1_5",

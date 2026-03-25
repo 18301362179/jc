@@ -4,7 +4,7 @@
     <CustomHeader
       :showBack="true"
       :ballTitle="''"
-      :title="'足球数据'"
+      :title="'足 球'"
       :isIndex="false"
       :showIcon="false"
       :isSelected="false"

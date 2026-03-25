@@ -1154,7 +1154,6 @@ var _default2 = {
       for (var i = 0; i < newVal.length; i++) {
         this.expandedDrawers.push(true);
       }
-      // 核心：强制初始化足球玩法的选中数组
       newVal.forEach(function (drawer) {
         drawer.lotteryList.forEach(function (item) {
           // 胜平负

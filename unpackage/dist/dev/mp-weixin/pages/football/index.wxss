@@ -56,7 +56,6 @@ page.data-v-df9e872e {
   width: 0;
   height: 0;
 }
-/* 替换为足球同款bet-bar样式 */
 .bet-bar.data-v-df9e872e {
   position: fixed !important;
   width: 100% !important;

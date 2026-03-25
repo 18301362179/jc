@@ -1,9 +1,8 @@
 <template>
-  <!-- 篮球混合过关编辑页 -->
-  <view class="scheme-edit-page">
-    <CustomHeader :ballTitle="'篮球'" title="混合过关" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
-    <!-- 核心修改：参考足球页面，统一scroll-view样式和高度计算 -->
+  <view class="scheme-edit-page">
+    <CustomHeader :ballTitle="'篮 球'" title="混合过关" :showBack="true" :showIcon="false" @back-click="handleBack" />
+
     <scroll-view
       class="match-scroll"
       scroll-y
