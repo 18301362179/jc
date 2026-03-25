@@ -57,11 +57,11 @@
         <view class="game-grid">
           <view class="game-item" @click="goToGame('footballData/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/f.png" mode="widthFix"></image>
-            <text class="game-name" v-if="showText">实时数据</text>
+            <text class="game-name" v-if="showText">KeepSeek</text>
           </view>
           <view class="game-item" @click="goToGame('basketballData/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/b.png" mode="widthFix"></image>
-            <text class="game-name" v-if="showText">实时数据</text>
+            <text class="game-name" v-if="showText">KeepSeek</text>
           </view>
         </view>
       </view>

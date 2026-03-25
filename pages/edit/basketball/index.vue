@@ -2,7 +2,7 @@
 
   <view class="scheme-edit-page">
     <!-- 自定义头部：仅保留核心参数，结构不变 -->
-    <CustomHeader :ballTitle="'篮 球'" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'KeepSeek'" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 内容区：统一用样式分端适配，移除template中的bottom绑定 -->
     <scroll-view
@@ -247,17 +247,6 @@ export default {
         return `预计：${minBonus.toFixed(2)}`;
       } else {
         return `预计：${minBonus.toFixed(2)} ~ ${maxBonus.toFixed(2)}`;
-      }
-    },
-    // 保留胜负玩法的AI跳转类型
-    goToAiAnalysis(item) {
-      try {
-        uni.navigateTo({
-          url: `/pages/test/index?id=${item.id}&isLottery=1&type=篮球胜负`,
-        });
-      } catch (err) {
-        uni.showToast({ title: "暂未开放AI分析", icon: "none" });
-        console.error("AI分析跳转失败：", err);
       }
     },
     // 统一选中切换逻辑

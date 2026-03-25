@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：适配任9标题 -->
-    <CustomHeader :ballTitle="'足 球'" title="任9" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'KeepSeek'" title="任9" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 滚动展示区域：沿用模板布局逻辑，保留任9业务展示 -->
     <scroll-view class="match-scroll" scroll-y id="poster-content">

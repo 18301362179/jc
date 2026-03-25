@@ -771,7 +771,6 @@ var _default = {
                     return;
                   }
                   drawer.lotteryList.forEach(function (match) {
-                    // 关键修复2：解析逻辑和计数逻辑完全一致（避免计数显示2场，跳转只传1场）
                     var hasSelected = Array.isArray(match.selectedSpf) && match.selectedSpf.length > 0 || Array.isArray(match.selectedRspf) && match.selectedRspf.length > 0 || Array.isArray(match.selectedZjq) && match.selectedZjq.length > 0 || Array.isArray(match.selectedBqc) && match.selectedBqc.length > 0 || Array.isArray(match.selectedBf) && match.selectedBf.length > 0 || Array.isArray(match.selectedAll) && match.selectedAll.length > 0;
 
                     // 只收集有选中项的场次
@@ -1662,7 +1661,6 @@ var _default = {
     handleFunnel: function handleFunnel() {
       this.isPopupShow = true;
     },
-    // AI分析跳转（核心修改）
     goToAiAnalysis: function goToAiAnalysis(item) {
       var _this19 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {

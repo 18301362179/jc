@@ -851,7 +851,6 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
           await uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
         }
       } catch (err) {
-        console.error("[AI分析] 失败:", err);
         uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
       } finally {
         this.hideLoading();

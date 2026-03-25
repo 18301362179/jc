@@ -534,7 +534,6 @@ handleMixedSelect(item, selectType) {
             }
 
             drawer.lotteryList.forEach((match) => {
-              // 关键修复2：解析逻辑和计数逻辑完全一致（避免计数显示2场，跳转只传1场）
               const hasSelected = (Array.isArray(match.selectedSpf) && match.selectedSpf.length > 0) || (Array.isArray(match.selectedRspf) && match.selectedRspf.length > 0) || (Array.isArray(match.selectedZjq) && match.selectedZjq.length > 0) || (Array.isArray(match.selectedBqc) && match.selectedBqc.length > 0) || (Array.isArray(match.selectedBf) && match.selectedBf.length > 0) || (Array.isArray(match.selectedAll) && match.selectedAll.length > 0);
 
               // 只收集有选中项的场次
@@ -1121,7 +1120,6 @@ handleMixedSelect(item, selectType) {
     handleFunnel() {
       this.isPopupShow = true;
     },
-    // AI分析跳转（核心修改）
     async goToAiAnalysis(item) {
         // 组装接口参数
         const reqParams = {

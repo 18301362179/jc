@@ -504,7 +504,6 @@ export default {
               });
         return;
     } else {
-            // 有灵石，正常跳转分析页
           await uni.navigateTo({
             url: `/pages/test/index?id=${item.id}&isLottery=1&isTradition=1`,
           });

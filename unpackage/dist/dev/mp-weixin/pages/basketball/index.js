@@ -1207,26 +1207,25 @@ var _default = {
                   url: "/pages/test/basketballAi?id=".concat(item.id, "&isLottery=1")
                 });
               case 15:
-                _context5.next = 21;
+                _context5.next = 20;
                 break;
               case 17:
                 _context5.prev = 17;
                 _context5.t0 = _context5["catch"](0);
-                console.error("[AI分析] 失败:", _context5.t0);
                 uni.showToast({
                   title: "网络异常，请稍后重试",
                   icon: "none"
                 });
-              case 21:
-                _context5.prev = 21;
+              case 20:
+                _context5.prev = 20;
                 _this19.hideLoading();
-                return _context5.finish(21);
-              case 24:
+                return _context5.finish(20);
+              case 23:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[0, 17, 21, 24]]);
+        }, _callee5, null, [[0, 17, 20, 23]]);
       }))();
     },
     showLoading: function showLoading() {

@@ -78,7 +78,6 @@
   border-radius: 8rpx;
   box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
   /* 左侧：统一170rpx+居中 */
-  /* 右侧：统一三列布局，移除AI分析 */
 }
 .match-list .match-row .match-category.data-v-0d38480a {
   width: 170rpx;

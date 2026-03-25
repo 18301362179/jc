@@ -132,7 +132,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "足 球",
+    "navigationBarTitleText": "KeepSeek",
     "navigationBarTextStyle": "black"
   },
   "lazyCodeLoading": "requiredComponents",

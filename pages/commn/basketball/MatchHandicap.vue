@@ -23,7 +23,7 @@
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&urlValue" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="urlValue&&item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
             </view>
           </view>
 

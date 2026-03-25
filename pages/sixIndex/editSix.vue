@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
-    <CustomHeader :ballTitle="'足 球'" title="6场半全" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'KeepSeek'" title="6场半全" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <scroll-view class="match-scroll" scroll-y id="poster-content">
       <view class="match-list">

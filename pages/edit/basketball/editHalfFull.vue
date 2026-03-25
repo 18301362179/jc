@@ -2,7 +2,7 @@
 
   <view class="scheme-edit-page">
     <!-- 自定义头部：结构不变，仅保留核心参数 -->
-    <CustomHeader :ballTitle="'篮 球'" title="大小分" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'KeepSeek'" title="大小分" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 内容区：移除content-wrap嵌套，统一用style分端适配 -->
     <scroll-view
@@ -16,7 +16,6 @@
         <!-- 空状态：位置对齐让分胜负页 -->
         <view class="empty-tip" v-if="selectedMatchList.length === 0">暂无</view>
 
-        <!-- 已选赛事列表：保留大小分玩法字段，移除AI分析 -->
         <view v-for="(item, index) in selectedMatchList" :key="index" class="match-row">
           <view class="match-category">
             <view class="league-name" style="display: flex; justify-content: center; width: 100%">
@@ -505,7 +504,6 @@ export default {
       }
     }
 
-    /* 右侧：统一三列布局，移除AI分析 */
     .match-cells {
       flex: 1;
       display: flex;

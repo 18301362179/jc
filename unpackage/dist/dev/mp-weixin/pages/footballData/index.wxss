@@ -37,7 +37,7 @@
   padding: 20rpx 30rpx;
   border-bottom: 1rpx solid #ffe8b3;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-shrink: 0;
 }
@@ -48,6 +48,7 @@
 }
 .tip-bar .refresh-btn.data-v-6f81d69a {
   display: flex;
+  justify-content: center;
   align-items: center;
   background-color: #00b42a;
   color: #fff;

@@ -366,19 +366,6 @@ var _default = {
         return "\u9884\u8BA1\uFF1A".concat(minBonus.toFixed(2), " ~ ").concat(maxBonus.toFixed(2));
       }
     },
-    goToAiAnalysis: function goToAiAnalysis(item) {
-      try {
-        uni.navigateTo({
-          url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&type=\u7BEE\u7403\u8BA9\u5206\u80DC\u8D1F")
-        });
-      } catch (err) {
-        uni.showToast({
-          title: "暂未开放AI分析",
-          icon: "none"
-        });
-        console.error("AI分析跳转失败：", err);
-      }
-    },
     toggleSelect: function toggleSelect(item, key) {
       if (item.is_discontinued === 1) return;
       this.$set(item, key, !item[key]);

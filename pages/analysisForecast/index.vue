@@ -3,7 +3,7 @@
     <CustomHeader
       :showBack="false"
       :ballTitle="''"
-      :title="'足 球'"
+      :title="'KeepSeek'"
       :isIndex="false"
       :showIcon="false"
       :isSelected="false"

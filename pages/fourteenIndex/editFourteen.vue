@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
-    <CustomHeader :ballTitle="'足 球'" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'KeepSeek'" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 滚动展示区域 -->
     <scroll-view class="match-scroll" scroll-y id="poster-content">

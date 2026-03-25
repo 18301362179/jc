@@ -4,7 +4,7 @@
     <CustomHeader
       :showBack="true"
       :ballTitle="''"
-      :title="'足 球'"
+      :title="'KeepSeek'"
       :isIndex="false"
       :showIcon="false"
       :isSelected="false"
@@ -12,7 +12,6 @@
     
     <!-- 特别提醒 + 刷新按钮 -->
     <view class="tip-bar">
-      <text class="tip-text">特别提醒：本页面部分数据来源于第三方，仅供参考。</text>
       <!-- 刷新按钮 -->
       <view class="refresh-btn" @click="handleRefresh">
         <text class="refresh-icon">🔄</text>
@@ -135,7 +134,7 @@ export default {
   padding: 20rpx 30rpx;
   border-bottom: 1rpx solid #ffe8b3;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-shrink: 0; // 固定高度，不被压缩
   
@@ -147,6 +146,7 @@ export default {
   
   .refresh-btn {
     display: flex;
+    justify-content: center;
     align-items: center;
     background-color: #00b42a;
     color: #fff;

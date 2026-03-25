@@ -1,5 +1,4 @@
 <template>
-  <!---比分-->
   <view class="match-list">
     <!-- 抽屉循环容器 -->
     <view v-for="(drawer, drawerIdx) in finalDrawerList" :key="drawerIdx" class="drawer-wrapper">
@@ -38,7 +37,7 @@
                   <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || '' }}</text>
                   <text class="vs-text" v-if="item.draw_rate">平{{item.draw_rate}}</text>
                   <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || '' }}</text>
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&urlValue" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&urlValue&&item.url_show_status==0" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
                 </view>
               </view>
 

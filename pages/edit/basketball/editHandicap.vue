@@ -2,7 +2,7 @@
   <!-- 篮球让分胜负编辑页：仅调整内容区高度，保留bet-bar原有兼容 -->
   <view class="scheme-edit-page">
     <!-- 自定义头部：不变 -->
-    <CustomHeader :ballTitle="'篮 球'" title="让分胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'KeepSeek'" title="让分胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 内容区：仅修改style，适配bet-bar的分端定位 -->
     <scroll-view
@@ -257,16 +257,6 @@ export default {
         return `预计：${minBonus.toFixed(2)}`;
       } else {
         return `预计：${minBonus.toFixed(2)} ~ ${maxBonus.toFixed(2)}`;
-      }
-    },
-    goToAiAnalysis(item) {
-      try {
-        uni.navigateTo({
-          url: `/pages/test/index?id=${item.id}&isLottery=1&type=篮球让分胜负`,
-        });
-      } catch (err) {
-        uni.showToast({ title: "暂未开放AI分析", icon: "none" });
-        console.error("AI分析跳转失败：", err);
       }
     },
     toggleSelect(item, key) {

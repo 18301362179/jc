@@ -1,7 +1,7 @@
 <template>
 
   <view class="scheme-edit-page">
-    <CustomHeader :ballTitle="'篮 球'" title="混合过关" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'KeepSeek'" title="混合过关" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <scroll-view
       class="match-scroll"
