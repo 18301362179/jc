@@ -8,7 +8,6 @@
   "disableScroll": false,
   "usingComponents": {
     "custom-header": "/components/CustomHeader",
-    "native-tabbar": "/components/tabbar",
     "no-data": "/pages/commn/noData"
   }
 }

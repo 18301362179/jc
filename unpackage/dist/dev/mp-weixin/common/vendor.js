@@ -10938,7 +10938,7 @@ var basketLotteryLive = function basketLotteryLive(data) {
 exports.basketLotteryLive = basketLotteryLive;
 var userTradeRecord = function userTradeRecord(data) {
   return (0, _request.default)({
-    url: baseUrl + "/platform/user/tradeRecord",
+    url: baseUrl + "/platform/user/orderRecord",
     method: 'GET',
     data: data
   });

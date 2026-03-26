@@ -161,11 +161,6 @@ var CustomHeader = function CustomHeader() {
     return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 305));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
-var NativeTabbar = function NativeTabbar() {
-  Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 312));
-  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
 var NoData = function NoData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
     return resolve(__webpack_require__(/*! @/pages/commn/noData */ 326));
@@ -174,32 +169,31 @@ var NoData = function NoData() {
 var _default = {
   components: {
     CustomHeader: CustomHeader,
-    NativeTabbar: NativeTabbar,
     NoData: NoData
   },
   data: function data() {
     return {
       coinRecordList: [],
-      // 币明细列表
       betForm: '',
-      // 终端类型（和主页面保持一致）
-      getRemark: false // 控制权限（和主页面同步）
+      getRemark: false,
+      statusBarHeight: 0,
+      navBarHeight: 0
     };
   },
   created: function created() {
-    // 初始化终端类型
     this.initBetForm();
-    // 获取权限标识（和主页面同步）
     this.getRemark = uni.getStorageSync('urlValue');
-    // 加载数据
+
+    // 全机型兼容：获取状态栏 + 导航栏真实高度
+    var systemInfo = uni.getSystemInfoSync();
+    this.statusBarHeight = systemInfo.statusBarHeight;
+    this.navBarHeight = this.statusBarHeight + 44;
     this.getCoinRecordData();
   },
   methods: {
-    // 初始化终端类型（和主页面逻辑一致）
     initBetForm: function initBetForm() {
       this.betForm = 'weChatMiniProgram';
     },
-    // 获取币明细列表数据
     getCoinRecordData: function getCoinRecordData() {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
@@ -226,9 +220,8 @@ var _default = {
                 return (0, _demo.userTradeRecord)();
               case 7:
                 res = _context.sent;
-                // 适配接口返回格式
                 _this.coinRecordList = res.data || [];
-                _context.next = 15;
+                _context.next = 14;
                 break;
               case 11:
                 _context.prev = 11;
@@ -237,17 +230,16 @@ var _default = {
                   title: "加载失败",
                   icon: "none"
                 });
-                console.error("币明细加载失败：", _context.t0);
-              case 15:
-                _context.prev = 15;
+              case 14:
+                _context.prev = 14;
                 uni.hideLoading();
-                return _context.finish(15);
-              case 18:
+                return _context.finish(14);
+              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[4, 11, 15, 18]]);
+        }, _callee, null, [[4, 11, 14, 17]]);
       }))();
     }
   }
