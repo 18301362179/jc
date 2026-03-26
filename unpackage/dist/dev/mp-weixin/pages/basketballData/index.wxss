@@ -56,10 +56,6 @@
   border-radius: 8rpx;
   cursor: pointer;
 }
-.tip-bar .refresh-btn .refresh-icon.data-v-0bb837cb {
-  font-size: 24rpx;
-  margin-right: 8rpx;
-}
 .tip-bar .refresh-btn .refresh-text.data-v-0bb837cb {
   font-size: 24rpx;
   font-weight: 500;

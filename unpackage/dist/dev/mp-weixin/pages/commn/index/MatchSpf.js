@@ -86,15 +86,15 @@ var render = function () {
     var l0 = _vm.__map(drawer.lotteryList, function (item, index) {
       var $orig = _vm.__get_orig(item)
       var m0 =
-        item.home_win_rate && _vm.urlValue
+        item.home_win_rate && _vm.xiValue
           ? _vm.getRateColor(item.home_win_rate, "home", item.homeSelected)
           : null
       var m1 =
-        item.draw_rate && _vm.urlValue
+        item.draw_rate && _vm.xiValue
           ? _vm.getRateColor(item.draw_rate, "draw", item.vsSelected)
           : null
       var m2 =
-        item.visiting_win_rate && _vm.urlValue
+        item.visiting_win_rate && _vm.xiValue
           ? _vm.getRateColor(item.visiting_win_rate, "away", item.awaySelected)
           : null
       return {
@@ -305,6 +305,9 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 366);
 //
 //
 //
+//
+//
+//
 var _default2 = {
   props: {
     matchList: {
@@ -334,7 +337,7 @@ var _default2 = {
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      urlValue: false
+      xiValue: false
     };
   },
   computed: {
@@ -386,7 +389,7 @@ var _default2 = {
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
     this.$nextTick(function () {
-      urlValue: false, _this.urlValue = uni.getStorageSync('urlValue');
+      xiValue: false, _this.xiValue = uni.getStorageSync('xiValue');
     });
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
     this.expandedDrawers = this.finalDrawerList.map(function () {

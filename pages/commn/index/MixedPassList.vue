@@ -20,7 +20,10 @@
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="urlValue&&item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+  <text>详细</text>
+  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+</view>
             </view>
           </view>
 
@@ -48,7 +51,7 @@
                     <text class="vs-text">VS</text>
                     <text class="team-name home">{{ item.visiting_name }}</text>
                   </view>
-                  <view class="rate-row" v-if="urlValue">
+                  <view class="rate-row" v-if="xiValue">
                     <text class="rate-text home" style="text-align:right;padding-right: 10px;" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
                     <text class="vs-text" v-if="item.draw_rate">平{{ item.draw_rate }}</text>
                     <text class="rate-text away" style="text-align:left;padding-left:10px;" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
@@ -468,7 +471,7 @@ export default {
         "draw_-1": "让胜平负_让平",
         "away_-1": "让胜平负_让客胜",
       },
-      urlValue: false,
+      xiValue: false,
     };
   },
   computed: {
@@ -541,7 +544,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.urlValue = uni.getStorageSync('urlValue');
+    this.xiValue = uni.getStorageSync('xiValue');
     
     })
     this.initWindowInfo();
@@ -909,16 +912,21 @@ export default {
   }
 
   .status-right {
-    .ai-analysis-btn {
-      font-size: 24rpx;
-      color: #06f;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      letter-spacing: 4rpx;
-      &:active {
-        opacity: 0.8;
-      }
-    }
+.ai-analysis-btn {
+  font-size: 24rpx;
+  color: #06f;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  letter-spacing: 4rpx;
+  &:active {
+    opacity: 0.8;
+  }
+}
+/* 加在这里 */
+.small-coin {
+  font-size: 20rpx !important;
+  margin-left: 4rpx;
+}
   }
 }
 

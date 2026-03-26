@@ -30,15 +30,15 @@
           <!-- 第一行（3个） -->
           <view class="game-item" @click="goToGame('football/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/jczq.png" mode="widthFix"></image>
-            <text class="game-name" v-if="showText">足&nbsp;&nbsp;球</text>
+            <text class="game-name" v-if="showText">J&nbsp;-&nbsp;足</text>
           </view>
           <view class="game-item" @click="goToGame('basketball/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/jclq.png" mode="widthFix"></image>
-            <text class="game-name" v-if="showText">篮&nbsp;&nbsp;球</text>
+            <text class="game-name" v-if="showText">J&nbsp;-&nbsp;篮</text>
           </view>
           <view class="game-item" @click="goToGame('fourteenIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name" v-if="showText">胜&nbsp;&nbsp;负</text>
+            <text class="game-name" v-if="showText">14</text>
           </view>
           <!-- 第二行（3个） -->
           <view class="game-item two" @click="goToGame('nineIndex/index')">
@@ -47,21 +47,21 @@
           </view>
           <view class="game-item two" @click="goToGame('sixIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name" v-if="showText">6场半全</text>
+            <text class="game-name" v-if="showText">6半全</text>
           </view>
           <view class="game-item two" @click="goToGame('fourIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name" v-if="showText">4进球</text>
+            <text class="game-name" v-if="showText">4&nbsp;&nbsp;进</text>
           </view>
         </view>
         <view class="game-grid">
           <view class="game-item" @click="goToGame('footballData/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/f.png" mode="widthFix"></image>
-            <text class="game-name" v-if="showText">KeepSeek</text>
+            <text class="game-name" v-if="showText">足&nbsp;&nbsp;数</text>
           </view>
           <view class="game-item" @click="goToGame('basketballData/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/b.png" mode="widthFix"></image>
-            <text class="game-name" v-if="showText">KeepSeek</text>
+            <text class="game-name" v-if="showText">蓝&nbsp;&nbsp;数</text>
           </view>
         </view>
       </view>

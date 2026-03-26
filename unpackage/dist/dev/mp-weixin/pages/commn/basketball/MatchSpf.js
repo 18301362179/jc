@@ -224,6 +224,9 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 366);
 //
 //
 //
+//
+//
+//
 // 逻辑代码完全保留，无任何修改
 var _default2 = {
   props: {
@@ -254,7 +257,7 @@ var _default2 = {
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      urlValue: false
+      xiValue: false
     };
   },
   computed: {
@@ -302,7 +305,7 @@ var _default2 = {
   created: function created() {
     var _this = this;
     this.$nextTick(function () {
-      _this.urlValue = uni.getStorageSync('urlValue');
+      _this.xiValue = uni.getStorageSync('xiValue');
     });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();

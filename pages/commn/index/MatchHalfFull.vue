@@ -21,7 +21,10 @@
             </view>
             <view class="status-right">
               <!-- 仅改：@tap.stop 改为 @click.stop，其他不变 -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="urlValue&&item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+  <text>详细</text>
+  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+</view>
             </view>
           </view>
 
@@ -45,7 +48,7 @@
                   <text>{{ item.visiting_name }}</text>
                 </view>
                 
-                <view class="rate-row" v-if="urlValue">
+                <view class="rate-row" v-if="xiValue">
                   <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || "--" }}</text>
                   <text class="vs-text">{{ item.draw_rate ? "平" + item.draw_rate : "" }}</text>
                   <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "--" }}</text>
@@ -126,7 +129,7 @@ export default {
         { label: "负平", value: "fp", oddsField: "fp_odds" },
         { label: "负负", value: "ff", oddsField: "ff_odds" },
       ],
-      urlValue: false,
+      xiValue: false,
     };
   },
   computed: {
@@ -170,7 +173,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.urlValue = uni.getStorageSync('urlValue');
+    this.xiValue = uni.getStorageSync('xiValue');
     
     })
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
@@ -356,16 +359,21 @@ export default {
   }
 
   .status-right {
-    .ai-analysis-btn {
-      font-size: 24rpx;
-      color: #06f;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      letter-spacing: 4rpx;
-      &:active {
-        opacity: 0.8;
-      }
-    }
+.ai-analysis-btn {
+  font-size: 24rpx;
+  color: #06f;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  letter-spacing: 4rpx;
+  &:active {
+    opacity: 0.8;
+  }
+}
+/* 加在这里 */
+.small-coin {
+  font-size: 20rpx !important;
+  margin-left: 4rpx;
+}
   }
 }
 

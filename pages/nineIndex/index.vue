@@ -438,8 +438,8 @@ let isNeedUserPhone = res.data && res.data.isNeedUserPhone ? res.data.isNeedUser
     if (res.data.status == 'fail') {
           this.hideLoading();
           uni.showModal({
-                title: "请充币",
-                content: "您的游戏币不足，请充币！",
+                title: "提示",
+                content: "您的服务币不足，请获取！",
                 cancelText: "取消",
                 confirmText: "获取",
                 confirmColor: "#d92929",

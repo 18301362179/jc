@@ -19,7 +19,7 @@
     </view>
 
     <!-- 列表内容区 -->
-    <scroll-view class="list-scroll" scroll-y :style="{ paddingTop:  34 + 'px' }">
+    <scroll-view class="list-scroll" scroll-y :style="{ paddingTop:  28 + 'px' }">
       <no-data v-if="coinRecordList.length === 0" />
 
       <view class="list-item" v-for="(item, index) in coinRecordList" :key="index">
@@ -125,7 +125,7 @@ export default {
   z-index: 5;
   display: flex;
   height: 60rpx;
-  background: #f8f9fa;
+  background: #f9f9f9;
   border-radius: 8rpx 8rpx 0 0;
   align-items: center;
 
@@ -185,6 +185,8 @@ export default {
 .list-item:nth-child(odd) {
    background: #f9f9f9;
 }
-
+.list-item:nth-child(1) {
+  margin-top: 16rpx;
+}
 ::-webkit-scrollbar { display: none; }
 </style>

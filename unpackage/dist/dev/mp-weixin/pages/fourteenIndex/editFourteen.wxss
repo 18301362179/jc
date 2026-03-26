@@ -175,7 +175,7 @@
 .bet-bar .bet-bar-top .collapse-area.data-v-aa0a0fc0 {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   height: auto;
   box-sizing: border-box;

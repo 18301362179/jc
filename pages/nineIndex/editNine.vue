@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：适配任9标题 -->
-    <CustomHeader :ballTitle="'KeepSeek'" title="任9" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'云竞慧博体育小程序'"  :isIndex="true" title="任9" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 滚动展示区域：沿用模板布局逻辑，保留任9业务展示 -->
     <scroll-view class="match-scroll" scroll-y id="poster-content">
@@ -357,7 +357,7 @@ export default {
   .bet-bar-top {
     background: #fff;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 10rpx 30rpx;
     box-sizing: border-box;
@@ -365,7 +365,7 @@ export default {
     .collapse-area {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       width: 100%;
       height: auto;
       box-sizing: border-box;

@@ -3,7 +3,10 @@
     <view v-for="(item, index) in courseList" :key="index" class="item">
       <view class="time">
         <text>{{ forateData(item.race_date) }}</text>
-        <view v-if="item.is_over == 0 && item.home_win_rate != 0&&urlValue" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }} </view>
+<view v-if="item.is_over == 0 && item.home_win_rate != 0&&xiValue" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)">
+  <text>详细</text>
+  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+</view>
       </view>
       <view class="score">
         <!-- 左侧区域：主队名 + 左侧小项（自动撑开） -->
@@ -44,12 +47,12 @@ export default {
     return {
       courseList: [],
       goal: '比分',
-      urlValue: false,
+      xiValue: false,
     }
   },
   created(){
     this.$nextTick(()=>{
-    this.urlValue = uni.getStorageSync('urlValue');
+    this.xiValue = uni.getStorageSync('xiValue');
     
     })
   },
@@ -91,19 +94,24 @@ export default {
     justify-content: space-between;
     align-items: flex-end;
     height: 40rpx; 
-    .ai {
-      font-size: 22rpx;
-      color: #06f;
-      padding: 6rpx 16rpx;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      white-space: nowrap;
-      letter-spacing: 4rpx;
-      &:active {
-        opacity: 0.8;
-        box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.05);
-      }
-    }
+.ai {
+  font-size: 22rpx;
+  color: #06f;
+  padding: 6rpx 16rpx;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  letter-spacing: 4rpx;
+  &:active {
+    opacity: 0.8;
+    box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.05);
+  }
+}
+/* 👇 就在 .ai 下面加这个 👇 */
+.small-coin {
+  font-size: 18rpx !important;
+  margin-left: 4rpx;
+}
   }
 }
 

@@ -2,27 +2,25 @@
   <view class="custom-header" :style="{ paddingTop: statusBarHeight + 'px' }">
     <view class="header-content">
       <!-- 左侧返回区 -->
-      <view class="header-left" v-if="showBack" >
-        <view class="header-back"  @click="onBackClick">
+      <view class="header-left" v-if="showBack">
+        <view class="header-back" @click="onBackClick">
           <image class="back-icon" src="https://www.tianjifu.com/static/back.png" mode="aspectFit"></image>
         </view>
       </view>
-      <view class="header-left"  v-if="showIcon">
+      <view class="header-left" v-if="showIcon">
         <view class="header-back" @click="onFunnelClick">
           <image class="funnel-icon" src="https://www.tianjifu.com/static/funnel.png" mode="aspectFit"></image>
         </view>
       </view>
-      <!-- 中间标题区：仅做居中容器 -->
+
+      <!-- 中间标题区 → 真正居中 -->
       <view class="header-middle">
-        <!-- 核心内容：真正的定位锚点 -->
-        <view class="core-wrap">
-          <!-- 前缀：你修改的“” -->
-          <view class="prefix-text" v-if="isIndex">{{ballTitle}}</view>
-          <!-- 选中/未选中内容（居中） -->
-          <view class="core-content" @click="triggerSelect">
-            <text class="content-text">{{ isSelected ? (selectedPlay || title) : title }}</text>
-            <view class="triangle-icon" v-if="isSelected"></view>
-          </view>
+        <!-- 前缀：居中在返回和标题之间 -->
+        <view class="prefix-text" v-if="isIndex">{{ballTitle}}</view>
+        <!-- 标题 -->
+        <view class="core-content" @click="triggerSelect">
+          <text class="content-text">{{ isSelected ? (selectedPlay || title) : title }}</text>
+          <view class="triangle-icon" v-if="isSelected"></view>
         </view>
       </view>
     </view>
@@ -151,57 +149,36 @@ onBackClick() {
   height: 22px !important;
 }
 
-// 新增：游戏规则样式
-.game-rule {
-  margin: 0 20rpx; // 左右间距，避免和返回键/标题太近
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.rule-text {
-  font-size: 28rpx; // 字号略小于标题，更协调
-  color: #fff; // 红色字体
-  font-weight: 500;
-}
-
 // 中间区域：整体居中
 .header-middle {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-// 核心包裹层：前缀+内容的定位容器
-.core-wrap {
-  display: flex;
-  align-items: center;
   position: relative;
 }
 
-// 前缀文字（你改的“”）
+// ========== 核心：prefix-text 完美居中在返回按钮 & 标题之间 ==========
 .prefix-text {
   position: absolute;
-  right: calc(100% + 4rpx); // 贴核心内容左侧+4rpx间距
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 32rpx;
+  left: 4%;
+  transform: translateX(-4%);
+  font-size: 24rpx;
   font-weight: 500;
   color: #fff;
-  white-space: nowrap; // 防止换行
-  z-index: 2; // 确保不被覆盖
+  white-space: nowrap;
+  z-index: 2;
 }
 
-// 核心内容（你修改的padding值）
+// 核心内容
 .core-content {
   display: flex;
   align-items: center;
   gap: 8rpx;
   background-color: #31926e;
-  padding: 8rpx 16rpx 8rpx 0rpx; // 你改后的padding
+  padding: 8rpx 16rpx 8rpx 0rpx;
   border-radius: 8rpx;
   white-space: nowrap;
-  position: relative; // 作为三角图标的定位容器
   z-index: 1;
 }
 
@@ -210,15 +187,11 @@ onBackClick() {
   font-size: 32rpx;
   font-weight: 500;
   color: #fff;
-  padding-right: 12rpx; // 文字和三角拉开距离
+  padding-right: 12rpx;
 }
 
-// 三角图标（修复上提问题：绝对定位+垂直居中）
+// 三角图标
 .triangle-icon {
-  position: absolute;
-  right: 8rpx; // 距离右侧8rpx
-  top: 60%; // 垂直居中
-  transform: translateY(-50%); // 抵消自身高度，精准居中
   width: 8px;
   height: 8px;
   background-color: #fff;

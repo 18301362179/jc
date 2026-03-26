@@ -100,6 +100,9 @@
   border-bottom-right-radius: 16rpx;
   margin-right: 10rpx;
 }
+.match-status-row .status-right.data-v-88186c0e {
+  /* 加在这里 */
+}
 .match-status-row .status-right .ai-analysis-btn.data-v-88186c0e {
   font-size: 24rpx;
   color: #06f;
@@ -109,6 +112,10 @@
 }
 .match-status-row .status-right .ai-analysis-btn.data-v-88186c0e:active {
   opacity: 0.8;
+}
+.match-status-row .status-right .small-coin.data-v-88186c0e {
+  font-size: 20rpx !important;
+  margin-left: 4rpx;
 }
 /* 核心：整体左右布局（和比分/半全场完全一致） */
 .main-content-row.data-v-88186c0e {

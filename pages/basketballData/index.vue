@@ -14,7 +14,7 @@
     <view class="tip-bar">
       <!-- 刷新按钮 -->
       <view class="refresh-btn" @click="handleRefresh">
-        <text class="refresh-icon">🔄</text>
+        
         <text class="refresh-text">刷新</text>
       </view>
     </view>
@@ -140,10 +140,7 @@ export default {
     border-radius: 8rpx;
     cursor: pointer;
     
-    .refresh-icon {
-      font-size: 24rpx;
-      margin-right: 8rpx;
-    }
+
     
     .refresh-text {
       font-size: 24rpx;

@@ -285,6 +285,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 //
 //
 //
+//
+//
+//
 var _default2 = {
   props: {
     drawerList: {
@@ -355,7 +358,7 @@ var _default2 = {
         value: "ff",
         oddsField: "ff_odds"
       }],
-      urlValue: false
+      xiValue: false
     };
   },
   computed: {
@@ -406,7 +409,7 @@ var _default2 = {
   created: function created() {
     var _this = this;
     this.$nextTick(function () {
-      _this.urlValue = uni.getStorageSync('urlValue');
+      _this.xiValue = uni.getStorageSync('xiValue');
     });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();

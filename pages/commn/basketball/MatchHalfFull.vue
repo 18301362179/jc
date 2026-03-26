@@ -21,7 +21,10 @@
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="urlValue&&item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+          <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+            <text>详细</text>
+            <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+          </view>
             </view>
           </view>
 
@@ -48,10 +51,10 @@
                   <text>{{ item.home_name }}</text>
                 </view>
                 
-                <view class="rate-row" v-if="urlValue">
-                  <text class="rate-text away" v-if="item.visiting_win_rate&&urlValue">胜{{item.visiting_win_rate || "--" }}</text>
+                <view class="rate-row" v-if="xiValue">
+                  <text class="rate-text away" v-if="item.visiting_win_rate&&xiValue">胜{{item.visiting_win_rate || "--" }}</text>
                   <text class="vs-text"></text>
-                  <text class="rate-text home" v-if="item.home_win_rate&&urlValue">胜{{item.home_win_rate || "--" }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate&&xiValue">胜{{item.home_win_rate || "--" }}</text>
                 </view>
               </view>
 
@@ -91,7 +94,7 @@ export default {
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      urlValue: false,
+      xiValue: false,
     };
   },
   computed: {
@@ -134,7 +137,7 @@ export default {
   created() {
 
     this.$nextTick(()=>{
-    this.urlValue = uni.getStorageSync('urlValue');
+    this.xiValue = uni.getStorageSync('xiValue');
     
     })
 
@@ -264,15 +267,25 @@ export default {
   }
 
   .status-right {
-    .ai-analysis-btn {
-      font-size: 24rpx;
-      color: #06f;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      letter-spacing: 4rpx;
-      &:active {
-        opacity: 0.8;
-      }
+.ai-analysis-btn {
+  font-size: 24rpx;
+  color: #06f;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  letter-spacing: 4rpx;
+  &:active {
+    opacity: 0.8;
+  }
+}
+/* 加在这里 */
+.small-coin {
+  font-size: 20rpx !important;
+  margin-left: 4rpx;
+}
+    /* 加在这里 */
+    .small-coin {
+      font-size: 20rpx !important;
+      margin-left: 4rpx;
     }
   }
 }

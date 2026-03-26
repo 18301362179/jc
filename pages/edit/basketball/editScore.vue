@@ -1,7 +1,7 @@
 <template>
   <!-- 胜分差编辑页：统一适配逻辑 -->
   <view class="scheme-edit-page">
-    <CustomHeader :ballTitle="'KeepSeek'" title="胜分差" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'云竞慧博体育小程序'"  :isIndex="true" title="胜分差" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 核心修改：移除content-wrap嵌套，统一用scroll-view绝对定位 -->
     <scroll-view

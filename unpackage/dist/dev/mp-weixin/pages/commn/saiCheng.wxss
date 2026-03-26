@@ -35,6 +35,7 @@
   justify-content: space-between;
   align-items: flex-end;
   height: 40rpx;
+  /* 👇 就在 .ai 下面加这个 👇 */
 }
 .item .time .ai.data-v-05b3db04 {
   font-size: 22rpx;
@@ -48,6 +49,10 @@
 .item .time .ai.data-v-05b3db04:active {
   opacity: 0.8;
   box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.05);
+}
+.item .time .small-coin.data-v-05b3db04 {
+  font-size: 18rpx !important;
+  margin-left: 4rpx;
 }
 .item.data-v-05b3db04:nth-child(even) {
   background: #fff;

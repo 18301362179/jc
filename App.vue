@@ -138,15 +138,19 @@ export default {
     // #ifdef MP-WEIXIN
     // 第一步：先请求接口，把值存到 App.vue 的 data 里
     sysParams().then((res)=>{
-      let v = res.data.fenXiUrlShowStatus;
+      let v = res.data.xcx_show;
+      let t = res.data.xcx_url_show;
       // 处理值：兼容字符串/数字，兜底false
       v = v === undefined || v === null ? false : (v == '1' );
+      t = t === undefined || t === null ? false : (t == '1' );
       uni.setStorageSync("urlValue", v);
+      uni.setStorageSync("xiValue", t);
     });
     // #endif
     // #ifdef H5
     uni.setStorageSync("urlValue", v);
-    this.$nextTick(()=>{Vue.prototype.urlValue = v;})
+     uni.setStorageSync("xiValue", t);
+    this.$nextTick(()=>{Vue.prototype.urlValue = v;Vue.prototype.xiValue = t;})
     // #endif
     // #ifdef APP-PLUS
     try { plus.screen.lockOrientation('portrait-primary'); } catch (e) {}

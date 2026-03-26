@@ -24,7 +24,10 @@
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="urlValue&&item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+  <text>详细</text>
+  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+</view>
             </view>
           </view>
 
@@ -58,7 +61,7 @@
                   ></view
                 >
                 <text class="odds" v-if="item.r_win_multiplier">主胜{{ item.r_win_multiplier }}</text>
-                <text class="odds rate" v-if="item.home_win_rate&&urlValue">
+                <text class="odds rate" v-if="item.home_win_rate&&xiValue">
                   胜
                   <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.handicapHomeSelected) }">{{ item.home_win_rate || "" }}</text>
                 </text>
@@ -66,7 +69,7 @@
               <view class="match-cell vs" :class="{ selected: item.handicapVsSelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapVsSelected')">
                 <text class="vs-text">VS</text>
                 <text class="vs-odds" v-if="item.r_draw_multiplier">平{{ item.r_draw_multiplier }}</text>
-                <text class="vs-odds" v-if="item.draw_rate&&urlValue">
+                <text class="vs-odds" v-if="item.draw_rate&&xiValue">
                   平
                   <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.handicapVsSelected) }">{{ item.draw_rate }}</text>
                 </text>
@@ -74,7 +77,7 @@
               <view class="match-cell away" :class="{ selected: item.handicapAwaySelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapAwaySelected')">
                 <text class="team-name">{{ item.visiting_name }}</text>
                 <text class="odds" v-if="item.r_loss_multiplier">主负{{ item.r_loss_multiplier }}</text>
-                <text class="odds rate" v-if="item.visiting_win_rate&&urlValue">
+                <text class="odds rate" v-if="item.visiting_win_rate&&xiValue">
                   胜
                   <text :style="{ color: getRateColor(item.visiting_win_rate, 'away', item.awaySelected) }">{{ item.visiting_win_rate || "" }}</text>
                 </text>
@@ -104,7 +107,7 @@ export default {
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      urlValue: false,
+      xiValue: false,
     };
   },
   computed: {
@@ -151,7 +154,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.urlValue = uni.getStorageSync('urlValue');
+    this.xiValue = uni.getStorageSync('xiValue');
     
     })
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）

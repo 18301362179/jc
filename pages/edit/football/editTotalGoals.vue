@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留 -->
-    <CustomHeader :ballTitle="'KeepSeek'" title="总进球" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="'云竞慧博体育小程序'"  :isIndex="true" title="总进球" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 核心优化：基于sysinfo精准计算高度，移除冗余padding -->
     <scroll-view

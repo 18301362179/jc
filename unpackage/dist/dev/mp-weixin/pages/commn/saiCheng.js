@@ -179,18 +179,21 @@ var _data = __webpack_require__(/*! @/utils/data */ 62);
 //
 //
 //
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       courseList: [],
       goal: '比分',
-      urlValue: false
+      xiValue: false
     };
   },
   created: function created() {
     var _this = this;
     this.$nextTick(function () {
-      _this.urlValue = uni.getStorageSync('urlValue');
+      _this.xiValue = uni.getStorageSync('xiValue');
     });
   },
   methods: {

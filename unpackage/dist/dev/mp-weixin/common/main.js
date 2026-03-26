@@ -231,10 +231,13 @@ var _default = {
   onShow: function onShow() {
     // 第一步：先请求接口，把值存到 App.vue 的 data 里
     (0, _demo.sysParams)().then(function (res) {
-      var v = res.data.fenXiUrlShowStatus;
+      var v = res.data.xcx_show;
+      var t = res.data.xcx_url_show;
       // 处理值：兼容字符串/数字，兜底false
       v = v === undefined || v === null ? false : v == '1';
+      t = t === undefined || t === null ? false : t == '1';
       uni.setStorageSync("urlValue", v);
+      uni.setStorageSync("xiValue", t);
     });
 
     // 仅保留授权锁重置

@@ -18,7 +18,10 @@
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="urlValue&&item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+  <text>详细</text>
+  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+</view>
             </view>
           </view>
 
@@ -46,7 +49,7 @@
                     <text class="vs-text">VS</text>
                     <text class="team-name home">{{ item.home_name }}</text>
                   </view>
-                  <view class="rate-row" v-if="urlValue">
+                  <view class="rate-row" v-if="xiValue">
                     <text class="rate-text away" style="text-align:right;padding-right: 15px;" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || "" }}</text>
                     <text class="rate-text home" style="text-align:left;padding-left: 15px;" v-if="item.home_win_rate">胜{{ item.home_win_rate || "" }}</text>
                   </view>
@@ -347,7 +350,7 @@ export default {
         home_win_r: "让分_主胜",
         home_lose_r: "让分_客胜",
       },
-      urlValue: false,
+      xiValue: false,
     };
   },
   computed: {
@@ -413,7 +416,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.urlValue = uni.getStorageSync('urlValue');
+    this.xiValue = uni.getStorageSync('xiValue');
     
     })
     this.initWindowInfo();

@@ -209,6 +209,9 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 //
 //
+//
+//
+//
 var _default2 = {
   props: {
     matchList: {
@@ -242,7 +245,7 @@ var _default2 = {
       expandedDrawers: [],
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      urlValue: false
+      xiValue: false
     };
   },
   computed: {
@@ -297,7 +300,7 @@ var _default2 = {
   created: function created() {
     var _this = this;
     this.$nextTick(function () {
-      _this.urlValue = uni.getStorageSync('urlValue');
+      _this.xiValue = uni.getStorageSync('xiValue');
     });
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);

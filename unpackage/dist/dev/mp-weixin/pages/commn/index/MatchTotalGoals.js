@@ -286,6 +286,9 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
 var _default2 = {
   props: {
     // 原有props：完全保留总进球的原始定义
@@ -352,7 +355,7 @@ var _default2 = {
       statusBarHeightRpx: 0,
       windowWidth: 0,
       // 修正：删除多余空格
-      urlValue: false
+      xiValue: false
     };
   },
   computed: {
@@ -404,7 +407,7 @@ var _default2 = {
   created: function created() {
     var _this = this;
     this.$nextTick(function () {
-      _this.urlValue = uni.getStorageSync('urlValue');
+      _this.xiValue = uni.getStorageSync('xiValue');
     });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();

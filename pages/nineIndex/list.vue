@@ -35,11 +35,14 @@
                   <text class="team-name away">{{ item.visiting_name }}</text>
                 </view>
                 
-                <view class="rate-row" v-if="item.home_win_rate && urlValue">
+                <view class="rate-row" v-if="item.home_win_rate && xiValue">
                   <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || '' }}</text>
                   <text class="vs-text" v-if="item.draw_rate">平{{item.draw_rate}}</text>
                   <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || '' }}</text>
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="urlValue&&item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+  <text>详细</text>
+  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+</view>
                 </view>
               </view>
 
@@ -93,7 +96,7 @@ export default {
       expandedDrawers: [],
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      urlValue: false,
+      xiValue: false,
     };
   },
   computed: {
@@ -144,7 +147,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
-    this.urlValue = uni.getStorageSync('urlValue');
+    this.xiValue = uni.getStorageSync('xiValue');
     
     })
     this.initWindowInfo();

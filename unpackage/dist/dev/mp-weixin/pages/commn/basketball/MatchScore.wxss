@@ -110,6 +110,9 @@
   border-bottom-right-radius: 16rpx;
   margin-right: 10rpx;
 }
+.match-status-row .status-right.data-v-48611921 {
+  /* 加在这里 */
+}
 .match-status-row .status-right .ai-analysis-btn.data-v-48611921 {
   font-size: 24rpx;
   color: #06f;
@@ -119,6 +122,10 @@
 }
 .match-status-row .status-right .ai-analysis-btn.data-v-48611921:active {
   opacity: 0.8;
+}
+.match-status-row .status-right .small-coin.data-v-48611921 {
+  font-size: 20rpx !important;
+  margin-left: 4rpx;
 }
 /* 核心：整体左右布局（和其他组件完全一致） */
 .main-content-row.data-v-48611921 {
