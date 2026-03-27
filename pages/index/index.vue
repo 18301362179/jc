@@ -23,48 +23,43 @@
     >
       <!-- 赛事分析模块 -->
       <view class="simulation-container">
-         <!-- #ifndef MP-WEIXIN -->
-        <view class="section-title">赛事分析</view>
-        <!-- #endif -->
         <!-- 🌟 重构游戏网格布局：一行三个，分两行 -->
         <view class="game-grid">
           <!-- 第一行（3个） -->
           <view class="game-item" @click="goToGame('football/index')">
             <image class="game-icon" src="/static/jczq.png" mode="widthFix"></image>
-            <text class="game-name">足球</text>
+            <text class="game-name" >J&nbsp;-&nbsp;足</text>
           </view>
           <view class="game-item" @click="goToGame('basketball/index')">
             <image class="game-icon" src="/static/jclq.png" mode="widthFix"></image>
-            <text class="game-name">篮球</text>
+            <text class="game-name" >J&nbsp;-&nbsp;篮</text>
           </view>
           <view class="game-item" @click="goToGame('fourteenIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">胜负</text>
+            <text class="game-name" >14</text>
           </view>
           <!-- 第二行（3个） -->
-          <view class="game-item" @click="goToGame('nineIndex/index')">
+          <view class="game-item two" @click="goToGame('nineIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">任9</text>
+            <text class="game-name" >任&nbsp;&nbsp;9</text>
           </view>
-          <view class="game-item" @click="goToGame('sixIndex/index')">
+          <view class="game-item two" @click="goToGame('sixIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">6场半全</text>
+            <text class="game-name" >6半全</text>
           </view>
-          <view class="game-item" @click="goToGame('fourIndex/index')">
+          <view class="game-item two" @click="goToGame('fourIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name">4进球</text>
+            <text class="game-name" >4&nbsp;&nbsp;进</text>
           </view>
         </view>
-        
-        <!-- 🌟 数据模块：和上面一样靠左，保持对应 -->
         <view class="game-grid">
           <view class="game-item" @click="goToGame('footballData/index')">
             <image class="game-icon" src="/static/f.png" mode="widthFix"></image>
-            <text class="game-name">足球数据</text>
+            <text class="game-name" >足&nbsp;&nbsp;数</text>
           </view>
           <view class="game-item" @click="goToGame('basketballData/index')">
             <image class="game-icon" src="/static/b.png" mode="widthFix"></image>
-            <text class="game-name">篮球数据</text>
+            <text class="game-name" >蓝&nbsp;&nbsp;数</text>
           </view>
         </view>
       </view>
@@ -228,15 +223,6 @@ page {
   box-sizing: border-box;
 }
 
-.section-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 50rpx;
-  padding-left: 8rpx;
-  border-left: 4rpx solid #d92929;
-}
-
 // 🌟 核心：一行三个布局，自适应宽度
 .game-grid {
   display: flex;
@@ -252,8 +238,8 @@ page {
   align-items: center;
   // 宽度计算：(100% - 2个间距) / 3 = (100% - 40rpx) / 3
   width: calc((100% - 40rpx) / 3);
-  margin-top: 40rpx;
-  margin-bottom: 40rpx; // 行间距
+  margin-top: 30rpx;
+  margin-bottom: 30rpx; // 行间距
   cursor: pointer;
   box-sizing: border-box;
 }
