@@ -258,8 +258,8 @@ page {
   align-items: center;
   // 宽度计算：(100% - 2个间距) / 3 = (100% - 40rpx) / 3
   width: calc((100% - 40rpx) / 3);
-  margin-top: 40rpx;
-  margin-bottom: 40rpx; // 行间距
+  margin-top: 30rpx;
+  margin-bottom: 30rpx; // 行间距
   cursor: pointer;
   box-sizing: border-box;
 }
