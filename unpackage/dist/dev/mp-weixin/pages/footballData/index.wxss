@@ -33,8 +33,6 @@
   overflow: hidden;
 }
 .tip-bar.data-v-6f81d69a {
-  background-color: #fff9e8;
-  border-bottom: 1rpx solid #ffe8b3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,7 +64,6 @@
   flex: 1;
   width: 100%;
   overflow: hidden;
-  /* 核心：隐藏小程序滚动条 */
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -154,13 +151,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* 动图样式 */
+}
+.match-right .status-wrapper.data-v-6f81d69a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
 }
 .match-right .status-text.data-v-6f81d69a {
-  font-size: 26rpx;
+  font-size: 20rpx;
   color: #cc3333;
 }
-.match-right .analyze-btn .analyze-icon.data-v-6f81d69a {
-  font-size: 32rpx;
+.match-right .gif-icon.data-v-6f81d69a {
+  width: 32rpx;
+  height: 32rpx;
 }
 .empty-state.data-v-6f81d69a {
   padding: 100rpx 0;

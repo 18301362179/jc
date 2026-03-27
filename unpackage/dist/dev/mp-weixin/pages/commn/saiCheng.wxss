@@ -51,7 +51,7 @@
   box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.05);
 }
 .item .time .small-coin.data-v-05b3db04 {
-  font-size: 18rpx !important;
+  font-size: 20rpx !important;
   margin-left: 4rpx;
 }
 .item.data-v-05b3db04:nth-child(even) {

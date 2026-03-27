@@ -282,11 +282,6 @@ export default {
   font-size: 20rpx !important;
   margin-left: 4rpx;
 }
-    /* 加在这里 */
-    .small-coin {
-      font-size: 20rpx !important;
-      margin-left: 4rpx;
-    }
   }
 }
 

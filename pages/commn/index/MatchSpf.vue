@@ -307,16 +307,21 @@ export default {
     }
 
     .status-right {
-      .ai-analysis-btn {
-        font-size: 24rpx;
-        color: #06f;
-        cursor: pointer;
-        transition: opacity 0.2s;
-        letter-spacing: 4rpx;
-        &:active {
-          opacity: 0.8;
-        }
-      }
+.ai-analysis-btn {
+  font-size: 24rpx;
+  color: #06f;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  letter-spacing: 4rpx;
+  &:active {
+    opacity: 0.8;
+  }
+}
+/* 加在这里 */
+.small-coin {
+  font-size: 20rpx !important;
+  margin-left: 4rpx;
+}
     }
   }
 

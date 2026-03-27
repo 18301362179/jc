@@ -182,7 +182,6 @@ var _default = {
     this.getMatchData();
   },
   methods: {
-    // 获取比赛数据
     getMatchData: function getMatchData() {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
@@ -228,20 +227,15 @@ var _default = {
         }, _callee, null, [[1, 8, 11, 14]]);
       }))();
     },
-    // 刷新按钮点击事件
     handleRefresh: function handleRefresh() {
-      // 清空旧数据（可选，提升体验）
       this.matchList = [];
-      // 重新请求数据
       this.getMatchData();
-      // 刷新成功提示
       uni.showToast({
         title: "刷新成功",
         icon: "success",
         duration: 1500
       });
     },
-    // 格式化时间（只保留 MM-DD HH:mm）
     formatTime: function formatTime(timeStr) {
       if (!timeStr) return "";
       var date = new Date(timeStr);

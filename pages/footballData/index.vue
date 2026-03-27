@@ -14,7 +14,6 @@
     <view class="tip-bar">
       <!-- 刷新按钮 -->
       <view class="refresh-btn" @click="handleRefresh">
-        
         <text class="refresh-text">刷&nbsp;&nbsp;新</text>
       </view>
     </view>
@@ -39,9 +38,10 @@
         </view>
         
         <view class="match-right">
-          <text class="status-text">{{ item.statusName}}</text>
-          <view class="analyze-btn">
-            <text class="analyze-icon"></text>
+          <view class="status-wrapper">
+            <!-- 动图：showImage=1 显示，0 隐藏 -->
+            <image v-if="item.showImage == 1" class="gif-icon" src="https://www.tianjifu.com/static/fg.gif"></image>
+            <text class="status-text">{{ item.statusName}}</text>
           </view>
         </view>
       </view>
@@ -55,7 +55,6 @@
 
 <script>
 import CustomHeader from "@/components/CustomHeader.vue";
-// 引入你封装好的接口方法
 import {footLotteryLive} from '@/api/demo'
 export default {
   components: {
@@ -71,7 +70,6 @@ export default {
     this.getMatchData();
   },
   methods: {
-    // 获取比赛数据
     async getMatchData() {
       uni.showLoading({ title: "加载中..." });
       try {
@@ -88,17 +86,12 @@ export default {
       }
     },
     
-    // 刷新按钮点击事件
     handleRefresh() {
-      // 清空旧数据（可选，提升体验）
       this.matchList = [];
-      // 重新请求数据
       this.getMatchData();
-      // 刷新成功提示
       uni.showToast({ title: "刷新成功", icon: "success", duration: 1500 });
     },
     
-    // 格式化时间（只保留 MM-DD HH:mm）
     formatTime(timeStr) {
       if (!timeStr) return "";
       const date = new Date(timeStr);
@@ -115,22 +108,18 @@ export default {
 <style scoped lang="scss">
 .football-data-page {
   width: 100%;
-  height: 100vh; // 页面撑满屏幕，避免嵌套滚动
+  height: 100vh;
   background-color: #f5f7fa;
-  display: flex; // 弹性布局，让 scroll-view 自适应高度
+  display: flex;
   flex-direction: column;
-  overflow: hidden; // 隐藏页面级滚动
+  overflow: hidden;
 }
 
-// 特别提醒栏 + 刷新按钮布局
 .tip-bar {
-  background-color: #fff9e8;
-  border-bottom: 1rpx solid #ffe8b3;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0; // 固定高度，不被压缩
-  
+  flex-shrink: 0;
   .tip-text {
     font-size: 24rpx;
     color: #cc8800;
@@ -147,8 +136,6 @@ export default {
     border-radius: 8rpx;
     cursor: pointer;
     
-
-    
     .refresh-text {
       font-size: 24rpx;
       font-weight: 500;
@@ -160,17 +147,14 @@ export default {
   }
 }
 
-// 关键修复：scroll-view 自适应高度 + 隐藏滚动条
 .list-scroll {
-  flex: 1; // 自动占满剩余高度（替代固定 calc 计算）
+  flex: 1;
   width: 100%;
-  overflow: hidden; // 隐藏外层滚动
-  /* 核心：隐藏小程序滚动条 */
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; // 标准写法
-  -ms-overflow-style: none; // IE写法
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   
-  // 微信小程序专属：隐藏滚动条
   &::-webkit-scrollbar {
     display: none !important;
     width: 0 !important;
@@ -178,7 +162,6 @@ export default {
   }
 }
 
-// 以下样式不变，保留你的原有设置
 .match-item {
   display: flex;
   align-items: center;
@@ -269,15 +252,22 @@ export default {
   flex-direction: column;
   align-items: center;
   
+  .status-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rpx;
+  }
+  
   .status-text {
-    font-size: 26rpx;
+    font-size: 20rpx;
     color: #cc3333;
   }
   
-  .analyze-btn {
-    .analyze-icon {
-      font-size: 32rpx;
-    }
+  /* 动图样式 */
+  .gif-icon {
+    width: 32rpx;
+    height: 32rpx;
   }
 }
 

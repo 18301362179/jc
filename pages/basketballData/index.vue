@@ -38,7 +38,10 @@
         </view>
         
         <view class="match-right">
-          <text class="status-text">{{ item.statusName }}</text>
+          <view class="status-wrapper">
+            <image v-if="item.showImage == 1" class="gif-icon" src="https://www.tianjifu.com/static/bg.gif"></image>
+            <text class="status-text">{{ item.statusName}}</text>
+          </view>
         </view>
       </view>
       
@@ -110,8 +113,6 @@ export default {
 
 // 特别提醒栏 + 刷新按钮布局
 .tip-bar {
-  background-color: #fff9e8;
-  border-bottom: 1rpx solid #ffe8b3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -255,11 +256,23 @@ export default {
   flex-direction: column;
   align-items: center;
   
+  .status-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rpx;
+  }
+  
   .status-text {
-    font-size: 26rpx;
+    font-size: 20rpx;
     color: #cc3333;
   }
   
+  .gif-icon {
+    width: 32rpx;
+    height: 32rpx;
+  }
+
   .analyze-btn {
     .analyze-icon {
       font-size: 32rpx;

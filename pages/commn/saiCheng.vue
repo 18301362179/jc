@@ -109,7 +109,7 @@ export default {
 }
 /* 👇 就在 .ai 下面加这个 👇 */
 .small-coin {
-  font-size: 18rpx !important;
+  font-size: 20rpx !important;
   margin-left: 4rpx;
 }
   }
