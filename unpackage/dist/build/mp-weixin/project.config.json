@@ -1,0 +1,42 @@
+{
+  "description": "项目配置文件。",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": false,
+    "minified": true,
+    "newFeature": true,
+    "bigPackageSizeSupport": true,
+    "minifyJS": true,
+    "minifyWXSS": true,
+    "minifyXML": true,
+    "enhance": true,
+    "minifyWXML": true,
+    "uglifyFileName": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "",
+  "appid": "wxecfe1d636185f8b4",
+  "projectname": "云竞慧博体育",
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": []
+    }
+  }
+}
