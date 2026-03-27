@@ -4,7 +4,7 @@
     <CustomHeader
       :showBack="true"
       :ballTitle="''"
-      :title="'KeepSeek'"
+      :title="'云竞慧博体育'"
       :isIndex="false"
       :showIcon="false"
       :isSelected="false"
@@ -15,7 +15,7 @@
       <!-- 刷新按钮 -->
       <view class="refresh-btn" @click="handleRefresh">
         
-        <text class="refresh-text">刷新</text>
+        <text class="refresh-text">刷&nbsp;&nbsp;新</text>
       </view>
     </view>
     
@@ -39,7 +39,7 @@
         </view>
         
         <view class="match-right">
-          <text class="status-text">{{ formatStatus(item.statusName) }}</text>
+          <text class="status-text">{{ item.statusName}}</text>
           <view class="analyze-btn">
             <text class="analyze-icon"></text>
           </view>
@@ -108,12 +108,6 @@ export default {
       const minutes = date.getMinutes().toString().padStart(2, "0");
       return `${month}-${day}\n${hours}:${minutes}`;
     },
-    
-    // 格式化状态（"比赛结束" → "已完成"）
-    formatStatus(status) {
-      if (status === "比赛结束") return "已完成";
-      return status;
-    },
   }
 };
 </script>
@@ -131,7 +125,6 @@ export default {
 // 特别提醒栏 + 刷新按钮布局
 .tip-bar {
   background-color: #fff9e8;
-  padding: 20rpx 30rpx;
   border-bottom: 1rpx solid #ffe8b3;
   display: flex;
   justify-content: center;
@@ -150,7 +143,7 @@ export default {
     align-items: center;
     background-color: #00b42a;
     color: #fff;
-    padding: 8rpx 16rpx;
+    padding: 8rpx 26rpx;
     border-radius: 8rpx;
     cursor: pointer;
     

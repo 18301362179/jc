@@ -370,15 +370,19 @@ export default {
     text-overflow: ellipsis;
   }
   /* 分析按钮：不影响对齐，单独靠外 */
-  .ai-analysis-btn {
-    font-size: 22rpx;
-    color: #06f;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    flex-shrink: 0;
-    margin-left: 12rpx;
-    &:active { opacity: 0.8; }
-  }
+.ai-analysis-btn {
+  font-size: 22rpx;
+  color: #06f;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+  margin-left: 12rpx;
+  &:active { opacity: 0.8; }
+}
+.small-coin {
+  font-size: 18rpx !important;
+  margin-left: 4rpx;
+}
 }
 
 

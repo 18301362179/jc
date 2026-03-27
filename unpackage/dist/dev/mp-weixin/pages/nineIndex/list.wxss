@@ -216,6 +216,10 @@
 .rate-row .ai-analysis-btn.data-v-693f0774:active {
   opacity: 0.8;
 }
+.rate-row .small-coin.data-v-693f0774 {
+  font-size: 18rpx !important;
+  margin-left: 4rpx;
+}
 /* 保留9场原有3/1/0按钮样式 */
 .bottom-right.data-v-693f0774 {
   width: 100%;

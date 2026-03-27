@@ -215,6 +215,10 @@
 .rate-row .ai-analysis-btn.data-v-45ee15ba:active {
   opacity: 0.8;
 }
+.rate-row .small-coin.data-v-45ee15ba {
+  font-size: 18rpx !important;
+  margin-left: 4rpx;
+}
 /* 比分矩阵样式 */
 .bottom-right.data-v-45ee15ba {
   width: 100%;

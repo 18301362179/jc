@@ -102,20 +102,11 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.__map(_vm.matchList, function (item, index) {
-    var $orig = _vm.__get_orig(item)
-    var m0 = _vm.formatStatus(item.statusName)
-    return {
-      $orig: $orig,
-      m0: m0,
-    }
-  })
   var g0 = _vm.matchList.length
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
-        l0: l0,
         g0: g0,
       },
     }
@@ -240,11 +231,6 @@ var _default = {
         icon: "success",
         duration: 1500
       });
-    },
-    // 格式化状态（"比赛结束" → "已完成"）
-    formatStatus: function formatStatus(status) {
-      if (status === "比赛结束") return "已完成";
-      return status;
     }
   }
 };

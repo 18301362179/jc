@@ -215,6 +215,10 @@
 .rate-row .ai-analysis-btn.data-v-780a2814:active {
   opacity: 0.8;
 }
+.rate-row .small-coin.data-v-780a2814 {
+  font-size: 18rpx !important;
+  margin-left: 4rpx;
+}
 /* 保留6球原有半全场按钮样式 */
 .bottom-right.data-v-780a2814 {
   width: 100%;

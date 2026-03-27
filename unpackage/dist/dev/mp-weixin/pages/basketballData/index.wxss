@@ -34,7 +34,6 @@
 }
 .tip-bar.data-v-0bb837cb {
   background-color: #fff9e8;
-  padding: 20rpx 30rpx;
   border-bottom: 1rpx solid #ffe8b3;
   display: flex;
   justify-content: center;
@@ -52,7 +51,7 @@
   align-items: center;
   background-color: #00b42a;
   color: #fff;
-  padding: 8rpx 16rpx;
+  padding: 8rpx 26rpx;
   border-radius: 8rpx;
   cursor: pointer;
 }

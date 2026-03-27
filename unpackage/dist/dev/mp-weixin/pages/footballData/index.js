@@ -105,11 +105,9 @@ var render = function () {
   var l0 = _vm.__map(_vm.matchList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m0 = _vm.formatTime(item.raceDate)
-    var m1 = _vm.formatStatus(item.statusName)
     return {
       $orig: $orig,
       m0: m0,
-      m1: m1,
     }
   })
   var g0 = _vm.matchList.length
@@ -252,11 +250,6 @@ var _default = {
       var hours = date.getHours().toString().padStart(2, "0");
       var minutes = date.getMinutes().toString().padStart(2, "0");
       return "".concat(month, "-").concat(day, "\n").concat(hours, ":").concat(minutes);
-    },
-    // 格式化状态（"比赛结束" → "已完成"）
-    formatStatus: function formatStatus(status) {
-      if (status === "比赛结束") return "已完成";
-      return status;
     }
   }
 };

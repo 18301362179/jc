@@ -1,5 +1,5 @@
 {
-    "name" : "KeepSeek",
+    "name" : "云竞慧博体育",
     "appid" : "__UNI__870511F",
     "description" : "",
     "versionName" : "1.0.0",
@@ -158,7 +158,7 @@
                 }
             }
         },
-        "title" : "KeepSeek",
+        "title" : "云竞慧博体育",
         "router" : {
             "mode" : "history"
         },
@@ -211,7 +211,7 @@
         "window" : {
             "backgroundTextStyle" : "light",
             "navigationBarBackgroundColor" : "#fff",
-            "navigationBarTitleText" : "KeepSeek",
+            "navigationBarTitleText" : "云竞慧博体育",
             "navigationBarTextStyle" : "black"
         },
         "lazyCodeLoading" : "requiredComponents",

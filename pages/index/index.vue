@@ -4,7 +4,7 @@
     <CustomHeader
       :showBack="false"
       :ballTitle="''"
-      :title="'KeepSeek'"
+      :title="'云竞慧博体育'"
       :isIndex="false"
       :showIcon="true"
       :isSelected="false"
