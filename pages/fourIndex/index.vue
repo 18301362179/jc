@@ -3,7 +3,7 @@
     style="width: 100%; height: 100vh; box-sizing: border-box;">
     <!-- 顶部导航 -->
     <CustomHeader
-      :title="'4进球'"
+      :title="'4进'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
