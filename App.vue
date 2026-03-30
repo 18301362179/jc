@@ -142,34 +142,41 @@ export default {
     }
     console.log('==================== 全局初始化结束 ====================');
   },
-
   // 页面显示：核心修复循环调用问题
-onShow() {
-  // #ifdef APP-PLUS
-  try { plus.screen.lockOrientation('portrait-primary'); } catch (e) {}
-  // #endif
-  
-  // ==============================================
-  // 【公众号 H5 专用】挂载 urlValue / xiValue 到 Vue 原型
-  // ==============================================
+async onShow() {
   // #ifdef H5
-  sysParams().then((res) => {
-    console.log(res, 'res111111111111111111111111111')
-    let v = res.data.gzh_show;
-    let t = res.data.gzh_url_show;
+  try {
+    // 先赋默认值，防止页面报错
+    Vue.prototype.$urlValue = false;
+    Vue.prototype.$xiValue = false;
 
-    v = v === undefined || v === null ? false : (v == '1');
-    t = t === undefined || t === null ? false : (t == '1');
-console.log(v,t, 'vt------------')
-    // 挂载到 Vue 原型 → 全局页面 this.urlValue / this.xiValue
+    // 等待接口请求完成
+    const res = await sysParams();
+    let v = res.data.gzh_show ?? false;
+    let t = res.data.gzh_url_show ?? false;
+    v = v == 1 || v === true;
+    t = t == 1 || t === true;
+
+    // 赋值到全局
     Vue.prototype.$urlValue = v;
     Vue.prototype.$xiValue = t;
 
-    console.log('✅ 公众号全局参数挂载成功：', v, t);
-  });
+    // 安全刷新，不崩溃、不影响业务
+    setTimeout(() => {
+      const pages = getCurrentPages();
+      if (pages?.length) {
+        const page = pages[pages.length - 1];
+        if (page?.$vm) page.$vm.$forceUpdate();
+      }
+    }, 0);
+
+  } catch (err) {}
   // #endif
 
-  // 你原来的逻辑 ↓ 完全不动
+  // #ifdef APP-PLUS
+  try { plus.screen.lockOrientation('portrait-primary'); } catch (e) {}
+  // #endif
+
   this.h5AuthLock = false;
   isSharePanelOpened = false;
   
@@ -192,7 +199,6 @@ console.log(v,t, 'vt------------')
   window.removeEventListener('pagehide', this.handleShareSuccess);
   // #endif
 },
-
   // 页面隐藏：重置标记，避免循环
   onHide() {
     if (isSharePanelOpened && !hasGrantCoin) {

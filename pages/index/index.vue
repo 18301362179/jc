@@ -22,7 +22,7 @@
       }"
     >
       <!-- 赛事分析模块 -->
-      <view class="simulation-container">
+      <view class="simulation-container" v-if="$urlValue">
         <!-- 🌟 重构游戏网格布局：一行三个，分两行 -->
         <view class="game-grid">
           <!-- 第一行（3个） -->
@@ -55,11 +55,11 @@
         <view class="game-grid">
           <view class="game-item" @click="goToGame('footballData/index')">
             <image class="game-icon" src="/static/f.png" mode="widthFix"></image>
-            <text class="game-name" >足&nbsp;&nbsp;数</text>
+            <text class="game-name" v-if="$urlValue">足&nbsp;&nbsp;数</text>
           </view>
           <view class="game-item" @click="goToGame('basketballData/index')">
             <image class="game-icon" src="/static/b.png" mode="widthFix"></image>
-            <text class="game-name" >蓝&nbsp;&nbsp;数</text>
+            <text class="game-name" v-if="$urlValue">蓝&nbsp;&nbsp;数</text>
           </view>
         </view>
       </view>
