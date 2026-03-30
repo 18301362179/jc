@@ -1026,7 +1026,7 @@ function populateParameters(result) {
 
   var parameters = {
     appId: "__UNI__870511F",
-    appName: "云竞慧博体育",
+    appName: "KeepSeek",
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
@@ -1127,7 +1127,7 @@ var getAppBaseInfo = {
     var hostLanguage = (language || '').replace('_', '-');
     result = sortObject(Object.assign(result, {
       appId: "__UNI__870511F",
-      appName: "云竞慧博体育",
+      appName: "KeepSeek",
       appVersion: "1.0.0",
       appVersionCode: "100",
       appLanguage: getAppLanguage(hostLanguage),

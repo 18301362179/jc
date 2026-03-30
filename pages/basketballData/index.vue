@@ -4,7 +4,7 @@
     <CustomHeader
       :showBack="true"
       :ballTitle="''"
-      :title="'云竞慧博体育'"
+      :title="''"
       :isIndex="false"
       :showIcon="false"
       :isSelected="false"

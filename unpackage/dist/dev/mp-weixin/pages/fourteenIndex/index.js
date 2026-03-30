@@ -319,7 +319,7 @@ var _default = {
     goToSchemeEdit: function goToSchemeEdit() {
       var _this4 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var selectedMatches, totalSelectedCount, matchIds, res, isNeedUserPhone;
+        var selectedMatches, totalSelectedCount;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -337,22 +337,7 @@ var _default = {
                 });
                 return _context2.abrupt("return");
               case 6:
-                matchIds = selectedMatches.map(function (item) {
-                  return item.id;
-                }).join(",");
-                _this4.showLoading();
-                _context2.next = 10;
-                return (0, _demo.checkSelect)({
-                  lotteryIds: matchIds
-                });
-              case 10:
-                res = _context2.sent;
-                isNeedUserPhone = res.data && res.data.isNeedUserPhone ? res.data.isNeedUserPhone : 1;
-                if (!res.data) {
-                  _context2.next = 17;
-                  break;
-                }
-                _context2.next = 15;
+                _context2.next = 8;
                 return uni.navigateTo({
                   url: "/pages/fourteenIndex/editFourteen",
                   events: {
@@ -368,29 +353,13 @@ var _default = {
                     });
                   }
                 });
-              case 15:
-                _context2.next = 18;
+              case 8:
+                _context2.next = 14;
                 break;
-              case 17:
-                uni.showModal({
-                  title: "提示",
-                  content: "抱歉存在停场次，请重新选择！",
-                  showCancel: false,
-                  confirmText: "我知道了",
-                  success: function success(modalRes) {
-                    if (modalRes.confirm) {
-                      _this4.drawerList = [];
-                      _this4.loadMatchData();
-                    }
-                  }
-                });
-              case 18:
-                _context2.next = 24;
-                break;
-              case 20:
-                _context2.prev = 20;
+              case 10:
+                _context2.prev = 10;
                 _context2.t0 = _context2["catch"](0);
-                console.error("checkSelect接口调用失败:", _context2.t0);
+                console.error("接口调用失败:", _context2.t0);
                 uni.showModal({
                   title: "错误",
                   content: "验证失败，请稍后重试",
@@ -403,16 +372,16 @@ var _default = {
                     }
                   }
                 });
-              case 24:
-                _context2.prev = 24;
+              case 14:
+                _context2.prev = 14;
                 _this4.hideLoading();
-                return _context2.finish(24);
-              case 27:
+                return _context2.finish(14);
+              case 17:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 20, 24, 27]]);
+        }, _callee2, null, [[0, 10, 14, 17]]);
       }))();
     },
     // 保留14场原有同步选中状态逻辑

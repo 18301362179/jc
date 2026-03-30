@@ -2,7 +2,7 @@
 
   <view class="scheme-edit-page">
     <!-- 自定义头部：仅保留核心参数，结构不变 -->
-    <CustomHeader :ballTitle="'云竞慧博体育小程序'"  :isIndex="true" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="''"  :isIndex="true" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 内容区：统一用样式分端适配，移除template中的bottom绑定 -->
     <scroll-view

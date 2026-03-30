@@ -81,7 +81,7 @@ import BetBar from "@/pages/commn/betBar/index.vue";
 import DrawNumSelector from '@/pages/commn/DrawNumSelector/index.vue' // 新增期数组件
 
 // API和工具函数引入：🌟 新增footballLotteryTraditionDrawNum
-import { footballLotteryTradition, checkSelect, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
+import { footballLotteryTradition, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 
 
@@ -274,11 +274,8 @@ export default {
           uni.showToast({ title: "请至少选择14场赛事", icon: "none" });
           return;
         }
-        const matchIds = selectedMatches.map((item) => item.id).join(",");
-        this.showLoading();
-        const res = await checkSelect({ lotteryIds: matchIds });
-let isNeedUserPhone = res.data && res.data.isNeedUserPhone ? res.data.isNeedUserPhone : 1;
-        if (res.data) {
+
+        
           await uni.navigateTo({
             url: `/pages/fourteenIndex/editFourteen`,
             events: { updateSelectedMatches: (updatedData) => this.syncUpdatedMatches(updatedData) },
@@ -290,22 +287,8 @@ let isNeedUserPhone = res.data && res.data.isNeedUserPhone ? res.data.isNeedUser
               });
             },
           });
-        } else {
-          uni.showModal({
-            title: "提示",
-            content: "抱歉存在停场次，请重新选择！",
-            showCancel: false,
-            confirmText: "我知道了",
-            success: (modalRes) => {
-              if (modalRes.confirm) {
-                this.drawerList = [];
-                this.loadMatchData();
-              }
-            },
-          });
-        }
       } catch (error) {
-        console.error("checkSelect接口调用失败:", error);
+        console.error("接口调用失败:", error);
         uni.showModal({
           title: "错误",
           content: "验证失败，请稍后重试",

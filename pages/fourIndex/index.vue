@@ -77,7 +77,7 @@ import EmptyStop from '@/pages/commn/emptyStop.vue';
 import BetBar from "@/pages/commn/betBar/index.vue";
 import DrawNumSelector from '@/pages/commn/DrawNumSelector/index.vue'
 // API和工具函数引入
-import { footballLotteryTradition, checkSelect, recharge,footballLotteryTraditionDrawNum } from "@/api/demo";
+import { footballLotteryTradition, recharge,footballLotteryTraditionDrawNum } from "@/api/demo";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 
 
@@ -293,18 +293,6 @@ export default {
           uni.showToast({ title: "请选择4场赛事", icon: "none" });
           return;
         }
-
-        const matchIds = selectedMatches.map(function(item) {
-          return item.id;
-        }).join(",");
-        this.showLoading();
-        const res = await checkSelect({ lotteryIds: matchIds });
-        let isNeedUserPhone = 1;
-        if (res.data && res.data.isNeedUserPhone !== undefined) {
-          isNeedUserPhone = res.data.isNeedUserPhone;
-        }
-        
-        if (res.data) {
           await uni.navigateTo({
             url: "/pages/fourIndex/editFour",
             events: { updateSelectedMatches: function(updatedData) {
@@ -318,22 +306,8 @@ export default {
               });
             }.bind(this)
           });
-        } else {
-          uni.showModal({
-            title: "提示",
-            content: "抱歉存在停场次，请重新选择！",
-            showCancel: false,
-            confirmText: "我知道了",
-            success: function(modalRes) {
-              if (modalRes.confirm) {
-                this.drawerList = [];
-                this.loadMatchData();
-              }
-            }.bind(this)
-          });
-        }
       } catch (error) {
-        console.error("checkSelect接口调用失败:", error);
+        console.error("接口调用失败:", error);
         uni.showModal({
           title: "错误",
           content: "验证失败，请稍后重试",

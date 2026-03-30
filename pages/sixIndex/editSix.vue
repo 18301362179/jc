@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
-    <CustomHeader :ballTitle="'云竞慧博体育小程序'"  :isIndex="true" title="6场半全" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="''"  :isIndex="true" title="6半全" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <scroll-view class="match-scroll" scroll-y id="poster-content">
       <view class="match-list">

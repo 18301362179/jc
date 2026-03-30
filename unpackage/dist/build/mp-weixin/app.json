@@ -132,7 +132,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "云竞慧博体育",
+    "navigationBarTitleText": "KeepSeek",
     "navigationBarTextStyle": "black"
   },
   "lazyCodeLoading": "requiredComponents",

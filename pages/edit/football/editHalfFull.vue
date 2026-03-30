@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：保留 -->
-    <CustomHeader :ballTitle="'云竞慧博体育小程序'"  :isIndex="true" title="半全场" :showBack="true" :showIcon="false" @back-click="handleBack"></CustomHeader>
+    <CustomHeader :ballTitle="''"  :isIndex="true" title="半全场" :showBack="true" :showIcon="false" @back-click="handleBack"></CustomHeader>
 
     <!-- 核心优化：按胜平负页面规则，基于sysinfo计算top/bottom -->
     <scroll-view
