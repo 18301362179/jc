@@ -52,9 +52,9 @@
                 </view>
                 <!-- 胜&进球数行 -->
                 <view class="rate-row">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate&&$urlValue">胜率{{ item.home_win_rate || "--" }}</text>
                   <text class="vs-text">{{ item.draw_rate ? "平率" + item.draw_rate : "" }}</text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate&&$urlValue">胜率{{ item.visiting_win_rate || "--" }}</text>
                 </view>
               </view>
               <!-- 复刻半全场的bottom-right：仅保留宽度+溢出约束 -->

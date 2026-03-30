@@ -41,11 +41,11 @@
               <text class="team-name home" :title="item.home_name">{{ item.home_name }}</text>
             </view>
             <view class="rate-row">
-              <text class="rate-text away" v-show="item.visiting_win_rate" :title="`胜${item.visiting_win_rate}，约${item.home_goal_calculate}分`">
+              <text class="rate-text away" v-show="item.visiting_win_rate&&$urlValue" :title="`胜${item.visiting_win_rate}，约${item.home_goal_calculate}分`">
                 胜率{{ item.visiting_win_rate || '--' }}，约{{ item.home_goal_calculate || '--' }}分
               </text>
               <text class="vs-text"></text>
-              <text class="rate-text home" v-show="item.home_win_rate" :title="`胜${item.home_win_rate}，约${item.visiting_goal_calculate}分`">
+              <text class="rate-text home" v-show="item.home_win_rate&&$urlValue" :title="`胜${item.home_win_rate}，约${item.visiting_goal_calculate}分`">
                 胜率{{ item.home_win_rate || '--' }}，约{{ item.visiting_goal_calculate || '--' }}分
               </text>
             </view>

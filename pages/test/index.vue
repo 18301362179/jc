@@ -34,7 +34,7 @@
           </view>
 
           <!-- 调整预测模块布局结构 -->
-          <view class="prediction-section">
+          <view class="prediction-section" v-if="$urlValue">
             <view class="prediction-row">
               <text class="pro-text">数据分析</text>
               <view class="prediction-content">

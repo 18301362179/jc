@@ -54,9 +54,9 @@
                 </view>
                 <!-- 胜&进球数行 -->
                 <view class="rate-row">
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "--" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate&&$urlValue">胜率{{ item.visiting_win_rate || "--" }}</text>
                   <text class="vs-text"></text>
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "--" }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate&&$urlValue">胜率{{ item.home_win_rate || "--" }}</text>
                 </view>
               </view>
 

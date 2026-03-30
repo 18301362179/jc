@@ -52,9 +52,9 @@
                     <text class="team-name home">{{ item.visiting_name }}</text>
                   </view>
                   <view class="rate-row">
-                    <text class="rate-text home" style="text-align: right; padding-right: 10px" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                    <text class="rate-text home" style="text-align: right; padding-right: 10px" v-if="item.home_win_rate&&$urlValue">胜率{{ item.home_win_rate || "" }}</text>
                     <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
-                    <text class="rate-text away" style="text-align: left; padding-left: 10px" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+                    <text class="rate-text away" style="text-align: left; padding-left: 10px" v-if="item.visiting_win_rate&&$urlValue">胜率{{ item.visiting_win_rate || "" }}</text>
                   </view>
                 </view>
               </view>

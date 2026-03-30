@@ -25,7 +25,7 @@
             <!-- 左侧主队区域：占剩余宽度50%，内容靠右 -->
             <view class="team-item left-team">
               <text class="team-name-text">{{ item.home_name }}</text>
-              <text class="rate-text" v-if="item.home_win_rate">胜率{{ item.home_win_rate }}</text>
+              <text class="rate-text" v-if="item.home_win_rate&&$urlValue">胜率{{ item.home_win_rate }}</text>
             </view>
             <!-- VS区域：固定宽度，居中显示 -->
             <view class="vs-item">
@@ -35,7 +35,7 @@
             <!-- 右侧客队区域：占剩余宽度50%，内容靠左 -->
             <view class="team-item right-team">
               <text class="team-name-text">{{ item.visiting_name }}</text>
-              <text class="rate-text" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate }}</text>
+              <text class="rate-text" v-if="item.visiting_win_rate&&$urlValue">胜率{{ item.visiting_win_rate }}</text>
             </view>
           </view>
         </view>
