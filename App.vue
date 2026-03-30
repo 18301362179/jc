@@ -3,9 +3,8 @@ import Vue from 'vue';
 import { login, checkToken } from '@/utils/auth';
 import { h5WechatAuth, checkH5Token, clearAllCodeRelated } from '@/utils/h5Auth';
 import { getToken, setToken, removeToken } from '@/utils/storage';
-import { getH5ShareInfo } from '@/api/demo';
-import { shareGiveCoin } from '@/api/demo';
-
+import {  } from '@/api/demo';
+import { getH5ShareInfo, shareGiveCoin, sysParams} from '@/api/demo';
 // 全局变量：解决循环+签名问题的核心标记
 let isWxConfigInited = false;    // 分享配置是否已初始化
 let hasGrantCoin = false;        // 是否已赠币
@@ -145,43 +144,54 @@ export default {
   },
 
   // 页面显示：核心修复循环调用问题
-  onShow() {
-    // #ifdef APP-PLUS
-    try { plus.screen.lockOrientation('portrait-primary'); } catch (e) {}
-    // #endif
-    
-    // 重置基础标记（保留失败标记，避免重复尝试）
-    this.h5AuthLock = false;
-    isSharePanelOpened = false;
-    // 延迟执行分享初始化：避免页面未加载完成就触发
-    setTimeout(async () => {
-      // #ifdef H5
-      console.log('[onShow] H5环境：开始校验Token并初始化分享');
-      // 双重校验：Token有效 + 配置未失败 + 未在加载 + 无初始化锁
-      const tokenValid = await checkH5Token();
-      const canInit = tokenValid && !isWxConfigFailed && !isWxLoading && !shareInitLock;
-      
-      if (canInit) {
-        console.log('[onShow] 满足初始化条件，执行分享配置');
-        this.initGlobalWxShare();
-      } else {
-        console.log('[onShow] 不满足初始化条件：', {tokenValid, isWxConfigFailed, isWxLoading, shareInitLock});
-      }
-      // #endif
-      
-      // 非H5环境正常初始化
-      // #ifdef H5
-      if (!isWxConfigFailed && !isWxLoading && !shareInitLock) {
-        this.initGlobalWxShare();
-      }
-      // #endif
-    }, 500); // 延长延迟时间，避免页面切换频繁触发
+onShow() {
+  // #ifdef APP-PLUS
+  try { plus.screen.lockOrientation('portrait-primary'); } catch (e) {}
+  // #endif
+  
+  // ==============================================
+  // 【公众号 H5 专用】挂载 urlValue / xiValue 到 Vue 原型
+  // ==============================================
+  // #ifdef H5
+  sysParams().then((res) => {
+    console.log(res, 'res111111111111111111111111111')
+    let v = res.data.gzh_show;
+    let t = res.data.gzh_url_show;
 
-    // 清除重复的赠币监听
+    v = v === undefined || v === null ? false : (v == '1');
+    t = t === undefined || t === null ? false : (t == '1');
+console.log(v,t, 'vt------------')
+    // 挂载到 Vue 原型 → 全局页面 this.urlValue / this.xiValue
+    Vue.prototype.$urlValue = v;
+    Vue.prototype.$xiValue = t;
+
+    console.log('✅ 公众号全局参数挂载成功：', v, t);
+  });
+  // #endif
+
+  // 你原来的逻辑 ↓ 完全不动
+  this.h5AuthLock = false;
+  isSharePanelOpened = false;
+  
+  setTimeout(async () => {
     // #ifdef H5
-    window.removeEventListener('pagehide', this.handleShareSuccess);
+    console.log('[onShow] H5环境：开始校验Token并初始化分享');
+    const tokenValid = await checkH5Token();
+    const canInit = tokenValid && !isWxConfigFailed && !isWxLoading && !shareInitLock;
+    
+    if (canInit) {
+      console.log('[onShow] 满足初始化条件，执行分享配置');
+      this.initGlobalWxShare();
+    } else {
+      console.log('[onShow] 不满足初始化条件：', {tokenValid, isWxConfigFailed, isWxLoading, shareInitLock});
+    }
     // #endif
-  },
+  }, 500);
+
+  // #ifdef H5
+  window.removeEventListener('pagehide', this.handleShareSuccess);
+  // #endif
+},
 
   // 页面隐藏：重置标记，避免循环
   onHide() {

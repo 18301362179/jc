@@ -326,3 +326,10 @@ export const userTradeRecord = (data) => {
         data
     })
 }
+export const sysParams = (data) => {
+    return request({
+        url: baseUrl + "/auth/login/sysParams",
+        method: 'GET',
+        data
+    })
+}

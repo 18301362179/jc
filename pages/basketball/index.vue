@@ -12,7 +12,7 @@
     </scroll-view>
 
     <!-- 替换为足球同款底部投注栏 -->
-    <view class="bet-bar">
+    <view class="bet-bar" v-if="$urlValue">
       <view class="bet-bar-inner">
         <!-- 左侧：清空图标 + 已选场次 + 风险提示 -->
         <view class="left-section">

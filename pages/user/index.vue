@@ -14,10 +14,10 @@
       <image class="avatar" v-else src="@/static/mine1.png" mode="aspectFill"></image>
       <view class="user-info">
         <text class="username">{{ userInfo.remarkName || '' }}</text>
-         <text class="value stone-count" @click="getList">{{ userInfo.coinAmount || 0 }} 币</text>
+        <text class="value stone-count" @click="getList" v-if="$urlValue">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
       <!-- 新增：去充值按钮 -->
-      <button class="recharge-btn" @click="gotoRecharge">获取</button>
+      <button class="recharge-btn" @click="gotoRecharge" v-if="$urlValue">获取</button>
     </view>
 
     <!-- Tab栏：调整顺序，放第一个 -->

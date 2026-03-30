@@ -28,28 +28,28 @@
           <!-- 第一行（3个） -->
           <view class="game-item" @click="goToGame('football/index')">
             <image class="game-icon" src="/static/jczq.png" mode="widthFix"></image>
-            <text class="game-name" >J&nbsp;-&nbsp;足</text>
+            <text class="game-name" v-if="$urlValue">J&nbsp;-&nbsp;足</text>
           </view>
           <view class="game-item" @click="goToGame('basketball/index')">
             <image class="game-icon" src="/static/jclq.png" mode="widthFix"></image>
-            <text class="game-name" >J&nbsp;-&nbsp;篮</text>
+            <text class="game-name" v-if="$urlValue">J&nbsp;-&nbsp;篮</text>
           </view>
           <view class="game-item" @click="goToGame('fourteenIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name" >14</text>
+            <text class="game-name" v-if="$urlValue">14</text>
           </view>
           <!-- 第二行（3个） -->
           <view class="game-item two" @click="goToGame('nineIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name" >任&nbsp;&nbsp;9</text>
+            <text class="game-name" v-if="$urlValue">任&nbsp;&nbsp;9</text>
           </view>
           <view class="game-item two" @click="goToGame('sixIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name" >6半全</text>
+            <text class="game-name" v-if="$urlValue">6半全</text>
           </view>
           <view class="game-item two" @click="goToGame('fourIndex/index')">
             <image class="game-icon" src="/static/ctzq.png" mode="widthFix"></image>
-            <text class="game-name" >4&nbsp;&nbsp;进</text>
+            <text class="game-name" v-if="$urlValue">4&nbsp;&nbsp;进</text>
           </view>
         </view>
         <view class="game-grid">
