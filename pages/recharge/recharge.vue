@@ -1,7 +1,7 @@
 <template>
   <view class="recharge-page">
     <CustomHeader
-      :title="'系统币'"
+      :title="'服务币'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
@@ -25,7 +25,7 @@
           v-for="(item, index) in list" 
           :key="index"
         >
-          {{ item.count }}元&nbsp;&nbsp;&nbsp;{{ item.bi }}币
+          {{ item.count }}元&nbsp;{{ item.bi }}服务币
         </button>
       </view>
 

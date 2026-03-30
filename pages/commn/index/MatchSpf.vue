@@ -24,7 +24,10 @@
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
               <!-- 兼容事件：统一用 @click.stop 适配多端 -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => goToAiAnalysis(item)">
+                <text>详细</text>
+                <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+              </view>
             </view>
           </view>
 
@@ -165,7 +168,6 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
@@ -303,6 +305,11 @@ export default {
         &:active {
           opacity: 0.8;
         }
+      }
+      /* 加在这里 */
+      .small-coin {
+        font-size: 20rpx !important;
+        margin-left: 4rpx;
       }
     }
   }

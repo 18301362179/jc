@@ -3,7 +3,7 @@
     <!-- 顶部导航 -->
     <CustomHeader 
       :ballTitle="'足球'" 
-      title="6场半全" 
+      title="6半全" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 

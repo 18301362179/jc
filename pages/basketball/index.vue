@@ -1,6 +1,6 @@
 <template>
   <view style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader :showBack="true" :ballTitle="'篮球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
+    <CustomHeader :showBack="true" :ballTitle="''" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
       <MatchSpf ref="spfRef" v-if="currentPlay === '胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
@@ -844,10 +844,10 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
           
           this.hideLoading();
           uni.showModal({
-                title: "请充币",
-                content: "您的游戏币不足，请充币！",
+                title: "提示",
+                content: "您的服务币不足，请获取！",
                 cancelText: "取消",
-                confirmText: "充币",
+                confirmText: "获取",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {

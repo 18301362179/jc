@@ -4,7 +4,7 @@
     <!-- 自定义头部：仅保留核心参数，结构不变 -->
     <CustomHeader 
       :ballTitle="'篮球'"
-      title="篮球-胜负" 
+      title="胜负" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 

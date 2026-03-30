@@ -1,7 +1,7 @@
 <template>
   <!-- 模板部分完全不变，仅保留原有结构 -->
   <view style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader :showBack="true" :ballTitle="'足球-'" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
+    <CustomHeader :showBack="true" :ballTitle="''" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
 
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
@@ -1147,10 +1147,10 @@ handleMixedSelect(item, selectType) {
          this.hideLoading();
       // 原生弹窗（和你自定义弹窗效果完全一致）
               uni.showModal({
-                title: "请充币",
-                content: "您的游戏币不足，请充币！",
+                title: "提示",
+                content: "您的服务币不足，请获取！",
                 cancelText: "取消",
-                confirmText: "充币",
+                confirmText: "获取",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {

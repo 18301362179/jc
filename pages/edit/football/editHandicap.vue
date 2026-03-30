@@ -3,7 +3,7 @@
     <!-- 顶部导航：保留原有 -->
     <CustomHeader 
       :ballTitle="'足球'"
-      title="足球-让球胜平负" 
+      title="让球胜平负" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 

@@ -4,7 +4,7 @@
     <!-- 自定义头部：结构不变，仅保留核心参数 -->
     <CustomHeader 
       :ballTitle="'篮球'"
-      title="篮球-大小分" 
+      title="大小分" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 

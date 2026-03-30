@@ -1686,10 +1686,10 @@ var _default = {
                 _this18.hideLoading();
                 // 原生弹窗（和你自定义弹窗效果完全一致）
                 uni.showModal({
-                  title: "请充币",
-                  content: "您的游戏币不足，请充币！",
+                  title: "提示",
+                  content: "您的服务币不足，请获取！",
                   cancelText: "取消",
-                  confirmText: "充币",
+                  confirmText: "获取",
                   confirmColor: "#d92929",
                   success: function success(res) {
                     if (res.confirm) {

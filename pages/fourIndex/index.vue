@@ -3,7 +3,7 @@
     style="width: 100%; height: 100vh; box-sizing: border-box;">
     <!-- 顶部导航 -->
     <CustomHeader
-      :title="'4进球'"
+      :title="'4进'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
@@ -40,7 +40,7 @@
     <!-- 底部投注栏组件 -->
     <BetBar
       :min-match-count="4"
-      title="4场"       
+      title="4进"       
       :show-clear-btn="true"
       :confirmBtnEnabled="true"
       :confirm-btn-enabled="selectedMatchCount >= 4"
@@ -295,18 +295,6 @@ export default {
           uni.showToast({ title: "请选择4场赛事", icon: "none" });
           return;
         }
-
-        const matchIds = selectedMatches.map(function(item) {
-          return item.id;
-        }).join(",");
-        this.showLoading();
-        const res = await checkSelect({ lotteryIds: matchIds });
-        let isNeedUserPhone = 1;
-        if (res.data && res.data.isNeedUserPhone !== undefined) {
-          isNeedUserPhone = res.data.isNeedUserPhone;
-        }
-        
-        if (res.data) {
           await uni.navigateTo({
             url: "/pages/fourIndex/editFour",
             events: { updateSelectedMatches: function(updatedData) {
@@ -320,20 +308,6 @@ export default {
               });
             }.bind(this)
           });
-        } else {
-          uni.showModal({
-            title: "提示",
-            content: "抱歉存在停场次，请重新选择！",
-            showCancel: false,
-            confirmText: "我知道了",
-            success: function(modalRes) {
-              if (modalRes.confirm) {
-                this.drawerList = [];
-                this.loadMatchData();
-              }
-            }.bind(this)
-          });
-        }
       } catch (error) {
         console.error("checkSelect接口调用失败:", error);
         uni.showModal({
@@ -492,10 +466,10 @@ export default {
     if (res.data.status == 'fail') {
           this.hideLoading();
           uni.showModal({
-                title: "请充币",
-                content: "您的游戏币不足，请充币！",
+                title: "提示",
+                content: "您的服务币不足，请获取！",
                 cancelText: "取消",
-                confirmText: "充币",
+                confirmText: "获取",
                 confirmColor: "#d92929",
                 success: (res) => {
                   if (res.confirm) {

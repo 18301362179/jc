@@ -3,7 +3,7 @@
   <view class="scheme-edit-page">
     <CustomHeader 
       :ballTitle="'篮球'"
-      title="篮球-胜分差" 
+      title="胜分差" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 

@@ -340,6 +340,29 @@
 				}
 			]
 		},
+	    {
+			"root": "pages/getList",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "【云竟慧博体育】微信服务号",
+						"navigationBarTextStyle": "white",
+						"navigationBarBackgroundColor": "#31926e",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom",
+						"onReachBottomDistance": 50,
+						"app-plus": {
+							"softinputMode": "adjustResize"
+						},
+						"mp-weixin": {
+							"disableScroll": false,
+							"navigationStyle": "custom"
+						}
+					}
+				}
+			]
+		},
 		{
 			"root": "pages/edit/football",
 			"pages": [

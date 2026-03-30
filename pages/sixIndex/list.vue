@@ -36,10 +36,13 @@
                 </view>
                 <!-- 胜+分析：接口无此字段，自动隐藏 -->
                 <view class="rate-row" v-if="item.home_win_rate || item.visiting_win_rate">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || '' }}</text>
-                 <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || '' }}</text>
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                  <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+                  <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => goToAiAnalysis(item)">
+                    <text>详细</text>
+                    <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+                  </view>
                 </view>
               </view>
 
@@ -49,48 +52,18 @@
                 <view class="score-row half-row">
                   <text class="row-label">半</text>
                   <view class="score-btn-group">
-                    <view 
-                      class="score-btn" 
-                      :class="{ selected: item.halfHomeSelected }"
-                      @click="toggleScoreBtn(item, 'halfHomeSelected')"
-                      hover-class="none"
-                    >3</view>
-                    <view 
-                      class="score-btn" 
-                      :class="{ selected: item.halfVsSelected }"
-                      @click="toggleScoreBtn(item, 'halfVsSelected')"
-                      hover-class="none"
-                    >1</view>
-                    <view 
-                      class="score-btn" 
-                      :class="{ selected: item.halfAwaySelected }"
-                      @click="toggleScoreBtn(item, 'halfAwaySelected')"
-                      hover-class="none"
-                    >0</view>
+                    <view class="score-btn" :class="{ selected: item.halfHomeSelected }" @click="toggleScoreBtn(item, 'halfHomeSelected')" hover-class="none">3</view>
+                    <view class="score-btn" :class="{ selected: item.halfVsSelected }" @click="toggleScoreBtn(item, 'halfVsSelected')" hover-class="none">1</view>
+                    <view class="score-btn" :class="{ selected: item.halfAwaySelected }" @click="toggleScoreBtn(item, 'halfAwaySelected')" hover-class="none">0</view>
                   </view>
                 </view>
                 <!-- 全场行 -->
                 <view class="score-row full-row">
                   <text class="row-label">全</text>
                   <view class="score-btn-group">
-                    <view 
-                      class="score-btn" 
-                      :class="{ selected: item.fullHomeSelected }"
-                      @click="toggleScoreBtn(item, 'fullHomeSelected')"
-                      hover-class="none"
-                    >3</view>
-                    <view 
-                      class="score-btn" 
-                      :class="{ selected: item.fullVsSelected }"
-                      @click="toggleScoreBtn(item, 'fullVsSelected')"
-                      hover-class="none"
-                    >1</view>
-                    <view 
-                      class="score-btn" 
-                      :class="{ selected: item.fullAwaySelected }"
-                      @click="toggleScoreBtn(item, 'fullAwaySelected')"
-                      hover-class="none"
-                    >0</view>
+                    <view class="score-btn" :class="{ selected: item.fullHomeSelected }" @click="toggleScoreBtn(item, 'fullHomeSelected')" hover-class="none">3</view>
+                    <view class="score-btn" :class="{ selected: item.fullVsSelected }" @click="toggleScoreBtn(item, 'fullVsSelected')" hover-class="none">1</view>
+                    <view class="score-btn" :class="{ selected: item.fullAwaySelected }" @click="toggleScoreBtn(item, 'fullAwaySelected')" hover-class="none">0</view>
                   </view>
                 </view>
               </view>
@@ -113,14 +86,14 @@ export default {
     // 🌟 新增drawNumSelectorHeight（和4球子组件一致）
     drawNumSelectorHeight: {
       type: Number,
-      default: 70 
-    }
+      default: 70,
+    },
   },
   data() {
     return {
       expandedDrawers: [],
       statusBarHeightRpx: 0,
-      windowWidth: 0
+      windowWidth: 0,
     };
   },
   computed: {
@@ -129,15 +102,13 @@ export default {
       if (this.drawerList.length > 0) {
         return this.drawerList;
       }
-      return this.matchList.length > 0 
-        ? [{ title: `周四 2025-12-04 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] 
-        : [];
+      return this.matchList.length > 0 ? [{ title: `周四 2025-12-04 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] : [];
     },
     // 保留6球原有选中计数逻辑
     selectedMatchCount() {
       let count = 0;
-      this.finalDrawerList.forEach(drawer => {
-        drawer.lotteryList.forEach(item => {
+      this.finalDrawerList.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
           const isHalfSelected = item.halfHomeSelected || item.halfVsSelected || item.halfAwaySelected;
           const isFullSelected = item.fullHomeSelected || item.fullVsSelected || item.fullAwaySelected;
           if (isHalfSelected || isFullSelected) {
@@ -153,14 +124,14 @@ export default {
     },
     stickyHeaderTop() {
       return this.statusBarHeightRpx;
-    }
+    },
   },
   watch: {
     finalDrawerList(newVal) {
       this.expandedDrawers = newVal.map(() => true);
       // 初始化半全场选中状态（和6球原有逻辑一致）
-      newVal.forEach(drawer => {
-        drawer.lotteryList.forEach(item => {
+      newVal.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
           if (item.halfHomeSelected === undefined) item.halfHomeSelected = false;
           if (item.halfVsSelected === undefined) item.halfVsSelected = false;
           if (item.halfAwaySelected === undefined) item.halfAwaySelected = false;
@@ -172,15 +143,15 @@ export default {
     },
     statusBarHeight(newVal) {
       this.statusBarHeightRpx = this.pxToRpx(newVal);
-    }
+    },
   },
   created() {
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
     this.expandedDrawers = this.finalDrawerList.map(() => true);
     // 初始化半全场选中状态
-    this.finalDrawerList.forEach(drawer => {
-      drawer.lotteryList.forEach(item => {
+    this.finalDrawerList.forEach((drawer) => {
+      drawer.lotteryList.forEach((item) => {
         if (item.halfHomeSelected === undefined) item.halfHomeSelected = false;
         if (item.halfVsSelected === undefined) item.halfVsSelected = false;
         if (item.halfAwaySelected === undefined) item.halfAwaySelected = false;
@@ -199,7 +170,7 @@ export default {
       } catch (e) {
         const systemInfo = wx.getWindowInfo();
         this.windowWidth = systemInfo.windowWidth || 375;
-        console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
+        console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
     },
     // 保持和4球子组件一致的px转rpx方法
@@ -207,17 +178,19 @@ export default {
       if (!px || !this.windowWidth) return 0;
       return Math.round((px / this.windowWidth) * 750 + 0.5);
     },
-    handleAiAnalysis(item) { console.log('AI分析', item); },
+    handleAiAnalysis(item) {
+      console.log("AI分析", item);
+    },
     // 保留6球原有半全场按钮切换逻辑
     toggleScoreBtn(item, key) {
       this.finalDrawerList.forEach((drawer, dIdx) => {
-        const idx = drawer.lotteryList.findIndex(i => i.id === item.id);
+        const idx = drawer.lotteryList.findIndex((i) => i.id === item.id);
         if (idx > -1) {
           this.$set(drawer.lotteryList[idx], key, !drawer.lotteryList[idx][key]);
           this.$emit("toggle-select", drawer.lotteryList[idx], key);
         }
       });
-    }
+    },
   },
 };
 </script>
@@ -227,12 +200,16 @@ export default {
   background-color: #f5f5f5;
   box-sizing: border-box;
   padding-bottom: 140rpx;
-// #ifdef MP-WEIXIN
+  // #ifdef MP-WEIXIN
   padding-bottom: 230rpx;
-// #endif
+  // #endif
 }
 
-.drawer-wrapper { width: 100%; margin-bottom: 8rpx; background: #f5f5f5 }
+.drawer-wrapper {
+  width: 100%;
+  margin-bottom: 8rpx;
+  background: #f5f5f5;
+}
 
 .sticky-header {
   position: sticky;
@@ -247,16 +224,28 @@ export default {
   font-size: 26rpx;
   color: #333;
 
-  .drawer-title-text { font-size: 24rpx; color: #333; }
-  .arrow-icon { transition: transform 0.2s ease; font-size: 24rpx; color: #666; }
-  .rotated { transform: rotate(180deg); }
+  .drawer-title-text {
+    font-size: 24rpx;
+    color: #333;
+  }
+  .arrow-icon {
+    transition: transform 0.2s ease;
+    font-size: 24rpx;
+    color: #666;
+  }
+  .rotated {
+    transform: rotate(180deg);
+  }
 }
 
-.drawer-content { width: 100%; transition: all 0.2s ease; }
+.drawer-content {
+  width: 100%;
+  transition: all 0.2s ease;
+}
 
 .match-row {
   background-color: #fff;
-  border-bottom: 1rpx solid #DEDEDE;
+  border-bottom: 1rpx solid #dedede;
   box-sizing: border-box;
   padding: 0rpx 20rpx;
   display: flex;
@@ -264,7 +253,7 @@ export default {
   gap: 0;
   margin-bottom: 4rpx;
   border-radius: 8rpx;
-  box-shadow: 0 2rpx 5rpx rgba(0,0,0,0.05);
+  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
   width: 100%;
   overflow: hidden;
 }
@@ -333,7 +322,10 @@ export default {
   width: 100%;
   cursor: pointer;
   transition: all 0.2s ease;
-  &:active { color: #d92929; opacity: 0.8; }
+  &:active {
+    color: #d92929;
+    opacity: 0.8;
+  }
 
   /* 主队名容器：固定占比，右对齐 */
   .team-name.home {
@@ -403,11 +395,15 @@ export default {
     transition: opacity 0.2s;
     flex-shrink: 0;
     margin-left: 12rpx;
-    &:active { opacity: 0.8; }
+    &:active {
+      opacity: 0.8;
+    }
+  }
+  .small-coin {
+    font-size: 18rpx !important;
+    margin-left: 4rpx;
   }
 }
-
-
 
 /* 保留6球原有半全场按钮样式 */
 .bottom-right {
@@ -470,12 +466,16 @@ export default {
 }
 
 /* 兼容优化 */
-::-webkit-scrollbar { display: none; }
+::-webkit-scrollbar {
+  display: none;
+}
 /* #ifdef APP-PLUS */
 .score-popup {
-  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom)); 
-  padding-bottom: calc(20rpx + env(safe-area-inset-bottom)); 
+  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
 }
 /* #endif */
-button::after { border: none; }
+button::after {
+  border: none;
+}
 </style>

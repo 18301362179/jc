@@ -3,7 +3,7 @@
   <view class="scheme-edit-page">
     <CustomHeader 
       :ballTitle="'足球'"
-      title="足球-混合过关" 
+      title="混合过关" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 

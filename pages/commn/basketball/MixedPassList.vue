@@ -18,7 +18,10 @@
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => goToAiAnalysis(item)">
+                <text>详细</text>
+                <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+              </view>
             </view>
           </view>
 
@@ -47,8 +50,8 @@
                     <text class="team-name home">{{ item.home_name }}</text>
                   </view>
                   <view class="rate-row">
-                    <text class="rate-text away" style="text-align:right;padding-right: 15px;" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
-                    <text class="rate-text home" style="text-align:left;padding-left: 15px;" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                    <text class="rate-text away" style="text-align: right; padding-right: 15px" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+                    <text class="rate-text home" style="text-align: left; padding-left: 15px" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
                   </view>
                 </view>
               </view>
@@ -63,7 +66,6 @@
                 </view>
                 <view class="spf-select-col">
                   <view class="spf-row">
-
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_lose'), disabled: item.is_stop == 1 || !item.loss_multiplier }]" @click="handleSpfMultiClick(item, 'home_lose')">
                       <text class="spf-text">主负</text>
                       <text class="spf-odds">{{ item.loss_multiplier !== undefined && item.loss_multiplier !== null ? item.loss_multiplier : "--" }}</text>
@@ -74,7 +76,6 @@
                     </view>
                   </view>
                   <view class="spf-row">
-
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_lose_r'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_lose_r')">
                       <text class="spf-text">主负</text>
                       <text class="spf-odds">{{ item.r_loss_multiplier !== undefined && item.r_loss_multiplier !== null ? item.r_loss_multiplier : "--" }}</text>
@@ -825,15 +826,21 @@ export default {
     margin-right: 10rpx;
   }
 
-  .status-right .ai-analysis-btn {
-    font-size: 24rpx;
-    color: #06f;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    letter-spacing: 4rpx;
-
-    &:active {
-      opacity: 0.8;
+  .status-right {
+    .ai-analysis-btn {
+      font-size: 24rpx;
+      color: #06f;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      letter-spacing: 4rpx;
+      &:active {
+        opacity: 0.8;
+      }
+    }
+    /* 加在这里 */
+    .small-coin {
+      font-size: 20rpx !important;
+      margin-left: 4rpx;
     }
   }
 }

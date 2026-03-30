@@ -3,7 +3,10 @@
     <view v-for="(item, index) in courseList" :key="index" class="item">
       <view class="time">
         <text>{{ forateData(item.race_date) }}</text>
-        <view v-if="item.is_over == 0 && item.home_win_rate != 0" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }} </view>
+        <view v-if="item.is_over == 0 && item.home_win_rate != 0" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)">
+          <text>详细</text>
+          <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+        </view>
       </view>
       <view class="score">
         <!-- 左侧区域：主队名 + 左侧小项（自动撑开） -->
@@ -17,10 +20,10 @@
             <!-- <text class="score-con p-l" style="color:#3993D4;" v-if="item.home_win_rate">{{ item.home_win_rate }}</text> -->
           </view>
         </view>
-        
+
         <!-- 冒号（位置固定） -->
-        <text class="score-con colon" style="padding: 0;">:</text>
-        
+        <text class="score-con colon" style="padding: 0">:</text>
+
         <!-- 右侧区域：客队名 + 右侧小项（自动撑开） -->
         <view class="right-area">
           <view class="right-items">
@@ -43,8 +46,8 @@ export default {
   data() {
     return {
       courseList: [],
-      goal: '比分'
-    }
+      goal: "比分",
+    };
   },
   methods: {
     forateData(time) {
@@ -54,23 +57,23 @@ export default {
       this.courseList = r;
     },
     handleBack() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     },
     async toDetail(item) {
-      this.$emit("detail-click",item)
+      this.$emit("detail-click", item);
     },
     getSign(handicap) {
-      if (!handicap) return '';
+      if (!handicap) return "";
       const str = String(handicap);
-      return str.startsWith('-') ? '-' : '+';
+      return str.startsWith("-") ? "-" : "+";
     },
     getNumber(handicap) {
-      if (!handicap) return '';
-      const str = String(handicap).replace(/^[+-]/, '');
-      return str || '0';
-    }
-  }
-}
+      if (!handicap) return "";
+      const str = String(handicap).replace(/^[+-]/, "");
+      return str || "0";
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -83,7 +86,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    height: 40rpx; 
+    height: 40rpx;
     .ai {
       font-size: 22rpx;
       color: #06f;
@@ -97,6 +100,11 @@ export default {
         box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.05);
       }
     }
+    /* 👇 就在 .ai 下面加这个 👇 */
+    .small-coin {
+      font-size: 20rpx !important;
+      margin-left: 4rpx;
+    }
   }
 }
 
@@ -108,7 +116,7 @@ export default {
   width: 100%;
   min-height: 64rpx;
   display: flex;
-  align-items: center; 
+  align-items: center;
   /* 左右区域 + 冒号 总宽度100% */
 }
 
@@ -161,17 +169,17 @@ export default {
   width: 19rpx;
   color: #d04052;
   font-size: 24rpx;
-  text-align: center; 
-  line-height: 64rpx; 
+  text-align: center;
+  line-height: 64rpx;
   /* 保持原有间距，不添加额外margin */
 }
 
 .score-con {
-  width: auto; 
+  width: auto;
   color: #d04052;
   font-size: 24rpx;
   font-variant-numeric: tabular-nums;
-  font-weight: 400; 
+  font-weight: 400;
   padding: 0 5rpx; /* 小项之间的基础间距 */
 }
 
@@ -188,7 +196,7 @@ export default {
 .p-t {
   box-sizing: border-box;
   padding-top: 15rpx;
-};
+}
 
 .handicap-group {
   display: inline-flex;

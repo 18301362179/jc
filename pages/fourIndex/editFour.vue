@@ -3,7 +3,7 @@
     <!-- 顶部导航：适配4场标题 -->
     <CustomHeader 
       :ballTitle="'足球'" 
-      title="4场" 
+      title="4进" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 

@@ -4,7 +4,7 @@
     <CustomHeader
       :showBack="true"
       :ballTitle="''"
-      :title="'足球数据'"
+      :title="'足 数'"
       :isIndex="false"
       :showIcon="false"
       :isSelected="false"
@@ -12,11 +12,9 @@
     
     <!-- 特别提醒 + 刷新按钮 -->
     <view class="tip-bar">
-      <text class="tip-text">特别提醒：本页面部分数据来源于第三方，仅供参考。</text>
       <!-- 刷新按钮 -->
       <view class="refresh-btn" @click="handleRefresh">
-        <text class="refresh-icon">🔄</text>
-        <text class="refresh-text">刷新</text>
+        <text class="refresh-text">刷&nbsp;&nbsp;新</text>
       </view>
     </view>
     
@@ -40,10 +38,8 @@
         </view>
         
         <view class="match-right">
-          <text class="status-text">{{ formatStatus(item.statusName) }}</text>
-          <view class="analyze-btn">
-            <text class="analyze-icon"></text>
-          </view>
+          <image v-if="item.showImage == 1" class="gif-icon" src="/static/bg.gif"></image>
+          <text class="status-text">{{ item.statusName }}</text>
         </view>
       </view>
       
@@ -128,27 +124,19 @@ export default {
 
 // 特别提醒栏 + 刷新按钮布局
 .tip-bar {
-  background-color: #fff9e8;
-  padding: 20rpx 30rpx;
-  border-bottom: 1rpx solid #ffe8b3;
   // 弹性布局，让文字左对齐，按钮右对齐
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  
-  .tip-text {
-    font-size: 24rpx;
-    color: #cc8800;
-    line-height: 1.4;
-  }
-  
+
   // 刷新按钮样式（绿色背景，和截图一致）
   .refresh-btn {
     display: flex;
+    justify-content: center;
     align-items: center;
     background-color: #00b42a;
     color: #fff;
-    padding: 8rpx 16rpx;
+    padding: 8rpx 26rpx;
     border-radius: 8rpx;
     cursor: pointer;
     
@@ -172,7 +160,7 @@ export default {
 // 恢复 tip-bar 对应的高度（calc(100vh - 200rpx)），适配有 tip-bar 的布局
 .list-scroll {
   flex: 1;
-  height: calc(100vh - 200rpx);
+  height: calc(100vh - 140rpx);
 }
 
 .match-item {
@@ -264,19 +252,17 @@ export default {
 .match-right {
   width: 120rpx;
   display: flex;
-  flex-direction: column;
   align-items: center;
   
   .status-text {
-    font-size: 26rpx;
+    font-size: 20rpx;
     color: #cc3333;
   }
-  
-  .analyze-btn {
-    .analyze-icon {
-      font-size: 32rpx;
-    }
+    .gif-icon {
+    width: 32rpx;
+    height: 32rpx;
   }
+
 }
 
 .empty-state {

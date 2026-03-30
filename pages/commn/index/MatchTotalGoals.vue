@@ -21,7 +21,10 @@
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 → 修复@tap.stop改为@click.stop -->
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => goToAiAnalysis(item)">
+                <text>详细</text>
+                <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+              </view>
             </view>
           </view>
 
@@ -168,7 +171,6 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
@@ -267,181 +269,186 @@ export default {
           opacity: 0.8;
         }
       }
+      /* 加在这里 */
+      .small-coin {
+        font-size: 20rpx !important;
+        margin-left: 4rpx;
+      }
     }
   }
 
-// 第二行：左右布局核心
-.match-content-row {
-  display: flex; // 改为横向左右布局
-  width: 100%;
-  gap: 16rpx; // 左右间距
+  // 第二行：左右布局核心
+  .match-content-row {
+    display: flex; // 改为横向左右布局
+    width: 100%;
+    gap: 16rpx; // 左右间距
 
-  // 左侧：原bottom-left（联赛名+编号+时间）→ 优化宽度适配
-  .content-left {
-    margin-top: 20rpx;
-    flex: 0 0 21%; // 修复：改为flex比例，适配不同机型
-    max-width: 160rpx;
-    display: flex;
-    flex-direction: column;
-    align-items: center; // 居中显示
-    justify-content: flex-start;
-    gap: 2rpx;
-    flex-shrink: 0; // 固定宽度不收缩
-
-    .serial-number {
-      width: 100%;
-      font-size: 20rpx;
-      color: #777;
-      margin-bottom: 10rpx;
-      text-align: center;
-    }
-
-    .match-time {
-      width: 100%;
-      font-size: 20rpx;
-      color: #999;
-      text-align: center;
-    }
-  }
-
-  // 右侧：球队+胜+总进球（占剩余宽度）
-  .content-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6rpx;
-
-    // 球队名称行 - 核心修改：改为flex布局实现左右对齐
-    .team-name {
-      font-size: 26rpx;
-      color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: space-between; // 改为两端对齐
-      width: 100%; // 确保占满宽度
-
-      .vs-text {
-        color: #999;
-        font-size: 24rpx;
-        // 居中占位，宽度与胜行的平文本一致
-        width: 140rpx;
-        text-align: center;
-      }
-      
-      // 主队名称靠右
-      text:first-child {
-        text-align: right;
-        flex: 1;
-      }
-      
-      // 客队名称靠左
-      text:last-child {
-        text-align: left;
-        flex: 1;
-      }
-    }
-
-    // 胜&进球数行 - 核心修改：保持布局匹配
-    .rate-row {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      font-size: 22rpx;
-      color: #999;
-
-      .rate-text {
-        flex: 1;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .rate-text.home {
-        text-align: right; // 主队胜靠右
-        padding-right: 0; // 移除多余内边距，保证对齐
-      }
-      .rate-text.away {
-        text-align: left; // 客队胜靠左
-        padding-left: 0; // 移除多余内边距，保证对齐
-      }
-      .vs-text {
-        width: 140rpx; // 与球队行VS文本宽度一致
-        text-align: center; // 平居中
-        flex-shrink: 0;
-      }
-    }
-
-    // 以下总进球相关样式保持不变
-    .total-goals-cells {
+    // 左侧：原bottom-left（联赛名+编号+时间）→ 优化宽度适配
+    .content-left {
+      margin-top: 20rpx;
+      flex: 0 0 21%; // 修复：改为flex比例，适配不同机型
+      max-width: 160rpx;
       display: flex;
       flex-direction: column;
-      border: 1rpx solid #dedede;
-      border-radius: 8rpx;
-      overflow: hidden;
+      align-items: center; // 居中显示
+      justify-content: flex-start;
+      gap: 2rpx;
+      flex-shrink: 0; // 固定宽度不收缩
+
+      .serial-number {
+        width: 100%;
+        font-size: 20rpx;
+        color: #777;
+        margin-bottom: 10rpx;
+        text-align: center;
+      }
+
+      .match-time {
+        width: 100%;
+        font-size: 20rpx;
+        color: #999;
+        text-align: center;
+      }
     }
 
-    .goals-row {
+    // 右侧：球队+胜+总进球（占剩余宽度）
+    .content-right {
+      flex: 1;
       display: flex;
-      width: 100%;
-    }
+      flex-direction: column;
+      gap: 6rpx;
 
-    .goal-option {
-      width: 25%;
-      margin: 0;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      padding: 0rpx 5rpx;
-      background-color: #fff;
-      border-right: 1rpx solid #eee;
-      border-bottom: 1rpx solid #eee;
-      cursor: pointer;
-      height: 60rpx;
+      // 球队名称行 - 核心修改：改为flex布局实现左右对齐
+      .team-name {
+        font-size: 26rpx;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: space-between; // 改为两端对齐
+        width: 100%; // 确保占满宽度
 
-      // 新增：停售禁用样式
-      &.disabled {
-        background-color: #dedede !important;
-        cursor: not-allowed;
-        pointer-events: none;
+        .vs-text {
+          color: #999;
+          font-size: 24rpx;
+          // 居中占位，宽度与胜行的平文本一致
+          width: 140rpx;
+          text-align: center;
+        }
 
-        .goal-text,
-        .goal-odds {
-          color: #999 !important;
+        // 主队名称靠右
+        text:first-child {
+          text-align: right;
+          flex: 1;
+        }
+
+        // 客队名称靠左
+        text:last-child {
+          text-align: left;
+          flex: 1;
         }
       }
 
-      &:nth-child(4) {
-        border-right: none;
-      }
-
-      &.selected {
-        background-color: #d92929;
-        color: #fff !important;
-      }
-
-      .goal-text {
-        font-size: 28rpx;
-        font-weight: 400;
-        color: #666;
-        margin-right: 38rpx;
-      }
-
-      .goal-odds {
+      // 胜&进球数行 - 核心修改：保持布局匹配
+      .rate-row {
+        width: 100%;
+        display: flex;
+        align-items: center;
         font-size: 22rpx;
-        color: #888;
+        color: #999;
+
+        .rate-text {
+          flex: 1;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .rate-text.home {
+          text-align: right; // 主队胜靠右
+          padding-right: 0; // 移除多余内边距，保证对齐
+        }
+        .rate-text.away {
+          text-align: left; // 客队胜靠左
+          padding-left: 0; // 移除多余内边距，保证对齐
+        }
+        .vs-text {
+          width: 140rpx; // 与球队行VS文本宽度一致
+          text-align: center; // 平居中
+          flex-shrink: 0;
+        }
       }
 
-      &.selected .goal-text,
-      &.selected .goal-odds {
-        color: #fff !important;
+      // 以下总进球相关样式保持不变
+      .total-goals-cells {
+        display: flex;
+        flex-direction: column;
+        border: 1rpx solid #dedede;
+        border-radius: 8rpx;
+        overflow: hidden;
       }
-    }
 
-    .goals-row:last-child .goal-option {
-      border-bottom: none;
+      .goals-row {
+        display: flex;
+        width: 100%;
+      }
+
+      .goal-option {
+        width: 25%;
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 0rpx 5rpx;
+        background-color: #fff;
+        border-right: 1rpx solid #eee;
+        border-bottom: 1rpx solid #eee;
+        cursor: pointer;
+        height: 60rpx;
+
+        // 新增：停售禁用样式
+        &.disabled {
+          background-color: #dedede !important;
+          cursor: not-allowed;
+          pointer-events: none;
+
+          .goal-text,
+          .goal-odds {
+            color: #999 !important;
+          }
+        }
+
+        &:nth-child(4) {
+          border-right: none;
+        }
+
+        &.selected {
+          background-color: #d92929;
+          color: #fff !important;
+        }
+
+        .goal-text {
+          font-size: 28rpx;
+          font-weight: 400;
+          color: #666;
+          margin-right: 38rpx;
+        }
+
+        .goal-odds {
+          font-size: 22rpx;
+          color: #888;
+        }
+
+        &.selected .goal-text,
+        &.selected .goal-odds {
+          color: #fff !important;
+        }
+      }
+
+      .goals-row:last-child .goal-option {
+        border-bottom: none;
+      }
     }
   }
-}
 }
 
 /* 抽屉基础样式（完全保留） */

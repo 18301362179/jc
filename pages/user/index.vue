@@ -14,70 +14,19 @@
       <image class="avatar" v-else src="@/static/mine1.png" mode="aspectFill"></image>
       <view class="user-info">
         <text class="username">{{ userInfo.remarkName || '' }}</text>
-        <text class="value stone-count">{{ userInfo.coinAmount || 0 }} 币</text>
+         <text class="value stone-count" @click="getList">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
       <!-- 新增：去充值按钮 -->
-      <button class="recharge-btn" @click="gotoRecharge">充币</button>
+      <button class="recharge-btn" @click="gotoRecharge">获取</button>
     </view>
 
     <!-- Tab栏：调整顺序，放第一个 -->
     <view class="tab-bar">
-      <!-- <view class="tab-item" :class="{ active: currentTab === 0 }" @click="switchTab(0)">模拟</view> -->
       <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">分析</view>
-      <view class="tab-item" :class="{ active: currentTab === 2 }" @click="switchTab(2)">充币</view>
     </view>
 
     <!-- 内容区 -->
     <scroll-view class="content-scroll" scroll-y>
-      <!-- 1. （原代购，移到第一个Tab） -->
-      <view v-if="currentTab === 0" class="purchase-section">
-        <no-data v-if="lotteryPurchasing.length === 0" />
-        <view class="purchase-card" v-for="(item, index) in lotteryPurchasing" :key="index">
-          <view class="bet-header">
-            <view class="bet-nums">
-              <view class="num-item">
-                <text class="num-label">投注注数</text>
-                <text class="num-value">{{ item.multiple || 0 }}</text>
-              </view>
-              <view class="num-item">
-                <text class="num-label">倍数</text>
-                <text class="num-value">{{ item.bet || 0 }}</text>
-              </view>
-              <view class="num-item">
-                <text class="num-label">总金额</text>
-                <text class="num-value">{{ item.payment || 0 }}</text>
-              </view>
-            </view>
-            <view class="bet-header-right">
-              <view class="status-tag" :class="[getStatusClass(item.status)]">
-                {{ getStatusText(item.status) }}
-              </view>
-              <button class="view-img-btn" v-if="item.lotteryImagePaths" @click="openImagePreview(item.lotteryImagePaths)">
-                查看彩票
-              </button>
-            </view>
-          </view>
-          <view class="card-divider"></view>
-          <view class="user-info-card">
-            <view class="user-avatar">
-              <text class="avatar-text">{{ getAvatarText(item.remarkName) }}</text>
-            </view>
-            <view class="user-detail">
-              <text class="user-name">{{ item.remarkName || '匿名用户' }}</text>
-              <text class="user-phone">{{ item.userPhone || '未填写' }}</text>
-            </view>
-          </view>
-          <view class="bet-type-wrap">
-            <text class="type-label">投注类型：</text>
-            <text class="type-value">{{ item.entityType || '足彩胜平负' }}</text>
-          </view>
-          <view class="card-actions" v-if="item.status == 0 && userInfo.isSysManage == 1" >
-            <button class="action-btn confirm-btn" @click="handleConfirm(item.id,item)">确认打票</button>
-            <!-- <button class="action-btn cancel-btn" :style="{background: item.is_accurate==1? '#31926e':'red'}" @click="handleCancel(item.id,index)">弃单</button> -->
-          </view>
-        </view>
-      </view>
-
       <!-- 2. 交易（原第一个Tab，移到第二个） -->
       <view v-if="currentTab === 1" class="record-section">
         <no-data v-if="tradeRecord.length === 0" />
@@ -106,28 +55,6 @@
           </view>
         </view>
       </view>
-
-      <!-- 3. 充值（原第二个Tab，移到第三个） -->
-      <view v-if="currentTab === 2" class="record-section">
-        <no-data v-if="paymentRecord.length === 0" />
-        <view class="record-card recharge-card" v-for="(item, index) in paymentRecord" :key="index">
-          <view class="record-row">
-            <view class="normal-col">
-              <text class="label">付款金额</text>
-              <text class="value highlight">{{ item.payment || 0 }} 元</text>
-            </view>
-            <view class="normal-col">
-              <text class="label">获得币</text>
-              <text class="value accent">{{ item.coin_amount || 0 }} 个</text>
-            </view>
-            <view class="time-col">
-              <text class="label">充值时间</text>
-              <text class="value">{{ item.update_time }}</text>
-            </view>
-          </view>
-        </view>
-      </view>
-
       <!-- 图片预览弹窗 -->
       <view class="preview-mask" v-if="isImagePreviewVisible" @click="closeImagePreview">
         <view class="preview-container" @click.stop>
@@ -170,6 +97,11 @@ export default {
     this.getData();
   },
   methods: {
+    getList() {
+      uni.navigateTo({
+        url: '/pages/getList/index'
+      });
+    },
     initBetForm() {
       // #ifdef APP-PLUS
       this.betForm = 'app';
@@ -279,7 +211,7 @@ export default {
     }
     .user-info {
       .username { font-size: 26rpx; color: #333; display: block; margin-bottom: 6rpx; }
-      .stone-count { font-size: 24rpx; color: #666; }
+      .stone-count { font-size: 24rpx; color: #31926e; }
     }
     .recharge-btn {
       background: #31926e;

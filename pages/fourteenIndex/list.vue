@@ -36,34 +36,22 @@
                 </view>
                 <!-- 胜+分析：接口无此字段，自动隐藏 -->
                 <view class="rate-row" v-if="item.home_win_rate || item.visiting_win_rate">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || '' }}</text>
-                  <text class="vs-text" v-if="item.draw_rate">平率{{item.draw_rate}}</text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || '' }}</text>
-              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.home_win_rate && item.visiting_win_rate" @click.stop="() => goToAiAnalysis(item)"> {{ item.is_buy == 0 ? '1币比分+析' : '比分+析' }}</view>
+                  <text class="rate-text home" v-if="item.home_win_rate">胜率{{ item.home_win_rate || "" }}</text>
+                  <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate">胜率{{ item.visiting_win_rate || "" }}</text>
+                  <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => goToAiAnalysis(item)">
+                    <text>详细</text>
+                    <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+                  </view>
                 </view>
               </view>
 
               <!-- 保留14场原有3/1/0按钮布局 -->
               <view class="bottom-right">
                 <view class="score-btn-group">
-                  <view 
-                    class="score-btn" 
-                    :class="{ selected: item.homeSelected }"
-                    @click="toggleScoreBtn(item, 'homeSelected')"
-                    hover-class="none"
-                  >3</view>
-                  <view 
-                    class="score-btn" 
-                    :class="{ selected: item.vsSelected }"
-                    @click="toggleScoreBtn(item, 'vsSelected')"
-                    hover-class="none"
-                  >1</view>
-                  <view 
-                    class="score-btn" 
-                    :class="{ selected: item.awaySelected }"
-                    @click="toggleScoreBtn(item, 'awaySelected')"
-                    hover-class="none"
-                  >0</view>
+                  <view class="score-btn" :class="{ selected: item.homeSelected }" @click="toggleScoreBtn(item, 'homeSelected')" hover-class="none">3</view>
+                  <view class="score-btn" :class="{ selected: item.vsSelected }" @click="toggleScoreBtn(item, 'vsSelected')" hover-class="none">1</view>
+                  <view class="score-btn" :class="{ selected: item.awaySelected }" @click="toggleScoreBtn(item, 'awaySelected')" hover-class="none">0</view>
                 </view>
               </view>
             </view>
@@ -85,14 +73,14 @@ export default {
     // 🌟 新增drawNumSelectorHeight（和4/6/9场子组件一致）
     drawNumSelectorHeight: {
       type: Number,
-      default: 70 
-    }
+      default: 70,
+    },
   },
   data() {
     return {
       expandedDrawers: [],
       statusBarHeightRpx: 0,
-      windowWidth: 0
+      windowWidth: 0,
     };
   },
   computed: {
@@ -101,15 +89,13 @@ export default {
       if (this.drawerList.length > 0) {
         return this.drawerList;
       }
-      return this.matchList.length > 0 
-        ? [{ title: `周四 2025-12-04 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] 
-        : [];
+      return this.matchList.length > 0 ? [{ title: `周四 2025-12-04 共${this.matchList.length}场比赛`, lotteryList: this.matchList }] : [];
     },
     // 保留14场原有选中计数逻辑
     selectedMatchCount() {
       let count = 0;
-      this.finalDrawerList.forEach(drawer => {
-        drawer.lotteryList.forEach(item => {
+      this.finalDrawerList.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
           if (item.homeSelected || item.vsSelected || item.awaySelected) {
             count++;
           }
@@ -123,14 +109,14 @@ export default {
     },
     stickyHeaderTop() {
       return this.statusBarHeightRpx;
-    }
+    },
   },
   watch: {
     finalDrawerList(newVal) {
       this.expandedDrawers = newVal.map(() => true);
       // 初始化14场胜平负选中状态（保留原有逻辑）
-      newVal.forEach(drawer => {
-        drawer.lotteryList.forEach(item => {
+      newVal.forEach((drawer) => {
+        drawer.lotteryList.forEach((item) => {
           if (item.homeSelected === undefined) item.homeSelected = false;
           if (item.vsSelected === undefined) item.vsSelected = false;
           if (item.awaySelected === undefined) item.awaySelected = false;
@@ -139,15 +125,15 @@ export default {
     },
     statusBarHeight(newVal) {
       this.statusBarHeightRpx = this.pxToRpx(newVal);
-    }
+    },
   },
   created() {
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
     this.expandedDrawers = this.finalDrawerList.map(() => true);
     // 初始化14场胜平负选中状态
-    this.finalDrawerList.forEach(drawer => {
-      drawer.lotteryList.forEach(item => {
+    this.finalDrawerList.forEach((drawer) => {
+      drawer.lotteryList.forEach((item) => {
         if (item.homeSelected === undefined) item.homeSelected = false;
         if (item.vsSelected === undefined) item.vsSelected = false;
         if (item.awaySelected === undefined) item.awaySelected = false;
@@ -163,7 +149,7 @@ export default {
       } catch (e) {
         const systemInfo = wx.getWindowInfo();
         this.windowWidth = systemInfo.windowWidth || 375;
-        console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
+        console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
     },
     // 保持和4/6/9场子组件一致的px转rpx方法
@@ -171,11 +157,13 @@ export default {
       if (!px || !this.windowWidth) return 0;
       return Math.round((px / this.windowWidth) * 750 + 0.5);
     },
-    handleAiAnalysis(item) { console.log('AI分析', item); },
+    handleAiAnalysis(item) {
+      console.log("AI分析", item);
+    },
     // 保留14场原有3/1/0按钮切换逻辑
     toggleScoreBtn(item, key) {
       this.finalDrawerList.forEach((drawer, dIdx) => {
-        const idx = drawer.lotteryList.findIndex(i => i.id === item.id);
+        const idx = drawer.lotteryList.findIndex((i) => i.id === item.id);
         if (idx > -1) {
           // 仅切换当前按钮状态，不影响其他按钮（支持3/1/0同时选中）
           this.$set(drawer.lotteryList[idx], key, !drawer.lotteryList[idx][key]);
@@ -183,7 +171,7 @@ export default {
           this.$emit("toggle-select", drawer.lotteryList[idx], key);
         }
       });
-    }
+    },
   },
 };
 </script>
@@ -198,7 +186,11 @@ export default {
   // #endif
 }
 
-.drawer-wrapper { width: 100%; margin-bottom: 8rpx; background: #f5f5f5 }
+.drawer-wrapper {
+  width: 100%;
+  margin-bottom: 8rpx;
+  background: #f5f5f5;
+}
 
 .sticky-header {
   position: sticky;
@@ -213,16 +205,28 @@ export default {
   font-size: 26rpx;
   color: #333;
 
-  .drawer-title-text { font-size: 24rpx; color: #333; }
-  .arrow-icon { transition: transform 0.2s ease; font-size: 24rpx; color: #666; }
-  .rotated { transform: rotate(180deg); }
+  .drawer-title-text {
+    font-size: 24rpx;
+    color: #333;
+  }
+  .arrow-icon {
+    transition: transform 0.2s ease;
+    font-size: 24rpx;
+    color: #666;
+  }
+  .rotated {
+    transform: rotate(180deg);
+  }
 }
 
-.drawer-content { width: 100%; transition: all 0.2s ease; }
+.drawer-content {
+  width: 100%;
+  transition: all 0.2s ease;
+}
 
 .match-row {
   background-color: #fff;
-  border-bottom: 1rpx solid #DEDEDE;
+  border-bottom: 1rpx solid #dedede;
   box-sizing: border-box;
   padding: 0rpx 20rpx;
   display: flex;
@@ -230,7 +234,7 @@ export default {
   gap: 0;
   margin-bottom: 4rpx;
   border-radius: 8rpx;
-  box-shadow: 0 2rpx 5rpx rgba(0,0,0,0.05);
+  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.05);
   width: 100%;
   overflow: hidden;
 }
@@ -300,7 +304,10 @@ export default {
   width: 100%;
   cursor: pointer;
   transition: all 0.2s ease;
-  &:active { color: #d92929; opacity: 0.8; }
+  &:active {
+    color: #d92929;
+    opacity: 0.8;
+  }
 
   /* 主队名容器：固定占比，右对齐 */
   .team-name.home {
@@ -370,10 +377,15 @@ export default {
     transition: opacity 0.2s;
     flex-shrink: 0;
     margin-left: 12rpx;
-    &:active { opacity: 0.8; }
+    &:active {
+      opacity: 0.8;
+    }
+  }
+  .small-coin {
+    font-size: 18rpx !important;
+    margin-left: 4rpx;
   }
 }
-
 
 /* 保留14场原有3/1/0按钮样式 */
 .bottom-right {
@@ -418,6 +430,10 @@ export default {
 }
 
 /* 兼容优化：保留核心，删除冗余的APP-PLUS适配（父组件已统一处理） */
-::-webkit-scrollbar { display: none; }
-button::after { border: none; }
+::-webkit-scrollbar {
+  display: none;
+}
+button::after {
+  border: none;
+}
 </style>

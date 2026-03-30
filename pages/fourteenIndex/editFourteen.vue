@@ -3,7 +3,7 @@
     <!-- 顶部导航 -->
     <CustomHeader 
       :ballTitle="'足球'" 
-      title="胜负" 
+      title="14" 
       :showBack="true" 
       :showIcon="false" 
       @back-click="handleBack" 
