@@ -305,6 +305,7 @@ var _default2 = {
   created: function created() {
     var _this = this;
     this.$nextTick(function () {
+      console.log(uni.getStorageSync('xiValue'), '这个是胜平负得-------------');
       _this.xiValue = uni.getStorageSync('xiValue');
     });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）

@@ -385,12 +385,10 @@ var _default2 = {
   },
   mounted: function mounted() {},
   created: function created() {
-    var _this = this;
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
-    this.$nextTick(function () {
-      xiValue: false, _this.xiValue = uni.getStorageSync('xiValue');
-    });
+    console.log(uni.getStorageSync('xiValue'), '-------------------------');
+    this.xiValue = uni.getStorageSync('xiValue');
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
     this.expandedDrawers = this.finalDrawerList.map(function () {
       return true;

@@ -3,7 +3,7 @@
     <view v-for="(item, index) in courseList" :key="index" class="item">
       <view class="time">
         <text>{{ forateData(item.race_date) }}</text>
-<view v-if="item.is_over == 0 && item.home_win_rate != 0&&xiValue" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)">
+<view v-if="item.is_over == 0 && item.home_win_rate != 0&&item.url_show_status == 1" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)">
   <text>详细</text>
   <text class="small-coin" v-if="item.is_buy == 0">1币</text>
 </view>
@@ -53,7 +53,6 @@ export default {
   created(){
     this.$nextTick(()=>{
     this.xiValue = uni.getStorageSync('xiValue');
-    
     })
   },
   methods: {

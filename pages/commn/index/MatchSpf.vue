@@ -24,11 +24,11 @@
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
               <!-- 兼容事件：统一用 @click.stop 适配多端 -->
-<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
-  <text>详细</text>
-  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
-</view>
-            </view>
+        <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+          <text>详细</text>
+          <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+        </view>
+                    </view>
           </view>
 
           <!-- 原有赛事内容（第二行） -->
@@ -166,11 +166,8 @@ export default {
   created() {
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
-    this.$nextTick(()=>{
-    xiValue: false,this.xiValue = uni.getStorageSync('xiValue');
-    
-    })
-
+    console.log(uni.getStorageSync('xiValue'),'-------------------------')
+    this.xiValue = uni.getStorageSync('xiValue');
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
     this.expandedDrawers = this.finalDrawerList.map(() => true);
   },

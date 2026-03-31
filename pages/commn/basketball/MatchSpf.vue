@@ -135,6 +135,7 @@ export default {
   },
   created() {
         this.$nextTick(()=>{
+          console.log(uni.getStorageSync('xiValue'), '这个是胜平负得-------------')
     this.xiValue = uni.getStorageSync('xiValue');
     
     })

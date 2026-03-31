@@ -143,6 +143,7 @@ export default {
       // 处理值：兼容字符串/数字，兜底false
       v = v === undefined || v === null ? false : (v == '1' );
       t = t === undefined || t === null ? false : (t == '1' );
+      console.log(v,t, 'v,tttttttttttttttttttt')
       uni.setStorageSync("urlValue", v);
       uni.setStorageSync("xiValue", t);
     });
