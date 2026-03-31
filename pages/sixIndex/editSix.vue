@@ -296,7 +296,6 @@ export default {
     }
   }
 
-  // 6场半全场专属样式
   .bottom-right {
     width: 100%;
     box-sizing: border-box;

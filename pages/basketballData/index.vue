@@ -4,7 +4,7 @@
     <CustomHeader
       :showBack="true"
       :ballTitle="''"
-      :title="''"
+      :title="'KeepSeek'"
       :isIndex="false"
       :showIcon="false"
       :isSelected="false"
@@ -37,10 +37,10 @@
           </view>
         </view>
         
-        <view class="match-right">
+        <view class="match-right" v-if="urlValue">
           <view class="status-wrapper">
-            <image v-if="item.showImage == 1" class="gif-icon" src="https://www.tianjifu.com/static/bg.gif"></image>
-            <text class="status-text">{{ item.statusName}}</text>
+            <image v-if="item.showImage == 1&&urlValue" class="gif-icon" src="https://www.tianjifu.com/static/bg.gif"></image>
+            <text class="status-text" v-if="urlValue">{{ item.statusName}}</text>
           </view>
         </view>
       </view>
@@ -63,11 +63,13 @@ export default {
   data() {
     return {
       matchList: [],
-      dateTitle: ""
+      dateTitle: "",
+      urlValue: false,
     };
   },
   created() {
     this.getMatchData();
+        this.urlValue = uni.getStorageSync('urlValue');
   },
   methods: {
     // 获取比赛数据

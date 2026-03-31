@@ -190,7 +190,6 @@ var _default = {
   },
   data: function data() {
     return {
-      // 🌟 新增期数相关变量（和4球一致）
       currentDrawNum: '',
       drawNumList: [],
       navBarTotalHeight: 88,

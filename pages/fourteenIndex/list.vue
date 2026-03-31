@@ -33,10 +33,10 @@
                   <text class="team-name away">{{ item.visiting_name }}</text>
                 </view>
                 
-                <view class="rate-row" v-if="item.home_win_rate && xiValue">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || '' }}</text>
-                  <text class="vs-text" v-if="item.draw_rate">平{{item.draw_rate}}</text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || '' }}</text>
+                <view class="rate-row" v-if="item.home_win_rate  && item.url_show_status==1">
+                  <text class="rate-text home" v-if="item.home_win_rate && item.url_show_status==1">胜{{ item.home_win_rate || '' }}</text>
+                  <text class="vs-text" v-if="item.draw_rate && item.url_show_status==1">平{{item.draw_rate}}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate && item.url_show_status==1">胜{{ item.visiting_win_rate || '' }}</text>
 <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.home_win_rate && item.visiting_win_rate&&item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
   <text>详细</text>
   <text class="small-coin" v-if="item.is_buy == 0">1币</text>
@@ -297,7 +297,7 @@ export default {
   overflow: hidden;
 }
 
-/* 队名行：绝对对称布局，为对齐锁死尺寸 */
+
 .team-vs {
   font-size: 24rpx;
   color: #333;
@@ -308,7 +308,7 @@ export default {
   transition: all 0.2s ease;
   &:active { color: #d92929; opacity: 0.8; }
 
-  /* 主队名容器：固定占比，右对齐 */
+  
   .team-name.home {
     width: calc((100% - 80rpx) / 2.1);
     text-align: right;
@@ -343,7 +343,7 @@ export default {
   font-size: 22rpx;
   color: #999;
 
-  /* 主队胜容器：和主队名尺寸/对齐完全一致 */
+  
   .rate-text.home {
     width: calc((100% - 80rpx) / 2.1);
     text-align: right;
@@ -360,7 +360,7 @@ export default {
     color: #999;
     font-size: 20rpx;
   }
-  /* 客队胜容器：和客队名尺寸/对齐完全一致 */
+  
   .rate-text.away {
     text-align: left;
     padding-left: 20rpx;

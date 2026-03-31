@@ -3,7 +3,7 @@
     style="width: 100%; height: 100vh; box-sizing: border-box;">
     <!-- 顶部导航 -->
     <CustomHeader
-      :title="'6场半全'"
+      :title="'6半全'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
@@ -91,7 +91,6 @@ export default {
   },
   data() {
     return {
-      // 🌟 新增期数相关变量（和4球一致）
       currentDrawNum: '', 
       drawNumList: [], 
       navBarTotalHeight: 88, // 兜底默认值，和4球一致

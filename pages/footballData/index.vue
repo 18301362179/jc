@@ -34,14 +34,14 @@
             <text class="score">{{ item.sectionsNo999 }}</text>
             <text class="team-name away">{{ item.awayName }}</text>
           </view>
-          <text class="half-score">半场 {{ item.sectionsNo1 }}</text>
+          <text class="half-score">半&nbsp;场 {{ item.sectionsNo1 }}</text>
         </view>
         
-        <view class="match-right">
+        <view class="match-right" v-if="urlValue">
           <view class="status-wrapper">
             <!-- 动图：showImage=1 显示，0 隐藏 -->
-            <image v-if="item.showImage == 1" class="gif-icon" src="https://www.tianjifu.com/static/fg.gif"></image>
-            <text class="status-text">{{ item.statusName}}</text>
+            <image v-if="item.showImage == 1&& urlValue" class="gif-icon" src="https://www.tianjifu.com/static/fg.gif"></image>
+            <text class="status-text" v-if="urlValue">{{ item.statusName}}</text>
           </view>
         </view>
       </view>
@@ -63,11 +63,13 @@ export default {
   data() {
     return {
       matchList: [],
-      dateTitle: ""
+      dateTitle: "",
+      urlValue:false,
     };
   },
   created() {
     this.getMatchData();
+        this.urlValue = uni.getStorageSync('urlValue');
   },
   methods: {
     async getMatchData() {

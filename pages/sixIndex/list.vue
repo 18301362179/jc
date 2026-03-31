@@ -35,10 +35,10 @@
                   <text class="team-name away">{{ item.visiting_name }}</text>
                 </view>
                 
-                <view class="rate-row" v-if="item.home_win_rate && xiValue">
-                  <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || '' }}</text>
-                 <text class="vs-text" v-if="item.draw_rate">平{{item.draw_rate}}</text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate">胜{{ item.visiting_win_rate || '' }}</text>
+                <view class="rate-row" v-if="item.home_win_rate && item.url_show_status==1">
+                  <text class="rate-text home" v-if="item.home_win_rate && item.url_show_status==1">胜{{ item.home_win_rate || '' }}</text>
+                 <text class="vs-text" v-if="item.draw_rate && item.url_show_status==1">平{{item.draw_rate}}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate && item.url_show_status==1">胜{{ item.visiting_win_rate || '' }}</text>
 <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
   <text>详细</text>
   <text class="small-coin" v-if="item.is_buy == 0">1币</text>
@@ -332,7 +332,7 @@ export default {
   overflow: hidden;
 }
 
-/* 队名行：绝对对称布局，为对齐锁死尺寸 */
+
 .team-vs {
   font-size: 24rpx;
   color: #333;
@@ -343,7 +343,7 @@ export default {
   transition: all 0.2s ease;
   &:active { color: #d92929; opacity: 0.8; }
 
-  /* 主队名容器：固定占比，右对齐 */
+  
   .team-name.home {
     width: calc((100% - 80rpx) / 2.1);
     text-align: right;
@@ -352,14 +352,14 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  /* VS容器：固定80rpx，居中（和你截图一致） */
+  
   .vs-text {
     width: 100rpx;
     text-align: center;
     flex-shrink: 0;
     font-weight: 500;
   }
-  /* 客队名容器：固定占比，左对齐 */
+  
   .team-name.away {
     width: calc((100% - 80rpx) / 2.1);
     text-align: left;
@@ -370,7 +370,7 @@ export default {
   }
 }
 
-/* 胜行：和队名行1:1复刻尺寸，绝对对齐 */
+
 .rate-row {
   width: 100%;
   display: flex;
@@ -378,7 +378,7 @@ export default {
   font-size: 22rpx;
   color: #999;
 
-  /* 主队胜容器：和主队名尺寸/对齐完全一致 */
+  
   .rate-text.home {
     width: calc((100% - 80rpx) / 2.1);
     text-align: right;
@@ -395,7 +395,7 @@ export default {
     color: #999;
     font-size: 20rpx;
   }
-  /* 客队胜容器：和客队名尺寸/对齐完全一致 */
+  
   .rate-text.away {
     text-align: left;
     padding-left: 20rpx;
@@ -403,7 +403,7 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  /* 分析按钮：不影响对齐，单独靠外 */
+  
 .ai-analysis-btn {
   font-size: 22rpx;
   color: #06f;

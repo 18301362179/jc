@@ -53,7 +53,7 @@
                 @click="() => checkAndSelect(item, 'homeSelected')"
               >
                 <view class="team-name">{{ item.home_name }}</view>
-                <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
+                <text class="odds" v-if="item.win_multiplier&&xiValue">主胜{{ item.win_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
                 <text class="odds rate" v-if="item.home_win_rate&&xiValue">
                   胜
@@ -71,7 +71,7 @@
                 @click="() => checkAndSelect(item, 'vsSelected')"
               >
                 <text class="vs-text">VS</text>
-                <text class="vs-odds" v-if="item.draw_multiplier">平{{ item.draw_multiplier }}</text>
+                <text class="vs-odds" v-if="item.draw_multiplier&&xiValue">平{{ item.draw_multiplier }}</text>
                 <!-- 拆分文字：只让平数值变绿 -->
                 <text class="vs-odds" v-if="item.draw_rate&&xiValue">
                   平
@@ -89,7 +89,7 @@
                 @click="() => checkAndSelect(item, 'awaySelected')"
               >
                 <text class="team-name">{{ item.visiting_name }}</text>
-                <text class="odds" v-if="item.loss_multiplier">主负{{ item.loss_multiplier }}</text>
+                <text class="odds" v-if="item.loss_multiplier&&xiValue">主负{{ item.loss_multiplier }}</text>
                 <!-- 拆分文字：只让百分比数值变绿 -->
                 <text class="odds rate" v-if="item.visiting_win_rate&&xiValue">
                   胜

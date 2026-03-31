@@ -60,7 +60,7 @@
                     )</text
                   ></view
                 >
-                <text class="odds" v-if="item.r_win_multiplier">主胜{{ item.r_win_multiplier }}</text>
+                <text class="odds" v-if="item.r_win_multiplier&&xiValue">主胜{{ item.r_win_multiplier }}</text>
                 <text class="odds rate" v-if="item.home_win_rate&&xiValue">
                   胜
                   <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.handicapHomeSelected) }">{{ item.home_win_rate || "" }}</text>

@@ -238,7 +238,7 @@ var _default = {
       t = t === undefined || t === null ? false : t == '1';
       console.log(v, t, 'v,tttttttttttttttttttt');
       uni.setStorageSync("urlValue", v);
-      uni.setStorageSync("xiValue", t);
+      uni.setStorageSync("xiValue", v);
     });
 
     // 仅保留授权锁重置

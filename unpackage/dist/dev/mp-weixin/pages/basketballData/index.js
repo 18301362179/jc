@@ -166,11 +166,13 @@ var _default = {
   data: function data() {
     return {
       matchList: [],
-      dateTitle: ""
+      dateTitle: "",
+      urlValue: false
     };
   },
   created: function created() {
     this.getMatchData();
+    this.urlValue = uni.getStorageSync('urlValue');
   },
   methods: {
     // 获取比赛数据

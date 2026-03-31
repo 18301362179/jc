@@ -145,12 +145,12 @@ export default {
       t = t === undefined || t === null ? false : (t == '1' );
       console.log(v,t, 'v,tttttttttttttttttttt')
       uni.setStorageSync("urlValue", v);
-      uni.setStorageSync("xiValue", t);
+      uni.setStorageSync("xiValue", v);
     });
     // #endif
     // #ifdef H5
-    uni.setStorageSync("urlValue", v);
-     uni.setStorageSync("xiValue", t);
+    uni.setStorageSync("urlValue", v); // 其它是这个
+     uni.setStorageSync("xiValue", v); // 分析是这个
     this.$nextTick(()=>{Vue.prototype.urlValue = v;Vue.prototype.xiValue = t;})
     // #endif
     // #ifdef APP-PLUS

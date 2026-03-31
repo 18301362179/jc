@@ -175,11 +175,13 @@ var _default = {
   data: function data() {
     return {
       matchList: [],
-      dateTitle: ""
+      dateTitle: "",
+      urlValue: false
     };
   },
   created: function created() {
     this.getMatchData();
+    this.urlValue = uni.getStorageSync('urlValue');
   },
   methods: {
     getMatchData: function getMatchData() {
