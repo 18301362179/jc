@@ -47,7 +47,7 @@
               </view>
 
               <!-- 保留6球原有半全场按钮布局 -->
-              <view class="bottom-right">
+              <view class="bottom-right" v-if="item.url_show_status==1">
                 <!-- 半场行 -->
                 <view class="score-row half-row">
                   <text class="row-label">半</text>

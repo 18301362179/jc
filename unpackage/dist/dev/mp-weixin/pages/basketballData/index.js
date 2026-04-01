@@ -102,7 +102,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = _vm.matchList.length
+  var g0 = _vm.urlValue ? _vm.matchList.length : null
   _vm.$mp.data = Object.assign(
     {},
     {
