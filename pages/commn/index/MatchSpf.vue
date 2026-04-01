@@ -26,7 +26,7 @@
               <!-- 兼容事件：统一用 @click.stop 适配多端 -->
               <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="$xiValue" @click.stop="() => goToAiAnalysis(item)">
                 <text>详细</text>
-                <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+                <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
               </view>
             </view>
           </view>
