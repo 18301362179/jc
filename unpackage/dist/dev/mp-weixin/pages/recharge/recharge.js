@@ -198,9 +198,6 @@ var _default = {
   data: function data() {
     return {
       list: [{
-        count: 10,
-        bi: 50
-      }, {
         count: 19,
         bi: 100
       }, {
@@ -209,6 +206,9 @@ var _default = {
       }, {
         count: 80,
         bi: 500
+      }, {
+        count: 200,
+        bi: 1500
       }],
       selectedIndex: 1,
       showTip: false,
