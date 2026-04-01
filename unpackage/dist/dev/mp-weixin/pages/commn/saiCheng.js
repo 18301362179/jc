@@ -179,11 +179,14 @@ var _data = __webpack_require__(/*! @/utils/data */ 62);
 //
 //
 //
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       courseList: [],
-      goal: '比分'
+      goal: "比分"
     };
   },
   methods: {
@@ -213,14 +216,14 @@ var _default = {
       }))();
     },
     getSign: function getSign(handicap) {
-      if (!handicap) return '';
+      if (!handicap) return "";
       var str = String(handicap);
-      return str.startsWith('-') ? '-' : '+';
+      return str.startsWith("-") ? "-" : "+";
     },
     getNumber: function getNumber(handicap) {
-      if (!handicap) return '';
-      var str = String(handicap).replace(/^[+-]/, '');
-      return str || '0';
+      if (!handicap) return "";
+      var str = String(handicap).replace(/^[+-]/, "");
+      return str || "0";
     }
   }
 };

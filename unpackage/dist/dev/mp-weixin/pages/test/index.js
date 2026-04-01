@@ -103,9 +103,13 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var m0 = _vm.forateData(_vm.courseMap.race_date)
-  var m1 = _vm.decimalToPercentage(_vm.baseMap.home_win_rate, 0)
-  var m2 = _vm.decimalToPercentage(_vm.baseMap.draw_rate)
-  var m3 = _vm.decimalToPercentage(_vm.baseMap.visiting_win_rate, 0)
+  var m1 = _vm.$urlValue
+    ? _vm.decimalToPercentage(_vm.baseMap.home_win_rate, 0)
+    : null
+  var m2 = _vm.$urlValue ? _vm.decimalToPercentage(_vm.baseMap.draw_rate) : null
+  var m3 = _vm.$urlValue
+    ? _vm.decimalToPercentage(_vm.baseMap.visiting_win_rate, 0)
+    : null
   var g0 = _vm.filteredRecords.length
   var g1 = _vm.filteredRecords.length
   var l0 =

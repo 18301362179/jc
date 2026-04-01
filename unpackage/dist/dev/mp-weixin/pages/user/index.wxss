@@ -55,7 +55,7 @@
 }
 .container .header .user-info .stone-count.data-v-137d5072 {
   font-size: 24rpx;
-  color: #666;
+  color: #31926e;
 }
 .container .header .recharge-btn.data-v-137d5072 {
   background: #31926e;

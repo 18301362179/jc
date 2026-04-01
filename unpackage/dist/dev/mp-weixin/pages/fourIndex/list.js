@@ -250,35 +250,6 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default2 = {
   props: {
     matchList: {
@@ -381,7 +352,7 @@ var _default2 = {
       } catch (e) {
         var systemInfo = wx.getWindowInfo();
         this.windowWidth = systemInfo.windowWidth || 375;
-        console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
+        console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
     },
     pxToRpx: function pxToRpx(px) {

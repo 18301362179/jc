@@ -240,23 +240,32 @@ var _default = {
   }(),
   // 页面显示：核心修复循环调用问题
   onShow: function onShow() {
-    // 重置基础标记（保留失败标记，避免重复尝试）
-    this.h5AuthLock = false;
-    isSharePanelOpened = false;
-    // 延迟执行分享初始化：避免页面未加载完成就触发
-    setTimeout( /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-      return _regenerator.default.wrap(function _callee2$(_context2) {
+    var _this = this;
+    return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+      return _regenerator.default.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
+              _this.h5AuthLock = false;
+              isSharePanelOpened = false;
+              setTimeout( /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+                return _regenerator.default.wrap(function _callee2$(_context2) {
+                  while (1) {
+                    switch (_context2.prev = _context2.next) {
+                      case 0:
+                      case "end":
+                        return _context2.stop();
+                    }
+                  }
+                }, _callee2);
+              })), 500);
+            case 3:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2);
-    })), 500); // 延长延迟时间，避免页面切换频繁触发
-
-    // 清除重复的赠币监听
+      }, _callee3);
+    }))();
   },
   // 页面隐藏：重置标记，避免循环
   onHide: function onHide() {
@@ -312,12 +321,12 @@ var _default = {
     },
     // 等待微信JS-SDK加载完成
     waitForJWeixin: function waitForJWeixin() {
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
-        return _regenerator.default.wrap(function _callee3$(_context3) {
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+        return _regenerator.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                return _context3.abrupt("return", new Promise(function (resolve, reject) {
+                return _context4.abrupt("return", new Promise(function (resolve, reject) {
                   var startTime = Date.now();
                   var checkInterval = setInterval(function () {
                     if (window.jWeixin && typeof window.jWeixin.config === 'function') {
@@ -333,10 +342,10 @@ var _default = {
                 }));
               case 1:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       }))();
     },
     // 获取稳定URL：彻底解决签名无效问题（核心修改）
@@ -352,15 +361,15 @@ var _default = {
     },
     // 初始化微信分享：彻底修复循环+签名问题
     initGlobalWxShare: function initGlobalWxShare() {
-      var _this = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
+      var _this2 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
         var wx, currentUrl, res, wxConfig;
-        return _regenerator.default.wrap(function _callee5$(_context5) {
+        return _regenerator.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(shareInitLock || isWxLoading || isWxConfigFailed)) {
-                  _context5.next = 3;
+                  _context6.next = 3;
                   break;
                 }
                 console.log('[微信分享] 初始化被拦截：', {
@@ -368,7 +377,7 @@ var _default = {
                   isWxLoading: isWxLoading,
                   isWxConfigFailed: isWxConfigFailed
                 });
-                return _context5.abrupt("return");
+                return _context6.abrupt("return");
               case 3:
                 // 标记初始化锁
                 shareInitLock = true;
@@ -380,37 +389,37 @@ var _default = {
                 if (false) {}
                 isWxLoading = false;
                 shareInitLock = false;
-                return _context5.abrupt("return");
+                return _context6.abrupt("return");
               case 9:
                 if (!isWxConfigInited) {
-                  _context5.next = 14;
+                  _context6.next = 14;
                   break;
                 }
                 try {
-                  _this.setWxShareContent(window.jWeixin);
+                  _this2.setWxShareContent(window.jWeixin);
                 } catch (e) {
                   console.error('[微信分享] 已初始化但设置内容失败：', e);
                 }
                 isWxLoading = false;
                 shareInitLock = false;
-                return _context5.abrupt("return");
+                return _context6.abrupt("return");
               case 14:
-                _context5.prev = 14;
-                _context5.next = 17;
-                return _this.waitForJWeixin();
+                _context6.prev = 14;
+                _context6.next = 17;
+                return _this2.waitForJWeixin();
               case 17:
-                wx = _context5.sent;
-                _context5.next = 20;
-                return _this.getStableUrl();
+                wx = _context6.sent;
+                _context6.next = 20;
+                return _this2.getStableUrl();
               case 20:
-                currentUrl = _context5.sent;
-                _context5.next = 23;
+                currentUrl = _context6.sent;
+                _context6.next = 23;
                 return (0, _demo.getH5ShareInfo)({
                   shareUrl: currentUrl,
                   _t: Date.now() // 加时间戳避免缓存
                 });
               case 23:
-                res = _context5.sent;
+                res = _context6.sent;
                 wxConfig = res.data; // 微信配置：参数与后端完全一致
                 wx.config({
                   debug: false,
@@ -431,15 +440,15 @@ var _default = {
                   isWxLoading = false;
                   shareInitLock = false;
                   isWxConfigFailed = false;
-                  _this.setWxShareContent(wx);
+                  _this2.setWxShareContent(wx);
                 });
 
                 // 配置失败：修复重试逻辑
                 wx.error( /*#__PURE__*/function () {
-                  var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(err) {
-                    return _regenerator.default.wrap(function _callee4$(_context4) {
+                  var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(err) {
+                    return _regenerator.default.wrap(function _callee5$(_context5) {
                       while (1) {
-                        switch (_context4.prev = _context4.next) {
+                        switch (_context5.prev = _context5.next) {
                           case 0:
                             console.error("[\u5FAE\u4FE1\u5206\u4EAB] \u914D\u7F6E\u5931\u8D25\uFF08\u7B2C".concat(retryCount + 1, "\u6B21\uFF09\uFF1A"), err);
                             isWxLoading = false;
@@ -451,7 +460,7 @@ var _default = {
                               setTimeout(function () {
                                 isWxConfigInited = false; // 重置初始化标记
                                 shareInitLock = false; // 释放锁允许重试
-                                _this.initGlobalWxShare();
+                                _this2.initGlobalWxShare();
                               }, retryCount * 1500); // 递增重试间隔，避免频繁请求
                             } else {
                               // 超过重试次数，标记为彻底失败
@@ -462,21 +471,21 @@ var _default = {
                             }
                           case 3:
                           case "end":
-                            return _context4.stop();
+                            return _context5.stop();
                         }
                       }
-                    }, _callee4);
+                    }, _callee5);
                   }));
                   return function (_x) {
                     return _ref2.apply(this, arguments);
                   };
                 }());
-                _context5.next = 36;
+                _context6.next = 36;
                 break;
               case 30:
-                _context5.prev = 30;
-                _context5.t0 = _context5["catch"](14);
-                console.error('[微信分享] 初始化异常：', _context5.t0);
+                _context6.prev = 30;
+                _context6.t0 = _context6["catch"](14);
+                console.error('[微信分享] 初始化异常：', _context6.t0);
                 isWxLoading = false;
                 shareInitLock = false;
 
@@ -485,7 +494,7 @@ var _default = {
                   retryCount++;
                   setTimeout(function () {
                     isWxConfigInited = false;
-                    _this.initGlobalWxShare();
+                    _this2.initGlobalWxShare();
                   }, 1000);
                 } else {
                   isWxConfigFailed = true;
@@ -493,10 +502,10 @@ var _default = {
                 }
               case 36:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, null, [[14, 30]]);
+        }, _callee6, null, [[14, 30]]);
       }))();
     },
     // 设置分享内容：固定分享链接，避免签名问题
@@ -591,37 +600,37 @@ var _default = {
     },
     // 调用赠币接口
     callShareGiveCoin: function callShareGiveCoin() {
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
-        return _regenerator.default.wrap(function _callee6$(_context6) {
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+        return _regenerator.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!hasGrantCoin) {
-                  _context6.next = 3;
+                  _context7.next = 3;
                   break;
                 }
                 console.log('已赠币，跳过重复调用');
-                return _context6.abrupt("return");
+                return _context7.abrupt("return");
               case 3:
-                _context6.prev = 3;
-                _context6.next = 6;
+                _context7.prev = 3;
+                _context7.next = 6;
                 return (0, _demo.shareGiveCoin)();
               case 6:
                 hasGrantCoin = true;
                 console.log('赠币接口调用成功');
-                _context6.next = 14;
+                _context7.next = 14;
                 break;
               case 10:
-                _context6.prev = 10;
-                _context6.t0 = _context6["catch"](3);
-                console.error('赠币接口调用失败：', _context6.t0);
+                _context7.prev = 10;
+                _context7.t0 = _context7["catch"](3);
+                console.error('赠币接口调用失败：', _context7.t0);
                 hasGrantCoin = false;
               case 14:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, null, [[3, 10]]);
+        }, _callee7, null, [[3, 10]]);
       }))();
     }
   }

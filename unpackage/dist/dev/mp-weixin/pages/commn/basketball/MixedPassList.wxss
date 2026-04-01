@@ -150,6 +150,9 @@
   border-bottom-right-radius: 16rpx;
   margin-right: 10rpx;
 }
+.match-status-row .status-right.data-v-f71cb774 {
+  /* 加在这里 */
+}
 .match-status-row .status-right .ai-analysis-btn.data-v-f71cb774 {
   font-size: 24rpx;
   color: #06f;
@@ -159,6 +162,10 @@
 }
 .match-status-row .status-right .ai-analysis-btn.data-v-f71cb774:active {
   opacity: 0.8;
+}
+.match-status-row .status-right .small-coin.data-v-f71cb774 {
+  font-size: 20rpx !important;
+  margin-left: 4rpx;
 }
 .main-content-row.data-v-f71cb774 {
   display: flex;

@@ -102,34 +102,14 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = _vm.currentTab === 0 ? _vm.lotteryPurchasing.length : null
-  var l0 =
-    _vm.currentTab === 0
-      ? _vm.__map(_vm.lotteryPurchasing, function (item, index) {
-          var $orig = _vm.__get_orig(item)
-          var m0 = _vm.getStatusClass(item.status)
-          var m1 = _vm.getStatusText(item.status)
-          var m2 = _vm.getAvatarText(item.remarkName)
-          return {
-            $orig: $orig,
-            m0: m0,
-            m1: m1,
-            m2: m2,
-          }
-        })
-      : null
+  var g0 = _vm.currentTab === 1 ? _vm.tradeRecord.length : null
   var g1 = _vm.currentTab === 1 ? _vm.tradeRecord.length : null
-  var g2 = _vm.currentTab === 1 ? _vm.tradeRecord.length : null
-  var g3 = _vm.currentTab === 2 ? _vm.paymentRecord.length : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
-        l0: l0,
         g1: g1,
-        g2: g2,
-        g3: g3,
       },
     }
   )
@@ -220,6 +200,11 @@ var _default = {
     this.getData();
   },
   methods: {
+    getList: function getList() {
+      uni.navigateTo({
+        url: '/pages/getList/index'
+      });
+    },
     initBetForm: function initBetForm() {
       this.betForm = 'weChatMiniProgram';
     },

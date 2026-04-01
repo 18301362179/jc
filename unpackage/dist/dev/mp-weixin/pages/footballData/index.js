@@ -105,11 +105,9 @@ var render = function () {
   var l0 = _vm.__map(_vm.matchList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m0 = _vm.formatTime(item.raceDate)
-    var m1 = _vm.formatStatus(item.statusName)
     return {
       $orig: $orig,
       m0: m0,
-      m1: m1,
     }
   })
   var g0 = _vm.matchList.length

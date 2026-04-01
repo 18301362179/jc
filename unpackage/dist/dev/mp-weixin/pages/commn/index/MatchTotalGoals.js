@@ -286,6 +286,9 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
 var _default2 = {
   props: {
     // 原有props：完全保留总进球的原始定义

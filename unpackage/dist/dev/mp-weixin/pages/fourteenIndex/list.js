@@ -197,18 +197,6 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default2 = {
   props: {
     matchList: {
@@ -317,7 +305,7 @@ var _default2 = {
       } catch (e) {
         var systemInfo = wx.getWindowInfo();
         this.windowWidth = systemInfo.windowWidth || 375;
-        console.warn('当前微信版本不支持wx.getWindowInfo，已降级兼容', e);
+        console.warn("当前微信版本不支持wx.getWindowInfo，已降级兼容", e);
       }
     },
     // 保持和4/6/9场子组件一致的px转rpx方法
@@ -326,7 +314,7 @@ var _default2 = {
       return Math.round(px / this.windowWidth * 750 + 0.5);
     },
     handleAiAnalysis: function handleAiAnalysis(item) {
-      console.log('AI分析', item);
+      console.log("AI分析", item);
     },
     // 保留14场原有3/1/0按钮切换逻辑
     toggleScoreBtn: function toggleScoreBtn(item, key) {

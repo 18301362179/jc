@@ -59,10 +59,11 @@ export default {
     return {
       // 灵石档位列表
       list: [
-        { count: 10, bi: 50 },    
+      
         { count: 19, bi: 100 },   
         { count: 45, bi: 250 },  
-        { count: 80, bi: 500 }  
+        { count: 80, bi: 500 },
+        { count: 200, bi: 1500 },    
       ],
       // 选中的列表索引
       selectedIndex: 1, 

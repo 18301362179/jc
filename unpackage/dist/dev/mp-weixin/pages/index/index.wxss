@@ -65,14 +65,6 @@ page.data-v-57280228 {
   width: 100%;
   box-sizing: border-box;
 }
-.section-title.data-v-57280228 {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 50rpx;
-  padding-left: 8rpx;
-  border-left: 4rpx solid #d92929;
-}
 .game-grid.data-v-57280228 {
   display: flex;
   flex-wrap: wrap;
@@ -84,8 +76,8 @@ page.data-v-57280228 {
   flex-direction: column;
   align-items: center;
   width: calc((100% - 40rpx) / 3);
-  margin-top: 40rpx;
-  margin-bottom: 40rpx;
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
   cursor: pointer;
   box-sizing: border-box;
 }
