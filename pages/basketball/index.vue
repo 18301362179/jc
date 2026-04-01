@@ -3,12 +3,12 @@
     <CustomHeader :showBack="true" :ballTitle="' '" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
-      <MatchSpf ref="spfRef" v-if="currentPlay === '胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
-      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让分胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
-      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '大小分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleHalfFullSelect" :go-to-ai-analysis="goToAiAnalysis" />
-      <MatchScore ref="scoreRef" v-else-if="currentPlay === '胜分差'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-score-select="toggleScoreSelect" :go-to-ai-analysis="goToAiAnalysis" @on-score-selected="handleScoreSelected" />
+      <MatchSpf ref="spfRef" v-if="currentPlay === '胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="myValue" />
+      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让分胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="myValue" />
+      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '大小分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleHalfFullSelect" :go-to-ai-analysis="myValue" />
+      <MatchScore ref="scoreRef" v-else-if="currentPlay === '胜分差'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-score-select="toggleScoreSelect" :go-to-ai-analysis="myValue" @on-score-selected="handleScoreSelected" />
       <!-- 新增：混合过关组件 -->
-      <MixedPassList ref="hhggRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :match-list="drawerList.flatMap((d) => d.lotteryList)" :status-bar-height="statusBarHeight" :go-to-ai-analysis="goToAiAnalysis" @toggle-spf-multi-select="handleHhggSpfSelect" @toggle-multi-select="handleHhggMultiSelect" />
+      <MixedPassList ref="hhggRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :match-list="drawerList.flatMap((d) => d.lotteryList)" :status-bar-height="statusBarHeight" :go-to-ai-analysis="myValue" @toggle-spf-multi-select="handleHhggSpfSelect" @toggle-multi-select="handleHhggMultiSelect" />
     </scroll-view>
     <view class="bet-bar" v-if="urlValue">
       <view class="bet-bar-inner">
@@ -817,7 +817,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
     handleFunnel() {
       this.isPopupShow = true;
     },
-    async goToAiAnalysis(item) {
+    async myValue(item) {
       try {
         this.showLoading();
         const reqParams = {

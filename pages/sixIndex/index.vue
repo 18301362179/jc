@@ -32,7 +32,7 @@
         :drawer-list="drawerList"
         :status-bar-height="statusBarHeight"
         @toggle-select="toggleSelect"
-        :go-to-ai-analysis="goToAiAnalysis"
+        :go-to-ai-analysis="myValue"
       />
     </scroll-view>
     <BetBar
@@ -443,7 +443,7 @@ export default {
       this.isPopupShow = true;
     },
     // 保留6球原有AI分析逻辑
-    async goToAiAnalysis(item) {
+    async myValue(item) {
       try {
         this.showLoading();
         const reqParams = {

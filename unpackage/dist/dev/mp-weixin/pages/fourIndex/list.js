@@ -118,7 +118,7 @@ var render = function () {
       var _temp, _temp2
       $event.stopPropagation()
       return (function () {
-        return _vm.goToAiAnalysis(item)
+        return _vm.myValue(item)
       })($event)
     }
   }
@@ -300,7 +300,7 @@ var _default2 = {
         return [];
       }
     },
-    goToAiAnalysis: {
+    myValue: {
       type: Function,
       required: true
     },

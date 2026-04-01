@@ -24,9 +24,9 @@
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => myValue(item)">
   <text>详细</text>
-  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+  <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
 </view>
             </view>
           </view>
@@ -136,7 +136,7 @@ export default {
       type: Number,
       default: 0,
     },
-    goToAiAnalysis: {
+    myValue: {
       type: Function,
       required: true,
     },
@@ -361,8 +361,8 @@ export default {
       this.isLoading = false;
     },
     handleAiAnalysis(item) {
-      if (typeof this.goToAiAnalysis === "function") {
-        this.goToAiAnalysis(item);
+      if (typeof this.myValue === "function") {
+        this.myValue(item);
       }
     },
   },

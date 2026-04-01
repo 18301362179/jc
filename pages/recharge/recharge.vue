@@ -23,11 +23,11 @@
           v-for="(item, index) in list" 
           :key="index"
         >
-          {{ item.count }}元&nbsp;&nbsp;&nbsp;{{ item.bi }}服务币
+          {{ item.count }}￥&nbsp;&nbsp;&nbsp;{{ item.bi }}服务币
         </button>
       </view>
 
-      <text class="amount-tip" v-if="list[selectedIndex]">应付金额：{{ list[selectedIndex].count }}元</text>
+      <text class="amount-tip" v-if="list[selectedIndex]">应付金额：{{ list[selectedIndex].count }}￥</text>
 
       <button class="pay-btn" @click="handlePay" :disabled="isPayLoading">
         <text v-if="!isPayLoading">确认</text>

@@ -36,7 +36,7 @@
         :drawer-list="drawerList"
         :status-bar-height="statusBarHeight"
         @toggle-select="toggleSelect"
-        :go-to-ai-analysis="goToAiAnalysis"
+        :go-to-ai-analysis="myValue"
       />
     </scroll-view>
 
@@ -413,7 +413,7 @@ export default {
       this.isPopupShow = true;
     },
     // 保留14场原有AI分析逻辑
-    async goToAiAnalysis(item) {
+    async myValue(item) {
       try {
         this.showLoading();
         const reqParams = {
@@ -443,7 +443,7 @@ export default {
               });
         return;
     } else {
-            // 有灵石，正常跳转分析页
+            
           await uni.navigateTo({
             url: `/pages/test/index?id=${item.id}&isLottery=1&isTradition=1`,
           });

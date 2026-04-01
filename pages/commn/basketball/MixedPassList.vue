@@ -18,9 +18,9 @@
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
             </view>
             <view class="status-right">
-<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => myValue(item)">
   <text>详细</text>
-  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+  <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
 </view>
             </view>
           </view>
@@ -280,7 +280,7 @@ export default {
       },
     },
     statusBarHeight: { type: Number, default: 0 },
-    goToAiAnalysis: { type: Function, required: true },
+    myValue: { type: Function, required: true },
     drawerList: {
       type: Array,
       default: function () {

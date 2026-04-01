@@ -5,7 +5,7 @@
         <text>{{ forateData(item.race_date) }}</text>
 <view v-if="item.is_over == 0 && item.home_win_rate != 0&&item.url_show_status == 1" :class="{ 'x-text-green': item.is_buy !== 0 }" class="ai" @tap.stop="toDetail(item)">
   <text>详细</text>
-  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+  <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
 </view>
       </view>
       <view class="score">

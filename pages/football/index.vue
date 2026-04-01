@@ -5,14 +5,14 @@
 
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
-      <MatchSpf ref="spfRef" v-if="currentPlay === '胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight || statusBarHeight + 88" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
-      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让球胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
-      <MatchTotalGoals ref="goalsRef" v-else-if="currentPlay === '总进球'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-goal-select="toggleGoalSelect" :go-to-ai-analysis="goToAiAnalysis" />
-      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '半全场'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @on-half-full-selected="handleHalfFullSelected" :go-to-ai-analysis="goToAiAnalysis" />
-      <MatchScore ref="scoreRef" v-else-if="currentPlay === '比分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :toggle-score-select="toggleScoreSelect" @on-score-selected="handleScoreSelected" :go-to-ai-analysis="goToAiAnalysis" />
+      <MatchSpf ref="spfRef" v-if="currentPlay === '胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight || statusBarHeight + 88" @toggle-select="toggleSelect" :go-to-ai-analysis="myValue" />
+      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让球胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="myValue" />
+      <MatchTotalGoals ref="goalsRef" v-else-if="currentPlay === '总进球'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-goal-select="toggleGoalSelect" :go-to-ai-analysis="myValue" />
+      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '半全场'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @on-half-full-selected="handleHalfFullSelected" :go-to-ai-analysis="myValue" />
+      <MatchScore ref="scoreRef" v-else-if="currentPlay === '比分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :toggle-score-select="toggleScoreSelect" @on-score-selected="handleScoreSelected" :go-to-ai-analysis="myValue" />
 
       <!-- 新增：混合过关列表组件 -->
-      <MixedPassList ref="mixedPassRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight" @toggle-mixed-select="handleMixedSelect" @update-selected-count="updateMixedSelectedCount" @confirm-mixed-select="handleConfirmMixedSelect" :go-to-ai-analysis="goToAiAnalysis" />
+      <MixedPassList ref="mixedPassRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight" @toggle-mixed-select="handleMixedSelect" @update-selected-count="updateMixedSelectedCount" @confirm-mixed-select="handleConfirmMixedSelect" :go-to-ai-analysis="myValue" />
     </scroll-view>
 
     <view class="bet-bar" v-if="urlValue">
@@ -1120,7 +1120,7 @@ handleMixedSelect(item, selectType) {
     handleFunnel() {
       this.isPopupShow = true;
     },
-    async goToAiAnalysis(item) {
+    async myValue(item) {
         // 组装接口参数
         const reqParams = {
           id: item.id,
@@ -1134,7 +1134,7 @@ handleMixedSelect(item, selectType) {
         if (res.data.status == 'fail') {
           
          this.hideLoading();
-      // 原生弹窗（和你自定义弹窗效果完全一致）
+      
               uni.showModal({
                 title: "提示",
                 content: "您的服务币不足，请获取！",
@@ -1150,7 +1150,7 @@ handleMixedSelect(item, selectType) {
               });
               return;
         } else {
-          // 有灵石，正常跳转分析页
+          
           await uni.navigateTo({
             url: `/pages/test/index?id=${item.id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}`,
           });

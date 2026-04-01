@@ -1661,7 +1661,7 @@ var _default = {
     handleFunnel: function handleFunnel() {
       this.isPopupShow = true;
     },
-    goToAiAnalysis: function goToAiAnalysis(item) {
+    myValue: function myValue(item) {
       var _this19 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
         var reqParams, res;
@@ -1686,7 +1686,6 @@ var _default = {
                   break;
                 }
                 _this19.hideLoading();
-                // 原生弹窗（和你自定义弹窗效果完全一致）
                 uni.showModal({
                   title: "提示",
                   content: "您的服务币不足，请获取！",

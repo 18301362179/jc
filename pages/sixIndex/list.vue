@@ -39,9 +39,9 @@
                   <text class="rate-text home" v-if="item.home_win_rate && item.url_show_status==1">胜{{ item.home_win_rate || '' }}</text>
                  <text class="vs-text" v-if="item.draw_rate && item.url_show_status==1">平{{item.draw_rate}}</text>
                   <text class="rate-text away" v-if="item.visiting_win_rate && item.url_show_status==1">胜{{ item.visiting_win_rate || '' }}</text>
-<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => goToAiAnalysis(item)">
+<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => myValue(item)">
   <text>详细</text>
-  <text class="small-coin" v-if="item.is_buy == 0">1币</text>
+  <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
 </view>
                 </view>
               </view>
@@ -112,7 +112,7 @@ export default {
     matchList: { type: Array, default: () => [] },
     statusBarHeight: { type: Number, default: 0 },
     drawerList: { type: Array, default: () => [] },
-    goToAiAnalysis: { type: Function, required: true },
+    myValue: { type: Function, required: true },
     // 🌟 新增drawNumSelectorHeight（和4球子组件一致）
     drawNumSelectorHeight: {
       type: Number,

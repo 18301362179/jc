@@ -33,7 +33,7 @@
         :drawer-list="drawerList"
         :status-bar-height="statusBarHeight"
         @toggle-select="toggleSelect"
-        :go-to-ai-analysis="goToAiAnalysis"
+        :go-to-ai-analysis="myValue"
       />
     </scroll-view>
 
@@ -448,7 +448,7 @@ export default {
     handleFunnel() {
       this.isPopupShow = true;
     },
-    async goToAiAnalysis(item) {
+    async myValue(item) {
       try {
         this.showLoading();
         const reqParams = {

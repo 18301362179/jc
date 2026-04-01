@@ -636,7 +636,7 @@ var _default = {
     handleFunnel: function handleFunnel() {
       this.isPopupShow = true;
     },
-    goToAiAnalysis: function goToAiAnalysis(item) {
+    myValue: function myValue(item) {
       var _this6 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
         var reqParams, res;

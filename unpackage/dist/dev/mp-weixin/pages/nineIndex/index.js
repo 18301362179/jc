@@ -597,7 +597,7 @@ var _default = {
       this.isPopupShow = true;
     },
     // 保留9场原有AI分析逻辑
-    goToAiAnalysis: function goToAiAnalysis(item) {
+    myValue: function myValue(item) {
       var _this8 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
         var reqParams, res;

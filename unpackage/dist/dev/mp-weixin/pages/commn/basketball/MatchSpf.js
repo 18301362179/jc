@@ -89,7 +89,7 @@ var render = function () {
       var _temp, _temp2
       $event.stopPropagation()
       return (function () {
-        return _vm.goToAiAnalysis(item)
+        return _vm.myValue(item)
       })($event)
     }
     _vm.e1 = function ($event, item) {
@@ -240,7 +240,7 @@ var _default2 = {
       type: Number,
       default: 0
     },
-    goToAiAnalysis: {
+    myValue: {
       type: Function,
       required: true
     },
