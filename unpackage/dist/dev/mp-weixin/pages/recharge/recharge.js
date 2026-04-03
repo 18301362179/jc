@@ -197,19 +197,7 @@ var _default = {
   },
   data: function data() {
     return {
-      list: [{
-        count: 19,
-        bi: 100
-      }, {
-        count: 45,
-        bi: 250
-      }, {
-        count: 80,
-        bi: 500
-      }, {
-        count: 200,
-        bi: 1500
-      }],
+      list: [],
       selectedIndex: 1,
       showTip: false,
       currentTip: "",
@@ -217,35 +205,44 @@ var _default = {
         beFrom: "",
         isLottery: 1
       },
-      isPayLoading: false
+      isPayLoading: false,
+      showText: '',
+      countName: ''
     };
   },
   onLoad: function onLoad(options) {
+    var _this = this;
     if (options && options.beFrom) {
       this.payExtParams.beFrom = options.beFrom;
     }
+    (0, _demo.userPage)().then(function (res) {
+      console.log(res, 'page-----------');
+      _this.list = res.data.list;
+      _this.countName = res.data.list[0].countName;
+      _this.showText = res.data.showText;
+    });
   },
   methods: {
     selectStone: function selectStone(item, index) {
       this.selectedIndex = index;
     },
     handlePay: function handlePay() {
-      var _this = this;
+      var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var selectedItem, isTokenValid, loginResult, payParams;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!_this.isPayLoading) {
+                if (!_this2.isPayLoading) {
                   _context.next = 2;
                   break;
                 }
                 return _context.abrupt("return");
               case 2:
-                _this.isPayLoading = true;
+                _this2.isPayLoading = true;
                 _context.prev = 3;
-                selectedItem = _this.list[_this.selectedIndex];
+                selectedItem = _this2.list[_this2.selectedIndex];
                 if (selectedItem) {
                   _context.next = 9;
                   break;
@@ -254,7 +251,7 @@ var _default = {
                   title: "请先选择",
                   icon: "none"
                 });
-                _this.isPayLoading = false;
+                _this2.isPayLoading = false;
                 return _context.abrupt("return");
               case 9:
                 _context.next = 11;
@@ -281,7 +278,7 @@ var _default = {
                   title: "登录失败，请重试",
                   icon: "none"
                 });
-                _this.isPayLoading = false;
+                _this2.isPayLoading = false;
                 return _context.abrupt("return");
               case 21:
                 uni.showLoading({
@@ -289,7 +286,7 @@ var _default = {
                   mask: true
                 });
                 _context.next = 24;
-                return _this.getPayParams(selectedItem);
+                return _this2.getPayParams(selectedItem);
               case 24:
                 payParams = _context.sent;
                 if (payParams) {
@@ -297,11 +294,11 @@ var _default = {
                   break;
                 }
                 uni.hideLoading();
-                _this.isPayLoading = false;
+                _this2.isPayLoading = false;
                 return _context.abrupt("return");
               case 29:
                 _context.next = 31;
-                return _this.handleMpWeixinPay(payParams);
+                return _this2.handleMpWeixinPay(payParams);
               case 31:
                 _context.next = 39;
                 break;
@@ -310,7 +307,7 @@ var _default = {
                 _context.t0 = _context["catch"](3);
                 console.error("[支付异常]：", _context.t0);
                 uni.hideLoading();
-                _this.isPayLoading = false;
+                _this2.isPayLoading = false;
                 uni.showToast({
                   title: "支付发起失败，请重试",
                   icon: "none"
@@ -369,7 +366,7 @@ var _default = {
       }))();
     },
     handleMpWeixinPay: function handleMpWeixinPay(payParams) {
-      var _this2 = this;
+      var _this3 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -390,7 +387,7 @@ var _default = {
                         icon: "success",
                         duration: 2000
                       });
-                      _this2.confirmPayResult(payParams.order.tradeNo, 1);
+                      _this3.confirmPayResult(payParams.order.tradeNo, 1);
                       setTimeout(function () {
                         uni.navigateBack({
                           delta: 1
@@ -411,7 +408,7 @@ var _default = {
                       status = 4;
                       tip = error.message || "支付异常，请重试";
                     }
-                    _this2.confirmPayResult(payParams.order.tradeNo, status);
+                    _this3.confirmPayResult(payParams.order.tradeNo, status);
                     uni.showToast({
                       title: tip,
                       icon: "none"
@@ -419,7 +416,7 @@ var _default = {
                   },
                   complete: function complete() {
                     uni.hideLoading();
-                    _this2.isPayLoading = false;
+                    _this3.isPayLoading = false;
                   }
                 });
                 _context3.next = 7;

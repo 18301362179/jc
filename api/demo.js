@@ -339,3 +339,10 @@ export const userTradeRecord = (data) => {
         data
     })
 }
+export const userPage = (data) => {
+    return request({
+        url: baseUrl + "/platform/user/pay/page",
+        method: 'GET',
+        data
+    })
+}

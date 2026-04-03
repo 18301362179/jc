@@ -10593,7 +10593,7 @@ var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/inte
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.wxPay = exports.wxLogin = exports.userTradeRecord = exports.userShare = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.footLotteryLive = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = exports.basketLotteryLive = void 0;
+exports.wxPay = exports.wxLogin = exports.userTradeRecord = exports.userShare = exports.userPage = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.footLotteryLive = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = exports.basketLotteryLive = void 0;
 var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ 36));
 var baseUrl = "";
 baseUrl = "";
@@ -10944,6 +10944,14 @@ var userTradeRecord = function userTradeRecord(data) {
   });
 };
 exports.userTradeRecord = userTradeRecord;
+var userPage = function userPage(data) {
+  return (0, _request.default)({
+    url: baseUrl + "/platform/user/pay/page",
+    method: 'GET',
+    data: data
+  });
+};
+exports.userPage = userPage;
 
 /***/ }),
 

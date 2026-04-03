@@ -1,7 +1,7 @@
 <template>
   <view class="recharge-page">
     <CustomHeader
-      :title="'服务币'"
+      :title="'KeepSeek'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
@@ -23,15 +23,15 @@
           v-for="(item, index) in list" 
           :key="index"
         >
-          {{ item.count }}￥&nbsp;&nbsp;&nbsp;{{ item.bi }}服务币
+          {{ item.count }}{{item.countName}}&nbsp;&nbsp;&nbsp;{{ item.bi }}{{item.biName}}
         </button>
       </view>
 
-      <text class="amount-tip" v-if="list[selectedIndex]">应付金额：{{ list[selectedIndex].count }}￥</text>
+      <text class="amount-tip" v-if="list[selectedIndex]">{{showText}}：{{ list[selectedIndex].count }}{{countName}}</text>
 
       <button class="pay-btn" @click="handlePay" :disabled="isPayLoading">
         <text v-if="!isPayLoading">确认</text>
-        <text v-if="isPayLoading">支付中...</text>
+        <text v-if="isPayLoading">加载中...</text>
       </button>
     </view>
   </view>
@@ -39,7 +39,7 @@
 
 <script>
 import { login, checkToken } from "@/utils/auth";
-import { wxPay, payConfirm } from "@/api/demo"; 
+import { wxPay, payConfirm, userPage } from "@/api/demo"; 
 import CustomHeader from "@/components/CustomHeader.vue";
 
 export default {
@@ -49,13 +49,7 @@ export default {
   },
   data() {
     return {
-      list: [
-           
-        { count: 19, bi: 100 },   
-        { count: 45, bi: 250 },  
-        { count: 80, bi: 500 },
-        { count: 200,bi: 1500 }, 
-      ],
+      list: [],
       selectedIndex: 1, 
       showTip: false,
       currentTip: "",
@@ -64,12 +58,20 @@ export default {
         isLottery: 1, 
       },
       isPayLoading: false,
+      showText:'',
+      countName:''
     };
   },
   onLoad(options) {
     if (options && options.beFrom) {
       this.payExtParams.beFrom = options.beFrom;
     }
+    userPage().then((res)=>{
+      console.log(res, 'page-----------')
+      this.list = res.data.list;
+      this.countName = res.data.list[0].countName;
+      this.showText = res.data.showText;
+    })
   },
   methods: {
     selectStone(item, index) {
