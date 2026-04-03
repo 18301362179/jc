@@ -30,7 +30,7 @@
       <text class="amount-tip" v-if="list[selectedIndex]">{{showText}}：{{ list[selectedIndex].count }}{{countName}}</text>
 
       <button class="pay-btn" @click="handlePay" :disabled="isPayLoading">
-        <text v-if="!isPayLoading">确认</text>
+        <text v-if="!isPayLoading">确&nbsp;&nbsp;认</text>
         <text v-if="isPayLoading">加载中...</text>
       </button>
     </view>
