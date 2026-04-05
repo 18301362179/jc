@@ -240,96 +240,47 @@ export default {
     toggleDrawer(drawerIdx) {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
-    async openScorePopup(match) {
-      // 最多8场校验
-      const isCurrentMatchUnselected = !match.selectedScores || match.selectedScores.length === 0;
-      if (isCurrentMatchUnselected && this.selectedMatchCount >= 8) {
-        uni.showToast({
-          title: "最多只能选择8场比赛",
-          icon: "none",
-          duration: 2000,
-        });
-        return;
-      }
+async openScorePopup(match) {
+  const isCurrentMatchUnselected = !match.selectedScores || match.selectedScores.length === 0;
+  if (isCurrentMatchUnselected && this.selectedMatchCount >= 8) {
+    uni.showToast({ title: "最多只能选择8场比赛", icon: "none" });
+    return;
+  }
 
-      this.isLoading = true;
-      this.selectedScores = Array.isArray(match.selectedScores) ? [...match.selectedScores] : [];
-      this.currentMatch = match;
-      this.isPopupShow = true;
+  this.isLoading = true;
+  this.selectedScores = Array.isArray(match.selectedScores) ? [...match.selectedScores] : [];
+  this.currentMatch = match;
+  this.isPopupShow = true;
 
-      try {
-        const res = await queryHomeAndVisitingGoalOdds({
-          serialNumber: match.serial_number,
-          dateStr: match.date_str,
-        });
+  try {
+    const m = match;
 
-        if (res.code === "200" && res.data) {
-          // 直接使用当前赛事的赔率数据（无需额外接口，drawerList已包含h_sfc/v_sfc字段）
-          const oddsData = match;
+    // 主胜（带 _c 涨跌）
+    this.$set(this, 'mainWinScores', [
+      { label: "1-5",  value: "主胜1-5",  odds: m.h_sfc1_5 || "", odds_c: m.h_sfc1_5_c || 0 },
+      { label: "6-10", value: "主胜6-10", odds: m.h_sfc6_10 || "", odds_c: m.h_sfc6_10_c || 0 },
+      { label: "11-15",value: "主胜11-15",odds: m.h_sfc11_15 || "", odds_c: m.h_sfc11_15_c || 0 },
+      { label: "16-20",value: "主胜16-20",odds: m.h_sfc16_20 || "", odds_c: m.h_sfc16_20_c || 0 },
+      { label: "21-25",value: "主胜21-25",odds: m.h_sfc21_25 || "", odds_c: m.h_sfc21_25_c || 0 },
+      { label: "26+",  value: "主胜26+",  odds: m.h_sfc26_jia || "", odds_c: m.h_sfc26_jia_c || 0 },
+    ]);
 
-          // 映射主胜胜分差赔率（h_sfc开头字段）
-          this.mainWinScores = this.mainWinScores.map((item) => {
-            let odds = "";
-            switch (item.value) {
-              case "主胜1-5":
-                odds = oddsData.h_sfc1_5 || "";
-                break;
-              case "主胜6-10":
-                odds = oddsData.h_sfc6_10 || "";
-                break;
-              case "主胜11-15":
-                odds = oddsData.h_sfc11_15 || "";
-                break;
-              case "主胜16-20":
-                odds = oddsData.h_sfc16_20 || "";
-                break;
-              case "主胜21-25":
-                odds = oddsData.h_sfc21_25 || "";
-                break;
-              case "主胜26+":
-                odds = oddsData.h_sfc26_jia || "";
-                break;
-              default:
-                odds = "";
-            }
-            return { ...item, odds: odds.toString() };
-          });
+    // 客胜（带 _c 涨跌）
+    this.$set(this, 'awayWinScores', [
+      { label: "1-5",  value: "客胜1-5",  odds: m.v_sfc1_5 || "", odds_c: m.v_sfc1_5_c || 0 },
+      { label: "6-10", value: "客胜6-10", odds: m.v_sfc6_10 || "", odds_c: m.v_sfc6_10_c || 0 },
+      { label: "11-15",value: "客胜11-15",odds: m.v_sfc11_15 || "", odds_c: m.v_sfc11_15_c || 0 },
+      { label: "16-20",value: "客胜16-20",odds: m.v_sfc16_20 || "", odds_c: m.v_sfc16_20_c || 0 },
+      { label: "21-25",value: "客胜21-25",odds: m.v_sfc21_25 || "", odds_c: m.v_sfc21_25_c || 0 },
+      { label: "26+",  value: "客胜26+",  odds: m.v_sfc26_jia || "", odds_c: m.v_sfc26_jia_c || 0 },
+    ]);
 
-          // 映射客胜胜分差赔率（v_sfc开头字段）
-          this.awayWinScores = this.awayWinScores.map((item) => {
-            let odds = "";
-            switch (item.value) {
-              case "客胜1-5":
-                odds = oddsData.v_sfc1_5 || "";
-                break;
-              case "客胜6-10":
-                odds = oddsData.v_sfc6_10 || "";
-                break;
-              case "客胜11-15":
-                odds = oddsData.v_sfc11_15 || "";
-                break;
-              case "客胜16-20":
-                odds = oddsData.v_sfc16_20 || "";
-                break;
-              case "客胜21-25":
-                odds = oddsData.v_sfc21_25 || "";
-                break;
-              case "客胜26+":
-                odds = oddsData.v_sfc26_jia || "";
-                break;
-              default:
-                odds = "";
-            }
-            return { ...item, odds: odds.toString() };
-          });
-        }
-      } catch (err) {
-        console.error("获取赔率失败:", err);
-        uni.showToast({ title: "赔率加载失败，使用默认值", icon: "none" });
-      } finally {
-        this.isLoading = false;
-      }
-    },
+  } catch (err) {
+    console.error(err);
+  } finally {
+    this.isLoading = false;
+  }
+},
     toggleScore(scoreValue) {
       if (this.isLoading) return;
       const index = this.selectedScores.indexOf(scoreValue);
