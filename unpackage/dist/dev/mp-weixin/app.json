@@ -98,16 +98,9 @@
       ]
     },
     {
-      "root": "pages/user/sub",
+      "root": "pages/teamDetail",
       "pages": [
-        "buyDetail",
-        "scoreDetail",
-        "halfTimeDetail",
-        "totalGoalsDetail",
-        "basketballSf",
-        "basketballSfc",
-        "basketballHandicapDetail",
-        "overUnderDetail"
+        "teamDetail"
       ]
     }
   ],

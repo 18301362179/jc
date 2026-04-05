@@ -556,9 +556,23 @@ var _data = __webpack_require__(/*! @/utils/data */ 62);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 369));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 313));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -607,6 +621,11 @@ var _default = {
     uni.hideTabBar();
   },
   methods: {
+    goToTeamDetail: function goToTeamDetail(home_name_title) {
+      uni.navigateTo({
+        url: "/pages/teamDetail/teamDetail?teamName=".concat(home_name_title)
+      });
+    },
     switchTab: function switchTab(tab) {
       if (tab == "全部") {
         this.filteredRecords = this.allHeadRecord;

@@ -189,37 +189,37 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var _data = __webpack_require__(/*! @/utils/data */ 62);
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 376));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 320));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var noData = function noData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 390));
+    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 334));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SaiCheng = function SaiCheng() {
   __webpack_require__.e(/*! require.ensure | pages/commn/saiCheng */ "pages/commn/saiCheng").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 397));
+    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 341));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var JiFen = function JiFen() {
   __webpack_require__.e(/*! require.ensure | pages/commn/jiFen */ "pages/commn/jiFen").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 404));
+    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 348));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SheShou = function SheShou() {
   __webpack_require__.e(/*! require.ensure | pages/commn/sheShou */ "pages/commn/sheShou").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 411));
+    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 355));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var WordRanking = function WordRanking() {
   __webpack_require__.e(/*! require.ensure | pages/commn/WordRanking */ "pages/commn/WordRanking").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 418));
+    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 362));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 369));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 313));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -332,16 +332,16 @@ var _default = {
       // 点击其他区域关闭下拉框
       if (this.isDropdownOpen) {
         uni.nextTick(function () {
-          document.addEventListener('click', _this3.closeDropdown);
+          document.addEventListener("click", _this3.closeDropdown);
         });
       } else {
-        document.removeEventListener('click', this.closeDropdown);
+        document.removeEventListener("click", this.closeDropdown);
       }
     },
     // 关闭下拉框
     closeDropdown: function closeDropdown() {
       this.isDropdownOpen = false;
-      document.removeEventListener('click', this.closeDropdown);
+      document.removeEventListener("click", this.closeDropdown);
     },
     // 选择下拉框选项
     selectDropdownItem: function selectDropdownItem(index, item) {
@@ -353,7 +353,7 @@ var _default = {
           value: index
         }
       });
-      document.removeEventListener('click', this.closeDropdown);
+      document.removeEventListener("click", this.closeDropdown);
     },
     // 高度计算
     calcAllHeights: function calcAllHeights() {
@@ -458,7 +458,7 @@ var _default = {
                 return (0, _demo.recharge)(reqParams);
               case 5:
                 res = _context2.sent;
-                if (!(res.data.status == 'fail')) {
+                if (!(res.data.status == "fail")) {
                   _context2.next = 12;
                   break;
                 }
