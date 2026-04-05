@@ -46,7 +46,6 @@
     <TipsPopup :visible.sync="isPopupShow" :title="tipsTitle" :content-list="tipsContentList" :header-height="headerHeight" :popup-width="700" border-color="#07c160" @close="handlePopupClose" :max-height="popupMaxHeight" />
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
     <EmptyStop :hasData="hasData" position="middle" />
-        
   </view>
 </template>
 
@@ -75,7 +74,6 @@ export default {
     CustomHeader,
     TipsPopup,
     EmptyStop,
-    
   },
   data() {
     return {
@@ -115,12 +113,12 @@ export default {
       matchSelectedState: {},
     };
   },
-onLoad() {
-  // 强制显示分享菜单，立刻解除置灰
-  wx.showShareMenu({
-    menus: ['shareAppMessage', 'shareTimeline']
-  })
-},
+  onLoad() {
+    // 强制显示分享菜单，立刻解除置灰
+    wx.showShareMenu({
+      menus: ["shareAppMessage", "shareTimeline"],
+    });
+  },
   async onPullDownRefresh() {
     try {
       this.isRefreshing = true;
@@ -427,15 +425,14 @@ onLoad() {
         if (res.data && res.data.status == 1) {
           // 6. 玩法与编辑页面匹配
           const basketballPlayToPageMap = {
-            "胜负": "/pages/edit/basketball/index",
-            "让分胜负": "/pages/edit/basketball/editHandicap",
-            "胜分差": "/pages/edit/basketball/editScore",
-            "大小分": "/pages/edit/basketball/editHalfFull",
-            "混合过关": "/pages/edit/basketball/editHhgg"
+            胜负: "/pages/edit/basketball/index",
+            让分胜负: "/pages/edit/basketball/editHandicap",
+            胜分差: "/pages/edit/basketball/editScore",
+            大小分: "/pages/edit/basketball/editHalfFull",
+            混合过关: "/pages/edit/basketball/editHhgg",
           };
-// 2. 一行取值（匹配不到则用默认值，对应原switch的default）
-const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basketball/index";
-
+          // 2. 一行取值（匹配不到则用默认值，对应原switch的default）
+          const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basketball/index";
 
           // 7. 传递完整数据（包含混合过关选中字段）
           uni.navigateTo({
@@ -806,7 +803,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
       });
     },
     calcHeaderHeight() {
-      const windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : '';
+      const windowInfo = uni.getWindowInfo ? uni.getWindowInfo() : "";
       const statusBarHeight = windowInfo.statusBarHeight;
       const customHeaderHeight = (80 / 750) * windowInfo.windowWidth;
       this.headerHeight = statusBarHeight + customHeaderHeight;
@@ -840,23 +837,21 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
         // 调用recharge接口
         const res = await recharge(reqParams);
         console.log(res, "res------");
-        if (res.data.status == 'fail') {
-          
+        if (res.data.status == "fail") {
           this.hideLoading();
           uni.showModal({
-                title: "提示",
-                content: "您的服务币不足，请获取！",
-                cancelText: "取消",
-                confirmText: "获取",
-                confirmColor: "#d92929",
-                success: (res) => {
-                  if (res.confirm) {
-                    
-                    uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
-                  }
-                }
-              });
-        return;
+            title: "提示",
+            content: "您的服务币不足，请获取！",
+            cancelText: "取消",
+            confirmText: "获取",
+            confirmColor: "#d92929",
+            success: (res) => {
+              if (res.confirm) {
+                uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
+              }
+            },
+          });
+          return;
         } else {
           await uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
         }
@@ -974,8 +969,8 @@ page {
   .text-group {
     display: flex;
     flex-direction: row; /* 改成水平排列 */
-    align-items: center;  /* 垂直居中 */
-    margin-left: 16rpx;   /* 可选：和清空图标拉开点距离 */
+    align-items: center; /* 垂直居中 */
+    margin-left: 16rpx; /* 可选：和清空图标拉开点距离 */
   }
 
   .selected-text {

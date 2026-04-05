@@ -561,4 +561,6 @@ body.pages-index-index uni-page-body {
 .x-text-green{
   color: #31926e!important;
 }
+.up { color: red; font-size: 18rpx; margin-left: 4rpx; }
+.down { color: #00c48c; font-size: 18rpx; margin-left: 4rpx; }
 </style>

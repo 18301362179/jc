@@ -333,3 +333,10 @@ export const sysParams = (data) => {
         data
     })
 }
+export const teamInfo = (data) => {
+    return request({
+        url: baseUrl + "/sports/football/team/info",
+        method: 'GET',
+        data
+    })
+}

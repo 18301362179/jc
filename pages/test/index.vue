@@ -21,14 +21,28 @@
           <!-- 调整对战队伍布局结构 -->
           <view class="match-teams-container">
             <view class="team-column home-column">
-              <text class="team-name">{{ courseMap.home_name_title }}</text>
+              <!-- 主队：非世界杯添加点击手势 + 跳转 -->
+              <text class="team-name" v-if="courseMap.league_name == '世界杯'" style="color: #06f" hover-class="hover-hand" @click="goToTeamDetail(courseMap.home_name_title)">
+                {{ courseMap.home_name_title }}
+              </text>
+              <text class="team-name" v-else>
+                {{ courseMap.home_name_title }}
+              </text>
               <text v-if="info.homeHandicap" class="handicap-text">{{ info.homeHandicap }}</text>
             </view>
+
             <view class="vs-column">
               <text class="vs-text">VS</text>
             </view>
+
             <view class="team-column away-column">
-              <text class="team-name">{{ courseMap.visiting_name_title }}</text>
+              <!-- 客队：非世界杯添加点击手势 + 跳转 -->
+              <text class="team-name" v-if="courseMap.league_name == '世界杯'" style="color: #06f" hover-class="hover-hand" @click="goToTeamDetail(courseMap.home_name_title)">
+                {{ courseMap.visiting_name_title }}
+              </text>
+              <text class="team-name" v-else>
+                {{ courseMap.visiting_name_title }}
+              </text>
               <text v-if="info.visitingHandicap" class="handicap-text">{{ info.visitingHandicap }}</text>
             </view>
           </view>
@@ -364,6 +378,11 @@ export default {
     uni.hideTabBar();
   },
   methods: {
+  goToTeamDetail(home_name_title) {
+      uni.navigateTo({
+        url: `/pages/teamDetail/teamDetail?teamName=${home_name_title}`
+      })
+  },
     switchTab(tab) {
       if (tab == "全部") {
         this.filteredRecords = this.allHeadRecord;

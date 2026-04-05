@@ -26,7 +26,7 @@
               <!-- 仅改：@tap.stop 改为 @click.stop -->
               <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="$xiValue" @click.stop="() => goToAiAnalysis(item)">
                 <text>详细</text>
-                <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
+                <text class="small-coin" v-if="item.is_buy == 0">{{ item.charge }}</text>
               </view>
             </view>
           </view>
@@ -55,9 +55,9 @@
                 </view>
                 <!-- 胜&进球数行 -->
                 <view class="rate-row">
-                  <text class="rate-text away" v-if="item.visiting_win_rate&&$urlValue">胜率{{ item.visiting_win_rate || "--" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate && $urlValue">胜率{{ item.visiting_win_rate || "--" }}</text>
                   <text class="vs-text"></text>
-                  <text class="rate-text home" v-if="item.home_win_rate&&$urlValue">胜率{{ item.home_win_rate || "--" }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate && $urlValue">胜率{{ item.home_win_rate || "--" }}</text>
                 </view>
               </view>
 
@@ -96,6 +96,8 @@
             <view v-for="(item, idx) in awayWinScores" :key="idx" class="score-option" :class="{ selected: selectedScores.indexOf(item.value) > -1 }" @click="toggleScore(item.value)" hover-class="none">
               <text class="score-text">{{ item.label }}</text>
               <text class="score-odds">{{ item.odds }}</text>
+              <text v-if="item.odds_c == 0" class="up">↑</text>
+              <text v-if="item.odds_c == -1" class="down">↓</text>
             </view>
           </view>
         </view>
@@ -109,6 +111,8 @@
             <view v-for="(item, idx) in mainWinScores" :key="idx" class="score-option" :class="{ selected: selectedScores.indexOf(item.value) > -1 }" @click="toggleScore(item.value)" hover-class="none">
               <text class="score-text">{{ item.label }}</text>
               <text class="score-odds">{{ item.odds }}</text>
+              <text v-if="item.odds_c == 0" class="up">↑</text>
+              <text v-if="item.odds_c == -1" class="down">↓</text>
             </view>
           </view>
         </view>

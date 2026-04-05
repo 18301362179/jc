@@ -1,13 +1,6 @@
 <template>
   <view class="con" :style="{ height: pageHeight + 'px' }" style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader
-      :showBack="false"
-      :ballTitle="''"
-      :title="'KeepSeek'"
-      :isIndex="false"
-      :showIcon="false"
-      :isSelected="false"
-    />
+    <CustomHeader :showBack="false" :ballTitle="''" :title="'KeepSeek'" :isIndex="false" :showIcon="false" :isSelected="false" />
     <!-- 顶部筛选区（固定不滚动） -->
     <view class="top" ref="top">
       <!-- 大洲名 -->
@@ -22,7 +15,8 @@
       <view v-if="isWorldRanking" class="world-rank-wrap">
         <!-- 排名类型tab（改为流式布局） -->
         <view class="tab-container">
-          <view class="tab-wrap"> <!-- 替换scroll-view为普通view -->
+          <view class="tab-wrap">
+            <!-- 替换scroll-view为普通view -->
             <view v-for="(item, index) in worldRankTypeList" :key="index" class="tab-item" :class="{ active: worldRankTypeIndex === index }" @tap="clickWorldRankType(index, item)">
               {{ item }}
             </view>
@@ -39,44 +33,37 @@
       <view v-else>
         <!-- 联赛tab（改为流式布局） -->
         <view class="tab-container">
-          <view class="tab-wrap"> <!-- 替换scroll-view为普通view -->
+          <view class="tab-wrap">
+            <!-- 替换scroll-view为普通view -->
             <view v-for="(item, index) in leagueList" :id="'tab' + index" :key="index" class="tab-item" :class="{ active: leagueCurrentIndex === index }" @tap="clickLeague(index, item)">
               {{ item.league_name }}
             </view>
           </view>
-
-
         </view>
-        
-<view class="tab">
-  <view class="tab-two">
-    <view :class="['tab-item-two', activeIndex == 0 ? 'active' : '']" @click="clickBang(0, 'course')"> 赛程 </view>
-    <view :class="['tab-item-two', activeIndex == 1 ? 'active' : '']" @click="clickBang(1, 'points')"> 积分 </view>
-    <view  v-if="selectTopTabValue && selectTopTabValue.is_have_scorer == 1"  :class="['tab-item-two', activeIndex == 2 ? 'active' : '']" @click="clickBang(2, 'scorer')">射手榜</view>
-    
-    <!-- 自定义下拉框（替换原 picker） -->
-    <view class="dropdown-box" @click="toggleDropdown">
-      <view class="dropdown-content">
-        <text class="dropdown-text">{{ selectedCs || "请选择" }}</text>
-        <view class="dropdown-arrow" :class="{ rotate: isDropdownOpen }"></view>
-      </view>
-      
-      <!-- 下拉选项列表 -->
-      <view class="dropdown-options" v-show="isDropdownOpen" @click.stop>
-        <view 
-          v-for="(item, index) in csList" 
-          :key="index"
-          class="dropdown-option"
-          :class="{ active: selectedCs === item }"
-          @click="selectDropdownItem(index, item)"
-        >
-          {{ item }}
+
+        <view class="tab">
+          <view class="tab-two">
+            <view :class="['tab-item-two', activeIndex == 0 ? 'active' : '']" @click="clickBang(0, 'course')"> 赛程 </view>
+            <view :class="['tab-item-two', activeIndex == 1 ? 'active' : '']" @click="clickBang(1, 'points')"> 积分 </view>
+            <view v-if="selectTopTabValue && selectTopTabValue.is_have_scorer == 1" :class="['tab-item-two', activeIndex == 2 ? 'active' : '']" @click="clickBang(2, 'scorer')">射手榜</view>
+
+            <!-- 自定义下拉框（替换原 picker） -->
+            <view class="dropdown-box" @click="toggleDropdown">
+              <view class="dropdown-content">
+                <text class="dropdown-text">{{ selectedCs || "请选择" }}</text>
+                <view class="dropdown-arrow" :class="{ rotate: isDropdownOpen }"></view>
+              </view>
+
+              <!-- 下拉选项列表 -->
+              <view class="dropdown-options" v-show="isDropdownOpen" @click.stop>
+                <view v-for="(item, index) in csList" :key="index" class="dropdown-option" :class="{ active: selectedCs === item }" @click="selectDropdownItem(index, item)">
+                  {{ item }}
+                </view>
+              </view>
+            </view>
+          </view>
         </view>
-      </view>
-    </view>
-  </view>
-</view>
-        
+
         <!-- 阶段tab（改为流式布局） -->
         <view v-if="activeIndex == 0 && stageList && stageList.length > 1" class="tabs-wrap-container">
           <view class="match-tabs">
@@ -85,23 +72,25 @@
             </view>
           </view>
         </view>
-        
+
         <!-- 分组tab（改为流式布局） -->
         <template v-if="activeIndex == 0 && groupList && groupList.length > 0">
           <view class="group-wrap-container">
             <view :class="['tab-stage-t', { active: groupIndex == -1 }]" @click="handleClickGroupAll()">总览</view>
-            <view class="t-wrap"> <!-- 替换scroll-view为普通view -->
+            <view class="t-wrap">
+              <!-- 替换scroll-view为普通view -->
               <view v-for="(tab, index) in groupList" :key="index" :class="['t-stage', groupIndex == index ? 'active' : '']" @click="handleClickGroup(index, tab)">
                 {{ tab }}
               </view>
             </view>
           </view>
         </template>
-        
+
         <!-- 轮次tab（改为流式布局） -->
         <template v-if="activeIndex == 0 && roundList && roundList.length > 0">
           <view class="tab-container">
-            <view class="stage-wrap"> <!-- 替换scroll-view为普通view -->
+            <view class="stage-wrap">
+              <!-- 替换scroll-view为普通view -->
               <view v-for="(item, index) in roundList" :key="index" class="tab-stage-base" :class="[roundIndex == index ? 'active' : '']" @tap="handleClickRound(index, item, 'roundNo')">
                 {{ item.no }}
               </view>
@@ -139,7 +128,6 @@
       </view>
     </scroll-view>
     <NativeTabbar ref="nativeTabbar" />
-    
   </view>
 </template>
 
@@ -164,7 +152,6 @@ export default {
     SheShou,
     WordRanking,
     CustomHeader,
-    
   },
   data() {
     return {
@@ -196,23 +183,23 @@ export default {
       // 世界排名相关
       worldRankTypeList: ["俱乐部排名", "国家排名"],
       worldRankTypeIndex: 0,
-      wordRankingList: [], 
-      originalWordRankingList: [], 
+      wordRankingList: [],
+      originalWordRankingList: [],
       searchKeyword: "",
-      searchTimer: null, 
+      searchTimer: null,
 
       // 高度计算相关变量
-      windowWidth: 0, 
-      windowHeight: 0, 
-      safeAreaBottom: 0, 
-      tabbarHeight: 0, 
-      pageHeight: 0, 
-      contentScrollPaddingBottom: 0, 
+      windowWidth: 0,
+      windowHeight: 0,
+      safeAreaBottom: 0,
+      tabbarHeight: 0,
+      pageHeight: 0,
+      contentScrollPaddingBottom: 0,
 
       // 窗口resize回调函数
       windowResizeCallback: null,
-      touchStartX: 0, 
-      swipeThreshold: 50, 
+      touchStartX: 0,
+      swipeThreshold: 50,
       isDropdownOpen: false, // 控制下拉框展开/收起
     };
   },
@@ -222,10 +209,9 @@ export default {
       this.continentList = res.data;
     });
     this.loadData();
-    
   },
   onLoad() {
-    const systemInfo =  uni.getWindowInfo()
+    const systemInfo = uni.getWindowInfo();
     this.windowWidth = systemInfo.windowWidth;
     this.windowHeight = systemInfo.windowHeight;
     this.safeAreaBottom = (systemInfo.safeAreaInsets && systemInfo.safeAreaInsets.bottom) || 0;
@@ -264,29 +250,29 @@ export default {
   },
   methods: {
     toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
-    // 点击其他区域关闭下拉框
-    if (this.isDropdownOpen) {
-      uni.nextTick(() => {
-        document.addEventListener('click', this.closeDropdown);
-      });
-    } else {
-      document.removeEventListener('click', this.closeDropdown);
-    }
-  },
-  // 关闭下拉框
-  closeDropdown() {
-    this.isDropdownOpen = false;
-    document.removeEventListener('click', this.closeDropdown);
-  },
-  // 选择下拉框选项
-  selectDropdownItem(index, item) {
-    this.selectedCs = item;
-    this.isDropdownOpen = false;
-    // 触发原有选择逻辑
-    this.handleChangeCs({ detail: { value: index } });
-    document.removeEventListener('click', this.closeDropdown);
-  },
+      this.isDropdownOpen = !this.isDropdownOpen;
+      // 点击其他区域关闭下拉框
+      if (this.isDropdownOpen) {
+        uni.nextTick(() => {
+          document.addEventListener("click", this.closeDropdown);
+        });
+      } else {
+        document.removeEventListener("click", this.closeDropdown);
+      }
+    },
+    // 关闭下拉框
+    closeDropdown() {
+      this.isDropdownOpen = false;
+      document.removeEventListener("click", this.closeDropdown);
+    },
+    // 选择下拉框选项
+    selectDropdownItem(index, item) {
+      this.selectedCs = item;
+      this.isDropdownOpen = false;
+      // 触发原有选择逻辑
+      this.handleChangeCs({ detail: { value: index } });
+      document.removeEventListener("click", this.closeDropdown);
+    },
     // 高度计算
     calcAllHeights() {
       const rpx2px = this.windowWidth / 750;
@@ -352,12 +338,12 @@ export default {
           id: item.id,
           isLottery: 0,
           isTradition: 1,
-          beFrom:"football",
+          beFrom: "football",
           serialNumber: item.serial_number,
-          dateStr: item.date_str
+          dateStr: item.date_str,
         };
         const res = await recharge(reqParams);
-        if (res.data.status == 'fail') {
+        if (res.data.status == "fail") {
           this.hideLoading();
           uni.showModal({
             title: "提示",
@@ -369,7 +355,7 @@ export default {
               if (res.confirm) {
                 uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=football&isLottery=1` });
               }
-            }
+            },
           });
           return;
         } else {
@@ -1002,20 +988,18 @@ export default {
           color: $active-color;
         }
 
-.corner-mark {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 0;
-  height: 0;
-  z-index: 1;
-  transition: transform 0.3s ease;
-  // // 纯 CSS 实现右上小三角，颜色 #31926e
-  // border-top: 20rpx solid #31926e;
-  // border-left: 20rpx solid transparent;
-}
-
-
+        .corner-mark {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 0;
+          height: 0;
+          z-index: 1;
+          transition: transform 0.3s ease;
+          // // 纯 CSS 实现右上小三角，颜色 #31926e
+          // border-top: 20rpx solid #31926e;
+          // border-left: 20rpx solid transparent;
+        }
       }
     }
 
