@@ -9436,7 +9436,52 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 295:
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 30:
+/*!************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/@babel/runtime/regenerator/index.js ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// TODO(Babel 8): Remove this file.
+
+var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 31)();
+module.exports = runtime;
+
+/***/ }),
+
+/***/ 303:
 /*!*******************************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/node_modules/@dcloudio/uni-ui/lib/uni-icons/uniicons_file_vue.js ***!
   \*******************************************************************************************************************************/
@@ -9937,51 +9982,6 @@ var fontData = [{
 
 // export const fontData = JSON.parse<IconsDataItem>(fontDataJson)
 exports.fontData = fontData;
-
-/***/ }),
-
-/***/ 3:
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 30:
-/*!************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/@babel/runtime/regenerator/index.js ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// TODO(Babel 8): Remove this file.
-
-var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 31)();
-module.exports = runtime;
 
 /***/ }),
 
@@ -10593,7 +10593,7 @@ var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/inte
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.wxPay = exports.wxLogin = exports.userTradeRecord = exports.userShare = exports.userPage = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.footLotteryLive = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = exports.basketLotteryLive = void 0;
+exports.wxPay = exports.wxLogin = exports.userTradeRecord = exports.userShare = exports.userPage = exports.teamInfo = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.footLotteryLive = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = exports.basketLotteryLive = void 0;
 var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ 36));
 var baseUrl = "";
 baseUrl = "";
@@ -10952,6 +10952,14 @@ var userPage = function userPage(data) {
   });
 };
 exports.userPage = userPage;
+var teamInfo = function teamInfo(data) {
+  return (0, _request.default)({
+    url: baseUrl + "/sports/football/team/info",
+    method: 'GET',
+    data: data
+  });
+};
+exports.teamInfo = teamInfo;
 
 /***/ }),
 
@@ -11369,65 +11377,6 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 366:
-/*!*****************************************************************************!*\
-  !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/index.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getRateColor = void 0;
-// utils/index.js
-
-/**
- * 计算胜文字的显示颜色
- * @param {string} rateStr - 胜字符串（如"60%"）
- * @param {string} type - 类型：home/away（主/客胜）、draw（平局）
- * @param {boolean} isSelected - 是否被选中（新增参数）
- * @returns {string} 文字颜色值
- */
-var getRateColor = function getRateColor(rateStr, type, isSelected) {
-  // 优先判断：如果被选中，直接返回白色
-  if (isSelected === true) {
-    return '#fff';
-  }
-
-  // 原有容错处理：如果rateStr为空/不是字符串，返回空（使用默认样式）
-  if (!rateStr || typeof rateStr !== 'string') return '';
-
-  // 处理百分比字符串，转换为小数（如"60%" → 0.6）
-  var rate = parseFloat(rateStr.replace('%', '')) / 100;
-
-  // 容错：转换失败则返回空（使用默认样式）
-  if (isNaN(rate)) return '';
-
-  // 未被选中时，按原规则判断颜色
-  if (type === 'home' || type === 'away') {
-    // 主/客队胜 ≥ 0.6（60%）显示绿色，否则返回空（默认色）
-    return rate >= 0.6 ? '#31926e' : '';
-  } else if (type === 'draw') {
-    // 平局胜 ≥ 0.5（50%）显示绿色，否则返回空（默认色）
-    return rate >= 0.5 ? '#31926e' : '';
-  }
-
-  // 默认返回空（使用默认样式）
-  return '';
-};
-
-// 兼容小程序CommonJS模块化
-exports.getRateColor = getRateColor;
-module.exports = {
-  getRateColor: getRateColor
-};
-
-/***/ }),
-
 /***/ 37:
 /*!******************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/h5Auth.js ***!
@@ -11723,6 +11672,65 @@ var resetAuthFlag = function resetAuthFlag() {
 };
 exports.resetAuthFlag = resetAuthFlag;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+
+/***/ 374:
+/*!*****************************************************************************!*\
+  !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/index.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getRateColor = void 0;
+// utils/index.js
+
+/**
+ * 计算胜文字的显示颜色
+ * @param {string} rateStr - 胜字符串（如"60%"）
+ * @param {string} type - 类型：home/away（主/客胜）、draw（平局）
+ * @param {boolean} isSelected - 是否被选中（新增参数）
+ * @returns {string} 文字颜色值
+ */
+var getRateColor = function getRateColor(rateStr, type, isSelected) {
+  // 优先判断：如果被选中，直接返回白色
+  if (isSelected === true) {
+    return '#fff';
+  }
+
+  // 原有容错处理：如果rateStr为空/不是字符串，返回空（使用默认样式）
+  if (!rateStr || typeof rateStr !== 'string') return '';
+
+  // 处理百分比字符串，转换为小数（如"60%" → 0.6）
+  var rate = parseFloat(rateStr.replace('%', '')) / 100;
+
+  // 容错：转换失败则返回空（使用默认样式）
+  if (isNaN(rate)) return '';
+
+  // 未被选中时，按原规则判断颜色
+  if (type === 'home' || type === 'away') {
+    // 主/客队胜 ≥ 0.6（60%）显示绿色，否则返回空（默认色）
+    return rate >= 0.6 ? '#31926e' : '';
+  } else if (type === 'draw') {
+    // 平局胜 ≥ 0.5（50%）显示绿色，否则返回空（默认色）
+    return rate >= 0.5 ? '#31926e' : '';
+  }
+
+  // 默认返回空（使用默认样式）
+  return '';
+};
+
+// 兼容小程序CommonJS模块化
+exports.getRateColor = getRateColor;
+module.exports = {
+  getRateColor: getRateColor
+};
 
 /***/ }),
 

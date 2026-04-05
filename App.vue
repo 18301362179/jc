@@ -149,9 +149,9 @@ export default {
     });
     // #endif
     // #ifdef H5
-    uni.setStorageSync("urlValue", v); // 其它是这个
-     uni.setStorageSync("xiValue", v); // 分析是这个
-    this.$nextTick(()=>{Vue.prototype.urlValue = v;Vue.prototype.xiValue = t;})
+    uni.setStorageSync("urlValue", true); // 其它是这个
+     uni.setStorageSync("xiValue", true); // 分析是这个
+    this.$nextTick(()=>{Vue.prototype.urlValue = true;Vue.prototype.xiValue = true;})
     // #endif
     // #ifdef APP-PLUS
     try { plus.screen.lockOrientation('portrait-primary'); } catch (e) {}
@@ -250,4 +250,6 @@ body.pages-index-index uni-page-body {
 .x-text-green{
   color: #31926e!important;
 }
+.up { color: red; font-size: 18rpx; margin-left: 4rpx; }
+.down { color: #00c48c; font-size: 18rpx; margin-left: 4rpx; }
 </style>

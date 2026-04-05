@@ -597,6 +597,29 @@
 					}
 				}
 			]
+		},
+		{
+			"root": "pages/teamDetail",
+			"pages": [
+				{
+					"path": "teamDetail",
+					"style": {
+						"navigationBarTitleText": "详情",
+						"navigationBarTextStyle": "white",
+						"navigationBarBackgroundColor": "#31926e",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom",
+						"onReachBottomDistance": 50,
+						"app-plus": {
+							"softinputMode": "adjustResize"
+						},
+						"mp-weixin": {
+							"disableScroll": false,
+							"navigationStyle": "custom"
+						}
+					}
+				}
+			]
 		}
 	],
 	"tabBar": {

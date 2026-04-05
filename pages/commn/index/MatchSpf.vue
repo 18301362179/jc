@@ -24,11 +24,11 @@
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
               <!-- 兼容事件：统一用 @click.stop 适配多端 -->
-        <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => myValue(item)">
-          <text>详细</text>
-          <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
-        </view>
-                    </view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => myValue(item)">
+                <text>详细</text>
+                <text class="small-coin" v-if="item.is_buy == 0">{{ item.charge }}</text>
+              </view>
+            </view>
           </view>
 
           <!-- 原有赛事内容（第二行） -->
@@ -48,14 +48,17 @@
                 class="match-cell home"
                 :class="{
                   selected: item.homeSelected,
-                  disabled: item.is_stop == 1, // 新增：停售时添加disabled类
+                  disabled: item.is_stop == 1,
                 }"
                 @click="() => checkAndSelect(item, 'homeSelected')"
               >
                 <view class="team-name">{{ item.home_name }}</view>
-                <text class="odds" v-if="item.win_multiplier&&xiValue">主胜{{ item.win_multiplier }}</text>
-                <!-- 拆分文字：只让百分比数值变绿 -->
-                <text class="odds rate" v-if="item.home_win_rate&&xiValue">
+                <text class="odds" v-if="item.win_multiplier && xiValue">
+                  主胜{{ item.win_multiplier }}
+                  <text v-if="item.win_multiplier_c == 1" style="color: red; margin-left: 4rpx">↑</text>
+                  <text v-if="item.win_multiplier_c == -1" style="color: green; margin-left: 4rpx">↓</text>
+                </text>
+                <text class="odds rate" v-if="item.home_win_rate && xiValue">
                   胜
                   <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.homeSelected) }">{{ item.home_win_rate || "" }}</text>
                 </text>
@@ -66,14 +69,17 @@
                 class="match-cell vs"
                 :class="{
                   selected: item.vsSelected,
-                  disabled: item.is_stop == 1, // 新增：停售时添加disabled类
+                  disabled: item.is_stop == 1,
                 }"
                 @click="() => checkAndSelect(item, 'vsSelected')"
               >
                 <text class="vs-text">VS</text>
-                <text class="vs-odds" v-if="item.draw_multiplier&&xiValue">平{{ item.draw_multiplier }}</text>
-                <!-- 拆分文字：只让平数值变绿 -->
-                <text class="vs-odds" v-if="item.draw_rate&&xiValue">
+                <text class="vs-odds" v-if="item.draw_multiplier && xiValue">
+                  平{{ item.draw_multiplier }}
+                  <text v-if="item.draw_multiplier_c == 1" style="color: red; margin-left: 4rpx">↑</text>
+                  <text v-if="item.draw_multiplier_c == -1" style="color: green; margin-left: 4rpx">↓</text>
+                </text>
+                <text class="vs-odds" v-if="item.draw_rate && xiValue">
                   平
                   <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.vsSelected) }">{{ item.draw_rate }}</text>
                 </text>
@@ -84,14 +90,17 @@
                 class="match-cell away"
                 :class="{
                   selected: item.awaySelected,
-                  disabled: item.is_stop == 1, // 新增：停售时添加disabled类
+                  disabled: item.is_stop == 1,
                 }"
                 @click="() => checkAndSelect(item, 'awaySelected')"
               >
                 <text class="team-name">{{ item.visiting_name }}</text>
-                <text class="odds" v-if="item.loss_multiplier&&xiValue">主负{{ item.loss_multiplier }}</text>
-                <!-- 拆分文字：只让百分比数值变绿 -->
-                <text class="odds rate" v-if="item.visiting_win_rate&&xiValue">
+                <text class="odds" v-if="item.loss_multiplier && xiValue">
+                  主负{{ item.loss_multiplier }}
+                  <text v-if="item.loss_multiplier_c == 1" style="color: red; margin-left: 4rpx">↑</text>
+                  <text v-if="item.loss_multiplier_c == -1" style="color: green; margin-left: 4rpx">↓</text>
+                </text>
+                <text class="odds rate" v-if="item.visiting_win_rate && xiValue">
                   胜
                   <text :style="{ color: getRateColor(item.visiting_win_rate, 'away', item.awaySelected) }">{{ item.visiting_win_rate || "" }}</text>
                 </text>
@@ -160,14 +169,12 @@ export default {
       this.statusBarHeightRpx = this.pxToRpx(newVal);
     },
   },
-  mounted() {
-
-  },
+  mounted() {},
   created() {
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
-    console.log(uni.getStorageSync('xiValue'),'-------------------------')
-    this.xiValue = uni.getStorageSync('xiValue');
+    console.log(uni.getStorageSync("xiValue"), "-------------------------");
+    this.xiValue = uni.getStorageSync("xiValue");
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
     this.expandedDrawers = this.finalDrawerList.map(() => true);
   },
@@ -175,7 +182,6 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
@@ -304,21 +310,21 @@ export default {
     }
 
     .status-right {
-.ai-analysis-btn {
-  font-size: 24rpx;
-  color: #06f;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  letter-spacing: 4rpx;
-  &:active {
-    opacity: 0.8;
-  }
-}
-/* 加在这里 */
-.small-coin {
-  font-size: 20rpx !important;
-  margin-left: 4rpx;
-}
+      .ai-analysis-btn {
+        font-size: 24rpx;
+        color: #06f;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        letter-spacing: 4rpx;
+        &:active {
+          opacity: 0.8;
+        }
+      }
+      /* 加在这里 */
+      .small-coin {
+        font-size: 20rpx !important;
+        margin-left: 4rpx;
+      }
     }
   }
 
@@ -442,6 +448,16 @@ export default {
           }
         }
       }
+      .arrow-up {
+  color: #ff2a2a;
+  font-size: 22rpx;
+  margin-left: 4rpx;
+}
+.arrow-down {
+  color: #00c853;
+  font-size: 22rpx;
+  margin-left: 4rpx;
+}
     }
   }
 }

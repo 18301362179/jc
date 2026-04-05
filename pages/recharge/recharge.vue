@@ -15,7 +15,7 @@
         <text class="tip-text">{{ currentTip }}</text>
       </view>
 
-      <view class="stone-options">
+      <view class="stone-options" v-if="!myText">
         <button 
           class="stone-btn" 
           :class="{ active: selectedIndex === index }" 
@@ -27,9 +27,9 @@
         </button>
       </view>
 
-      <text class="amount-tip" v-if="list[selectedIndex]">{{showText}}：{{ list[selectedIndex].count }}{{countName}}</text>
+      <text class="amount-tip" v-if="list[selectedIndex]">{{showText}}：{{ list[selectedIndex].count }}{{countName}}{{myText}}</text>
 
-      <button class="pay-btn" @click="handlePay" :disabled="isPayLoading">
+      <button class="pay-btn" v-if="!myText" @click="handleGet" :disabled="isPayLoading">
         <text v-if="!isPayLoading">确&nbsp;&nbsp;认</text>
         <text v-if="isPayLoading">加载中...</text>
       </button>
@@ -53,22 +53,36 @@ export default {
       selectedIndex: 1, 
       showTip: false,
       currentTip: "",
-      payExtParams: {
+      myParams: {
         beFrom: "",
         isLottery: 1, 
       },
       isPayLoading: false,
       showText:'',
-      countName:''
+      countName:'',
+      myText:''
     };
   },
   onLoad(options) {
     if (options && options.beFrom) {
-      this.payExtParams.beFrom = options.beFrom;
+      this.myParams.beFrom = options.beFrom;
     }
     userPage().then((res)=>{
       console.log(res, 'page-----------')
       this.list = res.data.list;
+      if (res.data && res.data.list) {
+        let tex ='';
+        res.data.list.forEach((item) => {
+          
+          // 严格：整个 countName 必须全是汉字
+          if (item.count && /^[\u4e00-\u9fa5]+$/.test(item.count)) {
+            tex += item.count
+          }
+        })
+        this.myText = tex;
+        console.log(tex, 'tex-')
+        console.log(this.myText, 'myText----------')
+      }
       this.countName = res.data.list[0].countName;
       this.showText = res.data.showText;
     })
@@ -78,7 +92,7 @@ export default {
       this.selectedIndex = index;
     },
 
-    async handlePay() {
+    async handleGet() {
       if (this.isPayLoading) return;
       this.isPayLoading = true;
 

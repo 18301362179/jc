@@ -21,10 +21,10 @@
             </view>
             <view class="status-right">
               <!-- 仅改：@tap.stop 改为 @click.stop，其他不变 -->
-<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => myValue(item)">
-  <text>详细</text>
-  <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
-</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => myValue(item)">
+                <text>详细</text>
+                <text class="small-coin" v-if="item.is_buy == 0">{{ item.charge }}</text>
+              </view>
             </view>
           </view>
 
@@ -47,7 +47,7 @@
                   <text class="vs-text">VS</text>
                   <text>{{ item.visiting_name }}</text>
                 </view>
-                
+
                 <view class="rate-row" v-if="xiValue">
                   <text class="rate-text home" v-if="item.home_win_rate">胜{{ item.home_win_rate || "--" }}</text>
                   <text class="vs-text">{{ item.draw_rate ? "平" + item.draw_rate : "" }}</text>
@@ -88,6 +88,8 @@
           <view v-for="(item, idx) in halfFullOptions" :key="idx" class="half-full-option" :class="{ selected: selectedScores.includes(item.value) }" @click="toggleScore(item.value)">
             <text class="option-label">{{ item.label }}</text>
             <text class="option-odds">{{ item.odds }}</text>
+            <text v-if="item.c == 1" class="up">↑</text>
+            <text v-if="item.c === -1" class="down">↓</text>
           </view>
         </view>
       </view>
@@ -119,15 +121,15 @@ export default {
       statusBarHeightRpx: 0,
       windowWidth: 0,
       halfFullOptions: [
-        { label: "胜胜", value: "ss", oddsField: "ss_odds" },
-        { label: "胜平", value: "sp", oddsField: "sp_odds" },
-        { label: "胜负", value: "sf", oddsField: "sf_odds" },
-        { label: "平胜", value: "ps", oddsField: "ps_odds" },
-        { label: "平平", value: "pp", oddsField: "pp_odds" },
-        { label: "平负", value: "pf", oddsField: "pf_odds" },
-        { label: "负胜", value: "fs", oddsField: "fs_odds" },
-        { label: "负平", value: "fp", oddsField: "fp_odds" },
-        { label: "负负", value: "ff", oddsField: "ff_odds" },
+        { label: "胜胜", value: "ss", oddsField: "ss_odds", c: 0 },
+        { label: "胜平", value: "sp", oddsField: "sp_odds", c: 0 },
+        { label: "胜负", value: "sf", oddsField: "sf_odds", c: 0 },
+        { label: "平胜", value: "ps", oddsField: "ps_odds", c: 0 },
+        { label: "平平", value: "pp", oddsField: "pp_odds", c: 0 },
+        { label: "平负", value: "pf", oddsField: "pf_odds", c: 0 },
+        { label: "负胜", value: "fs", oddsField: "fs_odds", c: 0 },
+        { label: "负平", value: "fp", oddsField: "fp_odds", c: 0 },
+        { label: "负负", value: "ff", oddsField: "ff_odds", c: 0 },
       ],
       xiValue: false,
     };
@@ -172,10 +174,9 @@ export default {
     },
   },
   created() {
-        this.$nextTick(()=>{
-    this.xiValue = uni.getStorageSync('xiValue');
-    
-    })
+    this.$nextTick(() => {
+      this.xiValue = uni.getStorageSync("xiValue");
+    });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
@@ -185,7 +186,6 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
@@ -224,6 +224,7 @@ export default {
       this.halfFullOptions = this.halfFullOptions.map((opt) => ({
         ...opt,
         odds: match[opt.value] ? match[opt.value].toString() : match[opt.oddsField] || "",
+        c: match[`${opt.value}_c`] || 0, // 这里加 c
       }));
     },
     toggleScore(scoreValue) {
@@ -359,21 +360,21 @@ export default {
   }
 
   .status-right {
-.ai-analysis-btn {
-  font-size: 24rpx;
-  color: #06f;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  letter-spacing: 4rpx;
-  &:active {
-    opacity: 0.8;
-  }
-}
-/* 加在这里 */
-.small-coin {
-  font-size: 20rpx !important;
-  margin-left: 4rpx;
-}
+    .ai-analysis-btn {
+      font-size: 24rpx;
+      color: #06f;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      letter-spacing: 4rpx;
+      &:active {
+        opacity: 0.8;
+      }
+    }
+    /* 加在这里 */
+    .small-coin {
+      font-size: 20rpx !important;
+      margin-left: 4rpx;
+    }
   }
 }
 
@@ -441,7 +442,6 @@ export default {
     text-align: center;
   }
 
-  
   text:first-child {
     text-align: right;
     flex: 1;
@@ -784,5 +784,15 @@ export default {
 .cancel-btn::after,
 .confirm-btn::after {
   border: none;
+}
+.up {
+  color: red;
+  font-size: 18rpx;
+  margin-left: 4rpx;
+}
+.down {
+  color: #00c48c;
+  font-size: 18rpx;
+  margin-left: 4rpx;
 }
 </style>

@@ -33,7 +33,7 @@
         :drawer-list="drawerList"
         :status-bar-height="statusBarHeight"
         @toggle-select="toggleSelect"
-        :go-to-ai-analysis="myValue"
+        :my-value="myValue"
       />
     </scroll-view>
 
@@ -133,7 +133,7 @@ export default {
       uni.stopPullDownRefresh();
     }
   },
-    onLoad() {
+onLoad() {
   // 强制显示分享菜单，立刻解除置灰
   wx.showShareMenu({
     menus: ['shareAppMessage', 'shareTimeline']

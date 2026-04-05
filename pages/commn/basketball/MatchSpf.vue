@@ -64,10 +64,18 @@
               <!-- 胜负选项：样式统一 -->
               <view class="bottom-right">
                 <view class="odds-trigger-area">
-                  <view class="odds-row">
-                    <view class="match-cell away" :class="{ selected: item.awaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'awaySelected')"> 主负{{ item.loss_multiplier || "--" }} </view>
-                    <view class="match-cell home" :class="{ selected: item.homeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'homeSelected')"> 主胜{{ item.win_multiplier || "--" }} </view>
-                  </view>
+<view class="odds-row">
+    <view class="match-cell away" :class="{ selected: item.awaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'awaySelected')"> 
+        主负{{ item.loss_multiplier || "--" }} 
+        <text v-if="item.loss_multiplier_c == 1" class="up">↑</text>
+        <text v-if="item.loss_multiplier_c == -1" class="down">↓</text>
+    </view>
+    <view class="match-cell home" :class="{ selected: item.homeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'homeSelected')"> 
+        主胜{{ item.win_multiplier || "--" }} 
+        <text v-if="item.win_multiplier_c == 1" class="up">↑</text>
+        <text v-if="item.win_multiplier_c == -1" class="down">↓</text>
+    </view>
+</view>
                 </view>
               </view>
             </view>

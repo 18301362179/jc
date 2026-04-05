@@ -61,13 +61,19 @@
               <!-- 大小分选项：样式统一，保留三列结构 -->
               <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
                 <view class="odds-trigger-area" :class="{ 'disabled-trigger': item.is_stop == 1 }">
-                  <view class="odds-row">
-                    <view class="match-cell home" :class="{ selected: item.awaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'awaySelected')"> 小分{{ item.dxf_x_multiplier || "--" }} </view>
+<view class="odds-row">
+                    <view class="match-cell home" :class="{ selected: item.awaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'awaySelected')"> 小分{{ item.dxf_x_multiplier || "--" }} 
+                      <text v-if="item.dxf_x_multiplier_c == 1" class="up">↑</text>
+                      <text v-if="item.dxf_x_multiplier_c == -1" class="down">↓</text>
+                    </view>
 
                     <view class="match-cell middle" style="color: #999" :class="{ 'stop-cell': item.is_stop == 1 }">
                       {{ item.dxf_goal || "--" }}
                     </view>
-                    <view class="match-cell away" :class="{ selected: item.homeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'homeSelected')"> 大分{{ item.dxf_d_multiplier || "--" }} </view>
+                    <view class="match-cell away" :class="{ selected: item.homeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'homeSelected')"> 大分{{ item.dxf_d_multiplier || "--" }} 
+                      <text v-if="item.dxf_d_multiplier_c == 1" class="up">↑</text>
+                      <text v-if="item.dxf_d_multiplier_c == -1" class="down">↓</text>
+                    </view>
                   </view>
                 </view>
               </view>

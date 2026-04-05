@@ -472,4 +472,14 @@
 .confirm-btn.data-v-6e60ac54::after {
   border: none;
 }
+.up.data-v-6e60ac54 {
+  color: red;
+  font-size: 18rpx;
+  margin-left: 4rpx;
+}
+.down.data-v-6e60ac54 {
+  color: #00c48c;
+  font-size: 18rpx;
+  margin-left: 4rpx;
+}
 

@@ -66,6 +66,8 @@
                   >
                     <text class="goal-text">{{ goal.label }}</text>
                     <text class="goal-odds">{{ item[goal.field] || "" }}</text>
+<text v-if="goal.c === 1" class="up">↑</text>
+<text v-if="goal.c === -1" class="down">↓</text>
                   </view>
                 </view>
                 <view class="goals-row">
@@ -81,6 +83,8 @@
                   >
                     <text class="goal-text">{{ goal.label }}</text>
                     <text class="goal-odds">{{ item[goal.field] || "" }}</text>
+<text v-if="goal.c === 1" class="up">↑</text>
+<text v-if="goal.c === -1" class="down">↓</text>
                   </view>
                 </view>
               </view>
@@ -105,16 +109,16 @@ export default {
   data() {
     return {
       // 原有总进球选项配置：完全保留
-      goalsOptions: [
-        { label: "0", value: 0, field: "zjq_ling" },
-        { label: "1", value: 1, field: "zjq_yi" },
-        { label: "2", value: 2, field: "zjq_er" },
-        { label: "3", value: 3, field: "zjq_san" },
-        { label: "4", value: 4, field: "zjq_si" },
-        { label: "5", value: 5, field: "zjq_wu" },
-        { label: "6", value: 6, field: "zjq_liu" },
-        { label: "7+", value: 7, field: "zjq_qi_jia" },
-      ],
+goalsOptions: [
+  { label: "0", value: 0, field: "zjq_ling", c:0 },
+  { label: "1", value: 1, field: "zjq_yi", c:0 },
+  { label: "2", value: 2, field: "zjq_er", c:0 },
+  { label: "3", value: 3, field: "zjq_san", c:0 },
+  { label: "4", value: 4, field: "zjq_si", c:0 },
+  { label: "5", value: 5, field: "zjq_wu", c:0 },
+  { label: "6", value: 6, field: "zjq_liu", c:0 },
+  { label: "7+", value: 7, field: "zjq_qi_jia", c:0 },
+],
       // 新增：抽屉展开状态（不影响原有逻辑）
       expandedDrawers: [],
       statusBarHeightRpx: 0,

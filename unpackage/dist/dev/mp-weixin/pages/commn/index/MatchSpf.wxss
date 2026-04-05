@@ -215,6 +215,16 @@
   color: #999;
   font-size: 22rpx;
 }
+.match-row .match-content-row .match-cells .arrow-up.data-v-521f8e27 {
+  color: #ff2a2a;
+  font-size: 22rpx;
+  margin-left: 4rpx;
+}
+.match-row .match-content-row .match-cells .arrow-down.data-v-521f8e27 {
+  color: #00c853;
+  font-size: 22rpx;
+  margin-left: 4rpx;
+}
 .data-v-521f8e27::-webkit-scrollbar {
   display: none;
 }

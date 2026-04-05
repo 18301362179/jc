@@ -24,10 +24,10 @@
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => myValue(item)">
-  <text>详细</text>
-  <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
-</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => myValue(item)">
+                <text>详细</text>
+                <text class="small-coin" v-if="item.is_buy == 0">{{ item.charge }}</text>
+              </view>
             </view>
           </view>
 
@@ -42,47 +42,60 @@
               <view class="match-time">{{ item.race_date }}</view>
             </view>
             <!-- 让胜平负玩法单元格（保留原有字段，点击事件替换为校验方法） -->
-            <view class="match-cells" style="background: #fff">
-              <view class="match-cell home" :class="{ selected: item.handicapHomeSelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapHomeSelected')">
-                <view class="team-name">
-                  {{ item.home_name }}
-                  <text v-if="item.r_goal && item.r_goal !== ''" class="handicap-num">
-                    (
-                    <!-- 第二步：先判断r_goal存在，再调用includes，彻底规避undefined报错 -->
-                    <text
-                      :class="{
-                        'text-red': item.r_goal && item.r_goal.includes('+'),
-                        'text-green': item.r_goal && !item.r_goal.includes('+'),
-                      }"
-                    >
-                      {{ item.r_goal }}
-                    </text>
-                    )</text
-                  ></view
-                >
-                <text class="odds" v-if="item.r_win_multiplier&&xiValue">主胜{{ item.r_win_multiplier }}</text>
-                <text class="odds rate" v-if="item.home_win_rate&&xiValue">
-                  胜
-                  <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.handicapHomeSelected) }">{{ item.home_win_rate || "" }}</text>
-                </text>
-              </view>
-              <view class="match-cell vs" :class="{ selected: item.handicapVsSelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapVsSelected')">
-                <text class="vs-text">VS</text>
-                <text class="vs-odds" v-if="item.r_draw_multiplier">平{{ item.r_draw_multiplier }}</text>
-                <text class="vs-odds" v-if="item.draw_rate&&xiValue">
-                  平
-                  <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.handicapVsSelected) }">{{ item.draw_rate }}</text>
-                </text>
-              </view>
-              <view class="match-cell away" :class="{ selected: item.handicapAwaySelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapAwaySelected')">
-                <text class="team-name">{{ item.visiting_name }}</text>
-                <text class="odds" v-if="item.r_loss_multiplier">主负{{ item.r_loss_multiplier }}</text>
-                <text class="odds rate" v-if="item.visiting_win_rate&&xiValue">
-                  胜
-                  <text :style="{ color: getRateColor(item.visiting_win_rate, 'away', item.awaySelected) }">{{ item.visiting_win_rate || "" }}</text>
-                </text>
-              </view>
-            </view>
+<view class="match-cells" style="background: #fff">
+  <view class="match-cell home" :class="{ selected: item.handicapHomeSelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapHomeSelected')">
+    <view class="team-name">
+      {{ item.home_name }}
+      <text v-if="item.r_goal && item.r_goal !== ''" class="handicap-num">
+        (
+        <text
+          :class="{
+            'text-red': item.r_goal && item.r_goal.includes('+'),
+            'text-green': item.r_goal && !item.r_goal.includes('+'),
+          }"
+        >
+          {{ item.r_goal }}
+        </text>
+        )
+      </text>
+    </view>
+    <text class="odds" v-if="item.r_win_multiplier && xiValue">
+      主胜{{ item.r_win_multiplier }}
+      <text v-if="item.r_win_multiplier_c == 1" class="up">↑</text>
+      <text v-if="item.r_win_multiplier_c == -1" class="down">↓</text>
+    </text>
+    <text class="odds rate" v-if="item.home_win_rate && xiValue">
+      胜
+      <text :style="{ color: getRateColor(item.home_win_rate, 'home', item.handicapHomeSelected) }">{{ item.home_win_rate || "" }}</text>
+    </text>
+  </view>
+
+  <view class="match-cell vs" :class="{ selected: item.handicapVsSelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapVsSelected')">
+    <text class="vs-text">VS</text>
+    <text class="vs-odds" v-if="item.r_draw_multiplier">
+      平{{ item.r_draw_multiplier }}
+      <text v-if="item.r_draw_multiplier_c == 1" class="up">↑</text>
+      <text v-if="item.r_draw_multiplier_c == -1" class="down">↓</text>
+    </text>
+    <text class="vs-odds" v-if="item.draw_rate && xiValue">
+      平
+      <text :style="{ color: getRateColor(item.draw_rate, 'draw', item.handicapVsSelected) }">{{ item.draw_rate }}</text>
+    </text>
+  </view>
+
+  <view class="match-cell away" :class="{ selected: item.handicapAwaySelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapAwaySelected')">
+    <text class="team-name">{{ item.visiting_name }}</text>
+    <text class="odds" v-if="item.r_loss_multiplier">
+      主负{{ item.r_loss_multiplier }}
+      <text v-if="item.r_loss_multiplier_c == 1" class="up">↑</text>
+      <text v-if="item.r_loss_multiplier_c == -1" class="down">↓</text>
+    </text>
+    <text class="odds rate" v-if="item.visiting_win_rate && xiValue">
+      胜
+      <text :style="{ color: getRateColor(item.visiting_win_rate, 'away', item.awaySelected) }">{{ item.visiting_win_rate || "" }}</text>
+    </text>
+  </view>
+</view>
           </view>
         </view>
       </view>
@@ -153,10 +166,9 @@ export default {
     },
   },
   created() {
-        this.$nextTick(()=>{
-    this.xiValue = uni.getStorageSync('xiValue');
-    
-    })
+    this.$nextTick(() => {
+      this.xiValue = uni.getStorageSync("xiValue");
+    });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
@@ -166,7 +178,6 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
@@ -264,21 +275,21 @@ export default {
     }
 
     .status-right {
-.ai-analysis-btn {
-  font-size: 24rpx;
-  color: #06f;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  letter-spacing: 4rpx;
-  &:active {
-    opacity: 0.8;
-  }
-}
-/* 加在这里 */
-.small-coin {
-  font-size: 20rpx !important;
-  margin-left: 4rpx;
-}
+      .ai-analysis-btn {
+        font-size: 24rpx;
+        color: #06f;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        letter-spacing: 4rpx;
+        &:active {
+          opacity: 0.8;
+        }
+      }
+      /* 加在这里 */
+      .small-coin {
+        font-size: 20rpx !important;
+        margin-left: 4rpx;
+      }
     }
   }
 
@@ -452,5 +463,15 @@ export default {
 
 ::-webkit-scrollbar {
   display: none;
+}
+.up {
+  color: red;
+  margin-left: 4rpx;
+  font-size: 20rpx;
+}
+.down {
+  color: #00c48c;
+  margin-left: 4rpx;
+  font-size: 20rpx;
 }
 </style>

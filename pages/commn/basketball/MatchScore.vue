@@ -24,10 +24,10 @@
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
               <!-- 仅改：@tap.stop 改为 @click.stop -->
-<view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0}" v-if="item.url_show_status==1" @click.stop="() => myValue(item)">
-  <text>详细</text>
-  <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
-</view>
+              <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => myValue(item)">
+                <text>详细</text>
+                <text class="small-coin" v-if="item.is_buy == 0">{{ item.charge }}</text>
+              </view>
             </view>
           </view>
 
@@ -47,22 +47,19 @@
             <!-- 右侧：自适应宽度，垂直排列队名VS+胜+比分选择区 -->
             <view class="main-right">
               <view class="top-right">
-                
-                 <view class="team-name">
+                <view class="team-name">
                   <text>{{ item.visiting_name }}</text>
                   <text class="vs-text">VS</text>
                   <text>{{ item.home_name }}</text>
                 </view>
-                
-                <view class="rate-row" v-if="xiValue">
-                                   <text class="rate-text away" v-if="item.visiting_win_rate&&xiValue">胜{{item.visiting_win_rate || "--" }}</text>
-                  <text class="vs-text"></text>
-                   <text class="rate-text home" v-if="item.home_win_rate&&xiValue">胜{{item.home_win_rate || "--" }}</text>
 
+                <view class="rate-row" v-if="xiValue">
+                  <text class="rate-text away" v-if="item.visiting_win_rate && xiValue">胜{{ item.visiting_win_rate || "--" }}</text>
+                  <text class="vs-text"></text>
+                  <text class="rate-text home" v-if="item.home_win_rate && xiValue">胜{{ item.home_win_rate || "--" }}</text>
                 </view>
               </view>
 
-              
               <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
                 <view class="score-trigger-area odds-trigger-area" @click="item.is_stop != 1 && openScorePopup(item)" :class="{ 'selected-trigger': item.selectedScores && item.selectedScores.length > 0, 'disabled-trigger': item.is_stop == 1 }" hover-class="none">
                   <text v-if="item.selectedScores && item.selectedScores.length > 0" class="selected-text">
@@ -97,6 +94,8 @@
             <view v-for="(item, idx) in awayWinScores" :key="idx" class="score-option" :class="{ selected: selectedScores.indexOf(item.value) > -1 }" @click="toggleScore(item.value)" hover-class="none">
               <text class="score-text">{{ item.label }}</text>
               <text class="score-odds">{{ item.odds }}</text>
+              <text v-if="item.odds_c == 1" class="up">↑</text>
+              <text v-if="item.odds_c == -1" class="down">↓</text>
             </view>
           </view>
         </view>
@@ -110,6 +109,8 @@
             <view v-for="(item, idx) in mainWinScores" :key="idx" class="score-option" :class="{ selected: selectedScores.indexOf(item.value) > -1 }" @click="toggleScore(item.value)" hover-class="none">
               <text class="score-text">{{ item.label }}</text>
               <text class="score-odds">{{ item.odds }}</text>
+              <text v-if="item.odds_c == 1" class="up">↑</text>
+              <text v-if="item.odds_c == -1" class="down">↓</text>
             </view>
           </view>
         </view>
@@ -172,7 +173,7 @@ export default {
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
       statusBarHeightRpx: 0,
       windowWidth: 0,
-      xiValue:null,
+      xiValue: null,
     };
   },
   computed: {
@@ -212,10 +213,9 @@ export default {
     },
   },
   created() {
-        this.$nextTick(()=>{
-    this.xiValue = uni.getStorageSync('xiValue');
-    
-    })
+    this.$nextTick(() => {
+      this.xiValue = uni.getStorageSync("xiValue");
+    });
     // 初始化：获取最新的窗口信息（替代废弃的getSystemInfoSync）
     this.initWindowInfo();
     this.statusBarHeightRpx = this.pxToRpx(this.statusBarHeight);
@@ -225,7 +225,6 @@ export default {
     // 新增：初始化窗口信息（替代废弃API）
     initWindowInfo() {
       try {
-       
         const windowInfo = wx.getWindowInfo();
         this.windowWidth = windowInfo.windowWidth || 375; // 兜底默认值
       } catch (e) {
@@ -463,21 +462,21 @@ export default {
   }
 
   .status-right {
-.ai-analysis-btn {
-  font-size: 24rpx;
-  color: #06f;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  letter-spacing: 4rpx;
-  &:active {
-    opacity: 0.8;
-  }
-}
-/* 加在这里 */
-.small-coin {
-  font-size: 20rpx !important;
-  margin-left: 4rpx;
-}
+    .ai-analysis-btn {
+      font-size: 24rpx;
+      color: #06f;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      letter-spacing: 4rpx;
+      &:active {
+        opacity: 0.8;
+      }
+    }
+    /* 加在这里 */
+    .small-coin {
+      font-size: 20rpx !important;
+      margin-left: 4rpx;
+    }
   }
 }
 
@@ -561,7 +560,6 @@ export default {
   overflow: hidden; // 新增：第三层溢出约束
 }
 
-
 // 球队名称行 - 核心修改：改为flex布局实现左右对齐
 .team-name {
   font-size: 26rpx;
@@ -579,7 +577,6 @@ export default {
     text-align: center;
   }
 
-  
   text:first-child {
     text-align: right;
     flex: 1;

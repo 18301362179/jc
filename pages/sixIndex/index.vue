@@ -32,7 +32,7 @@
         :drawer-list="drawerList"
         :status-bar-height="statusBarHeight"
         @toggle-select="toggleSelect"
-        :go-to-ai-analysis="myValue"
+        :my-value="myValue"
       />
     </scroll-view>
     <BetBar

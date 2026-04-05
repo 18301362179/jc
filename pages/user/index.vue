@@ -8,27 +8,27 @@
       :showIcon="false"
       :isSelected="false"
     />
-    <view class="header" v-if="getRemark">
+    <view class="header">
       <image class="avatar" v-if="userInfo.headImgUrl" :src="userInfo.headImgUrl" mode="aspectFill"></image>
       <image class="avatar" v-else src="https://www.tianjifu.com/static/mine1.png" mode="aspectFill"></image>
       <view class="user-info">
-        <text class="username">{{ userInfo.remarkName || '' }}</text>
-        <text class="value stone-count" v-if="getRemark" @click="getList">{{ userInfo.coinAmount || 0 }} 币</text>
+        <text class="username">{{ userInfo.remarkName || userInfo.nickName || '昵称' }}</text>
+        <text class="value stone-count" v-if="getRemark" @click="getList">{{ userInfo.coinAmount || 0 }} &nbsp;币&nbsp;</text>
       </view>
       <view class="recharge-btn" v-if="getRemark" @click="getRemarkFc">获&nbsp;&nbsp;取</view>
     </view>
 
-    <view class="tab-bar">
-      <view class="tab-item" :class="{ active: currentTab === 1 }" v-if="getRemark" @click="switchTab(1)">分析</view>
+    <view class="tab-bar" v-if="getRemark">
+      <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">分&nbsp;&nbsp;析</view>
     </view>
 
-    <scroll-view class="content-scroll" scroll-y>
-      <view v-if="currentTab === 1&&getRemark" class="record-section">
+    <scroll-view class="content-scroll" v-if="getRemark" scroll-y>
+      <view v-if="currentTab === 1" class="record-section">
         <no-data v-if="tradeRecord.length === 0" />
         <view class="trade-header" v-if="tradeRecord.length > 0">
-          <view class="trade-header-col type-col">类型</view>
-          <view class="trade-header-col match-col">比赛</view>
-          <view class="trade-header-col time-col">时间</view>
+          <view class="trade-header-col type-col">类&nbsp;&nbsp;型</view>
+          <view class="trade-header-col match-col">比&nbsp;&nbsp;赛</view>
+          <view class="trade-header-col time-col">时&nbsp;&nbsp;间</view>
         </view>
         <view class="record-card" v-for="(item, index) in tradeRecord" :key="index">
           <view class="record-row">

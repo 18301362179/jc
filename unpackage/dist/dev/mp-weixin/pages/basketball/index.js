@@ -101,7 +101,7 @@ var components
 try {
   components = {
     UniNumberKeyboard: function () {
-      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 298))
+      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 306))
     },
   }
 } catch (e) {
@@ -205,47 +205,47 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 312));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 320));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchSpf = function MatchSpf() {
   Promise.all(/*! require.ensure | pages/commn/basketball/MatchSpf */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/basketball/MatchSpf")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchSpf.vue */ 453));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchSpf.vue */ 461));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHandicap = function MatchHandicap() {
   Promise.all(/*! require.ensure | pages/commn/basketball/MatchHandicap */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/basketball/MatchHandicap")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHandicap.vue */ 460));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHandicap.vue */ 468));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchScore = function MatchScore() {
   __webpack_require__.e(/*! require.ensure | pages/commn/basketball/MatchScore */ "pages/commn/basketball/MatchScore").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchScore.vue */ 467));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchScore.vue */ 475));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHalfFull = function MatchHalfFull() {
   __webpack_require__.e(/*! require.ensure | pages/commn/basketball/MatchHalfFull */ "pages/commn/basketball/MatchHalfFull").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHalfFull.vue */ 474));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHalfFull.vue */ 482));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MixedPassList = function MixedPassList() {
   __webpack_require__.e(/*! require.ensure | pages/commn/basketball/MixedPassList */ "pages/commn/basketball/MixedPassList").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MixedPassList.vue */ 481));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MixedPassList.vue */ 489));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 305));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 313));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 319));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 327));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 404));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 412));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -453,6 +453,14 @@ var _default = {
     }
   },
   created: function created() {
+    var editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      var parsedData = typeof editedData === "string" ? JSON.parse(editedData) : editedData;
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      this.loadMatchData();
+    }
     if (uni.getWindowInfo) {
       var windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;
@@ -463,16 +471,7 @@ var _default = {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow: function onShow() {
-    var editedData = uni.getStorageSync("editedMatchData");
-    if (editedData) {
-      var parsedData = typeof editedData === "string" ? JSON.parse(editedData) : editedData;
-      this.syncUpdatedMatches(parsedData);
-      uni.removeStorageSync("editedMatchData");
-    } else {
-      this.loadMatchData();
-    }
-  },
+  onShow: function onShow() {},
   methods: {
     clearAllSelection: function clearAllSelection() {
       var _this7 = this;

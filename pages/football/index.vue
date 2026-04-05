@@ -5,14 +5,14 @@
 
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
-      <MatchSpf ref="spfRef" v-if="currentPlay === '胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight || statusBarHeight + 88" @toggle-select="toggleSelect" :go-to-ai-analysis="myValue" />
-      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让球胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="myValue" />
-      <MatchTotalGoals ref="goalsRef" v-else-if="currentPlay === '总进球'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-goal-select="toggleGoalSelect" :go-to-ai-analysis="myValue" />
-      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '半全场'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @on-half-full-selected="handleHalfFullSelected" :go-to-ai-analysis="myValue" />
-      <MatchScore ref="scoreRef" v-else-if="currentPlay === '比分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :toggle-score-select="toggleScoreSelect" @on-score-selected="handleScoreSelected" :go-to-ai-analysis="myValue" />
+      <MatchSpf ref="spfRef" v-if="currentPlay === '胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight || statusBarHeight + 88" @toggle-select="toggleSelect" :my-value="myValue" />
+      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让球胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :my-value="myValue" />
+      <MatchTotalGoals ref="goalsRef" v-else-if="currentPlay === '总进球'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-goal-select="toggleGoalSelect" :my-value="myValue" />
+      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '半全场'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @on-half-full-selected="handleHalfFullSelected" :my-value="myValue" />
+      <MatchScore ref="scoreRef" v-else-if="currentPlay === '比分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :toggle-score-select="toggleScoreSelect" @on-score-selected="handleScoreSelected" :my-value="myValue" />
 
       <!-- 新增：混合过关列表组件 -->
-      <MixedPassList ref="mixedPassRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight" @toggle-mixed-select="handleMixedSelect" @update-selected-count="updateMixedSelectedCount" @confirm-mixed-select="handleConfirmMixedSelect" :go-to-ai-analysis="myValue" />
+      <MixedPassList ref="mixedPassRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight" @toggle-mixed-select="handleMixedSelect" @update-selected-count="updateMixedSelectedCount" @confirm-mixed-select="handleConfirmMixedSelect" :my-value="myValue" />
     </scroll-view>
 
     <view class="bet-bar" v-if="urlValue">
@@ -226,6 +226,20 @@ selectedMatchCount() {
     },
   },
   created() {
+        // #ifdef APP-PLUS
+    this.checkLocalToken();
+    // #endif
+    const editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      let parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      this.loadMatchData();
+    }
         this.$nextTick(()=>{
     this.urlValue = uni.getStorageSync('urlValue');
     
@@ -243,20 +257,7 @@ selectedMatchCount() {
     this.calcPopupMaxHeight();
   },
   onShow() {
-    // #ifdef APP-PLUS
-    this.checkLocalToken();
-    // #endif
-    const editedData = uni.getStorageSync("editedMatchData");
-    if (editedData) {
-      let parsedData = editedData;
-      if (typeof editedData === "string") {
-        parsedData = JSON.parse(editedData);
-      }
-      this.syncUpdatedMatches(parsedData);
-      uni.removeStorageSync("editedMatchData");
-    } else {
-      this.loadMatchData();
-    }
+
   },
   methods: {
     handleConfirmMixedSelect(confirmData) {

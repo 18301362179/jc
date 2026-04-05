@@ -502,4 +502,12 @@
 .confirm-btn.data-v-51177110::after {
   border: none;
 }
+.up.data-v-51177110 {
+  color: red;
+  font-size: 18rpx;
+}
+.down.data-v-51177110 {
+  color: #00c48c;
+  font-size: 18rpx;
+}
 

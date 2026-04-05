@@ -96,6 +96,12 @@
         "index",
         "basketballAi"
       ]
+    },
+    {
+      "root": "pages/teamDetail",
+      "pages": [
+        "teamDetail"
+      ]
     }
   ],
   "tabBar": {

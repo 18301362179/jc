@@ -187,7 +187,7 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 305));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 313));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -201,23 +201,36 @@ var _default = {
       selectedIndex: 1,
       showTip: false,
       currentTip: "",
-      payExtParams: {
+      myParams: {
         beFrom: "",
         isLottery: 1
       },
       isPayLoading: false,
       showText: '',
-      countName: ''
+      countName: '',
+      myText: ''
     };
   },
   onLoad: function onLoad(options) {
     var _this = this;
     if (options && options.beFrom) {
-      this.payExtParams.beFrom = options.beFrom;
+      this.myParams.beFrom = options.beFrom;
     }
     (0, _demo.userPage)().then(function (res) {
       console.log(res, 'page-----------');
       _this.list = res.data.list;
+      if (res.data && res.data.list) {
+        var tex = '';
+        res.data.list.forEach(function (item) {
+          // 严格：整个 countName 必须全是汉字
+          if (item.count && /^[\u4e00-\u9fa5]+$/.test(item.count)) {
+            tex += item.count;
+          }
+        });
+        _this.myText = tex;
+        console.log(tex, 'tex-');
+        console.log(_this.myText, 'myText----------');
+      }
       _this.countName = res.data.list[0].countName;
       _this.showText = res.data.showText;
     });
@@ -226,7 +239,7 @@ var _default = {
     selectStone: function selectStone(item, index) {
       this.selectedIndex = index;
     },
-    handlePay: function handlePay() {
+    handleGet: function handleGet() {
       var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var selectedItem, isTokenValid, loginResult, payParams;

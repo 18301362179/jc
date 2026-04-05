@@ -237,4 +237,14 @@
 .data-v-d11290ac::-webkit-scrollbar {
   display: none;
 }
+.up.data-v-d11290ac {
+  color: red;
+  margin-left: 4rpx;
+  font-size: 20rpx;
+}
+.down.data-v-d11290ac {
+  color: #00c48c;
+  margin-left: 4rpx;
+  font-size: 20rpx;
+}
 

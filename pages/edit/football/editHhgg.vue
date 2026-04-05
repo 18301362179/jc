@@ -1,7 +1,7 @@
 <template>
   <!-- 模板部分保持不变 -->
   <view class="scheme-edit-page">
-    <CustomHeader :ballTitle="''"  :isIndex="true" title="混合过关" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="''"  :isIndex="false" title="混合过关" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <scroll-view
       class="match-scroll"
