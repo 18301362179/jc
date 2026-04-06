@@ -90,12 +90,7 @@ export default {
     MixedPassList,
     
   },
-onLoad() {
-  // 强制显示分享菜单，立刻解除置灰
-  wx.showShareMenu({
-    menus: ['shareAppMessage', 'shareTimeline']
-  })
-},
+
   data() {
     return {
       // 新增：玩法列表添加混合过关
@@ -252,6 +247,10 @@ selectedMatchCount() {
     this.calcPopupMaxHeight();
   },
   onShow() {
+      // 强制显示分享菜单，立刻解除置灰
+  wx.showShareMenu({
+    menus: ['shareAppMessage', 'shareTimeline']
+  })
     // #ifdef APP-PLUS
     this.checkLocalToken();
     // #endif

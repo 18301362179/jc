@@ -73,14 +73,20 @@
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_0'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_0', 0, 0)">
                       <text class="spf-text">主胜</text>
                       <text class="spf-odds">{{ item.win_multiplier !== undefined && item.win_multiplier !== null ? item.win_multiplier : "--" }}</text>
+                      <text v-if="item.win_multiplier_c == 1" class="up">↑</text>
+                      <text v-if="item.win_multiplier_c == -1" class="down">↓</text>
                     </view>
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'draw_0'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'draw_0', 0, 1)">
                       <text class="spf-text">平</text>
                       <text class="spf-odds">{{ item.draw_multiplier !== undefined && item.draw_multiplier !== null ? item.draw_multiplier : "--" }}</text>
+                      <text v-if="item.draw_multiplier_c == 1" class="up">↑</text>
+                      <text v-if="item.draw_multiplier_c == -1" class="down">↓</text>
                     </view>
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'away_0'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'away_0', 0, 2)">
                       <text class="spf-text">主负</text>
                       <text class="spf-odds">{{ item.loss_multiplier !== undefined && item.loss_multiplier !== null ? item.loss_multiplier : "--" }}</text>
+                      <text v-if="item.loss_multiplier_c == 1" class="up">↑</text>
+                      <text v-if="item.loss_multiplier_c == -1" class="down">↓</text>
                     </view>
                   </view>
                   <view class="spf-row">
@@ -88,14 +94,20 @@
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_-1'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_-1', 1, 0)">
                       <text class="spf-text">主胜</text>
                       <text class="spf-odds">{{ item.r_win_multiplier !== undefined && item.r_win_multiplier !== null ? item.r_win_multiplier : "--" }}</text>
+                      <text v-if="item.r_win_multiplier_c == 1" class="up">↑</text>
+                      <text v-if="item.r_win_multiplier_c == -1" class="down">↓</text>
                     </view>
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'draw_-1'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'draw_-1', 1, 1)">
                       <text class="spf-text">平</text>
                       <text class="spf-odds">{{ item.r_draw_multiplier !== undefined && item.r_draw_multiplier !== null ? item.r_draw_multiplier : "--" }}</text>
+                      <text v-if="item.r_draw_multiplier_c == 1" class="up">↑</text>
+                      <text v-if="item.r_draw_multiplier_c == -1" class="down">↓</text>
                     </view>
                     <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'away_-1'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'away_-1', 1, 2)">
                       <text class="spf-text">主负</text>
                       <text class="spf-odds">{{ item.r_loss_multiplier !== undefined && item.r_loss_multiplier !== null ? item.r_loss_multiplier : "--" }}</text>
+                      <text v-if="item.r_loss_multiplier_c == 1" class="up">↑</text>
+                      <text v-if="item.r_loss_multiplier_c == -1" class="down">↓</text>
                     </view>
                   </view>
                 </view>
@@ -152,14 +164,20 @@
               <view class="spf-item" @click="handleScoreToggle('spf', '胜平负_主胜')" :class="[getScoreClass('spf', '胜平负_主胜', currentMatch.win_multiplier)]">
                 <text class="score-text">主胜</text>
                 <text class="score-odds">{{ currentMatch.win_multiplier !== undefined && currentMatch.win_multiplier !== null ? currentMatch.win_multiplier : "--" }}</text>
+                <text v-if="currentMatch.win_multiplier_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.win_multiplier_c == -1" class="down">↓</text>
               </view>
               <view class="spf-item" @click="handleScoreToggle('spf', '胜平负_平')" :class="[getScoreClass('spf', '胜平负_平', currentMatch.draw_multiplier)]">
                 <text class="score-text">平</text>
                 <text class="score-odds">{{ currentMatch.draw_multiplier !== undefined && currentMatch.draw_multiplier !== null ? currentMatch.draw_multiplier : "--" }}</text>
+                <text v-if="currentMatch.draw_multiplier_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.draw_multiplier_c == -1" class="down">↓</text>
               </view>
               <view class="spf-item" @click="handleScoreToggle('spf', '胜平负_客胜')" :class="[getScoreClass('spf', '胜平负_客胜', currentMatch.loss_multiplier)]">
                 <text class="score-text">主负</text>
                 <text class="score-odds">{{ currentMatch.loss_multiplier !== undefined && currentMatch.loss_multiplier !== null ? currentMatch.loss_multiplier : "--" }}</text>
+                <text v-if="currentMatch.loss_multiplier_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.loss_multiplier_c == -1" class="down">↓</text>
               </view>
             </view>
           </view>
@@ -172,14 +190,20 @@
                 <view class="rspf-item" @click="handleScoreToggle('rspf', '让胜平负_让主胜')" :class="[getScoreClass('rspf', '让胜平负_让主胜', currentMatch.r_win_multiplier)]">
                   <text class="score-text">主胜</text>
                   <text class="score-odds">{{ currentMatch.r_win_multiplier !== undefined && currentMatch.r_win_multiplier !== null ? currentMatch.r_win_multiplier : "--" }}</text>
+                  <text v-if="currentMatch.r_win_multiplier_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.r_win_multiplier_c == -1" class="down">↓</text>
                 </view>
                 <view class="rspf-item" @click="handleScoreToggle('rspf', '让胜平负_让平')" :class="[getScoreClass('rspf', '让胜平负_让平', currentMatch.r_draw_multiplier)]">
                   <text class="score-text">平</text>
                   <text class="score-odds">{{ currentMatch.r_draw_multiplier !== undefined && currentMatch.r_draw_multiplier !== null ? currentMatch.r_draw_multiplier : "--" }}</text>
+                  <text v-if="currentMatch.r_draw_multiplier_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.r_draw_multiplier_c == -1" class="down">↓</text>
                 </view>
                 <view class="rspf-item" @click="handleScoreToggle('rspf', '让胜平负_让客胜')" :class="[getScoreClass('rspf', '让胜平负_让客胜', currentMatch.r_loss_multiplier)]">
                   <text class="score-text">主负</text>
                   <text class="score-odds">{{ currentMatch.r_loss_multiplier !== undefined && currentMatch.r_loss_multiplier !== null ? currentMatch.r_loss_multiplier : "--" }}</text>
+                  <text v-if="currentMatch.r_loss_multiplier_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.r_loss_multiplier_c == -1" class="down">↓</text>
                 </view>
               </view>
               <view class="rspf-tip">让球胜平负（主队-1）</view>
@@ -195,58 +219,84 @@
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_1:0')" :class="[getScoreClass('bifen', '比分_1:0')]">
                   <text class="score-text">1:0</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "ybl") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ybl_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ybl_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_2:0')" :class="[getScoreClass('bifen', '比分_2:0')]">
                   <text class="score-text">2:0</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "ebl") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ebl_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ebl_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_2:1')" :class="[getScoreClass('bifen', '比分_2:1')]">
                   <text class="score-text">2:1</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "eby") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'eby_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'eby_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_3:0')" :class="[getScoreClass('bifen', '比分_3:0')]">
                   <text class="score-text">3:0</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "sbl") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sbl_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sbl_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_3:1')" :class="[getScoreClass('bifen', '比分_3:1')]">
                   <text class="score-text">3:1</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "sby") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sby_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sby_c') == -1" class="down">↓</text>
                 </view>
               </view>
               <view class="bifen-row">
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_3:2')" :class="[getScoreClass('bifen', '比分_3:2')]">
                   <text class="score-text">3:2</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "sbe") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sbe_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sbe_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_4:0')" :class="[getScoreClass('bifen', '比分_4:0')]">
                   <text class="score-text">4:0</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "sibl") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sibl_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sibl_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_4:1')" :class="[getScoreClass('bifen', '比分_4:1')]">
                   <text class="score-text">4:1</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "siby") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'siby_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'siby_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_4:2')" :class="[getScoreClass('bifen', '比分_4:2')]">
                   <text class="score-text">4:2</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "sibe") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sibe_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sibe_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_5:0')" :class="[getScoreClass('bifen', '比分_5:0')]">
                   <text class="score-text">5:0</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "wbl") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'wbl_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'wbl_c') == -1" class="down">↓</text>
                 </view>
               </view>
               <view class="bifen-row">
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_5:1')" :class="[getScoreClass('bifen', '比分_5:1')]">
                   <text class="score-text">5:1</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "wby") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'wby_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'wby_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_5:2')" :class="[getScoreClass('bifen', '比分_5:2')]">
                   <text class="score-text">5:2</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "wbe") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'wbe_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'wbe_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item bifen-other" @click="handleScoreToggle('bifen', '比分_胜其它')" :class="[getScoreClass('bifen', '比分_胜其它')]">
                   <text class="score-text">胜其它</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "sqt") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sqt_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sqt_c') == -1" class="down">↓</text>
                 </view>
               </view>
 
@@ -255,22 +305,32 @@
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_0:0')" :class="[getScoreClass('bifen', '比分_0:0')]">
                   <text class="score-text">0:0</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "lwl") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lwl_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lwl_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_1:1')" :class="[getScoreClass('bifen', '比分_1:1')]">
                   <text class="score-text">1:1</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "yby") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'yby_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'yby_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_2:2')" :class="[getScoreClass('bifen', '比分_2:2')]">
                   <text class="score-text">2:2</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "ebs") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ebs_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ebs_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_3:3')" :class="[getScoreClass('bifen', '比分_3:3')]">
                   <text class="score-text">3:3</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "fqt") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'fqt_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'fqt_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item bifen-other" @click="handleScoreToggle('bifen', '比分_平其它')" :class="[getScoreClass('bifen', '比分_平其它')]">
                   <text class="score-text">平其它</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "pqt") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'pqt_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'pqt_c') == -1" class="down">↓</text>
                 </view>
               </view>
 
@@ -279,58 +339,84 @@
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_0:1')" :class="[getScoreClass('bifen', '比分_0:1')]">
                   <text class="score-text">0:1</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "lby") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lby_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lby_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_0:2')" :class="[getScoreClass('bifen', '比分_0:2')]">
                   <text class="score-text">0:2</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "lbe") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbe_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbe_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_1:2')" :class="[getScoreClass('bifen', '比分_1:2')]">
                   <text class="score-text">1:2</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "ybs") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ybs_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ybs_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_0:3')" :class="[getScoreClass('bifen', '比分_0:3')]">
                   <text class="score-text">0:3</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "lbl") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbl_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbl_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_1:3')" :class="[getScoreClass('bifen', '比分_1:3')]">
                   <text class="score-text">1:3</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "lbe") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbe_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbe_c') == -1" class="down">↓</text>
                 </view>
               </view>
               <view class="bifen-row">
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_2:3')" :class="[getScoreClass('bifen', '比分_2:3')]">
                   <text class="score-text">2:3</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "lbsan") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbsan_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbsan_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_0:4')" :class="[getScoreClass('bifen', '比分_0:4')]">
                   <text class="score-text">0:4</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "lbsi") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbsi_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbsi_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_1:4')" :class="[getScoreClass('bifen', '比分_1:4')]">
                   <text class="score-text">1:4</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "ybsi") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ybsi_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ybsi_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_2:4')" :class="[getScoreClass('bifen', '比分_2:4')]">
                   <text class="score-text">2:4</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "ebsi") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ebsi_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ebsi_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_0:5')" :class="[getScoreClass('bifen', '比分_0:5')]">
                   <text class="score-text">0:5</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "lbw") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbw_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'lbw_c') == -1" class="down">↓</text>
                 </view>
               </view>
               <view class="bifen-row">
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_1:5')" :class="[getScoreClass('bifen', '比分_1:5')]">
                   <text class="score-text">1:5</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "ybw") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ybw_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ybw_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item" @click="handleScoreToggle('bifen', '比分_2:5')" :class="[getScoreClass('bifen', '比分_2:5')]">
                   <text class="score-text">2:5</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "ebw") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ebw_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'ebw_c') == -1" class="down">↓</text>
                 </view>
                 <view class="bifen-item bifen-other" @click="handleScoreToggle('bifen', '比分_负其它')" :class="[getScoreClass('bifen', '比分_负其它')]">
                   <text class="score-text">负其它</text>
                   <text class="score-odds">{{ getScoreValue(currentMatch, "data2", "sqt") }}</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sqt_c') == 1" class="up">↑</text>
+                  <text v-if="getScoreValue(currentMatch, 'data2', 'sqt_c') == -1" class="down">↓</text>
                 </view>
               </view>
             </view>
@@ -343,34 +429,50 @@
               <view class="zjq-item" @click="handleScoreToggle('zjq', '总进球_0')" :class="[getScoreClass('zjq', '总进球_0', currentMatch.zjq_ling)]">
                 <text class="score-text">0</text>
                 <text class="score-odds">{{ currentMatch.zjq_ling !== undefined && currentMatch.zjq_ling !== null ? currentMatch.zjq_ling : "--" }}</text>
+                <text v-if="currentMatch.zjq_ling_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.zjq_ling_c == -1" class="down">↓</text>
               </view>
               <view class="zjq-item" @click="handleScoreToggle('zjq', '总进球_1')" :class="[getScoreClass('zjq', '总进球_1', currentMatch.zjq_yi)]">
                 <text class="score-text">1</text>
                 <text class="score-odds">{{ currentMatch.zjq_yi !== undefined && currentMatch.zjq_yi !== null ? currentMatch.zjq_yi : "--" }}</text>
+                <text v-if="currentMatch.zjq_yi_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.zjq_yi_c == -1" class="down">↓</text>
               </view>
               <view class="zjq-item" @click="handleScoreToggle('zjq', '总进球_2')" :class="[getScoreClass('zjq', '总进球_2', currentMatch.zjq_er)]">
                 <text class="score-text">2</text>
                 <text class="score-odds">{{ currentMatch.zjq_er !== undefined && currentMatch.zjq_er !== null ? currentMatch.zjq_er : "--" }}</text>
+                <text v-if="currentMatch.zjq_er_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.zjq_er_c == -1" class="down">↓</text>
               </view>
               <view class="zjq-item" @click="handleScoreToggle('zjq', '总进球_3')" :class="[getScoreClass('zjq', '总进球_3', currentMatch.zjq_san)]">
                 <text class="score-text">3</text>
                 <text class="score-odds">{{ currentMatch.zjq_san !== undefined && currentMatch.zjq_san !== null ? currentMatch.zjq_san : "--" }}</text>
+                <text v-if="currentMatch.zjq_san_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.zjq_san_c == -1" class="down">↓</text>
               </view>
               <view class="zjq-item" @click="handleScoreToggle('zjq', '总进球_4')" :class="[getScoreClass('zjq', '总进球_4', currentMatch.zjq_si)]">
                 <text class="score-text">4</text>
                 <text class="score-odds">{{ currentMatch.zjq_si !== undefined && currentMatch.zjq_si !== null ? currentMatch.zjq_si : "--" }}</text>
+                <text v-if="currentMatch.zjq_si_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.zjq_si_c == -1" class="down">↓</text>
               </view>
               <view class="zjq-item" @click="handleScoreToggle('zjq', '总进球_5')" :class="[getScoreClass('zjq', '总进球_5', currentMatch.zjq_wu)]">
                 <text class="score-text">5</text>
                 <text class="score-odds">{{ currentMatch.zjq_wu !== undefined && currentMatch.zjq_wu !== null ? currentMatch.zjq_wu : "--" }}</text>
+                <text v-if="currentMatch.zjq_wu_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.zjq_wu_c == -1" class="down">↓</text>
               </view>
               <view class="zjq-item" @click="handleScoreToggle('zjq', '总进球_6')" :class="[getScoreClass('zjq', '总进球_6', currentMatch.zjq_liu)]">
                 <text class="score-text">6</text>
                 <text class="score-odds">{{ currentMatch.zjq_liu !== undefined && currentMatch.zjq_liu !== null ? currentMatch.zjq_liu : "--" }}</text>
+                <text v-if="currentMatch.zjq_liu_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.zjq_liu_c == -1" class="down">↓</text>
               </view>
               <view class="zjq-item" @click="handleScoreToggle('zjq', '总进球_7+')" :class="[getScoreClass('zjq', '总进球_7+', currentMatch.zjq_qi_jia)]">
                 <text class="score-text">7+</text>
                 <text class="score-odds">{{ currentMatch.zjq_qi_jia !== undefined && currentMatch.zjq_qi_jia !== null ? currentMatch.zjq_qi_jia : "--" }}</text>
+                <text v-if="currentMatch.zjq_qi_jia_c == 1" class="up">↑</text>
+                <text v-if="currentMatch.zjq_qi_jia_c == -1" class="down">↓</text>
               </view>
             </view>
           </view>
@@ -383,48 +485,65 @@
                 <view class="bqc-item" @click="handleScoreToggle('bqc', '半全场_胜胜')" :class="[getScoreClass('bqc', '半全场_胜胜', currentMatch.ss)]">
                   <text class="score-text">胜胜</text>
                   <text class="score-odds">{{ currentMatch.ss !== undefined && currentMatch.ss !== null ? currentMatch.ss : "--" }}</text>
+                  <text v-if="currentMatch.ss_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.ss_c == -1" class="down">↓</text>
                 </view>
                 <view class="bqc-item" @click="handleScoreToggle('bqc', '半全场_胜平')" :class="[getScoreClass('bqc', '半全场_胜平', currentMatch.sp)]">
                   <text class="score-text">胜平</text>
                   <text class="score-odds">{{ currentMatch.sp !== undefined && currentMatch.sp !== null ? currentMatch.sp : "--" }}</text>
+                  <text v-if="currentMatch.sp_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.sp_c == -1" class="down">↓</text>
                 </view>
                 <view class="bqc-item" @click="handleScoreToggle('bqc', '半全场_胜负')" :class="[getScoreClass('bqc', '半全场_胜负', currentMatch.sf)]">
                   <text class="score-text">胜负</text>
                   <text class="score-odds">{{ currentMatch.sf !== undefined && currentMatch.sf !== null ? currentMatch.sf : "--" }}</text>
+                  <text v-if="currentMatch.sf_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.sf_c == -1" class="down">↓</text>
                 </view>
               </view>
               <view class="bqc-row">
                 <view class="bqc-item" @click="handleScoreToggle('bqc', '半全场_平胜')" :class="[getScoreClass('bqc', '半全场_平胜', currentMatch.ps)]">
                   <text class="score-text">平胜</text>
                   <text class="score-odds">{{ currentMatch.ps !== undefined && currentMatch.ps !== null ? currentMatch.ps : "--" }}</text>
+                  <text v-if="currentMatch.ps_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.ps_c == -1" class="down">↓</text>
                 </view>
                 <view class="bqc-item" @click="handleScoreToggle('bqc', '半全场_平平')" :class="[getScoreClass('bqc', '半全场_平平', currentMatch.pp)]">
                   <text class="score-text">平平</text>
                   <text class="score-odds">{{ currentMatch.pp !== undefined && currentMatch.pp !== null ? currentMatch.pp : "--" }}</text>
+                  <text v-if="currentMatch.pp_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.pp_c == -1" class="down">↓</text>
                 </view>
                 <view class="bqc-item" @click="handleScoreToggle('bqc', '半全场_平负')" :class="[getScoreClass('bqc', '半全场_平负', currentMatch.pf)]">
                   <text class="score-text">平负</text>
                   <text class="score-odds">{{ currentMatch.pf !== undefined && currentMatch.pf !== null ? currentMatch.pf : "--" }}</text>
+                  <text v-if="currentMatch.pf_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.pf_c == -1" class="down">↓</text>
                 </view>
               </view>
               <view class="bqc-row">
                 <view class="bqc-item" @click="handleScoreToggle('bqc', '半全场_负胜')" :class="[getScoreClass('bqc', '半全场_负胜', currentMatch.fs)]">
                   <text class="score-text">负胜</text>
                   <text class="score-odds">{{ currentMatch.fs !== undefined && currentMatch.fs !== null ? currentMatch.fs : "--" }}</text>
+                  <text v-if="currentMatch.fs_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.fs_c == -1" class="down">↓</text>
                 </view>
                 <view class="bqc-item" @click="handleScoreToggle('bqc', '半全场_负平')" :class="[getScoreClass('bqc', '半全场_负平', currentMatch.fp)]">
                   <text class="score-text">负平</text>
                   <text class="score-odds">{{ currentMatch.fp !== undefined && currentMatch.fp !== null ? currentMatch.fp : "--" }}</text>
+                  <text v-if="currentMatch.fp_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.fp_c == -1" class="down">↓</text>
                 </view>
                 <view class="bqc-item" @click="handleScoreToggle('bqc', '半全场_负负')" :class="[getScoreClass('bqc', '半全场_负负', currentMatch.ff)]">
                   <text class="score-text">负负</text>
                   <text class="score-odds">{{ currentMatch.ff !== undefined && currentMatch.ff !== null ? currentMatch.ff : "--" }}</text>
+                  <text v-if="currentMatch.ff_c == 1" class="up">↑</text>
+                  <text v-if="currentMatch.ff_c == -1" class="down">↓</text>
                 </view>
               </view>
             </view>
           </view>
         </view>
-
         <!-- 底部固定按钮栏 -->
         <view class="popup-btn-bar">
           <button class="cancel-btn" @click="closePopup" hover-class="none">取消</button>

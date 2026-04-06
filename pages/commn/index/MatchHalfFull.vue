@@ -88,6 +88,8 @@
           <view v-for="(item, idx) in halfFullOptions" :key="idx" class="half-full-option" :class="{ selected: selectedScores.includes(item.value) }" @click="toggleScore(item.value)">
             <text class="option-label">{{ item.label }}</text>
             <text class="option-odds">{{ item.odds }}</text>
+            <text v-if="item.c == 1" class="up">↑</text>
+            <text v-if="item.c === -1" class="down">↓</text>
           </view>
         </view>
       </view>
@@ -119,15 +121,15 @@ export default {
       statusBarHeightRpx: 0,
       windowWidth: 0,
       halfFullOptions: [
-        { label: "胜胜", value: "ss", oddsField: "ss_odds" },
-        { label: "胜平", value: "sp", oddsField: "sp_odds" },
-        { label: "胜负", value: "sf", oddsField: "sf_odds" },
-        { label: "平胜", value: "ps", oddsField: "ps_odds" },
-        { label: "平平", value: "pp", oddsField: "pp_odds" },
-        { label: "平负", value: "pf", oddsField: "pf_odds" },
-        { label: "负胜", value: "fs", oddsField: "fs_odds" },
-        { label: "负平", value: "fp", oddsField: "fp_odds" },
-        { label: "负负", value: "ff", oddsField: "ff_odds" },
+        { label: "胜胜", value: "ss", oddsField: "ss_odds", c: 0 },
+        { label: "胜平", value: "sp", oddsField: "sp_odds", c: 0 },
+        { label: "胜负", value: "sf", oddsField: "sf_odds", c: 0 },
+        { label: "平胜", value: "ps", oddsField: "ps_odds", c: 0 },
+        { label: "平平", value: "pp", oddsField: "pp_odds", c: 0 },
+        { label: "平负", value: "pf", oddsField: "pf_odds", c: 0 },
+        { label: "负胜", value: "fs", oddsField: "fs_odds", c: 0 },
+        { label: "负平", value: "fp", oddsField: "fp_odds", c: 0 },
+        { label: "负负", value: "ff", oddsField: "ff_odds", c: 0 },
       ],
     };
   },
@@ -218,6 +220,7 @@ export default {
       this.halfFullOptions = this.halfFullOptions.map((opt) => ({
         ...opt,
         odds: match[opt.value] ? match[opt.value].toString() : match[opt.oddsField] || "",
+        c: match[`${opt.value}_c`] || 0, // 这里加 c
       }));
     },
     toggleScore(scoreValue) {

@@ -113,12 +113,7 @@ export default {
       matchSelectedState: {},
     };
   },
-  onLoad() {
-    // 强制显示分享菜单，立刻解除置灰
-    wx.showShareMenu({
-      menus: ["shareAppMessage", "shareTimeline"],
-    });
-  },
+
   async onPullDownRefresh() {
     try {
       this.isRefreshing = true;
@@ -251,7 +246,10 @@ export default {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow() {
+  onLoad() {
+    wx.showShareMenu({
+      menus: ["shareAppMessage", "shareTimeline"],
+    });
     // #ifdef APP-PLUS
     this.checkLocalToken();
     // #endif

@@ -176,13 +176,10 @@ export default {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-    onLoad() {
-  // 强制显示分享菜单，立刻解除置灰
-  wx.showShareMenu({
+  onLoad() {
+      wx.showShareMenu({
     menus: ['shareAppMessage', 'shareTimeline']
   })
-},
-  onShow() {
     const editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
       let parsedData = editedData;

@@ -139,12 +139,6 @@ export default {
       uni.stopPullDownRefresh();
     }
   },
-    onLoad() {
-  // 强制显示分享菜单，立刻解除置灰
-  wx.showShareMenu({
-    menus: ['shareAppMessage', 'shareTimeline']
-  })
-},
   computed: {
     targetLotteryType() {
       return this.playTypeMap[this.currentPlay] || "spf";
@@ -180,7 +174,10 @@ export default {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow() {
+  onLoad() {
+      wx.showShareMenu({
+    menus: ['shareAppMessage', 'shareTimeline']
+  })
     const editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
       let parsedData = editedData;

@@ -24,7 +24,7 @@
               <!-- 仅改：@tap.stop 改为 @click.stop -->
               <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="$xiValue" @click.stop="() => goToAiAnalysis(item)">
                 <text>详细</text>
-                <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
+                <text class="small-coin" v-if="item.is_buy == 0">{{ item.charge }}</text>
               </view>
             </view>
           </view>
@@ -52,9 +52,9 @@
                 </view>
                 <!-- 胜&进球数行 -->
                 <view class="rate-row">
-                  <text class="rate-text home" v-if="item.home_win_rate&&$urlValue">胜率{{ item.home_win_rate || "--" }}</text>
+                  <text class="rate-text home" v-if="item.home_win_rate && $urlValue">胜率{{ item.home_win_rate || "--" }}</text>
                   <text class="vs-text">{{ item.draw_rate ? "平率" + item.draw_rate : "" }}</text>
-                  <text class="rate-text away" v-if="item.visiting_win_rate&&$urlValue">胜率{{ item.visiting_win_rate || "--" }}</text>
+                  <text class="rate-text away" v-if="item.visiting_win_rate && $urlValue">胜率{{ item.visiting_win_rate || "--" }}</text>
                 </view>
               </view>
               <!-- 复刻半全场的bottom-right：仅保留宽度+溢出约束 -->
@@ -97,6 +97,8 @@
             <view v-for="(item, idx) in mainWinScores" :key="idx" class="score-option" :class="{ selected: selectedScores.includes(item.value) }" @click="toggleScore(item.value)" hover-class="none">
               <text class="score-text">{{ item.label }}</text>
               <text class="score-odds">{{ item.odds }}</text>
+              <text v-if="item.c == 1" class="up">↑</text>
+              <text v-if="item.c == -1" class="down">↓</text>
             </view>
             <view class="score-option other" :class="{ selected: selectedScores.includes('胜其它') }" @click="toggleScore('胜其它')" hover-class="none">
               <text class="score-text">胜其它</text>
@@ -110,6 +112,8 @@
             <view v-for="(item, idx) in drawScores" :key="idx" class="score-option" :class="{ selected: selectedScores.includes(item.value) }" @click="toggleScore(item.value)" hover-class="none">
               <text class="score-text">{{ item.label }}</text>
               <text class="score-odds">{{ item.odds }}</text>
+              <text v-if="item.c == 1" class="up">↑</text>
+              <text v-if="item.c == -1" class="down">↓</text>
             </view>
             <view class="score-option other" :class="{ selected: selectedScores.includes('平其它') }" @click="toggleScore('平其它')" hover-class="none">
               <text class="score-text">平其它</text>
@@ -123,6 +127,8 @@
             <view v-for="(item, idx) in awayWinScores" :key="idx" class="score-option" :class="{ selected: selectedScores.includes(item.value) }" @click="toggleScore(item.value)" hover-class="none">
               <text class="score-text">{{ item.label }}</text>
               <text class="score-odds">{{ item.odds }}</text>
+              <text v-if="item.c == 1" class="up">↑</text>
+              <text v-if="item.c == -1" class="down">↓</text>
             </view>
             <view class="score-option other" :class="{ selected: selectedScores.includes('负其它') }" @click="toggleScore('负其它')" hover-class="none">
               <text class="score-text">负其它</text>
@@ -159,38 +165,38 @@ export default {
       currentOddsData: null,
       // 比分选项配置（统一维护）
       mainWinScores: [
-        { label: "1:0", value: "1:0", odds: "" },
-        { label: "2:0", value: "2:0", odds: "" },
-        { label: "2:1", value: "2:1", odds: "" },
-        { label: "3:0", value: "3:0", odds: "" },
-        { label: "3:1", value: "3:1", odds: "" },
-        { label: "3:2", value: "3:2", odds: "" },
-        { label: "4:0", value: "4:0", odds: "" },
-        { label: "4:1", value: "4:1", odds: "" },
-        { label: "4:2", value: "4:2", odds: "" },
-        { label: "5:0", value: "5:0", odds: "" },
-        { label: "5:1", value: "5:1", odds: "" },
-        { label: "5:2", value: "5:2", odds: "" },
+        { label: "1:0", value: "1:0", odds: "", c: 0 },
+        { label: "2:0", value: "2:0", odds: "", c: 0 },
+        { label: "2:1", value: "2:1", odds: "", c: 0 },
+        { label: "3:0", value: "3:0", odds: "", c: 0 },
+        { label: "3:1", value: "3:1", odds: "", c: 0 },
+        { label: "3:2", value: "3:2", odds: "", c: 0 },
+        { label: "4:0", value: "4:0", odds: "", c: 0 },
+        { label: "4:1", value: "4:1", odds: "", c: 0 },
+        { label: "4:2", value: "4:2", odds: "", c: 0 },
+        { label: "5:0", value: "5:0", odds: "", c: 0 },
+        { label: "5:1", value: "5:1", odds: "", c: 0 },
+        { label: "5:2", value: "5:2", odds: "", c: 0 },
       ],
       drawScores: [
-        { label: "0:0", value: "0:0", odds: "" },
-        { label: "1:1", value: "1:1", odds: "" },
-        { label: "2:2", value: "2:2", odds: "" },
-        { label: "3:3", value: "3:3", odds: "" },
+        { label: "0:0", value: "0:0", odds: "", c: 0 },
+        { label: "1:1", value: "1:1", odds: "", c: 0 },
+        { label: "2:2", value: "2:2", odds: "", c: 0 },
+        { label: "3:3", value: "3:3", odds: "", c: 0 },
       ],
       awayWinScores: [
-        { label: "0:1", value: "0:1", odds: "" },
-        { label: "0:2", value: "0:2", odds: "" },
-        { label: "1:2", value: "1:2", odds: "" },
-        { label: "0:3", value: "0:3", odds: "" },
-        { label: "1:3", value: "1:3", odds: "" },
-        { label: "2:3", value: "2:3", odds: "" },
-        { label: "0:4", value: "0:4", odds: "" },
-        { label: "1:4", value: "1:4", odds: "" },
-        { label: "2:4", value: "2:4", odds: "" },
-        { label: "0:5", value: "0:5", odds: "" },
-        { label: "1:5", value: "1:5", odds: "" },
-        { label: "2:5", value: "2:5", odds: "" },
+        { label: "0:1", value: "0:1", odds: "", c: 0 },
+        { label: "0:2", value: "0:2", odds: "", c: 0 },
+        { label: "1:2", value: "1:2", odds: "", c: 0 },
+        { label: "0:3", value: "0:3", odds: "", c: 0 },
+        { label: "1:3", value: "1:3", odds: "", c: 0 },
+        { label: "2:3", value: "2:3", odds: "", c: 0 },
+        { label: "0:4", value: "0:4", odds: "", c: 0 },
+        { label: "1:4", value: "1:4", odds: "", c: 0 },
+        { label: "2:4", value: "2:4", odds: "", c: 0 },
+        { label: "0:5", value: "0:5", odds: "", c: 0 },
+        { label: "1:5", value: "1:5", odds: "", c: 0 },
+        { label: "2:5", value: "2:5", odds: "", c: 0 },
       ],
       expandedDrawers: [],
       // 缓存转换后的状态栏高度（px转rpx，适配多端）
@@ -304,118 +310,143 @@ export default {
         // 填充赔率数据到比分选项
         if (this.currentOddsData) {
           const oddsData = this.currentOddsData;
+          console.log(oddsData, "oddsData-----------");
           // 主胜比分赔率
           this.mainWinScores = this.mainWinScores.map((item) => {
             let odds = item.odds;
+            let c = 0;
             switch (item.value) {
               case "1:0":
-                odds = oddsData.ybl && oddsData.ybl.toString() ? oddsData.ybl.toString() : "";
+                odds = oddsData.ybl || "";
+                c = oddsData.ybl_c || 0;
                 break;
               case "2:0":
-                odds = oddsData.ebl && oddsData.ebl.toString() ? oddsData.ebl.toString() : "";
+                odds = oddsData.ebl || "";
+                c = oddsData.ebl_c || 0;
                 break;
               case "2:1":
-                odds = oddsData.eby && oddsData.eby.toString() ? oddsData.eby.toString() : "";
+                odds = oddsData.eby || "";
+                c = oddsData.eby_c || 0;
                 break;
               case "3:0":
-                odds = oddsData.sbl && oddsData.sbl.toString() ? oddsData.sbl.toString() : "";
+                odds = oddsData.sbl || "";
+                c = oddsData.sbl_c || 0;
                 break;
               case "3:1":
-                odds = oddsData.sby && oddsData.sby.toString() ? oddsData.sby.toString() : "";
+                odds = oddsData.sby || "";
+                c = oddsData.sby_c || 0;
                 break;
               case "3:2":
-                odds = oddsData.sbe && oddsData.sbe.toString() ? oddsData.sbe.toString() : "";
+                odds = oddsData.sbe || "";
+                c = oddsData.sbe_c || 0;
                 break;
               case "4:0":
-                odds = oddsData.sibl && oddsData.sibl.toString() ? oddsData.sibl.toString() : "";
+                odds = oddsData.sibl || "";
+                c = oddsData.sibl_c || 0;
                 break;
               case "4:1":
-                odds = oddsData.siby && oddsData.siby.toString() ? oddsData.siby.toString() : "";
+                odds = oddsData.siby || "";
+                c = oddsData.siby_c || 0;
                 break;
               case "4:2":
-                odds = oddsData.sibe && oddsData.sibe.toString() ? oddsData.sibe.toString() : "";
+                odds = oddsData.sibe || "";
+                c = oddsData.sibe_c || 0;
                 break;
               case "5:0":
-                odds = oddsData.wbl && oddsData.wbl.toString() ? oddsData.wbl.toString() : "";
+                odds = oddsData.wbl || "";
+                c = oddsData.wbl_c || 0;
                 break;
               case "5:1":
-                odds = oddsData.wby && oddsData.wby.toString() ? oddsData.wby.toString() : "";
+                odds = oddsData.wby || "";
+                c = oddsData.wby_c || 0;
                 break;
               case "5:2":
-                odds = oddsData.wbe && oddsData.wbe.toString() ? oddsData.wbe.toString() : "";
+                odds = oddsData.wbe || "";
+                c = oddsData.wbe_c || 0;
                 break;
-              default:
-                odds = "";
             }
-            return { ...item, odds };
+            return { ...item, odds, c };
           });
 
           // 平比分赔率
           this.drawScores = this.drawScores.map((item) => {
             let odds = item.odds;
+            let c = 0;
             switch (item.value) {
               case "0:0":
-                odds = oddsData.lbl && oddsData.lbl.toString() ? oddsData.lbl.toString() : "";
+                odds = oddsData.lbl || "";
+                c = oddsData.lbl_c || 0;
                 break;
               case "1:1":
-                odds = oddsData.yby && oddsData.yby.toString() ? oddsData.yby.toString() : "";
+                odds = oddsData.yby || "";
+                c = oddsData.yby_c || 0;
                 break;
               case "2:2":
-                odds = oddsData.ebe && oddsData.ebe.toString() ? oddsData.ebe.toString() : "";
+                odds = oddsData.ebe || "";
+                c = oddsData.ebe_c || 0;
                 break;
               case "3:3":
-                odds = oddsData.sbs && oddsData.sbs.toString() ? oddsData.sbs.toString() : "";
+                odds = oddsData.sbs || "";
+                c = oddsData.sbs_c || 0;
                 break;
-              default:
-                odds = "";
             }
-            return { ...item, odds };
+            return { ...item, odds, c };
           });
-
           // 客胜比分赔率
           this.awayWinScores = this.awayWinScores.map((item) => {
             let odds = item.odds;
+            let c = 0;
             switch (item.value) {
               case "0:1":
-                odds = oddsData.lby && oddsData.lby.toString() ? oddsData.lby.toString() : "";
+                odds = oddsData.lby || "";
+                c = oddsData.lby_c || 0;
                 break;
               case "0:2":
-                odds = oddsData.lbe && oddsData.lbe.toString() ? oddsData.lbe.toString() : "";
+                odds = oddsData.lbe || "";
+                c = oddsData.lbe_c || 0;
                 break;
               case "1:2":
-                odds = oddsData.ybe && oddsData.ybe.toString() ? oddsData.ybe.toString() : "";
+                odds = oddsData.ybe || "";
+                c = oddsData.ybe_c || 0;
                 break;
               case "0:3":
-                odds = oddsData.lbs && oddsData.lbs.toString() ? oddsData.lbs.toString() : "";
+                odds = oddsData.lbs || "";
+                c = oddsData.lbs_c || 0;
                 break;
               case "1:3":
-                odds = oddsData.ybs && oddsData.ybs.toString() ? oddsData.ybs.toString() : "";
+                odds = oddsData.ybs || "";
+                c = oddsData.ybs_c || 0;
                 break;
               case "2:3":
-                odds = oddsData.ebs && oddsData.ebs.toString() ? oddsData.ebs.toString() : "";
+                odds = oddsData.ebs || "";
+                c = oddsData.ebs_c || 0;
                 break;
               case "0:4":
-                odds = oddsData.lbsi && oddsData.lbsi.toString() ? oddsData.lbsi.toString() : "";
+                odds = oddsData.lbsi || "";
+                c = oddsData.lbsi_c || 0;
                 break;
               case "1:4":
-                odds = oddsData.ybsi && oddsData.ybsi.toString() ? oddsData.ybsi.toString() : "";
+                odds = oddsData.ybsi || "";
+                c = oddsData.ybsi_c || 0;
                 break;
               case "2:4":
-                odds = oddsData.ebsi && oddsData.ebsi.toString() ? oddsData.ebsi.toString() : "";
+                odds = oddsData.ebsi || "";
+                c = oddsData.ebsi_c || 0;
                 break;
               case "0:5":
-                odds = oddsData.lbw && oddsData.lbw.toString() ? oddsData.lbw.toString() : "";
+                odds = oddsData.lbw || "";
+                c = oddsData.lbw_c || 0;
                 break;
               case "1:5":
-                odds = oddsData.ybw && oddsData.ybw.toString() ? oddsData.ybw.toString() : "";
+                odds = oddsData.ybw || "";
+                c = oddsData.ybw_c || 0;
                 break;
               case "2:5":
-                odds = oddsData.ebw && oddsData.ebw.toString() ? oddsData.ebw.toString() : "";
+                odds = oddsData.ebw || "";
+                c = oddsData.ebw_c || 0;
                 break;
-              default:
-                odds = "";
             }
-            return { ...item, odds };
+            return { ...item, odds, c };
           });
 
           // 其它比分赔率
