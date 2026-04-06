@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航 -->
-    <CustomHeader :ballTitle="''"  :isIndex="true" title="胜负" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="''"  :isIndex="true" title="14" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 滚动展示区域 -->
     <scroll-view class="match-scroll" scroll-y id="poster-content">

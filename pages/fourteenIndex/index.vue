@@ -4,7 +4,7 @@
     style="width: 100%; height: 100vh; box-sizing: border-box;">
     <!-- 顶部导航 -->
     <CustomHeader
-      :title="'胜 负'"
+      :title="'14'"
       :showBack="true"
       :isIndex="false"
       :showIcon="false"
@@ -44,7 +44,7 @@
     <BetBar
     v-if="urlValue"
       :min-match-count="14"
-      title="胜负"       
+      title="14"       
       :show-clear-btn="true"
       :confirmBtnEnabled="true"
       :confirm-btn-enabled="selectedMatchCount >= 9"

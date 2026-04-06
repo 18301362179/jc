@@ -195,50 +195,9 @@ var _default = {
       this.$emit('funnel-click');
     },
     onBackClick: function onBackClick() {
-      // 移除无效的uni.stopPropagation()，改用小程序/APP的事件阻断方式
-
-      // 核心修复：延迟执行跳转（等分享页生命周期稳定）
-      setTimeout(function () {
-        var pages = getCurrentPages();
-        if (pages.length > 1) {
-          uni.navigateBack({
-            delta: 1
-          });
-        } else {
-          console.log('分享页：页面栈第一页，强制跳首页');
-          // 方案1：优先用reLaunch（强制关闭所有页面，适配所有场景）
-          uni.reLaunch({
-            url: '/pages/index/index',
-            // 务必和pages.json的首页路径完全一致
-            success: function success() {
-              console.log('reLaunch跳首页成功');
-            },
-            fail: function fail(err) {
-              console.error('reLaunch失败：', err);
-              // 方案2：兜底用switchTab（针对tabBar首页）
-              uni.switchTab({
-                url: '/pages/index/index',
-                success: function success() {
-                  console.log('switchTab跳首页成功');
-                },
-                fail: function fail(err2) {
-                  console.error('switchTab也失败：', err2);
-                  // 方案3：终极兜底（打开新页面）
-                  uni.navigateTo({
-                    url: '/pages/index/index',
-                    fail: function fail(err3) {
-                      console.error('所有跳转方式都失败，检查路径：', err3);
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
-      }, 100); // 延迟100ms，避免分享页生命周期未完成导致跳转失效
-
-      // 事件派发后置，避免阻断跳转（若父组件无依赖，可临时注释排查冲突）
-      this.$emit('back-click');
+      uni.navigateBack({
+        delta: 1
+      });
     },
     triggerSelect: function triggerSelect() {
       this.$emit('trigger-select');
