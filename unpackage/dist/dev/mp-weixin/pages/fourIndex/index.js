@@ -679,30 +679,33 @@ var _default = {
                 });
                 return _context4.abrupt("return");
               case 12:
-                _context4.next = 14;
+                if (item.is_buy == 0) {
+                  _this6.$set(item, 'is_buy', 1);
+                }
+                _context4.next = 15;
                 return uni.navigateTo({
                   url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&isTradition=1")
                 });
-              case 14:
-                _context4.next = 19;
+              case 15:
+                _context4.next = 20;
                 break;
-              case 16:
-                _context4.prev = 16;
+              case 17:
+                _context4.prev = 17;
                 _context4.t0 = _context4["catch"](0);
                 uni.showToast({
                   title: '网络异常，请稍后重试',
                   icon: 'none'
                 });
-              case 19:
-                _context4.prev = 19;
+              case 20:
+                _context4.prev = 20;
                 _this6.hideLoading();
-                return _context4.finish(19);
-              case 22:
+                return _context4.finish(20);
+              case 23:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, null, [[0, 16, 19, 22]]);
+        }, _callee4, null, [[0, 17, 20, 23]]);
       }))();
     },
     showLoading: function showLoading() {

@@ -641,31 +641,34 @@ var _default = {
                 });
                 return _context4.abrupt("return");
               case 13:
-                _context4.next = 15;
+                if (item.is_buy == 0) {
+                  _this8.$set(item, 'is_buy', 1);
+                }
+                _context4.next = 16;
                 return uni.navigateTo({
                   url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&isTradition=1")
                 });
-              case 15:
-                _context4.next = 21;
+              case 16:
+                _context4.next = 22;
                 break;
-              case 17:
-                _context4.prev = 17;
+              case 18:
+                _context4.prev = 18;
                 _context4.t0 = _context4["catch"](0);
                 console.error('[AI分析] 失败:', _context4.t0);
                 uni.showToast({
                   title: '网络异常，请稍后重试',
                   icon: 'none'
                 });
-              case 21:
-                _context4.prev = 21;
+              case 22:
+                _context4.prev = 22;
                 _this8.hideLoading();
-                return _context4.finish(21);
-              case 24:
+                return _context4.finish(22);
+              case 25:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, null, [[0, 17, 21, 24]]);
+        }, _callee4, null, [[0, 18, 22, 25]]);
       }))();
     },
     showLoading: function showLoading() {

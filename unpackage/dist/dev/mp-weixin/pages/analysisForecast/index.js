@@ -479,26 +479,29 @@ var _default = {
                 });
                 return _context2.abrupt("return");
               case 12:
-                _context2.next = 14;
+                if (item.is_buy == 0) {
+                  _this6.$set(item, 'is_buy', 1);
+                }
+                _context2.next = 15;
                 return uni.navigateTo({
                   url: "/pages/test/index?id=".concat(item.id, "&isLottery=0&isTradition=1")
                 });
-              case 14:
-                _context2.next = 18;
+              case 15:
+                _context2.next = 19;
                 break;
-              case 16:
-                _context2.prev = 16;
+              case 17:
+                _context2.prev = 17;
                 _context2.t0 = _context2["catch"](0);
-              case 18:
-                _context2.prev = 18;
+              case 19:
+                _context2.prev = 19;
                 _this6.hideLoading();
-                return _context2.finish(18);
-              case 21:
+                return _context2.finish(19);
+              case 22:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 16, 18, 21]]);
+        }, _callee2, null, [[0, 17, 19, 22]]);
       }))();
     },
     getOriginalIndex: function getOriginalIndex(filteredIndex) {

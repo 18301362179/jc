@@ -1699,11 +1699,14 @@ var _default = (_components$onLoad$da = {
               });
               return _context5.abrupt("return");
             case 10:
-              _context5.next = 12;
+              if (item.is_buy == 0) {
+                _this19.$set(item, 'is_buy', 1);
+              }
+              _context5.next = 13;
               return uni.navigateTo({
                 url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&serialNumber=").concat(reqParams.serialNumber, "&beFrom=").concat(reqParams.beFrom)
               });
-            case 12:
+            case 13:
             case "end":
               return _context5.stop();
           }

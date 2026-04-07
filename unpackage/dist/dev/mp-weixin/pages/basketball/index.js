@@ -1201,30 +1201,33 @@ var _default = {
                 });
                 return _context5.abrupt("return");
               case 13:
-                _context5.next = 15;
+                if (item.is_buy == 0) {
+                  _this19.$set(item, 'is_buy', 1);
+                }
+                _context5.next = 16;
                 return uni.navigateTo({
                   url: "/pages/test/basketballAi?id=".concat(item.id, "&isLottery=1")
                 });
-              case 15:
-                _context5.next = 20;
+              case 16:
+                _context5.next = 21;
                 break;
-              case 17:
-                _context5.prev = 17;
+              case 18:
+                _context5.prev = 18;
                 _context5.t0 = _context5["catch"](0);
                 uni.showToast({
                   title: "网络异常，请稍后重试",
                   icon: "none"
                 });
-              case 20:
-                _context5.prev = 20;
+              case 21:
+                _context5.prev = 21;
                 _this19.hideLoading();
-                return _context5.finish(20);
-              case 23:
+                return _context5.finish(21);
+              case 24:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[0, 17, 20, 23]]);
+        }, _callee5, null, [[0, 18, 21, 24]]);
       }))();
     },
     showLoading: function showLoading() {

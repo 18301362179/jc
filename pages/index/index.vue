@@ -28,34 +28,34 @@
         <!-- 🌟 重构游戏网格布局：一行三个，分两行 -->
         <view class="game-grid">
           <!-- 第一行（3个） -->
-          <view class="game-item" @click="goToGame('football/index')">
+          <view class="game-item"  @click="goToGame('football/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/jczq.png" mode="widthFix"></image>
             <text class="game-name" v-if="showText">J&nbsp;-&nbsp;足</text>
           </view>
-          <view class="game-item" @click="goToGame('basketball/index')">
+          <view class="game-item"  @click="goToGame('basketball/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/jclq.png" mode="widthFix"></image>
             <text class="game-name" v-if="showText">J&nbsp;-&nbsp;篮</text>
           </view>
-          <view class="game-item" @click="goToGame('fourteenIndex/index')">
+          <view class="game-item"  @click="goToGame('fourteenIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name" v-if="showText">14</text>
           </view>
           <!-- 第二行（3个） -->
-          <view class="game-item two" @click="goToGame('nineIndex/index')">
+          <view class="game-item two"  @click="goToGame('nineIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name" v-if="showText">任&nbsp;&nbsp;9</text>
           </view>
-          <view class="game-item two" @click="goToGame('sixIndex/index')">
+          <view class="game-item two"  @click="goToGame('sixIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name" v-if="showText">6半全</text>
           </view>
-          <view class="game-item two" @click="goToGame('fourIndex/index')">
+          <view class="game-item two"  @click="goToGame('fourIndex/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/ctzq.png" mode="widthFix"></image>
             <text class="game-name" v-if="showText">4&nbsp;&nbsp;进</text>
           </view>
         </view>
         <view class="game-grid">
-          <view class="game-item" @click="goToGame('footballData/index')">
+          <view class="game-item"  @click="goToGame('footballData/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/f.png" mode="widthFix"></image>
             <text class="game-name" v-if="showText">足&nbsp;&nbsp;数</text>
           </view>
