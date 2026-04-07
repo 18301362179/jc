@@ -64,7 +64,7 @@ export default {
       dateTitle: ""
     };
   },
-  created() {
+  onLoad() {
     this.getMatchData();
   },
   methods: {
@@ -73,10 +73,8 @@ export default {
       uni.showLoading({ title: "加载中..." });
       try {
         const res = await basketLotteryLive();
-        if (res.code == "200" && res.flag) {
+        if (res.data && res.data.length > 0) {
           this.matchList = res.data || [];
-        } else {
-          uni.showToast({ title: res.msg || "加载失败", icon: "none" });
         }
       } catch (err) {
         uni.showToast({ title: "网络异常", icon: "none" });

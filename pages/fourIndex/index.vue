@@ -19,6 +19,7 @@
       :nav-bar-total-height="navBarTotalHeight"
       :title="title"
       @draw-num-change="onDrawNumChange"/>
+      
     <!-- 滚动列表区域 -->
     <scroll-view 
       class="match-scroll" 
@@ -477,6 +478,9 @@ export default {
               });
         return;
     } else {
+                 if (item.is_buy == 0) {
+            this.$set(item,'is_buy',1)
+          }
             // 有灵石，正常跳转分析页
           await uni.navigateTo({
             url: `/pages/test/index?id=${item.id}&isLottery=1&isTradition=1`,

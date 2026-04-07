@@ -3,13 +3,18 @@
 
 <head>
   <meta charset="UTF-8" />
-  <script>
-    var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') ||
-      CSS.supports('top: constant(a)'))
-    document.write(
-      '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
-      (coverSupport ? ', viewport-fit=cover' : '') + '" />')
-  </script>
+<script>
+  var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') || CSS.supports('top: constant(a)'))
+  document.write('<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' + (coverSupport ? ', viewport-fit=cover' : '') + '" />');
+
+  // 👇 👇 永久写入公众号抓取配置（打包永远不会丢！）
+  document.write('<title>云竞慧博体育服务号</title>');
+  document.write('<meta name="description" content="足球、篮球胜负、比分分析，足球数据展示。">');
+  document.write('<meta property="og:title" content="云竞慧博体育服务号">');
+  document.write('<meta property="og:description" content="足球、篮球胜负、比分分析，足球数据展示。">');
+  document.write('<meta property="og:image" content="https://www.tianjifu.com/static/share-logo.jpg">');
+  document.write('<meta property="og:type" content="website">');
+</script>
   <title></title>
   <!--preload-links-->
   <!--app-context-->

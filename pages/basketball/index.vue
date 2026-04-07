@@ -844,6 +844,7 @@ export default {
             confirmText: "获取",
             confirmColor: "#d92929",
             success: (res) => {
+              this.$set(item,)
               if (res.confirm) {
                 uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
               }
@@ -851,6 +852,9 @@ export default {
           });
           return;
         } else {
+          if (item.is_buy == 0) {
+            this.$set(item,'is_buy',1)
+          }
           await uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
         }
       } catch (err) {

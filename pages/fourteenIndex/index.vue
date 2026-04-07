@@ -464,6 +464,9 @@ export default {
               });
         return;
     } else {
+                 if (item.is_buy == 0) {
+            this.$set(item,'is_buy',1)
+          }
             // 有灵石，正常跳转分析页
           await uni.navigateTo({
             url: `/pages/test/index?id=${item.id}&isLottery=1&isTradition=1`,
