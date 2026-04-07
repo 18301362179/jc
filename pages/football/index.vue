@@ -225,7 +225,7 @@ selectedMatchCount() {
       this.loadMatchData();
     },
   },
-  created() {
+  onLoad() {
         // #ifdef APP-PLUS
     this.checkLocalToken();
     // #endif
@@ -255,9 +255,6 @@ selectedMatchCount() {
   mounted() {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
-  },
-  onShow() {
-
   },
   methods: {
     handleConfirmMixedSelect(confirmData) {
