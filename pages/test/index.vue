@@ -37,7 +37,7 @@
 
             <view class="team-column away-column">
               <!-- 客队：非世界杯添加点击手势 + 跳转 -->
-              <text class="team-name" v-if="courseMap.league_name == '世界杯'" style="color: #06f" hover-class="hover-hand" @click="goToTeamDetail(courseMap.home_name_title)">
+              <text class="team-name" v-if="courseMap.league_name == '世界杯'" style="color: #06f" hover-class="hover-hand" @click="goToTeamDetail(courseMap.visiting_name_title)">
                 {{ courseMap.visiting_name_title }}
               </text>
               <text class="team-name" v-else>

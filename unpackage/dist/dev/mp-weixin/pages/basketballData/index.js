@@ -192,13 +192,8 @@ var _default = {
                 return (0, _demo.basketLotteryLive)();
               case 4:
                 res = _context.sent;
-                if (res.code == "200" && res.flag) {
+                if (res.data && res.data.length > 0) {
                   _this.matchList = res.data || [];
-                } else {
-                  uni.showToast({
-                    title: res.msg || "加载失败",
-                    icon: "none"
-                  });
                 }
                 _context.next = 11;
                 break;
