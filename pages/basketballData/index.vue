@@ -19,25 +19,25 @@
       </view>
     </view>
     
-    <scroll-view class="list-scroll" scroll-y v-if="urlValue">
+    <scroll-view class="list-scroll" scroll-y >
       <view class="match-item" v-for="(item, index) in matchList" :key="index">
         <view class="match-left">
           <view class="league-tag">
             <text class="league-text" >{{ item.leagueName }}</text>
           </view>
-          <text class="time-text" v-if="urlValue">{{ item.raceDate }}</text>
+          <text class="time-text" >{{ item.raceDate }}</text>
         </view>
         
         <view class="match-center">
-          <text class="match-num" v-if="urlValue">{{ item.matchNum }}</text>
+          <text class="match-num" >{{ item.matchNum }}</text>
           <view class="score-row">
-            <text class="team-name home" v-if="urlValue">{{ item.homeName }}</text>
-            <text class="score" v-if="urlValue">{{ item.sectionsNo999 }}</text>
-            <text class="team-name away" v-if="urlValue">{{ item.awayName }}</text>
+            <text class="team-name home" >{{ item.homeName }}</text>
+            <text class="score" >{{ item.sectionsNo999 }}</text>
+            <text class="team-name away" >{{ item.awayName }}</text>
           </view>
         </view>
         
-        <view class="match-right" v-if="urlValue">
+        <view class="match-right" >
           <view class="status-wrapper">
             <image v-if="item.showImage == 1&&urlValue" class="gif-icon" src="https://www.tianjifu.com/static/bg.gif"></image>
             <text class="status-text" v-if="urlValue">{{ item.statusName}}</text>
