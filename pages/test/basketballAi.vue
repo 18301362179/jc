@@ -205,10 +205,6 @@ export default {
   },
   onLoad(options) {
     this.getAiDetail(options.id,options.isLottery,options.serialNumber,options.dateStr)
-  wx.showShareMenu({
-    menus: ['shareAppMessage', 'shareTimeline']
-  })
-
   },
   created() {
         this.$nextTick(()=>{

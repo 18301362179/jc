@@ -371,9 +371,6 @@ export default {
     }
     this.getAiDetail(param);
     // 强制显示分享菜单，立刻解除置灰
-    wx.showShareMenu({
-      menus: ["shareAppMessage", "shareTimeline"],
-    });
   },
   created() {
     this.$nextTick(() => {

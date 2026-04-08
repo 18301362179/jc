@@ -164,12 +164,6 @@ export default {
     })
     this.calcNavBarTotalHeight();
   },
-    onLoad() {
-  // 强制显示分享菜单，立刻解除置灰
-  wx.showShareMenu({
-    menus: ['shareAppMessage', 'shareTimeline']
-  })
-},
   onShow() {
     const editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {

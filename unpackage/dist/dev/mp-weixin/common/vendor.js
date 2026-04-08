@@ -9481,7 +9481,7 @@ module.exports = runtime;
 
 /***/ }),
 
-/***/ 303:
+/***/ 304:
 /*!*******************************************************************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/node_modules/@dcloudio/uni-ui/lib/uni-icons/uniicons_file_vue.js ***!
   \*******************************************************************************************************************************/
@@ -11675,7 +11675,7 @@ exports.resetAuthFlag = resetAuthFlag;
 
 /***/ }),
 
-/***/ 374:
+/***/ 375:
 /*!*****************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/index.js ***!
   \*****************************************************************************/
@@ -13382,6 +13382,93 @@ exports.hideLoading = hideLoading;
 
 /***/ }),
 
+/***/ 48:
+/*!***********************************************************************************!*\
+  !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/mixins/shareMixin.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _demo = __webpack_require__(/*! @/api/demo */ 35);
+var _default = {
+  data: function data() {
+    return {
+      // 你的白名单（只在这里配置）
+      sharePageList: ["pages/index/index", "pages/football/index", "pages/analysisForecast/index", "pages/basketball/index", "pages/fourIndex/index", "pages/fourteenIndex/index", "pages/nineIndex/index", "pages/sixIndex/index"]
+    };
+  },
+  onLoad: function onLoad() {
+    this.setShareMenu();
+  },
+  methods: {
+    setShareMenu: function setShareMenu() {
+      var pages = getCurrentPages();
+      if (!pages.length) return;
+      var currentRoute = pages[pages.length - 1].route;
+
+      // 不在白名单 → 隐藏分享
+      if (!this.sharePageList.includes(currentRoute)) {
+        uni.hideShareMenu();
+        return;
+      }
+
+      // 在白名单 → 显示分享
+      uni.showShareMenu({
+        menus: ["shareAppMessage", "shareTimeline"]
+      });
+    },
+    // 统一获取当前页面 URL
+    getCurrentPageUrl: function getCurrentPageUrl() {
+      var pages = getCurrentPages();
+      var currentPage = pages[pages.length - 1];
+      var params = currentPage.options || {};
+      var paramStr = Object.keys(params).map(function (key) {
+        return "".concat(key, "=").concat(params[key]);
+      }).join("&");
+      return paramStr ? "/".concat(currentPage.route, "?").concat(paramStr) : "/".concat(currentPage.route);
+    }
+  },
+  onShareAppMessage: function onShareAppMessage() {
+    var pages = getCurrentPages();
+    var currentRoute = pages[pages.length - 1].route;
+
+    // 不在白名单直接 return
+    if (!this.sharePageList.includes(currentRoute)) return;
+
+    // 调用分享接口
+    (0, _demo.shareGiveCoin)({}).catch(function () {});
+    return {
+      title: "云竞慧博体育",
+      path: this.getCurrentPageUrl()
+    };
+  },
+  onShareTimeline: function onShareTimeline() {
+    var pages = getCurrentPages();
+    var currentRoute = pages[pages.length - 1].route;
+
+    // 不在白名单直接 return
+    if (!this.sharePageList.includes(currentRoute)) return;
+
+    // 调用分享接口
+    (0, _demo.shareGiveCoin)({}).catch(function () {});
+    return {
+      title: "云竞慧博体育",
+      path: this.getCurrentPageUrl()
+    };
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+
 /***/ 5:
 /*!**************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/slicedToArray.js ***!
@@ -13414,7 +13501,7 @@ module.exports = _arrayWithHoles, module.exports.__esModule = true, module.expor
 
 /***/ }),
 
-/***/ 62:
+/***/ 63:
 /*!****************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/data.js ***!
   \****************************************************************************/
@@ -13542,7 +13629,27 @@ module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module
 
 /***/ }),
 
-/***/ 79:
+/***/ 8:
+/*!***************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ 9);
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
+}
+module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ 80:
 /*!********************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/validate.js ***!
   \********************************************************************************/
@@ -13572,26 +13679,6 @@ function validateBetInput(value) {
   // 3. 大于50 → 返回50；小于1 → 返回1；否则返回自身
   return num > 50 ? 50 : num < 1 ? 1 : num;
 }
-
-/***/ }),
-
-/***/ 8:
-/*!***************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray.js */ 9);
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 

@@ -20,11 +20,12 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
 var _store = _interopRequireDefault(__webpack_require__(/*! ./store */ 42));
 var _loading = __webpack_require__(/*! ./utils/loading.js */ 47);
 var _demo = __webpack_require__(/*! @/api/demo.js */ 35);
+var _shareMixin = _interopRequireDefault(__webpack_require__(/*! @/mixins/shareMixin.js */ 48));
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var _uniIcons = function _uniIcons() {
   Promise.all(/*! require.ensure | node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/@dcloudio/uni-ui/lib/uni-icons/uni-icons")]).then((function () {
-    return resolve(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-icons/uni-icons */ 298));
+    return resolve(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-icons/uni-icons */ 299));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 // @ts-ignore
@@ -34,7 +35,7 @@ _vue.default.component('uni-icons', _uniIcons); // 单独注册uni-icons（避�
 _vue.default.prototype.$bus = new _vue.default();
 var UniNumberKeyboard = function UniNumberKeyboard() {
   __webpack_require__.e(/*! require.ensure | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then((function () {
-    return resolve(__webpack_require__(/*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 306));
+    return resolve(__webpack_require__(/*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 307));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 // 全局注册组件
@@ -55,7 +56,8 @@ _vue.default.config.productionTip = false;
 _vue.default.prototype.$env = _env.default || window.$defaultEnv;
 _vue.default.prototype.showLoading = _loading.showLoading;
 _vue.default.prototype.hideLoading = _loading.hideLoading;
-
+// 全局混入 → 所有页面自动拥有分享
+_vue.default.mixin(_shareMixin.default);
 // 2. 实例化 Vue 时，将 store 注入（关键步骤）
 _App.default.mpType = 'app';
 var app = new _vue.default(_objectSpread({

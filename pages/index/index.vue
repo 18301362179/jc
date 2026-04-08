@@ -112,6 +112,7 @@ export default {
       this.statusBarHeight = systemInfo.statusBarHeight;
     }
   },
+
   mounted() {
     console.log(uni, 'uni-----------',window,'window----------')
     this.calcHeaderHeight();

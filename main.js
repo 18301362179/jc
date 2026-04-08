@@ -35,7 +35,10 @@ Vue.config.productionTip = false;
 Vue.prototype.$env = env || window.$defaultEnv;
 Vue.prototype.showLoading = showLoading;
 Vue.prototype.hideLoading = hideLoading;
+import shareMixin from "@/mixins/shareMixin.js"
 
+// 全局混入 → 所有页面自动拥有分享
+Vue.mixin(shareMixin)
 // 2. 实例化 Vue 时，将 store 注入（关键步骤）
 App.mpType = 'app';
 const app = new Vue({
