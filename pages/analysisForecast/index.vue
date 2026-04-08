@@ -214,6 +214,36 @@ export default {
       touchStartX: 0, 
       swipeThreshold: 50, 
       isDropdownOpen: false, // 控制下拉框展开/收起
+      newList: [
+  {
+    cs: "2025/26",
+    url_show_status: 0,
+    is_over: 0,
+    charge: "5币",
+    stage: "总决赛",
+    home_name: "EDG",
+    league_name: "LPL英雄联盟",
+    visiting_name: "TES",
+    id: 9001,
+    race_date: "2026/04/11 20:00:00",
+    round_no: 1,
+    is_buy: 0
+  },
+  {
+    cs: "2025/26",
+    url_show_status: 0,
+    is_over: 0,
+    charge: "5币",
+    stage: "半决赛",
+    home_name: "WBG",
+    league_name: "王者荣耀KPL",
+    visiting_name: "AG超玩会",
+    id: 9002,
+    race_date: "2026/04/11 21:00:00",
+    round_no: 2,
+    is_buy: 0
+  }
+],
     };
   },
   onShow() {
@@ -497,7 +527,12 @@ export default {
         const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: "" });
         this.courseList = courseList;
         this.$nextTick(() => {
-          this.$refs.saiCheng.open(courseList);
+          if (uni.getStorageSync("urlValue")) {
+            this.$refs.saiCheng.open(courseList);
+          } else {
+            this.$refs.saiCheng.open(this.newList);
+            this.courseList = this.newList;
+          };
         });
         // 移除initScrollData调用
       } catch (err) {
@@ -521,7 +556,12 @@ export default {
         this.courseList = courseList;
         this.groupIndex = -1;
         this.$nextTick(() => {
-          this.$refs.saiCheng.open(courseList);
+                    if (uni.getStorageSync("urlValue")) {
+            this.$refs.saiCheng.open(courseList);
+          } else {
+            this.$refs.saiCheng.open(this.newList);
+            this.courseList = this.newList;
+          };
         });
       } catch (error) {
         this.hideLoading();
@@ -545,7 +585,12 @@ export default {
         this.groupIndex = index;
         this.courseList = courseList;
         this.$nextTick(() => {
-          this.$refs.saiCheng.open(courseList);
+                    if (uni.getStorageSync("urlValue")) {
+            this.$refs.saiCheng.open(courseList);
+          } else {
+            this.$refs.saiCheng.open(this.newList);
+            this.courseList = this.newList;
+          };
         });
       } catch (error) {
         this.hideLoading();
@@ -580,7 +625,12 @@ export default {
         const courseList = await this.getCommonSaiCheng(params);
         this.courseList = courseList;
         this.$nextTick(() => {
-          this.$refs.saiCheng.open(courseList);
+                    if (uni.getStorageSync("urlValue")) {
+            this.$refs.saiCheng.open(courseList);
+          } else {
+            this.$refs.saiCheng.open(this.newList);
+            this.courseList = this.newList;
+          };
         });
       } catch (error) {
         this.hideLoading();
@@ -623,7 +673,13 @@ export default {
           const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: "" });
           this.courseList = courseList;
           this.$nextTick(() => {
+                      if (uni.getStorageSync("urlValue")) {
             this.$refs.saiCheng.open(courseList);
+          } else {
+            this.$refs.saiCheng.open(this.newList);
+            this.courseList = this.newList;
+          };
+            
           });
           // 移除initScrollData调用
         } else if (this.activeIndex === 1) {
@@ -680,7 +736,12 @@ export default {
             const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: this.groupList[0] ? this.groupList[0] : "" });
             this.courseList = courseList;
             this.$nextTick(() => {
-              this.$refs.saiCheng.open(courseList);
+                        if (uni.getStorageSync("urlValue")) {
+            this.$refs.saiCheng.open(courseList);
+          } else {
+            this.$refs.saiCheng.open(this.newList);
+            this.courseList = this.newList;
+          };
             });
             break;
           case 1:
@@ -741,7 +802,12 @@ export default {
         const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: "" });
         this.courseList = courseList;
         this.$nextTick(() => {
-          this.$refs.saiCheng.open(courseList);
+                    if (uni.getStorageSync("urlValue")) {
+            this.$refs.saiCheng.open(courseList);
+          } else {
+            this.$refs.saiCheng.open(this.newList);
+            this.courseList = this.newList;
+          };
         });
         // 移除initScrollData调用
       } catch (error) {
@@ -766,7 +832,12 @@ export default {
         });
         this.courseList = courseList;
         this.$nextTick(() => {
-          this.$refs.saiCheng.open(courseList);
+                    if (uni.getStorageSync("urlValue")) {
+            this.$refs.saiCheng.open(courseList);
+          } else {
+            this.$refs.saiCheng.open(this.newList);
+            this.courseList = this.newList;
+          };
           // 移除scrollLeft相关逻辑
         });
       } catch (error) {
@@ -807,7 +878,12 @@ export default {
         const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: "" });
         this.courseList = courseList;
         this.$nextTick(() => {
-          this.$refs.saiCheng.open(courseList);
+                    if (uni.getStorageSync("urlValue")) {
+            this.$refs.saiCheng.open(courseList);
+          } else {
+            this.$refs.saiCheng.open(this.newList);
+            this.courseList = this.newList;
+          };
         });
         // 移除initScrollData调用
         this.hideLoading();
