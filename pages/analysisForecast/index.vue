@@ -832,7 +832,7 @@ export default {
         });
         this.courseList = courseList;
         this.$nextTick(() => {
-                    if (uni.getStorageSync("urlValue")) {
+            if (uni.getStorageSync("urlValue")) {
             this.$refs.saiCheng.open(courseList);
           } else {
             this.$refs.saiCheng.open(this.newList);
