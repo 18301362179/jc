@@ -441,7 +441,7 @@ var _default = {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onLoad: function onLoad() {
+  onShow: function onShow() {
     // 强制显示分享菜单，立刻解除置灰
     wx.showShareMenu({
       menus: ['shareAppMessage', 'shareTimeline']

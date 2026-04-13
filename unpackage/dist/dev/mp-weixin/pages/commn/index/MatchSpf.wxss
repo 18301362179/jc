@@ -81,6 +81,8 @@
   width: 200rpx;
   display: flex;
   align-items: center;
+  gap: 8rpx;
+  /* 标签和图标之间的间距 */
 }
 .match-row .match-status-row .single-tag.data-v-521f8e27 {
   display: inline-block;
@@ -93,6 +95,11 @@
   border-top-right-radius: 15rpx;
   border-bottom-right-radius: 16rpx;
   margin-right: 10rpx;
+}
+.match-row .match-status-row .after-tag-icon.data-v-521f8e27 {
+  width: 30rpx;
+  height: 30rpx;
+  flex-shrink: 0;
 }
 .match-row .match-status-row .status-right.data-v-521f8e27 {
   /* 加在这里 */
