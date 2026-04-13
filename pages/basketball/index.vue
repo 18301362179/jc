@@ -246,7 +246,7 @@ export default {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onLoad() {
+  onShow() {
     wx.showShareMenu({
       menus: ["shareAppMessage", "shareTimeline"],
     });

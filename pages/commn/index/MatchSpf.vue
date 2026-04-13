@@ -15,25 +15,19 @@
         <view v-for="(item, index) in drawer.lotteryList" :key="index" class="match-row" style="background: #f6f6f6">
           <!-- 新增：match-row 内部的状态行（第一行） -->
           <view class="match-status-row">
-            <view class="status-left">
-              <!-- 单场标签：无停时，根据is_spf_single显示 -->
-              <text class="single-tag" v-if="item.is_spf_single == 1 && item.is_stop == 0">单</text>
-              <!-- 新增：停售标签 -->
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
-            </view>
+          <view class="status-left">
+            <text class="single-tag" v-if="item.is_spf_single == 1 && item.is_stop == 0">单</text>
+            <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+            <image class="after-tag-icon" src="/static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
+          </view>
             <view class="status-right">
-              <!-- 右侧分析按钮：仅在有胜数据时显示 -->
-              <!-- 兼容事件：统一用 @click.stop 适配多端 -->
               <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="$xiValue" @click.stop="() => goToAiAnalysis(item)">
                 <text>详细</text>
                 <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
               </view>
             </view>
           </view>
-
-          <!-- 原有赛事内容（第二行） -->
           <view class="match-content-row">
-            <!-- 赛事分类信息 -->
             <view class="match-category">
               <view class="league-name">
                 {{ item.league_name }}
@@ -41,9 +35,8 @@
               <view class="league-name">{{ item.serial_number }}</view>
               <view class="match-time">{{ item.race_date }}</view>
             </view>
-            <!-- 胜平负玩法单元格 -->
+
             <view class="match-cells">
-              <!-- 主队单元格 -->
               <view
                 class="match-cell home"
                 :class="{
@@ -283,8 +276,8 @@ export default {
       width: 200rpx;
       display: flex;
       align-items: center;
+      gap: 8rpx; /* 标签和图标之间的间距 */
     }
-
     .single-tag {
       display: inline-block;
       padding-left: 6rpx;
@@ -297,7 +290,11 @@ export default {
       border-bottom-right-radius: 16rpx;
       margin-right: 10rpx;
     }
-
+    .after-tag-icon {
+      width: 30rpx;
+      height: 30rpx;
+      flex-shrink: 0;
+    }
     .status-right {
       .ai-analysis-btn {
         font-size: 24rpx;

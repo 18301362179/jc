@@ -16,6 +16,7 @@
             <view class="status-left">
               <text class="single-tag" v-if="item.is_hhgg_single == 1 && item.is_stop == 0">单</text>
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <image class="after-tag-icon" src="/static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
             </view>
             <view class="status-right">
               <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="$xiValue" @click.stop="() => goToAiAnalysis(item)">
@@ -867,7 +868,11 @@ export default {
     border-bottom-right-radius: 16rpx;
     margin-right: 10rpx;
   }
-
+    .after-tag-icon {
+      width: 30rpx;
+      height: 30rpx;
+      flex-shrink: 0;
+    }
   .status-right {
     .ai-analysis-btn {
       font-size: 24rpx;
