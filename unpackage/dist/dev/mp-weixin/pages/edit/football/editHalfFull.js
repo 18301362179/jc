@@ -142,12 +142,19 @@ var render = function () {
     }
   })
   var g2 = _vm.selectedMatchList.length
+  var m0 = _vm.urlValue ? _vm.calculateHalfFullBonus() : null
+  if (!_vm._isMounted) {
+    _vm.e0 = function ($event) {
+      _vm.showNumberKeyboard = true
+    }
+  }
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         l0: l0,
         g2: g2,
+        m0: m0,
       },
     }
   )

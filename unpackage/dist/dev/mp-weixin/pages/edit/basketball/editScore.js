@@ -138,12 +138,19 @@ var render = function () {
       g3: g3,
     }
   })
+  var m0 = _vm.urlValue ? _vm.calculateHalfFullBonus() : null
+  if (!_vm._isMounted) {
+    _vm.e0 = function ($event) {
+      _vm.showNumberKeyboard = true
+    }
+  }
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
         l0: l0,
+        m0: m0,
       },
     }
   )
