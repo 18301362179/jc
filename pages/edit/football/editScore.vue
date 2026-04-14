@@ -73,7 +73,7 @@
         <view class="bottom-middle">
          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}￥</text>
           <text class="bonus-tip">
-            {{ calculateHalfFullBonus() }}￥
+            {{ calculateScoreBonus() }}￥
             </text>
         </view>
       </view>
@@ -360,7 +360,7 @@ export default {
 
       // 5. 边界判断：无任何有效赔率数据，返回默认提示
       if (matchValidOddsList.length === 0) {
-        return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+        return "预计：0.00元 ~ 0.00元";
       }
 
       // 6. 核心逻辑：提取每场最小/最大赔率，计算全局乘积（单场/多场均翻倍）
@@ -400,7 +400,7 @@ export default {
       const maxBonus = formatBonusAmount(totalMaxOddsProduct * bonusBase);
 
       // 9. 返回最终结果（保留比分玩法专属提示语，便于页面展示）
-      return `${minBonus} ~ ${maxBonus}（仅供参考以彩票奖金为主）`;
+      return `预计：${minBonus} ~ ${maxBonus}`;
     },
     // 确认手机号（强化必填验证）
     confirmPhone() {

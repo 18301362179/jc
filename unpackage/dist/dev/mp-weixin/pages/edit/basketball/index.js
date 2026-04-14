@@ -126,7 +126,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.selectedMatchList.length
-  var m0 = _vm.urlValue ? _vm.calculateHalfFullBonus() : null
+  var m0 = _vm.urlValue ? _vm.calculateBonusText() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.showNumberKeyboard = true

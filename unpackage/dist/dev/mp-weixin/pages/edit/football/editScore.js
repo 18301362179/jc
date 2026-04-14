@@ -136,7 +136,7 @@ var render = function () {
     }
   })
   var g2 = _vm.selectedMatchList.length
-  var m0 = _vm.urlValue ? _vm.calculateHalfFullBonus() : null
+  var m0 = _vm.urlValue ? _vm.calculateScoreBonus() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.showNumberKeyboard = true
@@ -613,7 +613,7 @@ var _default = {
 
       // 5. 边界判断：无任何有效赔率数据，返回默认提示
       if (matchValidOddsList.length === 0) {
-        return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+        return "预计：0.00元 ~ 0.00元";
       }
 
       // 6. 核心逻辑：提取每场最小/最大赔率，计算全局乘积（单场/多场均翻倍）
@@ -653,7 +653,7 @@ var _default = {
       var maxBonus = formatBonusAmount(totalMaxOddsProduct * bonusBase);
 
       // 9. 返回最终结果（保留比分玩法专属提示语，便于页面展示）
-      return "".concat(minBonus, " ~ ").concat(maxBonus, "\uFF08\u4EC5\u4F9B\u53C2\u8003\u4EE5\u5F69\u7968\u5956\u91D1\u4E3A\u4E3B\uFF09");
+      return "\u9884\u8BA1\uFF1A".concat(minBonus, " ~ ").concat(maxBonus);
     },
     // 确认手机号（强化必填验证）
     confirmPhone: function confirmPhone() {

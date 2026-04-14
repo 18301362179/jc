@@ -154,7 +154,7 @@ var render = function () {
       m10: m10,
     }
   })
-  var m11 = _vm.urlValue ? _vm.calculateHalfFullBonus() : null
+  var m11 = _vm.urlValue ? _vm.calculateBonusText() : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.showNumberKeyboard = true

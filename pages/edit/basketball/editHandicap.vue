@@ -88,7 +88,7 @@
         <view class="bottom-middle">
          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}￥</text>
           <text class="bonus-tip">
-            {{ calculateHalfFullBonus() }}￥
+            {{ calculateBonusText() }}￥
             </text>
         </view>
       </view>
