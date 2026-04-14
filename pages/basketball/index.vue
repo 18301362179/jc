@@ -255,7 +255,15 @@ export default {
     this.calcPopupMaxHeight();
   },
   onShow() {
-
+    try {
+      this.loadMatchData();
+    } catch (error) {
+      try {
+        this.loadMatchData();
+      } catch (error) {
+        this.loadMatchData();
+      }
+    }
   },
   methods: {
     clearAllSelection() {

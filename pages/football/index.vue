@@ -219,7 +219,7 @@ selectedMatchCount() {
       this.loadMatchData();
     },
   },
-  onLoad() {
+  onShow() {
         // #ifdef APP-PLUS
     this.checkLocalToken();
     // #endif
@@ -232,7 +232,14 @@ selectedMatchCount() {
       this.syncUpdatedMatches(parsedData);
       uni.removeStorageSync("editedMatchData");
     } else {
-      this.loadMatchData();
+        try {
+          this.loadMatchData();
+        } catch (error) {
+          try {
+            this.loadMatchData();
+          } catch (retryError) {
+          }
+        }
     }
         this.$nextTick(()=>{
     this.urlValue = uni.getStorageSync('urlValue');
@@ -245,6 +252,9 @@ selectedMatchCount() {
       const systemInfo = wx.getWindowInfo();
       this.statusBarHeight = systemInfo.statusBarHeight;
     }
+  },
+  created() {
+    this.loadMatchData();
   },
   mounted() {
     this.calcHeaderHeight();

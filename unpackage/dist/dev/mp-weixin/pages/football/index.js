@@ -429,7 +429,7 @@ var _default = {
       this.loadMatchData();
     }
   },
-  onLoad: function onLoad() {
+  onShow: function onShow() {
     var _this4 = this;
     var editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
@@ -440,7 +440,13 @@ var _default = {
       this.syncUpdatedMatches(parsedData);
       uni.removeStorageSync("editedMatchData");
     } else {
-      this.loadMatchData();
+      try {
+        this.loadMatchData();
+      } catch (error) {
+        try {
+          this.loadMatchData();
+        } catch (retryError) {}
+      }
     }
     this.$nextTick(function () {
       _this4.urlValue = uni.getStorageSync('urlValue');
@@ -452,6 +458,9 @@ var _default = {
       var systemInfo = wx.getWindowInfo();
       this.statusBarHeight = systemInfo.statusBarHeight;
     }
+  },
+  created: function created() {
+    this.loadMatchData();
   },
   mounted: function mounted() {
     this.calcHeaderHeight();

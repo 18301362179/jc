@@ -465,7 +465,17 @@ var _default = {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow: function onShow() {},
+  onShow: function onShow() {
+    try {
+      this.loadMatchData();
+    } catch (error) {
+      try {
+        this.loadMatchData();
+      } catch (error) {
+        this.loadMatchData();
+      }
+    }
+  },
   methods: {
     clearAllSelection: function clearAllSelection() {
       var _this7 = this;
