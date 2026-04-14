@@ -477,6 +477,7 @@ var _default = {
     calculateBonusText: function calculateBonusText() {
       if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
       var matchOddsList = [];
+      console.log(this.selectedMatchList, 'list-----------');
       this.selectedMatchList.forEach(function (item) {
         var allOdds = [];
         // 1. 胜负赔率
