@@ -1,7 +1,7 @@
 <template>
   <view class="scheme-edit-page">
     <!-- 顶部导航：适配任9标题 -->
-    <CustomHeader :ballTitle="''"  :isIndex="true" title="任9" :showBack="true" :showIcon="false" @back-click="handleBack" />
+    <CustomHeader :ballTitle="''"  :isIndex="false" title="任9" :showBack="true" :showIcon="false" @back-click="handleBack" />
 
     <!-- 滚动展示区域：沿用模板布局逻辑，保留任9业务展示 -->
     <scroll-view class="match-scroll" scroll-y id="poster-content">
@@ -38,7 +38,7 @@
       <view class="bet-bar-top">
         <view class="collapse-area" style="text-align:center; color: #d92929;">
           
-          <view class="left-tip"></view>
+          <!-- <view class="left-tip"></view> -->
 
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus">-</button>
@@ -52,7 +52,7 @@
       </view>
       <view class="bet-bar-bottom">
         <view class="bottom-middle">
-          
+          <text class="select-tip">共{{ betNotes }}注 {{ betCount }}倍 {{ totalBetAmount }}</text>
         </view>
       </view>
     </view>
@@ -126,7 +126,7 @@ export default {
     if (eventChannel) {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
-        this.betCount = data.betCount || 1;
+        this.betCount = data.betCount || 50;
       });
     }
   },

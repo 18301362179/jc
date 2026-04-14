@@ -249,7 +249,7 @@ var _default = {
     if (eventChannel) {
       eventChannel.on("selectedData", function (data) {
         _this2.selectedMatchList = data.matches || [];
-        _this2.betCount = data.betCount || 1;
+        _this2.betCount = data.betCount || 50;
       });
     }
   },

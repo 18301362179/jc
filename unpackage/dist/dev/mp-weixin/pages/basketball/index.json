@@ -7,7 +7,6 @@
   "onReachBottomDistance": 50,
   "disableScroll": true,
   "usingComponents": {
-    "uni-number-keyboard": "/components/UniNumberKeyboard/UniNumberKeyboard",
     "native-tabbar": "/components/tabbar",
     "match-spf": "/pages/commn/basketball/MatchSpf",
     "match-handicap": "/pages/commn/basketball/MatchHandicap",

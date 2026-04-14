@@ -6,7 +6,6 @@
   "navigationStyle": "custom",
   "disableScroll": true,
   "usingComponents": {
-    "uni-number-keyboard": "/components/UniNumberKeyboard/UniNumberKeyboard",
     "custom-header": "/components/CustomHeader"
   }
 }
