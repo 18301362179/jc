@@ -120,14 +120,14 @@ var render = function () {
         _temp4 = _temp3.eventParams || _temp3["event-params"],
         item = _temp4.item
       var _temp3, _temp4
-      item.is_stop != 1 && _vm.checkAndSelect(item, "awaySelected")
+      item.is_stop != 1 && _vm.checkAndSelect(item, "rAwaySelected")
     }
     _vm.e2 = function ($event, item) {
       var _temp5 = arguments[arguments.length - 1].currentTarget.dataset,
         _temp6 = _temp5.eventParams || _temp5["event-params"],
         item = _temp6.item
       var _temp5, _temp6
-      item.is_stop != 1 && _vm.checkAndSelect(item, "homeSelected")
+      item.is_stop != 1 && _vm.checkAndSelect(item, "rHomeSelected")
     }
   }
   _vm.$mp.data = Object.assign(
