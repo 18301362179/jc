@@ -340,7 +340,7 @@ getBetItem(type, item) {
     calculateBonusText() {
       if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
       const matchOddsList = [];
-
+      console.log(this.selectedMatchList, 'list-----------')
       this.selectedMatchList.forEach(item => {
         const allOdds = [];
         // 1. 胜负赔率
