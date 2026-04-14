@@ -126,6 +126,11 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.selectedMatchList.length
+  if (!_vm._isMounted) {
+    _vm.e0 = function ($event) {
+      _vm.showNumberKeyboard = true
+    }
+  }
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -197,7 +202,6 @@ var _default = {
       // 是否为App端
       showNumberKeyboard: false,
       // 数字键盘显示状态
-      isNeedUserPhone: 1,
       // 是否需要手机号（父组件传递）
       urlValue: false
     };
@@ -246,7 +250,6 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this2.selectedMatchList = data.matches || [];
         _this2.betCount = data.betCount || 1;
-        _this2.isNeedUserPhone = data.isNeedUserPhone || 1;
       });
     }
   },

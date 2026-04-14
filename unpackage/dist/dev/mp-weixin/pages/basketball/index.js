@@ -603,7 +603,7 @@ var _default = {
     goToSchemeEdit: function goToSchemeEdit() {
       var _this9 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var selectedMatches, totalSelectedCount, hasSingleMatch, matchSerials, res, isNeedUserPhone, basketballPlayToPageMap, editUrl;
+        var selectedMatches, totalSelectedCount, hasSingleMatch, matchSerials, res, basketballPlayToPageMap, editUrl;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -661,7 +661,6 @@ var _default = {
                 });
               case 20:
                 res = _context2.sent;
-                isNeedUserPhone = false;
                 if (res.data && res.data.status == 1) {
                   // 6. 玩法与编辑页面匹配
                   basketballPlayToPageMap = {
@@ -683,7 +682,6 @@ var _default = {
                       res.eventChannel.emit("selectedData", {
                         matches: selectedMatches,
                         betCount: _this9.betCount,
-                        isNeedUserPhone: isNeedUserPhone,
                         combo: _this9.selectedCombo,
                         playType: _this9.currentPlay
                       });
@@ -705,10 +703,10 @@ var _default = {
                     }
                   });
                 }
-                _context2.next = 29;
+                _context2.next = 28;
                 break;
-              case 25:
-                _context2.prev = 25;
+              case 24:
+                _context2.prev = 24;
                 _context2.t0 = _context2["catch"](16);
                 console.error("checkSelectBasketball接口调用失败:", _context2.t0);
                 uni.showModal({
@@ -725,16 +723,16 @@ var _default = {
                     }
                   }
                 });
-              case 29:
-                _context2.prev = 29;
+              case 28:
+                _context2.prev = 28;
                 _this9.hideLoading();
-                return _context2.finish(29);
-              case 32:
+                return _context2.finish(28);
+              case 31:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[16, 25, 29, 32]]);
+        }, _callee2, null, [[16, 24, 28, 31]]);
       }))();
     },
     syncUpdatedMatches: function syncUpdatedMatches(updatedData) {

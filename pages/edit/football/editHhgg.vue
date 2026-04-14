@@ -118,7 +118,7 @@ export default {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -280,7 +280,7 @@ export default {
           this.selectedMatchList = [];
         }
         this.betCount = Math.max(1, parseInt(data.betCount || 1));
-        this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        
         this.selectedCombo = data.combo || "";
       });
     }
@@ -358,10 +358,84 @@ export default {
       this.betBarFixedPx = betBarFixedRpx * pxPerRpx;
       this.betBarTotalHeight = this.betBarFixedPx + this.safeAreaBottom;
     },
-    calculateHalfFullBonus() {
-      if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
-      return "预计奖金：以实际出票为准";
-    },
+calculateHalfFullBonus() {
+  if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
+  const matchOddsList = [];
+  console.log(this.selectedMatchList, 'list---------------------')
+  this.selectedMatchList.forEach(item => {
+    const allOdds = [];
+
+    // 1. 胜平负
+    if (item.spfList && item.spfList.length) {
+      item.spfList.forEach(key => {
+        let odds = 0;
+        if (key === 'home_0') odds = item.win_multiplier;
+        if (key === 'draw_0') odds = item.draw_multiplier;
+        if (key === 'away_0') odds = item.loss_multiplier;
+        const num = Number(odds);
+        if (!isNaN(num) && num > 0) allOdds.push(num);
+      });
+    }
+
+    // 2. 让球胜平负
+    if (item.rspfList && item.rspfList.length) {
+      item.rspfList.forEach(key => {
+        let odds = 0;
+        if (key === 'home_-1') odds = item.r_win_multiplier;
+        if (key === 'draw_-1') odds = item.r_draw_multiplier;
+        if (key === 'away_-1') odds = item.r_loss_multiplier;
+        const num = Number(odds);
+        if (!isNaN(num) && num > 0) allOdds.push(num);
+      });
+    }
+
+    // 3. 总进球
+    if (item.zjqList && item.zjqList.length) {
+      item.zjqList.forEach(key => {
+        const num = Number(item[key] || 0);
+        if (!isNaN(num) && num > 0) allOdds.push(num);
+      });
+    }
+
+    // 4. 半全场
+    if (item.bqcList && item.bqcList.length) {
+      item.bqcList.forEach(key => {
+        const num = Number(item[key] || 0);
+        if (!isNaN(num) && num > 0) allOdds.push(num);
+      });
+    }
+
+    // 5. 比分
+    if (item.bfList && item.bfList.length) {
+      item.bfList.forEach(key => {
+        const num = Number(item.bfOdds?.[key] || 0);
+        if (!isNaN(num) && num > 0) allOdds.push(num);
+      });
+    }
+
+    if (allOdds.length > 0) {
+      matchOddsList.push({
+        min: Math.min(...allOdds),
+        max: Math.max(...allOdds)
+      });
+    }
+  });
+
+  if (matchOddsList.length === 0) return "预计奖金：0.00 元";
+
+  let totalMin = 1, totalMax = 1;
+  matchOddsList.forEach(({ min, max }) => {
+    totalMin *= min;
+    totalMax *= max;
+  });
+
+  // 核心修正：base = 2元 × 倍数，注数不参与赔率计算，只影响投注金额
+  const base = 2 * this.betCount;
+  const minBonus = (totalMin * base).toFixed(2);
+  const maxBonus = (totalMax * base).toFixed(2);
+
+  return `预计奖金：${minBonus} ~ ${maxBonus} 元`;
+},
     confirmPhone() {
       const reg = /^1[3-9]\d{9}$/;
       if (!this.userPhone) {
@@ -395,10 +469,7 @@ export default {
         uni.showToast({ title: "请先选择至少一场", icon: "none" });
         return;
       }
-      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-        this.showPhoneModal = true;
-        return;
-      }
+
       this.isPayLoading = true;
       const list = this.selectedMatchList.map((item) => ({
         courseId: item.id,

@@ -396,7 +396,6 @@ var _default = {
                   success: function success(res) {
                     res.eventChannel.emit("selectedData", {
                       matches: selectedMatches,
-                      isNeedUserPhone: isNeedUserPhone,
                       comboText: "9串1"
                     });
                   }

@@ -431,7 +431,6 @@ var _default = {
                   success: function success(res) {
                     res.eventChannel.emit("selectedData", {
                       matches: selectedMatches,
-                      isNeedUserPhone: isNeedUserPhone,
                       comboText: "6串1",
                       playType: "半全场"
                     });

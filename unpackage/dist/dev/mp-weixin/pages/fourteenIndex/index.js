@@ -383,7 +383,6 @@ var _default = {
                   success: function success(res) {
                     res.eventChannel.emit("selectedData", {
                       matches: selectedMatches,
-                      isNeedUserPhone: isNeedUserPhone,
                       comboText: "14串1" // 🌟 修正：14场对应14串1
                     });
                   }

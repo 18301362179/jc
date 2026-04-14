@@ -213,7 +213,6 @@ var _default = {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -416,7 +415,7 @@ var _default = {
         // 深拷贝，避免修改影响原列表
         _this2.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         _this2.betCount = data.betCount || 1;
-        _this2.isNeedUserPhone = data.isNeedUserPhone;
+        ;
         _this2.selectedCombo = data.combo || "";
       });
     }
@@ -482,7 +481,7 @@ var _default = {
     calculateScoreBonus: function calculateScoreBonus() {
       // 1. 边界判断：无有效赛事/注数，返回默认提示（修正变量笔误：betCount → betNotes，保持与组件状态一致）
       if (this.selectedMatchCount === 0 || this.betNotes === 0) {
-        return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+        return "预计：0.00元 ~ 0.00元";
       }
 
       // 2. 核心：【比分 - 纯赔率字段】精准映射规则（完全基于持久化的赔率数据）
@@ -743,13 +742,8 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this5.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                _context.next = 6;
-                break;
-              }
-              _this5.showPhoneModal = true;
-              return _context.abrupt("return");
-            case 6:
+              // 2. 判断是否需要手机号（未填写则弹出手机号弹窗）
+
               _this5.isPayLoading = true;
               // 3. 构造提交数据：传递选中的比分列表
               list = _this5.selectedMatchList.map(function (item) {
@@ -779,10 +773,10 @@ var _default = {
                 payType: "wechat",
                 userPhone: _this5.userPhone
               };
-              _context.prev = 9;
-              _context.next = 12;
+              _context.prev = 6;
+              _context.next = 9;
               return (0, _demo.purchasingLotteryApply)(payRequestData);
-            case 12:
+            case 9:
               res = _context.sent;
               if (res.code == 200) {
                 _this5.isPayLoading = false;
@@ -815,23 +809,23 @@ var _default = {
                   duration: 1500
                 });
               }
-              _context.next = 20;
+              _context.next = 17;
               break;
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](9);
+            case 13:
+              _context.prev = 13;
+              _context.t0 = _context["catch"](6);
               _this5.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
                 icon: "none",
                 duration: 1500
               });
-            case 20:
+            case 17:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[9, 16]]);
+      }, _callee, null, [[6, 13]]);
     }))();
   }), (0, _defineProperty2.default)(_methods, "invokeWxPayment", function invokeWxPayment(payParams) {
     var _this6 = this;

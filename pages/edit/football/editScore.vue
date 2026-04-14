@@ -95,7 +95,7 @@ export default {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -193,7 +193,7 @@ export default {
         // 深拷贝，避免修改影响原列表
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone;
+        ;
         this.selectedCombo = data.combo || "";
       });
     }
@@ -258,7 +258,7 @@ export default {
     calculateScoreBonus() {
       // 1. 边界判断：无有效赛事/注数，返回默认提示（修正变量笔误：betCount → betNotes，保持与组件状态一致）
       if (this.selectedMatchCount === 0 || this.betNotes === 0) {
-        return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+        return "预计：0.00元 ~ 0.00元";
       }
 
       // 2. 核心：【比分 - 纯赔率字段】精准映射规则（完全基于持久化的赔率数据）
@@ -470,10 +470,7 @@ export default {
         return;
       }
       // 2. 判断是否需要手机号（未填写则弹出手机号弹窗）
-      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-        this.showPhoneModal = true;
-        return;
-      }
+
 
       this.isPayLoading = true;
       // 3. 构造提交数据：传递选中的比分列表

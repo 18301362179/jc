@@ -94,7 +94,7 @@ export default {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -149,7 +149,7 @@ export default {
         // 恢复深拷贝，保证数据独立性
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        
         this.selectedCombo = data.combo || "";
       });
     }
@@ -312,10 +312,7 @@ export default {
         uni.showToast({ title: "请先选择至少一场赛事", icon: "none" });
         return;
       }
-      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-        this.showPhoneModal = true;
-        return;
-      }
+
       this.isPayLoading = true;
       const submitData = {
         contentJson: JSON.stringify(

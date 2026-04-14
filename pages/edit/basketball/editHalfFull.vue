@@ -104,7 +104,6 @@ export default {
       selectedMatchList: [], // 接收列表页的选中数据
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -157,7 +156,7 @@ export default {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        
         this.selectedCombo = data.combo || "";
       });
     }
@@ -325,10 +324,10 @@ export default {
         return;
       }
       // 2. 手机号校验
-      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-        this.showPhoneModal = true;
-        return;
-      }
+      // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+      //   this.showPhoneModal = true;
+      //   return;
+      // }
 
       this.isPayLoading = true;
 

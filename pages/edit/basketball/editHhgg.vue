@@ -106,7 +106,7 @@ export default {
       selectedMatchList: [], // 接收混合过关选中的赛事
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -177,7 +177,7 @@ export default {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        
         this.selectedCombo = data.combo || "";
       });
     }
@@ -423,10 +423,7 @@ export default {
         uni.showToast({ title: "请先选择至少一场", icon: "none" });
         return;
       }
-      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-        this.showPhoneModal = true;
-        return;
-      }
+
       this.isPayLoading = true;
       const list = this.selectedMatchList.map((item) => ({
         courseId: item.id,

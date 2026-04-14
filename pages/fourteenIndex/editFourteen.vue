@@ -37,7 +37,7 @@
       <view class="bet-bar-top">
         <view class="collapse-area" style="text-align:center; color: #d92929;">
           
-          <!-- <view class="left-tip"></view>
+          <view class="left-tip"></view>
 
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus">-</button>
@@ -46,7 +46,7 @@
             </view>
             <button class="multi-btn plus" @click="handlePlus">+</button>
             
-          </view> -->
+          </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
@@ -132,7 +132,6 @@ export default {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
         this.betCount = data.betCount || 50;
-        this.selectedCombo = data.combo || "";
       });
     }
   },

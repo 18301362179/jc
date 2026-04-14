@@ -57,7 +57,7 @@
       <view class="bet-bar-top">
         <view class="collapse-area" style="text-align:center; color: #d92929;">
           
-          <!-- <view class="left-tip"></view>
+          <view class="left-tip"></view>
 
           <view class="multi-group">
             <button class="multi-btn minus" @click="handleMinus">-</button>
@@ -66,7 +66,7 @@
             </view>
             <button class="multi-btn plus" @click="handlePlus">+</button>
             
-          </view> -->
+          </view>
         </view>
       </view>
       <view class="bet-bar-bottom">
@@ -96,7 +96,7 @@ export default {
       betBarTotalHeight: 0, // 
       isApp: false, // 是否为App端
       showNumberKeyboard: false, // 数字键盘显示状态
-      isNeedUserPhone: 1, // 是否需要手机号（父组件传递）
+       // 是否需要手机号（父组件传递）
       urlValue: false,
     };
   },
@@ -156,7 +156,6 @@ export default {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone || 1;
       });
     }
   },

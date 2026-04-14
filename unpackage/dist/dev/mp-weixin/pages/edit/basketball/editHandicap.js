@@ -219,7 +219,6 @@ var _default = {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -274,7 +273,6 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this2.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         _this2.betCount = data.betCount || 50;
-        _this2.isNeedUserPhone = data.isNeedUserPhone || 1;
         _this2.selectedCombo = data.combo || "";
       });
     }
@@ -449,13 +447,6 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this5.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                _context.next = 6;
-                break;
-              }
-              _this5.showPhoneModal = true;
-              return _context.abrupt("return");
-            case 6:
               _this5.isPayLoading = true;
               submitData = {
                 contentJson: JSON.stringify(_this5.selectedMatchList.map(function (item) {
@@ -487,10 +478,10 @@ var _default = {
                 payType: "wechat",
                 userPhone: _this5.userPhone
               };
-              _context.prev = 8;
-              _context.next = 11;
+              _context.prev = 5;
+              _context.next = 8;
               return (0, _demo.purchasingLotteryApply)(submitData);
-            case 11:
+            case 8:
               res = _context.sent;
               if (res.code == 200) {
                 _this5.isPayLoading = false;
@@ -517,22 +508,22 @@ var _default = {
                   icon: "none"
                 });
               }
-              _context.next = 19;
+              _context.next = 16;
               break;
-            case 15:
-              _context.prev = 15;
-              _context.t0 = _context["catch"](8);
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](5);
               _this5.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
                 icon: "none"
               });
-            case 19:
+            case 16:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[8, 15]]);
+      }, _callee, null, [[5, 12]]);
     }))();
   }), _methods)
 };

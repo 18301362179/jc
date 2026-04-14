@@ -264,7 +264,6 @@ export default {
           success: (res) => {
             res.eventChannel.emit("selectedData", { 
               matches: selectedMatches, 
-              isNeedUserPhone,
               comboText: "9串1",
             });
           },

@@ -607,7 +607,7 @@ handleMixedSelect(item, selectType) {
               res.eventChannel.emit("selectedData", {
                 matches: selectedMatches,
                 betCount: 50,
-                isNeedUserPhone: 1,
+                
                 combo: `${selectedMatches.length}串1`,
               });
             },
@@ -674,7 +674,7 @@ handleMixedSelect(item, selectType) {
               res.eventChannel.emit("selectedData", {
                 matches: formattedMatches,
                 betCount: 50,
-                isNeedUserPhone: 1,
+                
                 combo: `${selectedMatches.length}串1`,
               });
             },

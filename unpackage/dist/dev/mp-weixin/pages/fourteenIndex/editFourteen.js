@@ -128,6 +128,9 @@ var render = function () {
   var g0 = _vm.selectedMatchList.length
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
+      _vm.showNumberKeyboard = true
+    }
+    _vm.e1 = function ($event) {
       _vm.showPosterPreview = false
     }
   }
@@ -249,7 +252,6 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this2.selectedMatchList = data.matches || [];
         _this2.betCount = data.betCount || 50;
-        _this2.selectedCombo = data.combo || "";
       });
     }
   },

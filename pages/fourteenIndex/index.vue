@@ -276,7 +276,6 @@ export default {
             success: (res) => {
               res.eventChannel.emit("selectedData", { 
                 matches: selectedMatches, 
-                isNeedUserPhone,
                 comboText: "14串1", // 🌟 修正：14场对应14串1
               });
             },

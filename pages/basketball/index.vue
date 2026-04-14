@@ -418,8 +418,6 @@ export default {
       try {
         this.showLoading();
         const res = await checkSelectBasketball({ lotteryIds: matchSerials });
-        const isNeedUserPhone = false;
-
         if (res.data && res.data.status == 1) {
           // 6. 玩法与编辑页面匹配
           const basketballPlayToPageMap = {
@@ -443,7 +441,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
               res.eventChannel.emit("selectedData", {
                 matches: selectedMatches,
                 betCount: this.betCount,
-                isNeedUserPhone,
+
                 combo: this.selectedCombo,
                 playType: this.currentPlay,
               });

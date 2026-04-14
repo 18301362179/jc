@@ -294,7 +294,6 @@ export default {
             success: (res) => {
               res.eventChannel.emit("selectedData", { 
                 matches: selectedMatches, 
-                isNeedUserPhone,
                 comboText: "6串1",
                 playType: "半全场"
               });

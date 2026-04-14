@@ -203,7 +203,6 @@ var _default = {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -276,7 +275,7 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this2.selectedMatchList = data.matches || [];
         _this2.betCount = data.betCount || 1;
-        _this2.isNeedUserPhone = data.isNeedUserPhone;
+        ;
         _this2.selectedCombo = data.combo || "";
       });
     }
@@ -511,13 +510,6 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this5.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                _context.next = 6;
-                break;
-              }
-              _this5.showPhoneModal = true;
-              return _context.abrupt("return");
-            case 6:
               _this5.isPayLoading = true;
               // 修复：传递让球胜平负的选中状态
               list = _this5.selectedMatchList.map(function (item) {
@@ -560,10 +552,10 @@ var _default = {
                 // 支付方式
                 userPhone: _this5.userPhone // 手机号
               };
-              _context.prev = 9;
-              _context.next = 12;
+              _context.prev = 6;
+              _context.next = 9;
               return (0, _demo.purchasingLotteryApply)(payRequestData);
-            case 12:
+            case 9:
               res = _context.sent;
               if (res.code == 200) {
                 _this5.isPayLoading = false;
@@ -593,11 +585,11 @@ var _default = {
                   duration: 1500
                 });
               }
-              _context.next = 21;
+              _context.next = 18;
               break;
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](9);
+            case 13:
+              _context.prev = 13;
+              _context.t0 = _context["catch"](6);
               _this5.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
@@ -605,12 +597,12 @@ var _default = {
                 duration: 1500
               });
               console.error("让球胜平负接口请求失败：", _context.t0);
-            case 21:
+            case 18:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[9, 16]]);
+      }, _callee, null, [[6, 13]]);
     }))();
   }), (0, _defineProperty2.default)(_methods, "invokeWxPayment", function invokeWxPayment(payParams) {
     var _this6 = this;

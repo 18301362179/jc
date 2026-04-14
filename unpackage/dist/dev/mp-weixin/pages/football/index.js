@@ -849,7 +849,6 @@ var _default = {
                     res.eventChannel.emit("selectedData", {
                       matches: _selectedMatches,
                       betCount: 50,
-                      isNeedUserPhone: 1,
                       combo: "".concat(_selectedMatches.length, "\u4E321")
                     });
                   }
@@ -923,7 +922,6 @@ var _default = {
                     res.eventChannel.emit("selectedData", {
                       matches: formattedMatches,
                       betCount: 50,
-                      isNeedUserPhone: 1,
                       combo: "".concat(selectedMatches.length, "\u4E321")
                     });
                   }

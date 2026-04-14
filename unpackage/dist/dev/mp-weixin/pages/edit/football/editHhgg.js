@@ -231,7 +231,6 @@ var _default = {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -396,7 +395,6 @@ var _default = {
           _this4.selectedMatchList = [];
         }
         _this4.betCount = Math.max(1, parseInt(data.betCount || 1));
-        _this4.isNeedUserPhone = data.isNeedUserPhone || 1;
         _this4.selectedCombo = data.combo || "";
       });
     }
@@ -480,7 +478,81 @@ var _default = {
     },
     calculateHalfFullBonus: function calculateHalfFullBonus() {
       if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
-      return "预计奖金：以实际出票为准";
+      var matchOddsList = [];
+      console.log(this.selectedMatchList, 'list---------------------');
+      this.selectedMatchList.forEach(function (item) {
+        var allOdds = [];
+
+        // 1. 胜平负
+        if (item.spfList && item.spfList.length) {
+          item.spfList.forEach(function (key) {
+            var odds = 0;
+            if (key === 'home_0') odds = item.win_multiplier;
+            if (key === 'draw_0') odds = item.draw_multiplier;
+            if (key === 'away_0') odds = item.loss_multiplier;
+            var num = Number(odds);
+            if (!isNaN(num) && num > 0) allOdds.push(num);
+          });
+        }
+
+        // 2. 让球胜平负
+        if (item.rspfList && item.rspfList.length) {
+          item.rspfList.forEach(function (key) {
+            var odds = 0;
+            if (key === 'home_-1') odds = item.r_win_multiplier;
+            if (key === 'draw_-1') odds = item.r_draw_multiplier;
+            if (key === 'away_-1') odds = item.r_loss_multiplier;
+            var num = Number(odds);
+            if (!isNaN(num) && num > 0) allOdds.push(num);
+          });
+        }
+
+        // 3. 总进球
+        if (item.zjqList && item.zjqList.length) {
+          item.zjqList.forEach(function (key) {
+            var num = Number(item[key] || 0);
+            if (!isNaN(num) && num > 0) allOdds.push(num);
+          });
+        }
+
+        // 4. 半全场
+        if (item.bqcList && item.bqcList.length) {
+          item.bqcList.forEach(function (key) {
+            var num = Number(item[key] || 0);
+            if (!isNaN(num) && num > 0) allOdds.push(num);
+          });
+        }
+
+        // 5. 比分
+        if (item.bfList && item.bfList.length) {
+          item.bfList.forEach(function (key) {
+            var _item$bfOdds;
+            var num = Number(((_item$bfOdds = item.bfOdds) === null || _item$bfOdds === void 0 ? void 0 : _item$bfOdds[key]) || 0);
+            if (!isNaN(num) && num > 0) allOdds.push(num);
+          });
+        }
+        if (allOdds.length > 0) {
+          matchOddsList.push({
+            min: Math.min.apply(Math, allOdds),
+            max: Math.max.apply(Math, allOdds)
+          });
+        }
+      });
+      if (matchOddsList.length === 0) return "预计奖金：0.00 元";
+      var totalMin = 1,
+        totalMax = 1;
+      matchOddsList.forEach(function (_ref) {
+        var min = _ref.min,
+          max = _ref.max;
+        totalMin *= min;
+        totalMax *= max;
+      });
+
+      // 核心修正：base = 2元 × 倍数，注数不参与赔率计算，只影响投注金额
+      var base = 2 * this.betCount;
+      var minBonus = (totalMin * base).toFixed(2);
+      var maxBonus = (totalMax * base).toFixed(2);
+      return "\u9884\u8BA1\u5956\u91D1\uFF1A".concat(minBonus, " ~ ").concat(maxBonus, " \u5143");
     },
     confirmPhone: function confirmPhone() {
       var reg = /^1[3-9]\d{9}$/;
@@ -539,13 +611,6 @@ var _default = {
                 });
                 return _context.abrupt("return");
               case 3:
-                if (!(_this6.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                  _context.next = 6;
-                  break;
-                }
-                _this6.showPhoneModal = true;
-                return _context.abrupt("return");
-              case 6:
                 _this6.isPayLoading = true;
                 list = _this6.selectedMatchList.map(function (item) {
                   return {
@@ -573,10 +638,10 @@ var _default = {
                   payType: "wechat",
                   userPhone: _this6.userPhone
                 };
-                _context.prev = 9;
-                _context.next = 12;
+                _context.prev = 6;
+                _context.next = 9;
                 return (0, _demo.purchasingLotteryApply)(payRequestData);
-              case 12:
+              case 9:
                 res = _context.sent;
                 if (res.code == 200) {
                   _this6.isPayLoading = false;
@@ -601,23 +666,23 @@ var _default = {
                     icon: "none"
                   });
                 }
-                _context.next = 21;
+                _context.next = 18;
                 break;
-              case 16:
-                _context.prev = 16;
-                _context.t0 = _context["catch"](9);
+              case 13:
+                _context.prev = 13;
+                _context.t0 = _context["catch"](6);
                 _this6.isPayLoading = false;
                 uni.showToast({
                   title: "网络异常，请稍后重试",
                   icon: "none"
                 });
                 console.error("足球混合过关报错：", _context.t0);
-              case 21:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[9, 16]]);
+        }, _callee, null, [[6, 13]]);
       }))();
     },
     saveEditedData: function saveEditedData() {

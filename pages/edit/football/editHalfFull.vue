@@ -94,7 +94,7 @@ export default {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -312,10 +312,10 @@ export default {
       }
     },
     async doConfirmBetLogic() {
-      if (this.isNeedUserPhone == 1 && !this.userPhone) {
-        this.showPhoneModal = true;
-        return;
-      }
+      // if (this.isNeedUserPhone == 1 && !this.userPhone) {
+      //   this.showPhoneModal = true;
+      //   return;
+      // }
 
       this.isPayLoading = true;
       const list = this.selectedMatchList.map((item) => ({
@@ -412,7 +412,7 @@ export default {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone;
+        ;
         this.selectedCombo = data.combo || "";
       });
     }
