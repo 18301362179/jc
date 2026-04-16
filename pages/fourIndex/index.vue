@@ -167,12 +167,26 @@ export default {
     this.urlValue = uni.getStorageSync('urlValue');
     
     })
+    const editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      let parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      // 初始化清空期数，重新请求最新数据
+      this.drawNumList = [];
+      this.currentDrawNum = '';
+      this.loadMatchData();
+    }
   },
   mounted() {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow() {
+  onLoad() {
     const editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
       let parsedData = editedData;

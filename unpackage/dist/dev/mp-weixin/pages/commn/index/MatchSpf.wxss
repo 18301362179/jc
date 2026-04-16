@@ -94,6 +94,11 @@
   border-bottom-right-radius: 16rpx;
   margin-right: 10rpx;
 }
+.match-row .match-status-row .after-tag-icon.data-v-521f8e27 {
+  width: 30rpx;
+  height: 30rpx;
+  flex-shrink: 0;
+}
 .match-row .match-status-row .status-right.data-v-521f8e27 {
   /* 加在这里 */
 }

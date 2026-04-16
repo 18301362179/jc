@@ -236,17 +236,28 @@ export default {
         // #ifdef APP-PLUS
     this.checkLocalToken();
     // #endif
-    const editedData = uni.getStorageSync("editedMatchData");
-    if (editedData) {
-      let parsedData = typeof editedData === "string" ? JSON.parse(editedData) : editedData;
-      this.syncUpdatedMatches(parsedData);
-      uni.removeStorageSync("editedMatchData");
-    } else {
-      this.loadMatchData();
-    }
     if (uni.getWindowInfo) {
       const windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;
+    }
+        console.log('load------')
+    const editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      let parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+        try {
+          this.loadMatchData();
+        } catch (error) {
+          try {
+            this.loadMatchData();
+          } catch (retryError) {
+          }
+        }
     }
   },
   mounted() {
@@ -254,15 +265,25 @@ export default {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow() {
-    try {
-      this.loadMatchData();
-    } catch (error) {
-      try {
-        this.loadMatchData();
-      } catch (error) {
-        this.loadMatchData();
+  onLoad() {
+    console.log('load------')
+    const editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      let parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
       }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+        try {
+          this.loadMatchData();
+        } catch (error) {
+          try {
+            this.loadMatchData();
+          } catch (retryError) {
+          }
+        }
     }
   },
   methods: {
@@ -852,6 +873,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
                 if (item.is_buy == 0) {
         this.$set(item, 'is_buy' ,1)
       }
+      uni.setStorageSync()
           await uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
         }
       } catch (err) {

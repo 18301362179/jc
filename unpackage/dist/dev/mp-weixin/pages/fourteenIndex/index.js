@@ -259,8 +259,22 @@ var _default = {
       _this2.urlValue = uni.getStorageSync('urlValue');
     });
     this.calcNavBarTotalHeight();
+    var editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      var parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      // 初始化清空期数，重新请求最新数据（统一模板）
+      this.drawNumList = [];
+      this.currentDrawNum = '';
+      this.loadMatchData();
+    }
   },
-  onShow: function onShow() {
+  onLoad: function onLoad() {
     var editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
       var parsedData = editedData;

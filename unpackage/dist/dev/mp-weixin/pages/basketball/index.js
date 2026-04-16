@@ -447,17 +447,27 @@ var _default = {
     }
   },
   created: function created() {
-    var editedData = uni.getStorageSync("editedMatchData");
-    if (editedData) {
-      var parsedData = typeof editedData === "string" ? JSON.parse(editedData) : editedData;
-      this.syncUpdatedMatches(parsedData);
-      uni.removeStorageSync("editedMatchData");
-    } else {
-      this.loadMatchData();
-    }
     if (uni.getWindowInfo) {
       var windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;
+    }
+    console.log('load------');
+    var editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      var parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      try {
+        this.loadMatchData();
+      } catch (error) {
+        try {
+          this.loadMatchData();
+        } catch (retryError) {}
+      }
     }
   },
   mounted: function mounted() {
@@ -465,14 +475,23 @@ var _default = {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow: function onShow() {
-    try {
-      this.loadMatchData();
-    } catch (error) {
+  onLoad: function onLoad() {
+    console.log('load------');
+    var editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      var parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
       try {
         this.loadMatchData();
       } catch (error) {
-        this.loadMatchData();
+        try {
+          this.loadMatchData();
+        } catch (retryError) {}
       }
     }
   },
@@ -1206,30 +1225,31 @@ var _default = {
                 if (item.is_buy == 0) {
                   _this19.$set(item, 'is_buy', 1);
                 }
-                _context5.next = 16;
+                uni.setStorageSync();
+                _context5.next = 17;
                 return uni.navigateTo({
                   url: "/pages/test/basketballAi?id=".concat(item.id, "&isLottery=1")
                 });
-              case 16:
-                _context5.next = 21;
+              case 17:
+                _context5.next = 22;
                 break;
-              case 18:
-                _context5.prev = 18;
+              case 19:
+                _context5.prev = 19;
                 _context5.t0 = _context5["catch"](0);
                 uni.showToast({
                   title: "网络异常，请稍后重试",
                   icon: "none"
                 });
-              case 21:
-                _context5.prev = 21;
+              case 22:
+                _context5.prev = 22;
                 _this19.hideLoading();
-                return _context5.finish(21);
-              case 24:
+                return _context5.finish(22);
+              case 25:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[0, 18, 21, 24]]);
+        }, _callee5, null, [[0, 19, 22, 25]]);
       }))();
     },
     showLoading: function showLoading() {

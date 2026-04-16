@@ -164,12 +164,26 @@ export default {
     this.windowHeight = systemInfo.windowHeight;
     // 🌟 新增：计算导航栏总高度（和4球一致）
     this.calcNavBarTotalHeight();
+    const editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      let parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      // 初始化清空期数，重新请求最新数据（和4球/6球一致）
+      this.drawNumList = [];
+      this.currentDrawNum = '';
+      this.loadMatchData();
+    }
   },
   mounted() {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow() {
+  onLoad() {
     const editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
       let parsedData = editedData;
