@@ -20,6 +20,7 @@
               <text class="single-tag" v-if="item.is_spf_single == 1 && item.is_stop == 0">单</text>
               <!-- 新增：停售标签 -->
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <image class="after-tag-icon" src="/static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->

@@ -18,6 +18,7 @@
               <text class="single-tag" v-if="item.is_hhgg_single == 1 && item.is_stop == 0">单</text>
               <!-- 新增：停售标签 -->
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <image class="after-tag-icon" src="/static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
             </view>
             <view class="status-right">
               <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="item.url_show_status == 1" @click.stop="() => myValue(item)">
