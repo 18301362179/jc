@@ -239,7 +239,7 @@ var _default = {
       // 接收混合过关选中的赛事
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      // isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: '',
       isSubmitSuccess: false,

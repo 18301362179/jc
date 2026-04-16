@@ -428,7 +428,7 @@ var _default = {
                   success: function (res) {
                     res.eventChannel.emit("selectedData", {
                       matches: selectedMatches,
-                      isNeedUserPhone: isNeedUserPhone,
+                      
                       comboText: totalSelectedCount + "串1"
                     });
                   }.bind(_this2)

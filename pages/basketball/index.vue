@@ -241,12 +241,26 @@ export default {
       const windowInfo = uni.getWindowInfo();
       this.statusBarHeight = windowInfo.statusBarHeight;
     }
+    wx.showShareMenu({
+      menus: ["shareAppMessage", "shareTimeline"],
+    });
+    // #ifdef APP-PLUS
+    this.checkLocalToken();
+    // #endif
+    const editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      let parsedData = typeof editedData === "string" ? JSON.parse(editedData) : editedData;
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      this.loadMatchData();
+    }
   },
   mounted() {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow() {
+  onLoad() {
     wx.showShareMenu({
       menus: ["shareAppMessage", "shareTimeline"],
     });
@@ -418,8 +432,6 @@ export default {
       try {
         this.showLoading();
         const res = await checkSelectBasketball({ lotteryIds: matchSerials });
-        const isNeedUserPhone = false;
-
         if (res.data && res.data.status == 1) {
           // 6. 玩法与编辑页面匹配
           const basketballPlayToPageMap = {
@@ -442,7 +454,6 @@ export default {
               res.eventChannel.emit("selectedData", {
                 matches: selectedMatches,
                 betCount: this.betCount,
-                isNeedUserPhone,
                 combo: this.selectedCombo,
                 playType: this.currentPlay,
               });

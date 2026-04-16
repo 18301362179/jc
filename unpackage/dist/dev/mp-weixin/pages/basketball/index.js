@@ -680,7 +680,7 @@ var _default = {
                       res.eventChannel.emit("selectedData", {
                         matches: selectedMatches,
                         betCount: _this9.betCount,
-                        isNeedUserPhone: isNeedUserPhone,
+                        
                         combo: _this9.selectedCombo,
                         playType: _this9.currentPlay
                       });

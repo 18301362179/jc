@@ -223,7 +223,7 @@ var _default = {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      // isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -421,7 +421,7 @@ var _default = {
         // 深拷贝，避免修改影响原列表
         _this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         _this.betCount = data.betCount || 1;
-        _this.isNeedUserPhone = data.isNeedUserPhone;
+        _// this.isNeedUserPhone = data.isNeedUserPhone;
         _this.selectedCombo = data.combo || "";
       });
     }

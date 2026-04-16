@@ -213,7 +213,7 @@ var _default = {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      // isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: '',
       isSubmitSuccess: false,
@@ -281,7 +281,7 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this.selectedMatchList = data.matches || [];
         _this.betCount = data.betCount || 1;
-        _this.isNeedUserPhone = data.isNeedUserPhone;
+        _// this.isNeedUserPhone = data.isNeedUserPhone;
         _this.selectedCombo = data.combo || "";
       });
     }

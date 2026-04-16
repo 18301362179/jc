@@ -141,7 +141,7 @@ export default {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      // isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: '',
       isSubmitSuccess: false,
@@ -201,7 +201,7 @@ export default {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone;
+        // this.isNeedUserPhone = data.isNeedUserPhone;
                 this.selectedCombo = data.combo || ""; 
       });
     }
@@ -412,10 +412,10 @@ export default {
         return;
       }
       
-      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-        this.showPhoneModal = true;
-        return;
-      }
+      // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+      //   this.showPhoneModal = true;
+      //   return;
+      // }
 
       this.isPayLoading = true;
       // 修复：传递让球胜平负的选中状态

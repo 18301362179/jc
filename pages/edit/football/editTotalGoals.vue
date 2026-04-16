@@ -122,7 +122,7 @@ export default {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      // isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -180,7 +180,7 @@ export default {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone;
+        // this.isNeedUserPhone = data.isNeedUserPhone;
         this.selectedCombo = data.combo || "";
       });
     }
@@ -389,10 +389,10 @@ export default {
         uni.showToast({ title: "请先选择至少一场赛事的进球数", icon: "none" });
         return;
       }
-      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-        this.showPhoneModal = true;
-        return;
-      }
+      // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+      //   this.showPhoneModal = true;
+      //   return;
+      // }
 
       this.isPayLoading = true;
       const list = this.selectedMatchList.map((item) => ({

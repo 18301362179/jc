@@ -145,7 +145,7 @@ export default {
       selectedMatchList: [], // 接收列表的selectedScores数组
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      // isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: '',
       isSubmitSuccess: false,
@@ -190,7 +190,7 @@ export default {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone || 1;
+       // this.isNeedUserPhone = data.isNeedUserPhone || 1;
         this.selectedCombo = data.combo || ""; 
       });
     }
@@ -411,10 +411,10 @@ calcAllHeights() {
         uni.showToast({ title: "请先选择至少一场赛事的投注内容", icon: "none" });
         return;
       }
-      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-        this.showPhoneModal = true;
-        return;
-      }
+      // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+      //   this.showPhoneModal = true;
+      //   return;
+      // }
 
       this.isPayLoading = true;
       // 构造胜分差提交数据

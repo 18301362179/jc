@@ -174,7 +174,7 @@ betNotes() {
       eventChannel.on("selectedData", (data) => {
         this.selectedMatchList = data.matches || [];
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone || 1;
+       // this.isNeedUserPhone = data.isNeedUserPhone || 1;
       });
     }
   },

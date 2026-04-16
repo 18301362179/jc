@@ -225,7 +225,7 @@ var _default = {
       // 接收列表的selectedScores数组
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      // isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: '',
       isSubmitSuccess: false,

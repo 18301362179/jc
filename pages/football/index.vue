@@ -241,12 +241,29 @@ selectedMatchCount() {
       const systemInfo = wx.getWindowInfo();
       this.statusBarHeight = systemInfo.statusBarHeight;
     }
+      wx.showShareMenu({
+    menus: ['shareAppMessage', 'shareTimeline']
+  })
+    // #ifdef APP-PLUS
+    this.checkLocalToken();
+    // #endif
+    const editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      let parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      this.loadMatchData();
+    }
   },
   mounted() {
     this.calcHeaderHeight();
     this.calcPopupMaxHeight();
   },
-  onShow() {
+  onLoad() {
       // 强制显示分享菜单，立刻解除置灰
   wx.showShareMenu({
     menus: ['shareAppMessage', 'shareTimeline']
@@ -614,7 +631,7 @@ handleMixedSelect(item, selectType) {
               res.eventChannel.emit("selectedData", {
                 matches: selectedMatches,
                 betCount: 50,
-                isNeedUserPhone: 1,
+                // isNeedUserPhone: 1,
                 combo: `${selectedMatches.length}串1`,
               });
             },
@@ -681,7 +698,7 @@ handleMixedSelect(item, selectType) {
               res.eventChannel.emit("selectedData", {
                 matches: formattedMatches,
                 betCount: 50,
-                isNeedUserPhone: 1,
+                // isNeedUserPhone: 1,
                 combo: `${selectedMatches.length}串1`,
               });
             },

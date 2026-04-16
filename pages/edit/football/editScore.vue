@@ -123,7 +123,7 @@ export default {
       selectedMatchList: [],
       betCount: 50,
       isPayLoading: false,
-      isNeedUserPhone: 1,
+      // isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: "",
       isSubmitSuccess: false,
@@ -216,7 +216,7 @@ export default {
         // 深拷贝，避免修改影响原列表
         this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         this.betCount = data.betCount || 1;
-        this.isNeedUserPhone = data.isNeedUserPhone;
+        // this.isNeedUserPhone = data.isNeedUserPhone;
         this.selectedCombo = data.combo || "";
       });
     }
@@ -493,10 +493,10 @@ export default {
         return;
       }
       // 2. 判断是否需要手机号（未填写则弹出手机号弹窗）
-      if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-        this.showPhoneModal = true;
-        return;
-      }
+      // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+      //   this.showPhoneModal = true;
+      //   return;
+      // }
 
       this.isPayLoading = true;
       // 3. 构造提交数据：传递选中的比分列表
