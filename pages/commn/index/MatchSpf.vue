@@ -20,7 +20,7 @@
               <text class="single-tag" v-if="item.is_spf_single == 1 && item.is_stop == 0">单</text>
               <!-- 新增：停售标签 -->
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
-              <image class="after-tag-icon" src="/static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
+              <image class="after-tag-icon" src="https://www.tianjifu.com//static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
@@ -291,23 +291,28 @@ export default {
     align-items: center;
     width: 100%;
     border-bottom: 1rpx solid #f5f5f5;
-    .status-left {
-      width: 200rpx;
-      display: flex;
-      align-items: center;
-    }
+  .status-left {
+    width: 200rpx;
+    display: flex;
+    align-items: center;
+  }
 
-    .single-tag {
-      display: inline-block;
-      padding-left: 6rpx;
-      width: 44rpx;
-      background: #b71c1c;
-      color: #fff;
-      text-align: left;
-      font-size: 22rpx;
-      border-top-right-radius: 15rpx;
-      border-bottom-right-radius: 16rpx;
-      margin-right: 10rpx;
+  .single-tag {
+    display: inline-block;
+    padding-left: 6rpx;
+    width: 44rpx;
+    background: #b71c1c;
+    color: #fff;
+    text-align: left;
+    font-size: 22rpx;
+    border-top-right-radius: 15rpx;
+    border-bottom-right-radius: 16rpx;
+    margin-right: 10rpx;
+  }
+    .after-tag-icon {
+      width: 30rpx;
+      height: 30rpx;
+      flex-shrink: 0;
     }
 
     .status-right {

@@ -19,7 +19,7 @@
               <!-- 单场标签：无停时，根据is_sf_single显示 -->
               <text class="single-tag" v-if="item.is_sf_single == 1 && item.is_stop == 0">单</text>
               <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
-              <image class="after-tag-icon" src="/static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
+              <image class="after-tag-icon" src="https://www.tianjifu.com//static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
             </view>
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
@@ -276,6 +276,11 @@ export default {
     border-bottom-right-radius: 16rpx;
     margin-right: 10rpx;
   }
+    .after-tag-icon {
+      width: 30rpx;
+      height: 30rpx;
+      flex-shrink: 0;
+    }
 
   .status-right {
 .ai-analysis-btn {
