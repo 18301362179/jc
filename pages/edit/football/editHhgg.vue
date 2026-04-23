@@ -115,7 +115,7 @@
     </view>
 
     <!-- 手机号弹窗+数字键盘 -->
-    <view class="phone-modal" v-if="showPhoneModal">
+    <!-- <view class="phone-modal" v-if="showPhoneModal">
       <view class="modal-mask" @click="showPhoneModal = false" hover-class="none"></view>
       <view class="modal-content">
         <view class="modal-desc">业务人员通过微信与您联系付款及打印彩票后给您发送图片留作兑奖凭证等后续流程</view>
@@ -128,7 +128,7 @@
           <button class="confirm-btn" @click="confirmPhone" hover-class="none">提交</button>
         </view>
       </view>
-    </view>
+    </view> -->
     
     <UniNumberKeyboard
       :show.sync="showNumberKeyboard"
@@ -377,7 +377,7 @@ export default {
 calculateHalfFullBonus() {
   if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
   const matchOddsList = [];
-  console.log(this.selectedMatchList, 'list---------------------')
+
   this.selectedMatchList.forEach(item => {
     const allOdds = [];
 
@@ -405,26 +405,59 @@ calculateHalfFullBonus() {
       });
     }
 
-    // 3. 总进球
+    // 3. 总进球 ✅ 修复正确
     if (item.zjqList && item.zjqList.length) {
       item.zjqList.forEach(key => {
-        const num = Number(item[key] || 0);
+        let val = 0;
+        if (key === '总进球_0') val = item.zjq_ling;
+        if (key === '总进球_1') val = item.zjq_yi;
+        if (key === '总进球_2') val = item.zjq_er;
+        if (key === '总进球_3') val = item.zjq_san;
+        if (key === '总进球_4') val = item.zjq_si;
+        if (key === '总进球_5') val = item.zjq_wu;
+        if (key === '总进球_6') val = item.zjq_liu;
+        if (key === '总进球_7+') val = item.zjq_qi_jia;
+        
+        const num = Number(val);
         if (!isNaN(num) && num > 0) allOdds.push(num);
       });
     }
 
-    // 4. 半全场
+    // 4. 半全场 ✅ 修复正确
     if (item.bqcList && item.bqcList.length) {
       item.bqcList.forEach(key => {
-        const num = Number(item[key] || 0);
+        let val = 0;
+        if (key === '半全场_胜胜') val = item.ss;
+        if (key === '半全场_胜平') val = item.sp;
+        if (key === '半全场_胜负') val = item.sf;
+        if (key === '半全场_平胜') val = item.ps;
+        if (key === '半全场_平平') val = item.pp;
+        if (key === '半全场_平负') val = item.pf;
+        if (key === '半全场_负胜') val = item.fs;
+        if (key === '半全场_负平') val = item.fp;
+        if (key === '半全场_负负') val = item.ff;
+        
+        const num = Number(val);
         if (!isNaN(num) && num > 0) allOdds.push(num);
       });
     }
 
-    // 5. 比分
+    // 5. 比分 ✅ 修复读取（为空也不影响）
     if (item.bfList && item.bfList.length) {
       item.bfList.forEach(key => {
-        const num = Number(item.bfOdds?.[key] || 0);
+        let val = 0;
+        if (key === '1:0') val = item.sbe;
+        if (key === '2:0') val = item.sbe;
+        if (key === '2:1') val = item.sbe;
+        if (key === '0:0') val = item.sbs;
+        if (key === '1:1') val = item.sbs;
+        if (key === '2:2') val = item.sbs;
+        if (key === '0:1') val = item.sbl;
+        if (key === '0:2') val = item.sbl;
+        if (key === '1:2') val = item.sbl;
+        if (key === '胜其它') val = item.sibe;
+        
+        const num = Number(val);
         if (!isNaN(num) && num > 0) allOdds.push(num);
       });
     }
@@ -445,26 +478,26 @@ calculateHalfFullBonus() {
     totalMax *= max;
   });
 
-  // 核心修正：base = 2元 × 倍数，注数不参与赔率计算，只影响投注金额
+  // 计算公式 100% 保持你原来的！
   const base = 2 * this.betCount;
   const minBonus = (totalMin * base).toFixed(2);
   const maxBonus = (totalMax * base).toFixed(2);
 
   return `预计奖金：${minBonus} ~ ${maxBonus} 元`;
 },
-    confirmPhone() {
-      const reg = /^1[3-9]\d{9}$/;
-      if (!this.userPhone) {
-        uni.showToast({ title: "手机号不能为空！", icon: "none" });
-        return;
-      }
-      if (!reg.test(this.userPhone)) {
-        uni.showToast({ title: "请输入正确的手机号", icon: "none" });
-        return;
-      }
-      this.showPhoneModal = false;
-      this.handleConfirmBet(true);
-    },
+    // confirmPhone() {
+    //   const reg = /^1[3-9]\d{9}$/;
+    //   if (!this.userPhone) {
+    //     uni.showToast({ title: "手机号不能为空！", icon: "none" });
+    //     return;
+    //   }
+    //   if (!reg.test(this.userPhone)) {
+    //     uni.showToast({ title: "请输入正确的手机号", icon: "none" });
+    //     return;
+    //   }
+    //   this.showPhoneModal = false;
+    //   this.handleConfirmBet(true);
+    // },
     handleBack() {
       this.saveEditedData();
       uni.navigateBack({ delta: 1 });
@@ -480,59 +513,59 @@ calculateHalfFullBonus() {
         uni.showToast({ title: "倍数最多50倍", icon: "none" });
       }
     },
-    async handleConfirmBet(fromPhoneModal) {
-      if (this.selectedMatchCount === 0) {
-        uni.showToast({ title: "请先选择至少一场赛事的投注内容", icon: "none" });
-        return;
-      }
-      // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
-      //   this.showPhoneModal = true;
-      //   return;
-      // }
-      this.isPayLoading = true;
-      const list = this.selectedMatchList.map(item => ({
-        courseId: item.id,
-        serialNumber: item.serial_number,
-        leagueName: item.league_name || '',
-        homeName: item.home_name || '',
-        visitingName: item.visiting_name || '',
-        raceDate: item.race_date || '',
-        selectedSpf: item.spfList || [],
-        selectedRspf: item.rspfList || [],
-        selectedZjq: item.zjqList || [],
-        selectedBqc: item.bqcList || [],
-        selectedBf: item.bfList || [],
-        playType: "足球混合过关",
-        entityType: "足球混合过关"
-      }));
-      const payRequestData = {
-        contentJson: JSON.stringify(list),
-        entityType: "足球混合过关",
-        multiple: this.betNotes,
-        bet: this.betCount,
-        payment: this.totalBetAmount,
-        payType: "wechat",
-        userPhone: this.userPhone
-      };
-      try {
-        const res = await purchasingLotteryApply(payRequestData);
-        if (res.code == 200) {
-          this.isPayLoading = false;
-          this.isSubmitSuccess = true;
-          uni.showToast({ title: "投注成功！", icon: "success", duration: 2000, mask: true });
-          uni.removeStorageSync("editedMatchData");
-          this.selectedMatchList = [];
-          setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
-        } else {
-          this.isPayLoading = false;
-          uni.showToast({ title: res.message || "获取支付信息失败", icon: "none" });
-        }
-      } catch (error) {
-        this.isPayLoading = false;
-        uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
-        console.error("足球混合过关投注报错：", error);
-      }
-    },
+    // async handleConfirmBet(fromPhoneModal) {
+    //   if (this.selectedMatchCount === 0) {
+    //     uni.showToast({ title: "请先选择至少一场赛事的投注内容", icon: "none" });
+    //     return;
+    //   }
+    //   if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+    //     this.showPhoneModal = true;
+    //     return;
+    //   }
+    //   this.isPayLoading = true;
+    //   const list = this.selectedMatchList.map(item => ({
+    //     courseId: item.id,
+    //     serialNumber: item.serial_number,
+    //     leagueName: item.league_name || '',
+    //     homeName: item.home_name || '',
+    //     visitingName: item.visiting_name || '',
+    //     raceDate: item.race_date || '',
+    //     selectedSpf: item.spfList || [],
+    //     selectedRspf: item.rspfList || [],
+    //     selectedZjq: item.zjqList || [],
+    //     selectedBqc: item.bqcList || [],
+    //     selectedBf: item.bfList || [],
+    //     playType: "足球混合过关",
+    //     entityType: "足球混合过关"
+    //   }));
+    //   const payRequestData = {
+    //     contentJson: JSON.stringify(list),
+    //     entityType: "足球混合过关",
+    //     multiple: this.betNotes,
+    //     bet: this.betCount,
+    //     payment: this.totalBetAmount,
+    //     payType: "wechat",
+    //     userPhone: this.userPhone
+    //   };
+    //   try {
+    //     const res = await purchasingLotteryApply(payRequestData);
+    //     if (res.code == 200) {
+    //       this.isPayLoading = false;
+    //       this.isSubmitSuccess = true;
+    //       uni.showToast({ title: "投注成功！", icon: "success", duration: 2000, mask: true });
+    //       uni.removeStorageSync("editedMatchData");
+    //       this.selectedMatchList = [];
+    //       setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
+    //     } else {
+    //       this.isPayLoading = false;
+    //       uni.showToast({ title: res.message || "获取支付信息失败", icon: "none" });
+    //     }
+    //   } catch (error) {
+    //     this.isPayLoading = false;
+    //     uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
+    //     console.error("足球混合过关投注报错：", error);
+    //   }
+    // },
     saveEditedData() {
       const editedData = JSON.parse(JSON.stringify({
         matches: this.selectedMatchList,
