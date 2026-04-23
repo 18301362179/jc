@@ -213,7 +213,6 @@ var _default = {
       // 接收列表页的选中数据
       betCount: 50,
       isPayLoading: false,
-      // isNeedUserPhone: 1,
       showPhoneModal: false,
       userPhone: '',
       isSubmitSuccess: false,
@@ -273,7 +272,7 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         _this.betCount = data.betCount || 1;
-        _this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        //// this.isNeedUserPhone = data.isNeedUserPhone || 1;
         _this.selectedCombo = data.combo || "";
       });
     }
@@ -479,13 +478,12 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this4.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                _context.next = 6;
-                break;
-              }
-              _this4.showPhoneModal = true;
-              return _context.abrupt("return");
-            case 6:
+              // 2. 手机号校验
+              // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+              //   this.showPhoneModal = true;
+              //   return;
+              // }
+
               _this4.isPayLoading = true;
               // 3. 构造提交数据（保留大小分核心字段）
               list = _this4.selectedMatchList.map(function (item) {
@@ -521,10 +519,10 @@ var _default = {
                 payType: "wechat",
                 userPhone: _this4.userPhone
               };
-              _context.prev = 9;
-              _context.next = 12;
+              _context.prev = 6;
+              _context.next = 9;
               return (0, _demo.purchasingLotteryApply)(payRequestData);
-            case 12:
+            case 9:
               res = _context.sent;
               if (res.code == 200) {
                 _this4.isPayLoading = false;
@@ -551,23 +549,23 @@ var _default = {
                   icon: "none"
                 });
               }
-              _context.next = 21;
+              _context.next = 18;
               break;
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](9);
+            case 13:
+              _context.prev = 13;
+              _context.t0 = _context["catch"](6);
               _this4.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
                 icon: "none"
               });
               console.error("大小分投注报错：", _context.t0);
-            case 21:
+            case 18:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[9, 16]]);
+      }, _callee, null, [[6, 13]]);
     }))();
   }), _methods)
 };

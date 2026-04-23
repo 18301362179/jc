@@ -316,7 +316,7 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this.selectedMatchList = data.matches || [];
         _this.betCount = data.betCount || 1;
-        _// this.isNeedUserPhone = data.isNeedUserPhone;
+        // this.isNeedUserPhone = data.isNeedUserPhone;
         _this.selectedCombo = data.combo || "";
       });
     }
@@ -538,13 +538,11 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this5.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                _context.next = 6;
-                break;
-              }
-              _this5.showPhoneModal = true;
-              return _context.abrupt("return");
-            case 6:
+              // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+              //   this.showPhoneModal = true;
+              //   return;
+              // }
+
               _this5.isPayLoading = true;
               list = _this5.selectedMatchList.map(function (item) {
                 return {
@@ -556,8 +554,8 @@ var _default = {
                   selectedGoals: item.selectedGoals || []
                 };
               });
-              _context.prev = 8;
-              _context.next = 11;
+              _context.prev = 5;
+              _context.next = 8;
               return (0, _demo.purchasingLotteryApply)({
                 contentJson: JSON.stringify(list),
                 entityType: "足彩总进球",
@@ -567,7 +565,7 @@ var _default = {
                 payType: "wechat",
                 userPhone: _this5.userPhone
               });
-            case 11:
+            case 8:
               res = _context.sent;
               if (res.code == 200) {
                 _this5.isPayLoading = false;
@@ -598,22 +596,22 @@ var _default = {
                   icon: "none"
                 });
               }
-              _context.next = 19;
+              _context.next = 16;
               break;
-            case 15:
-              _context.prev = 15;
-              _context.t0 = _context["catch"](8);
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](5);
               _this5.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
                 icon: "none"
               });
-            case 19:
+            case 16:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[8, 15]]);
+      }, _callee, null, [[5, 12]]);
     }))();
   }), _methods)
 };

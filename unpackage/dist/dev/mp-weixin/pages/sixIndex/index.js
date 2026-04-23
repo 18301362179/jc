@@ -282,6 +282,23 @@ var _default = {
     this.windowHeight = systemInfo.windowHeight;
     // 🌟 新增：计算导航栏总高度（和4球一致）
     this.calcNavBarTotalHeight();
+    wx.showShareMenu({
+      menus: ['shareAppMessage', 'shareTimeline']
+    });
+    var editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      var parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      // 初始化清空期数，重新请求最新数据（和4球一致）
+      this.drawNumList = [];
+      this.currentDrawNum = '';
+      this.loadMatchData();
+    }
   },
   mounted: function mounted() {
     this.calcHeaderHeight();
@@ -430,7 +447,6 @@ var _default = {
                   success: function success(res) {
                     res.eventChannel.emit("selectedData", {
                       matches: selectedMatches,
-                      
                       comboText: "6串1",
                       playType: "半全场"
                     });

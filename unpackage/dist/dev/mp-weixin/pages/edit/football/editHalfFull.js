@@ -508,13 +508,11 @@ var _default = {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this5.isNeedUserPhone == 1 && !_this5.userPhone)) {
-                _context2.next = 3;
-                break;
-              }
-              _this5.showPhoneModal = true;
-              return _context2.abrupt("return");
-            case 3:
+              // if (this.isNeedUserPhone == 1 && !this.userPhone) {
+              //   this.showPhoneModal = true;
+              //   return;
+              // }
+
               _this5.isPayLoading = true;
               list = _this5.selectedMatchList.map(function (item) {
                 return {
@@ -539,10 +537,10 @@ var _default = {
                 payType: "wechat",
                 userPhone: _this5.userPhone
               };
-              _context2.prev = 6;
-              _context2.next = 9;
+              _context2.prev = 3;
+              _context2.next = 6;
               return (0, _demo.purchasingLotteryApply)(payRequestData);
-            case 9:
+            case 6:
               res = _context2.sent;
               if (res.code == 200) {
                 _this5.isPayLoading = false;
@@ -570,23 +568,23 @@ var _default = {
                   duration: 1500
                 });
               }
-              _context2.next = 17;
+              _context2.next = 14;
               break;
-            case 13:
-              _context2.prev = 13;
-              _context2.t0 = _context2["catch"](6);
+            case 10:
+              _context2.prev = 10;
+              _context2.t0 = _context2["catch"](3);
               _this5.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
                 icon: "none",
                 duration: 1500
               });
-            case 17:
+            case 14:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[6, 13]]);
+      }, _callee2, null, [[3, 10]]);
     }))();
   }), (0, _defineProperty2.default)(_methods, "invokeWxPayment", function invokeWxPayment(payParams) {
     var _this6 = this;
@@ -650,7 +648,7 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this7.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         _this7.betCount = data.betCount || 1;
-        _this7.isNeedUserPhone = data.isNeedUserPhone;
+        // // this.isNeedUserPhone = data.isNeedUserPhone;
         _this7.selectedCombo = data.combo || "";
       });
     }

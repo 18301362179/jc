@@ -260,10 +260,11 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this.selectedMatchList = data.matches || [];
         _this.betCount = data.betCount || 1;
-        _this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        // this.isNeedUserPhone = data.isNeedUserPhone || 1;
       });
     }
   },
+
   methods: {
     // 计算适配高度（兼容App/小程序/H5）
     calcAllHeights: function calcAllHeights() {

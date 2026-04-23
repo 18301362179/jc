@@ -279,7 +279,7 @@ var _default = {
         _this.selectedMatchList = data.matches || [];
         console.log(data, 'list------------------');
         _this.betCount = data.betCount || 1;
-        _// this.isNeedUserPhone = data.isNeedUserPhone;
+        // this.isNeedUserPhone = data.isNeedUserPhone;
         _this.selectedCombo = data.combo || "";
       });
     }
@@ -468,13 +468,10 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this3.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                _context.next = 6;
-                break;
-              }
-              _this3.showPhoneModal = true;
-              return _context.abrupt("return");
-            case 6:
+              // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+              //   this.showPhoneModal = true;
+              //   return;
+              // }
               _this3.isPayLoading = true;
               list = _this3.selectedMatchList.map(function (item) {
                 return {
@@ -507,10 +504,10 @@ var _default = {
                 payType: "wechat",
                 userPhone: _this3.userPhone
               };
-              _context.prev = 9;
-              _context.next = 12;
+              _context.prev = 6;
+              _context.next = 9;
               return (0, _demo.purchasingLotteryApply)(payRequestData);
-            case 12:
+            case 9:
               res = _context.sent;
               if (res.code == 200) {
                 _this3.isPayLoading = false;
@@ -538,11 +535,11 @@ var _default = {
                   duration: 1500
                 });
               }
-              _context.next = 21;
+              _context.next = 18;
               break;
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](9);
+            case 13:
+              _context.prev = 13;
+              _context.t0 = _context["catch"](6);
               _this3.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
@@ -550,12 +547,12 @@ var _default = {
                 duration: 1500
               });
               console.error("purchasingLotteryApply接口请求失败：", _context.t0);
-            case 21:
+            case 18:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[9, 16]]);
+      }, _callee, null, [[6, 13]]);
     }))();
   }), (0, _defineProperty2.default)(_methods, "invokeWxPayment", function invokeWxPayment(payParams) {
     var _this4 = this;

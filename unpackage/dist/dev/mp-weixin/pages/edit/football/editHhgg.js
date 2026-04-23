@@ -161,12 +161,6 @@ var render = function () {
     _vm.e0 = function ($event) {
       _vm.showNumberKeyboard = true
     }
-    _vm.e1 = function ($event) {
-      _vm.showPhoneModal = false
-    }
-    _vm.e2 = function ($event) {
-      _vm.showPhoneModal = false
-    }
   }
   _vm.$mp.data = Object.assign(
     {},
@@ -220,8 +214,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 30));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
@@ -401,7 +393,7 @@ var _default = {
           _this3.selectedMatchList = [];
         }
         _this3.betCount = Math.max(1, parseInt(data.betCount || 1));
-        _this3.isNeedUserPhone = data.isNeedUserPhone || 1;
+        // this.isNeedUserPhone = data.isNeedUserPhone || 1;
         _this3.selectedCombo = data.combo || "";
       });
     }
@@ -486,7 +478,6 @@ var _default = {
     calculateHalfFullBonus: function calculateHalfFullBonus() {
       if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
       var matchOddsList = [];
-      console.log(this.selectedMatchList, 'list---------------------');
       this.selectedMatchList.forEach(function (item) {
         var allOdds = [];
 
@@ -514,27 +505,56 @@ var _default = {
           });
         }
 
-        // 3. 总进球
+        // 3. 总进球 ✅ 修复正确
         if (item.zjqList && item.zjqList.length) {
           item.zjqList.forEach(function (key) {
-            var num = Number(item[key] || 0);
+            var val = 0;
+            if (key === '总进球_0') val = item.zjq_ling;
+            if (key === '总进球_1') val = item.zjq_yi;
+            if (key === '总进球_2') val = item.zjq_er;
+            if (key === '总进球_3') val = item.zjq_san;
+            if (key === '总进球_4') val = item.zjq_si;
+            if (key === '总进球_5') val = item.zjq_wu;
+            if (key === '总进球_6') val = item.zjq_liu;
+            if (key === '总进球_7+') val = item.zjq_qi_jia;
+            var num = Number(val);
             if (!isNaN(num) && num > 0) allOdds.push(num);
           });
         }
 
-        // 4. 半全场
+        // 4. 半全场 ✅ 修复正确
         if (item.bqcList && item.bqcList.length) {
           item.bqcList.forEach(function (key) {
-            var num = Number(item[key] || 0);
+            var val = 0;
+            if (key === '半全场_胜胜') val = item.ss;
+            if (key === '半全场_胜平') val = item.sp;
+            if (key === '半全场_胜负') val = item.sf;
+            if (key === '半全场_平胜') val = item.ps;
+            if (key === '半全场_平平') val = item.pp;
+            if (key === '半全场_平负') val = item.pf;
+            if (key === '半全场_负胜') val = item.fs;
+            if (key === '半全场_负平') val = item.fp;
+            if (key === '半全场_负负') val = item.ff;
+            var num = Number(val);
             if (!isNaN(num) && num > 0) allOdds.push(num);
           });
         }
 
-        // 5. 比分
+        // 5. 比分 ✅ 修复读取（为空也不影响）
         if (item.bfList && item.bfList.length) {
           item.bfList.forEach(function (key) {
-            var _item$bfOdds;
-            var num = Number(((_item$bfOdds = item.bfOdds) === null || _item$bfOdds === void 0 ? void 0 : _item$bfOdds[key]) || 0);
+            var val = 0;
+            if (key === '1:0') val = item.sbe;
+            if (key === '2:0') val = item.sbe;
+            if (key === '2:1') val = item.sbe;
+            if (key === '0:0') val = item.sbs;
+            if (key === '1:1') val = item.sbs;
+            if (key === '2:2') val = item.sbs;
+            if (key === '0:1') val = item.sbl;
+            if (key === '0:2') val = item.sbl;
+            if (key === '1:2') val = item.sbl;
+            if (key === '胜其它') val = item.sibe;
+            var num = Number(val);
             if (!isNaN(num) && num > 0) allOdds.push(num);
           });
         }
@@ -555,31 +575,25 @@ var _default = {
         totalMax *= max;
       });
 
-      // 核心修正：base = 2元 × 倍数，注数不参与赔率计算，只影响投注金额
+      // 计算公式 100% 保持你原来的！
       var base = 2 * this.betCount;
       var minBonus = (totalMin * base).toFixed(2);
       var maxBonus = (totalMax * base).toFixed(2);
       return "\u9884\u8BA1\u5956\u91D1\uFF1A".concat(minBonus, " ~ ").concat(maxBonus, " \u5143");
     },
-    confirmPhone: function confirmPhone() {
-      var reg = /^1[3-9]\d{9}$/;
-      if (!this.userPhone) {
-        uni.showToast({
-          title: "手机号不能为空！",
-          icon: "none"
-        });
-        return;
-      }
-      if (!reg.test(this.userPhone)) {
-        uni.showToast({
-          title: "请输入正确的手机号",
-          icon: "none"
-        });
-        return;
-      }
-      this.showPhoneModal = false;
-      this.handleConfirmBet(true);
-    },
+    // confirmPhone() {
+    //   const reg = /^1[3-9]\d{9}$/;
+    //   if (!this.userPhone) {
+    //     uni.showToast({ title: "手机号不能为空！", icon: "none" });
+    //     return;
+    //   }
+    //   if (!reg.test(this.userPhone)) {
+    //     uni.showToast({ title: "请输入正确的手机号", icon: "none" });
+    //     return;
+    //   }
+    //   this.showPhoneModal = false;
+    //   this.handleConfirmBet(true);
+    // },
     handleBack: function handleBack() {
       this.saveEditedData();
       uni.navigateBack({
@@ -600,105 +614,59 @@ var _default = {
         });
       }
     },
-    handleConfirmBet: function handleConfirmBet(fromPhoneModal) {
-      var _this5 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var list, payRequestData, res;
-        return _regenerator.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!(_this5.selectedMatchCount === 0)) {
-                  _context.next = 3;
-                  break;
-                }
-                uni.showToast({
-                  title: "请先选择至少一场赛事的投注内容",
-                  icon: "none"
-                });
-                return _context.abrupt("return");
-              case 3:
-                if (!(_this5.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                  _context.next = 6;
-                  break;
-                }
-                _this5.showPhoneModal = true;
-                return _context.abrupt("return");
-              case 6:
-                _this5.isPayLoading = true;
-                list = _this5.selectedMatchList.map(function (item) {
-                  return {
-                    courseId: item.id,
-                    serialNumber: item.serial_number,
-                    leagueName: item.league_name || '',
-                    homeName: item.home_name || '',
-                    visitingName: item.visiting_name || '',
-                    raceDate: item.race_date || '',
-                    selectedSpf: item.spfList || [],
-                    selectedRspf: item.rspfList || [],
-                    selectedZjq: item.zjqList || [],
-                    selectedBqc: item.bqcList || [],
-                    selectedBf: item.bfList || [],
-                    playType: "足球混合过关",
-                    entityType: "足球混合过关"
-                  };
-                });
-                payRequestData = {
-                  contentJson: JSON.stringify(list),
-                  entityType: "足球混合过关",
-                  multiple: _this5.betNotes,
-                  bet: _this5.betCount,
-                  payment: _this5.totalBetAmount,
-                  payType: "wechat",
-                  userPhone: _this5.userPhone
-                };
-                _context.prev = 9;
-                _context.next = 12;
-                return (0, _demo.purchasingLotteryApply)(payRequestData);
-              case 12:
-                res = _context.sent;
-                if (res.code == 200) {
-                  _this5.isPayLoading = false;
-                  _this5.isSubmitSuccess = true;
-                  uni.showToast({
-                    title: "投注成功！",
-                    icon: "success",
-                    duration: 2000,
-                    mask: true
-                  });
-                  uni.removeStorageSync("editedMatchData");
-                  _this5.selectedMatchList = [];
-                  setTimeout(function () {
-                    return uni.navigateBack({
-                      delta: 1
-                    });
-                  }, 2000);
-                } else {
-                  _this5.isPayLoading = false;
-                  uni.showToast({
-                    title: res.message || "获取支付信息失败",
-                    icon: "none"
-                  });
-                }
-                _context.next = 21;
-                break;
-              case 16:
-                _context.prev = 16;
-                _context.t0 = _context["catch"](9);
-                _this5.isPayLoading = false;
-                uni.showToast({
-                  title: "网络异常，请稍后重试",
-                  icon: "none"
-                });
-                console.error("足球混合过关投注报错：", _context.t0);
-              case 21:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[9, 16]]);
-      }))();
-    },
+    // async handleConfirmBet(fromPhoneModal) {
+    //   if (this.selectedMatchCount === 0) {
+    //     uni.showToast({ title: "请先选择至少一场赛事的投注内容", icon: "none" });
+    //     return;
+    //   }
+    //   if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+    //     this.showPhoneModal = true;
+    //     return;
+    //   }
+    //   this.isPayLoading = true;
+    //   const list = this.selectedMatchList.map(item => ({
+    //     courseId: item.id,
+    //     serialNumber: item.serial_number,
+    //     leagueName: item.league_name || '',
+    //     homeName: item.home_name || '',
+    //     visitingName: item.visiting_name || '',
+    //     raceDate: item.race_date || '',
+    //     selectedSpf: item.spfList || [],
+    //     selectedRspf: item.rspfList || [],
+    //     selectedZjq: item.zjqList || [],
+    //     selectedBqc: item.bqcList || [],
+    //     selectedBf: item.bfList || [],
+    //     playType: "足球混合过关",
+    //     entityType: "足球混合过关"
+    //   }));
+    //   const payRequestData = {
+    //     contentJson: JSON.stringify(list),
+    //     entityType: "足球混合过关",
+    //     multiple: this.betNotes,
+    //     bet: this.betCount,
+    //     payment: this.totalBetAmount,
+    //     payType: "wechat",
+    //     userPhone: this.userPhone
+    //   };
+    //   try {
+    //     const res = await purchasingLotteryApply(payRequestData);
+    //     if (res.code == 200) {
+    //       this.isPayLoading = false;
+    //       this.isSubmitSuccess = true;
+    //       uni.showToast({ title: "投注成功！", icon: "success", duration: 2000, mask: true });
+    //       uni.removeStorageSync("editedMatchData");
+    //       this.selectedMatchList = [];
+    //       setTimeout(() => uni.navigateBack({ delta: 1 }), 2000);
+    //     } else {
+    //       this.isPayLoading = false;
+    //       uni.showToast({ title: res.message || "获取支付信息失败", icon: "none" });
+    //     }
+    //   } catch (error) {
+    //     this.isPayLoading = false;
+    //     uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
+    //     console.error("足球混合过关投注报错：", error);
+    //   }
+    // },
     saveEditedData: function saveEditedData() {
       var editedData = JSON.parse(JSON.stringify({
         matches: this.selectedMatchList,

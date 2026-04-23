@@ -134,7 +134,9 @@ page.data-v-df9e872e {
   color: #999;
 }
 /* 彻底删除原有串关和倍数相关样式 */
-.bet-bar-top.data-v-df9e872e, .bet-bar-bottom.data-v-df9e872e, .top-middle.data-v-df9e872e {
+.bet-bar-top.data-v-df9e872e,
+.bet-bar-bottom.data-v-df9e872e,
+.top-middle.data-v-df9e872e {
   display: none !important;
 }
 .type-popup.data-v-df9e872e {

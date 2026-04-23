@@ -280,6 +280,23 @@ var _default = {
 
     // 🌟 计算导航栏总高度（适配所有机型）
     this.calcNavBarTotalHeight();
+    wx.showShareMenu({
+      menus: ['shareAppMessage', 'shareTimeline']
+    });
+    var editedData = uni.getStorageSync("editedMatchData");
+    if (editedData) {
+      var parsedData = editedData;
+      if (typeof editedData === "string") {
+        parsedData = JSON.parse(editedData);
+      }
+      this.syncUpdatedMatches(parsedData);
+      uni.removeStorageSync("editedMatchData");
+    } else {
+      // 初始化清空期数，重新请求最新数据
+      this.drawNumList = [];
+      this.currentDrawNum = '';
+      this.loadMatchData();
+    }
   },
   mounted: function mounted() {
     this.calcHeaderHeight();
@@ -428,7 +445,6 @@ var _default = {
                   success: function (res) {
                     res.eventChannel.emit("selectedData", {
                       matches: selectedMatches,
-                      
                       comboText: totalSelectedCount + "串1"
                     });
                   }.bind(_this2)

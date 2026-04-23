@@ -284,10 +284,11 @@ var _default = {
       eventChannel.on("selectedData", function (data) {
         _this.selectedMatchList = data.matches || [];
         _this.betCount = data.betCount || 1;
-        _this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        // this.isNeedUserPhone = data.isNeedUserPhone || 1;
       });
     }
   },
+
   methods: {
     // 适配模板的高度计算逻辑（兼容全端）
     calcAllHeights: function calcAllHeights() {

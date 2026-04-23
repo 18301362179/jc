@@ -209,6 +209,9 @@ var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var _validate = __webpack_require__(/*! @/utils/validate */ 80);
 var _methods;
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
     return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
@@ -421,7 +424,7 @@ var _default = {
         // 深拷贝，避免修改影响原列表
         _this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         _this.betCount = data.betCount || 1;
-        _// this.isNeedUserPhone = data.isNeedUserPhone;
+        // this.isNeedUserPhone = data.isNeedUserPhone;
         _this.selectedCombo = data.combo || "";
       });
     }
@@ -485,180 +488,118 @@ var _default = {
       this.betBarTotalHeight = this.betBarFixedPx;
     },
     calculateScoreBonus: function calculateScoreBonus() {
-      // 1. 边界判断：无有效赛事/注数，返回默认提示（修正变量笔误：betCount → betNotes，保持与组件状态一致）
+      // 1. 基础判断
       if (this.selectedMatchCount === 0 || this.betNotes === 0) {
         return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
       }
 
-      // 2. 核心：【比分 - 纯赔率字段】精准映射规则（完全基于持久化的赔率数据）
-      // 编码规则：y=1、e=2、s=3、si=4、w=5、l=0，字段与接口返回完全一致
+      // 2. 比分 → 赔率字段 映射（你原来的正确，我保留）
       var scoreToOddsFieldMap = {
-        // 主胜比分
+        // 主胜
         "1:0": "ybl",
-        // 1:0 → y=1、l=0 → ybl: "7.00"
         "2:0": "ebl",
-        // 2:0 → e=2、l=0 → ebl: "7.55"
         "2:1": "eby",
-        // 2:1 → e=2、y=1 → eby: "6.90"
         "3:0": "sbl",
-        // 3:0 → s=3、l=0 → sbl: "11.00"
         "3:1": "sby",
-        // 3:1 → s=3、y=1 → sby: "10.50"
         "3:2": "sbe",
-        // 3:2 → s=3、e=2 → sbe: "19.00"
         "4:0": "sibl",
-        // 4:0 → si=4、l=0 → sibl: "22.00"
         "4:1": "siby",
-        // 4:1 → si=4、y=1 → siby: "22.00"
         "4:2": "sibe",
-        // 4:2 → si=4、e=2 → sibe: "45.00"
         "5:0": "wbl",
-        // 5:0 → w=5、l=0 → wbl: "60.00"
         "5:1": "wby",
-        // 5:1 → w=5、y=1 → wby: "55.00"
         "5:2": "wbe",
-        // 5:2 → w=5、e=2 → wbe: "90.00"
-        // 平局比分
+        // 平局
         "0:0": "lbl",
-        // 0:0 → l=0、l=0 → lbl: "14.00"
         "1:1": "yby",
-        // 1:1 → y=1、y=1 → yby: "8.00"
         "2:2": "ebe",
-        // 2:2 → e=2、e=2 → ebe: "13.50"
         "3:3": "sbs",
-        // 3:3 → s=3、s=3 → sbs: "60.00"
-        // 客胜比分
+        // 客胜
         "0:1": "lby",
-        // 0:1 → l=0、y=1 → lby: "14.50"
         "0:2": "lbe",
-        // 0:2 → l=0、e=2 → lbe: "29.00"
         "1:2": "ybe",
-        // 1:2 → y=1、e=2 → ybe: "14.00"
         "0:3": "lbs",
-        // 0:3 → l=0、s=3 → lbs: "85.00"
         "1:3": "ybs",
-        // 1:3 → y=1、s=3 → ybs: "40.00"
         "2:3": "ebs",
-        // 2:3 → e=2、s=3 → ebs: "40.00"
         "0:4": "lbsi",
-        // 0:4 → l=0、si=4 → lbsi: "300.00"
         "1:4": "ybsi",
-        // 1:4 → y=1、si=4 → ybsi: "150.00"
         "2:4": "ebsi",
-        // 2:4 → e=2、si=4 → ebsi: "150.00"
         "0:5": "lbw",
-        // 0:5 → l=0、w=5 → lbw: "600.00"
         "1:5": "ybw",
-        // 1:5 → y=1、w=5 → ybw: "400.00"
-        "2:5": "ebw" // 2:5 → e=2、w=5 → ebw: "500.00"
+        "2:5": "ebw"
       };
 
-      // 3. 收集每场赛事选中比分的有效赔率
-      var matchValidOddsList = [];
+      // 3. 收集每场选中的赔率
+      var allOdds = [];
+      var _iterator = _createForOfIteratorHelper(this.selectedMatchList),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var match = _step.value;
+          var scores = match.selectedScores || [];
+          var oddsData = match.oddsData || {};
+          var scoreOdds = match.score_odds || {};
+          var currentOdds = [];
+          var _iterator2 = _createForOfIteratorHelper(scores),
+            _step2;
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var sc = _step2.value;
+              var odd = 0;
 
-      // 遍历已选中的比赛列表（确保使用持久化数据的列表：selectedMatchList）
-      this.selectedMatchList.forEach(function (match, matchIndex) {
-        var currentMatchValidOdds = [];
-        // 容错：获取当前比赛的选中比分，避免数组不存在
-        var selectedScores = Array.isArray(match.selectedScores) ? (0, _toConsumableArray2.default)(match.selectedScores) : [];
-        // 容错：获取当前比赛的其它赔率（胜/平/负其它），避免属性不存在
-        var scoreOdds = match.score_odds || {
-          winOther: "",
-          drawOther: "",
-          loseOther: ""
-        };
-        // 核心：获取持久化存储的完整赔率数据（优先从 oddsData 取值，这是之前弹窗确定时保存的）
-        var matchOddsData = match.oddsData || {};
-
-        // 4. 遍历当前场选中的所有比分，提取纯赔率数据
-        selectedScores.forEach(function (scoreValue) {
-          var validOdds = 0;
-
-          // 4.1 优先处理「其它」比分（对应 sqt/pqt/fqt，从 oddsData 取值）
-          if (["胜其它", "平其它", "负其它"].includes(scoreValue)) {
-            switch (scoreValue) {
-              case "胜其它":
-                validOdds = scoreOdds.winOther || matchOddsData.sqt ? isNaN(Number(scoreOdds.winOther || matchOddsData.sqt)) ? 0 : Number(scoreOdds.winOther || matchOddsData.sqt) : 0;
-                break;
-              case "平其它":
-                validOdds = scoreOdds.drawOther || matchOddsData.pqt ? isNaN(Number(scoreOdds.drawOther || matchOddsData.pqt)) ? 0 : Number(scoreOdds.drawOther || matchOddsData.pqt) : 0;
-                break;
-              case "负其它":
-                validOdds = scoreOdds.loseOther || matchOddsData.fqt ? isNaN(Number(scoreOdds.loseOther || matchOddsData.fqt)) ? 0 : Number(scoreOdds.loseOther || matchOddsData.fqt) : 0;
-                break;
+              // 处理「其它」
+              if (sc === "胜其它") {
+                odd = Number(scoreOdds.winOther || 0);
+              } else if (sc === "平其它") {
+                odd = Number(scoreOdds.drawOther || 0);
+              } else if (sc === "负其它") {
+                odd = Number(scoreOdds.loseOther || 0);
+              } else {
+                // 普通比分
+                var field = scoreToOddsFieldMap[sc];
+                if (field) {
+                  odd = Number(oddsData[field] || 0);
+                }
+              }
+              if (!isNaN(odd) && odd > 0) {
+                currentOdds.push(odd);
+              }
             }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
           }
-          // 4.2 处理具体比分：从映射表获取对应赔率字段，从 oddsData 提取有效值（核心修复）
-          else if (scoreToOddsFieldMap[scoreValue]) {
-            var targetOddsField = scoreToOddsFieldMap[scoreValue];
-            // 关键：从持久化的 matchOddsData 中取值，而非 match 根节点
-            var rawOdds = matchOddsData[targetOddsField];
+          if (currentOdds.length === 0) return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+          allOdds.push(currentOdds);
+        }
 
-            // 严格容错：非空、非空字符串、可转数字才提取有效赔率
-            if (rawOdds !== undefined && rawOdds !== null && rawOdds !== "" && !isNaN(Number(rawOdds))) {
-              validOdds = Number(rawOdds);
-            }
-          }
-          // 4.3 未知比分容错
-          else {
-            return;
-          }
-
-          // 4.4 筛选有效赔率：仅保留大于0的合法数字，存入当前场次赔率集合
-          if (!isNaN(validOdds) && validOdds > 0) {
-            currentMatchValidOdds.push(validOdds);
-          } else {}
-        });
-
-        // 4.5 存入有效赔率集合（仅保留有数据的场次，避免空数组干扰后续计算）
-        if (currentMatchValidOdds.length > 0) {
-          matchValidOddsList.push(currentMatchValidOdds);
-        } else {}
-      });
-
-      // 5. 边界判断：无任何有效赔率数据，返回默认提示
-      if (matchValidOddsList.length === 0) {
-        return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+        // 4. 计算最小、最大赔率乘积
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      var minP = 1;
+      var maxP = 1;
+      for (var _i = 0, _allOdds = allOdds; _i < _allOdds.length; _i++) {
+        var o = _allOdds[_i];
+        var m = Math.min.apply(Math, (0, _toConsumableArray2.default)(o));
+        var M = Math.max.apply(Math, (0, _toConsumableArray2.default)(o));
+        minP *= m;
+        maxP *= M;
       }
 
-      // 6. 核心逻辑：提取每场最小/最大赔率，计算全局乘积（单场/多场均翻倍）
-      var totalMinOddsProduct = 1;
-      var totalMaxOddsProduct = 1;
-      var coreMultiplier = 2; // 固定乘数：无论单场/多场，最终都翻倍（乘以2）
+      // 5. 奖金公式（2元/注）
+      var notes = this.betNotes;
+      var beishu = this.betCount;
+      var minBonus = 2 * minP * notes * beishu;
+      var maxBonus = 2 * maxP * notes * beishu;
 
-      // 6.1 遍历所有场次，计算纯场次乘积（每场最小/最大赔率分别相乘）
-      matchValidOddsList.forEach(function (oddsArr) {
-        var currentMatchMin = Math.min.apply(Math, (0, _toConsumableArray2.default)(oddsArr)); // 提取当前场最小赔率
-        var currentMatchMax = Math.max.apply(Math, (0, _toConsumableArray2.default)(oddsArr)); // 提取当前场最大赔率
-        totalMinOddsProduct *= currentMatchMin; // 累积：所有场次最小赔率相乘
-        totalMaxOddsProduct *= currentMatchMax; // 累积：所有场次最大赔率相乘
-      });
-
-      // 6.2 应用固定乘数：单场/多场均翻倍（乘以2），实现核心需求
-      totalMinOddsProduct *= coreMultiplier;
-      totalMaxOddsProduct *= coreMultiplier;
-
-      // 7. 计算奖金区间，格式化结果（保证金额精度，符合展示规范）
-      var perNotePrice = 2; // 固定2元/注
-      var validBetCount = Number(this.betNotes) || 1; // 修正变量：betCount → betNotes，保持状态一致
-      var bonusBase = perNotePrice * validBetCount; // 奖金计算基数
-
-      // 格式化奖金工具函数（解决toFixed四舍五入误差，兜底0.00）
-      var formatBonusAmount = function formatBonusAmount(bonus) {
-        var bonusNum = Number(bonus);
-        if (isNaN(bonusNum) || bonusNum <= 0) {
-          return "0.00";
-        }
-        // 先四舍五入到分，再转字符串保留2位小数，避免toFixed的精度问题
-        return (Math.round(bonusNum * 100) / 100).toFixed(2);
+      // 6. 格式化
+      var fmt = function fmt(n) {
+        return n.toFixed(2);
       };
-
-      // 计算并格式化最终奖金
-      var minBonus = formatBonusAmount(totalMinOddsProduct * bonusBase);
-      var maxBonus = formatBonusAmount(totalMaxOddsProduct * bonusBase);
-
-      // 9. 返回最终结果（保留比分玩法专属提示语，便于页面展示）
-      return "".concat(minBonus, " ~ ").concat(maxBonus, "\uFF08\u4EC5\u4F9B\u53C2\u8003\u4EE5\u5F69\u7968\u5956\u91D1\u4E3A\u4E3B\uFF09");
+      return "".concat(fmt(minBonus), " ~ ").concat(fmt(maxBonus), "\uFF08\u4EC5\u4F9B\u53C2\u8003\u4EE5\u5F69\u7968\u5956\u91D1\u4E3A\u4E3B\uFF09");
     },
     // 确认手机号（强化必填验证）
     confirmPhone: function confirmPhone() {
@@ -748,13 +689,12 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this4.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                _context.next = 6;
-                break;
-              }
-              _this4.showPhoneModal = true;
-              return _context.abrupt("return");
-            case 6:
+              // 2. 判断是否需要手机号（未填写则弹出手机号弹窗）
+              // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+              //   this.showPhoneModal = true;
+              //   return;
+              // }
+
               _this4.isPayLoading = true;
               // 3. 构造提交数据：传递选中的比分列表
               list = _this4.selectedMatchList.map(function (item) {
@@ -784,10 +724,10 @@ var _default = {
                 payType: "wechat",
                 userPhone: _this4.userPhone
               };
-              _context.prev = 9;
-              _context.next = 12;
+              _context.prev = 6;
+              _context.next = 9;
               return (0, _demo.purchasingLotteryApply)(payRequestData);
-            case 12:
+            case 9:
               res = _context.sent;
               if (res.code == 200) {
                 _this4.isPayLoading = false;
@@ -820,23 +760,23 @@ var _default = {
                   duration: 1500
                 });
               }
-              _context.next = 20;
+              _context.next = 17;
               break;
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](9);
+            case 13:
+              _context.prev = 13;
+              _context.t0 = _context["catch"](6);
               _this4.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
                 icon: "none",
                 duration: 1500
               });
-            case 20:
+            case 17:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[9, 16]]);
+      }, _callee, null, [[6, 13]]);
     }))();
   }), (0, _defineProperty2.default)(_methods, "invokeWxPayment", function invokeWxPayment(payParams) {
     var _this5 = this;

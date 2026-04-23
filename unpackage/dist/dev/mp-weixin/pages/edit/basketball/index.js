@@ -273,7 +273,7 @@ var _default = {
         // 恢复深拷贝，保证数据独立性
         _this.selectedMatchList = JSON.parse(JSON.stringify(data.matches || []));
         _this.betCount = data.betCount || 1;
-        _this.isNeedUserPhone = data.isNeedUserPhone || 1;
+        // this.isNeedUserPhone = data.isNeedUserPhone || 1;
         _this.selectedCombo = data.combo || "";
       });
     }
@@ -470,13 +470,10 @@ var _default = {
               });
               return _context.abrupt("return");
             case 3:
-              if (!(_this4.isNeedUserPhone == 1 && !fromPhoneModal)) {
-                _context.next = 6;
-                break;
-              }
-              _this4.showPhoneModal = true;
-              return _context.abrupt("return");
-            case 6:
+              // if (this.isNeedUserPhone == 1 && !fromPhoneModal) {
+              //   this.showPhoneModal = true;
+              //   return;
+              // }
               _this4.isPayLoading = true;
               submitData = {
                 contentJson: JSON.stringify(_this4.selectedMatchList.map(function (item) {
@@ -506,10 +503,10 @@ var _default = {
                 payType: "wechat",
                 userPhone: _this4.userPhone
               };
-              _context.prev = 8;
-              _context.next = 11;
+              _context.prev = 5;
+              _context.next = 8;
               return (0, _demo.purchasingLotteryApply)(submitData);
-            case 11:
+            case 8:
               res = _context.sent;
               if (res.code == 200) {
                 _this4.isPayLoading = false;
@@ -536,23 +533,23 @@ var _default = {
                   icon: "none"
                 });
               }
-              _context.next = 20;
+              _context.next = 17;
               break;
-            case 15:
-              _context.prev = 15;
-              _context.t0 = _context["catch"](8);
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](5);
               _this4.isPayLoading = false;
               uni.showToast({
                 title: "网络异常，请稍后重试",
                 icon: "none"
               });
               console.error("篮球胜负投注报错：", _context.t0);
-            case 20:
+            case 17:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[8, 15]]);
+      }, _callee, null, [[5, 12]]);
     }))();
   }), _methods)
 };
