@@ -1588,6 +1588,7 @@ var _default2 = {
       for (var i = 0; i < newVal.length; i++) {
         this.expandedDrawers.push(true);
       }
+      // 核心：强制初始化足球玩法的选中数组
       newVal.forEach(function (drawer) {
         drawer.lotteryList.forEach(function (item) {
           // 胜平负
@@ -1599,11 +1600,11 @@ var _default2 = {
             this.$set(item, "selectedBifen", []);
           }
           // 总进球
-          if (!item.selectedZongjinqiu) {
-            this.$set(item, "selectedZongjinqiu", []);
+          if (!item.selectedZjq) {
+            this.$set(item, "selectedZjq", []);
           }
           // 半全场
-          if (!item.selectedBanquan) {
+          if (!item.selectedBqc) {
             this.$set(item, "selectedBanquan", []);
           }
         }.bind(this));
@@ -1828,89 +1829,88 @@ var _default2 = {
     confirmSelection: function confirmSelection() {
       var _this5 = this;
       try {
-        // 增强：停售状态下禁止确认
         if (!this.currentMatch || this.isLoading || this.currentMatch.is_stop == 1) {
           uni.showToast({
-            title: "该场次已停售，操作不可用",
+            title: "该场次已停售",
             icon: "none"
           });
           return;
         }
 
-        // 1. 精准匹配原数组中的目标场次（保留原有逻辑）
-        var targetDrawerIdx = -1;
-        var targetItemIdx = -1;
+        // 1. 找到原赛事
         var targetItem = null;
-        this.finalDrawerList.some(function (drawer, drawerIdx) {
-          return drawer.lotteryList.some(function (item, itemIdx) {
+        this.finalDrawerList.some(function (drawer) {
+          return drawer.lotteryList.some(function (item) {
             if (item.id === _this5.currentMatch.id) {
-              targetDrawerIdx = drawerIdx;
-              targetItemIdx = itemIdx;
               targetItem = item;
               return true;
             }
             return false;
           });
         });
-        if (!targetItem || targetDrawerIdx === -1 || targetItemIdx === -1) {
-          uni.showToast({
-            title: "未找到对应场次",
-            icon: "none"
-          });
-          return;
-        }
-        // 2. 处理所有类型的选中数据（核心：修复spf/rspf的反向映射）
-        var selectedList = [];
-        // 处理胜平负/让球胜平负（关键：映射成列表需要的home_0/draw_0等值）
-        var mappedSpf = (this.selectedScores.spf || []).map(function (val) {
-          return _this5.spfMapping[val];
-        }).filter(Boolean);
-        var mappedRspf = (this.selectedScores.rspf || []).map(function (val) {
-          return _this5.spfMapping[val];
-        }).filter(Boolean);
-        mappedSpf.forEach(function (val) {
-          return selectedList.push(val);
-        });
-        mappedRspf.forEach(function (val) {
-          return selectedList.push(val);
-        });
+        if (!targetItem) return;
 
-        // 处理比分/总进球/半全场（保留原有逻辑）
-        (this.selectedScores.bifen || []).forEach(function (val) {
-          return val && selectedList.push(val);
-        });
-        (this.selectedScores.zjq || []).forEach(function (val) {
-          return val && selectedList.push(val);
-        });
-        (this.selectedScores.bqc || []).forEach(function (val) {
-          return val && selectedList.push(val);
-        });
-        // 3. 深克隆目标场次+赋值正确的选中值（核心修复）
+        // 2. 处理选中映射
+        var mappedSpf = (this.selectedScores.spf || []).map(function (v) {
+          return _this5.spfMapping[v];
+        }).filter(Boolean);
+        var mappedRspf = (this.selectedScores.rspf || []).map(function (v) {
+          return _this5.spfMapping[v];
+        }).filter(Boolean);
+        var selectedAll = [].concat((0, _toConsumableArray2.default)(mappedSpf), (0, _toConsumableArray2.default)(mappedRspf), (0, _toConsumableArray2.default)(this.selectedScores.bifen || []), (0, _toConsumableArray2.default)(this.selectedScores.zjq || []), (0, _toConsumableArray2.default)(this.selectedScores.bqc || []));
+
+        // ====================== ✅ 核心修复：把赔率一起存进去 ======================
         var updatedItem = this.deepClone(targetItem);
-
-        // 给selectedSpf赋映射后的值（列表能识别的格式）
-        updatedItem.selectedSpf = this.deepClone([].concat((0, _toConsumableArray2.default)(mappedSpf), (0, _toConsumableArray2.default)(mappedRspf))); // 合并胜平负+让球胜平负
+        updatedItem.selectedSpf = [].concat((0, _toConsumableArray2.default)(mappedSpf), (0, _toConsumableArray2.default)(mappedRspf));
         updatedItem.selectedBifen = this.deepClone(this.selectedScores.bifen);
         updatedItem.selectedZjq = this.deepClone(this.selectedScores.zjq);
         updatedItem.selectedBqc = this.deepClone(this.selectedScores.bqc);
-        updatedItem.selectedAll = this.deepClone(selectedList);
-        // 4. 强制更新数组+触发视图刷新（保留原有逻辑）
-        this.$set(this.finalDrawerList[targetDrawerIdx].lotteryList, targetItemIdx, updatedItem);
+        updatedItem.selectedAll = selectedAll;
 
-        // 5. 派发事件通知父组件（保留原有逻辑）
-        this.$emit("confirm-mixed-select", {
-          serialNumber: this.currentMatch.serial_number,
-          id: this.currentMatch.id,
-          selectedData: this.deepClone(this.selectedScores),
-          finalDrawerList: this.deepClone(this.finalDrawerList),
-          updatedItem: updatedItem
+        // ✅ 把弹窗里最新的赔率全部同步回去
+        updatedItem.win_multiplier = this.currentMatch.win_multiplier;
+        updatedItem.draw_multiplier = this.currentMatch.draw_multiplier;
+        updatedItem.loss_multiplier = this.currentMatch.loss_multiplier;
+        updatedItem.r_win_multiplier = this.currentMatch.r_win_multiplier;
+        updatedItem.r_draw_multiplier = this.currentMatch.r_draw_multiplier;
+        updatedItem.r_loss_multiplier = this.currentMatch.r_loss_multiplier;
+        updatedItem.zjq_ling = this.currentMatch.zjq_ling;
+        updatedItem.zjq_yi = this.currentMatch.zjq_yi;
+        updatedItem.zjq_er = this.currentMatch.zjq_er;
+        updatedItem.zjq_san = this.currentMatch.zjq_san;
+        updatedItem.zjq_si = this.currentMatch.zjq_si;
+        updatedItem.zjq_wu = this.currentMatch.zjq_wu;
+        updatedItem.zjq_liu = this.currentMatch.zjq_liu;
+        updatedItem.zjq_qi_jia = this.currentMatch.zjq_qi_jia;
+        updatedItem.ss = this.currentMatch.ss;
+        updatedItem.sp = this.currentMatch.sp;
+        updatedItem.sf = this.currentMatch.sf;
+        updatedItem.ps = this.currentMatch.ps;
+        updatedItem.pp = this.currentMatch.pp;
+        updatedItem.pf = this.currentMatch.pf;
+        updatedItem.fs = this.currentMatch.fs;
+        updatedItem.fp = this.currentMatch.fp;
+        updatedItem.ff = this.currentMatch.ff;
+
+        // 3. 更新列表
+        this.finalDrawerList.forEach(function (drawer, di) {
+          drawer.lotteryList.forEach(function (item, ii) {
+            if (item.id === _this5.currentMatch.id) {
+              _this5.$set(drawer.lotteryList, ii, updatedItem);
+            }
+          });
         });
 
-        // 6. 关闭弹窗
+        // 4. 抛给父组件
+        this.$emit("confirm-mixed-select", {
+          id: this.currentMatch.id,
+          updatedItem: updatedItem,
+          selectedData: this.deepClone(this.selectedScores)
+        });
         this.closePopup();
-      } catch (error) {
+      } catch (e) {
         uni.showToast({
-          title: "确认选中失败，请重试",
+          title: "操作失败",
           icon: "none"
         });
       }

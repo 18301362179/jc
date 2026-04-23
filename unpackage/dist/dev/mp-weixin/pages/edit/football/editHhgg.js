@@ -479,7 +479,6 @@ var _default = {
     calculateHalfFullBonus: function calculateHalfFullBonus() {
       if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
       var matchOddsList = [];
-      console.log(this.selectedMatchList, 'list---------------------');
       this.selectedMatchList.forEach(function (item) {
         var allOdds = [];
 
@@ -507,27 +506,56 @@ var _default = {
           });
         }
 
-        // 3. 总进球
+        // 3. 总进球 ✅ 修复正确
         if (item.zjqList && item.zjqList.length) {
           item.zjqList.forEach(function (key) {
-            var num = Number(item[key] || 0);
+            var val = 0;
+            if (key === '总进球_0') val = item.zjq_ling;
+            if (key === '总进球_1') val = item.zjq_yi;
+            if (key === '总进球_2') val = item.zjq_er;
+            if (key === '总进球_3') val = item.zjq_san;
+            if (key === '总进球_4') val = item.zjq_si;
+            if (key === '总进球_5') val = item.zjq_wu;
+            if (key === '总进球_6') val = item.zjq_liu;
+            if (key === '总进球_7+') val = item.zjq_qi_jia;
+            var num = Number(val);
             if (!isNaN(num) && num > 0) allOdds.push(num);
           });
         }
 
-        // 4. 半全场
+        // 4. 半全场 ✅ 修复正确
         if (item.bqcList && item.bqcList.length) {
           item.bqcList.forEach(function (key) {
-            var num = Number(item[key] || 0);
+            var val = 0;
+            if (key === '半全场_胜胜') val = item.ss;
+            if (key === '半全场_胜平') val = item.sp;
+            if (key === '半全场_胜负') val = item.sf;
+            if (key === '半全场_平胜') val = item.ps;
+            if (key === '半全场_平平') val = item.pp;
+            if (key === '半全场_平负') val = item.pf;
+            if (key === '半全场_负胜') val = item.fs;
+            if (key === '半全场_负平') val = item.fp;
+            if (key === '半全场_负负') val = item.ff;
+            var num = Number(val);
             if (!isNaN(num) && num > 0) allOdds.push(num);
           });
         }
 
-        // 5. 比分
+        // 5. 比分 ✅ 修复读取（为空也不影响）
         if (item.bfList && item.bfList.length) {
           item.bfList.forEach(function (key) {
-            var _item$bfOdds;
-            var num = Number(((_item$bfOdds = item.bfOdds) === null || _item$bfOdds === void 0 ? void 0 : _item$bfOdds[key]) || 0);
+            var val = 0;
+            if (key === '1:0') val = item.sbe;
+            if (key === '2:0') val = item.sbe;
+            if (key === '2:1') val = item.sbe;
+            if (key === '0:0') val = item.sbs;
+            if (key === '1:1') val = item.sbs;
+            if (key === '2:2') val = item.sbs;
+            if (key === '0:1') val = item.sbl;
+            if (key === '0:2') val = item.sbl;
+            if (key === '1:2') val = item.sbl;
+            if (key === '胜其它') val = item.sibe;
+            var num = Number(val);
             if (!isNaN(num) && num > 0) allOdds.push(num);
           });
         }
@@ -548,7 +576,7 @@ var _default = {
         totalMax *= max;
       });
 
-      // 核心修正：base = 2元 × 倍数，注数不参与赔率计算，只影响投注金额
+      // 计算公式 100% 保持你原来的！
       var base = 2 * this.betCount;
       var minBonus = (totalMin * base).toFixed(2);
       var maxBonus = (totalMax * base).toFixed(2);

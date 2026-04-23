@@ -792,55 +792,88 @@ var _default = {
                     return;
                   }
                   drawer.lotteryList.forEach(function (match) {
+                    // 关键修复2：解析逻辑和计数逻辑完全一致（避免计数显示2场，跳转只传1场）
                     var hasSelected = Array.isArray(match.selectedSpf) && match.selectedSpf.length > 0 || Array.isArray(match.selectedRspf) && match.selectedRspf.length > 0 || Array.isArray(match.selectedZjq) && match.selectedZjq.length > 0 || Array.isArray(match.selectedBqc) && match.selectedBqc.length > 0 || Array.isArray(match.selectedBf) && match.selectedBf.length > 0 || Array.isArray(match.selectedAll) && match.selectedAll.length > 0;
-
+                    console.log(match, "match--------------");
                     // 只收集有选中项的场次
                     if (hasSelected) {
                       // 整理场次数据（适配编辑页字段，保留所有原始数据）
-                      _selectedMatches.push({
-                        // 兜底ID：避免无ID导致编辑页识别异常
-                        id: match.id || "mix_".concat(Date.now(), "_").concat(Math.random().toString(36).substr(2, 6)),
-                        // 基础信息（兼容不同字段名）
-                        league_name: match.league_name || match.leagueName || "未知联赛",
-                        serial_number: match.serial_number || match.serialNo || "\u573A\u6B21".concat(_selectedMatches.length + 1),
-                        race_date: match.race_date || match.matchTime || "未知时间",
-                        home_name: match.home_name || match.homeTeam || "主队",
-                        visiting_name: match.visiting_name || match.awayTeam || "客队",
-                        is_stop: match.is_stop || false,
+                      _selectedMatches.push(_objectSpread(_objectSpread({}, match), {}, {
+                        id: match.id,
+                        league_name: match.league_name,
+                        serial_number: match.serial_number,
+                        race_date: match.race_date,
+                        home_name: match.home_name,
+                        visiting_name: match.visiting_name,
+                        is_stop: match.is_stop,
                         home_win_rate: match.home_win_rate,
                         draw_rate: match.draw_rate,
                         visiting_win_rate: match.visiting_win_rate,
-                        is_hhgg_single: match.is_hhgg_single || false,
-                        // 保留所有选中数据（不修改格式，原样传递给编辑页）
+                        is_hhgg_single: match.is_hhgg_single,
                         selectedSpf: match.selectedSpf || [],
-                        selectedRspf: match.selectedRspf || [],
+                        selectedBifen: match.selectedBifen || [],
                         selectedZjq: match.selectedZjq || [],
                         selectedBqc: match.selectedBqc || [],
-                        selectedBf: match.selectedBf || [],
-                        selectedAll: match.selectedAll || [],
-                        // 保留赔率字段（编辑页可能需要展示赔率）
-                        win_multiplier: match.win_multiplier || "",
-                        draw_multiplier: match.draw_multiplier || "",
-                        loss_multiplier: match.loss_multiplier || "",
-                        r_win_multiplier: match.r_win_multiplier || "",
-                        r_draw_multiplier: match.r_draw_multiplier || "",
-                        r_loss_multiplier: match.r_loss_multiplier || "",
-                        zjq_0: match.zjq_0 || "",
-                        zjq_1: match.zjq_1 || "",
-                        zjq_2: match.zjq_2 || "",
-                        zjq_3: match.zjq_3 || "",
-                        zjq_4_jia: match.zjq_4_jia || "",
-                        bqc_33: match.bqc_33 || "",
-                        bqc_31: match.bqc_31 || "",
-                        bqc_30: match.bqc_30 || "",
-                        bqc_13: match.bqc_13 || "",
-                        bqc_11: match.bqc_11 || "",
-                        bqc_10: match.bqc_10 || "",
-                        bqc_03: match.bqc_03 || "",
-                        bqc_01: match.bqc_01 || "",
-                        bqc_00: match.bqc_00 || "",
-                        bfOdds: match.bfOdds || {}
-                      });
+                        // 胜平负 / 让球
+                        win_multiplier: match.win_multiplier,
+                        draw_multiplier: match.draw_multiplier,
+                        loss_multiplier: match.loss_multiplier,
+                        r_win_multiplier: match.r_win_multiplier,
+                        r_draw_multiplier: match.r_draw_multiplier,
+                        r_loss_multiplier: match.r_loss_multiplier,
+                        // 总进球
+                        zjq_ling: match.zjq_ling,
+                        zjq_yi: match.zjq_yi,
+                        zjq_er: match.zjq_er,
+                        zjq_san: match.zjq_san,
+                        zjq_si: match.zjq_si,
+                        zjq_wu: match.zjq_wu,
+                        zjq_liu: match.zjq_liu,
+                        zjq_qi_jia: match.zjq_qi_jia,
+                        // 半全场
+                        ss: match.ss,
+                        sp: match.sp,
+                        sf: match.sf,
+                        ps: match.ps,
+                        pp: match.pp,
+                        pf: match.pf,
+                        fs: match.fs,
+                        fp: match.fp,
+                        ff: match.ff,
+                        // ====================
+                        // ✅ 比分赔率（全部补齐）
+                        // ====================
+                        sbe: match.sbe || "",
+                        sbl: match.sbl || "",
+                        sbs: match.sbs || "",
+                        ebe: match.ebe || "",
+                        ebl: match.ebl || "",
+                        ebs: match.ebs || "",
+                        ybe: match.ybe || "",
+                        ybl: match.ybl || "",
+                        ybs: match.ybs || "",
+                        lbl: match.lbl || "",
+                        lbs: match.lbs || "",
+                        lbe: match.lbe || "",
+                        wbe: match.wbe || "",
+                        wbl: match.wbl || "",
+                        wby: match.wby || "",
+                        ybw: match.ybw || "",
+                        yby: match.yby || "",
+                        ebw: match.ebw || "",
+                        eby: match.eby || "",
+                        lbw: match.lbw || "",
+                        lby: match.lby || "",
+                        lbsi: match.lbsi || "",
+                        ybsi: match.ybsi || "",
+                        ebsi: match.ebsi || "",
+                        sibe: match.sibe || "",
+                        sibl: match.sibl || "",
+                        siby: match.siby || "",
+                        sqt: match.sqt || "",
+                        pqt: match.pqt || "",
+                        fqt: match.fqt || ""
+                      }));
                     }
                   });
                 });
@@ -869,6 +902,7 @@ var _default = {
                     res.eventChannel.emit("selectedData", {
                       matches: _selectedMatches,
                       betCount: 50,
+                      // isNeedUserPhone: 1,
                       combo: "".concat(_selectedMatches.length, "\u4E321")
                     });
                   }
@@ -918,17 +952,17 @@ var _default = {
                   });
                 });
                 playToPageMap = {
-                  "胜平负": "index",
+                  胜平负: "index",
                   // 胜平负跳index
-                  "让球胜平负": "editHandicap",
+                  让球胜平负: "editHandicap",
                   // 让球胜平负跳editHandicap
-                  "总进球": "editTotalGoals",
+                  总进球: "editTotalGoals",
                   // 总进球跳editTotalGoals
-                  "半全场": "editHalfFull",
+                  半全场: "editHalfFull",
                   // 半全场跳editHalfFull
-                  "比分": "editScore",
+                  比分: "editScore",
                   // 比分跳editScore
-                  "混合过关": "editHhgg" // 混合过关跳editHhgg
+                  混合过关: "editHhgg" // 混合过关跳editHhgg
                 };
                 _context2.next = 23;
                 return uni.navigateTo({
@@ -942,6 +976,7 @@ var _default = {
                     res.eventChannel.emit("selectedData", {
                       matches: formattedMatches,
                       betCount: 50,
+                      // isNeedUserPhone: 1,
                       combo: "".concat(selectedMatches.length, "\u4E321")
                     });
                   }

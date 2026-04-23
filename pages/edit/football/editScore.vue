@@ -255,153 +255,105 @@ export default {
       // 6. 栏总高度：仅固定高度，不叠加安全区！解决两端空白/溢出问题
       this.betBarTotalHeight = this.betBarFixedPx;
     },
-    calculateScoreBonus() {
-      // 1. 边界判断：无有效赛事/注数，返回默认提示（修正变量笔误：betCount → betNotes，保持与组件状态一致）
-      if (this.selectedMatchCount === 0 || this.betNotes === 0) {
-        return "预计：0.00元 ~ 0.00元";
+calculateScoreBonus() {
+  // 1. 基础判断
+  if (this.selectedMatchCount === 0 || this.betNotes === 0) {
+    return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+  }
+
+  // 2. 比分 → 赔率字段 映射（你原来的正确，我保留）
+  const scoreToOddsFieldMap = {
+    // 主胜
+    "1:0": "ybl",
+    "2:0": "ebl",
+    "2:1": "eby",
+    "3:0": "sbl",
+    "3:1": "sby",
+    "3:2": "sbe",
+    "4:0": "sibl",
+    "4:1": "siby",
+    "4:2": "sibe",
+    "5:0": "wbl",
+    "5:1": "wby",
+    "5:2": "wbe",
+    // 平局
+    "0:0": "lbl",
+    "1:1": "yby",
+    "2:2": "ebe",
+    "3:3": "sbs",
+    // 客胜
+    "0:1": "lby",
+    "0:2": "lbe",
+    "1:2": "ybe",
+    "0:3": "lbs",
+    "1:3": "ybs",
+    "2:3": "ebs",
+    "0:4": "lbsi",
+    "1:4": "ybsi",
+    "2:4": "ebsi",
+    "0:5": "lbw",
+    "1:5": "ybw",
+    "2:5": "ebw",
+  };
+
+  // 3. 收集每场选中的赔率
+  const allOdds = [];
+
+  for (const match of this.selectedMatchList) {
+    const scores = match.selectedScores || [];
+    const oddsData = match.oddsData || {};
+    const scoreOdds = match.score_odds || {};
+
+    const currentOdds = [];
+
+    for (const sc of scores) {
+      let odd = 0;
+
+      // 处理「其它」
+      if (sc === "胜其它") {
+        odd = Number(scoreOdds.winOther || 0);
+      } else if (sc === "平其它") {
+        odd = Number(scoreOdds.drawOther || 0);
+      } else if (sc === "负其它") {
+        odd = Number(scoreOdds.loseOther || 0);
+      } else {
+        // 普通比分
+        const field = scoreToOddsFieldMap[sc];
+        if (field) {
+          odd = Number(oddsData[field] || 0);
+        }
       }
 
-      // 2. 核心：【比分 - 纯赔率字段】精准映射规则（完全基于持久化的赔率数据）
-      // 编码规则：y=1、e=2、s=3、si=4、w=5、l=0，字段与接口返回完全一致
-      const scoreToOddsFieldMap = {
-        // 主胜比分
-        "1:0": "ybl", // 1:0 → y=1、l=0 → ybl: "7.00"
-        "2:0": "ebl", // 2:0 → e=2、l=0 → ebl: "7.55"
-        "2:1": "eby", // 2:1 → e=2、y=1 → eby: "6.90"
-        "3:0": "sbl", // 3:0 → s=3、l=0 → sbl: "11.00"
-        "3:1": "sby", // 3:1 → s=3、y=1 → sby: "10.50"
-        "3:2": "sbe", // 3:2 → s=3、e=2 → sbe: "19.00"
-        "4:0": "sibl", // 4:0 → si=4、l=0 → sibl: "22.00"
-        "4:1": "siby", // 4:1 → si=4、y=1 → siby: "22.00"
-        "4:2": "sibe", // 4:2 → si=4、e=2 → sibe: "45.00"
-        "5:0": "wbl", // 5:0 → w=5、l=0 → wbl: "60.00"
-        "5:1": "wby", // 5:1 → w=5、y=1 → wby: "55.00"
-        "5:2": "wbe", // 5:2 → w=5、e=2 → wbe: "90.00"
-        // 平局比分
-        "0:0": "lbl", // 0:0 → l=0、l=0 → lbl: "14.00"
-        "1:1": "yby", // 1:1 → y=1、y=1 → yby: "8.00"
-        "2:2": "ebe", // 2:2 → e=2、e=2 → ebe: "13.50"
-        "3:3": "sbs", // 3:3 → s=3、s=3 → sbs: "60.00"
-        // 客胜比分
-        "0:1": "lby", // 0:1 → l=0、y=1 → lby: "14.50"
-        "0:2": "lbe", // 0:2 → l=0、e=2 → lbe: "29.00"
-        "1:2": "ybe", // 1:2 → y=1、e=2 → ybe: "14.00"
-        "0:3": "lbs", // 0:3 → l=0、s=3 → lbs: "85.00"
-        "1:3": "ybs", // 1:3 → y=1、s=3 → ybs: "40.00"
-        "2:3": "ebs", // 2:3 → e=2、s=3 → ebs: "40.00"
-        "0:4": "lbsi", // 0:4 → l=0、si=4 → lbsi: "300.00"
-        "1:4": "ybsi", // 1:4 → y=1、si=4 → ybsi: "150.00"
-        "2:4": "ebsi", // 2:4 → e=2、si=4 → ebsi: "150.00"
-        "0:5": "lbw", // 0:5 → l=0、w=5 → lbw: "600.00"
-        "1:5": "ybw", // 1:5 → y=1、w=5 → ybw: "400.00"
-        "2:5": "ebw", // 2:5 → e=2、w=5 → ebw: "500.00"
-      };
-
-      // 3. 收集每场赛事选中比分的有效赔率
-      const matchValidOddsList = [];
-
-      // 遍历已选中的比赛列表（确保使用持久化数据的列表：selectedMatchList）
-      this.selectedMatchList.forEach((match, matchIndex) => {
-        const currentMatchValidOdds = [];
-        // 容错：获取当前比赛的选中比分，避免数组不存在
-        const selectedScores = Array.isArray(match.selectedScores) ? [...match.selectedScores] : [];
-        // 容错：获取当前比赛的其它赔率（胜/平/负其它），避免属性不存在
-        const scoreOdds = match.score_odds || { winOther: "", drawOther: "", loseOther: "" };
-        // 核心：获取持久化存储的完整赔率数据（优先从 oddsData 取值，这是之前弹窗确定时保存的）
-        const matchOddsData = match.oddsData || {};
-
-        // 4. 遍历当前场选中的所有比分，提取纯赔率数据
-        selectedScores.forEach((scoreValue) => {
-          let validOdds = 0;
-
-          // 4.1 优先处理「其它」比分（对应 sqt/pqt/fqt，从 oddsData 取值）
-          if (["胜其它", "平其它", "负其它"].includes(scoreValue)) {
-            switch (scoreValue) {
-              case "胜其它":
-                validOdds = scoreOdds.winOther || matchOddsData.sqt ? (isNaN(Number(scoreOdds.winOther || matchOddsData.sqt)) ? 0 : Number(scoreOdds.winOther || matchOddsData.sqt)) : 0;
-                break;
-              case "平其它":
-                validOdds = scoreOdds.drawOther || matchOddsData.pqt ? (isNaN(Number(scoreOdds.drawOther || matchOddsData.pqt)) ? 0 : Number(scoreOdds.drawOther || matchOddsData.pqt)) : 0;
-                break;
-              case "负其它":
-                validOdds = scoreOdds.loseOther || matchOddsData.fqt ? (isNaN(Number(scoreOdds.loseOther || matchOddsData.fqt)) ? 0 : Number(scoreOdds.loseOther || matchOddsData.fqt)) : 0;
-                break;
-            }
-          }
-          // 4.2 处理具体比分：从映射表获取对应赔率字段，从 oddsData 提取有效值（核心修复）
-          else if (scoreToOddsFieldMap[scoreValue]) {
-            const targetOddsField = scoreToOddsFieldMap[scoreValue];
-            // 关键：从持久化的 matchOddsData 中取值，而非 match 根节点
-            const rawOdds = matchOddsData[targetOddsField];
-
-            // 严格容错：非空、非空字符串、可转数字才提取有效赔率
-            if (rawOdds !== undefined && rawOdds !== null && rawOdds !== "" && !isNaN(Number(rawOdds))) {
-              validOdds = Number(rawOdds);
-            }
-          }
-          // 4.3 未知比分容错
-          else {
-            return;
-          }
-
-          // 4.4 筛选有效赔率：仅保留大于0的合法数字，存入当前场次赔率集合
-          if (!isNaN(validOdds) && validOdds > 0) {
-            currentMatchValidOdds.push(validOdds);
-          } else {
-          }
-        });
-
-        // 4.5 存入有效赔率集合（仅保留有数据的场次，避免空数组干扰后续计算）
-        if (currentMatchValidOdds.length > 0) {
-          matchValidOddsList.push(currentMatchValidOdds);
-        } else {
-        }
-      });
-
-      // 5. 边界判断：无任何有效赔率数据，返回默认提示
-      if (matchValidOddsList.length === 0) {
-        return "预计：0.00元 ~ 0.00元";
+      if (!isNaN(odd) && odd > 0) {
+        currentOdds.push(odd);
       }
+    }
 
-      // 6. 核心逻辑：提取每场最小/最大赔率，计算全局乘积（单场/多场均翻倍）
-      let totalMinOddsProduct = 1;
-      let totalMaxOddsProduct = 1;
-      const coreMultiplier = 2; // 固定乘数：无论单场/多场，最终都翻倍（乘以2）
+    if (currentOdds.length === 0) return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+    allOdds.push(currentOdds);
+  }
 
-      // 6.1 遍历所有场次，计算纯场次乘积（每场最小/最大赔率分别相乘）
-      matchValidOddsList.forEach((oddsArr) => {
-        const currentMatchMin = Math.min(...oddsArr); // 提取当前场最小赔率
-        const currentMatchMax = Math.max(...oddsArr); // 提取当前场最大赔率
-        totalMinOddsProduct *= currentMatchMin; // 累积：所有场次最小赔率相乘
-        totalMaxOddsProduct *= currentMatchMax; // 累积：所有场次最大赔率相乘
-      });
+  // 4. 计算最小、最大赔率乘积
+  let minP = 1;
+  let maxP = 1;
+  for (const o of allOdds) {
+    const m = Math.min(...o);
+    const M = Math.max(...o);
+    minP *= m;
+    maxP *= M;
+  }
 
-      // 6.2 应用固定乘数：单场/多场均翻倍（乘以2），实现核心需求
-      totalMinOddsProduct *= coreMultiplier;
-      totalMaxOddsProduct *= coreMultiplier;
+  // 5. 奖金公式（2元/注）
+  const notes = this.betNotes;
+  const beishu = this.betCount;
+  const minBonus = 2 * minP * notes * beishu;
+  const maxBonus = 2 * maxP * notes * beishu;
 
-      // 7. 计算奖金区间，格式化结果（保证金额精度，符合展示规范）
-      const perNotePrice = 2; // 固定2元/注
-      const validBetCount = Number(this.betNotes) || 1; // 修正变量：betCount → betNotes，保持状态一致
-      const bonusBase = perNotePrice * validBetCount; // 奖金计算基数
+  // 6. 格式化
+  const fmt = (n) => n.toFixed(2);
 
-      // 格式化奖金工具函数（解决toFixed四舍五入误差，兜底0.00）
-      const formatBonusAmount = (bonus) => {
-        const bonusNum = Number(bonus);
-        if (isNaN(bonusNum) || bonusNum <= 0) {
-          return "0.00";
-        }
-        // 先四舍五入到分，再转字符串保留2位小数，避免toFixed的精度问题
-        return (Math.round(bonusNum * 100) / 100).toFixed(2);
-      };
-
-      // 计算并格式化最终奖金
-      const minBonus = formatBonusAmount(totalMinOddsProduct * bonusBase);
-      const maxBonus = formatBonusAmount(totalMaxOddsProduct * bonusBase);
-
-      // 9. 返回最终结果（保留比分玩法专属提示语，便于页面展示）
-      return `预计：${minBonus} ~ ${maxBonus}`;
-    },
+  return `${fmt(minBonus)} ~ ${fmt(maxBonus)}（仅供参考以彩票奖金为主）`;
+},
     // 确认手机号（强化必填验证）
     confirmPhone() {
       // 强化验证：isNeedUserPhone=1时，手机号不能为空且格式正确

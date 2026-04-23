@@ -283,7 +283,7 @@ var _default = {
     },
     // 数字键盘实时输入处理
     handleKeyboardInput: function handleKeyboardInput(val) {
-      // 过滤非数字，限制1-50
+      // 过滤非数字，限制1-50     bbbbbbbbbbbbbbbbbbb
       var pureNum = val.replace(/\D/g, "");
       if (!pureNum) return;
       var num = parseInt(pureNum) || 1;
