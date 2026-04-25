@@ -1,0 +1,1 @@
+<view hidden="{{!(hasData)}}" class="empty-stop-container data-v-a0f7a0ce"><image class="stop-img data-v-a0f7a0ce" src="https://www.tianjifu.com/static/stop.png" mode="aspectFit" lazy-load="true"></image></view>
