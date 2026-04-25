@@ -125,8 +125,8 @@
     </view>
 
     <!-- 混合过关弹框：5大板块 -->
-    <view class="score-popup-mask" v-if="isPopupShow && currentMatch.data2" @click="closePopup" hover-class="none" @touchmove.stop.prevent></view>
-    <view class="score-popup" v-if="isPopupShow && currentMatch.data2" @touchmove.stop.prevent>
+    <view class="score-popup-mask" v-if="isPopupShow && currentMatch.data2" @click="closePopup" hover-class="none"></view>
+    <view class="score-popup" v-if="isPopupShow && currentMatch.data2">
       <view v-if="isLoading" class="popup-loading">
         <text>加载中</text>
       </view>
@@ -652,7 +652,7 @@ finalDrawerList(newVal) {
               }
               // 半全场
               if (!item.selectedBqc) {
-                this.$set(item, "selectedBanquan", []);
+                this.$set(item, "selectedBqc", []);
               }
             }.bind(this)
           );
@@ -892,15 +892,22 @@ confirmSelection() {
       ...(this.selectedScores.bqc || [])
     ];
 
-    // ====================== ✅ 核心修复：把赔率一起存进去 ======================
+    // ====================== ✅ 核心：完整克隆 + 合并所有赔率 ======================
     const updatedItem = this.deepClone(targetItem);
+    
+    // 选中状态
     updatedItem.selectedSpf = [...mappedSpf, ...mappedRspf];
     updatedItem.selectedBifen = this.deepClone(this.selectedScores.bifen);
     updatedItem.selectedZjq = this.deepClone(this.selectedScores.zjq);
     updatedItem.selectedBqc = this.deepClone(this.selectedScores.bqc);
     updatedItem.selectedAll = selectedAll;
 
-    // ✅ 把弹窗里最新的赔率全部同步回去
+    // ====================== ✅ 把 data2 所有比分赔率 全部存进去！！！ ======================
+    if (this.currentMatch.data2) {
+      Object.assign(updatedItem, this.currentMatch.data2);
+    }
+
+    // 胜平负 / 让球 / 总进球 / 半全场 赔率
     updatedItem.win_multiplier = this.currentMatch.win_multiplier;
     updatedItem.draw_multiplier = this.currentMatch.draw_multiplier;
     updatedItem.loss_multiplier = this.currentMatch.loss_multiplier;
@@ -936,6 +943,7 @@ confirmSelection() {
 
     // 4. 抛给父组件
     this.$emit("confirm-mixed-select", {
+      finalDrawerList: this.finalDrawerList,
       id: this.currentMatch.id,
       updatedItem,
       selectedData: this.deepClone(this.selectedScores),
@@ -1363,7 +1371,7 @@ confirmSelection() {
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   z-index: 999999;
-  touch-action: none; // 禁止遮罩滑动穿透
+
 }
 
 .score-popup {
@@ -1476,6 +1484,7 @@ confirmSelection() {
   ::-webkit-scrollbar {
     display: none; // 微信小程序内核
   }
+  height: 0;
 }
 
 // 弹窗内玩法模块样式（补充完整，确保滚动内容有样式）

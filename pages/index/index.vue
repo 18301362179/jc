@@ -6,6 +6,7 @@
       :ballTitle="''"
       :title="'KeepSeek'"
       :isIndex="false"
+      :showName="true"
       :showIcon="true"
       :isSelected="false"
       @funnel-click="handleFunnel"

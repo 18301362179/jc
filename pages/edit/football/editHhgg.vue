@@ -361,7 +361,7 @@ export default {
 calculateHalfFullBonus() {
   if (this.selectedMatchCount === 0) return "预计奖金：0.00 元";
   const matchOddsList = [];
-
+  console.log(this.selectedMatchList, 'list------------')
   this.selectedMatchList.forEach(item => {
     const allOdds = [];
 
@@ -389,7 +389,7 @@ calculateHalfFullBonus() {
       });
     }
 
-    // 3. 总进球 ✅ 修复正确
+    // 3. 总进球
     if (item.zjqList && item.zjqList.length) {
       item.zjqList.forEach(key => {
         let val = 0;
@@ -407,7 +407,7 @@ calculateHalfFullBonus() {
       });
     }
 
-    // 4. 半全场 ✅ 修复正确
+    // 4. 半全场
     if (item.bqcList && item.bqcList.length) {
       item.bqcList.forEach(key => {
         let val = 0;
@@ -426,25 +426,30 @@ calculateHalfFullBonus() {
       });
     }
 
-    // 5. 比分 ✅ 修复读取（为空也不影响）
-    if (item.bfList && item.bfList.length) {
-      item.bfList.forEach(key => {
-        let val = 0;
-        if (key === '1:0') val = item.sbe;
-        if (key === '2:0') val = item.sbe;
-        if (key === '2:1') val = item.sbe;
-        if (key === '0:0') val = item.sbs;
-        if (key === '1:1') val = item.sbs;
-        if (key === '2:2') val = item.sbs;
-        if (key === '0:1') val = item.sbl;
-        if (key === '0:2') val = item.sbl;
-        if (key === '1:2') val = item.sbl;
-        if (key === '胜其它') val = item.sibe;
-        
-        const num = Number(val);
-        if (!isNaN(num) && num > 0) allOdds.push(num);
-      });
-    }
+    // 5. 比分 ✅ 最终正确版（支持 2:1、0:3、胜其它、负其它）
+item.bfList.forEach(key => {
+  let val = '';
+  // 主胜比分
+  if (['1:0','2:0','2:1','3:0','3:1','4:0','4:1','5:0'].includes(key)) {
+    val = item.sbe;
+  }
+  // 客胜比分
+  else if (['0:1','0:2','1:2','0:3','1:3','0:4','1:4'].includes(key)) {
+    val = item.sbl;
+  }
+  // 平
+  else if (['0:0','1:1','2:2','3:3'].includes(key)) {
+    val = item.sbs;
+  }
+  // 其它
+  else if(key === '胜其它') val = item.sibe
+  else if(key === '平其它') val = item.sqt
+  else if(key === '负其它') val = item.sibl
+
+  if(val){
+    allOdds.push(Number(val))
+  }
+})
 
     if (allOdds.length > 0) {
       matchOddsList.push({
@@ -462,7 +467,6 @@ calculateHalfFullBonus() {
     totalMax *= max;
   });
 
-  // 计算公式 100% 保持你原来的！
   const base = 2 * this.betCount;
   const minBonus = (totalMin * base).toFixed(2);
   const maxBonus = (totalMax * base).toFixed(2);

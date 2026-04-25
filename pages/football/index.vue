@@ -6,7 +6,7 @@
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
       <MatchSpf ref="spfRef" v-if="currentPlay === '胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight || statusBarHeight + 88" @toggle-select="toggleSelect" :my-value="myValue" />
-      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让球胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :my-value="myValue" />
+      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :my-value="myValue" />
       <MatchTotalGoals ref="goalsRef" v-else-if="currentPlay === '总进球'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-goal-select="toggleGoalSelect" :my-value="myValue" />
       <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '半全场'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @on-half-full-selected="handleHalfFullSelected" :my-value="myValue" />
       <MatchScore ref="scoreRef" v-else-if="currentPlay === '比分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :toggle-score-select="toggleScoreSelect" @on-score-selected="handleScoreSelected" :my-value="myValue" />
@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       // 新增：玩法列表添加混合过关
-      typesList: ["混合过关", "胜平负", "让球胜平负", "总进球", "半全场", "比分"],
+      typesList: ["混合过关", "胜平负", "让胜平负", "总进球", "半全场", "比分"],
       selectedType: ["胜平负"],
       currentPlay: "胜平负",
       showModal: false,
@@ -106,7 +106,7 @@ export default {
       statusBarHeight: 0,
       playTypeMap: {
         胜平负: "spf",
-        让球胜平负: "rspf",
+        让胜平负: "rspf",
         比分: "bf",
         总进球: "zjq",
         半全场: "bqc",
@@ -163,7 +163,7 @@ selectedMatchCount() {
         case "胜平负":
           if (item.homeSelected || item.vsSelected || item.awaySelected) count++;
           break;
-        case "让球胜平负":
+        case "让胜平负":
           if (item.handicapHomeSelected || item.handicapVsSelected || item.handicapAwaySelected) count++;
           break;
         case "比分":
@@ -198,7 +198,7 @@ selectedMatchCount() {
         switch (this.currentPlay) {
           case "胜平负":
             return item.is_spf_single == 1;
-          case "让球胜平负":
+          case "让胜平负":
             return item.is_rspf_single == 1;
           case "比分":
             return item.is_bf_single == 1;
@@ -282,25 +282,17 @@ selectedMatchCount() {
     this.calcPopupMaxHeight();
   },
   methods: {
-    handleConfirmMixedSelect(confirmData) {
-      try {
-        // 容错：数据为空时提示用户，避免后续逻辑报错
-if (!confirmData || !confirmData.finalDrawerList) {
-  uni.showToast({ title: "数据同步失败，请重试", icon: "none" });
-  return;
-}
-
-        // 核心逻辑：用子组件修改后的列表替换父组件旧列表（保证数据同步）
-        this.drawerList = confirmData.finalDrawerList;
-
-        // DOM更新后重新计数（$nextTick保证DOM同步后计算，避免计数延迟）
-        this.$nextTick(() => {
-          this.updateMixedSelectedCount();
-        });
-      } catch (error) {
-        uni.showToast({ title: "处理选中数据失败，请重试", icon: "none" });
-      }
-    },
+handleConfirmMixedSelect(confirmData) {
+  // 就这么简单！你原来怎么写就怎么用，我只修复报错！
+  if (!confirmData || !confirmData.finalDrawerList) {
+    console.warn("混合过关确认数据为空", confirmData);
+    return;
+  }
+  this.drawerList = confirmData.finalDrawerList;
+  this.$nextTick(() => {
+    this.updateMixedSelectedCount();
+  });
+},
 
 updateMixedSelectedCount() {
   let count = 0;
@@ -506,7 +498,7 @@ handleMixedSelect(item, selectType) {
             case "胜平负":
               isSelected = item.homeSelected || item.vsSelected || item.awaySelected;
               break;
-            case "让球胜平负":
+            case "让胜平负":
               isSelected = item.handicapHomeSelected || item.handicapVsSelected || item.handicapAwaySelected;
               break;
             case "比分":
@@ -558,7 +550,7 @@ async goToSchemeEdit() {
 
             drawer.lotteryList.forEach((match) => {
               // 关键修复2：解析逻辑和计数逻辑完全一致（避免计数显示2场，跳转只传1场）
-              const hasSelected = (Array.isArray(match.selectedSpf) && match.selectedSpf.length > 0) || (Array.isArray(match.selectedRspf) && match.selectedRspf.length > 0) || (Array.isArray(match.selectedZjq) && match.selectedZjq.length > 0) || (Array.isArray(match.selectedBqc) && match.selectedBqc.length > 0) || (Array.isArray(match.selectedBf) && match.selectedBf.length > 0) || (Array.isArray(match.selectedAll) && match.selectedAll.length > 0);
+              const hasSelected = (Array.isArray(match.selectedSpf) && match.selectedSpf.length > 0) || (Array.isArray(match.selectedRspf) && match.selectedRspf.length > 0) || (Array.isArray(match.selectedZjq) && match.selectedZjq.length > 0) || (Array.isArray(match.selectedBqc) && match.selectedBqc.length > 0) || (Array.isArray(match.selectedBifen) && match.selectedBifen.length > 0) || (Array.isArray(match.selectedAll) && match.selectedAll.length > 0);
               console.log(match, "match--------------");
               // 只收集有选中项的场次
               if (hasSelected) {
@@ -717,7 +709,7 @@ async goToSchemeEdit() {
         }));
         const playToPageMap = {
           胜平负: "index", // 胜平负跳index
-          让球胜平负: "editHandicap", // 让球胜平负跳editHandicap
+          让胜平负: "editHandicap", // 让球胜平负跳editHandicap
           总进球: "editTotalGoals", // 总进球跳editTotalGoals
           半全场: "editHalfFull", // 半全场跳editHalfFull
           比分: "editScore", // 比分跳editScore

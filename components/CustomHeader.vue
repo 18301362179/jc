@@ -16,7 +16,7 @@
       <!-- 中间标题区 → 真正居中 -->
       <view class="header-middle">
         <!-- 前缀：居中在返回和标题之间 -->
-        <view class="prefix-text" v-if="isIndex">{{ballTitle}}</view>
+        <view class="prefix-text" v-if="urlValue">云竞慧博体育小程序</view>
         <!-- 标题 -->
         <view class="core-content" @click="triggerSelect">
           <text class="content-text">{{ isSelected ? (selectedPlay || title) : title }}</text>
@@ -37,18 +37,21 @@ export default {
     isSelected: { type: Boolean, default: false },
     selectedPlay: { type: String, default: '' },
     ballTitle:{ type: String, default:''},
-    isIndex: {type: Boolean, default: false,}
+    isIndex: {type: Boolean, default: false,},
+    showName: {type: Boolean, default: false,}
   },
   data() {
-    return { statusBarHeight: 0 };
+    return { statusBarHeight: 0,urlValue: false };
   },
   created() {
     // 兼容获取状态栏高度
     this.statusBarHeight = uni.getWindowInfo 
       ? uni.getWindowInfo().statusBarHeight 
       : wx.getWindowInfo().statusBarHeight;
+      this.urlValue =  uni.getStorageSync("urlValue")
   },
   methods: {
+
     onFunnelClick() { this.$emit('funnel-click'); },
 onBackClick() {
     uni.navigateBack({ delta: 1 });

@@ -258,7 +258,7 @@ export default {
 calculateScoreBonus() {
   // 1. 基础判断
   if (this.selectedMatchCount === 0 || this.betNotes === 0) {
-    return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+    return "预计奖金：0.00元 ~ 0.00元";
   }
 
   // 2. 比分 → 赔率字段 映射（你原来的正确，我保留）
@@ -298,7 +298,7 @@ calculateScoreBonus() {
 
   // 3. 收集每场选中的赔率
   const allOdds = [];
-
+  console.log(this.selectedMatchList, 'list-------------')
   for (const match of this.selectedMatchList) {
     const scores = match.selectedScores || [];
     const oddsData = match.oddsData || {};
@@ -352,7 +352,7 @@ calculateScoreBonus() {
   // 6. 格式化
   const fmt = (n) => n.toFixed(2);
 
-  return `${fmt(minBonus)} ~ ${fmt(maxBonus)}（仅供参考以彩票奖金为主）`;
+  return `预计奖金：${fmt(minBonus)} ~ ${fmt(maxBonus)}`;
 },
     // 确认手机号（强化必填验证）
     confirmPhone() {
