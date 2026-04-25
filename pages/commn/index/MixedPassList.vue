@@ -123,8 +123,8 @@
     </view>
 
     <!-- 混合过关弹框：5大板块 -->
-    <view class="score-popup-mask" v-if="isPopupShow && currentMatch.data2" @click="closePopup" hover-class="none" @touchmove.stop.prevent></view>
-    <view class="score-popup" v-if="isPopupShow && currentMatch.data2" @touchmove.stop.prevent>
+    <view class="score-popup-mask" v-if="isPopupShow && currentMatch.data2" @click="closePopup" hover-class="none"></view>
+    <view class="score-popup" v-if="isPopupShow && currentMatch.data2">
       <view v-if="isLoading" class="popup-loading">
         <text>加载赔率中...</text>
       </view>
@@ -1356,7 +1356,6 @@ confirmSelection() {
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   z-index: 999999;
-  touch-action: none; // 禁止遮罩滑动穿透
 }
 
 .score-popup {
@@ -1469,6 +1468,7 @@ confirmSelection() {
   ::-webkit-scrollbar {
     display: none; // 微信小程序内核
   }
+  height: 0;
 }
 
 // 弹窗内玩法模块样式（补充完整，确保滚动内容有样式）
