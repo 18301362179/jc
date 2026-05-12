@@ -103,12 +103,14 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var m0 = _vm.info ? _vm.formatDateWithWeekday(_vm.courseMap.race_date) : null
-  var m1 = _vm.info
-    ? _vm.decimalToPercentage(_vm.winRateAndGoalCalculate.visitingWinRate, 0)
-    : null
-  var m2 = _vm.info
-    ? _vm.decimalToPercentage(_vm.winRateAndGoalCalculate.homeWinRate, 0)
-    : null
+  var m1 =
+    _vm.info && _vm.urlValue
+      ? _vm.decimalToPercentage(_vm.winRateAndGoalCalculate.visitingWinRate, 0)
+      : null
+  var m2 =
+    _vm.info && _vm.urlValue
+      ? _vm.decimalToPercentage(_vm.winRateAndGoalCalculate.homeWinRate, 0)
+      : null
   var m3 =
     _vm.info && _vm.homeTeam && _vm.visitingTeam && _vm.urlValue
       ? _vm.decimalToPercentage(_vm.visitingTeam.winRate, 1)
@@ -395,6 +397,21 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
     return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
@@ -415,7 +432,8 @@ var _default = {
       visitingLastCourses: [],
       homeScorers: [],
       visitingScorers: [],
-      urlValue: false
+      urlValue: false,
+      aiPredictList: []
     };
   },
   onLoad: function onLoad(options) {
@@ -424,7 +442,7 @@ var _default = {
   created: function created() {
     var _this = this;
     this.$nextTick(function () {
-      _this.urlValue = uni.getStorageSync('urlValue');
+      _this.urlValue = uni.getStorageSync("urlValue");
     });
   },
   onShow: function onShow() {
@@ -432,20 +450,20 @@ var _default = {
   },
   methods: {
     formatDateWithWeekday: function formatDateWithWeekday(time) {
-      if (!time) return '-';
-      var date = new Date(time.replace(/\//g, '-'));
-      var week = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      if (!time) return "-";
+      var date = new Date(time.replace(/\//g, "-"));
+      var week = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
       var year = date.getFullYear();
-      var month = String(date.getMonth() + 1).padStart(2, '0');
-      var day = String(date.getDate()).padStart(2, '0');
-      var hour = String(date.getHours()).padStart(2, '0');
-      var minute = String(date.getMinutes()).padStart(2, '0');
+      var month = String(date.getMonth() + 1).padStart(2, "0");
+      var day = String(date.getDate()).padStart(2, "0");
+      var hour = String(date.getHours()).padStart(2, "0");
+      var minute = String(date.getMinutes()).padStart(2, "0");
       return "".concat(year, "-").concat(month, "-").concat(day, " ").concat(week[date.getDay()], " ").concat(hour, ":").concat(minute);
     },
     // 小数转百分比
     decimalToPercentage: function decimalToPercentage(decimal) {
       var fixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '-';
+      var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "-";
       // 第一步：将入参转为数字（兼容字符串/数字）
       var num = parseFloat(decimal);
       // 第二步：判断是否为有效数字
@@ -466,7 +484,7 @@ var _default = {
             switch (_context.prev = _context.next) {
               case 0:
                 uni.showLoading({
-                  title: '加载中...'
+                  title: "加载中..."
                 });
                 _context.prev = 1;
                 _context.next = 4;
@@ -478,6 +496,7 @@ var _default = {
                 res = _context.sent;
                 data = res.data.data; // 核心数据赋值
                 _this2.courseMap = data.baseMap || {};
+                _this2.aiPredictList = data.aiPredictList || [];
                 _this2.winRateAndGoalCalculate = data.winRateAndGoalCalculate || {};
                 _this2.homeTeam = data.homeTeam || {};
                 _this2.visitingTeam = data.visitingTeam || {};
@@ -486,25 +505,25 @@ var _default = {
                 _this2.homeScorers = data.homeScorers || [];
                 _this2.visitingScorers = data.visitingScorers || [];
                 _this2.info = JSON.parse(JSON.stringify(data));
-                _context.next = 20;
+                _context.next = 21;
                 break;
-              case 17:
-                _context.prev = 17;
+              case 18:
+                _context.prev = 18;
                 _context.t0 = _context["catch"](1);
                 uni.showToast({
-                  title: '数据加载失败',
-                  icon: 'none'
+                  title: "数据加载失败",
+                  icon: "none"
                 });
-              case 20:
-                _context.prev = 20;
+              case 21:
+                _context.prev = 21;
                 uni.hideLoading();
-                return _context.finish(20);
-              case 23:
+                return _context.finish(21);
+              case 24:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 17, 20, 23]]);
+        }, _callee, null, [[1, 18, 21, 24]]);
       }))();
     },
     // 补充缺失的方法（避免报错）
