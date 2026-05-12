@@ -30,24 +30,45 @@
           </view>
 
           <!-- 胜率+得分预测 -->
-          <view class="prediction-section">
-            <view class="win-probability">
-              <text class="pro-text"></text>
-              <view class="probability-bars">
-                <!-- 客队胜率（前置） -->
-                <view class="probability-bar away-bar" :style="{ width: `${winRateAndGoalCalculate.visitingWinRate * 100}%` }">
-                  <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.visitingWinRate,0)}}</text>
-                </view>
-                <!-- 主队胜率 -->
-                <view class="probability-bar home-bar" :style="{ width: `${winRateAndGoalCalculate.homeWinRate * 100}%` }">
-                  <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.homeWinRate,0)}}</text>
-                </view>
-              </view>
+<!-- 胜率+得分预测 → 换成足球样式结构 -->
+      <view class="prediction-section">
+        <view class="prediction-row">
+          <text class="pro-text">数据分析</text>
+          <view class="prediction-content">
+            <view class="home-prediction">
+              <text class="prediction-value">胜率{{ decimalToPercentage(winRateAndGoalCalculate.visitingWinRate, 0) }}</text>
             </view>
-            <view class="win-prompt">
-              {{courseMap.visiting_goal_calculate}} : {{courseMap.home_goal_calculate}}
+            <view class="draw-prediction">
+              <text class="prediction-value">平率0%</text>
+            </view>
+            <view class="away-prediction">
+              <text class="prediction-value">胜率{{ decimalToPercentage(winRateAndGoalCalculate.homeWinRate, 0) }}</text>
             </view>
           </view>
+        </view>
+
+        <view class="prediction-row">
+          <text class="pro-text">数据分析</text>
+          <view class="prediction-content">
+            <view class="home-prediction">
+              <text class="prediction-value">{{ courseMap.visiting_goal_calculate || "-" }}</text>
+            </view>
+            <view class="draw-prediction">
+              <text class="prediction-value">:</text>
+            </view>
+            <view class="away-prediction">
+              <text class="prediction-value">{{ courseMap.home_goal_calculate || "-" }}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- AI预测列表（和足球一样） -->
+        <view class="prediction-row" v-for="(item, i) in aiPredictList" :key="i">
+          <view class="prediction-content" style="font-size: 20rpx;color:#31926e;box-sizing: border-box; padding-left: 30rpx;">
+            {{item}}
+          </view>
+        </view>
+      </view>
         </view>
 
         <!-- 球队信息表格（7列：球队/排名/胜率/得分/篮板/助攻/抢断，客队前置） -->
@@ -202,7 +223,8 @@ export default {
       homeLastCourses: [],
       visitingLastCourses: [],
       homeScorers: [],
-      visitingScorers: []
+      visitingScorers: [],
+      aiPredictList: []
     };
   },
   onLoad(options) {
@@ -249,6 +271,7 @@ export default {
         const data = res.data.data;
         // 核心数据赋值
         this.courseMap = data.baseMap || {};
+        this.aiPredictList = data.aiPredictList || [];
         this.winRateAndGoalCalculate = data.winRateAndGoalCalculate || {};
         this.homeTeam = data.homeTeam || {};
         this.visitingTeam = data.visitingTeam || {};
@@ -339,61 +362,63 @@ export default {
 }
 
 // 胜率预测
+// 足球样式预测模块（直接加入即可）
 .prediction-section {
   background: #ffffff;
-  border-radius: 8rpx;
-  padding: 16rpx;
-  margin-top: 12rpx;
+  border-radius: 12rpx;
+  padding-bottom: 10rpx;
 
-  .win-probability {
+  .prediction-row {
     display: flex;
     align-items: center;
-    margin-bottom: 8rpx;
+    margin: 8rpx 0;
 
     .pro-text {
-      color: #d92929;
+      color: red;
+      box-sizing: border-box;
+      padding-left: 22rpx;
       font-size: 26rpx;
-      flex: none;
-      padding-right: 12rpx;
+      flex-shrink: 0;
+      width: 140rpx;
     }
 
-    .probability-bars {
+    .prediction-content {
       flex: 1;
       display: flex;
-      height: 32rpx;
-      background: #f0f0f0;
-      border-radius: 16rpx;
-      overflow: hidden;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 20rpx;
 
-      .probability-bar {
+      .home-prediction {
         display: flex;
-        align-items: center;
-        height: 100%;
-        font-size: 20rpx;
-        color: #fff;
-
-        .bi {
-          padding: 0 8rpx;
-          text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.2);
-        }
+        justify-content: flex-end;
+        width: 26%;
       }
 
-      .away-bar {
-        background: #31926e;
+      .draw-prediction {
+        width: 120rpx;
+        display: flex;
+        justify-content: center;
+      }
+
+      .away-prediction {
+        flex: 1;
+        display: flex;
         justify-content: flex-start;
       }
 
-      .home-bar {
-        background: #d92929;
-        justify-content: flex-end;
+      .prediction-value {
+        font-size: 20rpx;
+        color: #31926e;
       }
     }
   }
 
   .win-prompt {
-    color: #d92929;
+    color: red;
     text-align: left;
-    font-size: 24rpx;
+    padding-left: 20rpx;
+    font-size: 29.5rpx;
     margin-top: 8rpx;
   }
 }

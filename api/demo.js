@@ -340,3 +340,38 @@ export const teamInfo = (data) => {
         data
     })
 }
+// 1. 足球录入接口
+export const footballLotteryEntry = (data) => {
+    return request({
+        url: baseUrl + "/purchasing/football/lottery/entry",
+        method: 'GET',
+        data
+    })
+}
+
+// 2. 足球查询接口
+export const queryFootballForEntry = (data) => {
+    return request({
+        url: baseUrl + "/purchasing/football/lottery/queryForEntry",
+        method: 'GET',
+        data
+    })
+}
+
+// 3. 篮球查询接口
+export const queryBasketballForEntry = (data) => {
+    return request({
+        url: baseUrl + "/purchasing/basketball/lottery/queryForEntry",
+        method: 'GET',
+        data
+    })
+}
+
+// 4. 篮球录入接口
+export const basketballLotteryEntry = (data) => {
+    return request({
+        url: baseUrl + "/purchasing/basketball/lottery/entry",
+        method: 'GET',
+        data
+    })
+}

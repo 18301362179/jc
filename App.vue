@@ -61,7 +61,7 @@ export default {
       // 开发环境：强制设置测试Token
       if (isH5DevEnv) {
         console.log('[H5开发环境] 强制设置固定测试Token');
-        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3NyIsInVzZXJJZCI6Ijc3Iiwib3BlbklkIjoib29iNk4yR210S3V2c1dxTW1fb19wSzI4LUxmMCIsImlzU3lzTWFuYWdlIjoiMCIsInRpbWVTdGFtcCI6MTc3MjU4ODE5MDQwNn0.ULO_i27weyfFPIEFzCxhy0OWzGjVFe0JwAyrwOSQxBg'
+        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3OSIsInVzZXJJZCI6Ijc5Iiwib3BlbklkIjoib29iNk4yTGhEd0JmZXFXbTFoLXQydmNLbEhkcyIsImlzU3lzTWFuYWdlIjoiMSIsInRpbWVTdGFtcCI6MTc3ODEzNjYxNTU4Nn0._HyGbFtO8qpISpXFrmdrwdEBrlUL842yiWwpJTuwqeA'
         setToken(token);
         this.globalData.token = token;
         this.h5AuthLock = false;
