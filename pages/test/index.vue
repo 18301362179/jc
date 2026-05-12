@@ -80,7 +80,7 @@
               </view>
             </view>
             <view class="prediction-row" v-for="(item, i) in baseMap.aiPredictList " :key="i">
-              <view class="prediction-content" style="font-size: 20rpx;color:#31926e;box-sizing: border-box; padding-left: 30rpx;">
+              <view class="prediction-content" style="font-size: 24rpx;color:#31926e;box-sizing: border-box; padding-left: 30rpx;">
                 {{item}}
               </view>
             </view>
