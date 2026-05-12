@@ -81,7 +81,7 @@
             </view>
             <view class="prediction-row" v-for="(item, i) in baseMap.aiPredictList " :key="i">
               <!-- <text class="pro-text">数据分析</text> -->
-              <view class="prediction-content" style="font-size: 20rpx;color:#31926e;box-sizing: border-box; padding-left: 30rpx;">
+              <view class="prediction-content" style="font-size: 24rpx;color:#31926e;box-sizing: border-box; padding-left: 30rpx;">
                 {{item}}
                 <!-- <view class="home-prediction">
                   <text class="prediction-value">{{ baseMap.homeGoalCalculate === null || baseMap.homeGoalCalculate === undefined ? "-" : baseMap.homeGoalCalculate }}</text>

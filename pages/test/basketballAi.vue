@@ -64,7 +64,7 @@
 
         <!-- AI预测列表（和足球一样） -->
         <view class="prediction-row" v-for="(item, i) in aiPredictList" :key="i">
-          <view class="prediction-content" style="font-size: 20rpx;color:#31926e;box-sizing: border-box; padding-left: 30rpx;">
+          <view class="prediction-content" style="font-size: 24rpx;color:#31926e;box-sizing: border-box; padding-left: 30rpx;">
             {{item}}
           </view>
         </view>
