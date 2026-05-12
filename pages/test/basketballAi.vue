@@ -1,48 +1,62 @@
 <template>
   <view class="page-container">
     <!-- 固定头部 -->
-    <CustomHeader
-      :title="'析'"
-      :showBack="true"
-      :isIndex="false"
-      :showIcon="false"
-      :isSelected="false"
-      :selectedPlay="''"
-      @funnel-click="handleFunnel"
-      @back-click="onBackClick"
-    />
-    
+    <CustomHeader :title="'析'" :showBack="true" :isIndex="false" :showIcon="false" :isSelected="false" :selectedPlay="''" @funnel-click="handleFunnel" @back-click="onBackClick" />
+
     <!-- 可滚动的内容区域 -->
     <scroll-view class="content-scroll" scroll-y="true">
       <view class="match-info-container" v-if="info">
         <!-- 赛事头部 -->
         <view class="match-header">
           <view class="match-title">
-            <view v-if="courseMap.league_name">{{courseMap.league_name}}{{courseMap.stage || '常规赛'}}</view>
-            <view class="match-time"> {{formatDateWithWeekday(courseMap.race_date)}}</view>
+            <view v-if="courseMap.league_name">{{ courseMap.league_name }}{{ courseMap.stage || "常规赛" }}</view>
+            <view class="match-time"> {{ formatDateWithWeekday(courseMap.race_date) }}</view>
           </view>
 
           <!-- 客队前置：森林狼(客) VS 掘金(主) -->
           <view class="match-teams">
-            <text class="away-team" style="text-align: right;">{{courseMap.visiting_name}}(客)</text>
+            <text class="away-team" style="text-align: right">{{ courseMap.visiting_name }}(客)</text>
             <text class="vs-text">VS</text>
-            <text class="home-team" style="text-align: left;">{{courseMap.home_name}}(主)</text>
+            <text class="home-team" style="text-align: left">{{ courseMap.home_name }}(主)</text>
           </view>
-          <view class="prediction-section">
-            <view class="win-probability">
-              <text class="pro-text"></text>
-              <view class="probability-bars">
-
-                <view class="probability-bar away-bar" :style="{ width: `${winRateAndGoalCalculate.visitingWinRate * 100}%` }">
-                  <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.visitingWinRate,0)}}</text>
+          <view class="prediction-section" v-if="urlValue">
+            <!-- 胜率/平率展示 -->
+            <view class="prediction-row">
+              <text class="pro-text">数据分析</text>
+              <view class="prediction-content">
+                <view class="home-prediction">
+                  <text class="prediction-value">胜率{{ decimalToPercentage(winRateAndGoalCalculate.visitingWinRate, 0) }}</text>
                 </view>
-                <view class="probability-bar home-bar" :style="{ width: `${winRateAndGoalCalculate.homeWinRate * 100}%` }">
-                  <text class="bi">{{decimalToPercentage(winRateAndGoalCalculate.homeWinRate,0)}}</text>
+                <view class="draw-prediction">
+                  <text class="prediction-value">平率0%</text>
+                </view>
+                <view class="away-prediction">
+                  <text class="prediction-value">胜率{{ decimalToPercentage(winRateAndGoalCalculate.homeWinRate, 0) }}</text>
                 </view>
               </view>
             </view>
-            <view class="win-prompt">
-              {{courseMap.visiting_goal_calculate}} : {{courseMap.home_goal_calculate}}
+
+            <!-- 进球数预测 -->
+            <view class="prediction-row">
+              <text class="pro-text">数据分析</text>
+              <view class="prediction-content">
+                <view class="home-prediction">
+                  <text class="prediction-value">{{ courseMap.visiting_goal_calculate || "-" }}</text>
+                </view>
+                <view class="draw-prediction">
+                  <text class="prediction-value">:</text>
+                </view>
+                <view class="away-prediction">
+                  <text class="prediction-value">{{ courseMap.home_goal_calculate || "-" }}</text>
+                </view>
+              </view>
+            </view>
+
+            <!-- AI预测列表（和足球一样） -->
+            <view class="prediction-row" v-for="(item, i) in aiPredictList" :key="i">
+              <view class="prediction-content" style="font-size: 20rpx; color: #31926e; box-sizing: border-box; padding-left: 30rpx">
+                {{ item }}
+              </view>
             </view>
           </view>
         </view>
@@ -61,89 +75,91 @@
             </view>
             <!-- 客队行（前置） -->
             <view class="table-row">
-              <text class="cell team-cell">{{visitingTeam.teamName}}</text>
-              <text class="cell">{{decimalToPercentage(visitingTeam.winRate, 1)}}</text>
-              <text class="cell">{{visitingTeam.avgGoal || '-'}}</text>
-              <text class="cell">{{visitingTeam.avgFumbleGoal || '-'}}</text>
+              <text class="cell team-cell">{{ visitingTeam.teamName }}</text>
+              <text class="cell">{{ decimalToPercentage(visitingTeam.winRate, 1) }}</text>
+              <text class="cell">{{ visitingTeam.avgGoal || "-" }}</text>
+              <text class="cell">{{ visitingTeam.avgFumbleGoal || "-" }}</text>
             </view>
             <!-- 主队行 -->
             <view class="table-row">
-              <text class="cell team-cell">{{homeTeam.teamName}}</text>
-              <text class="cell">{{decimalToPercentage(homeTeam.winRate, 1)}}</text>
-              <text class="cell">{{homeTeam.avgGoal || '-'}}</text>
-              <text class="cell">{{homeTeam.avgFumbleGoal || '-'}}</text>
+              <text class="cell team-cell">{{ homeTeam.teamName }}</text>
+              <text class="cell">{{ decimalToPercentage(homeTeam.winRate, 1) }}</text>
+              <text class="cell">{{ homeTeam.avgGoal || "-" }}</text>
+              <text class="cell">{{ homeTeam.avgFumbleGoal || "-" }}</text>
             </view>
           </view>
         </view>
 
         <!-- 对战记录（客队前置，保留你修改的score-colon样式） -->
-        <view class="history-section" v-if="info.home_headToHeadRemark&&info.headToHeadRecord.length>0">
+        <view class="history-section" v-if="info.home_headToHeadRemark && info.headToHeadRecord.length > 0">
           <view class="section-title">
             <text>对战记录</text>
-            <text style="margin-left: 20rpx;">{{info.home_headToHeadRemark}}</text>
+            <text style="margin-left: 20rpx">{{ info.home_headToHeadRemark }}</text>
           </view>
-          <view class="history-item" v-for="(item,i) in info.headToHeadRecord" :key="i">
+          <view class="history-item" v-for="(item, i) in info.headToHeadRecord" :key="i">
             <view class="history-header">
-              <text class="competition">{{courseMap.league_name}}{{item.stage}}</text>
-              <text class="time">{{item.race_date}}</text>
+              <text class="competition">{{ courseMap.league_name }}{{ item.stage }}</text>
+              <text class="time">{{ item.race_date }}</text>
             </view>
             <view class="match-result">
               <!-- 客队前置 -->
-              <text class="team away-team">{{item.visiting_name}}</text>
-              <text class="score-colon">{{item.visiting_goal}} : {{item.home_goal}}</text>
-              <text class="team home-team">{{item.home_name}}</text>
+              <text class="team away-team">{{ item.visiting_name }}</text>
+              <text class="score-colon">{{ item.visiting_goal }} : {{ item.home_goal }}</text>
+              <text class="team home-team">{{ item.home_name }}</text>
             </view>
           </view>
         </view>
 
         <!-- 客队近期战绩（前置） -->
-        <view class="history-section" v-if="info.visitingLastCourses&&info.visitingLastCourses.length>0">
+        <view class="history-section" v-if="info.visitingLastCourses && info.visitingLastCourses.length > 0">
           <view class="section-title">
-            <text>{{info.visiting_lastRemark}}</text>
+            <text>{{ info.visiting_lastRemark }}</text>
           </view>
-          <view class="history-item" v-for="(item,i) in info.visitingLastCourses" :key="i">
+          <view class="history-item" v-for="(item, i) in info.visitingLastCourses" :key="i">
             <view class="history-header">
               <text class="competition">
-                {{ [item.league_name, item.stage].filter(Boolean).join('') }}
+                {{ [item.league_name, item.stage].filter(Boolean).join("") }}
               </text>
-              <text class="time">{{item.race_date}}</text>
+              <text class="time">{{ item.race_date }}</text>
             </view>
             <view class="match-result">
               <!-- 客队前置（森林狼作为客队） -->
-              <text class="team away-team">{{item.visiting_name}}</text>
-              <text class="score-colon">{{item.visiting_goal}} : {{item.home_goal}}</text>
-              <text class="team home-team">{{item.home_name}}</text>
+              <text class="team away-team">{{ item.visiting_name }}</text>
+              <text class="score-colon">{{ item.visiting_goal }} : {{ item.home_goal }}</text>
+              <text class="team home-team">{{ item.home_name }}</text>
             </view>
           </view>
         </view>
 
         <!-- 主队近期战绩 -->
-        <view class="history-section" v-if="info.homeLastCourses&&info.homeLastCourses.length>0">
+        <view class="history-section" v-if="info.homeLastCourses && info.homeLastCourses.length > 0">
           <view class="section-title">
-            <text>{{info.home_lastRemark}}</text>
+            <text>{{ info.home_lastRemark }}</text>
           </view>
-          <view class="history-item" v-for="(item,i) in info.homeLastCourses" :key="i">
+          <view class="history-item" v-for="(item, i) in info.homeLastCourses" :key="i">
             <view class="history-header">
               <text class="competition">
-                {{ [item.league_name, item.stage].filter(Boolean).join('') }}
+                {{ [item.league_name, item.stage].filter(Boolean).join("") }}
               </text>
-              <text class="time">{{item.race_date}}</text>
+              <text class="time">{{ item.race_date }}</text>
             </view>
             <view class="match-result">
               <!-- 客队前置（掘金作为客队时） -->
-              <text class="team away-team">{{item.visiting_name}}</text>
-              <text class="score-colon">{{item.visiting_goal}} : {{item.home_goal}}</text>
-              <text class="team home-team">{{item.home_name}}</text>
+              <text class="team away-team">{{ item.visiting_name }}</text>
+              <text class="score-colon">{{ item.visiting_goal }} : {{ item.home_goal }}</text>
+              <text class="team home-team">{{ item.home_name }}</text>
             </view>
           </view>
         </view>
 
         <!-- 得分榜球员（替换原得分榜，客队前置，无数据隐藏） -->
-        <view class="ranking-section" v-if="visitingScorers.length>0 || homeScorers.length>0">
+        <view class="ranking-section" v-if="visitingScorers.length > 0 || homeScorers.length > 0">
           <view class="section-title">
-            <text>得分榜球员</text> <!-- 得分榜球员 -->
+            <text>得分榜球员</text>
+            <!-- 得分榜球员 -->
           </view>
-          <view class="ranking-table stats-table"> <!-- 类名语义化调整：scorer-table → stats-table -->
+          <view class="ranking-table stats-table">
+            <!-- 类名语义化调整：scorer-table → stats-table -->
             <view class="table-header">
               <text class="cell">球员</text>
               <text class="cell">排名</text>
@@ -154,28 +170,27 @@
               <!-- 你补充新属性后，可在此添加/修改列标题 -->
             </view>
             <!-- 客队统计榜（前置） -->
-            <view class="table-row" v-for="(item,i) in visitingScorers" :key="i">
-              <text class="cell player-cell">{{item.player_name || '-'}}</text>
-              <text class="cell">{{item.ranking_no || '-'}}</text>
-              <text class="cell">{{item.total_goal || '-'}}</text>
-              <text class="cell">{{item.avg_backboard || '-'}}</text>
-              <text class="cell">{{item.avg_assist || '-'}}</text>
-              <text class="cell">{{item.avg_tackle || '-'}}</text>
+            <view class="table-row" v-for="(item, i) in visitingScorers" :key="i">
+              <text class="cell player-cell">{{ item.player_name || "-" }}</text>
+              <text class="cell">{{ item.ranking_no || "-" }}</text>
+              <text class="cell">{{ item.total_goal || "-" }}</text>
+              <text class="cell">{{ item.avg_backboard || "-" }}</text>
+              <text class="cell">{{ item.avg_assist || "-" }}</text>
+              <text class="cell">{{ item.avg_tackle || "-" }}</text>
               <!-- 你补充新属性后，替换上述字段即可 -->
             </view>
             <!-- 主队统计榜 -->
-            <view class="table-row" v-for="(item,i) in homeScorers" :key="i">
-              <text class="cell player-cell">{{item.player_name || '-'}}</text>
-              <text class="cell">{{item.ranking_no || '-'}}</text>
-              <text class="cell">{{item.total_goal || '-'}}</text>
-              <text class="cell">{{item.avg_backboard || '-'}}</text>
-              <text class="cell">{{item.avg_assist || '-'}}</text>
-              <text class="cell">{{item.avg_tackle || '-'}}</text>
+            <view class="table-row" v-for="(item, i) in homeScorers" :key="i">
+              <text class="cell player-cell">{{ item.player_name || "-" }}</text>
+              <text class="cell">{{ item.ranking_no || "-" }}</text>
+              <text class="cell">{{ item.total_goal || "-" }}</text>
+              <text class="cell">{{ item.avg_backboard || "-" }}</text>
+              <text class="cell">{{ item.avg_assist || "-" }}</text>
+              <text class="cell">{{ item.avg_tackle || "-" }}</text>
               <!-- 你补充新属性后，替换上述字段即可 -->
             </view>
           </view>
         </view>
-        
       </view>
     </scroll-view>
   </view>
@@ -184,11 +199,9 @@
 <script>
 import { getbasketballAi } from "@/api/demo";
 
-
 import CustomHeader from "@/components/CustomHeader.vue";
 export default {
-   
-  components: {CustomHeader},
+  components: { CustomHeader },
   data() {
     return {
       info: {},
@@ -201,16 +214,16 @@ export default {
       homeScorers: [],
       visitingScorers: [],
       urlValue: false,
+      aiPredictList: []
     };
   },
   onLoad(options) {
-    this.getAiDetail(options.id,options.isLottery,options.serialNumber,options.dateStr)
+    this.getAiDetail(options.id, options.isLottery, options.serialNumber, options.dateStr);
   },
   created() {
-        this.$nextTick(()=>{
-    this.urlValue = uni.getStorageSync('urlValue');
-    
-    })
+    this.$nextTick(() => {
+      this.urlValue = uni.getStorageSync("urlValue");
+    });
   },
   onShow() {
     uni.hideTabBar();
@@ -218,18 +231,18 @@ export default {
 
   methods: {
     formatDateWithWeekday(time) {
-      if (!time) return '-';
-      const date = new Date(time.replace(/\//g, '-'));
-      const week = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      if (!time) return "-";
+      const date = new Date(time.replace(/\//g, "-"));
+      const week = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
       const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hour = String(date.getHours()).padStart(2, '0');
-      const minute = String(date.getMinutes()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hour = String(date.getHours()).padStart(2, "0");
+      const minute = String(date.getMinutes()).padStart(2, "0");
       return `${year}-${month}-${day} ${week[date.getDay()]} ${hour}:${minute}`;
     },
     // 小数转百分比
-    decimalToPercentage(decimal, fixed = 0, defaultValue = '-') {
+    decimalToPercentage(decimal, fixed = 0, defaultValue = "-") {
       // 第一步：将入参转为数字（兼容字符串/数字）
       const num = parseFloat(decimal);
       // 第二步：判断是否为有效数字
@@ -241,13 +254,14 @@ export default {
       return `${percentage.toFixed(fixed)}%`;
     },
     // 获取AI分析数据
-    async getAiDetail(id,isLottery) {
-      uni.showLoading({ title: '加载中...' });
+    async getAiDetail(id, isLottery) {
+      uni.showLoading({ title: "加载中..." });
       try {
         const res = await getbasketballAi({ id, isLottery });
         const data = res.data.data;
         // 核心数据赋值
         this.courseMap = data.baseMap || {};
+        this.aiPredictList = data.aiPredictList || [];
         this.winRateAndGoalCalculate = data.winRateAndGoalCalculate || {};
         this.homeTeam = data.homeTeam || {};
         this.visitingTeam = data.visitingTeam || {};
@@ -257,15 +271,15 @@ export default {
         this.visitingScorers = data.visitingScorers || [];
         this.info = JSON.parse(JSON.stringify(data));
       } catch (error) {
-        uni.showToast({ title: '数据加载失败', icon: 'none' });
+        uni.showToast({ title: "数据加载失败", icon: "none" });
       } finally {
         uni.hideLoading();
       }
     },
     // 补充缺失的方法（避免报错）
     handleFunnel() {},
-    onBackClick() {}
-  }
+    onBackClick() {},
+  },
 };
 </script>
 
@@ -316,7 +330,8 @@ export default {
     align-items: center;
     margin: 16rpx 0;
 
-    .away-team, .home-team {
+    .away-team,
+    .home-team {
       font-size: 28rpx;
       width: 40%;
       font-weight: 500;
@@ -337,67 +352,69 @@ export default {
 }
 
 // 分析
+// 足球样式预测模块（直接加入即可）
 .prediction-section {
   background: #ffffff;
-  border-radius: 8rpx;
-  padding: 16rpx;
-  margin-top: 12rpx;
+  border-radius: 12rpx;
+  padding-bottom: 10rpx;
 
-  .win-probability {
+  .prediction-row {
     display: flex;
     align-items: center;
-    margin-bottom: 8rpx;
+    margin: 8rpx 0;
 
     .pro-text {
-      color: #d92929;
+      color: red;
+      box-sizing: border-box;
+      padding-left: 22rpx;
       font-size: 26rpx;
-      flex: none;
-      padding-right: 12rpx;
+      flex-shrink: 0;
+      width: 140rpx;
     }
 
-    .probability-bars {
+    .prediction-content {
       flex: 1;
       display: flex;
-      height: 32rpx;
-      background: #f0f0f0;
-      border-radius: 16rpx;
-      overflow: hidden;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 20rpx;
 
-      .probability-bar {
+      .home-prediction {
         display: flex;
-        align-items: center;
-        height: 100%;
-        font-size: 20rpx;
-        color: #fff;
-
-        .bi {
-          padding: 0 8rpx;
-          text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.2);
-        }
+        justify-content: flex-end;
+        width: 26%;
       }
 
-      .away-bar {
-        background: #31926e;
+      .draw-prediction {
+        width: 120rpx;
+        display: flex;
+        justify-content: center;
+      }
+
+      .away-prediction {
+        flex: 1;
+        display: flex;
         justify-content: flex-start;
       }
 
-      .home-bar {
-        background: #d92929;
-        justify-content: flex-end;
+      .prediction-value {
+        font-size: 20rpx;
+        color: #31926e;
       }
     }
   }
 
   .win-prompt {
-    color: #d92929;
+    color: red;
     text-align: left;
-    font-size: 24rpx;
+    padding-left: 20rpx;
+    font-size: 29.5rpx;
     margin-top: 8rpx;
   }
 }
-
 // 通用板块样式
-.ranking-section, .history-section {
+.ranking-section,
+.history-section {
   background: #ffffff;
   border-radius: 12rpx;
   margin-bottom: 24rpx;
