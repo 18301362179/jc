@@ -12,7 +12,7 @@
       <image class="avatar" v-if="userInfo.headImgUrl" :src="userInfo.headImgUrl" mode="aspectFill"></image>
       <image class="avatar" v-else src="https://www.tianjifu.com/static/mine1.png" mode="aspectFill"></image>
       <view class="user-info">
-        <text class="username">{{ userInfo.remarkName || userInfo.nickName || '昵称' }}</text>
+        <text class="username">{{ userInfo.remarkName || userInfo.nickName || '' }}</text>
         <text class="value stone-count" v-if="getRemark" @click="getList">{{ userInfo.coinAmount || 0 }} &nbsp;币&nbsp;</text>
       </view>
       <view class="recharge-btn" v-if="getRemark" @click="getRemarkFc">获&nbsp;&nbsp;取</view>
@@ -45,6 +45,9 @@
         </view>
       </view>
     </scroll-view>
+    <view style="box-sizing:border-box; padding: 20rpx;font-size: 22rpx;" v-if="!getRemark">中国电子竞技游戏发展空间</view>
+    <view style="box-sizing:border-box; padding: 20rpx; padding-top:0;font-size: 22rpx;" v-if="!getRemark">
+中国电子竞技产业具备广阔且多元的发展空间，正迈入高质量、规范化发展新阶段。国内电竞用户规模超4.95亿，群众基础雄厚，政策持续加码扶持，各地陆续出台专项政策完善产业生态。产业链不断延伸，赛事运营、电竞教育、场馆建设、周边衍生等板块蓬勃发展，商业化模式持续创新。随着5G、VR、AI等技术赋能，电竞体验不断升级，同时国产电竞游戏加速出海，国际化影响力持续提升。未来，电竞将深度融合数字经济，成为文化、科技、体育协同发展的重要赛道，市场潜力与发展潜力持续释放 。</view>
     <NativeTabbar ref="nativeTabbar" />
   </view>
 </template>
@@ -209,10 +212,8 @@ export default {
     flex: 1;
     overflow-y: auto;
     padding: 20rpx;
+    padding-bottom: 0;
     // #ifdef APP-PLUS
-    padding-bottom: calc(100rpx + env(safe-area-inset-bottom) + 20rpx) !important;
-    // #endif
-    // #ifdef MP-WEIXIN
     padding-bottom: calc(100rpx + env(safe-area-inset-bottom) + 20rpx) !important;
     // #endif
     box-sizing: border-box !important;
