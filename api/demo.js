@@ -354,3 +354,18 @@ export const teamInfo = (data) => {
     })
 }
 
+export const platformSysMessageQuery = (data) => {
+    return request({
+        url: baseUrl + "/platform/sys/message/query",
+        method: 'GET',
+        data
+    })
+}
+
+export const platformSysMessageRead = (data) => {
+    return request({
+        url: baseUrl + "/platform/sys/message/read",
+        method: 'GET',
+        data
+    })
+}
