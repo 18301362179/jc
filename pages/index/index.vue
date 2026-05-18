@@ -72,6 +72,7 @@
       @close="handlePopupClose"
       :max-height="popupMaxHeight"
     />
+    <SystemMsgModal/>
     <!-- 保留底部tabbar -->
     <NativeTabbar ref="nativeTabbar" />
   </view>
@@ -81,12 +82,14 @@
 import CustomHeader from "@/components/CustomHeader.vue";
 import NativeTabbar from "@/components/tabbar.vue";
 import TipsPopup from "@/pages/commn/playTip";
-
+import SystemMsgModal from "@/components/SystemMsgModal.vue";
+import { platformSysMessageQuery,platformSysMessageRead } from "@/api/demo.js";
 export default {
   components: {
     CustomHeader,
     NativeTabbar,
     TipsPopup,
+    SystemMsgModal
   },
   data() {
     return {

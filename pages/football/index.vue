@@ -53,6 +53,7 @@
     <!-- 全局数字软键盘组件（新增） -->
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
     <EmptyStop :hasData="hasData" />
+    <SystemMsgModal/>
   </view>
 </template>
 
@@ -71,7 +72,7 @@ import { formatTimeToMDWeekHM } from "@/utils/data";
 import TipsPopup from "@/pages/commn/playTip";
 import { validateBetInput } from "@/utils/validate";
 import EmptyStop from "@/pages/commn/emptyStop.vue";
-
+import SystemMsgModal from "@/components/SystemMsgModal.vue";
 export default {
   // 局部引入Mixin
   components: {
@@ -86,6 +87,7 @@ export default {
     EmptyStop,
     // 注册混合过关组件
     MixedPassList,
+    SystemMsgModal
   },
 
   data() {
