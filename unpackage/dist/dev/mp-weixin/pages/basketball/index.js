@@ -210,27 +210,27 @@ var NativeTabbar = function NativeTabbar() {
 };
 var MatchSpf = function MatchSpf() {
   Promise.all(/*! require.ensure | pages/commn/basketball/MatchSpf */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/basketball/MatchSpf")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchSpf.vue */ 462));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchSpf.vue */ 469));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHandicap = function MatchHandicap() {
   Promise.all(/*! require.ensure | pages/commn/basketball/MatchHandicap */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/basketball/MatchHandicap")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHandicap.vue */ 469));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHandicap.vue */ 476));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchScore = function MatchScore() {
   __webpack_require__.e(/*! require.ensure | pages/commn/basketball/MatchScore */ "pages/commn/basketball/MatchScore").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchScore.vue */ 476));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchScore.vue */ 483));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHalfFull = function MatchHalfFull() {
   __webpack_require__.e(/*! require.ensure | pages/commn/basketball/MatchHalfFull */ "pages/commn/basketball/MatchHalfFull").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHalfFull.vue */ 483));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MatchHalfFull.vue */ 490));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MixedPassList = function MixedPassList() {
   __webpack_require__.e(/*! require.ensure | pages/commn/basketball/MixedPassList */ "pages/commn/basketball/MixedPassList").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MixedPassList.vue */ 490));
+    return resolve(__webpack_require__(/*! @/pages/commn/basketball/MixedPassList.vue */ 497));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
@@ -245,7 +245,12 @@ var TipsPopup = function TipsPopup() {
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 413));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 420));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var SystemMsgModal = function SystemMsgModal() {
+  Promise.all(/*! require.ensure | components/SystemMsgModal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/SystemMsgModal")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/SystemMsgModal.vue */ 335));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -259,7 +264,8 @@ var _default = {
     // 注册组件
     CustomHeader: CustomHeader,
     TipsPopup: TipsPopup,
-    EmptyStop: EmptyStop
+    EmptyStop: EmptyStop,
+    SystemMsgModal: SystemMsgModal
   },
   data: function data() {
     return {

@@ -77,6 +77,7 @@
     />
     <!-- 保留底部tabbar -->
     <NativeTabbar ref="nativeTabbar" />
+    <SystemMsgModal/>
   </view>
 </template>
 
@@ -84,11 +85,13 @@
 import CustomHeader from "@/components/CustomHeader.vue";
 import NativeTabbar from "@/components/tabbar.vue";
 import TipsPopup from "@/pages/commn/playTip";
+import SystemMsgModal from "@/components/SystemMsgModal.vue";
 export default {
   components: {
     CustomHeader,
     NativeTabbar,
     TipsPopup,
+    SystemMsgModal
   },
   data() {
     return {

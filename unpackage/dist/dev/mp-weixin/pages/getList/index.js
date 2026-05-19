@@ -163,7 +163,7 @@ var CustomHeader = function CustomHeader() {
 };
 var NoData = function NoData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 335));
+    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 342));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {

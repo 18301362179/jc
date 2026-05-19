@@ -10593,7 +10593,7 @@ var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/inte
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.wxPay = exports.wxLogin = exports.userTradeRecord = exports.userShare = exports.userPage = exports.teamInfo = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.footLotteryLive = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = exports.basketLotteryLive = void 0;
+exports.wxPay = exports.wxLogin = exports.userTradeRecord = exports.userShare = exports.userPage = exports.teamInfo = exports.sysParams = exports.shareGiveCoin = exports.setCourseGoal = exports.recharge = exports.queryTeamWordRanking = exports.queryStageList = exports.queryPlayer = exports.queryLeagueList = exports.queryHomeList = exports.queryHomeAndVisitingGoalOdds = exports.queryHhgg = exports.queryGroupAndRoundList = exports.queryFootBallLLottery = exports.queryContinentList = exports.queryBasketBallLLottery = exports.queryBasePermissionNeed = exports.purchasingLotteryQueryById = exports.purchasingLotteryConfirm = exports.purchasingLotteryApply = exports.platformSysMessageRead = exports.platformSysMessageQuery = exports.payConfirm = exports.loginPhone = exports.getbasketballAi = exports.getUser = exports.getTradeRecord = exports.getTimeList = exports.getSheShou = exports.getSaiCheng = exports.getJiFen = exports.getHaveMoney = exports.getH5Token = exports.getH5ShareInfo = exports.getAi = exports.footballLotteryTraditionDrawNum = exports.footballLotteryTradition = exports.footLotteryLive = exports.checkSelectBasketball = exports.checkSelect = exports.checkCode = exports.basketLotteryLive = void 0;
 var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ 36));
 var baseUrl = "";
 baseUrl = "";
@@ -10960,6 +10960,22 @@ var teamInfo = function teamInfo(data) {
   });
 };
 exports.teamInfo = teamInfo;
+var platformSysMessageQuery = function platformSysMessageQuery(data) {
+  return (0, _request.default)({
+    url: baseUrl + "/platform/sys/message/query",
+    method: 'GET',
+    data: data
+  });
+};
+exports.platformSysMessageQuery = platformSysMessageQuery;
+var platformSysMessageRead = function platformSysMessageRead(data) {
+  return (0, _request.default)({
+    url: baseUrl + "/platform/sys/message/read",
+    method: 'GET',
+    data: data
+  });
+};
+exports.platformSysMessageRead = platformSysMessageRead;
 
 /***/ }),
 
@@ -11675,7 +11691,7 @@ exports.resetAuthFlag = resetAuthFlag;
 
 /***/ }),
 
-/***/ 375:
+/***/ 382:
 /*!*****************************************************************************!*\
   !*** C:/Users/zxg00/Documents/HBuilderProjects/football-cup/utils/index.js ***!
   \*****************************************************************************/

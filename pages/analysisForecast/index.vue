@@ -139,7 +139,7 @@
       </view>
     </scroll-view>
     <NativeTabbar ref="nativeTabbar" />
-    
+    <SystemMsgModal/>
   </view>
 </template>
 
@@ -154,7 +154,7 @@ import JiFen from "@/pages/commn/jiFen.vue";
 import SheShou from "@/pages/commn/sheShou.vue";
 import WordRanking from "@/pages/commn/WordRanking.vue";
 import CustomHeader from "@/components/CustomHeader.vue";
-
+import SystemMsgModal from "@/components/SystemMsgModal.vue";
 export default {
   components: {
     NativeTabbar,
@@ -164,7 +164,7 @@ export default {
     SheShou,
     WordRanking,
     CustomHeader,
-    
+    SystemMsgModal
   },
   data() {
     return {

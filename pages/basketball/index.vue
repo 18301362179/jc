@@ -40,7 +40,7 @@
     <TipsPopup :visible.sync="isPopupShow" :title="tipsTitle" :content-list="tipsContentList" :header-height="headerHeight" :popup-width="700" border-color="#07c160" @close="handlePopupClose" :max-height="popupMaxHeight" />
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
     <EmptyStop :hasData="hasData" position="middle" />
-        
+        <SystemMsgModal/>
   </view>
 </template>
 
@@ -57,6 +57,7 @@ import { formatTimeToMDWeekHM } from "@/utils/data";
 import TipsPopup from "@/pages/commn/playTip";
 import { validateBetInput } from "@/utils/validate";
 import EmptyStop from "@/pages/commn/emptyStop.vue";
+import SystemMsgModal from "@/components/SystemMsgModal.vue";
 
 export default {
   components: {
@@ -69,7 +70,7 @@ export default {
     CustomHeader,
     TipsPopup,
     EmptyStop,
-    
+    SystemMsgModal
   },
   data() {
     return {

@@ -198,27 +198,27 @@ var NativeTabbar = function NativeTabbar() {
 };
 var MatchSpf = function MatchSpf() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchSpf */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchSpf")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 370));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 377));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHandicap = function MatchHandicap() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchHandicap */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchHandicap")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 378));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 385));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchScore = function MatchScore() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchScore */ "pages/commn/index/MatchScore").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 385));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 392));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchTotalGoals = function MatchTotalGoals() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchTotalGoals */ "pages/commn/index/MatchTotalGoals").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 392));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 399));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHalfFull = function MatchHalfFull() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchHalfFull */ "pages/commn/index/MatchHalfFull").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 399));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 406));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
@@ -228,7 +228,7 @@ var CustomHeader = function CustomHeader() {
 };
 var MixedPassList = function MixedPassList() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MixedPassList */ "pages/commn/index/MixedPassList").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 406));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 413));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
@@ -238,7 +238,12 @@ var TipsPopup = function TipsPopup() {
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 413));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 420));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var SystemMsgModal = function SystemMsgModal() {
+  Promise.all(/*! require.ensure | components/SystemMsgModal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/SystemMsgModal")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/SystemMsgModal.vue */ 335));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -254,7 +259,8 @@ var _default = {
     TipsPopup: TipsPopup,
     EmptyStop: EmptyStop,
     // 注册混合过关组件
-    MixedPassList: MixedPassList
+    MixedPassList: MixedPassList,
+    SystemMsgModal: SystemMsgModal
   },
   data: function data() {
     return {

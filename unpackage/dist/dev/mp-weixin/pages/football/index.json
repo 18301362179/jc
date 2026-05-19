@@ -17,6 +17,7 @@
     "custom-header": "/components/CustomHeader",
     "tips-popup": "/pages/commn/playTip",
     "empty-stop": "/pages/commn/emptyStop",
-    "mixed-pass-list": "/pages/commn/index/MixedPassList"
+    "mixed-pass-list": "/pages/commn/index/MixedPassList",
+    "system-msg-modal": "/components/SystemMsgModal"
   }
 }

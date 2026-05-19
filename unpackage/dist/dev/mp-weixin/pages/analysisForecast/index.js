@@ -194,32 +194,37 @@ var NativeTabbar = function NativeTabbar() {
 };
 var noData = function noData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 335));
+    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 342));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SaiCheng = function SaiCheng() {
   __webpack_require__.e(/*! require.ensure | pages/commn/saiCheng */ "pages/commn/saiCheng").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 342));
+    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 349));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var JiFen = function JiFen() {
   __webpack_require__.e(/*! require.ensure | pages/commn/jiFen */ "pages/commn/jiFen").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 349));
+    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 356));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SheShou = function SheShou() {
   __webpack_require__.e(/*! require.ensure | pages/commn/sheShou */ "pages/commn/sheShou").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 356));
+    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 363));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var WordRanking = function WordRanking() {
   __webpack_require__.e(/*! require.ensure | pages/commn/WordRanking */ "pages/commn/WordRanking").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 363));
+    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 370));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
     return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var SystemMsgModal = function SystemMsgModal() {
+  Promise.all(/*! require.ensure | components/SystemMsgModal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/SystemMsgModal")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/SystemMsgModal.vue */ 335));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -230,7 +235,8 @@ var _default = {
     JiFen: JiFen,
     SheShou: SheShou,
     WordRanking: WordRanking,
-    CustomHeader: CustomHeader
+    CustomHeader: CustomHeader,
+    SystemMsgModal: SystemMsgModal
   },
   data: function data() {
     return {

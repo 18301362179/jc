@@ -156,11 +156,17 @@ var TipsPopup = function TipsPopup() {
     return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 328));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var SystemMsgModal = function SystemMsgModal() {
+  Promise.all(/*! require.ensure | components/SystemMsgModal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/SystemMsgModal")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/SystemMsgModal.vue */ 335));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
   components: {
     CustomHeader: CustomHeader,
     NativeTabbar: NativeTabbar,
-    TipsPopup: TipsPopup
+    TipsPopup: TipsPopup,
+    SystemMsgModal: SystemMsgModal
   },
   data: function data() {
     return {
