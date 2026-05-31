@@ -141,26 +141,33 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _demo = __webpack_require__(/*! @/api/demo.js */ 35);
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 338));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 321));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 345));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 328));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 352));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var SystemMsgModal = function SystemMsgModal() {
+  __webpack_require__.e(/*! require.ensure | components/SystemMsgModal */ "components/SystemMsgModal").then((function () {
+    return resolve(__webpack_require__(/*! @/components/SystemMsgModal.vue */ 359));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
   components: {
     CustomHeader: CustomHeader,
     NativeTabbar: NativeTabbar,
-    TipsPopup: TipsPopup
+    TipsPopup: TipsPopup,
+    SystemMsgModal: SystemMsgModal
   },
   data: function data() {
     return {

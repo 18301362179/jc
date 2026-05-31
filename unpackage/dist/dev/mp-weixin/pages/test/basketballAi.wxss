@@ -62,7 +62,8 @@
   align-items: center;
   margin: 16rpx 0;
 }
-.match-header .match-teams .away-team.data-v-34314201, .match-header .match-teams .home-team.data-v-34314201 {
+.match-header .match-teams .away-team.data-v-34314201,
+.match-header .match-teams .home-team.data-v-34314201 {
   font-size: 28rpx;
   width: 40%;
   font-weight: 500;
@@ -79,55 +80,57 @@
 }
 .prediction-section.data-v-34314201 {
   background: #ffffff;
-  border-radius: 8rpx;
-  padding: 16rpx;
-  margin-top: 12rpx;
+  border-radius: 12rpx;
+  padding-bottom: 10rpx;
 }
-.prediction-section .win-probability.data-v-34314201 {
+.prediction-section .prediction-row.data-v-34314201 {
   display: flex;
   align-items: center;
-  margin-bottom: 8rpx;
+  margin: 8rpx 0;
 }
-.prediction-section .win-probability .pro-text.data-v-34314201 {
-  color: #d92929;
+.prediction-section .prediction-row .pro-text.data-v-34314201 {
+  color: red;
+  box-sizing: border-box;
+  padding-left: 22rpx;
   font-size: 26rpx;
-  flex: none;
-  padding-right: 12rpx;
+  flex-shrink: 0;
+  width: 140rpx;
 }
-.prediction-section .win-probability .probability-bars.data-v-34314201 {
+.prediction-section .prediction-row .prediction-content.data-v-34314201 {
   flex: 1;
   display: flex;
-  height: 32rpx;
-  background: #f0f0f0;
-  border-radius: 16rpx;
-  overflow: hidden;
-}
-.prediction-section .win-probability .probability-bars .probability-bar.data-v-34314201 {
-  display: flex;
   align-items: center;
-  height: 100%;
-  font-size: 20rpx;
-  color: #fff;
+  justify-content: flex-start;
+  padding: 0 20rpx;
 }
-.prediction-section .win-probability .probability-bars .probability-bar .bi.data-v-34314201 {
-  padding: 0 8rpx;
-  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.2);
+.prediction-section .prediction-row .prediction-content .home-prediction.data-v-34314201 {
+  display: flex;
+  justify-content: flex-end;
+  width: 26%;
 }
-.prediction-section .win-probability .probability-bars .away-bar.data-v-34314201 {
-  background: #31926e;
+.prediction-section .prediction-row .prediction-content .draw-prediction.data-v-34314201 {
+  width: 120rpx;
+  display: flex;
+  justify-content: center;
+}
+.prediction-section .prediction-row .prediction-content .away-prediction.data-v-34314201 {
+  flex: 1;
+  display: flex;
   justify-content: flex-start;
 }
-.prediction-section .win-probability .probability-bars .home-bar.data-v-34314201 {
-  background: #d92929;
-  justify-content: flex-end;
+.prediction-section .prediction-row .prediction-content .prediction-value.data-v-34314201 {
+  font-size: 20rpx;
+  color: #31926e;
 }
 .prediction-section .win-prompt.data-v-34314201 {
-  color: #d92929;
+  color: red;
   text-align: left;
-  font-size: 24rpx;
+  padding-left: 20rpx;
+  font-size: 29.5rpx;
   margin-top: 8rpx;
 }
-.ranking-section.data-v-34314201, .history-section.data-v-34314201 {
+.ranking-section.data-v-34314201,
+.history-section.data-v-34314201 {
   background: #ffffff;
   border-radius: 12rpx;
   margin-bottom: 24rpx;

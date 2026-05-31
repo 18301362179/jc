@@ -398,9 +398,20 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 338));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -417,13 +428,14 @@ var _default = {
       homeLastCourses: [],
       visitingLastCourses: [],
       homeScorers: [],
-      visitingScorers: []
+      visitingScorers: [],
+      aiPredictList: []
     };
   },
   onLoad: function onLoad(options) {
     this.getAiDetail(options.id, options.isLottery, options.serialNumber, options.dateStr);
     wx.showShareMenu({
-      menus: ['shareAppMessage', 'shareTimeline']
+      menus: ["shareAppMessage", "shareTimeline"]
     });
   },
   onShow: function onShow() {
@@ -432,20 +444,20 @@ var _default = {
   methods: {
     // 日期格式化（兼容篮球赛事日期）
     formatDateWithWeekday: function formatDateWithWeekday(time) {
-      if (!time) return '-';
-      var date = new Date(time.replace(/\//g, '-'));
-      var week = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      if (!time) return "-";
+      var date = new Date(time.replace(/\//g, "-"));
+      var week = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
       var year = date.getFullYear();
-      var month = String(date.getMonth() + 1).padStart(2, '0');
-      var day = String(date.getDate()).padStart(2, '0');
-      var hour = String(date.getHours()).padStart(2, '0');
-      var minute = String(date.getMinutes()).padStart(2, '0');
+      var month = String(date.getMonth() + 1).padStart(2, "0");
+      var day = String(date.getDate()).padStart(2, "0");
+      var hour = String(date.getHours()).padStart(2, "0");
+      var minute = String(date.getMinutes()).padStart(2, "0");
       return "".concat(year, "-").concat(month, "-").concat(day, " ").concat(week[date.getDay()], " ").concat(hour, ":").concat(minute);
     },
     // 小数转百分比
     decimalToPercentage: function decimalToPercentage(decimal) {
       var fixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '-';
+      var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "-";
       // 第一步：将入参转为数字（兼容字符串/数字）
       var num = parseFloat(decimal);
       // 第二步：判断是否为有效数字
@@ -466,7 +478,7 @@ var _default = {
             switch (_context.prev = _context.next) {
               case 0:
                 uni.showLoading({
-                  title: '加载中...'
+                  title: "加载中..."
                 });
                 _context.prev = 1;
                 _context.next = 4;
@@ -478,6 +490,7 @@ var _default = {
                 res = _context.sent;
                 data = res.data.data; // 核心数据赋值
                 _this.courseMap = data.baseMap || {};
+                _this.aiPredictList = data.aiPredictList || [];
                 _this.winRateAndGoalCalculate = data.winRateAndGoalCalculate || {};
                 _this.homeTeam = data.homeTeam || {};
                 _this.visitingTeam = data.visitingTeam || {};
@@ -486,26 +499,26 @@ var _default = {
                 _this.homeScorers = data.homeScorers || [];
                 _this.visitingScorers = data.visitingScorers || [];
                 _this.info = JSON.parse(JSON.stringify(data));
-                _context.next = 21;
+                _context.next = 22;
                 break;
-              case 17:
-                _context.prev = 17;
+              case 18:
+                _context.prev = 18;
                 _context.t0 = _context["catch"](1);
-                console.error('获取篮球AI数据失败：', _context.t0);
+                console.error("获取篮球AI数据失败：", _context.t0);
                 uni.showToast({
-                  title: '数据加载失败',
-                  icon: 'none'
+                  title: "数据加载失败",
+                  icon: "none"
                 });
-              case 21:
-                _context.prev = 21;
+              case 22:
+                _context.prev = 22;
                 uni.hideLoading();
-                return _context.finish(21);
-              case 24:
+                return _context.finish(22);
+              case 25:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 17, 21, 24]]);
+        }, _callee, null, [[1, 18, 22, 25]]);
       }))();
     },
     // 补充缺失的方法（避免报错）

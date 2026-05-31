@@ -9,6 +9,7 @@
   "usingComponents": {
     "custom-header": "/components/CustomHeader",
     "native-tabbar": "/components/tabbar",
-    "tips-popup": "/pages/commn/playTip"
+    "tips-popup": "/pages/commn/playTip",
+    "system-msg-modal": "/components/SystemMsgModal"
   }
 }

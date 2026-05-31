@@ -16,6 +16,7 @@
     "mixed-pass-list": "/pages/commn/basketball/MixedPassList",
     "custom-header": "/components/CustomHeader",
     "tips-popup": "/pages/commn/playTip",
-    "empty-stop": "/pages/commn/emptyStop"
+    "empty-stop": "/pages/commn/emptyStop",
+    "system-msg-modal": "/components/SystemMsgModal"
   }
 }

@@ -130,32 +130,32 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var List = function List() {
   __webpack_require__.e(/*! require.ensure | pages/fourteenIndex/list */ "pages/fourteenIndex/list").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/fourteenIndex/list.vue */ 441));
+    return resolve(__webpack_require__(/*! @/pages/fourteenIndex/list.vue */ 472));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 338));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 328));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 352));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 413));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 444));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var BetBar = function BetBar() {
   __webpack_require__.e(/*! require.ensure | pages/commn/betBar/index */ "pages/commn/betBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 427));
+    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 458));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var DrawNumSelector = function DrawNumSelector() {
   __webpack_require__.e(/*! require.ensure | pages/commn/DrawNumSelector/index */ "pages/commn/DrawNumSelector/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 434));
+    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 465));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -170,7 +170,7 @@ var _default = {
   data: function data() {
     return {
       // 🌟 新增期数相关变量（和4/6/9场一致）
-      currentDrawNum: '',
+      currentDrawNum: "",
       drawNumList: [],
       navBarTotalHeight: 88,
       // 兜底默认值
@@ -182,7 +182,7 @@ var _default = {
       headerHeight: 0,
       statusBarHeight: 0,
       playTypeMap: {
-        "胜平负": "spf"
+        胜平负: "spf"
       },
       isRefreshing: false,
       // 提示弹窗配置：保留原有
@@ -261,7 +261,7 @@ var _default = {
     // 🌟 新增：计算导航栏总高度（统一模板）
     this.calcNavBarTotalHeight();
     wx.showShareMenu({
-      menus: ['shareAppMessage', 'shareTimeline']
+      menus: ["shareAppMessage", "shareTimeline"]
     });
     var editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
@@ -274,7 +274,7 @@ var _default = {
     } else {
       // 初始化清空期数，重新请求最新数据（统一模板）
       this.drawNumList = [];
-      this.currentDrawNum = '';
+      this.currentDrawNum = "";
       this.loadMatchData();
     }
   },
@@ -284,7 +284,7 @@ var _default = {
   },
   onLoad: function onLoad() {
     wx.showShareMenu({
-      menus: ['shareAppMessage', 'shareTimeline']
+      menus: ["shareAppMessage", "shareTimeline"]
     });
     var editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
@@ -297,7 +297,7 @@ var _default = {
     } else {
       // 初始化清空期数，重新请求最新数据（统一模板）
       this.drawNumList = [];
-      this.currentDrawNum = '';
+      this.currentDrawNum = "";
       this.loadMatchData();
     }
   },
@@ -496,7 +496,7 @@ var _default = {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                drawNum = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : '';
+                drawNum = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : "";
                 _context3.prev = 1;
                 _this6.drawerList = [];
                 _this6.isLoading = true;
@@ -539,7 +539,6 @@ var _default = {
                 if (res.data && res.data.length > 0) {
                   _this6.title = "截止时间：" + res.data[0].sale_end_time;
                 }
-                ;
 
                 // 4. 格式化赛事列表（保持14场原有初始化逻辑，仅对齐格式）
                 _this6.drawerList = _this6.formatDrawerList(res.data, _this6.currentDrawNum);
@@ -550,10 +549,10 @@ var _default = {
                     icon: "none"
                   });
                 }
-                _context3.next = 30;
+                _context3.next = 29;
                 break;
-              case 25:
-                _context3.prev = 25;
+              case 24:
+                _context3.prev = 24;
                 _context3.t0 = _context3["catch"](1);
                 console.error("加载赛事失败:", _context3.t0);
                 uni.showToast({
@@ -561,17 +560,17 @@ var _default = {
                   icon: "none"
                 });
                 _this6.hasData = false;
-              case 30:
-                _context3.prev = 30;
+              case 29:
+                _context3.prev = 29;
                 _this6.isLoading = false;
                 _this6.hideLoading();
-                return _context3.finish(30);
-              case 34:
+                return _context3.finish(29);
+              case 33:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[1, 25, 30, 34]]);
+        }, _callee3, null, [[1, 24, 29, 33]]);
       }))();
     },
     // 🌟 调整formatDrawerList，对齐统一模板的格式
@@ -635,7 +634,7 @@ var _default = {
                 return (0, _demo.recharge)(reqParams);
               case 5:
                 res = _context4.sent;
-                if (!(res.data.status == 'fail')) {
+                if (!(res.data.status == "fail")) {
                   _context4.next = 12;
                   break;
                 }
@@ -657,12 +656,12 @@ var _default = {
                 return _context4.abrupt("return");
               case 12:
                 if (item.is_buy == 0) {
-                  _this7.$set(item, 'is_buy', 1);
+                  _this7.$set(item, "is_buy", 1);
                 }
                 // 有灵石，正常跳转分析页
                 _context4.next = 15;
                 return uni.navigateTo({
-                  url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&isTradition=1")
+                  url: "/pages/test/footballPredict?id=".concat(item.match_id, "&isLottery=1&isTradition=1")
                 });
               case 15:
                 _context4.next = 21;
@@ -670,10 +669,10 @@ var _default = {
               case 17:
                 _context4.prev = 17;
                 _context4.t0 = _context4["catch"](0);
-                console.error('[AI分析] 失败:', _context4.t0);
+                console.error("[AI分析] 失败:", _context4.t0);
                 uni.showToast({
-                  title: '网络异常，请稍后重试',
-                  icon: 'none'
+                  title: "网络异常，请稍后重试",
+                  icon: "none"
                 });
               case 21:
                 _context4.prev = 21;

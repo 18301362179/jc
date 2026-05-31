@@ -13,6 +13,7 @@
     "ji-fen": "/pages/commn/jiFen",
     "she-shou": "/pages/commn/sheShou",
     "word-ranking": "/pages/commn/WordRanking",
-    "custom-header": "/components/CustomHeader"
+    "custom-header": "/components/CustomHeader",
+    "system-msg-modal": "/components/SystemMsgModal"
   }
 }

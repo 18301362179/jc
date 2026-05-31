@@ -81,6 +81,12 @@
       ]
     },
     {
+      "root": "pages/edit/mix",
+      "pages": [
+        "index"
+      ]
+    },
+    {
       "root": "pages/edit/basketball",
       "pages": [
         "editHalfFull",
@@ -94,7 +100,10 @@
       "root": "pages/test",
       "pages": [
         "index",
-        "basketballAi"
+        "basketballAi",
+        "footballPredict",
+        "basketballPredict",
+        "tabsAll"
       ]
     },
     {

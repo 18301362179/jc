@@ -149,32 +149,32 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var _data = __webpack_require__(/*! @/utils/data */ 63);
 var List = function List() {
   __webpack_require__.e(/*! require.ensure | pages/fourIndex/list */ "pages/fourIndex/list").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/fourIndex/list.vue */ 455));
+    return resolve(__webpack_require__(/*! @/pages/fourIndex/list.vue */ 486));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 338));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 328));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 352));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 413));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 444));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var BetBar = function BetBar() {
   __webpack_require__.e(/*! require.ensure | pages/commn/betBar/index */ "pages/commn/betBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 427));
+    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 458));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var DrawNumSelector = function DrawNumSelector() {
   __webpack_require__.e(/*! require.ensure | pages/commn/DrawNumSelector/index */ "pages/commn/DrawNumSelector/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 434));
+    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 465));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -188,7 +188,7 @@ var _default = {
   },
   data: function data() {
     return {
-      currentDrawNum: '',
+      currentDrawNum: "",
       // 当前选中的期数
       drawNumList: [],
       // 期数列表（从接口data.drawNumList获取）
@@ -199,7 +199,7 @@ var _default = {
       headerHeight: 0,
       statusBarHeight: 0,
       playTypeMap: {
-        "胜平负": "spf"
+        胜平负: "spf"
       },
       isRefreshing: false,
       // 提示弹窗配置
@@ -211,7 +211,7 @@ var _default = {
       touchStartX: 0,
       swipeThreshold: 50,
       hasData: false,
-      title: '',
+      title: "",
       navBarTotalHeight: 88 // 🌟 补全缺失的变量声明，兜底默认值
     };
   },
@@ -262,7 +262,7 @@ var _default = {
           if (item.homeScoreSelected.length > 0 || item.awayScoreSelected.length > 0) count++;
         });
       });
-      console.log(count, 'count--------');
+      console.log(count, "count--------");
       return count;
     }
   },
@@ -281,7 +281,7 @@ var _default = {
     // 🌟 计算导航栏总高度（适配所有机型）
     this.calcNavBarTotalHeight();
     wx.showShareMenu({
-      menus: ['shareAppMessage', 'shareTimeline']
+      menus: ["shareAppMessage", "shareTimeline"]
     });
     var editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
@@ -294,7 +294,7 @@ var _default = {
     } else {
       // 初始化清空期数，重新请求最新数据
       this.drawNumList = [];
-      this.currentDrawNum = '';
+      this.currentDrawNum = "";
       this.loadMatchData();
     }
   },
@@ -304,7 +304,7 @@ var _default = {
   },
   onLoad: function onLoad() {
     wx.showShareMenu({
-      menus: ['shareAppMessage', 'shareTimeline']
+      menus: ["shareAppMessage", "shareTimeline"]
     });
     var editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
@@ -317,7 +317,7 @@ var _default = {
     } else {
       // 初始化清空期数，重新请求最新数据
       this.drawNumList = [];
-      this.currentDrawNum = '';
+      this.currentDrawNum = "";
       this.loadMatchData();
     }
   },
@@ -529,7 +529,7 @@ var _default = {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                drawNum = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : '';
+                drawNum = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : "";
                 _context3.prev = 1;
                 _this4.drawerList = [];
                 _this4.isLoading = true;
@@ -573,7 +573,6 @@ var _default = {
                 if (res.data && res.data.length > 0) {
                   _this4.title = "截止时间：" + res.data[0].sale_end_time;
                 }
-                ;
                 // 4. 格式化赛事列表
                 _this4.drawerList = _this4.formatDrawerList(res.data, _this4.currentDrawNum);
                 _this4.hasData = _this4.drawerList.length > 0;
@@ -583,10 +582,10 @@ var _default = {
                     icon: "none"
                   });
                 }
-                _context3.next = 30;
+                _context3.next = 29;
                 break;
-              case 25:
-                _context3.prev = 25;
+              case 24:
+                _context3.prev = 24;
                 _context3.t0 = _context3["catch"](1);
                 console.error("加载赛事失败:", _context3.t0);
                 uni.showToast({
@@ -594,17 +593,17 @@ var _default = {
                   icon: "none"
                 });
                 _this4.hasData = false;
-              case 30:
-                _context3.prev = 30;
+              case 29:
+                _context3.prev = 29;
                 _this4.isLoading = false;
                 _this4.hideLoading();
-                return _context3.finish(30);
-              case 34:
+                return _context3.finish(29);
+              case 33:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[1, 25, 30, 34]]);
+        }, _callee3, null, [[1, 24, 29, 33]]);
       }))();
     },
     // 🌟 重构：适配数组格式的赛事列表，参数1为赛事数组，参数2为期数
@@ -665,7 +664,7 @@ var _default = {
                 return (0, _demo.recharge)(reqParams);
               case 5:
                 res = _context4.sent;
-                if (!(res.data.status == 'fail')) {
+                if (!(res.data.status == "fail")) {
                   _context4.next = 12;
                   break;
                 }
@@ -687,12 +686,12 @@ var _default = {
                 return _context4.abrupt("return");
               case 12:
                 if (item.is_buy == 0) {
-                  _this5.$set(item, 'is_buy', 1);
+                  _this5.$set(item, "is_buy", 1);
                 }
                 // 有灵石，正常跳转分析页
                 _context4.next = 15;
                 return uni.navigateTo({
-                  url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&isTradition=1")
+                  url: "/pages/test/footballPredict?id=".concat(item.match_id, "&isLottery=1&isTradition=1")
                 });
               case 15:
                 _context4.next = 20;
@@ -701,8 +700,8 @@ var _default = {
                 _context4.prev = 17;
                 _context4.t0 = _context4["catch"](0);
                 uni.showToast({
-                  title: '网络异常，请稍后重试',
-                  icon: 'none'
+                  title: "网络异常，请稍后重试",
+                  icon: "none"
                 });
               case 20:
                 _context4.prev = 20;

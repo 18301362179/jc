@@ -373,7 +373,6 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   z-index: 999999;
-  touch-action: none;
 }
 .score-popup.data-v-5ff491f7 {
   position: fixed;
@@ -466,6 +465,7 @@
   padding: 0 20rpx;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  height: 0;
 }
 .popup-scroll-content.data-v-5ff491f7 ::-webkit-scrollbar {
   display: none;
