@@ -101,7 +101,7 @@ var components
 try {
   components = {
     UniNumberKeyboard: function () {
-      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 307))
+      return __webpack_require__.e(/*! import() | components/UniNumberKeyboard/UniNumberKeyboard */ "components/UniNumberKeyboard/UniNumberKeyboard").then(__webpack_require__.bind(null, /*! @/components/UniNumberKeyboard/UniNumberKeyboard.vue */ 331))
     },
   }
 } catch (e) {
@@ -193,57 +193,57 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 321));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 345));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchSpf = function MatchSpf() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchSpf */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchSpf")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 377));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 401));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHandicap = function MatchHandicap() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchHandicap */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchHandicap")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 385));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 409));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchScore = function MatchScore() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchScore */ "pages/commn/index/MatchScore").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 392));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 416));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchTotalGoals = function MatchTotalGoals() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchTotalGoals */ "pages/commn/index/MatchTotalGoals").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 399));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 423));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHalfFull = function MatchHalfFull() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchHalfFull */ "pages/commn/index/MatchHalfFull").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 406));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 430));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 338));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MixedPassList = function MixedPassList() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MixedPassList */ "pages/commn/index/MixedPassList").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 413));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 437));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 328));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 352));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 420));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 444));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SystemMsgModal = function SystemMsgModal() {
   Promise.all(/*! require.ensure | components/SystemMsgModal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/SystemMsgModal")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/SystemMsgModal.vue */ 335));
+    return resolve(__webpack_require__(/*! @/components/SystemMsgModal.vue */ 359));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {

@@ -149,32 +149,32 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var _data = __webpack_require__(/*! @/utils/data */ 63);
 var List = function List() {
   __webpack_require__.e(/*! require.ensure | pages/fourIndex/list */ "pages/fourIndex/list").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/fourIndex/list.vue */ 462));
+    return resolve(__webpack_require__(/*! @/pages/fourIndex/list.vue */ 486));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 338));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
   __webpack_require__.e(/*! require.ensure | pages/commn/playTip */ "pages/commn/playTip").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 328));
+    return resolve(__webpack_require__(/*! @/pages/commn/playTip */ 352));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 420));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 444));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var BetBar = function BetBar() {
   __webpack_require__.e(/*! require.ensure | pages/commn/betBar/index */ "pages/commn/betBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 434));
+    return resolve(__webpack_require__(/*! @/pages/commn/betBar/index.vue */ 458));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var DrawNumSelector = function DrawNumSelector() {
   __webpack_require__.e(/*! require.ensure | pages/commn/DrawNumSelector/index */ "pages/commn/DrawNumSelector/index").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 441));
+    return resolve(__webpack_require__(/*! @/pages/commn/DrawNumSelector/index.vue */ 465));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -691,7 +691,7 @@ var _default = {
                 }
                 _context4.next = 15;
                 return uni.navigateTo({
-                  url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&isTradition=1")
+                  url: "/pages/test/footballPredict?id=".concat(item.match_id, "&isLottery=1&isTradition=1")
                 });
               case 15:
                 _context4.next = 20;

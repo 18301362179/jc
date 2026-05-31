@@ -1111,7 +1111,7 @@ export default {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: url("/static/ai-bg.png") center / cover no-repeat;
+   background: url("https://www.tianjifu.com/static/ai-bg.png") center / cover no-repeat;
   color: rgba(255, 255, 255, 0.7);
   padding: 0rpx 30rpx;
   box-sizing: border-box;

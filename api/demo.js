@@ -369,7 +369,6 @@ export const platformSysMessageRead = (data) => {
         data
     })
 }
-\
 export const purchasingFootballInfo = (data) => {
     return request({
         url: baseUrl + "/purchasing/football/infoPageData",

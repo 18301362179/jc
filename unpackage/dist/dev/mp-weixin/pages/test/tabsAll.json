@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "积分榜",
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#31926e",
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "onReachBottomDistance": 50,
+  "disableScroll": true,
+  "usingComponents": {
+    "custom-header": "/components/CustomHeader"
+  }
+}

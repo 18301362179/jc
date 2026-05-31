@@ -189,42 +189,42 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 var _data = __webpack_require__(/*! @/utils/data */ 63);
 var NativeTabbar = function NativeTabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 321));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 345));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var noData = function noData() {
   __webpack_require__.e(/*! require.ensure | pages/commn/noData */ "pages/commn/noData").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 342));
+    return resolve(__webpack_require__(/*! @/pages/commn/noData */ 366));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SaiCheng = function SaiCheng() {
   __webpack_require__.e(/*! require.ensure | pages/commn/saiCheng */ "pages/commn/saiCheng").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 349));
+    return resolve(__webpack_require__(/*! @/pages/commn/saiCheng.vue */ 373));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var JiFen = function JiFen() {
   __webpack_require__.e(/*! require.ensure | pages/commn/jiFen */ "pages/commn/jiFen").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 356));
+    return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 380));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SheShou = function SheShou() {
   __webpack_require__.e(/*! require.ensure | pages/commn/sheShou */ "pages/commn/sheShou").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 363));
+    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 387));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var WordRanking = function WordRanking() {
   __webpack_require__.e(/*! require.ensure | pages/commn/WordRanking */ "pages/commn/WordRanking").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 370));
+    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 394));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
-    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 314));
+    return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 338));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SystemMsgModal = function SystemMsgModal() {
   Promise.all(/*! require.ensure | components/SystemMsgModal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/SystemMsgModal")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/SystemMsgModal.vue */ 335));
+    return resolve(__webpack_require__(/*! @/components/SystemMsgModal.vue */ 359));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {

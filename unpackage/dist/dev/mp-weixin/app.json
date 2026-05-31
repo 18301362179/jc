@@ -94,7 +94,10 @@
       "root": "pages/test",
       "pages": [
         "index",
-        "basketballAi"
+        "basketballAi",
+        "footballPredict",
+        "basketballPredict",
+        "tabsAll"
       ]
     },
     {
