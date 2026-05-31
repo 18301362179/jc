@@ -53,7 +53,7 @@
     <!-- 全局数字软键盘组件（新增） -->
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
     <EmptyStop :hasData="hasData" />
-    <SystemMsgModal/>
+    <SystemMsgModal />
   </view>
 </template>
 
@@ -87,7 +87,7 @@ export default {
     EmptyStop,
     // 注册混合过关组件
     MixedPassList,
-    SystemMsgModal
+    SystemMsgModal,
   },
 
   data() {
@@ -1212,9 +1212,10 @@ export default {
         if (item.is_buy == 0) {
           this.$set(item, "is_buy", 1);
         }
+        console.log(item,'item---------')
         // 有灵石，正常跳转分析页
         await uni.navigateTo({
-          url: `/pages/test/index?id=${item.id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}`,
+          url: `/pages/test/footballPredict?id=${item.match_id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}`,
         });
       }
     },

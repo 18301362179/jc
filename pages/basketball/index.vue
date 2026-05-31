@@ -46,7 +46,7 @@
     <TipsPopup :visible.sync="isPopupShow" :title="tipsTitle" :content-list="tipsContentList" :header-height="headerHeight" :popup-width="700" border-color="#07c160" @close="handlePopupClose" :max-height="popupMaxHeight" />
     <UniNumberKeyboard :show.sync="showNumberKeyboard" :value="betCount + ''" :allowDot="false" confirm-text="确认" :min="1" :max="50" @input="handleKeyboardInput" @confirm="handleKeyboardConfirm" />
     <EmptyStop :hasData="hasData" position="middle" />
-    <SystemMsgModal/>
+    <SystemMsgModal />
   </view>
 </template>
 
@@ -75,7 +75,7 @@ export default {
     CustomHeader,
     TipsPopup,
     EmptyStop,
-    SystemMsgModal
+    SystemMsgModal,
   },
   data() {
     return {
@@ -857,7 +857,7 @@ export default {
             confirmText: "获取",
             confirmColor: "#d92929",
             success: (res) => {
-              this.$set(item,)
+              this.$set(item);
               if (res.confirm) {
                 uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
               }
@@ -866,9 +866,9 @@ export default {
           return;
         } else {
           if (item.is_buy == 0) {
-            this.$set(item,'is_buy',1)
+            this.$set(item, "is_buy", 1);
           }
-          await uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
+          await uni.navigateTo({ url: `/pages/test/basketballPredict?id=${item.match_id}&isLottery=1` });
         }
       } catch (err) {
         console.error("[AI分析] 失败:", err);

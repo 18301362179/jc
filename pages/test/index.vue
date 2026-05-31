@@ -79,21 +79,11 @@
                 </view>
               </view>
             </view>
-            <view class="prediction-row" v-for="(item, i) in baseMap.aiPredictList " :key="i">
-              <!-- <text class="pro-text">数据分析</text> -->
+            <!-- <view class="prediction-row" v-for="(item, i) in baseMap.aiPredictList " :key="i">
               <view class="prediction-content" style="font-size: 24rpx;color:#31926e;box-sizing: border-box; padding-left: 30rpx;">
                 {{item}}
-                <!-- <view class="home-prediction">
-                  <text class="prediction-value">{{ baseMap.homeGoalCalculate === null || baseMap.homeGoalCalculate === undefined ? "-" : baseMap.homeGoalCalculate }}</text>
-                </view>
-                <view class="draw-prediction">
-                  <text class="prediction-value">:</text>
-                </view>
-                <view class="away-prediction">
-                  <text class="prediction-value">{{ baseMap.visitingGoalCalculate === null || baseMap.visitingGoalCalculate === undefined ? "-" : baseMap.visitingGoalCalculate }}</text>
-                </view> -->
               </view>
-            </view>
+            </view> -->
             <view class="win-prompt">{{ info.prompt || "" }}</view>
           </view>
         </view>
@@ -199,7 +189,7 @@
         </view>
         <!-- 新增：球队伤停情况模块 -->
         <view class="ranking-section">
-          <view class="section-title" style="color: red;background: #f2f2f2 !important;">
+          <view class="section-title" style="color: red; background: #f2f2f2 !important">
             <text>{{ courseMap.home_name || "" }}伤停情况</text>
           </view>
           <view class="ranking-table scorer-table">
@@ -228,7 +218,7 @@
         </view>
 
         <view class="ranking-section">
-          <view class="section-title" style="color:red;background: #f2f2f2 !important;">
+          <view class="section-title" style="color: red; background: #f2f2f2 !important">
             <text>{{ courseMap.visiting_name || "" }}伤停情况</text>
           </view>
           <view class="ranking-table scorer-table">
@@ -392,11 +382,11 @@ export default {
     uni.hideTabBar();
   },
   methods: {
-  goToTeamDetail(home_name_title) {
+    goToTeamDetail(home_name_title) {
       uni.navigateTo({
-        url: `/pages/teamDetail/teamDetail?teamName=${home_name_title}`
-      })
-  },
+        url: `/pages/teamDetail/teamDetail?teamName=${home_name_title}`,
+      });
+    },
     switchTab(tab) {
       if (tab == "全部") {
         this.filteredRecords = this.allHeadRecord;

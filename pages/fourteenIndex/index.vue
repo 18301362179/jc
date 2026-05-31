@@ -1,72 +1,28 @@
 <template>
-  <view @touchstart="onTouchStart" 
-    @touchend="onTouchEnd"
-    style="width: 100%; height: 100vh; box-sizing: border-box;">
+  <view @touchstart="onTouchStart" @touchend="onTouchEnd" style="width: 100%; height: 100vh; box-sizing: border-box">
     <!-- 顶部导航 -->
-    <CustomHeader
-      :title="'14'"
-      :showBack="true"
-      :isIndex="false"
-      :showIcon="false"
-      :isSelected="false"
-      :selectedPlay="''"
-      @funnel-click="handleFunnel"
-      @back-click="onBackClick"
-    />
+    <CustomHeader :title="'14'" :showBack="true" :isIndex="false" :showIcon="false" :isSelected="false" :selectedPlay="''" @funnel-click="handleFunnel" @back-click="onBackClick" />
     <!-- 🌟 新增：期数选择组件（和4/6/9场一致） -->
-    <DrawNumSelector
-      :title="title"
-      :draw-num-list="drawNumList"
-      :current-draw-num="currentDrawNum"
-      :nav-bar-total-height="navBarTotalHeight"
-      @draw-num-change="onDrawNumChange"
-      @rule-click="handleFunnel"/>
+    <DrawNumSelector :title="title" :draw-num-list="drawNumList" :current-draw-num="currentDrawNum" :nav-bar-total-height="navBarTotalHeight" @draw-num-change="onDrawNumChange" @rule-click="handleFunnel" />
 
     <!-- 滚动列表区域：修改top为动态绑定 -->
-    <scroll-view 
-      class="match-scroll" 
+    <scroll-view
+      class="match-scroll"
       scroll-y
-      :style="{ 
-        top: (navBarTotalHeight + 70 ) + 'rpx', // 动态适配期数选择器下方位置
-        bottom: '90rpx' 
+      :style="{
+        top: navBarTotalHeight + 70 + 'rpx', // 动态适配期数选择器下方位置
+        bottom: '90rpx',
       }"
     >
-      <List
-        ref="spfRef"
-        :drawer-list="drawerList"
-        :status-bar-height="statusBarHeight"
-        @toggle-select="toggleSelect"
-        :go-to-ai-analysis="goToAiAnalysis"
-      />
+      <List ref="spfRef" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :go-to-ai-analysis="goToAiAnalysis" />
     </scroll-view>
 
     <!-- 底部投注栏组件：保留14场核心规则 -->
-    <BetBar
-      :min-match-count="14"
-      title="胜负"       
-      :show-clear-btn="true"
-      :confirmBtnEnabled="true"
-      :confirm-btn-enabled="selectedMatchCount >= 9"
-      :selected-count="selectedMatchCount"
-      @clear="handleClearAll"
-      @confirm="goToSchemeEdit"
-    />
+    <BetBar :min-match-count="14" title="胜负" :show-clear-btn="true" :confirmBtnEnabled="true" :confirm-btn-enabled="selectedMatchCount >= 9" :selected-count="selectedMatchCount" @clear="handleClearAll" @confirm="goToSchemeEdit" />
 
     <!-- 必要的弹窗组件：保持原有 -->
-    <TipsPopup
-      :visible.sync="isPopupShow"
-      :title="tipsTitle"
-      :content-list="tipsContentList"
-      :header-height="headerHeight"
-      :popup-width="700"
-      border-color="#07c160"
-      @close="handlePopupClose"
-      :max-height="popupMaxHeight"
-    />
-    <EmptyStop 
-      :hasData="!hasData" 
-    />
-        
+    <TipsPopup :visible.sync="isPopupShow" :title="tipsTitle" :content-list="tipsContentList" :header-height="headerHeight" :popup-width="700" border-color="#07c160" @close="handlePopupClose" :max-height="popupMaxHeight" />
+    <EmptyStop :hasData="!hasData" />
   </view>
 </template>
 
@@ -75,17 +31,15 @@
 import List from "@/pages/fourteenIndex/list.vue";
 import CustomHeader from "@/components/CustomHeader.vue";
 import TipsPopup from "@/pages/commn/playTip";
-import EmptyStop from '@/pages/commn/emptyStop.vue';
+import EmptyStop from "@/pages/commn/emptyStop.vue";
 import BetBar from "@/pages/commn/betBar/index.vue";
-import DrawNumSelector from '@/pages/commn/DrawNumSelector/index.vue' // 新增期数组件
+import DrawNumSelector from "@/pages/commn/DrawNumSelector/index.vue"; // 新增期数组件
 
 // API和工具函数引入：🌟 新增footballLotteryTraditionDrawNum
 import { footballLotteryTradition, checkSelect, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 
-
 export default {
-   
   components: {
     List,
     CustomHeader,
@@ -93,15 +47,14 @@ export default {
     EmptyStop,
     BetBar,
     DrawNumSelector, // 注册期数组件
-    
   },
   data() {
     return {
       // 🌟 新增期数相关变量（和4/6/9场一致）
-      currentDrawNum: '', 
-      drawNumList: [], 
+      currentDrawNum: "",
+      drawNumList: [],
       navBarTotalHeight: 88, // 兜底默认值
-      
+
       currentPlay: "胜平负",
       isPopupShow: false,
       drawerList: [],
@@ -109,7 +62,7 @@ export default {
       headerHeight: 0,
       statusBarHeight: 0,
       playTypeMap: {
-        "胜平负": "spf"
+        胜平负: "spf",
       },
       isRefreshing: false,
       // 提示弹窗配置：保留原有
@@ -122,7 +75,7 @@ export default {
         "5、建议多处验证一下比赛预测结果，多方比较后得到的结论更可信。",
         "6、本系统处于公测阶段，有任何好的提议或意见请加入《数算体育》微信群进行交流指导。",
         "7、关于体彩相关玩法、规则请到中国体育彩票网站或app自行参阅。",
-        "8、每天上午11点10分后本应用正式可用。"
+        "8、每天上午11点10分后本应用正式可用。",
       ],
       windowHeight: 0,
       windowWidth: 0,
@@ -130,7 +83,7 @@ export default {
       touchStartX: 0,
       swipeThreshold: 50,
       hasData: false,
-      title:""
+      title: "",
     };
   },
   async onPullDownRefresh() {
@@ -158,12 +111,12 @@ export default {
         });
       });
       return count;
-    }
+    },
   },
   watch: {
     currentPlay(newVal) {
       this.loadMatchData();
-    }
+    },
   },
   created() {
     // 统一获取系统信息，兼容多端
@@ -173,9 +126,9 @@ export default {
     this.windowHeight = systemInfo.windowHeight;
     // 🌟 新增：计算导航栏总高度（统一模板）
     this.calcNavBarTotalHeight();
-  wx.showShareMenu({
-    menus: ['shareAppMessage', 'shareTimeline']
-  })
+    wx.showShareMenu({
+      menus: ["shareAppMessage", "shareTimeline"],
+    });
     const editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
       let parsedData = editedData;
@@ -187,7 +140,7 @@ export default {
     } else {
       // 初始化清空期数，重新请求最新数据（统一模板）
       this.drawNumList = [];
-      this.currentDrawNum = '';
+      this.currentDrawNum = "";
       this.loadMatchData();
     }
   },
@@ -196,9 +149,9 @@ export default {
     this.calcPopupMaxHeight();
   },
   onLoad() {
-      wx.showShareMenu({
-    menus: ['shareAppMessage', 'shareTimeline']
-  })
+    wx.showShareMenu({
+      menus: ["shareAppMessage", "shareTimeline"],
+    });
     const editedData = uni.getStorageSync("editedMatchData");
     if (editedData) {
       let parsedData = editedData;
@@ -210,7 +163,7 @@ export default {
     } else {
       // 初始化清空期数，重新请求最新数据（统一模板）
       this.drawNumList = [];
-      this.currentDrawNum = '';
+      this.currentDrawNum = "";
       this.loadMatchData();
     }
   },
@@ -221,36 +174,37 @@ export default {
       const statusBarHeight = systemInfo.statusBarHeight || 0;
       const navBarHeight = 44;
       const totalHeightPx = statusBarHeight + navBarHeight;
-      const totalHeightRpx = Math.round(totalHeightPx * 750 / (systemInfo.windowWidth || 375));
+      const totalHeightRpx = Math.round((totalHeightPx * 750) / (systemInfo.windowWidth || 375));
       this.navBarTotalHeight = totalHeightRpx;
     },
     // 🌟 新增：期数切换回调（统一模板逻辑）
     onDrawNumChange(num) {
       if (!num || num.trim() === "") return;
-      
+
       this.currentDrawNum = num;
-      
+
       uni.showToast({
         title: "切换至" + num + "期",
         icon: "none",
-        duration: 800
+        duration: 800,
       });
 
-      this.loadMatchData(num)
-        .catch(function(err) {
+      this.loadMatchData(num).catch(
+        function (err) {
           console.error("切换期数失败：", err);
           uni.showToast({
             title: "加载" + num + "期数据失败",
-            icon: "none"
+            icon: "none",
           });
           if (this.drawNumList.length > 0) {
             this.currentDrawNum = this.drawNumList[0];
           }
-        }.bind(this));
+        }.bind(this)
+      );
     },
-    onBackClick(){
+    onBackClick() {
       uni.navigateBack({
-        delta: 1 // 返回的页面数，默认为1
+        delta: 1, // 返回的页面数，默认为1
       });
     },
     // 保留14场原有清空逻辑
@@ -264,7 +218,7 @@ export default {
       });
       uni.showToast({
         title: "已清空选择",
-        icon: "success"
+        icon: "success",
       });
     },
     onTouchStart(e) {
@@ -308,16 +262,16 @@ export default {
           uni.showToast({ title: "请至少选择14场赛事", icon: "none" });
           return;
         }
-          await uni.navigateTo({
-            url: `/pages/fourteenIndex/editFourteen`,
-            events: { updateSelectedMatches: (updatedData) => this.syncUpdatedMatches(updatedData) },
-            success: (res) => {
-              res.eventChannel.emit("selectedData", { 
-                matches: selectedMatches, 
-                comboText: "14串1", // 🌟 修正：14场对应14串1
-              });
-            },
-          });
+        await uni.navigateTo({
+          url: `/pages/fourteenIndex/editFourteen`,
+          events: { updateSelectedMatches: (updatedData) => this.syncUpdatedMatches(updatedData) },
+          success: (res) => {
+            res.eventChannel.emit("selectedData", {
+              matches: selectedMatches,
+              comboText: "14串1", // 🌟 修正：14场对应14串1
+            });
+          },
+        });
       } catch (error) {
         console.error("checkSelect接口调用失败:", error);
         uni.showModal({
@@ -367,22 +321,24 @@ export default {
       });
     },
     // 🌟 核心修改：loadMatchData兼容期数参数（统一模板逻辑）
-    async loadMatchData(drawNum = '') {
+    async loadMatchData(drawNum = "") {
       try {
         this.drawerList = [];
         this.isLoading = true;
         this.showLoading();
         // 请求参数：传递期数，兼容无传入的情况
         const reqParams = { playMethod: 14 };
-        
+
         // 1. 请求期数列表并过滤空值（统一模板）
-        const resNum =  await footballLotteryTraditionDrawNum({playMethod: 14});
-        
-        if (resNum.data&& resNum.data.length == 0) {return;}
-        this.drawNumList = (resNum && resNum.data ? resNum.data : []).filter(function(num) {
+        const resNum = await footballLotteryTraditionDrawNum({ playMethod: 14 });
+
+        if (resNum.data && resNum.data.length == 0) {
+          return;
+        }
+        this.drawNumList = (resNum && resNum.data ? resNum.data : []).filter(function (num) {
           return num && num.trim() !== "";
         });
-        
+
         // 2. 赋值请求期数（优先用传入的，无则用过滤后的第一个有效期数）
         let targetDrawNum = drawNum || this.currentDrawNum;
         if (!targetDrawNum && this.drawNumList.length > 0) {
@@ -395,10 +351,10 @@ export default {
 
         // 3. 请求赛事列表（兼容返回数组的情况，统一模板）
         const res = await footballLotteryTradition(reqParams);
-          if (res.data && res.data.length > 0) {
-            this.title = "截止时间：" + res.data[0].sale_end_time;
-          };
-          
+        if (res.data && res.data.length > 0) {
+          this.title = "截止时间：" + res.data[0].sale_end_time;
+        }
+
         // 4. 格式化赛事列表（保持14场原有初始化逻辑，仅对齐格式）
         this.drawerList = this.formatDrawerList(res.data, this.currentDrawNum);
         this.hasData = this.drawerList.length > 0;
@@ -417,7 +373,7 @@ export default {
     // 🌟 调整formatDrawerList，对齐统一模板的格式
     formatDrawerList(matchArray, drawNum) {
       if (!Array.isArray(matchArray) || matchArray.length === 0) return [];
-      
+
       // 1. 拼接统一的Title（新增截止时间，对齐4/6/9场）
       const totalCount = matchArray.length;
       let endTime = "";
@@ -427,18 +383,20 @@ export default {
       const unifiedTitle = drawNum + "期 |  共" + totalCount + "场比赛 " + "截止时间：" + endTime;
 
       // 2. 处理所有比赛数据，保留14场原有胜平负初始化逻辑
-      const allMatches = matchArray.map(item => ({
+      const allMatches = matchArray.map((item) => ({
         ...item,
         homeSelected: false, // 3（主胜）
-        vsSelected: false,   // 1（平）
-        awaySelected: false  // 0（客胜）
+        vsSelected: false, // 1（平）
+        awaySelected: false, // 0（客胜）
       }));
 
       // 3. 返回单抽屉结构（统一模板）
-      return [{
-        title: unifiedTitle,
-        lotteryList: allMatches
-      }];
+      return [
+        {
+          title: unifiedTitle,
+          lotteryList: allMatches,
+        },
+      ];
     },
     calcHeaderHeight() {
       const systemInfo = wx.getWindowInfo();
@@ -457,43 +415,42 @@ export default {
           id: item.id,
           isLottery: 1,
           isTradition: 1,
-          beFrom:"football",
+          beFrom: "football",
           serialNumber: item.draw_num,
-          dateStr: item.match_num
+          dateStr: item.match_num,
         };
-    // 调用recharge接口
-    const res = await recharge(reqParams);
-    if (res.data.status == 'fail') {
+        // 调用recharge接口
+        const res = await recharge(reqParams);
+        if (res.data.status == "fail") {
           this.hideLoading();
           uni.showModal({
-                title: "提示",
-                content: "您的服务币不足，请获取！",
-                cancelText: "取消",
-                confirmText: "获取",
-                confirmColor: "#d92929",
-                success: (res) => {
-                  if (res.confirm) {
-                    
-                    uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
-                  }
-                }
-              });
-        return;
-    } else {
-                 if (item.is_buy == 0) {
-            this.$set(item,'is_buy',1)
-          }
-            // 有灵石，正常跳转分析页
-          await uni.navigateTo({
-            url: `/pages/test/index?id=${item.id}&isLottery=1&isTradition=1`,
+            title: "提示",
+            content: "您的服务币不足，请获取！",
+            cancelText: "取消",
+            confirmText: "获取",
+            confirmColor: "#d92929",
+            success: (res) => {
+              if (res.confirm) {
+                uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=basketball&isLottery=1` });
+              }
+            },
           });
-    }
-  } catch (err) {
-    console.error('[AI分析] 失败:', err);
-    uni.showToast({ title: '网络异常，请稍后重试', icon: 'none' });
-  } finally {
-    this.hideLoading();
-  }
+          return;
+        } else {
+          if (item.is_buy == 0) {
+            this.$set(item, "is_buy", 1);
+          }
+          // 有灵石，正常跳转分析页
+          await uni.navigateTo({
+            url: `/pages/test/footballPredict?id=${item.match_id}&isLottery=1&isTradition=1`,
+          });
+        }
+      } catch (err) {
+        console.error("[AI分析] 失败:", err);
+        uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
+      } finally {
+        this.hideLoading();
+      }
     },
     showLoading() {
       uni.showLoading({
@@ -597,15 +554,23 @@ page {
     background-color: #fff;
     color: #666;
     border: 1rpx solid #ddd;
-    &:hover { background-color: #f5f5f5; }
-    &:active { background-color: #eee; }
+    &:hover {
+      background-color: #f5f5f5;
+    }
+    &:active {
+      background-color: #eee;
+    }
   }
   .confirm-btn {
     background-color: #d92929;
     color: #fff;
     border: none;
-    &:hover { background-color: #c62828; }
-    &:active { background-color: #b71c1c; }
+    &:hover {
+      background-color: #c62828;
+    }
+    &:active {
+      background-color: #b71c1c;
+    }
   }
 }
 

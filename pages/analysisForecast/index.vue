@@ -5,14 +5,18 @@
     <view class="top" ref="top">
       <!-- 大洲名 -->
       <view class="continent-container">
-        <view v-for="(item, index) in continentList" :key="index" :class="['continent-item', { active: currentContinentIndex === index }]" @click="handleClickContinent(index)">
-          {{ item.continentName }}
-          <view class="corner-mark" v-if="currentContinentIndex === index"></view>
+        <view v-for="(item, index) in leagueList" :key="index" :class="['continent-item', { active: leagueCurrentIndex === index }]" @tap="clickLeague(index, item)">
+          {{ item.league_name }}
+          <view class="corner-mark" v-if="leagueCurrentIndex === index"></view>
+        </view>
+        <view :key="leagueList.length" :class="['continent-item', { active: leagueCurrentIndex === leagueList.length }]" @click="handleClickContinent(leagueList.length)">
+          世界排名
+          <view class="corner-mark" v-if="leagueCurrentIndex === leagueList.length"></view>
         </view>
       </view>
 
       <!-- 世界排名专属tab（仅点击世界排名时显示） -->
-      <view v-if="isWorldRanking" class="world-rank-wrap">
+      <view v-if="isWorldRanking == 1" class="world-rank-wrap">
         <!-- 排名类型tab（改为流式布局） -->
         <view class="tab-container">
           <view class="tab-wrap">
@@ -32,14 +36,16 @@
       <!-- 原有筛选区（仅非世界排名时显示） -->
       <view v-else>
         <!-- 联赛tab（改为流式布局） -->
-        <view class="tab-container">
+        <!-- <view class="tab-container">
           <view class="tab-wrap">
-            <!-- 替换scroll-view为普通view -->
             <view v-for="(item, index) in leagueList" :id="'tab' + index" :key="index" class="tab-item" :class="{ active: leagueCurrentIndex === index }" @tap="clickLeague(index, item)">
               {{ item.league_name }}
             </view>
+            <view :id="'tab' + '555'" :key="index" class="tab-item" :class="{ active: leagueCurrentIndex === index }" @click="handleClickContinent(leagueList.length)">
+              世界排名
+            </view>
           </view>
-        </view>
+        </view> -->
 
         <view class="tab">
           <view class="tab-two">
@@ -116,9 +122,9 @@
         <view class="jifen" v-if="activeIndex === 1">
           <JiFen ref="jiFen"> </JiFen>
         </view>
-        <view class="sheshou" v-if="activeIndex == 2">
+        <!-- <view class="sheshou" v-if="activeIndex == 2">
           <SheShou ref="sheShou"></SheShou>
-        </view>
+        </view> -->
         <view class="load-more">
           <text></text>
         </view>
@@ -203,6 +209,7 @@ export default {
       touchStartX: 0,
       swipeThreshold: 50,
       isDropdownOpen: false, // 控制下拉框展开/收起
+      isWorldRanking: 0,
     };
   },
   onShow() {
@@ -244,10 +251,6 @@ export default {
         return list.slice(1);
       }
       return list;
-    },
-    isWorldRanking() {
-      const currentItem = this.continentList[this.currentContinentIndex];
-      return currentItem && currentItem.continentName === "世界排名";
     },
   },
   methods: {
@@ -432,69 +435,26 @@ export default {
         return [];
       }
     },
-    async handleClickContinent(index) {
-      this.showLoading();
-      this.currentContinentIndex = index;
-      this.activeIndex = 0;
-
-      const currentItem = this.continentList[index];
-      if (currentItem && currentItem.continentName === "世界排名") {
-        try {
-          const res = await queryTeamWordRanking({ teamType: "club" });
-          this.originalWordRankingList = res.data || [];
-          this.wordRankingList = [...this.originalWordRankingList];
-          this.worldRankTypeIndex = 0;
-          this.searchKeyword = "";
-        } catch (error) {
-          console.error("获取世界排名失败:", error);
-          this.originalWordRankingList = [];
-          this.wordRankingList = [];
-        } finally {
-          this.hideLoading();
-        }
-        return;
-      }
-
-      try {
-        const leagueRes = await queryLeagueList({
-          fromContinent: this.continentList[this.currentContinentIndex].continentName,
-        });
-        this.leagueList = leagueRes.data || [];
-        if (this.leagueList.length === 0) return;
-        this.selectTopTabValue = this.leagueList[0];
-        this.leagueCurrentIndex = 0;
-        const csList = await this.getCommonCsList(this.selectTopTabValue.league_name, "course");
-        this.csList = csList;
-        this.selectedCs = csList[0] || "";
-        if (!this.selectedCs) return;
-        const stageList = await this.getCommonStageList(this.selectTopTabValue.league_name, this.selectedCs);
-        this.stageList = stageList;
-        this.stageSelectIndex = stageList.findIndex((item) => item === this.selectTopTabValue.stage) || 0;
-        const roundGroupData = await this.getCommonRoundGroup(this.selectTopTabValue.league_name, this.stageList[this.stageSelectIndex] || "", this.selectedCs, this.selectTopTabValue.round_no || "");
-        this.roundList = roundGroupData.roundList;
-        if (roundGroupData.roundList && roundGroupData.roundList.length > 0) {
-          roundGroupData.roundList.forEach((item, i) => {
-            if (item.no == this.selectTopTabValue.round_no) {
-              this.roundIndex = i;
-            }
-          });
-        } else {
-          this.roundIndex = -1;
-        }
-        this.groupIndex = -1;
-        this.groupList = roundGroupData.groupList;
-        const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: "" });
-        this.courseList = courseList;
-        this.$nextTick(() => {
-          this.$refs.saiCheng.open(courseList);
-        });
-        // 移除initScrollData调用
-      } catch (err) {
-        this.hideLoading();
-      } finally {
-        this.hideLoading();
-      }
-    },
+async handleClickContinent(index) {
+  this.showLoading();
+  this.leagueCurrentIndex = index;
+  this.activeIndex = 0;
+  this.isWorldRanking = 1;
+  // 只保留：点击世界排名逻辑
+  try {
+    const res = await queryTeamWordRanking({ teamType: "club" });
+    this.originalWordRankingList = res.data || [];
+    this.wordRankingList = [...this.originalWordRankingList];
+    this.worldRankTypeIndex = 0;
+    this.searchKeyword = "";
+  } catch (error) {
+    console.error("获取世界排名失败:", error);
+    this.originalWordRankingList = [];
+    this.wordRankingList = [];
+  } finally {
+    this.hideLoading();
+  }
+},
     async handleClickGroupAll() {
       this.showLoading();
       try {
@@ -621,12 +581,6 @@ export default {
           this.$nextTick(() => {
             this.$refs.jiFen.open(jifenList);
           });
-        } else {
-          const sheshouList = await this.getCommonRankData(getSheShou, leagueName, this.selectedCs);
-          this.sheshouList = sheshouList;
-          this.$nextTick(() => {
-            this.$refs.sheShou.open(sheshouList);
-          });
         }
       } catch (error) {
         this.hideLoading();
@@ -677,13 +631,6 @@ export default {
             this.jifenList = jifenList;
             this.$nextTick(() => {
               this.$refs.jiFen.open(jifenList);
-            });
-            break;
-          case 2:
-            const sheshouList = await this.getCommonRankData(getSheShou, leagueName, this.selectedCs);
-            this.sheshouList = sheshouList;
-            this.$nextTick(() => {
-              this.$refs.sheShou.open(sheshouList);
             });
             break;
         }
@@ -766,6 +713,11 @@ export default {
     },
     async clickLeague(index, item) {
       if (this.leagueCurrentIndex === index) return;
+      if (index == this.leagueList.length ) {
+        this.isWorldRanking = 1;
+      } else {
+        this.isWorldRanking = 0;
+      }
       this.showLoading();
       try {
         // 移除scrollLeft重置
