@@ -595,6 +595,62 @@
 							"navigationStyle": "custom"
 						}
 					}
+				},
+								// 新增：足彩预测页面
+				{
+					"path": "footballPredict",
+					"style": {
+						"navigationBarTitleText": "足彩预测",
+						"navigationBarTextStyle": "white",
+						"navigationBarBackgroundColor": "#31926e",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom",
+						"onReachBottomDistance": 50,
+						"app-plus": {
+							"softinputMode": "adjustResize"
+						},
+						"mp-weixin": {
+							"disableScroll": true,
+							"navigationStyle": "custom"
+						}
+					}
+				},
+				// 新增：篮彩预测页面
+				{
+					"path": "basketballPredict",
+					"style": {
+						"navigationBarTitleText": "篮彩预测",
+						"navigationBarTextStyle": "white",
+						"navigationBarBackgroundColor": "#31926e",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom",
+						"onReachBottomDistance": 50,
+						"app-plus": {
+							"softinputMode": "adjustResize"
+						},
+						"mp-weixin": {
+							"disableScroll": true,
+							"navigationStyle": "custom"
+						}
+					}
+				},
+				{
+					"path": "tabsAll",
+					"style": {
+						"navigationBarTitleText": "积分榜",
+						"navigationBarTextStyle": "white",
+						"navigationBarBackgroundColor": "#31926e",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom",
+						"onReachBottomDistance": 50,
+						"app-plus": {
+							"softinputMode": "adjustResize"
+						},
+						"mp-weixin": {
+							"disableScroll": true,
+							"navigationStyle": "custom"
+						}
+					}
 				}
 			]
 		},
