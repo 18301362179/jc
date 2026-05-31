@@ -369,3 +369,28 @@ export const platformSysMessageRead = (data) => {
         data
     })
 }
+\
+export const purchasingFootballInfo = (data) => {
+    return request({
+        url: baseUrl + "/purchasing/football/infoPageData",
+        method: 'GET',
+        data
+    })
+}
+
+// 篮球竞彩 明细接口
+export const purchasingBasketballInfo = (data) => {
+    return request({
+        url: baseUrl + "/purchasing/basketball/infoPageData",
+        method: 'GET',
+        data
+    })
+}
+
+export const purchasingFootballPoints = (data) => {
+    return request({
+        url: baseUrl + "/purchasing/football/points",
+        method: 'GET',
+        data
+    })
+}
