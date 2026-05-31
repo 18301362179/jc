@@ -454,7 +454,7 @@ export default {
         this.$set(item, 'is_buy' ,1)
       }
           await uni.navigateTo({
-            url: `/pages/test/index?id=${item.id}&isLottery=1&isTradition=1`,
+            url: `/pages/test/footballPredict?id=${item.match_id}&isLottery=1&isTradition=1`,
           });
     }
   } catch (err) {
