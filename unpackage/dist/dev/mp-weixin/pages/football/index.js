@@ -1753,7 +1753,7 @@ var _default = {
                 }
                 _context5.next = 13;
                 return uni.navigateTo({
-                  url: "/pages/test/index?id=".concat(item.id, "&isLottery=1&serialNumber=").concat(reqParams.serialNumber, "&beFrom=").concat(reqParams.beFrom)
+                  url: "/pages/test/footballPredict?id=".concat(item.match_id, "&isLottery=1&serialNumber=").concat(reqParams.serialNumber, "&beFrom=").concat(reqParams.beFrom)
                 });
               case 13:
               case "end":

@@ -1234,7 +1234,7 @@ var _default = {
                 uni.setStorageSync();
                 _context5.next = 17;
                 return uni.navigateTo({
-                  url: "/pages/test/basketballAi?id=".concat(item.id, "&isLottery=1")
+                  url: "/pages/test/basketballPredict?id=".concat(item.match_id, "&isLottery=1&serialNumber=").concat(reqParams.serialNumber, "&beFrom=").concat(reqParams.beFrom)
                 });
               case 17:
                 _context5.next = 22;

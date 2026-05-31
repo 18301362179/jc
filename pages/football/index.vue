@@ -1208,9 +1208,9 @@ async goToSchemeEdit() {
                 if (item.is_buy == 0) {
         this.$set(item, 'is_buy' ,1)
       }
-          await uni.navigateTo({
-            url: `/pages/test/index?id=${item.id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}`,
-          });
+        await uni.navigateTo({
+          url: `/pages/test/footballPredict?id=${item.match_id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}`,
+        });
         }
 
     },

@@ -102,11 +102,14 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = !_vm.isWorldRanking
+  var g0 = _vm.leagueList.length
+  var g1 = _vm.leagueList.length
+  var g2 = _vm.leagueList.length
+  var g3 = !(_vm.isWorldRanking == 1)
     ? _vm.activeIndex == 0 && _vm.stageList && _vm.stageList.length > 1
     : null
   var l0 =
-    !_vm.isWorldRanking && g0
+    !(_vm.isWorldRanking == 1) && g3
       ? _vm.__map(_vm.filteredStageList, function (tab, index) {
           var $orig = _vm.__get_orig(tab)
           var m0 = _vm.getOriginalIndex(index)
@@ -118,13 +121,13 @@ var render = function () {
           }
         })
       : null
-  var g1 = !_vm.isWorldRanking
+  var g4 = !(_vm.isWorldRanking == 1)
     ? _vm.activeIndex == 0 && _vm.groupList && _vm.groupList.length > 0
     : null
-  var g2 = !_vm.isWorldRanking
+  var g5 = !(_vm.isWorldRanking == 1)
     ? _vm.activeIndex == 0 && _vm.roundList && _vm.roundList.length > 0
     : null
-  var g3 = !_vm.isWorldRanking
+  var g6 = !_vm.isWorldRanking
     ? (_vm.courseList.length == 0 && _vm.activeIndex == 0) ||
       (_vm.activeIndex == 1 && _vm.jifenList.length == 0) ||
       (_vm.activeIndex == 2 && _vm.sheshouList.length == 0)
@@ -134,10 +137,13 @@ var render = function () {
     {
       $root: {
         g0: g0,
-        l0: l0,
         g1: g1,
         g2: g2,
         g3: g3,
+        l0: l0,
+        g4: g4,
+        g5: g5,
+        g6: g6,
       },
     }
   )
@@ -207,11 +213,6 @@ var JiFen = function JiFen() {
     return resolve(__webpack_require__(/*! @/pages/commn/jiFen.vue */ 380));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
-var SheShou = function SheShou() {
-  __webpack_require__.e(/*! require.ensure | pages/commn/sheShou */ "pages/commn/sheShou").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/sheShou.vue */ 387));
-  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
 var WordRanking = function WordRanking() {
   __webpack_require__.e(/*! require.ensure | pages/commn/WordRanking */ "pages/commn/WordRanking").then((function () {
     return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 394));
@@ -233,7 +234,6 @@ var _default = {
     noData: noData,
     SaiCheng: SaiCheng,
     JiFen: JiFen,
-    SheShou: SheShou,
     WordRanking: WordRanking,
     CustomHeader: CustomHeader,
     SystemMsgModal: SystemMsgModal
@@ -261,7 +261,6 @@ var _default = {
       roundIndex: -1,
       groupList: [],
       currentContinentIndex: 0,
-      continentList: [],
       stageList: [],
       topHeight: 0,
       // 世界排名相关
@@ -310,29 +309,26 @@ var _default = {
         race_date: "2026/04/11 21:00:00",
         round_no: 2,
         is_buy: 0
-      }]
+      }],
+      isWorldRanking: 0
     };
   },
   onShow: function onShow() {
-    var _this = this;
     this.calcAllHeights();
-    (0, _demo.queryContinentList)().then(function (res) {
-      _this.continentList = res.data;
-    });
     this.loadData();
   },
   onLoad: function onLoad() {
-    var _this2 = this;
+    var _this = this;
     var systemInfo = uni.getWindowInfo();
     this.windowWidth = systemInfo.windowWidth;
     this.windowHeight = systemInfo.windowHeight;
     this.safeAreaBottom = systemInfo.safeAreaInsets && systemInfo.safeAreaInsets.bottom || 0;
     this.pageHeight = this.windowHeight;
     this.windowResizeCallback = function (res) {
-      _this2.windowWidth = res.size.windowWidth;
-      _this2.windowHeight = res.size.windowHeight;
-      _this2.pageHeight = _this2.windowHeight;
-      _this2.calcAllHeights();
+      _this.windowWidth = res.size.windowWidth;
+      _this.windowHeight = res.size.windowHeight;
+      _this.pageHeight = _this.windowHeight;
+      _this.calcAllHeights();
     };
   },
   mounted: function mounted() {
@@ -353,29 +349,25 @@ var _default = {
         return list.slice(1);
       }
       return list;
-    },
-    isWorldRanking: function isWorldRanking() {
-      var currentItem = this.continentList[this.currentContinentIndex];
-      return currentItem && currentItem.continentName === "世界排名";
     }
   },
   methods: {
     toggleDropdown: function toggleDropdown() {
-      var _this3 = this;
+      var _this2 = this;
       this.isDropdownOpen = !this.isDropdownOpen;
       // 点击其他区域关闭下拉框
       if (this.isDropdownOpen) {
         uni.nextTick(function () {
-          document.addEventListener('click', _this3.closeDropdown);
+          document.addEventListener("click", _this2.closeDropdown);
         });
       } else {
-        document.removeEventListener('click', this.closeDropdown);
+        document.removeEventListener("click", this.closeDropdown);
       }
     },
     // 关闭下拉框
     closeDropdown: function closeDropdown() {
       this.isDropdownOpen = false;
-      document.removeEventListener('click', this.closeDropdown);
+      document.removeEventListener("click", this.closeDropdown);
     },
     // 选择下拉框选项
     selectDropdownItem: function selectDropdownItem(index, item) {
@@ -387,7 +379,7 @@ var _default = {
           value: index
         }
       });
-      document.removeEventListener('click', this.closeDropdown);
+      document.removeEventListener("click", this.closeDropdown);
     },
     // 高度计算
     calcAllHeights: function calcAllHeights() {
@@ -398,10 +390,10 @@ var _default = {
     },
     // 防抖搜索
     debounceSearch: function debounceSearch() {
-      var _this4 = this;
+      var _this3 = this;
       clearTimeout(this.searchTimer);
       this.searchTimer = setTimeout(function () {
-        _this4.handleSearch();
+        _this3.handleSearch();
       }, 500);
     },
     showLoading: function showLoading() {
@@ -415,15 +407,15 @@ var _default = {
     },
     // 切换排名类型
     clickWorldRankType: function clickWorldRankType(index, item) {
-      var _this5 = this;
+      var _this4 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var teamType, res;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this5.showLoading();
-                _this5.worldRankTypeIndex = index;
+                _this4.showLoading();
+                _this4.worldRankTypeIndex = index;
                 teamType = index === 0 ? "club" : "country";
                 _context.prev = 3;
                 _context.next = 6;
@@ -432,20 +424,20 @@ var _default = {
                 });
               case 6:
                 res = _context.sent;
-                _this5.originalWordRankingList = res.data || [];
-                _this5.wordRankingList = (0, _toConsumableArray2.default)(_this5.originalWordRankingList);
+                _this4.originalWordRankingList = res.data || [];
+                _this4.wordRankingList = (0, _toConsumableArray2.default)(_this4.originalWordRankingList);
                 _context.next = 16;
                 break;
               case 11:
                 _context.prev = 11;
                 _context.t0 = _context["catch"](3);
                 console.error("获取世界排名失败:", _context.t0);
-                _this5.originalWordRankingList = [];
-                _this5.wordRankingList = [];
+                _this4.originalWordRankingList = [];
+                _this4.wordRankingList = [];
                 // uni.showToast({ title: "获取数据失败", icon: "none" });
               case 16:
                 _context.prev = 16;
-                _this5.hideLoading();
+                _this4.hideLoading();
                 return _context.finish(16);
               case 19:
               case "end":
@@ -471,7 +463,7 @@ var _default = {
       }
     },
     handleClickDetail: function handleClickDetail(item) {
-      var _this6 = this;
+      var _this5 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
         var reqParams, res;
         return _regenerator.default.wrap(function _callee2$(_context2) {
@@ -479,7 +471,7 @@ var _default = {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.prev = 0;
-                _this6.showLoading();
+                _this5.showLoading();
                 reqParams = {
                   id: item.id,
                   isLottery: 0,
@@ -492,11 +484,11 @@ var _default = {
                 return (0, _demo.recharge)(reqParams);
               case 5:
                 res = _context2.sent;
-                if (!(res.data.status == 'fail')) {
+                if (!(res.data.status == "fail")) {
                   _context2.next = 12;
                   break;
                 }
-                _this6.hideLoading();
+                _this5.hideLoading();
                 uni.showModal({
                   title: "提示",
                   content: "您的服务币不足，请获取！",
@@ -514,7 +506,7 @@ var _default = {
                 return _context2.abrupt("return");
               case 12:
                 if (item.is_buy == 0) {
-                  _this6.$set(item, 'is_buy', 1);
+                  _this5.$set(item, "is_buy", 1);
                 }
                 _context2.next = 15;
                 return uni.navigateTo({
@@ -528,7 +520,7 @@ var _default = {
                 _context2.t0 = _context2["catch"](0);
               case 19:
                 _context2.prev = 19;
-                _this6.hideLoading();
+                _this5.hideLoading();
                 return _context2.finish(19);
               case 22:
               case "end":
@@ -704,110 +696,73 @@ var _default = {
       }))();
     },
     handleClickContinent: function handleClickContinent(index) {
-      var _this7 = this;
+      var _this6 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
-        var currentItem, res, leagueRes, csList, stageList, roundGroupData, courseList;
+        var res;
         return _regenerator.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                _this7.showLoading();
-                _this7.currentContinentIndex = index;
-                _this7.activeIndex = 0;
-                currentItem = _this7.continentList[index];
-                if (!(currentItem && currentItem.continentName === "世界排名")) {
-                  _context8.next = 24;
-                  break;
-                }
-                _context8.prev = 5;
-                _context8.next = 8;
+                _this6.showLoading();
+                _this6.leagueCurrentIndex = index;
+                _this6.activeIndex = 0;
+                _this6.isWorldRanking = 1;
+                // 只保留：点击世界排名逻辑
+                _context8.prev = 4;
+                _context8.next = 7;
                 return (0, _demo.queryTeamWordRanking)({
                   teamType: "club"
                 });
-              case 8:
+              case 7:
                 res = _context8.sent;
-                _this7.originalWordRankingList = res.data || [];
-                _this7.wordRankingList = (0, _toConsumableArray2.default)(_this7.originalWordRankingList);
-                _this7.worldRankTypeIndex = 0;
-                _this7.searchKeyword = "";
-                _context8.next = 20;
+                _this6.originalWordRankingList = res.data || [];
+                _this6.wordRankingList = (0, _toConsumableArray2.default)(_this6.originalWordRankingList);
+                _this6.worldRankTypeIndex = 0;
+                _this6.searchKeyword = "";
+                _context8.next = 19;
                 break;
-              case 15:
-                _context8.prev = 15;
-                _context8.t0 = _context8["catch"](5);
+              case 14:
+                _context8.prev = 14;
+                _context8.t0 = _context8["catch"](4);
                 console.error("获取世界排名失败:", _context8.t0);
-                _this7.originalWordRankingList = [];
-                _this7.wordRankingList = [];
-              case 20:
-                _context8.prev = 20;
-                _this7.hideLoading();
-                return _context8.finish(20);
-              case 23:
-                return _context8.abrupt("return");
-              case 24:
-                _context8.prev = 24;
-                _context8.next = 27;
-                return (0, _demo.queryLeagueList)({
-                  fromContinent: _this7.continentList[_this7.currentContinentIndex].continentName
-                });
-              case 27:
-                leagueRes = _context8.sent;
-                _this7.leagueList = leagueRes.data || [];
-                if (!(_this7.leagueList.length === 0)) {
-                  _context8.next = 31;
-                  break;
-                }
-                return _context8.abrupt("return");
-              case 31:
-                _this7.selectTopTabValue = _this7.leagueList[0];
-                _this7.leagueCurrentIndex = 0;
-                _context8.next = 35;
-                return _this7.getCommonCsList(_this7.selectTopTabValue.league_name, "course");
-              case 35:
-                csList = _context8.sent;
-                _this7.csList = csList;
-                _this7.selectedCs = csList[0] || "";
-                if (_this7.selectedCs) {
-                  _context8.next = 40;
-                  break;
-                }
-                return _context8.abrupt("return");
-              case 40:
-                _context8.next = 42;
-                return _this7.getCommonStageList(_this7.selectTopTabValue.league_name, _this7.selectedCs);
-              case 42:
-                stageList = _context8.sent;
-                _this7.stageList = stageList;
-                _this7.stageSelectIndex = stageList.findIndex(function (item) {
-                  return item === _this7.selectTopTabValue.stage;
-                }) || 0;
-                _context8.next = 47;
-                return _this7.getCommonRoundGroup(_this7.selectTopTabValue.league_name, _this7.stageList[_this7.stageSelectIndex] || "", _this7.selectedCs, _this7.selectTopTabValue.round_no || "");
-              case 47:
-                roundGroupData = _context8.sent;
-                _this7.roundList = roundGroupData.roundList;
-                if (roundGroupData.roundList && roundGroupData.roundList.length > 0) {
-                  roundGroupData.roundList.forEach(function (item, i) {
-                    if (item.no == _this7.selectTopTabValue.round_no) {
-                      _this7.roundIndex = i;
-                    }
-                  });
-                } else {
-                  _this7.roundIndex = -1;
-                }
-                _this7.groupIndex = -1;
-                _this7.groupList = roundGroupData.groupList;
-                _context8.next = 54;
-                return _this7.getCommonSaiCheng({
+                _this6.originalWordRankingList = [];
+                _this6.wordRankingList = [];
+              case 19:
+                _context8.prev = 19;
+                _this6.hideLoading();
+                return _context8.finish(19);
+              case 22:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, null, [[4, 14, 19, 22]]);
+      }))();
+    },
+    handleClickGroupAll: function handleClickGroupAll() {
+      var _this7 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee9() {
+        var params, courseList;
+        return _regenerator.default.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _this7.showLoading();
+                _context9.prev = 1;
+                params = {
                   leagueName: _this7.selectTopTabValue.league_name,
                   cs: _this7.selectedCs,
-                  roundNo: _this7.selectTopTabValue.round_no || "",
                   stage: _this7.stageList[_this7.stageSelectIndex] || "",
-                  subGroup: ""
-                });
-              case 54:
-                courseList = _context8.sent;
+                  subGroup: "",
+                  roundNo: _this7.selectTopTabValue.round || ""
+                };
+                params.roundNo = _this7.selectTopTabValue.roundNo || "";
+                _context9.next = 6;
+                return _this7.getCommonSaiCheng(params);
+              case 6:
+                courseList = _context9.sent;
                 _this7.courseList = courseList;
+                _this7.groupIndex = -1;
                 _this7.$nextTick(function () {
                   if (uni.getStorageSync("urlValue")) {
                     _this7.$refs.saiCheng.open(courseList);
@@ -815,69 +770,16 @@ var _default = {
                     _this7.$refs.saiCheng.open(_this7.newList);
                     _this7.courseList = _this7.newList;
                   }
-                  ;
-                });
-                // 移除initScrollData调用
-                _context8.next = 62;
-                break;
-              case 59:
-                _context8.prev = 59;
-                _context8.t1 = _context8["catch"](24);
-                _this7.hideLoading();
-              case 62:
-                _context8.prev = 62;
-                _this7.hideLoading();
-                return _context8.finish(62);
-              case 65:
-              case "end":
-                return _context8.stop();
-            }
-          }
-        }, _callee8, null, [[5, 15, 20, 23], [24, 59, 62, 65]]);
-      }))();
-    },
-    handleClickGroupAll: function handleClickGroupAll() {
-      var _this8 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee9() {
-        var params, courseList;
-        return _regenerator.default.wrap(function _callee9$(_context9) {
-          while (1) {
-            switch (_context9.prev = _context9.next) {
-              case 0:
-                _this8.showLoading();
-                _context9.prev = 1;
-                params = {
-                  leagueName: _this8.selectTopTabValue.league_name,
-                  cs: _this8.selectedCs,
-                  stage: _this8.stageList[_this8.stageSelectIndex] || "",
-                  subGroup: "",
-                  roundNo: _this8.selectTopTabValue.round || ""
-                };
-                params.roundNo = _this8.selectTopTabValue.roundNo || "";
-                _context9.next = 6;
-                return _this8.getCommonSaiCheng(params);
-              case 6:
-                courseList = _context9.sent;
-                _this8.courseList = courseList;
-                _this8.groupIndex = -1;
-                _this8.$nextTick(function () {
-                  if (uni.getStorageSync("urlValue")) {
-                    _this8.$refs.saiCheng.open(courseList);
-                  } else {
-                    _this8.$refs.saiCheng.open(_this8.newList);
-                    _this8.courseList = _this8.newList;
-                  }
-                  ;
                 });
                 _context9.next = 15;
                 break;
               case 12:
                 _context9.prev = 12;
                 _context9.t0 = _context9["catch"](1);
-                _this8.hideLoading();
+                _this7.hideLoading();
               case 15:
                 _context9.prev = 15;
-                _this8.hideLoading();
+                _this7.hideLoading();
                 return _context9.finish(15);
               case 18:
               case "end":
@@ -888,48 +790,47 @@ var _default = {
       }))();
     },
     handleClickGroup: function handleClickGroup(index, item) {
-      var _this9 = this;
+      var _this8 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee10() {
         var params, courseList;
         return _regenerator.default.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                _this9.showLoading();
+                _this8.showLoading();
                 _context10.prev = 1;
                 params = {
-                  leagueName: _this9.selectTopTabValue.league_name,
-                  cs: _this9.selectedCs,
-                  stage: _this9.stageList[_this9.stageSelectIndex] || "",
+                  leagueName: _this8.selectTopTabValue.league_name,
+                  cs: _this8.selectedCs,
+                  stage: _this8.stageList[_this8.stageSelectIndex] || "",
                   subGroup: "",
-                  roundNo: _this9.selectTopTabValue.round || ""
+                  roundNo: _this8.selectTopTabValue.round || ""
                 };
                 params.subGroup = item;
-                params.roundNo = _this9.selectTopTabValue.roundNo || "";
+                params.roundNo = _this8.selectTopTabValue.roundNo || "";
                 _context10.next = 7;
-                return _this9.getCommonSaiCheng(params);
+                return _this8.getCommonSaiCheng(params);
               case 7:
                 courseList = _context10.sent;
-                _this9.groupIndex = index;
-                _this9.courseList = courseList;
-                _this9.$nextTick(function () {
+                _this8.groupIndex = index;
+                _this8.courseList = courseList;
+                _this8.$nextTick(function () {
                   if (uni.getStorageSync("urlValue")) {
-                    _this9.$refs.saiCheng.open(courseList);
+                    _this8.$refs.saiCheng.open(courseList);
                   } else {
-                    _this9.$refs.saiCheng.open(_this9.newList);
-                    _this9.courseList = _this9.newList;
+                    _this8.$refs.saiCheng.open(_this8.newList);
+                    _this8.courseList = _this8.newList;
                   }
-                  ;
                 });
                 _context10.next = 16;
                 break;
               case 13:
                 _context10.prev = 13;
                 _context10.t0 = _context10["catch"](1);
-                _this9.hideLoading();
+                _this8.hideLoading();
               case 16:
                 _context10.prev = 16;
-                _this9.hideLoading();
+                _this8.hideLoading();
                 return _context10.finish(16);
               case 19:
               case "end":
@@ -940,62 +841,61 @@ var _default = {
       }))();
     },
     handleClickStage: function handleClickStage(index, item, type) {
-      var _this10 = this;
+      var _this9 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee11() {
         var params, roundGroupData, courseList;
         return _regenerator.default.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
-                _this10.showLoading();
+                _this9.showLoading();
                 _context11.prev = 1;
                 params = {
-                  leagueName: _this10.selectTopTabValue.league_name,
+                  leagueName: _this9.selectTopTabValue.league_name,
                   stage: item,
-                  cs: _this10.selectedCs,
-                  roundNo: _this10.selectTopTabValue.round_no || "",
+                  cs: _this9.selectedCs,
+                  roundNo: _this9.selectTopTabValue.round_no || "",
                   subGroup: ""
                 };
                 _context11.next = 5;
-                return _this10.getCommonRoundGroup(_this10.selectTopTabValue.league_name, item, _this10.selectedCs, _this10.selectTopTabValue.round_no || "");
+                return _this9.getCommonRoundGroup(_this9.selectTopTabValue.league_name, item, _this9.selectedCs, _this9.selectTopTabValue.round_no || "");
               case 5:
                 roundGroupData = _context11.sent;
-                _this10.roundList = roundGroupData.roundList;
+                _this9.roundList = roundGroupData.roundList;
                 if (roundGroupData.roundList && roundGroupData.roundList.length > 0) {
                   roundGroupData.roundList.forEach(function (item, i) {
-                    if (item.no == _this10.selectTopTabValue.round_no) {
-                      _this10.roundIndex = i;
+                    if (item.no == _this9.selectTopTabValue.round_no) {
+                      _this9.roundIndex = i;
                     }
                   });
                 } else {
-                  _this10.roundIndex = -1;
+                  _this9.roundIndex = -1;
                 }
-                _this10.groupList = roundGroupData.groupList;
-                _this10.groupIndex = -1;
-                _this10.stageSelectIndex = index;
+                _this9.groupList = roundGroupData.groupList;
+                _this9.groupIndex = -1;
+                _this9.stageSelectIndex = index;
                 _context11.next = 13;
-                return _this10.getCommonSaiCheng(params);
+                return _this9.getCommonSaiCheng(params);
               case 13:
                 courseList = _context11.sent;
-                _this10.courseList = courseList;
-                _this10.$nextTick(function () {
+                _this9.courseList = courseList;
+                _this9.$nextTick(function () {
                   if (uni.getStorageSync("urlValue")) {
-                    _this10.$refs.saiCheng.open(courseList);
+                    _this9.$refs.saiCheng.open(courseList);
                   } else {
-                    _this10.$refs.saiCheng.open(_this10.newList);
-                    _this10.courseList = _this10.newList;
+                    _this9.$refs.saiCheng.open(_this9.newList);
+                    _this9.courseList = _this9.newList;
                   }
-                  ;
                 });
                 _context11.next = 21;
                 break;
               case 18:
                 _context11.prev = 18;
                 _context11.t0 = _context11["catch"](1);
-                _this10.hideLoading();
+                _this9.hideLoading();
               case 21:
                 _context11.prev = 21;
-                _this10.hideLoading();
+                _this9.hideLoading();
                 return _context11.finish(21);
               case 24:
               case "end":
@@ -1017,115 +917,103 @@ var _default = {
       return (0, _data.formatDateWithWeekday)(time);
     },
     handleChangeCs: function handleChangeCs(e) {
-      var _this11 = this;
+      var _this10 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee12() {
-        var leagueName, stageList, roundGroupData, courseList, jifenList, sheshouList;
+        var leagueName, stageList, roundGroupData, courseList, jifenList;
         return _regenerator.default.wrap(function _callee12$(_context12) {
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
-                leagueName = _this11.selectTopTabValue.league_name;
-                _this11.selectedCs = _this11.csList[e.detail.value] || "";
-                if (_this11.selectedCs) {
+                leagueName = _this10.selectTopTabValue.league_name;
+                _this10.selectedCs = _this10.csList[e.detail.value] || "";
+                if (_this10.selectedCs) {
                   _context12.next = 4;
                   break;
                 }
                 return _context12.abrupt("return");
               case 4:
-                _this11.showLoading();
+                _this10.showLoading();
                 _context12.prev = 5;
-                if (!(_this11.activeIndex === 0)) {
+                if (!(_this10.activeIndex === 0)) {
                   _context12.next = 26;
                   break;
                 }
                 _context12.next = 9;
-                return _this11.getCommonStageList(_this11.selectTopTabValue.league_name, _this11.selectedCs);
+                return _this10.getCommonStageList(_this10.selectTopTabValue.league_name, _this10.selectedCs);
               case 9:
                 stageList = _context12.sent;
-                _this11.stageList = stageList;
-                _this11.stageSelectIndex = stageList.findIndex(function (item) {
-                  return item === _this11.selectTopTabValue.stage;
+                _this10.stageList = stageList;
+                _this10.stageSelectIndex = stageList.findIndex(function (item) {
+                  return item === _this10.selectTopTabValue.stage;
                 }) || 0;
                 _context12.next = 14;
-                return _this11.getCommonRoundGroup(_this11.selectTopTabValue.league_name, _this11.stageList[_this11.stageSelectIndex] || "", _this11.selectedCs, _this11.selectTopTabValue.round_no || "");
+                return _this10.getCommonRoundGroup(_this10.selectTopTabValue.league_name, _this10.stageList[_this10.stageSelectIndex] || "", _this10.selectedCs, _this10.selectTopTabValue.round_no || "");
               case 14:
                 roundGroupData = _context12.sent;
-                _this11.roundList = roundGroupData.roundList;
+                _this10.roundList = roundGroupData.roundList;
                 if (roundGroupData.roundList && roundGroupData.roundList.length > 0) {
                   roundGroupData.roundList.forEach(function (item, i) {
-                    if (item.no == _this11.selectTopTabValue.round_no) {
-                      _this11.roundIndex = i;
+                    if (item.no == _this10.selectTopTabValue.round_no) {
+                      _this10.roundIndex = i;
                     }
                   });
                 } else {
-                  _this11.roundIndex = -1;
+                  _this10.roundIndex = -1;
                 }
-                _this11.groupIndex = -1;
-                _this11.groupList = roundGroupData.groupList;
+                _this10.groupIndex = -1;
+                _this10.groupList = roundGroupData.groupList;
                 _context12.next = 21;
-                return _this11.getCommonSaiCheng({
-                  leagueName: _this11.selectTopTabValue.league_name,
-                  cs: _this11.selectedCs,
-                  roundNo: _this11.selectTopTabValue.round_no || "",
-                  stage: _this11.stageList[_this11.stageSelectIndex] || "",
+                return _this10.getCommonSaiCheng({
+                  leagueName: _this10.selectTopTabValue.league_name,
+                  cs: _this10.selectedCs,
+                  roundNo: _this10.selectTopTabValue.round_no || "",
+                  stage: _this10.stageList[_this10.stageSelectIndex] || "",
                   subGroup: ""
                 });
               case 21:
                 courseList = _context12.sent;
-                _this11.courseList = courseList;
-                _this11.$nextTick(function () {
+                _this10.courseList = courseList;
+                _this10.$nextTick(function () {
                   if (uni.getStorageSync("urlValue")) {
-                    _this11.$refs.saiCheng.open(courseList);
+                    _this10.$refs.saiCheng.open(courseList);
                   } else {
-                    _this11.$refs.saiCheng.open(_this11.newList);
-                    _this11.courseList = _this11.newList;
+                    _this10.$refs.saiCheng.open(_this10.newList);
+                    _this10.courseList = _this10.newList;
                   }
-                  ;
                 });
                 // 移除initScrollData调用
-                _context12.next = 39;
+                _context12.next = 32;
                 break;
               case 26:
-                if (!(_this11.activeIndex === 1)) {
-                  _context12.next = 34;
+                if (!(_this10.activeIndex === 1)) {
+                  _context12.next = 32;
                   break;
                 }
                 _context12.next = 29;
-                return _this11.getCommonRankData(_demo.getJiFen, leagueName, _this11.selectedCs);
+                return _this10.getCommonRankData(_demo.getJiFen, leagueName, _this10.selectedCs);
               case 29:
                 jifenList = _context12.sent;
-                _this11.jifenList = jifenList;
-                _this11.$nextTick(function () {
-                  _this11.$refs.jiFen.open(jifenList);
+                _this10.jifenList = jifenList;
+                _this10.$nextTick(function () {
+                  _this10.$refs.jiFen.open(jifenList);
                 });
-                _context12.next = 39;
+              case 32:
+                _context12.next = 37;
                 break;
               case 34:
-                _context12.next = 36;
-                return _this11.getCommonRankData(_demo.getSheShou, leagueName, _this11.selectedCs);
-              case 36:
-                sheshouList = _context12.sent;
-                _this11.sheshouList = sheshouList;
-                _this11.$nextTick(function () {
-                  _this11.$refs.sheShou.open(sheshouList);
-                });
-              case 39:
-                _context12.next = 44;
-                break;
-              case 41:
-                _context12.prev = 41;
+                _context12.prev = 34;
                 _context12.t0 = _context12["catch"](5);
-                _this11.hideLoading();
-              case 44:
-                _context12.prev = 44;
-                _this11.hideLoading();
-                return _context12.finish(44);
-              case 47:
+                _this10.hideLoading();
+              case 37:
+                _context12.prev = 37;
+                _this10.hideLoading();
+                return _context12.finish(37);
+              case 40:
               case "end":
                 return _context12.stop();
             }
           }
-        }, _callee12, null, [[5, 41, 44, 47]]);
+        }, _callee12, null, [[5, 34, 37, 40]]);
       }))();
     },
     checkLogin: function checkLogin() {
@@ -1154,42 +1042,154 @@ var _default = {
       }))();
     },
     clickBang: function clickBang(index, dataType) {
-      var _this12 = this;
+      var _this11 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee14() {
-        var leagueName, csList, stageList, roundGroupData, courseList, jifenList, sheshouList;
+        var leagueName, csList, stageList, roundGroupData, courseList, jifenList;
         return _regenerator.default.wrap(function _callee14$(_context14) {
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
-                _this12.showLoading();
-                _this12.activeIndex = index;
-                _this12.roundList = [];
-                leagueName = _this12.selectTopTabValue.league_name;
+                _this11.showLoading();
+                _this11.activeIndex = index;
+                _this11.roundList = [];
+                leagueName = _this11.selectTopTabValue.league_name;
                 _context14.prev = 4;
                 _context14.next = 7;
-                return _this12.getCommonCsList(_this12.selectTopTabValue.league_name, dataType);
+                return _this11.getCommonCsList(_this11.selectTopTabValue.league_name, dataType);
               case 7:
                 csList = _context14.sent;
-                _this12.csList = csList;
-                _this12.selectedCs = csList[0] || "";
-                if (_this12.selectedCs) {
+                _this11.csList = csList;
+                _this11.selectedCs = csList[0] || "";
+                if (_this11.selectedCs) {
                   _context14.next = 12;
                   break;
                 }
                 return _context14.abrupt("return");
               case 12:
                 _context14.next = 14;
-                return _this12.getCommonStageList(_this12.selectTopTabValue.league_name, _this12.selectedCs);
+                return _this11.getCommonStageList(_this11.selectTopTabValue.league_name, _this11.selectedCs);
               case 14:
                 stageList = _context14.sent;
+                _this11.stageList = stageList;
+                _this11.stageSelectIndex = stageList.findIndex(function (item) {
+                  return item === _this11.selectTopTabValue.stage;
+                }) || 0;
+                _context14.next = 19;
+                return _this11.getCommonRoundGroup(_this11.selectTopTabValue.league_name, _this11.stageList[_this11.stageSelectIndex] || "", _this11.selectedCs, _this11.selectTopTabValue.round_no || "");
+              case 19:
+                roundGroupData = _context14.sent;
+                _this11.roundList = roundGroupData.roundList;
+                if (roundGroupData.roundList && roundGroupData.roundList.length > 0) {
+                  roundGroupData.roundList.forEach(function (item, i) {
+                    if (item.no == _this11.selectTopTabValue.round_no) {
+                      _this11.roundIndex = i;
+                    }
+                  });
+                } else {
+                  _this11.roundIndex = -1;
+                }
+                _this11.groupIndex = -1;
+                _this11.groupList = roundGroupData.groupList;
+                _context14.t0 = index;
+                _context14.next = _context14.t0 === 0 ? 27 : _context14.t0 === 1 ? 33 : 39;
+                break;
+              case 27:
+                _context14.next = 29;
+                return _this11.getCommonSaiCheng({
+                  leagueName: _this11.selectTopTabValue.league_name,
+                  cs: _this11.selectedCs,
+                  roundNo: _this11.selectTopTabValue.round_no || "",
+                  stage: _this11.stageList[_this11.stageSelectIndex] || "",
+                  subGroup: _this11.groupList[0] ? _this11.groupList[0] : ""
+                });
+              case 29:
+                courseList = _context14.sent;
+                _this11.courseList = courseList;
+                _this11.$nextTick(function () {
+                  if (uni.getStorageSync("urlValue")) {
+                    _this11.$refs.saiCheng.open(courseList);
+                  } else {
+                    _this11.$refs.saiCheng.open(_this11.newList);
+                    _this11.courseList = _this11.newList;
+                  }
+                });
+                return _context14.abrupt("break", 39);
+              case 33:
+                _context14.next = 35;
+                return _this11.getCommonRankData(_demo.getJiFen, leagueName, _this11.selectedCs);
+              case 35:
+                jifenList = _context14.sent;
+                _this11.jifenList = jifenList;
+                _this11.$nextTick(function () {
+                  _this11.$refs.jiFen.open(jifenList);
+                });
+                return _context14.abrupt("break", 39);
+              case 39:
+                _context14.next = 44;
+                break;
+              case 41:
+                _context14.prev = 41;
+                _context14.t1 = _context14["catch"](4);
+                _this11.hideLoading();
+              case 44:
+                _context14.prev = 44;
+                _this11.hideLoading();
+                return _context14.finish(44);
+              case 47:
+              case "end":
+                return _context14.stop();
+            }
+          }
+        }, _callee14, null, [[4, 41, 44, 47]]);
+      }))();
+    },
+    initData: function initData() {
+      var _this12 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee15() {
+        var leagueRes, csList, stageList, roundGroupData, courseList;
+        return _regenerator.default.wrap(function _callee15$(_context15) {
+          while (1) {
+            switch (_context15.prev = _context15.next) {
+              case 0:
+                _this12.showLoading();
+                _context15.prev = 1;
+                _context15.next = 4;
+                return (0, _demo.queryLeagueList)();
+              case 4:
+                leagueRes = _context15.sent;
+                _this12.leagueList = leagueRes.data || [];
+                if (!(_this12.leagueList.length === 0)) {
+                  _context15.next = 8;
+                  break;
+                }
+                return _context15.abrupt("return");
+              case 8:
+                _this12.selectTopTabValue = _this12.leagueList[0];
+                _this12.leagueCurrentIndex = 0;
+                _context15.next = 12;
+                return _this12.getCommonCsList(_this12.selectTopTabValue.league_name, "course");
+              case 12:
+                csList = _context15.sent;
+                _this12.csList = csList;
+                _this12.selectedCs = csList[0] || "";
+                if (_this12.selectedCs) {
+                  _context15.next = 17;
+                  break;
+                }
+                return _context15.abrupt("return");
+              case 17:
+                _context15.next = 19;
+                return _this12.getCommonStageList(_this12.selectTopTabValue.league_name, _this12.selectedCs);
+              case 19:
+                stageList = _context15.sent;
                 _this12.stageList = stageList;
                 _this12.stageSelectIndex = stageList.findIndex(function (item) {
                   return item === _this12.selectTopTabValue.stage;
                 }) || 0;
-                _context14.next = 19;
+                _context15.next = 24;
                 return _this12.getCommonRoundGroup(_this12.selectTopTabValue.league_name, _this12.stageList[_this12.stageSelectIndex] || "", _this12.selectedCs, _this12.selectTopTabValue.round_no || "");
-              case 19:
-                roundGroupData = _context14.sent;
+              case 24:
+                roundGroupData = _context15.sent;
                 _this12.roundList = roundGroupData.roundList;
                 if (roundGroupData.roundList && roundGroupData.roundList.length > 0) {
                   roundGroupData.roundList.forEach(function (item, i) {
@@ -1202,20 +1202,16 @@ var _default = {
                 }
                 _this12.groupIndex = -1;
                 _this12.groupList = roundGroupData.groupList;
-                _context14.t0 = index;
-                _context14.next = _context14.t0 === 0 ? 27 : _context14.t0 === 1 ? 33 : _context14.t0 === 2 ? 39 : 45;
-                break;
-              case 27:
-                _context14.next = 29;
+                _context15.next = 31;
                 return _this12.getCommonSaiCheng({
                   leagueName: _this12.selectTopTabValue.league_name,
                   cs: _this12.selectedCs,
                   roundNo: _this12.selectTopTabValue.round_no || "",
                   stage: _this12.stageList[_this12.stageSelectIndex] || "",
-                  subGroup: _this12.groupList[0] ? _this12.groupList[0] : ""
+                  subGroup: ""
                 });
-              case 29:
-                courseList = _context14.sent;
+              case 31:
+                courseList = _context15.sent;
                 _this12.courseList = courseList;
                 _this12.$nextTick(function () {
                   if (uni.getStorageSync("urlValue")) {
@@ -1224,133 +1220,50 @@ var _default = {
                     _this12.$refs.saiCheng.open(_this12.newList);
                     _this12.courseList = _this12.newList;
                   }
-                  ;
                 });
-                return _context14.abrupt("break", 45);
-              case 33:
-                _context14.next = 35;
-                return _this12.getCommonRankData(_demo.getJiFen, leagueName, _this12.selectedCs);
-              case 35:
-                jifenList = _context14.sent;
-                _this12.jifenList = jifenList;
-                _this12.$nextTick(function () {
-                  _this12.$refs.jiFen.open(jifenList);
-                });
-                return _context14.abrupt("break", 45);
-              case 39:
-                _context14.next = 41;
-                return _this12.getCommonRankData(_demo.getSheShou, leagueName, _this12.selectedCs);
-              case 41:
-                sheshouList = _context14.sent;
-                _this12.sheshouList = sheshouList;
-                _this12.$nextTick(function () {
-                  _this12.$refs.sheShou.open(sheshouList);
-                });
-                return _context14.abrupt("break", 45);
-              case 45:
-                _context14.next = 50;
+                // 移除initScrollData调用
+                _context15.next = 39;
                 break;
-              case 47:
-                _context14.prev = 47;
-                _context14.t1 = _context14["catch"](4);
+              case 36:
+                _context15.prev = 36;
+                _context15.t0 = _context15["catch"](1);
                 _this12.hideLoading();
-              case 50:
-                _context14.prev = 50;
+              case 39:
+                _context15.prev = 39;
                 _this12.hideLoading();
-                return _context14.finish(50);
-              case 53:
+                return _context15.finish(39);
+              case 42:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14, null, [[4, 47, 50, 53]]);
+        }, _callee15, null, [[1, 36, 39, 42]]);
       }))();
     },
-    initData: function initData() {
+    loadData: function loadData() {
+      this.initData();
+    },
+    handleClickRound: function handleClickRound(index, item) {
       var _this13 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee15() {
-        var continentResult, leagueRes, csList, stageList, roundGroupData, courseList;
-        return _regenerator.default.wrap(function _callee15$(_context15) {
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee16() {
+        var courseList;
+        return _regenerator.default.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
                 _this13.showLoading();
-                _context15.prev = 1;
-                _context15.next = 4;
-                return (0, _demo.queryContinentList)();
-              case 4:
-                continentResult = _context15.sent;
-                _this13.continentList = continentResult.data || [];
-                _this13.currentContinentIndex = _this13.continentList.findIndex(function (item) {
-                  return item.isSelect === 1;
-                }) || 0;
-                if (!(_this13.continentList.length === 0)) {
-                  _context15.next = 9;
-                  break;
-                }
-                return _context15.abrupt("return");
-              case 9:
-                _context15.next = 11;
-                return (0, _demo.queryLeagueList)({
-                  fromContinent: _this13.continentList[_this13.currentContinentIndex].continentName
-                });
-              case 11:
-                leagueRes = _context15.sent;
-                _this13.leagueList = leagueRes.data || [];
-                if (!(_this13.leagueList.length === 0)) {
-                  _context15.next = 15;
-                  break;
-                }
-                return _context15.abrupt("return");
-              case 15:
-                _this13.selectTopTabValue = _this13.leagueList[0];
-                _this13.leagueCurrentIndex = 0;
-                _context15.next = 19;
-                return _this13.getCommonCsList(_this13.selectTopTabValue.league_name, "course");
-              case 19:
-                csList = _context15.sent;
-                _this13.csList = csList;
-                _this13.selectedCs = csList[0] || "";
-                if (_this13.selectedCs) {
-                  _context15.next = 24;
-                  break;
-                }
-                return _context15.abrupt("return");
-              case 24:
-                _context15.next = 26;
-                return _this13.getCommonStageList(_this13.selectTopTabValue.league_name, _this13.selectedCs);
-              case 26:
-                stageList = _context15.sent;
-                _this13.stageList = stageList;
-                _this13.stageSelectIndex = stageList.findIndex(function (item) {
-                  return item === _this13.selectTopTabValue.stage;
-                }) || 0;
-                _context15.next = 31;
-                return _this13.getCommonRoundGroup(_this13.selectTopTabValue.league_name, _this13.stageList[_this13.stageSelectIndex] || "", _this13.selectedCs, _this13.selectTopTabValue.round_no || "");
-              case 31:
-                roundGroupData = _context15.sent;
-                _this13.roundList = roundGroupData.roundList;
-                if (roundGroupData.roundList && roundGroupData.roundList.length > 0) {
-                  roundGroupData.roundList.forEach(function (item, i) {
-                    if (item.no == _this13.selectTopTabValue.round_no) {
-                      _this13.roundIndex = i;
-                    }
-                  });
-                } else {
-                  _this13.roundIndex = -1;
-                }
-                _this13.groupIndex = -1;
-                _this13.groupList = roundGroupData.groupList;
-                _context15.next = 38;
+                _this13.roundIndex = index;
+                _context16.prev = 2;
+                _context16.next = 5;
                 return _this13.getCommonSaiCheng({
                   leagueName: _this13.selectTopTabValue.league_name,
                   cs: _this13.selectedCs,
-                  roundNo: _this13.selectTopTabValue.round_no || "",
+                  roundNo: item.no,
                   stage: _this13.stageList[_this13.stageSelectIndex] || "",
-                  subGroup: ""
+                  subGroup: _this13.groupList[_this13.groupIndex] || ""
                 });
-              case 38:
-                courseList = _context15.sent;
+              case 5:
+                courseList = _context16.sent;
                 _this13.courseList = courseList;
                 _this13.$nextTick(function () {
                   if (uni.getStorageSync("urlValue")) {
@@ -1359,60 +1272,6 @@ var _default = {
                     _this13.$refs.saiCheng.open(_this13.newList);
                     _this13.courseList = _this13.newList;
                   }
-                  ;
-                });
-                // 移除initScrollData调用
-                _context15.next = 46;
-                break;
-              case 43:
-                _context15.prev = 43;
-                _context15.t0 = _context15["catch"](1);
-                _this13.hideLoading();
-              case 46:
-                _context15.prev = 46;
-                _this13.hideLoading();
-                return _context15.finish(46);
-              case 49:
-              case "end":
-                return _context15.stop();
-            }
-          }
-        }, _callee15, null, [[1, 43, 46, 49]]);
-      }))();
-    },
-    loadData: function loadData() {
-      this.initData();
-    },
-    handleClickRound: function handleClickRound(index, item) {
-      var _this14 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee16() {
-        var courseList;
-        return _regenerator.default.wrap(function _callee16$(_context16) {
-          while (1) {
-            switch (_context16.prev = _context16.next) {
-              case 0:
-                _this14.showLoading();
-                _this14.roundIndex = index;
-                _context16.prev = 2;
-                _context16.next = 5;
-                return _this14.getCommonSaiCheng({
-                  leagueName: _this14.selectTopTabValue.league_name,
-                  cs: _this14.selectedCs,
-                  roundNo: item.no,
-                  stage: _this14.stageList[_this14.stageSelectIndex] || "",
-                  subGroup: _this14.groupList[_this14.groupIndex] || ""
-                });
-              case 5:
-                courseList = _context16.sent;
-                _this14.courseList = courseList;
-                _this14.$nextTick(function () {
-                  if (uni.getStorageSync("urlValue")) {
-                    _this14.$refs.saiCheng.open(courseList);
-                  } else {
-                    _this14.$refs.saiCheng.open(_this14.newList);
-                    _this14.courseList = _this14.newList;
-                  }
-                  ;
                   // 移除scrollLeft相关逻辑
                 });
                 _context16.next = 13;
@@ -1420,10 +1279,10 @@ var _default = {
               case 10:
                 _context16.prev = 10;
                 _context16.t0 = _context16["catch"](2);
-                _this14.hideLoading();
+                _this13.hideLoading();
               case 13:
                 _context16.prev = 13;
-                _this14.hideLoading();
+                _this13.hideLoading();
                 return _context16.finish(13);
               case 16:
               case "end":
@@ -1434,100 +1293,99 @@ var _default = {
       }))();
     },
     clickLeague: function clickLeague(index, item) {
-      var _this15 = this;
+      var _this14 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee17() {
         var csList, stageList, roundGroupData, courseList;
         return _regenerator.default.wrap(function _callee17$(_context17) {
           while (1) {
             switch (_context17.prev = _context17.next) {
               case 0:
-                if (!(_this15.leagueCurrentIndex === index)) {
+                if (!(_this14.leagueCurrentIndex === index)) {
                   _context17.next = 2;
                   break;
                 }
                 return _context17.abrupt("return");
               case 2:
-                _this15.showLoading();
-                _context17.prev = 3;
+                if (index == _this14.leagueList.length) {
+                  _this14.isWorldRanking = 1;
+                } else {
+                  _this14.isWorldRanking = 0;
+                }
+                _this14.showLoading();
+                _context17.prev = 4;
                 // 移除scrollLeft重置
-                _this15.roundList = [];
-                _this15.activeIndex = 0;
-                _this15.selectTopTabValue = item;
-                _this15.leagueCurrentIndex = index;
-                _context17.next = 10;
-                return _this15.getCommonCsList(_this15.selectTopTabValue.league_name, "course");
-              case 10:
+                _this14.roundList = [];
+                _this14.activeIndex = 0;
+                _this14.selectTopTabValue = item;
+                _this14.leagueCurrentIndex = index;
+                _context17.next = 11;
+                return _this14.getCommonCsList(_this14.selectTopTabValue.league_name, "course");
+              case 11:
                 csList = _context17.sent;
-                _this15.csList = csList;
-                _this15.selectedCs = csList[0] || "";
-                if (_this15.selectedCs) {
-                  _context17.next = 15;
+                _this14.csList = csList;
+                _this14.selectedCs = csList[0] || "";
+                if (_this14.selectedCs) {
+                  _context17.next = 16;
                   break;
                 }
                 return _context17.abrupt("return");
-              case 15:
-                _context17.next = 17;
-                return _this15.getCommonStageList(_this15.selectTopTabValue.league_name, _this15.selectedCs);
-              case 17:
+              case 16:
+                _context17.next = 18;
+                return _this14.getCommonStageList(_this14.selectTopTabValue.league_name, _this14.selectedCs);
+              case 18:
                 stageList = _context17.sent;
-                _this15.stageList = stageList;
-                _this15.stageSelectIndex = stageList.findIndex(function (item) {
-                  return item === _this15.selectTopTabValue.stage;
+                _this14.stageList = stageList;
+                _this14.stageSelectIndex = stageList.findIndex(function (item) {
+                  return item === _this14.selectTopTabValue.stage;
                 }) || 0;
-                _context17.next = 22;
-                return _this15.getCommonRoundGroup(_this15.selectTopTabValue.league_name, _this15.stageList[_this15.stageSelectIndex] || "", _this15.selectedCs, _this15.selectTopTabValue.round_no || "");
-              case 22:
+                _context17.next = 23;
+                return _this14.getCommonRoundGroup(_this14.selectTopTabValue.league_name, _this14.stageList[_this14.stageSelectIndex] || "", _this14.selectedCs, _this14.selectTopTabValue.round_no || "");
+              case 23:
                 roundGroupData = _context17.sent;
                 if (roundGroupData.roundList && roundGroupData.roundList.length > 0) {
                   roundGroupData.roundList.forEach(function (item, i) {
-                    if (item.no == _this15.selectTopTabValue.round_no) {
-                      _this15.roundIndex = i;
+                    if (item.no == _this14.selectTopTabValue.round_no) {
+                      _this14.roundIndex = i;
                     }
                   });
                 } else {
-                  _this15.roundIndex = -1;
+                  _this14.roundIndex = -1;
                 }
-                _this15.roundList = roundGroupData.roundList;
-                _this15.groupIndex = -1;
-                _this15.groupList = roundGroupData.groupList;
-                _context17.next = 29;
-                return _this15.getCommonSaiCheng({
-                  leagueName: _this15.selectTopTabValue.league_name,
-                  cs: _this15.selectedCs,
-                  roundNo: _this15.selectTopTabValue.round_no || "",
-                  stage: _this15.stageList[_this15.stageSelectIndex] || "",
+                _this14.roundList = roundGroupData.roundList;
+                _this14.groupIndex = -1;
+                _this14.groupList = roundGroupData.groupList;
+                _context17.next = 30;
+                return _this14.getCommonSaiCheng({
+                  leagueName: _this14.selectTopTabValue.league_name,
+                  cs: _this14.selectedCs,
+                  roundNo: _this14.selectTopTabValue.round_no || "",
+                  stage: _this14.stageList[_this14.stageSelectIndex] || "",
                   subGroup: ""
                 });
-              case 29:
+              case 30:
                 courseList = _context17.sent;
-                _this15.courseList = courseList;
-                _this15.$nextTick(function () {
-                  if (uni.getStorageSync("urlValue")) {
-                    _this15.$refs.saiCheng.open(courseList);
-                  } else {
-                    _this15.$refs.saiCheng.open(_this15.newList);
-                    _this15.courseList = _this15.newList;
-                  }
-                  ;
+                _this14.courseList = courseList;
+                _this14.$nextTick(function () {
+                  _this14.$refs.saiCheng.open(courseList);
                 });
                 // 移除initScrollData调用
-                _this15.hideLoading();
-                _context17.next = 38;
+                _this14.hideLoading();
+                _context17.next = 39;
                 break;
-              case 35:
-                _context17.prev = 35;
-                _context17.t0 = _context17["catch"](3);
-                _this15.hideLoading();
-              case 38:
-                _context17.prev = 38;
-                _this15.hideLoading();
-                return _context17.finish(38);
-              case 41:
+              case 36:
+                _context17.prev = 36;
+                _context17.t0 = _context17["catch"](4);
+                _this14.hideLoading();
+              case 39:
+                _context17.prev = 39;
+                _this14.hideLoading();
+                return _context17.finish(39);
+              case 42:
               case "end":
                 return _context17.stop();
             }
           }
-        }, _callee17, null, [[3, 35, 38, 41]]);
+        }, _callee17, null, [[4, 36, 39, 42]]);
       }))();
     }
   }

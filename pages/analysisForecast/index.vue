@@ -1,28 +1,32 @@
 <template>
   <view class="con" :style="{ height: pageHeight + 'px' }" style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader
-      :showBack="false"
-      :ballTitle="''"
-      :title="'KeepSeek'"
-      :isIndex="false"
-      :showIcon="false"
-      :isSelected="false"
-    />
+    <CustomHeader :showBack="false" :ballTitle="''" :title="'KeepSeek'" :isIndex="false" :showIcon="false" :isSelected="false" />
     <!-- 顶部筛选区（固定不滚动） -->
     <view class="top" ref="top">
       <!-- 大洲名 -->
-      <view class="continent-container">
+      <!-- <view class="continent-container">
         <view v-for="(item, index) in continentList" :key="index" :class="['continent-item', { active: currentContinentIndex === index }]" @click="handleClickContinent(index)">
           {{ item.continentName }}
           <view class="corner-mark" v-if="currentContinentIndex === index"></view>
         </view>
+      </view> -->
+      <view class="continent-container">
+        <view v-for="(item, index) in leagueList" :key="index" :class="['continent-item', { active: leagueCurrentIndex === index }]" @tap="clickLeague(index, item)">
+          {{ item.league_name }}
+          <view class="corner-mark" v-if="leagueCurrentIndex === index"></view>
+        </view>
+        <view :key="leagueList.length" :class="['continent-item', { active: leagueCurrentIndex === leagueList.length }]" @click="handleClickContinent(leagueList.length)">
+          世界排名
+          <view class="corner-mark" v-if="leagueCurrentIndex === leagueList.length"></view>
+        </view>
       </view>
 
       <!-- 世界排名专属tab（仅点击世界排名时显示） -->
-      <view v-if="isWorldRanking" class="world-rank-wrap">
+      <view v-if="isWorldRanking == 1" class="world-rank-wrap">
         <!-- 排名类型tab（改为流式布局） -->
         <view class="tab-container">
-          <view class="tab-wrap"> <!-- 替换scroll-view为普通view -->
+          <view class="tab-wrap">
+            <!-- 替换scroll-view为普通view -->
             <view v-for="(item, index) in worldRankTypeList" :key="index" class="tab-item" :class="{ active: worldRankTypeIndex === index }" @tap="clickWorldRankType(index, item)">
               {{ item }}
             </view>
@@ -37,46 +41,29 @@
 
       <!-- 原有筛选区（仅非世界排名时显示） -->
       <view v-else>
-        <!-- 联赛tab（改为流式布局） -->
-        <view class="tab-container">
-          <view class="tab-wrap"> <!-- 替换scroll-view为普通view -->
-            <view v-for="(item, index) in leagueList" :id="'tab' + index" :key="index" class="tab-item" :class="{ active: leagueCurrentIndex === index }" @tap="clickLeague(index, item)">
-              {{ item.league_name }}
+        <view class="tab">
+          <view class="tab-two">
+            <view :class="['tab-item-two', activeIndex == 0 ? 'active' : '']" @click="clickBang(0, 'course')"> 赛程 </view>
+            <view :class="['tab-item-two', activeIndex == 1 ? 'active' : '']" @click="clickBang(1, 'points')"> 积分 </view>
+            <view v-if="selectTopTabValue && selectTopTabValue.is_have_scorer == 1" :class="['tab-item-two', activeIndex == 2 ? 'active' : '']" @click="clickBang(2, 'scorer')">射手榜</view>
+
+            <!-- 自定义下拉框（替换原 picker） -->
+            <view class="dropdown-box" @click="toggleDropdown">
+              <view class="dropdown-content">
+                <text class="dropdown-text">{{ selectedCs || "请选择" }}</text>
+                <view class="dropdown-arrow" :class="{ rotate: isDropdownOpen }"></view>
+              </view>
+
+              <!-- 下拉选项列表 -->
+              <view class="dropdown-options" v-show="isDropdownOpen" @click.stop>
+                <view v-for="(item, index) in csList" :key="index" class="dropdown-option" :class="{ active: selectedCs === item }" @click="selectDropdownItem(index, item)">
+                  {{ item }}
+                </view>
+              </view>
             </view>
           </view>
-
-
         </view>
-        
-<view class="tab">
-  <view class="tab-two">
-    <view :class="['tab-item-two', activeIndex == 0 ? 'active' : '']" @click="clickBang(0, 'course')"> 赛程 </view>
-    <view :class="['tab-item-two', activeIndex == 1 ? 'active' : '']" @click="clickBang(1, 'points')"> 积分 </view>
-    <view  v-if="selectTopTabValue && selectTopTabValue.is_have_scorer == 1"  :class="['tab-item-two', activeIndex == 2 ? 'active' : '']" @click="clickBang(2, 'scorer')">射手榜</view>
-    
-    <!-- 自定义下拉框（替换原 picker） -->
-    <view class="dropdown-box" @click="toggleDropdown">
-      <view class="dropdown-content">
-        <text class="dropdown-text">{{ selectedCs || "请选择" }}</text>
-        <view class="dropdown-arrow" :class="{ rotate: isDropdownOpen }"></view>
-      </view>
-      
-      <!-- 下拉选项列表 -->
-      <view class="dropdown-options" v-show="isDropdownOpen" @click.stop>
-        <view 
-          v-for="(item, index) in csList" 
-          :key="index"
-          class="dropdown-option"
-          :class="{ active: selectedCs === item }"
-          @click="selectDropdownItem(index, item)"
-        >
-          {{ item }}
-        </view>
-      </view>
-    </view>
-  </view>
-</view>
-        
+
         <!-- 阶段tab（改为流式布局） -->
         <view v-if="activeIndex == 0 && stageList && stageList.length > 1" class="tabs-wrap-container">
           <view class="match-tabs">
@@ -85,23 +72,25 @@
             </view>
           </view>
         </view>
-        
+
         <!-- 分组tab（改为流式布局） -->
         <template v-if="activeIndex == 0 && groupList && groupList.length > 0">
           <view class="group-wrap-container">
             <view :class="['tab-stage-t', { active: groupIndex == -1 }]" @click="handleClickGroupAll()">总览</view>
-            <view class="t-wrap"> <!-- 替换scroll-view为普通view -->
+            <view class="t-wrap">
+              <!-- 替换scroll-view为普通view -->
               <view v-for="(tab, index) in groupList" :key="index" :class="['t-stage', groupIndex == index ? 'active' : '']" @click="handleClickGroup(index, tab)">
                 {{ tab }}
               </view>
             </view>
           </view>
         </template>
-        
+
         <!-- 轮次tab（改为流式布局） -->
         <template v-if="activeIndex == 0 && roundList && roundList.length > 0">
           <view class="tab-container">
-            <view class="stage-wrap"> <!-- 替换scroll-view为普通view -->
+            <view class="stage-wrap">
+              <!-- 替换scroll-view为普通view -->
               <view v-for="(item, index) in roundList" :key="index" class="tab-stage-base" :class="[roundIndex == index ? 'active' : '']" @tap="handleClickRound(index, item, 'roundNo')">
                 {{ item.no }}
               </view>
@@ -127,9 +116,6 @@
         <view class="jifen" v-if="activeIndex === 1">
           <JiFen ref="jiFen"> </JiFen>
         </view>
-        <view class="sheshou" v-if="activeIndex == 2">
-          <SheShou ref="sheShou"></SheShou>
-        </view>
         <view class="load-more">
           <text></text>
         </view>
@@ -139,19 +125,19 @@
       </view>
     </scroll-view>
     <NativeTabbar ref="nativeTabbar" />
-    <SystemMsgModal/>
+    <SystemMsgModal />
   </view>
 </template>
 
 <script>
 import NativeTabbar from "@/components/tabbar.vue";
 import { login, checkToken } from "@/utils/auth.js";
-import { queryContinentList, queryLeagueList, getSaiCheng, getJiFen, getSheShou, getTimeList, queryStageList, queryGroupAndRoundList, queryTeamWordRanking, recharge } from "@/api/demo";
+import {  queryLeagueList, getSaiCheng, getJiFen, getTimeList, queryStageList, queryGroupAndRoundList, queryTeamWordRanking, recharge } from "@/api/demo";
 import { formatDateWithWeekday } from "@/utils/data";
 import noData from "@/pages/commn/noData";
 import SaiCheng from "@/pages/commn/saiCheng.vue";
 import JiFen from "@/pages/commn/jiFen.vue";
-import SheShou from "@/pages/commn/sheShou.vue";
+// import SheShou from "@/pages/commn/sheShou.vue";
 import WordRanking from "@/pages/commn/WordRanking.vue";
 import CustomHeader from "@/components/CustomHeader.vue";
 import SystemMsgModal from "@/components/SystemMsgModal.vue";
@@ -161,10 +147,9 @@ export default {
     noData,
     SaiCheng,
     JiFen,
-    SheShou,
     WordRanking,
     CustomHeader,
-    SystemMsgModal
+    SystemMsgModal,
   },
   data() {
     return {
@@ -189,73 +174,69 @@ export default {
       roundIndex: -1,
       groupList: [],
       currentContinentIndex: 0,
-      continentList: [],
       stageList: [],
       topHeight: 0,
 
       // 世界排名相关
       worldRankTypeList: ["俱乐部排名", "国家排名"],
       worldRankTypeIndex: 0,
-      wordRankingList: [], 
-      originalWordRankingList: [], 
+      wordRankingList: [],
+      originalWordRankingList: [],
       searchKeyword: "",
-      searchTimer: null, 
+      searchTimer: null,
 
       // 高度计算相关变量
-      windowWidth: 0, 
-      windowHeight: 0, 
-      safeAreaBottom: 0, 
-      tabbarHeight: 0, 
-      pageHeight: 0, 
-      contentScrollPaddingBottom: 0, 
+      windowWidth: 0,
+      windowHeight: 0,
+      safeAreaBottom: 0,
+      tabbarHeight: 0,
+      pageHeight: 0,
+      contentScrollPaddingBottom: 0,
 
       // 窗口resize回调函数
       windowResizeCallback: null,
-      touchStartX: 0, 
-      swipeThreshold: 50, 
+      touchStartX: 0,
+      swipeThreshold: 50,
       isDropdownOpen: false, // 控制下拉框展开/收起
       newList: [
-  {
-    cs: "2025/26",
-    url_show_status: 0,
-    is_over: 0,
-    charge: "5币",
-    stage: "总决赛",
-    home_name: "EDG",
-    league_name: "LPL英雄联盟",
-    visiting_name: "TES",
-    id: 9001,
-    race_date: "2026/04/11 20:00:00",
-    round_no: 1,
-    is_buy: 0
-  },
-  {
-    cs: "2025/26",
-    url_show_status: 0,
-    is_over: 0,
-    charge: "5币",
-    stage: "半决赛",
-    home_name: "WBG",
-    league_name: "王者荣耀KPL",
-    visiting_name: "AG超玩会",
-    id: 9002,
-    race_date: "2026/04/11 21:00:00",
-    round_no: 2,
-    is_buy: 0
-  }
-],
+        {
+          cs: "2025/26",
+          url_show_status: 0,
+          is_over: 0,
+          charge: "5币",
+          stage: "总决赛",
+          home_name: "EDG",
+          league_name: "LPL英雄联盟",
+          visiting_name: "TES",
+          id: 9001,
+          race_date: "2026/04/11 20:00:00",
+          round_no: 1,
+          is_buy: 0,
+        },
+        {
+          cs: "2025/26",
+          url_show_status: 0,
+          is_over: 0,
+          charge: "5币",
+          stage: "半决赛",
+          home_name: "WBG",
+          league_name: "王者荣耀KPL",
+          visiting_name: "AG超玩会",
+          id: 9002,
+          race_date: "2026/04/11 21:00:00",
+          round_no: 2,
+          is_buy: 0,
+        },
+      ],
+      isWorldRanking: 0
     };
   },
   onShow() {
     this.calcAllHeights();
-    queryContinentList().then((res) => {
-      this.continentList = res.data;
-    });
     this.loadData();
-    
   },
   onLoad() {
-    const systemInfo =  uni.getWindowInfo()
+    const systemInfo = uni.getWindowInfo();
     this.windowWidth = systemInfo.windowWidth;
     this.windowHeight = systemInfo.windowHeight;
     this.safeAreaBottom = (systemInfo.safeAreaInsets && systemInfo.safeAreaInsets.bottom) || 0;
@@ -287,36 +268,32 @@ export default {
       }
       return list;
     },
-    isWorldRanking() {
-      const currentItem = this.continentList[this.currentContinentIndex];
-      return currentItem && currentItem.continentName === "世界排名";
-    },
   },
   methods: {
     toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
-    // 点击其他区域关闭下拉框
-    if (this.isDropdownOpen) {
-      uni.nextTick(() => {
-        document.addEventListener('click', this.closeDropdown);
-      });
-    } else {
-      document.removeEventListener('click', this.closeDropdown);
-    }
-  },
-  // 关闭下拉框
-  closeDropdown() {
-    this.isDropdownOpen = false;
-    document.removeEventListener('click', this.closeDropdown);
-  },
-  // 选择下拉框选项
-  selectDropdownItem(index, item) {
-    this.selectedCs = item;
-    this.isDropdownOpen = false;
-    // 触发原有选择逻辑
-    this.handleChangeCs({ detail: { value: index } });
-    document.removeEventListener('click', this.closeDropdown);
-  },
+      this.isDropdownOpen = !this.isDropdownOpen;
+      // 点击其他区域关闭下拉框
+      if (this.isDropdownOpen) {
+        uni.nextTick(() => {
+          document.addEventListener("click", this.closeDropdown);
+        });
+      } else {
+        document.removeEventListener("click", this.closeDropdown);
+      }
+    },
+    // 关闭下拉框
+    closeDropdown() {
+      this.isDropdownOpen = false;
+      document.removeEventListener("click", this.closeDropdown);
+    },
+    // 选择下拉框选项
+    selectDropdownItem(index, item) {
+      this.selectedCs = item;
+      this.isDropdownOpen = false;
+      // 触发原有选择逻辑
+      this.handleChangeCs({ detail: { value: index } });
+      document.removeEventListener("click", this.closeDropdown);
+    },
     // 高度计算
     calcAllHeights() {
       const rpx2px = this.windowWidth / 750;
@@ -382,12 +359,12 @@ export default {
           id: item.id,
           isLottery: 0,
           isTradition: 1,
-          beFrom:"football",
+          beFrom: "football",
           serialNumber: item.serial_number,
-          dateStr: item.date_str
+          dateStr: item.date_str,
         };
         const res = await recharge(reqParams);
-        if (res.data.status == 'fail') {
+        if (res.data.status == "fail") {
           this.hideLoading();
           uni.showModal({
             title: "提示",
@@ -399,13 +376,13 @@ export default {
               if (res.confirm) {
                 uni.navigateTo({ url: `/pages/recharge/recharge?beFrom=football&isLottery=1` });
               }
-            }
+            },
           });
           return;
         } else {
-                if (item.is_buy == 0) {
-        this.$set(item, 'is_buy' ,1)
-      }
+          if (item.is_buy == 0) {
+            this.$set(item, "is_buy", 1);
+          }
           await uni.navigateTo({
             url: `/pages/test/index?id=${item.id}&isLottery=0&isTradition=1`,
           });
@@ -475,72 +452,25 @@ export default {
     },
     async handleClickContinent(index) {
       this.showLoading();
-      this.currentContinentIndex = index;
+      this.leagueCurrentIndex = index;
       this.activeIndex = 0;
-
-      const currentItem = this.continentList[index];
-      if (currentItem && currentItem.continentName === "世界排名") {
-        try {
-          const res = await queryTeamWordRanking({ teamType: "club" });
-          this.originalWordRankingList = res.data || [];
-          this.wordRankingList = [...this.originalWordRankingList];
-          this.worldRankTypeIndex = 0;
-          this.searchKeyword = "";
-        } catch (error) {
-          console.error("获取世界排名失败:", error);
-          this.originalWordRankingList = [];
-          this.wordRankingList = [];
-        } finally {
-          this.hideLoading();
-        }
-        return;
-      }
-
+      this.isWorldRanking = 1;
+      // 只保留：点击世界排名逻辑
       try {
-        const leagueRes = await queryLeagueList({
-          fromContinent: this.continentList[this.currentContinentIndex].continentName,
-        });
-        this.leagueList = leagueRes.data || [];
-        if (this.leagueList.length === 0) return;
-        this.selectTopTabValue = this.leagueList[0];
-        this.leagueCurrentIndex = 0;
-        const csList = await this.getCommonCsList(this.selectTopTabValue.league_name, "course");
-        this.csList = csList;
-        this.selectedCs = csList[0] || "";
-        if (!this.selectedCs) return;
-        const stageList = await this.getCommonStageList(this.selectTopTabValue.league_name, this.selectedCs);
-        this.stageList = stageList;
-        this.stageSelectIndex = stageList.findIndex((item) => item === this.selectTopTabValue.stage) || 0;
-        const roundGroupData = await this.getCommonRoundGroup(this.selectTopTabValue.league_name, this.stageList[this.stageSelectIndex] || "", this.selectedCs, this.selectTopTabValue.round_no || "");
-        this.roundList = roundGroupData.roundList;
-        if (roundGroupData.roundList && roundGroupData.roundList.length > 0) {
-          roundGroupData.roundList.forEach((item, i) => {
-            if (item.no == this.selectTopTabValue.round_no) {
-              this.roundIndex = i;
-            }
-          });
-        } else {
-          this.roundIndex = -1;
-        }
-        this.groupIndex = -1;
-        this.groupList = roundGroupData.groupList;
-        const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: "" });
-        this.courseList = courseList;
-        this.$nextTick(() => {
-          if (uni.getStorageSync("urlValue")) {
-            this.$refs.saiCheng.open(courseList);
-          } else {
-            this.$refs.saiCheng.open(this.newList);
-            this.courseList = this.newList;
-          };
-        });
-        // 移除initScrollData调用
-      } catch (err) {
-        this.hideLoading();
+        const res = await queryTeamWordRanking({ teamType: "club" });
+        this.originalWordRankingList = res.data || [];
+        this.wordRankingList = [...this.originalWordRankingList];
+        this.worldRankTypeIndex = 0;
+        this.searchKeyword = "";
+      } catch (error) {
+        console.error("获取世界排名失败:", error);
+        this.originalWordRankingList = [];
+        this.wordRankingList = [];
       } finally {
         this.hideLoading();
       }
     },
+
     async handleClickGroupAll() {
       this.showLoading();
       try {
@@ -556,12 +486,12 @@ export default {
         this.courseList = courseList;
         this.groupIndex = -1;
         this.$nextTick(() => {
-                    if (uni.getStorageSync("urlValue")) {
+          if (uni.getStorageSync("urlValue")) {
             this.$refs.saiCheng.open(courseList);
           } else {
             this.$refs.saiCheng.open(this.newList);
             this.courseList = this.newList;
-          };
+          }
         });
       } catch (error) {
         this.hideLoading();
@@ -585,12 +515,12 @@ export default {
         this.groupIndex = index;
         this.courseList = courseList;
         this.$nextTick(() => {
-                    if (uni.getStorageSync("urlValue")) {
+          if (uni.getStorageSync("urlValue")) {
             this.$refs.saiCheng.open(courseList);
           } else {
             this.$refs.saiCheng.open(this.newList);
             this.courseList = this.newList;
-          };
+          }
         });
       } catch (error) {
         this.hideLoading();
@@ -625,12 +555,12 @@ export default {
         const courseList = await this.getCommonSaiCheng(params);
         this.courseList = courseList;
         this.$nextTick(() => {
-                    if (uni.getStorageSync("urlValue")) {
+          if (uni.getStorageSync("urlValue")) {
             this.$refs.saiCheng.open(courseList);
           } else {
             this.$refs.saiCheng.open(this.newList);
             this.courseList = this.newList;
-          };
+          }
         });
       } catch (error) {
         this.hideLoading();
@@ -673,13 +603,12 @@ export default {
           const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: "" });
           this.courseList = courseList;
           this.$nextTick(() => {
-                      if (uni.getStorageSync("urlValue")) {
-            this.$refs.saiCheng.open(courseList);
-          } else {
-            this.$refs.saiCheng.open(this.newList);
-            this.courseList = this.newList;
-          };
-            
+            if (uni.getStorageSync("urlValue")) {
+              this.$refs.saiCheng.open(courseList);
+            } else {
+              this.$refs.saiCheng.open(this.newList);
+              this.courseList = this.newList;
+            }
           });
           // 移除initScrollData调用
         } else if (this.activeIndex === 1) {
@@ -688,13 +617,7 @@ export default {
           this.$nextTick(() => {
             this.$refs.jiFen.open(jifenList);
           });
-        } else {
-          const sheshouList = await this.getCommonRankData(getSheShou, leagueName, this.selectedCs);
-          this.sheshouList = sheshouList;
-          this.$nextTick(() => {
-            this.$refs.sheShou.open(sheshouList);
-          });
-        }
+        } 
       } catch (error) {
         this.hideLoading();
       } finally {
@@ -736,12 +659,12 @@ export default {
             const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: this.groupList[0] ? this.groupList[0] : "" });
             this.courseList = courseList;
             this.$nextTick(() => {
-                        if (uni.getStorageSync("urlValue")) {
-            this.$refs.saiCheng.open(courseList);
-          } else {
-            this.$refs.saiCheng.open(this.newList);
-            this.courseList = this.newList;
-          };
+              if (uni.getStorageSync("urlValue")) {
+                this.$refs.saiCheng.open(courseList);
+              } else {
+                this.$refs.saiCheng.open(this.newList);
+                this.courseList = this.newList;
+              }
             });
             break;
           case 1:
@@ -749,13 +672,6 @@ export default {
             this.jifenList = jifenList;
             this.$nextTick(() => {
               this.$refs.jiFen.open(jifenList);
-            });
-            break;
-          case 2:
-            const sheshouList = await this.getCommonRankData(getSheShou, leagueName, this.selectedCs);
-            this.sheshouList = sheshouList;
-            this.$nextTick(() => {
-              this.$refs.sheShou.open(sheshouList);
             });
             break;
         }
@@ -768,13 +684,7 @@ export default {
     async initData() {
       this.showLoading();
       try {
-        const continentResult = await queryContinentList();
-        this.continentList = continentResult.data || [];
-        this.currentContinentIndex = this.continentList.findIndex((item) => item.isSelect === 1) || 0;
-        if (this.continentList.length === 0) return;
-        const leagueRes = await queryLeagueList({
-          fromContinent: this.continentList[this.currentContinentIndex].continentName,
-        });
+        const leagueRes = await queryLeagueList();
         this.leagueList = leagueRes.data || [];
         if (this.leagueList.length === 0) return;
         this.selectTopTabValue = this.leagueList[0];
@@ -802,12 +712,12 @@ export default {
         const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: "" });
         this.courseList = courseList;
         this.$nextTick(() => {
-                    if (uni.getStorageSync("urlValue")) {
+          if (uni.getStorageSync("urlValue")) {
             this.$refs.saiCheng.open(courseList);
           } else {
             this.$refs.saiCheng.open(this.newList);
             this.courseList = this.newList;
-          };
+          }
         });
         // 移除initScrollData调用
       } catch (error) {
@@ -832,12 +742,12 @@ export default {
         });
         this.courseList = courseList;
         this.$nextTick(() => {
-            if (uni.getStorageSync("urlValue")) {
+          if (uni.getStorageSync("urlValue")) {
             this.$refs.saiCheng.open(courseList);
           } else {
             this.$refs.saiCheng.open(this.newList);
             this.courseList = this.newList;
-          };
+          }
           // 移除scrollLeft相关逻辑
         });
       } catch (error) {
@@ -848,6 +758,11 @@ export default {
     },
     async clickLeague(index, item) {
       if (this.leagueCurrentIndex === index) return;
+      if (index == this.leagueList.length) {
+        this.isWorldRanking = 1;
+      } else {
+        this.isWorldRanking = 0;
+      }
       this.showLoading();
       try {
         // 移除scrollLeft重置
@@ -878,12 +793,7 @@ export default {
         const courseList = await this.getCommonSaiCheng({ leagueName: this.selectTopTabValue.league_name, cs: this.selectedCs, roundNo: this.selectTopTabValue.round_no || "", stage: this.stageList[this.stageSelectIndex] || "", subGroup: "" });
         this.courseList = courseList;
         this.$nextTick(() => {
-                    if (uni.getStorageSync("urlValue")) {
-            this.$refs.saiCheng.open(courseList);
-          } else {
-            this.$refs.saiCheng.open(this.newList);
-            this.courseList = this.newList;
-          };
+          this.$refs.saiCheng.open(courseList);
         });
         // 移除initScrollData调用
         this.hideLoading();
@@ -1081,20 +991,18 @@ export default {
           color: $active-color;
         }
 
-.corner-mark {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 0;
-  height: 0;
-  z-index: 1;
-  transition: transform 0.3s ease;
-  // // 纯 CSS 实现右上小三角，颜色 #31926e
-  // border-top: 20rpx solid #31926e;
-  // border-left: 20rpx solid transparent;
-}
-
-
+        .corner-mark {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 0;
+          height: 0;
+          z-index: 1;
+          transition: transform 0.3s ease;
+          // // 纯 CSS 实现右上小三角，颜色 #31926e
+          // border-top: 20rpx solid #31926e;
+          // border-left: 20rpx solid transparent;
+        }
       }
     }
 

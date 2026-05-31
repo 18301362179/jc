@@ -875,7 +875,9 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
         this.$set(item, 'is_buy' ,1)
       }
       uni.setStorageSync()
-          await uni.navigateTo({ url: `/pages/test/basketballAi?id=${item.id}&isLottery=1` });
+          await uni.navigateTo({
+          url: `/pages/test/basketballPredict?id=${item.match_id}&isLottery=1&serialNumber=${reqParams.serialNumber}&beFrom=${reqParams.beFrom}`,
+        });
         }
       } catch (err) {
         uni.showToast({ title: "网络异常，请稍后重试", icon: "none" });
