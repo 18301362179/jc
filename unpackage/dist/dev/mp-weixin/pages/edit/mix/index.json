@@ -4,5 +4,6 @@
   "navigationBarBackgroundColor": "#31926e",
   "enablePullDownRefresh": false,
   "navigationStyle": "custom",
-  "disableScroll": true
+  "disableScroll": true,
+  "usingComponents": {}
 }
