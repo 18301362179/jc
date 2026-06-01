@@ -147,6 +147,7 @@ import noData from "@/pages/commn/noData";
 import SaiCheng from "@/pages/commn/saiCheng.vue";
 import JiFen from "@/pages/commn/jiFen.vue";
 import SheShou from "@/pages/commn/sheShou.vue";
+
 import WordRanking from "@/pages/commn/WordRanking.vue";
 import CustomHeader from "@/components/CustomHeader.vue";
 import SystemMsgModal from "@/components/SystemMsgModal.vue";
@@ -214,9 +215,6 @@ export default {
   },
   onShow() {
     this.calcAllHeights();
-    queryContinentList().then((res) => {
-      this.continentList = res.data;
-    });
     this.loadData();
   },
   onLoad() {
@@ -643,13 +641,7 @@ async handleClickContinent(index) {
     async initData() {
       this.showLoading();
       try {
-        const continentResult = await queryContinentList();
-        this.continentList = continentResult.data || [];
-        this.currentContinentIndex = this.continentList.findIndex((item) => item.isSelect === 1) || 0;
-        if (this.continentList.length === 0) return;
-        const leagueRes = await queryLeagueList({
-          fromContinent: this.continentList[this.currentContinentIndex].continentName,
-        });
+        const leagueRes = await queryLeagueList();
         this.leagueList = leagueRes.data || [];
         if (this.leagueList.length === 0) return;
         this.selectTopTabValue = this.leagueList[0];
