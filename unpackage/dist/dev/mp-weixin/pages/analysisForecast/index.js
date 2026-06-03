@@ -215,7 +215,7 @@ var JiFen = function JiFen() {
 };
 var WordRanking = function WordRanking() {
   __webpack_require__.e(/*! require.ensure | pages/commn/WordRanking */ "pages/commn/WordRanking").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 394));
+    return resolve(__webpack_require__(/*! @/pages/commn/WordRanking.vue */ 387));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {

@@ -198,27 +198,27 @@ var NativeTabbar = function NativeTabbar() {
 };
 var MatchSpf = function MatchSpf() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchSpf */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchSpf")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 401));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchSpf.vue */ 394));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHandicap = function MatchHandicap() {
   Promise.all(/*! require.ensure | pages/commn/index/MatchHandicap */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/commn/index/MatchHandicap")]).then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 409));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHandicap.vue */ 402));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchScore = function MatchScore() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchScore */ "pages/commn/index/MatchScore").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 416));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchScore.vue */ 409));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchTotalGoals = function MatchTotalGoals() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchTotalGoals */ "pages/commn/index/MatchTotalGoals").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 423));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchTotalGoals.vue */ 416));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var MatchHalfFull = function MatchHalfFull() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MatchHalfFull */ "pages/commn/index/MatchHalfFull").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 430));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MatchHalfFull.vue */ 423));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var CustomHeader = function CustomHeader() {
@@ -228,7 +228,7 @@ var CustomHeader = function CustomHeader() {
 };
 var MixedPassList = function MixedPassList() {
   __webpack_require__.e(/*! require.ensure | pages/commn/index/MixedPassList */ "pages/commn/index/MixedPassList").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 437));
+    return resolve(__webpack_require__(/*! @/pages/commn/index/MixedPassList.vue */ 430));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var TipsPopup = function TipsPopup() {
@@ -238,7 +238,7 @@ var TipsPopup = function TipsPopup() {
 };
 var EmptyStop = function EmptyStop() {
   __webpack_require__.e(/*! require.ensure | pages/commn/emptyStop */ "pages/commn/emptyStop").then((function () {
-    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 444));
+    return resolve(__webpack_require__(/*! @/pages/commn/emptyStop.vue */ 437));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SystemMsgModal = function SystemMsgModal() {
