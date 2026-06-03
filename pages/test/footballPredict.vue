@@ -19,6 +19,9 @@
           <view class="score-pred">
             {{ headerInfo.home_goal_calculate || "0" }}
           </view>
+          <view class="score-pred" v-if="headerInfo.home_goal_calculate1">
+            {{ headerInfo.home_goal_calculate1 || "0" }}
+          </view>
         </view>
 
         <!-- 中间VS+平率区域 -->
@@ -33,6 +36,7 @@
           <view class="team-name">{{ headerInfo.awayTeamShortName || "0" }}</view>
           <view class="win-rate">胜率{{ headerInfo.visiting_win_rate || "0" }}</view>
           <view class="score-pred">{{ headerInfo.visiting_goal_calculate || "0" }}</view>
+          <view class="score-pred" v-if="headerInfo.visiting_goal_calculate1">{{ headerInfo.visiting_goal_calculate1 || "0" }}</view>
         </view>
       </view>
 
