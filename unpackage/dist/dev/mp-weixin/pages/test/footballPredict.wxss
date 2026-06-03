@@ -130,7 +130,7 @@
   background: #ff4444;
 }
 .scroll-content.data-v-7a726da8 {
-  height: calc(100vh - 150rpx);
+  height: calc(100vh - 380rpx);
   box-sizing: border-box;
 }
 .section.data-v-7a726da8 {
@@ -799,5 +799,14 @@
 }
 .rank .red.data-v-7a726da8 {
   color: red;
+}
+.no-data-block.data-v-7a726da8 {
+  width: 100%;
+  padding: 60rpx 0;
+  text-align: center;
+}
+.no-data-block .no-data-txt.data-v-7a726da8 {
+  font-size: 28rpx;
+  color: #999;
 }
 

@@ -130,7 +130,7 @@
   background: #ff4444;
 }
 .scroll-content.data-v-6dc84760 {
-  height: calc(100vh - 150rpx);
+  height: calc(100vh - 380rpx);
   box-sizing: border-box;
 }
 .section.data-v-6dc84760 {

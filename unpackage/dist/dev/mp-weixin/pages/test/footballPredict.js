@@ -106,6 +106,9 @@ var render = function () {
     0,
     _vm.historyRound
   )
+  var g0 =
+    Object.keys(_vm.tablesData.homeTables || {}).length === 0 &&
+    Object.keys(_vm.tablesData.awayTables || {}).length === 0
   var l1 = (
     (_vm.recentData && _vm.recentData.home && _vm.recentData.home.matchList) ||
     []
@@ -119,10 +122,10 @@ var render = function () {
       [],
     function (item, idx) {
       var $orig = _vm.__get_orig(item)
-      var g0 = (item.matchDateTime || "0").split(" ")[0] || "0"
+      var g1 = (item.matchDateTime || "0").split(" ")[0] || "0"
       return {
         $orig: $orig,
-        g0: g0,
+        g1: g1,
       }
     }
   )
@@ -131,32 +134,32 @@ var render = function () {
       [],
     function (item, idx) {
       var $orig = _vm.__get_orig(item)
-      var g1 = (item.matchDateTime || "0").split(" ")[0] || "0"
+      var g2 = (item.matchDateTime || "0").split(" ")[0] || "0"
       return {
         $orig: $orig,
-        g1: g1,
+        g2: g2,
       }
     }
   )
-  var g2 = (
+  var g3 = (
     (_vm.shooterData &&
       _vm.shooterData.home &&
       _vm.shooterData.home.playerList) ||
     []
   ).length
-  var g3 = (
+  var g4 = (
     (_vm.shooterData &&
       _vm.shooterData.away &&
       _vm.shooterData.away.playerList) ||
     []
   ).length
-  var g4 = (
+  var g5 = (
     (_vm.injuryData &&
       _vm.injuryData.home &&
       _vm.injuryData.home.injuriesAndSuspensionsList) ||
     []
   ).length
-  var g5 = (
+  var g6 = (
     (_vm.injuryData &&
       _vm.injuryData.away &&
       _vm.injuryData.away.injuriesAndSuspensionsList) ||
@@ -172,14 +175,15 @@ var render = function () {
     {
       $root: {
         l0: l0,
+        g0: g0,
         l1: l1,
         l2: l2,
         l3: l3,
         l4: l4,
-        g2: g2,
         g3: g3,
         g4: g4,
         g5: g5,
+        g6: g6,
       },
     }
   )
