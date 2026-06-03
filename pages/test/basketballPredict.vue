@@ -6,47 +6,45 @@
     <view class="match-header">
       <!-- 顶部赛事信息（周四001 国际赛） -->
       <view class="match-top-info">
-        <text class="match-code">{{ headerInfo.matchNum || '0' }}</text>
-        <text class="league-name">{{ headerInfo.tournamentCnName || '0' }}</text>
+        <text class="match-code">{{ headerInfo.matchNum || "0" }}</text>
+        <text class="league-name">{{ headerInfo.tournamentCnName || "0" }}</text>
       </view>
 
       <!-- 核心横向对齐区域：队名、VS、胜率、平率、比分 -->
       <view class="match-main">
         <!-- 主队区域 -->
         <view class="team-col">
-          <view class="team-name">{{ headerInfo.homeTeamShortName || '0' }}</view>
-          <view class="win-rate">
-            胜率{{ headerInfo.home_win_rate || '0' }}
-          </view>
+          <view class="team-name">{{ headerInfo.homeTeamShortName || "0" }}</view>
+          <view class="win-rate"> 胜率{{ headerInfo.home_win_rate || "0" }} </view>
           <view class="score-pred">
-            {{ headerInfo.home_goal_calculate || '0' }}
+            {{ headerInfo.home_goal_calculate || "0" }}
           </view>
         </view>
 
         <!-- 中间VS+平率区域 -->
         <view class="vs-col">
           <view class="vs-text">VS</view>
-          <view class="draw-rate">平率{{ headerInfo.draw_rate || '0' }}</view>
+          <view class="draw-rate">平率{{ headerInfo.draw_rate || "0" }}</view>
           <view class="score-col">:</view>
         </view>
 
         <!-- 客队区域 -->
         <view class="team-col">
-          <view class="team-name">{{ headerInfo.awayTeamShortName || '0' }}</view>
-          <view class="win-rate">胜率{{ headerInfo.visiting_win_rate || '0' }}</view>
-          <view class="score-pred">{{ headerInfo.visiting_goal_calculate || '0' }}</view>
+          <view class="team-name">{{ headerInfo.awayTeamShortName || "0" }}</view>
+          <view class="win-rate">胜率{{ headerInfo.visiting_win_rate || "0" }}</view>
+          <view class="score-pred">{{ headerInfo.visiting_goal_calculate || "0" }}</view>
         </view>
       </view>
 
       <!-- 底部比赛时间 -->
       <view class="match-bottom-info">
-        <text class="match-time">{{ headerInfo.matchDateTime || '0' }}</text>
+        <text class="match-time">{{ headerInfo.matchDateTime || "0" }}</text>
       </view>
     </view>
     <!-- 吸顶Tab -->
     <scroll-view class="tab-bar-sticky" scroll-x show-scrollbar="false" :scroll-into-view="`tab-${activeTab}`" scroll-with-animation>
       <view v-for="(item, index) in tabList" :key="index" :id="`tab-${index}`" class="tab-item" :class="{ active: activeTab === index }" @tap="switchTab(index)">
-        {{ item.name || '0' }}
+        {{ item.name || "0" }}
       </view>
     </scroll-view>
 
@@ -59,24 +57,24 @@
           特征分析
         </view>
         <view class="team-title-row">
-          <view class="team-tag home">{{ featureData.homeTeamShortName || '0' }}</view>
-          <view class="team-tag away">{{ featureData.awayTeamShortName || '0' }}</view>
+          <view class="team-tag home">{{ featureData.homeTeamShortName || "0" }}</view>
+          <view class="team-tag away">{{ featureData.awayTeamShortName || "0" }}</view>
         </view>
 
         <!-- 1. 近场交锋 -->
         <view class="feature-item">
           <view class="row-top">
-            <view class="home-text"> {{ featureData && featureData.last && featureData.last.homeWinGoalMatchCnt || '0' }}胜/{{ featureData && featureData.last && featureData.last.homeDrawMatchCnt || '0' }}平/{{ featureData && featureData.last && featureData.last.homeLossGoalMatchCnt || '0' }}负 </view>
-            <view class="label-text">近{{ featureData && featureData.last && featureData.last.totalLegCnt || '0' }}场交锋</view>
-            <view class="away-text"> {{ featureData && featureData.last && featureData.last.awayWinGoalMatchCnt || '0' }}胜/{{ featureData && featureData.last && featureData.last.awayDrawMatchCnt || '0' }}平/{{ featureData && featureData.last && featureData.last.awayLossGoalMatchCnt || '0' }}负 </view>
+            <view class="home-text"> {{ (featureData && featureData.last && featureData.last.homeWinGoalMatchCnt) || "0" }}胜/{{ (featureData && featureData.last && featureData.last.homeDrawMatchCnt) || "0" }}平/{{ (featureData && featureData.last && featureData.last.homeLossGoalMatchCnt) || "0" }}负 </view>
+            <view class="label-text">近{{ (featureData && featureData.last && featureData.last.totalLegCnt) || "0" }}场交锋</view>
+            <view class="away-text"> {{ (featureData && featureData.last && featureData.last.awayWinGoalMatchCnt) || "0" }}胜/{{ (featureData && featureData.last && featureData.last.awayDrawMatchCnt) || "0" }}平/{{ (featureData && featureData.last && featureData.last.awayLossGoalMatchCnt) || "0" }}负 </view>
           </view>
           <view class="progress-bar">
             <view class="half-left">
-              <view class="bar-left" :style="{ width: (featureData && featureData.last && featureData.last.homeScoreRatio || 0) + '%' }"></view>
+              <view class="bar-left" :style="{ width: ((featureData && featureData.last && featureData.last.homeScoreRatio) || 0) + '%' }"></view>
             </view>
             <view class="divider"></view>
             <view class="half-right">
-              <view class="bar-right" :style="{ width: (featureData && featureData.last && featureData.last.awayScoreRatio || 0) + '%' }"></view>
+              <view class="bar-right" :style="{ width: ((featureData && featureData.last && featureData.last.awayScoreRatio) || 0) + '%' }"></view>
             </view>
           </view>
         </view>
@@ -84,17 +82,17 @@
         <!-- 2. 同主客交锋 -->
         <view class="feature-item">
           <view class="row-top">
-            <view class="home-text"> {{ featureData && featureData.sameHomeAway && featureData.sameHomeAway.homeWinGoalMatchCnt || '0' }}胜/{{ featureData && featureData.sameHomeAway && featureData.sameHomeAway.homeDrawMatchCnt || '0' }}平/{{ featureData && featureData.sameHomeAway && featureData.sameHomeAway.homeLossGoalMatchCnt || '0' }}负 </view>
+            <view class="home-text"> {{ (featureData && featureData.sameHomeAway && featureData.sameHomeAway.homeWinGoalMatchCnt) || "0" }}胜/{{ (featureData && featureData.sameHomeAway && featureData.sameHomeAway.homeDrawMatchCnt) || "0" }}平/{{ (featureData && featureData.sameHomeAway && featureData.sameHomeAway.homeLossGoalMatchCnt) || "0" }}负 </view>
             <view class="label-text">同主客交锋</view>
-            <view class="away-text"> {{ featureData && featureData.sameHomeAway && featureData.sameHomeAway.awayWinGoalMatchCnt || '0' }}胜/{{ featureData && featureData.sameHomeAway && featureData.sameHomeAway.awayDrawMatchCnt || '0' }}平/{{ featureData && featureData.sameHomeAway && featureData.sameHomeAway.awayLossGoalMatchCnt || '0' }}负 </view>
+            <view class="away-text"> {{ (featureData && featureData.sameHomeAway && featureData.sameHomeAway.awayWinGoalMatchCnt) || "0" }}胜/{{ (featureData && featureData.sameHomeAway && featureData.sameHomeAway.awayDrawMatchCnt) || "0" }}平/{{ (featureData && featureData.sameHomeAway && featureData.sameHomeAway.awayLossGoalMatchCnt) || "0" }}负 </view>
           </view>
           <view class="progress-bar">
             <view class="half-left">
-              <view class="bar-left" :style="{ width: (featureData && featureData.sameHomeAway && featureData.sameHomeAway.homeScoreRatio || 0) + '%' }"></view>
+              <view class="bar-left" :style="{ width: ((featureData && featureData.sameHomeAway && featureData.sameHomeAway.homeScoreRatio) || 0) + '%' }"></view>
             </view>
             <view class="divider"></view>
             <view class="half-right">
-              <view class="bar-right" :style="{ width: (featureData && featureData.sameHomeAway && featureData.sameHomeAway.awayScoreRatio || 0) + '%' }"></view>
+              <view class="bar-right" :style="{ width: ((featureData && featureData.sameHomeAway && featureData.sameHomeAway.awayScoreRatio) || 0) + '%' }"></view>
             </view>
           </view>
         </view>
@@ -102,17 +100,17 @@
         <!-- 3. 近场战况 -->
         <view class="feature-item">
           <view class="row-top">
-            <view class="home-text"> {{ featureData && featureData.eachHomeAway && featureData.eachHomeAway.homeWinGoalMatchCnt || '0' }}胜/{{ featureData && featureData.eachHomeAway && featureData.eachHomeAway.homeDrawMatchCnt || '0' }}平/{{ featureData && featureData.eachHomeAway && featureData.eachHomeAway.homeLossGoalMatchCnt || '0' }}负 </view>
-            <view class="label-text">近{{ featureData && featureData.eachHomeAway && featureData.eachHomeAway.totalLegCnt || '0' }}场战况</view>
-            <view class="away-text"> {{ featureData && featureData.eachHomeAway && featureData.eachHomeAway.awayWinGoalMatchCnt || '0' }}胜/{{ featureData && featureData.eachHomeAway && featureData.eachHomeAway.awayDrawMatchCnt || '0' }}平/{{ featureData && featureData.eachHomeAway && featureData.eachHomeAway.awayLossGoalMatchCnt || '0' }}负 </view>
+            <view class="home-text"> {{ (featureData && featureData.eachHomeAway && featureData.eachHomeAway.homeWinGoalMatchCnt) || "0" }}胜/{{ (featureData && featureData.eachHomeAway && featureData.eachHomeAway.homeDrawMatchCnt) || "0" }}平/{{ (featureData && featureData.eachHomeAway && featureData.eachHomeAway.homeLossGoalMatchCnt) || "0" }}负 </view>
+            <view class="label-text">近{{ (featureData && featureData.eachHomeAway && featureData.eachHomeAway.totalLegCnt) || "0" }}场战况</view>
+            <view class="away-text"> {{ (featureData && featureData.eachHomeAway && featureData.eachHomeAway.awayWinGoalMatchCnt) || "0" }}胜/{{ (featureData && featureData.eachHomeAway && featureData.eachHomeAway.awayDrawMatchCnt) || "0" }}平/{{ (featureData && featureData.eachHomeAway && featureData.eachHomeAway.awayLossGoalMatchCnt) || "0" }}负 </view>
           </view>
           <view class="progress-bar">
             <view class="half-left">
-              <view class="bar-left" :style="{ width: (featureData && featureData.eachHomeAway && featureData.eachHomeAway.homeScoreRatio || 0) + '%' }"></view>
+              <view class="bar-left" :style="{ width: ((featureData && featureData.eachHomeAway && featureData.eachHomeAway.homeScoreRatio) || 0) + '%' }"></view>
             </view>
             <view class="divider"></view>
             <view class="half-right">
-              <view class="bar-right" :style="{ width: (featureData && featureData.eachHomeAway && featureData.eachHomeAway.awayScoreRatio || 0) + '%' }"></view>
+              <view class="bar-right" :style="{ width: ((featureData && featureData.eachHomeAway && featureData.eachHomeAway.awayScoreRatio) || 0) + '%' }"></view>
             </view>
           </view>
         </view>
@@ -120,17 +118,17 @@
         <!-- 4. 同主客战况 -->
         <view class="feature-item">
           <view class="row-top">
-            <view class="home-text"> {{ featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.homeWinGoalMatchCnt || '0' }}胜/{{ featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.homeDrawMatchCnt || '0' }}平/{{ featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.homeLossGoalMatchCnt || '0' }}负 </view>
+            <view class="home-text"> {{ (featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.homeWinGoalMatchCnt) || "0" }}胜/{{ (featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.homeDrawMatchCnt) || "0" }}平/{{ (featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.homeLossGoalMatchCnt) || "0" }}负 </view>
             <view class="label-text">同主客战况</view>
-            <view class="away-text"> {{ featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.awayWinGoalMatchCnt || '0' }}胜/{{ featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.awayDrawMatchCnt || '0' }}平/{{ featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.awayLossGoalMatchCnt || '0' }}负 </view>
+            <view class="away-text"> {{ (featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.awayWinGoalMatchCnt) || "0" }}胜/{{ (featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.awayDrawMatchCnt) || "0" }}平/{{ (featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.awayLossGoalMatchCnt) || "0" }}负 </view>
           </view>
           <view class="progress-bar">
             <view class="half-left">
-              <view class="bar-left" :style="{ width: (featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.homeScoreRatio || 0) + '%' }"></view>
+              <view class="bar-left" :style="{ width: ((featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.homeScoreRatio) || 0) + '%' }"></view>
             </view>
             <view class="divider"></view>
             <view class="half-right">
-              <view class="bar-right" :style="{ width: (featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.awayScoreRatio || 0) + '%' }"></view>
+              <view class="bar-right" :style="{ width: ((featureData && featureData.eachSameHomeAway && featureData.eachSameHomeAway.awayScoreRatio) || 0) + '%' }"></view>
             </view>
           </view>
         </view>
@@ -138,17 +136,17 @@
         <!-- 5. 场均进球 -->
         <view class="feature-item">
           <view class="row-top">
-            <view class="home-text">{{ featureData && featureData.goalAvg && featureData.goalAvg.homeGoalAvgCnt || '0' }}个</view>
+            <view class="home-text">{{ (featureData && featureData.goalAvg && featureData.goalAvg.homeGoalAvgCnt) || "0" }}个</view>
             <view class="label-text">场均进球</view>
-            <view class="away-text">{{ featureData && featureData.goalAvg && featureData.goalAvg.awayGoalAvgCnt || '0' }}个</view>
+            <view class="away-text">{{ (featureData && featureData.goalAvg && featureData.goalAvg.awayGoalAvgCnt) || "0" }}个</view>
           </view>
           <view class="progress-bar">
             <view class="half-left">
-              <view class="bar-left" :style="{ width: (featureData && featureData.goalAvg && featureData.goalAvg.homeGoalAvgCntRatio || 0) + '%' }"></view>
+              <view class="bar-left" :style="{ width: ((featureData && featureData.goalAvg && featureData.goalAvg.homeGoalAvgCntRatio) || 0) + '%' }"></view>
             </view>
             <view class="divider"></view>
             <view class="half-right">
-              <view class="bar-right" :style="{ width: (featureData && featureData.goalAvg && featureData.goalAvg.awayGoalAvgCntRatio || 0) + '%' }"></view>
+              <view class="bar-right" :style="{ width: ((featureData && featureData.goalAvg && featureData.goalAvg.awayGoalAvgCntRatio) || 0) + '%' }"></view>
             </view>
           </view>
         </view>
@@ -156,17 +154,17 @@
         <!-- 6. 场均失球 -->
         <view class="feature-item">
           <view class="row-top">
-            <view class="home-text">{{ featureData && featureData.lossGoalAvg && featureData.lossGoalAvg.homeLossGoalAvgCnt || '0' }}个</view>
+            <view class="home-text">{{ (featureData && featureData.lossGoalAvg && featureData.lossGoalAvg.homeLossGoalAvgCnt) || "0" }}个</view>
             <view class="label-text">场均失球</view>
-            <view class="away-text">{{ featureData && featureData.lossGoalAvg && featureData.lossGoalAvg.awayLossGoalAvgCnt || '0' }}个</view>
+            <view class="away-text">{{ (featureData && featureData.lossGoalAvg && featureData.lossGoalAvg.awayLossGoalAvgCnt) || "0" }}个</view>
           </view>
           <view class="progress-bar">
             <view class="half-left">
-              <view class="bar-left" :style="{ width: (featureData && featureData.lossGoalAvg && featureData.lossGoalAvg.homeLossGoalAvgCntRatio || 0) + '%' }"></view>
+              <view class="bar-left" :style="{ width: ((featureData && featureData.lossGoalAvg && featureData.lossGoalAvg.homeLossGoalAvgCntRatio) || 0) + '%' }"></view>
             </view>
             <view class="divider"></view>
             <view class="half-right">
-              <view class="bar-right" :style="{ width: (featureData && featureData.lossGoalAvg && featureData.lossGoalAvg.awayLossGoalAvgCntRatio || 0) + '%' }"></view>
+              <view class="bar-right" :style="{ width: ((featureData && featureData.lossGoalAvg && featureData.lossGoalAvg.awayLossGoalAvgCntRatio) || 0) + '%' }"></view>
             </view>
           </view>
         </view>
@@ -190,33 +188,27 @@
         </view>
 
         <view class="record-summary">
-          近{{ historyData && historyData.statistics && historyData.statistics.totalLegCnt || '0' }}场
-          <text class="team-tag-sm">{{ historyData && historyData.statistics && historyData.statistics.teamShortName || '0' }}</text>
-          <text class="win-text">{{ historyData && historyData.statistics && historyData.statistics.winGoalMatchCnt || '0' }}胜({{ historyData && historyData.statistics && historyData.statistics.winProbability || '0' }})</text>
-          | <text class="draw-text">{{ historyData && historyData.statistics && historyData.statistics.drawMatchCnt || '0' }}平({{ historyData && historyData.statistics && historyData.statistics.drawProbability || '0' }})</text> | <text class="lose-text">{{ historyData && historyData.statistics && historyData.statistics.lossGoalMatchCnt || '0' }}负({{ historyData && historyData.statistics && historyData.statistics.lossProbability || '0' }})</text>
+          近{{ (historyData && historyData.statistics && historyData.statistics.totalLegCnt) || "0" }}场
+          <text class="team-tag-sm">{{ (historyData && historyData.statistics && historyData.statistics.teamShortName) || "0" }}</text>
+          <text class="win-text">{{ (historyData && historyData.statistics && historyData.statistics.winScoreMatchCnt) || "0" }}胜({{ (historyData && historyData.statistics && historyData.statistics.winProbability) || "0" }})</text>
+          | <text class="lose-text">{{ (historyData && historyData.statistics && historyData.statistics.lossScoreMatchCnt) || "0" }}负({{ (historyData && historyData.statistics && historyData.statistics.lossProbability) || "0" }})</text>
         </view>
 
         <view class="table-header">
-          <view class="th">赛制/日期</view>
+          <view class="th">日期</view>
+          <view class="th">赛事</view>
           <view class="th">主队</view>
           <view class="th">比分</view>
           <view class="th">客队</view>
-          <view class="th">总进球</view>
         </view>
 
         <view class="record-list">
-          <view class="record-item" v-for="(item, idx) in (historyData && historyData.matchList || []).slice(0, historyRound)" :key="idx">
-            <view class="td date-col">
-              {{ item.tournamentShortName || '0' }}<br />
-              {{ item.matchDate || '0' }}
-            </view>
-            <view class="td team-col">{{ item.homeTeamShortName || '0' }}</view>
-            <view class="td score-col">
-              <view class="score">{{ item.fullCourtGoal || '0' }}</view>
-              <view class="half-score">半({{ item.halfTimeGoal || '0' }})</view>
-            </view>
-            <view class="td team-col">{{ item.awayTeamShortName || '0' }}</view>
-            <view class="td goal-col">{{ item.totalTeamFullCourtGoalCnt || '0' }}</view>
+          <view class="record-item" v-for="(item, idx) in ((historyData && historyData.matchList) || []).slice(0, historyRound)" :key="idx">
+            <view class="td date-col">{{ item.matchDate || "0" }}</view>
+            <view class="td league-col">{{ item.leagueShortName || "0" }}</view>
+            <view class="td team-col">{{ item.homeTeamShortName || "0" }}</view>
+            <view class="td score-col">{{ item.overallScore || "0" }}</view>
+            <view class="td team-col">{{ item.awayTeamShortName || "0" }}</view>
           </view>
         </view>
       </view>
@@ -226,109 +218,83 @@
         <view class="section-title-wrap">
           <view class="section-title">
             <view class="red-line"></view>
-            积分榜 <text class="extra-text">{{ tablesData.leagueShortName || '0' }} {{ tablesData.seasonName || '0' }}</text>
+            积分榜 <text class="extra-text">{{ (tablesData && tablesData.leagueShortName) || "" }} {{ (tablesData && tablesData.seasonName) || "" }}</text>
           </view>
         </view>
 
         <!-- 主队积分榜卡片 -->
         <view class="rank-card">
           <view class="card-header">
-            <view class="team-name-tag">{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.teamShortName || '0' }}</view>
-            <view class="group-rank">{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.groupName || '0' }} 第{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.ranking || '0' }}名</view>
-            <view class="more-btn" @tap="handleClickShowMore(tablesData)">查看更多></view>
+            <view class="team-name-tag">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.teamShortName) || "" }}</view>
+            <view class="group-rank">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.groupName) || "" }} 第{{ (tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.ranking) || "" }}名</view>
           </view>
 
           <view class="table-header">
             <view class="th"></view>
             <view class="th">场次</view>
-            <view class="th">胜/平/负</view>
+            <view class="th">胜/负</view>
             <view class="th">胜率</view>
-            <view class="th">进球/失球</view>
-            <view class="th">净进球</view>
-            <view class="th">积分</view>
             <view class="th">排名</view>
           </view>
 
           <view class="table-row">
             <view class="td type-col">总</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.totalLegCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.winGoalMatchCnt || '0' }}/{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.drawMatchCnt || '0' }}/{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.lossGoalMatchCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.winProbability || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.goalCnt || '0' }}/{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.lossGoalCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.netGoal || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.points || '0' }}</view>
-            <view class="td red">{{ tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.ranking || '0' }}</view>
+            <view class="td">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.totalLegCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.winScoreMatchCnt) || "0" }}/{{ (tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.lossScoreMatchCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.winProbability) || "0" }}</view>
+            <view class="td red">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.total && tablesData.homeTables.total.ranking) || "0" }}</view>
           </view>
           <view class="table-row">
             <view class="td type-col">主</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.totalLegCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.winGoalMatchCnt || '0' }}/{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.drawMatchCnt || '0' }}/{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.lossGoalMatchCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.winProbability || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.goalCnt || '0' }}/{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.lossGoalCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.netGoal || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.points || '0' }}</view>
-            <view class="td red">{{ tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.ranking || '0' }}</view>
+            <view class="td">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.totalLegCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.winScoreMatchCnt) || "0" }}/{{ (tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.lossScoreMatchCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.winProbability) || "0" }}</view>
+            <view class="td red">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.home && tablesData.homeTables.home.ranking) || "0" }}</view>
           </view>
           <view class="table-row">
             <view class="td type-col">客</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.totalLegCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.winGoalMatchCnt || '0' }}/{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.drawMatchCnt || '0' }}/{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.lossGoalMatchCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.winProbability || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.goalCnt || '0' }}/{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.lossGoalCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.netGoal || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.points || '0' }}</view>
-            <view class="td red">{{ tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.ranking || '0' }}</view>
+            <view class="td">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.totalLegCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.winScoreMatchCnt) || "0" }}/{{ (tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.lossScoreMatchCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.winProbability) || "0" }}</view>
+            <view class="td red">{{ (tablesData && tablesData.homeTables && tablesData.homeTables.away && tablesData.homeTables.away.ranking) || "0" }}</view>
           </view>
         </view>
 
         <!-- 客队积分榜卡片 -->
         <view class="rank-card">
           <view class="card-header">
-            <view class="team-name-tag">{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.teamShortName || '0' }}</view>
-            <view class="group-rank">{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.groupName || '0' }} 第{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.ranking || '0' }}名</view>
-            <view class="more-btn" @tap="handleClickShowMore(tablesData)">查看更多></view>
+            <view class="team-name-tag">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.teamShortName) || "" }}</view>
+            <view class="group-rank">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.groupName) || "" }} 第{{ (tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.ranking) || "" }}名</view>
           </view>
 
           <view class="table-header">
             <view class="th"></view>
             <view class="th">场次</view>
-            <view class="th">胜/平/负</view>
+            <view class="th">胜/负</view>
             <view class="th">胜率</view>
-            <view class="th">进球/失球</view>
-            <view class="th">净进球</view>
-            <view class="th">积分</view>
             <view class="th">排名</view>
           </view>
 
           <view class="table-row">
             <view class="td type-col">总</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.totalLegCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.winGoalMatchCnt || '0' }}/{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.drawMatchCnt || '0' }}/{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.lossGoalMatchCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.winProbability || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.goalCnt || '0' }}/{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.lossGoalCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.netGoal || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.points || '0' }}</view>
-            <view class="td red">{{ tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.ranking || '0' }}</view>
+            <view class="td">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.totalLegCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.winScoreMatchCnt) || "0" }}/{{ (tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.lossScoreMatchCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.winProbability) || "0" }}</view>
+            <view class="td red">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.total && tablesData.awayTables.total.ranking) || "0" }}</view>
           </view>
           <view class="table-row">
             <view class="td type-col">主</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.totalLegCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.winGoalMatchCnt || '0' }}/{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.drawMatchCnt || '0' }}/{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.lossGoalMatchCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.winProbability || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.goalCnt || '0' }}/{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.lossGoalCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.netGoal || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.points || '0' }}</view>
-            <view class="td red">{{ tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.ranking || '0' }}</view>
+            <view class="td">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.totalLegCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.winScoreMatchCnt) || "0" }}/{{ (tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.lossScoreMatchCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.winProbability) || "0" }}</view>
+            <view class="td red">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.home && tablesData.awayTables.home.ranking) || "0" }}</view>
           </view>
           <view class="table-row">
             <view class="td type-col">客</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.totalLegCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.winGoalMatchCnt || '0' }}/{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.drawMatchCnt || '0' }}/{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.lossGoalMatchCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.winProbability || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.goalCnt || '0' }}/{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.lossGoalCnt || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.netGoal || '0' }}</view>
-            <view class="td">{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.points || '0' }}</view>
-            <view class="td red">{{ tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.ranking || '0' }}</view>
+            <view class="td">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.totalLegCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.winScoreMatchCnt) || "0" }}/{{ (tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.lossScoreMatchCnt) || "0" }}</view>
+            <view class="td">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.winProbability) || "0" }}</view>
+            <view class="td red">{{ (tablesData && tablesData.awayTables && tablesData.awayTables.away && tablesData.awayTables.away.ranking) || "0" }}</view>
           </view>
         </view>
       </view>
@@ -350,80 +316,74 @@
           </view>
         </view>
 
+        <!-- 主队数据 home -->
         <view class="team-status">
           <view class="record-summary">
-            <text class="team-tag-sm">{{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.teamShortName || '0' }}</text>
-            近{{ matchRound || '0' }}场
-            <text class="win-text">{{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.winGoalMatchCnt || '0' }}胜({{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.winProbability || '0' }})</text>
-            | <text class="draw-text">{{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.drawMatchCnt || '0' }}平({{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.drawProbability || '0' }})</text> | <text class="lose-text">{{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.lossGoalMatchCnt || '0' }}负({{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.lossProbability || '0' }})</text>
+            <text class="team-tag-sm">{{ (recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.teamShortName) || "0" }}</text>
+            近{{ (recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.totalLegCnt) || "0" }}场
+            <text class="win-text">{{ (recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.winScoreMatchCnt) || "0" }}胜({{ (recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.winningProbability) || "0" }})</text>
+            | <text class="lose-text">{{ (recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.lossScoreMatchCnt) || "0" }}负({{ (recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.lossProbability) || "0" }})</text>
           </view>
-          <view class="stat-text"> 进{{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.goalCnt || '0' }}球，失{{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.lossGoalCnt || '0' }}球，净进{{ recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.netGoal || '0' }}球 </view>
+          <view class="stat-text">场均得分{{ (recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.scoreCnt) || "0" }}，场均失分{{ (recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.lossScoreCnt) || "0" }}，场均净胜{{ (recentData && recentData.home && recentData.home.statistics && recentData.home.statistics.netScoreCnt) || "0" }}</view>
           <view class="table-header">
             <view class="th">赛制/日期</view>
             <view class="th">主队</view>
-            <view class="th">VS</view>
+            <view class="th">比分</view>
             <view class="th">客队</view>
             <view class="th">本队赛果</view>
           </view>
           <view class="match-list">
-            <view class="match-item" v-for="(item, idx) in (recentData && recentData.home && recentData.home.matchList || []).slice(0, matchRound)" :key="idx">
-              <view class="td date-col">{{ item.tournamentShortName || '0' }}<br />{{ item.matchDate || '0' }}</view>
-              <view class="td team-col">{{ item.homeTeamShortName || '0' }}</view>
-              <view class="td score-col">
-                <view class="score">{{ item.fullCourtGoal || '0' }}</view>
-                <view class="half-score">半({{ item.halfTimeGoal || '0' }})</view>
-              </view>
-              <view class="td team-col">{{ item.awayTeamShortName || '0' }}</view>
+            <view class="match-item" v-for="(item, idx) in ((recentData && recentData.home && recentData.home.matchList) || []).slice(0, matchRound)" :key="idx">
+              <view class="td date-col">{{ item.leagueShortName || "0" }}<br />{{ item.matchDate || "0" }}</view>
+              <view class="td team-col">{{ item.homeTeamShortName || "0" }}</view>
+              <view class="td score-col">{{ item.overallScore || "0" }}</view>
+              <view class="td team-col">{{ item.awayTeamShortName || "0" }}</view>
               <view class="td result-col">
                 <view
                   class="result-tag"
                   :class="{
                     win: item.teamMatchResult === 'home',
-                    draw: item.teamMatchResult === 'draw',
                     lose: item.teamMatchResult === 'away',
                   }"
                 >
-                  {{ item.teamMatchResult === "home" ? "胜" : item.teamMatchResult === "draw" ? "平" : "负" }}
+                  {{ item.teamMatchResult === "home" ? "胜" : "负" }}
                 </view>
               </view>
             </view>
           </view>
         </view>
 
+        <!-- 客队数据 away -->
         <view class="team-status">
           <view class="record-summary">
-            <text class="team-tag-sm">{{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.teamShortName || '0' }}</text>
-            近{{ matchRound || '0' }}场
-            <text class="win-text">{{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.winGoalMatchCnt || '0' }}胜({{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.winProbability || '0' }})</text>
-            | <text class="draw-text">{{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.drawMatchCnt || '0' }}平({{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.drawProbability || '0' }})</text> | <text class="lose-text">{{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.lossGoalMatchCnt || '0' }}负({{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.lossProbability || '0' }})</text>
+            <text class="team-tag-sm">{{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.teamShortName) || "0" }}</text>
+            近{{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.totalLegCnt) || "0" }}场
+            <text class="win-text">{{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.winScoreMatchCnt) || "0" }}胜({{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.winningProbability) || "0" }})</text>
+            | <text class="lose-text">{{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.lossScoreMatchCnt) || "0" }}负({{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.lossProbability) || "0" }})</text>
           </view>
-          <view class="stat-text"> 进{{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.goalCnt || '0' }}球，失{{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.lossGoalCnt || '0' }}球，净进{{ recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.netGoal || '0' }}球 </view>
+          <view class="stat-text">场均得分{{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.scoreCnt) || "0" }}，场均失分{{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.lossScoreCnt) || "0" }}，场均净胜{{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.netScoreCnt) || "0" }}</view>
           <view class="table-header">
             <view class="th">赛制/日期</view>
             <view class="th">主队</view>
-            <view class="th">VS</view>
+            <view class="th">比分</view>
             <view class="th">客队</view>
             <view class="th">本队赛果</view>
           </view>
           <view class="match-list">
-            <view class="match-item" v-for="(item, idx) in (recentData && recentData.away && recentData.away.matchList || []).slice(0, matchRound)" :key="idx">
-              <view class="td date-col">{{ item.tournamentShortName || '0' }}<br />{{ item.matchDate || '0' }}</view>
-              <view class="td team-col">{{ item.homeTeamShortName || '0' }}</view>
-              <view class="td score-col">
-                <view class="score">{{ item.fullCourtGoal || '0' }}</view>
-                <view class="half-score">半({{ item.halfTimeGoal || '0' }})</view>
-              </view>
-              <view class="td team-col">{{ item.awayTeamShortName || '0' }}</view>
+            <view class="match-item" v-for="(item, idx) in ((recentData && recentData.away && recentData.away.matchList) || []).slice(0, matchRound)" :key="idx">
+              <view class="td date-col">{{ item.leagueShortName || "0" }}<br />{{ item.matchDate || "0" }}</view>
+              <view class="td team-col">{{ item.homeTeamShortName || "0" }}</view>
+              <view class="td score-col">{{ item.overallScore || "0" }}</view>
+              <view class="td team-col">{{ item.awayTeamShortName || "0" }}</view>
               <view class="td result-col">
                 <view
                   class="result-tag"
                   :class="{
                     win: item.teamMatchResult === 'home',
-                    draw: item.teamMatchResult === 'draw',
                     lose: item.teamMatchResult === 'away',
                   }"
                 >
-                  {{ item.teamMatchResult === "home" ? "胜" : item.teamMatchResult === "draw" ? "平" : "负" }}
+                  {{ item.teamMatchResult === "home" ? "胜" : "负" }}
                 </view>
               </view>
             </view>
@@ -435,7 +395,7 @@
     <!-- 积分榜弹窗 -->
     <view class="modal-mask" v-if="showRankModal" @tap="showRankModal = false">
       <view class="modal-content" @tap.stop>
-        <view class="modal-title"> Group Stage {{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].groupName || '0' }}排名 </view>
+        <view class="modal-title"> Group Stage {{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].groupName) || "0" }}排名 </view>
         <scroll-view class="modal-scroll" scroll-y>
           <view class="table-header">
             <view class="th">排名</view>
@@ -449,24 +409,28 @@
 
           <!-- 主队数据 -->
           <view class="rank-item">
-            <view class="td">{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].ranking || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].teamShortName || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].totalLegCnt || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].winGoalMatchCnt || '0' }}/{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].drawMatchCnt || '0' }}/{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].lossGoalMatchCnt || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].winProbability || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].goalCnt || '0' }}/{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].lossGoalCnt || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].points || '0' }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].ranking) || "0" }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].teamShortName) || "0" }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].totalLegCnt) || "0" }}</view>
+            <view class="td"
+              >{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].winGoalMatchCnt) || "0" }}/{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].drawMatchCnt) || "0" }}/{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].lossGoalMatchCnt) || "0" }}</view
+            >
+            <view class="td">{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].winProbability) || "0" }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].goalCnt) || "0" }}/{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].lossGoalCnt) || "0" }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.homeTables && tablesModalData.homeTables[modalRankTab] && tablesModalData.homeTables[modalRankTab].points) || "0" }}</view>
           </view>
 
           <!-- 客队数据 -->
           <view class="rank-item">
-            <view class="td">{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].ranking || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].teamShortName || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].totalLegCnt || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].winGoalMatchCnt || '0' }}/{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].drawMatchCnt || '0' }}/{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].lossGoalMatchCnt || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].winProbability || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].goalCnt || '0' }}/{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].lossGoalCnt || '0' }}</view>
-            <view class="td">{{ tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].points || '0' }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].ranking) || "0" }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].teamShortName) || "0" }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].totalLegCnt) || "0" }}</view>
+            <view class="td"
+              >{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].winGoalMatchCnt) || "0" }}/{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].drawMatchCnt) || "0" }}/{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].lossGoalMatchCnt) || "0" }}</view
+            >
+            <view class="td">{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].winProbability) || "0" }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].goalCnt) || "0" }}/{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].lossGoalCnt) || "0" }}</view>
+            <view class="td">{{ (tablesModalData && tablesModalData.awayTables && tablesModalData.awayTables[modalRankTab] && tablesModalData.awayTables[modalRankTab].points) || "0" }}</view>
           </view>
         </scroll-view>
       </view>
@@ -475,7 +439,7 @@
 </template>
 <script>
 import CustomHeader from "@/components/CustomHeader.vue";
-import {  purchasingBasketballInfo } from "@/api/demo";
+import { purchasingBasketballInfo } from "@/api/demo";
 export default {
   components: {
     CustomHeader,
@@ -531,14 +495,14 @@ export default {
       matchRound: 5,
     };
   },
-computed: {
-  homeRankData() {
-    return (this.tablesData && this.tablesData.homeTables) || {};
+  computed: {
+    homeRankData() {
+      return (this.tablesData && this.tablesData.homeTables) || {};
+    },
+    awayRankData() {
+      return (this.tablesData && this.tablesData.awayTables) || {};
+    },
   },
-  awayRankData() {
-    return (this.tablesData && this.tablesData.awayTables) || {};
-  }
-},
   onLoad(options) {
     this.matchId = options.id;
     // 接口暂未就绪，暂时注释
@@ -549,9 +513,9 @@ computed: {
   },
   methods: {
     async handleClickShowMore(item) {
-        await uni.navigateTo({
-            url: `/pages/test/tabsAll?seasonId=${item.seasonId}&uniformLeagueId=${item.uniformLeagueId}`,
-        });
+      await uni.navigateTo({
+        url: `/pages/test/tabsAll?seasonId=${item.seasonId}&uniformLeagueId=${item.uniformLeagueId}`,
+      });
       // 接数据
     },
     // 历史交锋 - 切换同主客/同赛制
@@ -636,130 +600,130 @@ computed: {
       await this.getTablesData();
     },
 
-// 1. 头部信息 dataType: head
-async getHeadData(param) {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: param,
-    });
+    // 1. 头部信息 dataType: head
+    async getHeadData(param) {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: param,
+        });
 
-    const data = res.data || {}; // 空值默认给 {}
-    if (param === "predictor") {
-      // 分析数据 → 直接合并，不用一个个写！
-      this.headerInfo = {
-        ...this.headerInfo,
-        ...data,
-      };
-    } else {
-      // 基础数据
-      this.headerInfo = {
-        ...this.headerInfo,
-        ...data,
-      };
-    }
-  } catch (e) {}
-},
-// 2. 特征分析 dataType: feature
-async getFeatureData() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "feature",
-    });
-    this.featureData = res.data || {};
-  } catch (e) {}
-},
-// 3. 历史交锋 全部赛制+不区分主客场
-async getHistoryAllAll() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "historyTournamentHomeAwayAllAll",
-    });
-    this.historyData = res.data || {};
-  } catch (e) {}
-},
-// 4. 历史交锋 全部赛制+相同主客场
-async getHistoryAllSame() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "historyTournamentHomeAwayAllSame",
-    });
-    this.historyData = res.data || {};
-  } catch (e) {}
-},
-// 5. 历史交锋 同赛制+不区分主客场
-async getHistorySameAll() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "historyTournamentHomeAwaySameAll",
-    });
-    this.historyData = res.data || {};
-  } catch (e) {}
-},
-// 6. 历史交锋 同赛制+相同主客场
-async getHistorySameSame() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "historyTournamentHomeAwaySameSame",
-    });
-    this.historyData = res.data || {};
-  } catch (e) {}
-},
-// 7. 比赛近况 全部赛制+不区分主客场
-async getResultAllAll() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "resultTournamentHomeAwayAllAll",
-    });
-    this.recentData = res.data || {};
-  } catch (e) {}
-},
-// 8. 比赛近况 全部赛制+相同主客场
-async getResultAllSame() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "resultTournamentHomeAwayAllSame",
-    });
-    this.recentData = res.data || {};
-  } catch (e) {}
-},
-// 9. 比赛近况 同赛制+不区分主客场
-async getResultSameAll() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "resultTournamentHomeAwaySameAll",
-    });
-    this.recentData = res.data || {};
-  } catch (e) {}
-},
-// 10. 比赛近况 同赛制+相同主客场
-async getResultSameSame() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "resultTournamentHomeAwaySameSame",
-    });
-    this.recentData = res.data || {};
-  } catch (e) {}
-},
-// 11. 积分榜 dataType: tables
-async getTablesData() {
-  try {
-    const res = await purchasingBasketballInfo({
-      matchId: this.matchId,
-      dataType: "tables",
-    });
-    this.tablesData = res.data || {};
-  } catch (e) {}
-},
+        const data = res.data || {}; // 空值默认给 {}
+        if (param === "predictor") {
+          // 分析数据 → 直接合并，不用一个个写！
+          this.headerInfo = {
+            ...this.headerInfo,
+            ...data,
+          };
+        } else {
+          // 基础数据
+          this.headerInfo = {
+            ...this.headerInfo,
+            ...data,
+          };
+        }
+      } catch (e) {}
+    },
+    // 2. 特征分析 dataType: feature
+    async getFeatureData() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "feature",
+        });
+        this.featureData = res.data || {};
+      } catch (e) {}
+    },
+    // 3. 历史交锋 全部赛制+不区分主客场
+    async getHistoryAllAll() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "historyTournamentHomeAwayAllAll",
+        });
+        this.historyData = res.data || {};
+      } catch (e) {}
+    },
+    // 4. 历史交锋 全部赛制+相同主客场
+    async getHistoryAllSame() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "historyTournamentHomeAwayAllSame",
+        });
+        this.historyData = res.data || {};
+      } catch (e) {}
+    },
+    // 5. 历史交锋 同赛制+不区分主客场
+    async getHistorySameAll() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "historyTournamentHomeAwaySameAll",
+        });
+        this.historyData = res.data || {};
+      } catch (e) {}
+    },
+    // 6. 历史交锋 同赛制+相同主客场
+    async getHistorySameSame() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "historyTournamentHomeAwaySameSame",
+        });
+        this.historyData = res.data || {};
+      } catch (e) {}
+    },
+    // 7. 比赛近况 全部赛制+不区分主客场
+    async getResultAllAll() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "resultTournamentHomeAwayAllAll",
+        });
+        this.recentData = res.data || {};
+      } catch (e) {}
+    },
+    // 8. 比赛近况 全部赛制+相同主客场
+    async getResultAllSame() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "resultTournamentHomeAwayAllSame",
+        });
+        this.recentData = res.data || {};
+      } catch (e) {}
+    },
+    // 9. 比赛近况 同赛制+不区分主客场
+    async getResultSameAll() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "resultTournamentHomeAwaySameAll",
+        });
+        this.recentData = res.data || {};
+      } catch (e) {}
+    },
+    // 10. 比赛近况 同赛制+相同主客场
+    async getResultSameSame() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "resultTournamentHomeAwaySameSame",
+        });
+        this.recentData = res.data || {};
+      } catch (e) {}
+    },
+    // 11. 积分榜 dataType: tables
+    async getTablesData() {
+      try {
+        const res = await purchasingBasketballInfo({
+          matchId: this.matchId,
+          dataType: "tables",
+        });
+        this.tablesData = res.data || {};
+      } catch (e) {}
+    },
 
     getSectionTop() {
       const query = uni.createSelectorQuery().in(this);
@@ -911,7 +875,7 @@ async getTablesData() {
 }
 
 .scroll-content {
-  height: calc(100vh - 150rpx);
+  height: calc(100vh - 380rpx);
   box-sizing: border-box;
 }
 
