@@ -879,7 +879,7 @@ export default {
 }
 
 .scroll-content {
-  height: calc(100vh - 380rpx);
+  height: calc(100vh - 480rpx);
   box-sizing: border-box;
 }
 
