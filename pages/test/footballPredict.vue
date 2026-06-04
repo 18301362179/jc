@@ -655,7 +655,7 @@
             <view class="no-data-card" v-if="((injuryData && injuryData.home && injuryData.home.injuriesAndSuspensionsList) || []).length === 0">暂无伤停</view>
           </scroll-view>
         </view>
-        <view class="player-group">
+        <view class="player-group" style="margin-bottom: 40rpx;">
           <view class="team-tag-sm">{{ (injuryData && injuryData.away && injuryData.away.teamShortName) || "0" }}</view>
           <scroll-view class="player-scroll" scroll-x show-scrollbar="false">
             <view class="injury-card" v-for="(item, idx) in (injuryData && injuryData.away && injuryData.away.injuriesAndSuspensionsList) || []" :key="idx">
@@ -1220,7 +1220,7 @@ export default {
 }
 
 .scroll-content {
-  height: calc(100vh - 380rpx);
+  height: calc(100vh - 400rpx);
   box-sizing: border-box;
 }
 

@@ -358,7 +358,7 @@
         </view>
 
         <!-- 客队数据 away -->
-        <view class="team-status">
+        <view class="team-status" style="margin-bottom: 40rpx;">
           <view class="record-summary">
             <text class="team-tag-sm">{{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.teamShortName) || "0" }}</text>
             近{{ (recentData && recentData.away && recentData.away.statistics && recentData.away.statistics.totalLegCnt) || "0" }}场
@@ -879,7 +879,7 @@ export default {
 }
 
 .scroll-content {
-  height: calc(100vh - 380rpx);
+  height: calc(100vh - 400rpx);
   box-sizing: border-box;
 }
 
