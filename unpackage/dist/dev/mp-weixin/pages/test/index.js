@@ -132,12 +132,27 @@ var render = function () {
           }
         })
       : null
-  var g3 = _vm.homeInjurySuspension && _vm.homeInjurySuspension.length > 0
-  var g4 =
-    _vm.visitingInjurySuspension && _vm.visitingInjurySuspension.length > 0
-  var g5 = _vm.homeLastCourses && _vm.homeLastCourses.length > 0
-  var l1 = g5
+  var g3 = _vm.homeLastCourses && _vm.homeLastCourses.length > 0
+  var l1 = g3
     ? _vm.__map(_vm.homeLastCourses, function (item, i) {
+        var $orig = _vm.__get_orig(item)
+        var g4 = [
+          item.league_name,
+          item.stage,
+          item.sub_group ? item.sub_group + "组" : "",
+          item.round_no ? "第" + item.round_no + "轮" : "",
+        ]
+          .filter(Boolean)
+          .join("")
+        return {
+          $orig: $orig,
+          g4: g4,
+        }
+      })
+    : null
+  var g5 = _vm.visitingLastCourses && _vm.visitingLastCourses.length > 0
+  var l2 = g5
+    ? _vm.__map(_vm.visitingLastCourses, function (item, i) {
         var $orig = _vm.__get_orig(item)
         var g6 = [
           item.league_name,
@@ -153,26 +168,6 @@ var render = function () {
         }
       })
     : null
-  var g7 = _vm.visitingLastCourses && _vm.visitingLastCourses.length > 0
-  var l2 = g7
-    ? _vm.__map(_vm.visitingLastCourses, function (item, i) {
-        var $orig = _vm.__get_orig(item)
-        var g8 = [
-          item.league_name,
-          item.stage,
-          item.sub_group ? item.sub_group + "组" : "",
-          item.round_no ? "第" + item.round_no + "轮" : "",
-        ]
-          .filter(Boolean)
-          .join("")
-        return {
-          $orig: $orig,
-          g8: g8,
-        }
-      })
-    : null
-  var g9 = _vm.homeScorers && _vm.homeScorers.length > 0
-  var g10 = _vm.visitingScorers && _vm.visitingScorers.length > 0
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -185,13 +180,9 @@ var render = function () {
         g1: g1,
         l0: l0,
         g3: g3,
-        g4: g4,
-        g5: g5,
         l1: l1,
-        g7: g7,
+        g5: g5,
         l2: l2,
-        g9: g9,
-        g10: g10,
       },
     }
   )
@@ -458,122 +449,6 @@ var _data = __webpack_require__(/*! @/utils/data */ 63);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var CustomHeader = function CustomHeader() {
   __webpack_require__.e(/*! require.ensure | components/CustomHeader */ "components/CustomHeader").then((function () {
     return resolve(__webpack_require__(/*! @/components/CustomHeader.vue */ 338));
@@ -593,19 +468,13 @@ var _default = {
       visitingTeam: {},
       homeLastCourses: [],
       visitingLastCourses: [],
-      homeScorers: [],
-      visitingScorers: [],
       currentTeamName: "",
       currentTab: "全部",
       filteredRecords: [],
       tzkHeadRecord: [],
       allHeadRecord: [],
       pointsData: [],
-      tzkDataList: [],
       headData: [],
-      // 新增：伤停数据列表
-      homeInjurySuspension: [],
-      visitingInjurySuspension: [],
       urlValue: false
     };
   },
@@ -676,34 +545,28 @@ var _default = {
                 _this2.visitingTeam = data.visitingTeam || {};
                 _this2.homeLastCourses = data.homeLastCourses || [];
                 _this2.visitingLastCourses = data.visitingLastCourses || [];
-                _this2.homeScorers = data.homeScorers || [];
-                _this2.visitingScorers = data.visitingScorers || [];
                 _this2.allHeadRecord = data.all_headRecord || [];
                 _this2.tzkHeadRecord = data.tzk_headRecord || [];
                 _this2.filteredRecords = data.all_headRecord || [];
                 _this2.pointsData = data.pointsData || [];
                 _this2.headData = data.headData || [];
-                _this2.tzkDataList = data.tzkDataList || [];
                 _this2.info = JSON.parse(JSON.stringify(data));
-                // 新增：赋值伤停数据
-                _this2.homeInjurySuspension = data.homeInjurySuspension || [];
-                _this2.visitingInjurySuspension = data.visitingInjurySuspension || [];
-                _context.next = 29;
+                _context.next = 24;
                 break;
-              case 26:
-                _context.prev = 26;
+              case 21:
+                _context.prev = 21;
                 _context.t0 = _context["catch"](1);
                 console.error("获取AI详情失败:", _context.t0);
-              case 29:
-                _context.prev = 29;
+              case 24:
+                _context.prev = 24;
                 _this2.hideLoading();
-                return _context.finish(29);
-              case 32:
+                return _context.finish(24);
+              case 27:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 26, 29, 32]]);
+        }, _callee, null, [[1, 21, 24, 27]]);
       }))();
     },
     showLoading: function showLoading() {
