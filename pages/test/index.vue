@@ -22,10 +22,10 @@
           <view class="match-teams-container">
             <view class="team-column home-column">
               <!-- 主队：非世界杯添加点击手势 + 跳转 -->
-              <text class="team-name" v-if="courseMap.league_name == '世界杯'" style="color: #06f" hover-class="hover-hand" @click="goToTeamDetail(courseMap.home_name_title)">
+              <!-- <text class="team-name" v-if="courseMap.league_name == '世界杯'" style="color: #06f" hover-class="hover-hand" @click="goToTeamDetail(courseMap.home_name_title)">
                 {{ courseMap.home_name_title }}
-              </text>
-              <text class="team-name" v-else>
+              </text> -->
+              <text class="team-name">
                 {{ courseMap.home_name_title }}
               </text>
               <text v-if="info.homeHandicap" class="handicap-text">{{ info.homeHandicap }}</text>
@@ -37,10 +37,10 @@
 
             <view class="team-column away-column">
               <!-- 客队：非世界杯添加点击手势 + 跳转 -->
-              <text class="team-name" v-if="courseMap.league_name == '世界杯'" style="color: #06f" hover-class="hover-hand" @click="goToTeamDetail(courseMap.visiting_name_title)">
+              <!-- <text class="team-name" v-if="courseMap.league_name == '世界杯'" style="color: #06f" hover-class="hover-hand" @click="goToTeamDetail(courseMap.visiting_name_title)">
                 {{ courseMap.visiting_name_title }}
-              </text>
-              <text class="team-name" v-else>
+              </text> -->
+              <text class="team-name">
                 {{ courseMap.visiting_name_title }}
               </text>
               <text v-if="info.visitingHandicap" class="handicap-text">{{ info.visitingHandicap }}</text>
@@ -69,13 +69,27 @@
               <text class="pro-text">数据分析</text>
               <view class="prediction-content">
                 <view class="home-prediction">
-                  <text class="prediction-value">{{ baseMap.homeGoalCalculate === null || baseMap.homeGoalCalculate === undefined ? "-" : baseMap.homeGoalCalculate }}</text>
+                  <text class="prediction-value">{{ baseMap.home_goal_calculate === null || baseMap.home_goal_calculate === undefined ? "-" : baseMap.home_goal_calculate }}</text>
                 </view>
                 <view class="draw-prediction">
                   <text class="prediction-value">:</text>
                 </view>
                 <view class="away-prediction">
-                  <text class="prediction-value">{{ baseMap.visitingGoalCalculate === null || baseMap.visitingGoalCalculate === undefined ? "-" : baseMap.visitingGoalCalculate }}</text>
+                  <text class="prediction-value">{{ baseMap.visiting_goal_calculate === null || baseMap.visiting_goal_calculate === undefined ? "-" : baseMap.visiting_goal_calculate }}</text>
+                </view>
+              </view>
+            </view>
+            <view class="prediction-row">
+              <text class="pro-text">数据分析</text>
+              <view class="prediction-content">
+                <view class="home-prediction">
+                  <text class="prediction-value">{{ baseMap.home_goal_calculate1 === null || baseMap.home_goal_calculate1 === undefined ? "-" : baseMap.home_goal_calculate1 }}</text>
+                </view>
+                <view class="draw-prediction">
+                  <text class="prediction-value">:</text>
+                </view>
+                <view class="away-prediction">
+                  <text class="prediction-value">{{ baseMap.visiting_goal_calculate1 === null || baseMap.visiting_goal_calculate1 === undefined ? "-" : baseMap.visiting_goal_calculate1 }}</text>
                 </view>
               </view>
             </view>
@@ -142,27 +156,6 @@
             </view>
           </view>
         </view>
-        <view class="ranking-section">
-          <view class="section-title">
-            <text>相同主客场数据</text>
-          </view>
-          <view class="ranking-table scorer-table">
-            <view class="table-header">
-              <!-- <text class="cell ranking-cell">排名</text> -->
-              <text class="cell player-cell">球队</text>
-              <text class="cell point-num-cell">胜率/平率</text>
-              <text class="cell point-num-cell">均进/失球</text>
-            </view>
-            <view class="scorer-row-wrap" v-for="(item, i) in tzkDataList" :key="i">
-              <view class="table-row">
-                <!-- <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text> -->
-                <text class="cell player-cell">{{ item.teamName || "-" }}</text>
-                <text class="cell point-num-cell">{{ item.winDrawRate || "-" }}</text>
-                <text class="cell point-num-cell">{{ item.goalLoss || "-" }}</text>
-              </view>
-            </view>
-          </view>
-        </view>
 
         <view class="record-section">
           <view class="tab-buttons">
@@ -183,64 +176,6 @@
                 <text class="team" style="text-align: right">{{ item.home_name || "-" }}</text>
                 <text class="score-colon">{{ item.home_goal || 0 }} : {{ item.visiting_goal || 0 }}</text>
                 <text class="team" style="text-align: left">{{ item.visiting_name || "-" }}</text>
-              </view>
-            </view>
-          </view>
-        </view>
-        <!-- 新增：球队伤停情况模块 -->
-        <view class="ranking-section">
-          <view class="section-title" style="color: red; background: #f2f2f2 !important">
-            <text>{{ courseMap.home_name || "" }}伤停情况</text>
-          </view>
-          <view class="ranking-table scorer-table">
-            <view class="table-header">
-              <text class="cell player-cell">号码-球员-位置</text>
-              <text class="cell num-cell">总出场</text>
-              <text class="cell num-cell">首发出场</text>
-              <text class="cell point-num-cell">状态</text>
-            </view>
-            <view v-if="homeInjurySuspension && homeInjurySuspension.length > 0">
-              <view class="scorer-row-wrap" v-for="(item, i) in homeInjurySuspension" :key="i">
-                <view class="table-row">
-                  <text class="cell player-cell">{{ item.uniform_no || "-" }}-{{ item.person_name || "-" }}-{{ item.position_desc || "-" }}</text>
-                  <text class="cell num-cell">{{ item.appearance_cnt || 0 }}</text>
-                  <text class="cell num-cell">{{ item.started_match_cnt || 0 }}</text>
-                  <text class="cell point-num-cell">{{ item.injury_flag === 0 ? "停" : "伤" }}</text>
-                </view>
-              </view>
-            </view>
-            <view v-else class="scorer-row-wrap">
-              <view class="table-row">
-                <text class="cell player-cell" style="width: 100%">无</text>
-              </view>
-            </view>
-          </view>
-        </view>
-
-        <view class="ranking-section">
-          <view class="section-title" style="color: red; background: #f2f2f2 !important">
-            <text>{{ courseMap.visiting_name || "" }}伤停情况</text>
-          </view>
-          <view class="ranking-table scorer-table">
-            <view class="table-header">
-              <text class="cell player-cell">号码-球员-位置</text>
-              <text class="cell num-cell">总出场</text>
-              <text class="cell num-cell">首发出场</text>
-              <text class="cell point-num-cell">状态</text>
-            </view>
-            <view v-if="visitingInjurySuspension && visitingInjurySuspension.length > 0">
-              <view class="scorer-row-wrap" v-for="(item, i) in visitingInjurySuspension" :key="i">
-                <view class="table-row">
-                  <text class="cell player-cell">{{ item.uniform_no || "-" }}-{{ item.person_name || "-" }}-{{ item.position_desc || "-" }}</text>
-                  <text class="cell num-cell">{{ item.appearance_cnt || 0 }}</text>
-                  <text class="cell num-cell">{{ item.started_match_cnt || 0 }}</text>
-                  <text class="cell point-num-cell">{{ item.injury_flag === 0 ? "停" : "伤" }}</text>
-                </view>
-              </view>
-            </view>
-            <view v-else class="scorer-row-wrap">
-              <view class="table-row">
-                <text class="cell player-cell" style="width: 100%">无</text>
               </view>
             </view>
           </view>
@@ -284,50 +219,6 @@
             </view>
           </view>
         </view>
-
-        <view class="ranking-section" v-if="homeScorers && homeScorers.length > 0">
-          <view class="section-title">
-            <text>{{ courseMap.home_name || "" }}-射手榜球员</text>
-          </view>
-          <view class="ranking-table scorer-table">
-            <view class="table-header">
-              <text class="cell ranking-cell">排名</text>
-              <text class="cell player-cell">球员</text>
-              <text class="cell num-cell">进球</text>
-              <text class="cell num-cell">点球</text>
-            </view>
-            <view class="scorer-row-wrap" v-for="(item, i) in homeScorers" :key="i">
-              <view class="table-row">
-                <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text>
-                <text class="cell player-cell">{{ item.player_name || "-" }}</text>
-                <text class="cell num-cell">{{ item.total_goal || 0 }}</text>
-                <text class="cell num-cell">{{ item.penalty_kick_goal || 0 }}</text>
-              </view>
-            </view>
-          </view>
-        </view>
-
-        <view class="ranking-section" v-if="visitingScorers && visitingScorers.length > 0">
-          <view class="section-title">
-            <text>{{ courseMap.visiting_name || "" }}-射手榜球员</text>
-          </view>
-          <view class="ranking-table scorer-table">
-            <view class="table-header">
-              <text class="cell ranking-cell">排名</text>
-              <text class="cell player-cell">球员</text>
-              <text class="cell num-cell">进球</text>
-              <text class="cell num-cell">点球</text>
-            </view>
-            <view class="scorer-row-wrap" v-for="(item, i) in visitingScorers" :key="i">
-              <view class="table-row">
-                <text class="cell ranking-cell">{{ item.ranking_no || "-" }}</text>
-                <text class="cell player-cell">{{ item.player_name || "-" }}</text>
-                <text class="cell num-cell">{{ item.total_goal || 0 }}</text>
-                <text class="cell num-cell">{{ item.penalty_kick_goal || 0 }}</text>
-              </view>
-            </view>
-          </view>
-        </view>
       </view>
     </scroll-view>
   </view>
@@ -350,19 +241,13 @@ export default {
       visitingTeam: {},
       homeLastCourses: [],
       visitingLastCourses: [],
-      homeScorers: [],
-      visitingScorers: [],
       currentTeamName: "",
       currentTab: "全部",
       filteredRecords: [],
       tzkHeadRecord: [],
       allHeadRecord: [],
       pointsData: [],
-      tzkDataList: [],
       headData: [],
-      // 新增：伤停数据列表
-      homeInjurySuspension: [],
-      visitingInjurySuspension: [],
     };
   },
   onLoad(options) {
@@ -417,18 +302,12 @@ export default {
         this.visitingTeam = data.visitingTeam || {};
         this.homeLastCourses = data.homeLastCourses || [];
         this.visitingLastCourses = data.visitingLastCourses || [];
-        this.homeScorers = data.homeScorers || [];
-        this.visitingScorers = data.visitingScorers || [];
         this.allHeadRecord = data.all_headRecord || [];
         this.tzkHeadRecord = data.tzk_headRecord || [];
         this.filteredRecords = data.all_headRecord || [];
         this.pointsData = data.pointsData || [];
         this.headData = data.headData || [];
-        this.tzkDataList = data.tzkDataList || [];
         this.info = JSON.parse(JSON.stringify(data));
-        // 新增：赋值伤停数据
-        this.homeInjurySuspension = data.homeInjurySuspension || [];
-        this.visitingInjurySuspension = data.visitingInjurySuspension || [];
       } catch (error) {
         console.error("获取AI详情失败:", error);
       } finally {
@@ -469,7 +348,6 @@ export default {
   color: #444;
   padding: 20rpx;
   border-radius: 16rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
   // 移除原有的height: 100vh和overflow-y: auto
 }
