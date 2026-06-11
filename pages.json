@@ -672,6 +672,24 @@
 							"navigationStyle": "custom"
 						}
 					}
+				},
+					{
+					"path": "myTest",
+					"style": {
+						"navigationBarTitleText": "积分榜",
+						"navigationBarTextStyle": "white",
+						"navigationBarBackgroundColor": "#31926e",
+						"enablePullDownRefresh": false,
+						"navigationStyle": "custom",
+						"onReachBottomDistance": 50,
+						"app-plus": {
+							"softinputMode": "adjustResize"
+						},
+						"mp-weixin": {
+							"disableScroll": true,
+							"navigationStyle": "custom"
+						}
+					}
 				}
 			]
 		},
