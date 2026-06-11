@@ -799,7 +799,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center; /* 保持整体居中，和客队对称 */
-      width: 30%;
+      width: 40%;
       .pre {
         display: inline-block;
         width: 40rpx; /* 固定宽度，让两个“预”的位置对齐 */
@@ -827,7 +827,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 30%;
+      width: 10%;
 
       .vs-text {
         font-size: 26rpx;
