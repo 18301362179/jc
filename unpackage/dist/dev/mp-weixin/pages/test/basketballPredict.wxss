@@ -58,7 +58,7 @@
   flex-direction: column;
   align-items: center;
   /* 保持整体居中，和客队对称 */
-  width: 30%;
+  width: 40%;
 }
 .match-header .match-main .team-col .pre.data-v-6dc84760 {
   display: inline-block;
@@ -86,7 +86,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%;
+  width: 10%;
 }
 .match-header .match-main .vs-col .vs-text.data-v-6dc84760 {
   font-size: 26rpx;
