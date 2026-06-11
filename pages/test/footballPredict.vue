@@ -14,7 +14,7 @@
       <view class="match-main">
         <!-- 主队区域 -->
         <view class="team-col">
-          <view class="team-name">{{ headerInfo.homeTeamShortName || "0" }}</view>
+          <view class="team-name">{{ headerInfo.homeNameShow || "" }}</view>
           <view class="win-rate"> 胜率{{ headerInfo.home_win_rate || "0" }} </view>
           <view class="score-pred">
             {{ headerInfo.home_goal_calculate || "0" }}
@@ -33,7 +33,7 @@
 
         <!-- 客队区域 -->
         <view class="team-col">
-          <view class="team-name">{{ headerInfo.awayTeamShortName || "0" }}</view>
+          <view class="team-name">{{ headerInfo.awayNameShow || "" }}</view>
           <view class="win-rate">胜率{{ headerInfo.visiting_win_rate || "0" }}</view>
           <view class="score-pred">{{ headerInfo.visiting_goal_calculate || "0" }}</view>
           <view class="score-pred" v-if="headerInfo.visiting_goal_calculate1">{{ headerInfo.visiting_goal_calculate1 || "0" }}</view>
