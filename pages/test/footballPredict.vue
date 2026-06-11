@@ -36,7 +36,7 @@
           <view class="team-name">{{ headerInfo.awayNameShow || "" }}</view>
           <view class="win-rate">胜率{{ headerInfo.visiting_win_rate || "0" }}</view>
           <view class="score-pred">{{ headerInfo.visiting_goal_calculate || "0" }}</view>
-          <view class="score-pred" v-if="headerInfo.visiting_goal_calculate1">{{ headerInfo.visiting_goal_calculate1 || "0" }}</view>
+          <view class="score-pred" v-if="headerInfo.visiting_goal_calculaaaaaaaaazate1">{{ headerInfo.visiting_goal_calculate1 || "0" }}</view>
         </view>
       </view>
 
