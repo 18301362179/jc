@@ -54,8 +54,8 @@
               <text class="rate-text home" v-show="item.home_win_rate" :title="`胜${item.home_win_rate}，约${item.visiting_goal_calculate}分`"> 胜{{ item.home_win_rate || "--" }}，约{{ item.visiting_goal_calculate || "--" }}分 </text>
             </view>
             <view class="odds-row">
-              <view class="match-cell away" :class="{ selected: item.rAwaySelected }"> 主负{{ item.loss_multiplier || "--" }} </view>
-              <view class="match-cell home" :class="{ selected: item.rHomeSelected }"> 主胜{{ item.win_multiplier || "--" }} </view>
+              <view class="match-cell away" :class="{ selected: item.rAwaySelected }"> 主负{{ item.r_loss_multiplier || "--" }} </view>
+              <view class="match-cell home" :class="{ selected: item.rHomeSelected }"> 主胜{{ item.r_win_multiplier || "--" }} </view>
             </view>
           </view>
         </view>
