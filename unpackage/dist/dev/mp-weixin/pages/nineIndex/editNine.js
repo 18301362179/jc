@@ -274,7 +274,7 @@ var _default = {
     // 任9保留：处理自定义软键盘确认
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50); // 最终限制1-50
+      this.betCount = num // 最终限制1-50
       this.showNumberKeyboard = false; // 收起键盘
     },
     // 任9保留：处理自定义软键盘实时输入

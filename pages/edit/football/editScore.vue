@@ -214,8 +214,6 @@ export default {
       const num = parseInt(val) || 1;
       if (num < 1) {
         this.betCount = 1;
-      } else if (num > 50) {
-        this.betCount = 50;
       } else {
         this.betCount = num;
       }
@@ -224,7 +222,7 @@ export default {
     // 新增：处理自定义软键盘确认
     handleKeyboardConfirm(val) {
       const num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50); // 最终限制1-50
+      this.betCount = num // 最终限制1-50
       this.showNumberKeyboard = false; // 收起键盘
     },
 
@@ -407,12 +405,8 @@ calculateScoreBonus() {
       // 1. 校验：未选中赛事时直接返回
       if (this.selectedMatchCount < 1) return;
       // 2. 修复：先判断是否小于50，再执行++，避免超过50
-      if (this.betCount < 50) {
         this.betCount++;
-      } else {
-        // 可选：提示用户已达上限
-        uni.showToast({ title: "最多50倍", icon: "none" });
-      }
+     
     },
     // 模拟（提交选中的比分数据）
     async handleConfirmBet(fromPhoneModal) {

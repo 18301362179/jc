@@ -344,15 +344,13 @@ export default {
       const num = parseInt(val) || 1;
       if (num < 1) {
         this.betCount = 1;
-      } else if (num > 50) {
-        this.betCount = 50;
       } else {
         this.betCount = num;
       }
     },
     handleKeyboardConfirm(val) {
       const num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50);
+      this.betCount = num
       this.showNumberKeyboard = false;
     },
     // 计算弹窗最大高度
@@ -590,11 +588,8 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
     // 加
     handlePlus() {
       if (this.selectedMatchCount < 1) return;
-      if (this.betCount < 50) {
         this.betCount++;
-      } else {
-        uni.showToast({ title: "最多50倍", icon: "none" });
-      }
+      
     },
     toggleSelect(targetItem, key) {
       this.drawerList.forEach((drawer, drawerIdx) => {

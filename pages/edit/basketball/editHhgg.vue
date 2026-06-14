@@ -277,12 +277,12 @@ export default {
     // 处理软键盘输入
     handleKeyboardInput(val) {
       const num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50);
+      this.betCount = num
     },
     // 确认软键盘输入
     handleKeyboardConfirm(val) {
       const num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50);
+      this.betCount = num
       this.showNumberKeyboard = false;
     },
     // 计算高度
@@ -412,11 +412,8 @@ export default {
     // 加
     handlePlus() {
       if (this.selectedMatchCount < 1) return;
-      if (this.betCount < 50) {
         this.betCount++;
-      } else {
-        uni.showToast({ title: "最多50倍", icon: "none" });
-      }
+     
     },
     async handleConfirmBet(fromPhoneModal) {
       if (this.selectedMatchCount === 0) {

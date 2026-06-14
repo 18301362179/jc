@@ -666,7 +666,7 @@ var _default = {
     },
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50);
+      this.betCount = num
       this.showNumberKeyboard = false;
     },
     handleBetInput: function handleBetInput(e) {

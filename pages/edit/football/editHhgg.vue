@@ -340,11 +340,11 @@ export default {
     },
     handleKeyboardInput(val) {
       const num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50);
+      this.betCount = num
     },
     handleKeyboardConfirm(val) {
       const num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50);
+      this.betCount = num
       this.showNumberKeyboard = false;
     },
     calcAllHeights() {
@@ -495,11 +495,8 @@ item.bfList.forEach(key => {
     },
     handlePlus() {
       if (this.selectedMatchCount < 1) return;
-      if (this.betCount < 50) {
         this.betCount++;
-      } else {
-        uni.showToast({ title: "最多50倍", icon: "none" });
-      }
+   
     },
     async handleConfirmBet(fromPhoneModal) {
       if (this.selectedMatchCount === 0) {

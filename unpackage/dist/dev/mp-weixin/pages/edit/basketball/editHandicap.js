@@ -301,7 +301,7 @@ var _default = {
     // 新增：处理自定义软键盘确认
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50); // 最终限制1-50
+      this.betCount = num // 最终限制1-50
       this.showNumberKeyboard = false; // 收起键盘
     },
     // 原有handleBetInput方法可以保留（兼容备用），也可以删除（因为改用自定义键盘了）

@@ -213,7 +213,7 @@ export default {
     // 数字键盘确认
     handleKeyboardConfirm(val) {
       const num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50); // 最终限制1-50
+      this.betCount = num // 最终限制1-50
       this.showNumberKeyboard = false; // 收起键盘
     },
   },

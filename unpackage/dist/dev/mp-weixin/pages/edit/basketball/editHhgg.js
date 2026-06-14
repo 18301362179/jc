@@ -429,12 +429,12 @@ var _default = {
     // 处理软键盘输入
     handleKeyboardInput: function handleKeyboardInput(val) {
       var num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50);
+      this.betCount = num
     },
     // 确认软键盘输入
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50);
+      this.betCount = num
       this.showNumberKeyboard = false;
     },
     // 计算高度
