@@ -795,7 +795,7 @@ export default {
 
 .sticky-header {
   position: sticky;
-  z-index: 999;
+  z-index: 7;
   display: flex;
   justify-content: space-between;
   align-items: center;

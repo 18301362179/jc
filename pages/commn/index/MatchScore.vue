@@ -541,7 +541,7 @@ export default {
 /* 吸顶标题栏：和半全场一致，统一rpx单位 */
 .sticky-header {
   position: sticky;
-  z-index: 999; // 合理的层级，避免过高导致遮挡
+  z-index: 7; // 合理的层级，避免过高导致遮挡
   display: flex;
   justify-content: space-between;
   align-items: center;

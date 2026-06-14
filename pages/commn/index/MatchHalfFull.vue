@@ -276,7 +276,7 @@ export default {
 /* 仅修改sticky-header样式：移除高版本属性、调整z-index，其他完全保留你原代码 */
 .sticky-header {
   position: sticky;
-  z-index: 999; // 仅改：从999999999降为999
+  z-index: 7; // 仅改：从999999999降为999
   display: flex;
   justify-content: space-between;
   align-items: center;

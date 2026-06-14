@@ -30,7 +30,7 @@
             <view class="match-cell home" :class="{ selected: item.handicapHomeSelected }">
               <view class="team-name">{{ item.home_name }}
                 <text v-if="item.r_goal">({{item.r_goal}})</text> </view>
-              <text class="odds" v-if="item.win_multiplier">主胜{{ item.win_multiplier }}</text>
+              <text class="odds" v-if="item.r_win_multiplier">主胜{{ item.r_win_multiplier }}</text>
               <text class="odds rate"  v-if="item.home_win_rate">
                 胜率{{ item.home_win_rate || '' }}
               </text>
@@ -44,7 +44,7 @@
             <!-- 修复：绑定让球客胜选中状态 handicapAwaySelected -->
             <view class="match-cell away" :class="{ selected: item.handicapAwaySelected }">
               <text class="team-name">{{ item.visiting_name }}</text>
-              <text class="odds" v-if="item.loss_multiplier">客胜{{ item.loss_multiplier }}</text>
+              <text class="odds" v-if="item.r_loss_multiplier">客胜{{ item.r_loss_multiplier }}</text>
               <text class="odds rate" v-if="item.visiting_win_rate">
                 胜率{{ item.visiting_win_rate || '' }}
               </text>
@@ -276,9 +276,9 @@ export default {
       this.selectedMatchList.forEach(item => {
         const selectedOdds = []; // 当前行选中的【让球】赔率集合
         
-        // 让球主胜选中：提取让球主胜赔率（win_multiplier，让球玩法中该字段为让球后主胜赔率）
+        // 让球主胜选中：提取让球主胜赔率（r_win_multiplier，让球玩法中该字段为让球后主胜赔率）
         if (item.handicapHomeSelected) { // 对应让球主胜选中状态
-          const homeOdds = Number(item.win_multiplier) || 0; // 转换为数字，无效值设为0
+          const homeOdds = Number(item.r_win_multiplier) || 0; // 转换为数字，无效值设为0
           if (homeOdds > 0) selectedOdds.push(homeOdds);
         }
         
@@ -290,7 +290,7 @@ export default {
         
         // 让球客胜选中：提取让球客胜赔率（loss_multiplier，让球玩法中该字段为让球后客胜赔率）
         if (item.handicapAwaySelected) { // 对应让球客胜选中状态
-          const awayOdds = Number(item.loss_multiplier) || 0; // 转换为数字，无效值设为0
+          const awayOdds = Number(item.r_loss_multiplier) || 0; // 转换为数字，无效值设为0
           if (awayOdds > 0) selectedOdds.push(awayOdds);
         }
         
@@ -436,11 +436,11 @@ export default {
           visitingHandicap: item.visitingHandicap,
           homeGoalCalculate: item.home_goal_calculate,
           visitingGoalCalculate:item.visiting_goal_calculate,
-          winMultiplier: item.win_multiplier,
+          winMultiplier: item.r_win_multiplier,
           homeWinRate: item.home_win_rate,
           drawMultiplier: item.r_draw_multiplier,
           drawRate: item.draw_rate,
-          lossMultiplier: item.loss_multiplier,
+          lossMultiplier: item.r_loss_multiplier,
           visitingWinRate: item.visiting_win_rate,
         }));
 
