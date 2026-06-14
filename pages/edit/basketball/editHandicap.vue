@@ -65,10 +65,10 @@
             </view>
             <view class="odds-row">
               <view class="match-cell away" :class="{ selected: item.rAwaySelected }" >
-                主负{{ item.loss_multiplier || '--' }}
+                主负{{ item.r_loss_multiplier || '--' }}
               </view>
               <view class="match-cell home" :class="{ selected: item.rHomeSelected }">
-                主胜{{ item.win_multiplier || '--' }}
+                主胜{{ item.r_win_multiplier || '--' }}
               </view>
             </view>
           </view>
@@ -273,11 +273,11 @@ calcAllHeights() {
       this.selectedMatchList.forEach(item => {
         const selectedOdds = [];
         if (item.rHomeSelected) {
-          const homeOdds = Number(item.win_multiplier) || 0;
+          const homeOdds = Number(item.r_win_multiplier) || 0;
           if (homeOdds > 0) selectedOdds.push(homeOdds);
         }
         if (item.rAwaySelected) {
-          const awayOdds = Number(item.loss_multiplier) || 0;
+          const awayOdds = Number(item.r_loss_multiplier) || 0;
           if (awayOdds > 0) selectedOdds.push(awayOdds);
         }
         if (selectedOdds.length > 0) {
