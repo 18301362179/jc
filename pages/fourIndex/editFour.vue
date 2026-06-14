@@ -223,8 +223,6 @@ betNotes() {
       const num = parseInt(pureNum) || 1;
       if (num < 1) {
         this.betCount = 1;
-      } else if (num > 50) {
-        this.betCount = 50;
       } else {
         this.betCount = num;
       }
@@ -232,7 +230,7 @@ betNotes() {
     // 数字键盘确认
     handleKeyboardConfirm(val) {
       const num = parseInt(val) || 1;
-      this.betCount = Math.min(Math.max(num, 1), 50); // 最终限制1-50
+      this.betCount = num // 
       this.showNumberKeyboard = false; // 收起键盘
     }
   }

@@ -188,13 +188,13 @@ export default {
     clearActiveKey() { 
       this.$nextTick(() => this.activeKey = ''); 
     },
-    formatValue(val) {
-      if (!val) return '';
-      let formattedVal = this.allowDot ? val : val.replace(/\./g, '').replace(/^0+(?=\d)/, '');
-      formattedVal = formattedVal || '0';
-      const num = Number(formattedVal);
-      return num > this.max ? this.max + '' : formattedVal;
-    },
+formatValue(val) {
+  if (!val) return '';
+  let formattedVal = this.allowDot ? val : val.replace(/\./g, '').replace(/^0+(?=\d)/, '');
+  formattedVal = formattedVal || '0';
+  // 删掉 num > this.max 相关逻辑
+  return formattedVal;
+},
     formatPreviewValue() {
       return this.currentValue || '';
     },
