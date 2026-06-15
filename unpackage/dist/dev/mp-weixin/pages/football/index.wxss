@@ -334,4 +334,28 @@ page.data-v-df9e872e {
   background-color: #d92929 !important;
   color: #fff !important;
 }
+.tab-bar-sticky.data-v-df9e872e {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  padding: 16rpx 20rpx;
+  white-space: nowrap;
+  box-sizing: border-box;
+  z-index: 8;
+}
+.tab-item.data-v-df9e872e {
+  display: inline-block;
+  padding: 10rpx 26rpx;
+  margin-right: 16rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  color: #999;
+  background: #f0f0f0;
+}
+.tab-item.active.data-v-df9e872e {
+  color: #fff;
+  background: #ff4444;
+}
 

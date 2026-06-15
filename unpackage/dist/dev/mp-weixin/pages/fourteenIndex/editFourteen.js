@@ -258,7 +258,7 @@ var _default = {
   methods: {
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = num
+      this.betCount = num;
       this.showNumberKeyboard = false;
     },
     handleKeyboardInput: function handleKeyboardInput(val) {

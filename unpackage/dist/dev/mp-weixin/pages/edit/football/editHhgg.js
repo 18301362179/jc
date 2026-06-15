@@ -458,11 +458,11 @@ var _default = {
     },
     handleKeyboardInput: function handleKeyboardInput(val) {
       var num = parseInt(val) || 1;
-      this.betCount = num
+      this.betCount = num;
     },
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = num
+      this.betCount = num;
       this.showNumberKeyboard = false;
     },
     calcAllHeights: function calcAllHeights() {
@@ -614,14 +614,7 @@ var _default = {
     },
     handlePlus: function handlePlus() {
       if (this.selectedMatchCount < 1) return;
-      if (this.betCount < 50) {
-        this.betCount++;
-      } else {
-        uni.showToast({
-          title: "最多50倍",
-          icon: "none"
-        });
-      }
+      this.betCount++;
     },
     handleConfirmBet: function handleConfirmBet(fromPhoneModal) {
       var _this6 = this;

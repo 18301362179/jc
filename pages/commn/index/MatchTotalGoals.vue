@@ -478,7 +478,7 @@ goalsOptions: [
 
 .sticky-header {
   position: sticky;
-  z-index: 999; // 仅改：从999999999降为999
+  z-index: 7; // 仅改：从999999999降为999
   display: flex;
   justify-content: space-between;
   align-items: center;

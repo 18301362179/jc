@@ -1,14 +1,19 @@
 <template>
   <view style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader :showBack="true" :ballTitle="' '" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
+<CustomHeader :title="currentPlay" :showBack="true" />
+   <scroll-view class="tab-bar-sticky" scroll-x show-scrollbar="false" :style="{top: statusBarHeight + 116 + 'rpx'}"  scroll-with-animation>
+      <view v-for="(item, index) in typesList" :key="index" :id="`tab-${index}`" class="tab-item" :class="{ active: activeTab === index }" @tap="switchTab(index,item)">
+        {{ item || "0" }}
+      </view>
+    </scroll-view>
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
-      <MatchSpf ref="spfRef" v-if="currentPlay === '胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :my-value="myValue" />
-      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让分胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :my-value="myValue" />
-      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '大小分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleHalfFullSelect" :my-value="myValue" />
-      <MatchScore ref="scoreRef" v-else-if="currentPlay === '胜分差'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-score-select="toggleScoreSelect" :my-value="myValue" @on-score-selected="handleScoreSelected" />
+      <MatchSpf ref="spfRef" v-if="currentPlay === '胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @toggle-select="toggleSelect" :my-value="myValue" />
+      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让分胜负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @toggle-select="toggleSelect" :my-value="myValue" />
+      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '大小分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @toggle-select="toggleHalfFullSelect" :my-value="myValue" />
+      <MatchScore ref="scoreRef" v-else-if="currentPlay === '胜分差'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @toggle-score-select="toggleScoreSelect" :my-value="myValue" @on-score-selected="handleScoreSelected" />
       <!-- 新增：混合过关组件 -->
-      <MixedPassList ref="hhggRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :match-list="drawerList.flatMap((d) => d.lotteryList)" :status-bar-height="statusBarHeight" :my-value="myValue" @toggle-spf-multi-select="handleHhggSpfSelect" @toggle-multi-select="handleHhggMultiSelect" />
+      <MixedPassList ref="hhggRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :match-list="drawerList.flatMap((d) => d.lotteryList)" :status-bar-height="statusBarHeight + 45" :my-value="myValue" @toggle-spf-multi-select="handleHhggSpfSelect" @toggle-multi-select="handleHhggMultiSelect" />
     </scroll-view>
     <view class="bet-bar" v-if="urlValue">
       <view class="bet-bar-inner">
@@ -74,6 +79,7 @@ export default {
   },
   data() {
     return {
+      activeTab: 1,
       typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
       selectedType: ["胜负"],
       currentPlay: "胜负",
@@ -288,6 +294,10 @@ export default {
     }
   },
   methods: {
+    switchTab(index,item) {
+      this.currentPlay = item;
+      this.activeTab = index;
+    },
     clearAllSelection() {
       if (this.selectedMatchCount === 0) return;
 
@@ -1277,5 +1287,31 @@ page {
 .uni-modal-wrapper .uni-modal-footer .uni-modal-btn.uni-modal-confirm {
   background-color: #d92929 !important;
   color: #fff !important;
+}
+.tab-bar-sticky {
+  position: sticky;
+  top: 86rpx;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  padding: 16rpx 20rpx;
+  white-space: nowrap;
+  box-sizing: border-box;
+  z-index: 8;
+}
+
+.tab-item {
+  display: inline-block;
+  padding: 10rpx 26rpx;
+  margin-right: 16rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  color: #999;
+  background: #f0f0f0;
+}
+
+.tab-item.active {
+  color: #fff;
+  background: #ff4444;
 }
 </style>

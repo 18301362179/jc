@@ -366,8 +366,8 @@ var _default = {
       if (!val) return '';
       var formattedVal = this.allowDot ? val : val.replace(/\./g, '').replace(/^0+(?=\d)/, '');
       formattedVal = formattedVal || '0';
-      var num = Number(formattedVal);
-      return num > this.max ? this.max + '' : formattedVal;
+      // 删掉 num > this.max 相关逻辑
+      return formattedVal;
     },
     formatPreviewValue: function formatPreviewValue() {
       return this.currentValue || '';

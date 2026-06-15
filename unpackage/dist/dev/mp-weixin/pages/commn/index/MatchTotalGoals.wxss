@@ -231,7 +231,7 @@
 .sticky-header.data-v-49686e4e {
   position: -webkit-sticky;
   position: sticky;
-  z-index: 999;
+  z-index: 7;
   display: flex;
   justify-content: space-between;
   align-items: center;

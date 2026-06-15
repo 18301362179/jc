@@ -28,7 +28,7 @@
 .sticky-header.data-v-6e60ac54 {
   position: -webkit-sticky;
   position: sticky;
-  z-index: 999;
+  z-index: 7;
   display: flex;
   justify-content: space-between;
   align-items: center;

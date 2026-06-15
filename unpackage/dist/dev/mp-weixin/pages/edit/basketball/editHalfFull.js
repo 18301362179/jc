@@ -281,8 +281,6 @@ var _default = {
       var num = parseInt(val) || 1;
       if (num < 1) {
         this.betCount = 1;
-      } else if (num > 50) {
-        this.betCount = 50;
       } else {
         this.betCount = num;
       }
@@ -290,7 +288,7 @@ var _default = {
     // 新增：处理自定义软键盘确认
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = num // 最终限制1-50
+      this.betCount = num; // 最终限制1-50
       this.showNumberKeyboard = false; // 收起键盘
     },
     // 原有handleBetInput方法可以保留（兼容备用），也可以删除（因为改用自定义键盘了）
@@ -417,9 +415,7 @@ var _default = {
     });
   }), (0, _defineProperty2.default)(_methods, "handlePlus", function handlePlus() {
     if (this.selectedMatchCount < 1) return;
-    if (this.betCount < 50) {
-      this.betCount++;
-    } else {}
+    this.betCount++;
   }), (0, _defineProperty2.default)(_methods, "handleConfirmBet", function handleConfirmBet(fromPhoneModal) {
     var _this5 = this;
     return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {

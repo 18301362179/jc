@@ -1,18 +1,23 @@
 <template>
   <!-- 模板部分完全不变，仅保留原有结构 -->
   <view style="width: 100%; height: 100vh; box-sizing: border-box">
-    <CustomHeader :showBack="true" :ballTitle="' '" :isIndex="true" :showIcon="false" :isSelected="!!currentPlay" :selectedPlay="currentPlay" @trigger-select="togglePopup" @funnel-click="handleFunnel" />
+<CustomHeader :title="currentPlay" :showBack="true" />
+   <scroll-view class="tab-bar-sticky" scroll-x show-scrollbar="false"  :style="{top: statusBarHeight + 116 + 'rpx'}"  scroll-with-animation>
+      <view v-for="(item, index) in typesList" :key="index" :id="`tab-${index}`" class="tab-item" :class="{ active: activeTab === index }" @tap="switchTab(index,item)">
+        {{ item || "0" }}
+      </view>
+    </scroll-view>
 
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
-      <MatchSpf ref="spfRef" v-if="currentPlay === '胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight || statusBarHeight + 88" @toggle-select="toggleSelect" :my-value="myValue" />
-      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-select="toggleSelect" :my-value="myValue" />
-      <MatchTotalGoals ref="goalsRef" v-else-if="currentPlay === '总进球'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @toggle-goal-select="toggleGoalSelect" :my-value="myValue" />
-      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '半全场'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" @on-half-full-selected="handleHalfFullSelected" :my-value="myValue" />
-      <MatchScore ref="scoreRef" v-else-if="currentPlay === '比分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :toggle-score-select="toggleScoreSelect" @on-score-selected="handleScoreSelected" :my-value="myValue" />
+      <MatchSpf ref="spfRef" v-if="currentPlay === '胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" :header-height="headerHeight || statusBarHeight + 88" @toggle-select="toggleSelect" :my-value="myValue" />
+      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @toggle-select="toggleSelect" :my-value="myValue" />
+      <MatchTotalGoals ref="goalsRef" v-else-if="currentPlay === '总进球'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @toggle-goal-select="toggleGoalSelect" :my-value="myValue" />
+      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '半全场'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @on-half-full-selected="handleHalfFullSelected" :my-value="myValue" />
+      <MatchScore ref="scoreRef" v-else-if="currentPlay === '比分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" :toggle-score-select="toggleScoreSelect" @on-score-selected="handleScoreSelected" :my-value="myValue" />
 
       <!-- 新增：混合过关列表组件 -->
-      <MixedPassList ref="mixedPassRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :status-bar-height="statusBarHeight" :header-height="headerHeight" @toggle-mixed-select="handleMixedSelect" @update-selected-count="updateMixedSelectedCount" @confirm-mixed-select="handleConfirmMixedSelect" :my-value="myValue" />
+      <MixedPassList ref="mixedPassRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" :header-height="headerHeight" @toggle-mixed-select="handleMixedSelect" @update-selected-count="updateMixedSelectedCount" @confirm-mixed-select="handleConfirmMixedSelect" :my-value="myValue" />
     </scroll-view>
 
     <view class="bet-bar" v-if="urlValue">
@@ -87,6 +92,7 @@ export default {
   },
   data() {
     return {
+      activeTab: 1,
       // 新增：玩法列表添加混合过关
       typesList: ["混合过关", "胜平负", "让胜平负", "总进球", "半全场", "比分"],
       selectedType: ["胜平负"],
@@ -283,6 +289,10 @@ selectedMatchCount() {
     this.calcPopupMaxHeight();
   },
   methods: {
+    switchTab(index,item) {
+      this.currentPlay = item;
+      this.activeTab = index;
+    },
 handleConfirmMixedSelect(confirmData) {
   // 就这么简单！你原来怎么写就怎么用，我只修复报错！
   if (!confirmData || !confirmData.finalDrawerList) {
@@ -1588,5 +1598,30 @@ page {
 .uni-modal-wrapper .uni-modal-footer .uni-modal-btn.uni-modal-confirm {
   background-color: #d92929 !important;
   color: #fff !important;
+}
+.tab-bar-sticky {
+  position: sticky;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  padding: 16rpx 20rpx;
+  white-space: nowrap;
+  box-sizing: border-box;
+  z-index: 8;
+}
+
+.tab-item {
+  display: inline-block;
+  padding: 10rpx 26rpx;
+  margin-right: 16rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  color: #999;
+  background: #f0f0f0;
+}
+
+.tab-item.active {
+  color: #fff;
+  background: #ff4444;
 }
 </style>

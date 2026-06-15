@@ -269,6 +269,7 @@ var _default = {
   },
   data: function data() {
     return {
+      activeTab: 1,
       typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
       selectedType: ["胜负"],
       currentPlay: "胜负",
@@ -502,6 +503,10 @@ var _default = {
     }
   },
   methods: {
+    switchTab: function switchTab(index, item) {
+      this.currentPlay = item;
+      this.activeTab = index;
+    },
     clearAllSelection: function clearAllSelection() {
       var _this7 = this;
       if (this.selectedMatchCount === 0) return;
@@ -560,15 +565,13 @@ var _default = {
       var num = parseInt(val) || 1;
       if (num < 1) {
         this.betCount = 1;
-      } else if (num > 50) {
-        this.betCount = 50;
       } else {
         this.betCount = num;
       }
     },
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = num
+      this.betCount = num;
       this.showNumberKeyboard = false;
     },
     // 计算弹窗最大高度
@@ -847,14 +850,7 @@ var _default = {
     // 加
     handlePlus: function handlePlus() {
       if (this.selectedMatchCount < 1) return;
-      if (this.betCount < 50) {
-        this.betCount++;
-      } else {
-        uni.showToast({
-          title: "最多50倍",
-          icon: "none"
-        });
-      }
+      this.betCount++;
     },
     toggleSelect: function toggleSelect(targetItem, key) {
       var _this12 = this;

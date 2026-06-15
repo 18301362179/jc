@@ -264,6 +264,7 @@ var _default = {
   },
   data: function data() {
     return {
+      activeTab: 1,
       // 新增：玩法列表添加混合过关
       typesList: ["混合过关", "胜平负", "让胜平负", "总进球", "半全场", "比分"],
       selectedType: ["胜平负"],
@@ -493,6 +494,10 @@ var _default = {
     this.calcPopupMaxHeight();
   },
   methods: {
+    switchTab: function switchTab(index, item) {
+      this.currentPlay = item;
+      this.activeTab = index;
+    },
     handleConfirmMixedSelect: function handleConfirmMixedSelect(confirmData) {
       var _this6 = this;
       // 就这么简单！你原来怎么写就怎么用，我只修复报错！
@@ -658,15 +663,13 @@ var _default = {
       var num = parseInt(val) || 1;
       if (num < 1) {
         this.betCount = 1;
-      } else if (num > 50) {
-        this.betCount = 50;
       } else {
         this.betCount = num;
       }
     },
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = num
+      this.betCount = num;
       this.showNumberKeyboard = false;
     },
     handleBetInput: function handleBetInput(e) {
@@ -1032,14 +1035,7 @@ var _default = {
     },
     handlePlus: function handlePlus() {
       if (this.selectedMatchCount < 1) return;
-      if (this.betCount < 50) {
-        this.betCount++;
-      } else {
-        uni.showToast({
-          title: "最多50倍",
-          icon: "none"
-        });
-      }
+      this.betCount++;
     },
     toggleSelect: function toggleSelect(targetItem, key) {
       var _this14 = this;

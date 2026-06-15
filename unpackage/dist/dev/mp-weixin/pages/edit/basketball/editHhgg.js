@@ -429,12 +429,12 @@ var _default = {
     // 处理软键盘输入
     handleKeyboardInput: function handleKeyboardInput(val) {
       var num = parseInt(val) || 1;
-      this.betCount = num
+      this.betCount = num;
     },
     // 确认软键盘输入
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = num
+      this.betCount = num;
       this.showNumberKeyboard = false;
     },
     // 计算高度
@@ -568,14 +568,7 @@ var _default = {
     // 加
     handlePlus: function handlePlus() {
       if (this.selectedMatchCount < 1) return;
-      if (this.betCount < 50) {
-        this.betCount++;
-      } else {
-        uni.showToast({
-          title: "最多50倍",
-          icon: "none"
-        });
-      }
+      this.betCount++;
     },
     handleConfirmBet: function handleConfirmBet(fromPhoneModal) {
       var _this5 = this;

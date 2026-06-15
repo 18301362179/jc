@@ -277,9 +277,7 @@ var _default = {
     },
     // 加
     handlePlus: function handlePlus() {
-      if (this.betCount < 50) {
-        this.betCount++;
-      }
+      this.betCount++;
     },
     // 数字键盘实时输入处理
     handleKeyboardInput: function handleKeyboardInput(val) {
@@ -289,8 +287,6 @@ var _default = {
       var num = parseInt(pureNum) || 1;
       if (num < 1) {
         this.betCount = 1;
-      } else if (num > 50) {
-        this.betCount = 50;
       } else {
         this.betCount = num;
       }
@@ -298,7 +294,7 @@ var _default = {
     // 数字键盘确认
     handleKeyboardConfirm: function handleKeyboardConfirm(val) {
       var num = parseInt(val) || 1;
-      this.betCount = num // 最终限制1-50
+      this.betCount = num; // 最终限制1-50
       this.showNumberKeyboard = false; // 收起键盘
     }
   }
