@@ -39,7 +39,7 @@
                   <text class="rate-text home" v-if="item.home_win_rate&&$urlValue">胜率{{ item.home_win_rate || "" }}</text>
                   <text class="vs-text" v-if="item.draw_rate">平率{{ item.draw_rate }}</text>
                   <text class="rate-text away" v-if="item.visiting_win_rate&&$urlValue">胜率{{ item.visiting_win_rate || "" }}</text>
-                  <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }" v-if="$xiValue" @click.stop="() => goToAiAnalysis(item)">
+                  <view class="ai-analysis-btn" :class="{ 'x-text-green': item.is_buy !== 0 }"  @click.stop="() => goToAiAnalysis(item)">
                     <text>详细</text>
                     <text class="small-coin" v-if="item.is_buy == 0">{{item.charge}}</text>
                   </view>
