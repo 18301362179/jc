@@ -335,11 +335,11 @@ var _default = {
       this.selectedMatchList.forEach(function (item) {
         var selectedOdds = [];
         if (item.rHomeSelected) {
-          var homeOdds = Number(item.win_multiplier) || 0;
+          var homeOdds = Number(item.r_win_multiplier) || 0;
           if (homeOdds > 0) selectedOdds.push(homeOdds);
         }
         if (item.rAwaySelected) {
-          var awayOdds = Number(item.loss_multiplier) || 0;
+          var awayOdds = Number(item.r_loss_multiplier) || 0;
           if (awayOdds > 0) selectedOdds.push(awayOdds);
         }
         if (selectedOdds.length > 0) {

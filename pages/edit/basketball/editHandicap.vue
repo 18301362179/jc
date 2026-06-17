@@ -225,11 +225,11 @@ export default {
       this.selectedMatchList.forEach((item) => {
         const selectedOdds = [];
         if (item.rHomeSelected) {
-          const homeOdds = Number(item.win_multiplier) || 0;
+          const homeOdds = Number(item.r_win_multiplier) || 0;
           if (homeOdds > 0) selectedOdds.push(homeOdds);
         }
         if (item.rAwaySelected) {
-          const awayOdds = Number(item.loss_multiplier) || 0;
+          const awayOdds = Number(item.r_loss_multiplier) || 0;
           if (awayOdds > 0) selectedOdds.push(awayOdds);
         }
         if (selectedOdds.length > 0) {

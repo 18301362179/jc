@@ -349,7 +349,7 @@ var _default = {
         // 让球主胜选中：提取让球主胜赔率（win_multiplier，让球玩法中该字段为让球后主胜赔率）
         if (item.handicapHomeSelected) {
           // 对应让球主胜选中状态
-          var homeOdds = Number(item.win_multiplier) || 0; // 转换为数字，无效值设为0
+          var homeOdds = Number(item.r_win_multiplier) || 0; // 转换为数字，无效值设为0
           if (homeOdds > 0) selectedOdds.push(homeOdds);
         }
 
@@ -363,7 +363,7 @@ var _default = {
         // 让球客胜选中：提取让球客胜赔率（loss_multiplier，让球玩法中该字段为让球后客胜赔率）
         if (item.handicapAwaySelected) {
           // 对应让球客胜选中状态
-          var awayOdds = Number(item.loss_multiplier) || 0; // 转换为数字，无效值设为0
+          var awayOdds = Number(item.r_loss_multiplier) || 0; // 转换为数字，无效值设为0
           if (awayOdds > 0) selectedOdds.push(awayOdds);
         }
 

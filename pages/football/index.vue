@@ -2,7 +2,7 @@
   <!-- 模板部分完全不变，仅保留原有结构 -->
   <view style="width: 100%; height: 100vh; box-sizing: border-box">
 <CustomHeader :title="currentPlay" :showBack="true" />
-   <scroll-view class="tab-bar-sticky" scroll-x show-scrollbar="false"  :style="{top: statusBarHeight + 116 + 'rpx'}"  scroll-with-animation>
+   <scroll-view class="tab-bar-sticky" scroll-x show-scrollbar="false"  :style="{top: statusBarHeight + 126 + 'rpx'}"  scroll-with-animation>
       <view v-for="(item, index) in typesList" :key="index" :id="`tab-${index}`" class="tab-item" :class="{ active: activeTab === index }" @tap="switchTab(index,item)">
         {{ item || "0" }}
       </view>
@@ -10,14 +10,14 @@
 
     <scroll-view class="match-scroll" scroll-y>
       <!-- 原有玩法组件 -->
-      <MatchSpf ref="spfRef" v-if="currentPlay === '胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" :header-height="headerHeight || statusBarHeight + 88" @toggle-select="toggleSelect" :my-value="myValue" />
-      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @toggle-select="toggleSelect" :my-value="myValue" />
-      <MatchTotalGoals ref="goalsRef" v-else-if="currentPlay === '总进球'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @toggle-goal-select="toggleGoalSelect" :my-value="myValue" />
-      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '半全场'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" @on-half-full-selected="handleHalfFullSelected" :my-value="myValue" />
-      <MatchScore ref="scoreRef" v-else-if="currentPlay === '比分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" :toggle-score-select="toggleScoreSelect" @on-score-selected="handleScoreSelected" :my-value="myValue" />
+      <MatchSpf ref="spfRef" v-if="currentPlay === '胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 40" :header-height="headerHeight || statusBarHeight + 88" @toggle-select="toggleSelect" :my-value="myValue" />
+      <MatchHandicap ref="handicapRef" v-else-if="currentPlay === '让胜平负'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 40" @toggle-select="toggleSelect" :my-value="myValue" />
+      <MatchTotalGoals ref="goalsRef" v-else-if="currentPlay === '总进球'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 40" @toggle-goal-select="toggleGoalSelect" :my-value="myValue" />
+      <MatchHalfFull ref="halfFullRef" v-else-if="currentPlay === '半全场'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 40" @on-half-full-selected="handleHalfFullSelected" :my-value="myValue" />
+      <MatchScore ref="scoreRef" v-else-if="currentPlay === '比分'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 40" :toggle-score-select="toggleScoreSelect" @on-score-selected="handleScoreSelected" :my-value="myValue" />
 
       <!-- 新增：混合过关列表组件 -->
-      <MixedPassList ref="mixedPassRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 45" :header-height="headerHeight" @toggle-mixed-select="handleMixedSelect" @update-selected-count="updateMixedSelectedCount" @confirm-mixed-select="handleConfirmMixedSelect" :my-value="myValue" />
+      <MixedPassList ref="mixedPassRef" v-else-if="currentPlay === '混合过关'" :drawer-list="drawerList" :status-bar-height="statusBarHeight + 40" :header-height="headerHeight" @toggle-mixed-select="handleMixedSelect" @update-selected-count="updateMixedSelectedCount" @confirm-mixed-select="handleConfirmMixedSelect" :my-value="myValue" />
     </scroll-view>
 
     <view class="bet-bar" v-if="urlValue">
