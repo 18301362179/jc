@@ -1,167 +1,115 @@
 <template>
-  <view class="page">
-    <!-- 普通表格 -->
-    <view class="table-wrap">
-      <view class="table-title">基础表格（带完整分割线）</view>
-      <!-- 外层容器：整体四周边框 -->
-      <view class="table-box">
-        <view class="table-head">
-          <view class="table-cell cell-border-right">序号</view>
-          <view class="table-cell cell-border-right">姓名</view>
-          <view class="table-cell cell-border-right">年龄</view>
-          <view class="table-cell cell-border-none">职业</view>
-        </view>
-        <view class="table-body">
-          <view class="table-row row-border-bottom">
-            <view class="table-cell cell-border-right">1</view>
-            <view class="table-cell cell-border-right">张三</view>
-            <view class="table-cell cell-border-right">25</view>
-            <view class="table-cell cell-border-none">前端</view>
-          </view>
-          <view class="table-row row-border-bottom">
-            <view class="table-cell cell-border-right">2</view>
-            <view class="table-cell cell-border-right">李四</view>
-            <view class="table-cell cell-border-right">28</view>
-            <view class="table-cell cell-border-none">后端</view>
-          </view>
-          <view class="table-row row-border-none">
-            <view class="table-cell cell-border-right">3</view>
-            <view class="table-cell cell-border-right">王五</view>
-            <view class="table-cell cell-border-right">30</view>
-            <view class="table-cell cell-border-none">测试</view>
-          </view>
-        </view>
-      </view>
-    </view>
+  <view class="container">
+    <view class="table-title">Uni-app Grid 模拟表格（支持合并）</view>
+    
+    <!-- 表格容器 -->
+    <view class="grid-table">
+      <!-- 表头 -->
+      <view class="grid-cell header">序号</view>
+      <view class="grid-cell header">姓名</view>
+      <view class="grid-cell header">年龄</view>
+      <view class="grid-cell header">职业</view>
 
-    <!-- 合并单元格表格 -->
-    <view class="table-wrap" style="margin-top: 40rpx;">
-      <view class="table-title">合并单元格表格</view>
-      <view class="table-box">
-        <view class="table-head">
-          <view class="table-cell cell-border-right">分类</view>
-          <view class="table-cell cell-border-right">姓名</view>
-          <view class="table-cell cell-border-right">年龄</view>
-          <view class="table-cell cell-border-none">职业</view>
-        </view>
-        <view class="table-body">
-          <!-- 列合并（纵向合并2行） -->
-          <view class="table-row row-border-bottom">
-            <view class="table-cell cell-merge-col cell-border-right">技术岗</view>
-            <view class="table-cell cell-border-right">张三</view>
-            <view class="table-cell cell-border-right">25</view>
-            <view class="table-cell cell-border-none">前端</view>
-          </view>
-          <view class="table-row row-border-bottom">
-            <!-- 占位空单元格 -->
-            <view class="table-cell cell-empty"></view>
-            <view class="table-cell cell-border-right">李四</view>
-            <view class="table-cell cell-border-right">28</view>
-            <view class="table-cell cell-border-none">后端</view>
-          </view>
-          <!-- 行合并（横向整行合并） -->
-          <view class="table-row row-border-bottom">
-            <view class="table-cell cell-merge-row">行政人员（整行合并）</view>
-          </view>
-          <view class="table-row row-border-none">
-            <view class="table-cell cell-border-right">行政岗</view>
-            <view class="table-cell cell-border-right">赵六</view>
-            <view class="table-cell cell-border-right">26</view>
-            <view class="table-cell cell-border-none">人事</view>
-          </view>
-        </view>
-      </view>
+      <!-- 第一行：普通数据 -->
+      <view class="grid-cell">1</view>
+      <view class="grid-cell">张三</view>
+      <view class="grid-cell">25</view>
+      <view class="grid-cell">前端</view>
+
+      <!-- 第二行 & 第三行：演示跨行 (Rowspan) -->
+      <!-- 跨2行：占据第1列的第2、3行位置 -->
+      <view class="grid-cell row-span-2 bg-blue">技术部</view>
+      <view class="grid-cell">李四</view>
+      <view class="grid-cell">28</view>
+      <view class="grid-cell">后端</view>
+      
+      <!-- 第三行剩余部分（注意：第1列已被上面占用，这里只写后3列） -->
+      <view class="grid-cell">王五</view>
+      <view class="grid-cell">30</view>
+      <view class="grid-cell">测试</view>
+
+      <!-- 第四行：演示跨列 (Colspan) -->
+      <view class="grid-cell">4</view>
+      <!-- 跨3列：占据第2-4列 -->
+      <view class="grid-cell col-span-3 bg-gray">行政人事部 - 统一管理</view>
     </view>
   </view>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {};
+  }
+};
 </script>
 
-<style lang="scss" scoped>
-.page {
+<style scoped>
+.container {
   padding: 20rpx;
-  background: #f5f5f5;
-  min-height: 100vh;
-}
-
-.table-wrap {
-  background: #fff;
-  border-radius: 8rpx;
-  overflow: hidden;
 }
 
 .table-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  color: #333;
+}
+
+/* 核心 Grid 布局 */
+.grid-table {
+  display: grid;
+  /* 定义4列，每列等宽 */
+  grid-template-columns: repeat(4, 1fr);
+  /* 边框整体包裹 */
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.grid-cell {
+  /* 每个单元格都有边框，利用 gap 或 margin 模拟分割线，或者直接用 border */
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   padding: 20rpx;
-  font-size: 30rpx;
-  color: #333;
-  font-weight: 500;
-}
-
-/* ========== 1. 表格外层：整体四边完整边框 ========== */
-.table-box {
-  border: 1rpx solid #ccc;
-}
-
-/* ========== 2. 基础布局 ========== */
-.table-head,
-.table-row {
-  display: flex;
-}
-.table-cell {
-  flex: 1;
-  padding: 24rpx 10rpx;
   text-align: center;
-  font-size: 26rpx;
-  color: #333;
-}
-.table-head .table-cell {
   font-size: 28rpx;
-}
-
-/* ========== 3. 单独类控制【单元格竖线】 ========== */
-// 右侧竖线
-.cell-border-right {
-  border-right: 1rpx solid #ccc;
-}
-// 无右侧竖线（最后一列专用）
-.cell-border-none {
-  border-right: none;
-}
-
-/* ========== 4. 单独类控制【行横线】 ========== */
-// 底部横线
-.row-border-bottom {
-  border-bottom: 1rpx solid #ccc;
-}
-// 无底部横线（最后一行专用）
-.row-border-none {
-  border-bottom: none;
-}
-
-/* ========== 5. 列合并（纵向合并单元格） ========== */
-.cell-merge-col {
+  box-sizing: border-box;
+  /* 确保内容垂直居中 */
   display: flex;
   align-items: center;
   justify-content: center;
-  /* 跨两行高度 */
-  height: calc(24rpx * 2 * 2);
-  /* 清除自身下横线，避免和行边框叠加 */
-  border-bottom: none;
 }
 
-/* ========== 6. 占位空单元格（被合并遮挡） ========== */
-.cell-empty {
-  border: none !important;
-  padding: 0 !important;
-  color: transparent !important;
-  background: transparent;
-}
-
-/* ========== 7. 行合并（横向整行合并单元格） ========== */
-.cell-merge-row {
-  flex: 4 !important;
+/* 去除每行最后一个单元格的右边框，避免双重边框 */
+.grid-cell:nth-child(4n) {
   border-right: none;
+}
+
+/* 表头样式 */
+.header {
+  background-color: #f5f7fa;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* 跨行样式：占据2行 */
+.row-span-2 {
+  grid-row: span 2;
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+/* 跨列样式：占据3列 */
+.col-span-3 {
+  grid-column: span 3;
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.bg-blue {
+  background-color: #e3f2fd;
+}
+.bg-gray {
+  background-color: #f5f5f5;
 }
 </style>

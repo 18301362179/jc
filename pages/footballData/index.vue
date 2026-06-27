@@ -52,8 +52,6 @@
 
 <script>
 import CustomHeader from "@/components/CustomHeader.vue";
-// 引入你封装好的接口方法
-import {footLotteryLive} from '@/api/demo'
 export default {
   components: {
     CustomHeader
@@ -68,43 +66,95 @@ export default {
     this.getMatchData();
   },
   methods: {
-    // 获取比赛数据
-    async getMatchData() {
+    getMatchData() {
       uni.showLoading({ title: "加载中..." });
-      try {
-        const res = await footLotteryLive();
-        if (res.data && res.data.length > 0) {
-          this.matchList = res.data || [];
+      uni.request({
+        url: 'https://webapi.sporttery.cn/gateway/uniform/fb/getMatchLiveV1.qry',
+        method: 'GET',
+        data: {
+          eventTc: 'goals,penalty_shootout',
+          method: 'live'
+        },
+        header: {
+          'Referer': 'https://webapi.sporttery.cn'
+        },
+        success: (res) => {
+          // 匹配截图返回结构：外层data里value是赛事数组
+          const responseData = res.data;
+          if (responseData.success === true && Array.isArray(responseData.value)) {
+            const rawList = responseData.value;
+            // 1:1复刻你后端Java字段映射逻辑
+            this.matchList = rawList.map(item => {
+              const map = {};
+              // 联赛、主队、客队简称
+              map.leagueName = item.leagueAbbName;
+              map.homeName = item.homeTeamAbbName;
+              map.awayName = item.awayTeamAbbName;
+
+              // 时间拼接 MM-DD HH:mm
+              const dateStr = item.matchDate.substring(5);
+              const timeStr = item.matchTime.substring(0, 5);
+              map.raceDate = `${dateStr} ${timeStr}`;
+
+              // 半场、全场比分
+              map.sectionsNo1 = item.sectionsNo1 || "";
+              map.sectionsNo999 = item.sectionsNo999 || "";
+
+              // 赛事编号转周X
+              let numStr = String(item.matchNum);
+              let weekText = "";
+              const firstChar = numStr.charAt(0);
+              if (firstChar === "1") weekText = "周一";
+              else if (firstChar === "2") weekText = "周二";
+              else if (firstChar === "3") weekText = "周三";
+              else if (firstChar === "4") weekText = "周四";
+              else if (firstChar === "5") weekText = "周五";
+              else if (firstChar === "6") weekText = "周六";
+              else if (firstChar === "7") weekText = "周日";
+              map.matchNum = weekText + numStr.substring(1);
+
+              // 状态 + 动图标识showImage
+              const status = item.matchStatusName;
+              if (status === "赛前" || status === "未开播") {
+                map.statusName = "未开始";
+                map.showImage = 0;
+              } else if (status === "比赛结束" || status === "直播结束" || status === "已完成") {
+                map.statusName = "已结束";
+                map.showImage = 0;
+              } else {
+                map.statusName = item.matchMinute + "'";
+                map.showImage = 1;
+              }
+              return map;
+            })
+          } else {
+            this.matchList = [];
+            uni.showToast({ title: "无赛事数据", icon: "none" });
+          }
+        },
+        fail: () => {
+          this.matchList = [];
+          uni.showToast({ title: "接口请求失败", icon: "none" });
+        },
+        complete: () => {
+          uni.hideLoading();
         }
-      } catch (err) {
-        uni.showToast({ title: "网络异常", icon: "none" });
-      } finally {
-        uni.hideLoading();
-      }
+      })
     },
-    
-    // 刷新按钮点击事件
+
+    // 刷新按钮重新请求外部接口
     handleRefresh() {
-      // 清空旧数据（可选，提升体验）
       this.matchList = [];
-      // 重新请求数据
       this.getMatchData();
-      // 刷新成功提示
       uni.showToast({ title: "刷新成功", icon: "success", duration: 1500 });
     },
-    
-    // 格式化时间（只保留 MM-DD HH:mm）
+
+    // 时间格式化：空格替换换行
     formatTime(timeStr) {
       if (!timeStr) return "";
-      const date = new Date(timeStr);
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      const day = date.getDate().toString().padStart(2, "0");
-      const hours = date.getHours().toString().padStart(2, "0");
-      const minutes = date.getMinutes().toString().padStart(2, "0");
-      return `${month}-${day}\n${hours}:${minutes}`;
+      return timeStr.replace(" ", "\n");
     },
-    
-    // 格式化状态（"比赛结束" → "已完成"）
+
     formatStatus(status) {
       if (status === "比赛结束") return "已完成";
       return status;

@@ -52,8 +52,6 @@
 
 <script>
 import CustomHeader from "@/components/CustomHeader.vue";
-// 引入你封装好的接口方法
-import {basketLotteryLive} from '@/api/demo'
 export default {
   components: {
     CustomHeader
@@ -65,39 +63,99 @@ export default {
     };
   },
   onLoad() {
-    this.getMatchData();
+    this.getBasketData();
   },
   methods: {
-    // 获取比赛数据
-    async getMatchData() {
+    // 请求篮球外部接口 + 前端复刻Java转换逻辑
+    getBasketData() {
       uni.showLoading({ title: "加载中..." });
-      try {
-        const res = await basketLotteryLive();
-        if (res.data && res.data.length > 0) {
-          this.matchList = res.data || [];
+      // GET参数拼接url，修复小程序GET不识别data传参bug
+      const baseUrl = 'https://webapi.sporttery.cn/gateway/uniform/bk/getMatchLiveV1.qry';
+      const queryStr = 'eventTc=goals,penalty_shootout&method=live';
+      const reqUrl = `${baseUrl}?${queryStr}`;
+
+      uni.request({
+        url: reqUrl,
+        method: 'GET',
+        header: {
+          'Referer': 'https://webapi.sporttery.cn',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        },
+        success: (res) => {
+          const resp = res.data;
+          // 匹配接口返回格式：success 数组在value
+          if (resp.success === true && Array.isArray(resp.value)) {
+            const rawArr = resp.value;
+            // 1:1复刻你给的篮球Java解析逻辑
+            this.matchList = rawArr.map(item => {
+              const map = {};
+              // 联赛、主客队简称
+              map.leagueName = item.leagueAbbName;
+              map.homeName = item.homeTeamAbbName;
+              map.awayName = item.awayTeamAbbName;
+
+              // 时间 MM-DD HH:mm
+              const datePart = item.matchDate.substring(5);
+              const timePart = item.matchTime.substring(0, 5);
+              map.raceDate = `${datePart} ${timePart}`;
+
+              // 全场比分
+              map.sectionsNo999 = item.sectionsNo999 || "";
+
+              // 赛事编号拼接周几
+              let numStr = String(item.matchNum);
+              let weekTxt = "";
+              const firstChar = numStr.charAt(0);
+              if (firstChar === "1") weekTxt = "周一";
+              else if (firstChar === "2") weekTxt = "周二";
+              else if (firstChar === "3") weekTxt = "周三";
+              else if (firstChar === "4") weekTxt = "周四";
+              else if (firstChar === "5") weekTxt = "周五";
+              else if (firstChar === "6") weekTxt = "周六";
+              else if (firstChar === "7") weekTxt = "周日";
+              map.matchNum = weekTxt + numStr.substring(1);
+
+              // 状态 + 动图标识
+              const status = item.matchStatusName;
+              if (status === "赛前" || status === "未开播") {
+                map.statusName = "未开始";
+                map.showImage = 0;
+              } else if (status === "比赛结束" || status === "直播结束" || status === "已完成") {
+                map.statusName = "已结束";
+                map.showImage = 0;
+              } else {
+                // 篮球进行中固定文字，不展示分钟
+                map.statusName = "进行中";
+                map.showImage = 1;
+              }
+              return map;
+            })
+          } else {
+            this.matchList = [];
+            uni.showToast({ title: "暂无篮球赛事", icon: "none" });
+          }
+        },
+        fail: () => {
+          this.matchList = [];
+          uni.showToast({ title: "接口请求失败", icon: "none" });
+        },
+        complete: () => {
+          uni.hideLoading();
         }
-      } catch (err) {
-        uni.showToast({ title: "网络异常", icon: "none" });
-      } finally {
-        uni.hideLoading();
-      }
+      })
     },
-    
-    // 刷新按钮点击事件
+
+    // 刷新按钮
     handleRefresh() {
-      // 清空旧数据（可选，提升体验）
       this.matchList = [];
-      // 重新请求数据
-      this.getMatchData();
-      // 刷新成功提示
+      this.getBasketData();
       uni.showToast({ title: "刷新成功", icon: "success", duration: 1500 });
     },
-    
-    // 格式化状态（"比赛结束" → "已完成"）
+
     formatStatus(status) {
       if (status === "比赛结束") return "已完成";
       return status;
-    },
+    }
   }
 };
 </script>
