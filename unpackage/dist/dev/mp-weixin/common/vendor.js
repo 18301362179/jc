@@ -10711,7 +10711,7 @@ var getHaveMoney = function getHaveMoney(params) {
 exports.getHaveMoney = getHaveMoney;
 var queryFootBallLLottery = function queryFootBallLLottery(data) {
   return (0, _request.default)({
-    url: baseUrl + '/sports/football/lottery',
+    url: baseUrl + '/football/lottery',
     method: 'GET',
     data: data
   });
@@ -10719,7 +10719,7 @@ var queryFootBallLLottery = function queryFootBallLLottery(data) {
 exports.queryFootBallLLottery = queryFootBallLLottery;
 var queryBasketBallLLottery = function queryBasketBallLLottery(data) {
   return (0, _request.default)({
-    url: baseUrl + '/sports/basketball/lottery',
+    url: baseUrl + '/basketball/lottery',
     method: 'GET',
     data: data
   });
@@ -10791,7 +10791,7 @@ var purchasingLotteryQueryById = function purchasingLotteryQueryById(data) {
 exports.purchasingLotteryQueryById = purchasingLotteryQueryById;
 var queryHomeAndVisitingGoalOdds = function queryHomeAndVisitingGoalOdds(data) {
   return (0, _request.default)({
-    url: baseUrl + '/purchasing/football/lottery/homeAndVisitingGoalOdds',
+    url: baseUrl + '/purchasing/football/lottery/goalOdds',
     method: 'GET',
     data: data
   });
@@ -10826,7 +10826,7 @@ var queryPlayer = function queryPlayer(data) {
 exports.queryPlayer = queryPlayer;
 var queryHhgg = function queryHhgg(data) {
   return (0, _request.default)({
-    url: baseUrl + '/sports/football/lottery/hhgg/zkqb',
+    url: baseUrl + '/football/lottery/hhgg/zkqb',
     method: 'GET',
     data: data
   });

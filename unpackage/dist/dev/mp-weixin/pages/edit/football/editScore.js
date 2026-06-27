@@ -480,14 +480,8 @@ var _default = {
       this.betBarTotalHeight = this.betBarFixedPx;
     },
     calculateScoreBonus: function calculateScoreBonus() {
-      // 1. 基础判断
-      if (this.selectedMatchCount === 0 || this.betNotes === 0) {
-        return "预计奖金：0.00元 ~ 0.00元";
-      }
-
-      // 2. 比分 → 赔率字段 映射（你原来的正确，我保留）
-      var scoreToOddsFieldMap = {
-        // 主胜
+      var BASE_PRICE = 2;
+      var SCORE_ODDS_MAP = {
         "1:0": "ybl",
         "2:0": "ebl",
         "2:1": "eby",
@@ -500,12 +494,10 @@ var _default = {
         "5:0": "wbl",
         "5:1": "wby",
         "5:2": "wbe",
-        // 平局
         "0:0": "lbl",
         "1:1": "yby",
         "2:2": "ebe",
         "3:3": "sbs",
-        // 客胜
         "0:1": "lby",
         "0:2": "lbe",
         "1:2": "ybe",
@@ -519,42 +511,45 @@ var _default = {
         "1:5": "ybw",
         "2:5": "ebw"
       };
-
-      // 3. 收集每场选中的赔率
-      var allOdds = [];
-      console.log(this.selectedMatchList, 'list-------------');
-      var _iterator = _createForOfIteratorHelper(this.selectedMatchList),
+      var matchList = this.selectedMatchList || [];
+      var totalMatch = matchList.length;
+      var betNotes = this.betNotes || 0;
+      var betMultiple = this.betCount || 0;
+      if (totalMatch === 0 || betNotes === 0 || betMultiple === 0) {
+        return "预计奖金：0.00元 ~ 0.00元";
+      }
+      console.log("【完整赛事原始数据】", JSON.parse(JSON.stringify(matchList)));
+      var allValidOdds = [];
+      var _iterator = _createForOfIteratorHelper(matchList),
         _step;
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var match = _step.value;
-          var scores = match.selectedScores || [];
+          var serial = match.serial_number;
+          var selectScores = match.selectedScores || [];
           var oddsData = match.oddsData || {};
-          var scoreOdds = match.score_odds || {};
-          var currentOdds = [];
-          var _iterator2 = _createForOfIteratorHelper(scores),
+          var scoreOdds = match.scoreOdds || {};
+          var curOddList = [];
+          var _iterator2 = _createForOfIteratorHelper(selectScores),
             _step2;
           try {
             for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-              var sc = _step2.value;
-              var odd = 0;
-
-              // 处理「其它」
-              if (sc === "胜其它") {
-                odd = Number(scoreOdds.winOther || 0);
-              } else if (sc === "平其它") {
-                odd = Number(scoreOdds.drawOther || 0);
-              } else if (sc === "负其它") {
-                odd = Number(scoreOdds.loseOther || 0);
+              var score = _step2.value;
+              var cleanScore = score.replace(/\s+/g, "").replace(/：/g, ":");
+              var oddVal = 0;
+              if (cleanScore === "胜其它") {
+                oddVal = Number(oddsData.sqt) || 0;
+              } else if (cleanScore === "平其它") {
+                oddVal = Number(oddsData.pqt) || 0;
+              } else if (cleanScore === "负其它") {
+                oddVal = Number(oddsData.fqt) || 0;
               } else {
-                // 普通比分
-                var field = scoreToOddsFieldMap[sc];
-                if (field) {
-                  odd = Number(oddsData[field] || 0);
-                }
+                var fieldKey = SCORE_ODDS_MAP[cleanScore];
+                if (fieldKey) oddVal = Number(oddsData[fieldKey]) || 0;
               }
-              if (!isNaN(odd) && odd > 0) {
-                currentOdds.push(odd);
+              console.log("\u3010\u573A\u6B21".concat(serial, "\u3011\u6BD4\u5206").concat(cleanScore, "\uFF0C\u8BFB\u53D6\u8D54\u7387\uFF1A").concat(oddVal));
+              if (!Number.isNaN(oddVal)) {
+                curOddList.push(oddVal);
               }
             }
           } catch (err) {
@@ -562,37 +557,51 @@ var _default = {
           } finally {
             _iterator2.f();
           }
-          if (currentOdds.length === 0) return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
-          allOdds.push(currentOdds);
+          if (curOddList.length === 0) {
+            console.log("\u3010\u573A\u6B21".concat(serial, "\u3011\u65E0\u4EFB\u4F55\u53EF\u8BFB\u53D6\u8D54\u7387\uFF0C\u6574\u5355\u5956\u91D1\u7F6E0"));
+            return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+          }
+          if (curOddList.some(function (v) {
+            return v === 0;
+          })) {
+            console.warn("\u3010\u573A\u6B21".concat(serial, "\u3011\u672C\u573A\u5B58\u5728\u8D54\u7387\u4E3A0\u7684\u6BD4\u5206\uFF0C\u547D\u4E2D\u8BE5\u6BD4\u5206\u65E0\u5956\u91D1"), curOddList);
+          }
+          var realOdds = curOddList.filter(function (v) {
+            return v > 0;
+          });
+          if (realOdds.length === 0) {
+            console.log("\u3010\u573A\u6B21".concat(serial, "\u3011\u672C\u573A\u6240\u6709\u8D54\u7387\u5747\u4E3A0\uFF0C\u65E0\u4E2D\u5956\u53EF\u80FD"));
+            return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+          }
+          allValidOdds.push(realOdds);
+          var curMin = Math.min.apply(Math, (0, _toConsumableArray2.default)(realOdds));
+          var curMax = Math.max.apply(Math, (0, _toConsumableArray2.default)(realOdds));
+          console.log("\u3010\u573A\u6B21".concat(serial, "\u3011\u672C\u573A\u539F\u59CB\u8D54\u7387\u96C6\u5408\uFF1A"), curOddList, "参与计算有效赔率：", realOdds, "本场最小：", curMin, "本场最大：", curMax);
         }
-
-        // 4. 计算最小、最大赔率乘积
       } catch (err) {
         _iterator.e(err);
       } finally {
         _iterator.f();
       }
-      var minP = 1;
-      var maxP = 1;
-      for (var _i = 0, _allOdds = allOdds; _i < _allOdds.length; _i++) {
-        var o = _allOdds[_i];
-        var m = Math.min.apply(Math, (0, _toConsumableArray2.default)(o));
-        var M = Math.max.apply(Math, (0, _toConsumableArray2.default)(o));
-        minP *= m;
-        maxP *= M;
+      var totalMinRate = 1;
+      var totalMaxRate = 1;
+      for (var _i = 0, _allValidOdds = allValidOdds; _i < _allValidOdds.length; _i++) {
+        var oddsArr = _allValidOdds[_i];
+        var minO = Math.min.apply(Math, (0, _toConsumableArray2.default)(oddsArr));
+        var maxO = Math.max.apply(Math, (0, _toConsumableArray2.default)(oddsArr));
+        totalMinRate *= minO;
+        totalMaxRate *= maxO;
       }
+      console.log("【全局汇总】全部场次最小倍率乘积：", totalMinRate, "全部场次最大倍率乘积：", totalMaxRate);
 
-      // 5. 奖金公式（2元/注）
-      var notes = this.betNotes;
-      var beishu = this.betCount;
-      var minBonus = 2 * minP * notes * beishu;
-      var maxBonus = 2 * maxP * notes * beishu;
-
-      // 6. 格式化
-      var fmt = function fmt(n) {
-        return n.toFixed(2);
+      // 修复：maxBonus 使用 totalMaxRate
+      var minBonus = BASE_PRICE * totalMinRate * betNotes * betMultiple;
+      var maxBonus = BASE_PRICE * totalMaxRate * betNotes * betMultiple;
+      console.log("【奖金计算】最低奖金原始值：", minBonus, "最高奖金原始值：", maxBonus);
+      var formatNum = function formatNum(num) {
+        return num.toFixed(2);
       };
-      return "\u9884\u8BA1\u5956\u91D1\uFF1A".concat(fmt(minBonus), " ~ ").concat(fmt(maxBonus));
+      return "\u9884\u8BA1\u5956\u91D1\uFF1A".concat(formatNum(minBonus), " ~ ").concat(formatNum(maxBonus));
     },
     // 确认手机号（强化必填验证）
     confirmPhone: function confirmPhone() {

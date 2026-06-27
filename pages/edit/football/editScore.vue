@@ -254,103 +254,91 @@ export default {
       this.betBarTotalHeight = this.betBarFixedPx;
     },
 calculateScoreBonus() {
-  // 1. 基础判断
-  if (this.selectedMatchCount === 0 || this.betNotes === 0) {
+  const BASE_PRICE = 2;
+  const SCORE_ODDS_MAP = {
+    "1:0": "ybl", "2:0": "ebl", "2:1": "eby", "3:0": "sbl", "3:1": "sby", "3:2": "sbe",
+    "4:0": "sibl", "4:1": "siby", "4:2": "sibe", "5:0": "wbl", "5:1": "wby", "5:2": "wbe",
+    "0:0": "lbl", "1:1": "yby", "2:2": "ebe", "3:3": "sbs",
+    "0:1": "lby", "0:2": "lbe", "1:2": "ybe", "0:3": "lbs", "1:3": "ybs", "2:3": "ebs",
+    "0:4": "lbsi", "1:4": "ybsi", "2:4": "ebsi", "0:5": "lbw", "1:5": "ybw", "2:5": "ebw",
+  };
+
+  const matchList = this.selectedMatchList || [];
+  const totalMatch = matchList.length;
+  const betNotes = this.betNotes || 0;
+  const betMultiple = this.betCount || 0;
+
+  if (totalMatch === 0 || betNotes === 0 || betMultiple === 0) {
     return "预计奖金：0.00元 ~ 0.00元";
   }
 
-  // 2. 比分 → 赔率字段 映射（你原来的正确，我保留）
-  const scoreToOddsFieldMap = {
-    // 主胜
-    "1:0": "ybl",
-    "2:0": "ebl",
-    "2:1": "eby",
-    "3:0": "sbl",
-    "3:1": "sby",
-    "3:2": "sbe",
-    "4:0": "sibl",
-    "4:1": "siby",
-    "4:2": "sibe",
-    "5:0": "wbl",
-    "5:1": "wby",
-    "5:2": "wbe",
-    // 平局
-    "0:0": "lbl",
-    "1:1": "yby",
-    "2:2": "ebe",
-    "3:3": "sbs",
-    // 客胜
-    "0:1": "lby",
-    "0:2": "lbe",
-    "1:2": "ybe",
-    "0:3": "lbs",
-    "1:3": "ybs",
-    "2:3": "ebs",
-    "0:4": "lbsi",
-    "1:4": "ybsi",
-    "2:4": "ebsi",
-    "0:5": "lbw",
-    "1:5": "ybw",
-    "2:5": "ebw",
-  };
+  console.log("【完整赛事原始数据】", JSON.parse(JSON.stringify(matchList)));
+  const allValidOdds = [];
 
-  // 3. 收集每场选中的赔率
-  const allOdds = [];
-  console.log(this.selectedMatchList, 'list-------------')
-  for (const match of this.selectedMatchList) {
-    const scores = match.selectedScores || [];
+  for (const match of matchList) {
+    const serial = match.serial_number;
+    const selectScores = match.selectedScores || [];
     const oddsData = match.oddsData || {};
-    const scoreOdds = match.score_odds || {};
+    const scoreOdds = match.scoreOdds || {};
+    const curOddList = [];
 
-    const currentOdds = [];
+    for (let score of selectScores) {
+      const cleanScore = score.replace(/\s+/g, "").replace(/：/g, ":");
+      let oddVal = 0;
 
-    for (const sc of scores) {
-      let odd = 0;
-
-      // 处理「其它」
-      if (sc === "胜其它") {
-        odd = Number(scoreOdds.winOther || 0);
-      } else if (sc === "平其它") {
-        odd = Number(scoreOdds.drawOther || 0);
-      } else if (sc === "负其它") {
-        odd = Number(scoreOdds.loseOther || 0);
+      if (cleanScore === "胜其它") {
+        oddVal = Number(oddsData.sqt) || 0;
+      } else if (cleanScore === "平其它") {
+        oddVal = Number(oddsData.pqt) || 0;
+      } else if (cleanScore === "负其它") {
+        oddVal = Number(oddsData.fqt) || 0;
       } else {
-        // 普通比分
-        const field = scoreToOddsFieldMap[sc];
-        if (field) {
-          odd = Number(oddsData[field] || 0);
-        }
+        const fieldKey = SCORE_ODDS_MAP[cleanScore];
+        if (fieldKey) oddVal = Number(oddsData[fieldKey]) || 0;
       }
 
-      if (!isNaN(odd) && odd > 0) {
-        currentOdds.push(odd);
+      console.log(`【场次${serial}】比分${cleanScore}，读取赔率：${oddVal}`);
+      if (!Number.isNaN(oddVal)) {
+        curOddList.push(oddVal);
       }
     }
 
-    if (currentOdds.length === 0) return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
-    allOdds.push(currentOdds);
+    if (curOddList.length === 0) {
+      console.log(`【场次${serial}】无任何可读取赔率，整单奖金置0`);
+      return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+    }
+    if (curOddList.some(v => v === 0)) {
+      console.warn(`【场次${serial}】本场存在赔率为0的比分，命中该比分无奖金`, curOddList);
+    }
+
+    const realOdds = curOddList.filter(v => v > 0);
+    if (realOdds.length === 0) {
+      console.log(`【场次${serial}】本场所有赔率均为0，无中奖可能`);
+      return "0.00元 ~ 0.00元（仅供参考以彩票奖金为主）";
+    }
+    allValidOdds.push(realOdds);
+    const curMin = Math.min(...realOdds);
+    const curMax = Math.max(...realOdds);
+    console.log(`【场次${serial}】本场原始赔率集合：`, curOddList, "参与计算有效赔率：", realOdds, "本场最小：", curMin, "本场最大：", curMax);
   }
 
-  // 4. 计算最小、最大赔率乘积
-  let minP = 1;
-  let maxP = 1;
-  for (const o of allOdds) {
-    const m = Math.min(...o);
-    const M = Math.max(...o);
-    minP *= m;
-    maxP *= M;
+  let totalMinRate = 1;
+  let totalMaxRate = 1;
+  for (const oddsArr of allValidOdds) {
+    const minO = Math.min(...oddsArr);
+    const maxO = Math.max(...oddsArr);
+    totalMinRate *= minO;
+    totalMaxRate *= maxO;
   }
+  console.log("【全局汇总】全部场次最小倍率乘积：", totalMinRate, "全部场次最大倍率乘积：", totalMaxRate);
 
-  // 5. 奖金公式（2元/注）
-  const notes = this.betNotes;
-  const beishu = this.betCount;
-  const minBonus = 2 * minP * notes * beishu;
-  const maxBonus = 2 * maxP * notes * beishu;
+  // 修复：maxBonus 使用 totalMaxRate
+  const minBonus = BASE_PRICE * totalMinRate * betNotes * betMultiple;
+  const maxBonus = BASE_PRICE * totalMaxRate * betNotes * betMultiple;
+  console.log("【奖金计算】最低奖金原始值：", minBonus, "最高奖金原始值：", maxBonus);
 
-  // 6. 格式化
-  const fmt = (n) => n.toFixed(2);
-
-  return `预计奖金：${fmt(minBonus)} ~ ${fmt(maxBonus)}`;
+  const formatNum = (num) => num.toFixed(2);
+  return `预计奖金：${formatNum(minBonus)} ~ ${formatNum(maxBonus)}`;
 },
     // 确认手机号（强化必填验证）
     confirmPhone() {

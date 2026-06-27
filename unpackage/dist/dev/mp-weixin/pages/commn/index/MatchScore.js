@@ -518,8 +518,7 @@ var _default2 = {
                 }
                 _context.next = 13;
                 return (0, _demo.queryHomeAndVisitingGoalOdds)({
-                  serialNumber: match.serial_number,
-                  dateStr: match.date_str
+                  matchId: match.match_id
                 });
               case 13:
                 res = _context.sent;

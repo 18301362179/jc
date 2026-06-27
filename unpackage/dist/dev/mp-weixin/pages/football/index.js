@@ -943,7 +943,37 @@ var _default = {
                     bqc_03: item.bqc_03,
                     bqc_01: item.bqc_01,
                     bqc_00: item.bqc_00,
-                    bfOdds: item.bfOdds || {}
+                    bfOdds: item.bfOdds || {},
+                    // 补齐所有编辑页计算需要的比分独立赔率key
+                    ybl: item.ybl,
+                    ebl: item.ebl,
+                    eby: item.eby,
+                    sbl: item.sbl,
+                    sby: item.sby,
+                    sbe: item.sbe,
+                    sibl: item.sibl,
+                    siby: item.siby,
+                    sibe: item.sibe,
+                    wbl: item.wbl,
+                    wby: item.wby,
+                    wbe: item.wbe,
+                    lbl: item.lbl,
+                    yby: item.yby,
+                    ebe: item.ebe,
+                    lbs: item.lbs,
+                    ybs: item.ybs,
+                    ebs: item.ebs,
+                    lbsi: item.lbsi,
+                    ybsi: item.ybsi,
+                    ebsi: item.ebsi,
+                    lbw: item.lbw,
+                    ybw: item.ybw,
+                    ebw: item.ebw,
+                    lby: item.lby,
+                    // 其它比分（胜其它/平其它/负其它赔率）
+                    winOther: item.sqt,
+                    drawOther: item.pqt,
+                    loseOther: item.fqt
                   });
                 });
                 playToPageMap = {

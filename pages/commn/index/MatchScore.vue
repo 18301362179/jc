@@ -303,8 +303,7 @@ awayWinScores: [
         // 未缓存赔率数据时，请求接口获取
         if (!this.currentOddsData) {
           const res = await queryHomeAndVisitingGoalOdds({
-            serialNumber: match.serial_number,
-            dateStr: match.date_str,
+            matchId: match.match_id
           });
           if (res.code === "200" && res.data) {
             this.currentOddsData = res.data;

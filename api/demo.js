@@ -123,7 +123,7 @@ export const getHaveMoney = (params) => {
 
 export const queryFootBallLLottery = (data) => {
     return request({
-        url: baseUrl + '/sports/football/lottery',
+        url: baseUrl + '/football/lottery',
         method: 'GET',
         data
     })
@@ -131,7 +131,7 @@ export const queryFootBallLLottery = (data) => {
 
 export const queryBasketBallLLottery = (data) => {
     return request({
-        url: baseUrl + '/sports/basketball/lottery',
+        url: baseUrl + '/basketball/lottery',
         method: 'GET',
         data
     })
@@ -203,7 +203,7 @@ export const purchasingLotteryQueryById = (data) => {
 
 export const queryHomeAndVisitingGoalOdds = (data) => {
     return request({
-        url: baseUrl + '/purchasing/football/lottery/homeAndVisitingGoalOdds',
+        url: baseUrl + '/purchasing/football/lottery/goalOdds',
         method: 'GET',
         data
     })
@@ -235,7 +235,7 @@ export const queryPlayer = (data) => {
 }
 export const queryHhgg = (data) => {
     return request({
-        url: baseUrl + '/sports/football/lottery/hhgg/zkqb',
+        url: baseUrl + '/football/lottery/hhgg/zkqb',
         method: 'GET',
         data
     })

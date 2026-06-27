@@ -86,7 +86,7 @@
                       <text v-if="item.r_loss_multiplier_c == -1" class="down">↓</text>
                   </view>
                   <view class="match-cell home" :class="{ selected: item.rHomeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'rHomeSelected')"> 
-                      主胜{{ item.win_multiplier || "--" }} 
+                      主胜{{ item.r_win_multiplier || "--" }} 
                       <text v-if="item.r_win_multiplier_c == 1" class="up">↑</text>
                       <text v-if="item.r_win_multiplier_c == -1" class="down">↓</text>
                   </view>
