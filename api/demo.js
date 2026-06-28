@@ -393,3 +393,10 @@ export const purchasingFootballPoints = (data) => {
         data
     })
 }
+// 试机号无参接口
+export const getPredictNumbers = () => {
+    return request({
+        url: baseUrl + "/numbers/predict",
+        method: 'GET'
+    })
+}

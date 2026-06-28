@@ -20,9 +20,11 @@
 
     <view class="tab-bar" v-if="getRemark">
       <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">分&nbsp;&nbsp;析</view>
+      <view class="tab-item" :class="{ active: currentTab === 2 }" @click="switchTab(2)">试机号</view>
     </view>
 
     <scroll-view class="content-scroll" v-if="getRemark" scroll-y>
+      <!-- Tab1 分析 原有代码完全不变 -->
       <view v-if="currentTab === 1" class="record-section">
         <no-data v-if="tradeRecord.length === 0" />
         <view class="trade-header" v-if="tradeRecord.length > 0">
@@ -44,18 +46,39 @@
           </view>
         </view>
       </view>
+
+      <!-- Tab2 试机号 全新独立列表，样式隔离，公众号同款布局 -->
+      <view v-if="currentTab === 2" class="test-machine-wrap">
+        <no-data v-if="predictList.length === 0" />
+        <!-- 独立表头 -->
+        <view class="test-machine-head" v-if="predictList.length > 0">
+          <view class="h-item h-period">期数</view>
+          <view class="h-item h-num">常号</view>
+          <view class="h-item h-spe">特号</view>
+          <view class="h-item h-type">类型</view>
+          <view class="h-item h-build">预测方式</view>
+        </view>
+        <!-- 列表行 -->
+        <view class="test-machine-row" v-for="(item, idx) in predictList" :key="idx">
+          <view class="r-item r-period">{{ item.period || '-' }}</view>
+          <view class="r-item r-num"><text class="green-text">{{ item.numbers || '-' }}</text></view>
+          <view class="r-item r-spe"><text class="green-text">{{ item.number_special || '-' }}</text></view>
+          <view class="r-item r-type">{{ item.lottery_type || '-' }}</view>
+          <view class="r-item r-build">{{ item.build_type || '-' }}</view>
+        </view>
+      </view>
     </scroll-view>
+
     <view style="box-sizing:border-box; padding: 20rpx;font-size: 22rpx;" v-if="!getRemark">中国电子竞技游戏发展空间</view>
     <view style="box-sizing:border-box; padding: 20rpx; padding-top:0;font-size: 22rpx;" v-if="!getRemark">
 中国电子竞技产业具备广阔且多元的发展空间，正迈入高质量、规范化发展新阶段。国内电竞用户规模超4.95亿，群众基础雄厚，政策持续加码扶持，各地陆续出台专项政策完善产业生态。产业链不断延伸，赛事运营、电竞教育、场馆建设、周边衍生等板块蓬勃发展，商业化模式持续创新。随着5G、VR、AI等技术赋能，电竞体验不断升级，同时国产电竞游戏加速出海，国际化影响力持续提升。未来，电竞将深度融合数字经济，成为文化、科技、体育协同发展的重要赛道，市场潜力与发展潜力持续释放 。</view>
     <NativeTabbar ref="nativeTabbar" />
   </view>
 </template>
-
 <script>
 import NativeTabbar from "@/components/tabbar.vue";
 import NoData from "@/pages/commn/noData";
-import { getUser, purchasingLotteryConfirm } from "@/api/demo";
+import { getUser, purchasingLotteryConfirm, getPredictNumbers } from "@/api/demo";
 import CustomHeader from "@/components/CustomHeader.vue";
 export default {
   components: { NoData, NativeTabbar,CustomHeader },
@@ -72,6 +95,8 @@ export default {
       swipeThreshold: 50,
       betForm: '',
       getRemark: false,
+      // 试机号数据
+      predictList: []
     };
   },
   created() {
@@ -83,6 +108,10 @@ export default {
   },
   onShow() {
     this.getData();
+    // 切回页面如果当前是试机号tab，刷新数据
+    if(this.getRemark && this.currentTab === 2) {
+      this.getPredictData();
+    }
   },
   methods: {
     getList() {
@@ -109,11 +138,17 @@ export default {
           url: '/pages/recharge/recharge'
         });
       };
-
     },
+    // 切换tab，加载对应数据
     switchTab(tabIndex) {
       this.currentTab = tabIndex;
+      if(tabIndex === 1) {
+        this.getData();
+      } else if(tabIndex === 2) {
+        this.getPredictData();
+      }
     },
+    // 原有用户、交易数据
     async getData() {
       uni.showLoading({ title: "加载中..." });
       try {
@@ -127,6 +162,18 @@ export default {
         uni.hideLoading();
       }
     },
+    // 试机号接口 无参数
+    async getPredictData() {
+      uni.showLoading({ title: "加载中..." });
+      try {
+        const res = await getPredictNumbers();
+        this.predictList = res.data || [];
+      } catch (err) {
+        uni.showToast({ title: "试机号加载失败", icon: "none" });
+      } finally {
+        uni.hideLoading();
+      }
+    }
   }
 };
 </script>
@@ -171,7 +218,6 @@ export default {
       position: absolute;
       right: 40rpx;
       bottom:60rpx;
-      margin:atuo;
     }
   }
 
@@ -454,6 +500,57 @@ export default {
         .preview-img {
           max-width: 100%;
           max-height: 80vh;
+        }
+      }
+    }
+
+    // ====================== 试机号 独立样式，和分析列表完全隔离 ======================
+    .test-machine-wrap {
+      width: 100%;
+      .test-machine-head {
+        display: flex;
+        width: 100%;
+        height: 60rpx;
+        background-color: #f8f9fa;
+        border-radius: 12rpx 12rpx 0 0;
+        align-items: center;
+        .h-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          font-size: 24rpx;
+          color: #333;
+          font-weight: 600;
+        }
+        .h-period { width: 140rpx; flex: none; }
+        .h-num { flex: 1; }
+        .h-spe { width: 120rpx; flex: none; }
+        .h-type { width: 120rpx; flex: none; }
+        .h-build { width: 120rpx; flex: none; }
+      }
+      .test-machine-row {
+        display: flex;
+        width: 100%;
+        min-height: 80rpx;
+        background-color: #fff;
+        margin-bottom: 16rpx;
+        border-radius: 0 0 12rpx 12rpx;
+        align-items: center;
+        .r-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 22rpx;
+          color: #666;
+        }
+        .r-period { width: 140rpx; flex: none; }
+        .r-num { flex: 1; }
+        .r-spe { width: 120rpx; flex: none; }
+        .r-type { width: 120rpx; flex: none; }
+        .r-build { width: 120rpx; flex: none; }
+        .green-text {
+          color: #31926e;
         }
       }
     }

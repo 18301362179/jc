@@ -104,12 +104,16 @@ var render = function () {
   var _c = _vm._self._c || _h
   var g0 = _vm.getRemark && _vm.currentTab === 1 ? _vm.tradeRecord.length : null
   var g1 = _vm.getRemark && _vm.currentTab === 1 ? _vm.tradeRecord.length : null
+  var g2 = _vm.getRemark && _vm.currentTab === 2 ? _vm.predictList.length : null
+  var g3 = _vm.getRemark && _vm.currentTab === 2 ? _vm.predictList.length : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
         g1: g1,
+        g2: g2,
+        g3: g3,
       },
     }
   )
@@ -189,7 +193,9 @@ var _default = {
       touchStartX: 0,
       swipeThreshold: 50,
       betForm: '',
-      getRemark: false
+      getRemark: false,
+      // 试机号数据
+      predictList: []
     };
   },
   created: function created() {
@@ -202,6 +208,10 @@ var _default = {
   },
   onShow: function onShow() {
     this.getData();
+    // 切回页面如果当前是试机号tab，刷新数据
+    if (this.getRemark && this.currentTab === 2) {
+      this.getPredictData();
+    }
   },
   methods: {
     getList: function getList() {
@@ -223,9 +233,16 @@ var _default = {
       }
       ;
     },
+    // 切换tab，加载对应数据
     switchTab: function switchTab(tabIndex) {
       this.currentTab = tabIndex;
+      if (tabIndex === 1) {
+        this.getData();
+      } else if (tabIndex === 2) {
+        this.getPredictData();
+      }
     },
+    // 原有用户、交易数据
     getData: function getData() {
       var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
@@ -266,6 +283,45 @@ var _default = {
             }
           }
         }, _callee, null, [[1, 10, 13, 16]]);
+      }))();
+    },
+    // 试机号接口 无参数
+    getPredictData: function getPredictData() {
+      var _this3 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+        var res;
+        return _regenerator.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                uni.showLoading({
+                  title: "加载中..."
+                });
+                _context2.prev = 1;
+                _context2.next = 4;
+                return (0, _demo.getPredictNumbers)();
+              case 4:
+                res = _context2.sent;
+                _this3.predictList = res.data || [];
+                _context2.next = 11;
+                break;
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](1);
+                uni.showToast({
+                  title: "试机号加载失败",
+                  icon: "none"
+                });
+              case 11:
+                _context2.prev = 11;
+                uni.hideLoading();
+                return _context2.finish(11);
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 8, 11, 14]]);
       }))();
     }
   }
