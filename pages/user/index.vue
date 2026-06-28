@@ -1,6 +1,6 @@
 <template>
   <view class="container" style="width: 100%; box-sizing: border-box;">
-      <CustomHeader
+    <CustomHeader
       :showBack="false"
       :ballTitle="''"
       :title="'我的'"
@@ -8,7 +8,7 @@
       :showIcon="false"
       :isSelected="false"
     />
-    <!-- 头部（新增去充值按钮布局） -->
+    <!-- 头部 -->
     <view class="header">
       <image class="avatar" v-if="userInfo.headImgUrl" :src="userInfo.headImgUrl" mode="aspectFill"></image>
       <image class="avatar" v-else src="@/static/mine1.png" mode="aspectFill"></image>
@@ -16,33 +16,26 @@
         <text class="username">{{ userInfo.remarkName || '' }}</text>
         <text class="value stone-count" @click="getList" v-if="$urlValue">{{ userInfo.coinAmount || 0 }} 币</text>
       </view>
-      <!-- 新增：去充值按钮 -->
       <button class="recharge-btn" @click="gotoRecharge" v-if="$urlValue">获取</button>
     </view>
 
-    <!-- Tab栏：调整顺序，放第一个 -->
+    <!-- Tab栏 增加试机号tab -->
     <view class="tab-bar">
       <view class="tab-item" :class="{ active: currentTab === 1 }" @click="switchTab(1)">分析</view>
+      <view class="tab-item" :class="{ active: currentTab === 2 }" @click="switchTab(2)">试机号</view>
     </view>
 
-    <!-- 内容区 -->
     <scroll-view class="content-scroll" scroll-y>
-      <!-- 2. 交易（原第一个Tab，移到第二个） -->
+      <!-- Tab1 分析 原有代码不动 -->
       <view v-if="currentTab === 1" class="record-section">
         <no-data v-if="tradeRecord.length === 0" />
-        <!-- 交易记录专属表头：宽度和列表列严格对齐、高度更小 -->
         <view class="trade-header" v-if="tradeRecord.length > 0">
-          <!-- <view class="trade-header-col from-col">来源</view> -->
           <view class="trade-header-col type-col">类型</view>
           <view class="trade-header-col match-col">比赛</view>
           <view class="trade-header-col time-col">时间</view>
         </view>
-        <!-- 原有内容行 -->
         <view class="record-card" v-for="(item, index) in tradeRecord" :key="index">
           <view class="record-row">
-            <!-- <view class="normal-col from-col">
-              <text class="value">{{ item.be_from || '' }}</text>
-            </view> -->
             <view class="normal-col type-col">
               <text class="value">{{ item.goods_type || '' }}</text>
             </view>
@@ -55,6 +48,28 @@
           </view>
         </view>
       </view>
+
+      <!-- Tab2 试机号 全新独立区块，无任何共用class -->
+      <view v-if="currentTab === 2" class="machine-wrap">
+        <NoData v-if="predictList.length === 0" />
+        <!-- 独立表头 -->
+        <view class="machine-table-head" v-if="predictList.length > 0">
+          <view class="h-col h-period">期数</view>
+          <view class="h-col h-num">常号</view>
+          <view class="h-col h-spe">特号</view>
+          <view class="h-col h-type">类型</view>
+          <view class="h-col h-build">预测方式</view>
+        </view>
+        <!-- 独立列表行 -->
+        <view class="machine-table-row" v-for="(item, idx) in predictList" :key="idx">
+          <view class="r-col r-period">{{ item.period || '-' }}</view>
+          <view class="r-col r-num"><text class="color-green">{{ item.numbers || '-' }}</text></view>
+          <view class="r-col r-spe"><text class="color-green">{{ item.number_special || '-' }}</text></view>
+          <view class="r-col r-type">{{ item.lottery_type || '-' }}</view>
+          <view class="r-col r-build">{{ item.build_type || '-' }}</view>
+        </view>
+      </view>
+
       <!-- 图片预览弹窗 -->
       <view class="preview-mask" v-if="isImagePreviewVisible" @click="closeImagePreview">
         <view class="preview-container" @click.stop>
@@ -71,9 +86,11 @@
 import NativeTabbar from "@/components/tabbar.vue";
 import NoData from "@/pages/commn/noData";
 import { getUser, purchasingLotteryConfirm } from "@/api/demo";
+// 导入试机号接口
+import { getPredictNumbers } from "@/api/demo";
 import CustomHeader from "@/components/CustomHeader.vue";
 export default {
-  components: { NoData, NativeTabbar,CustomHeader },
+  components: { NoData, NativeTabbar, CustomHeader },
   data() {
     return {
       currentTab: 1,
@@ -86,7 +103,9 @@ export default {
       paymentRecord: [],
       touchStartX: 0,
       swipeThreshold: 50,
-      betForm: ''
+      betForm: '',
+      // 试机号数据
+      predictList: []
     };
   },
   created() {
@@ -95,6 +114,10 @@ export default {
   },
   onShow() {
     this.getData();
+    // 切回页面如果当前是试机号tab，刷新数据
+    if (this.currentTab === 2) {
+      this.getPredictData();
+    }
   },
   methods: {
     getList() {
@@ -127,9 +150,16 @@ export default {
     closeImagePreview() {
       this.isImagePreviewVisible = false;
     },
+    // 切换tab，对应加载数据
     switchTab(tabIndex) {
       this.currentTab = tabIndex;
+      if (tabIndex === 1) {
+        this.getData();
+      } else if (tabIndex === 2) {
+        this.getPredictData();
+      }
     },
+    // 原有交易/用户数据
     async getData() {
       uni.showLoading({ title: "加载中..." });
       try {
@@ -144,18 +174,30 @@ export default {
         uni.hideLoading();
       }
     },
+    // 试机号接口请求，无参数
+    async getPredictData() {
+      uni.showLoading({ title: "加载中..." });
+      try {
+        const res = await getPredictNumbers();
+        this.predictList = res.data || [];
+      } catch (e) {
+        uni.showToast({ title: "试机号加载失败", icon: "none" });
+      } finally {
+        uni.hideLoading();
+      }
+    },
     handleConfirm(id, item) {
       const pathMap = {
-        '比分':'/pages/user/sub/scoreDetail?id=',
-        '足彩总进球':'/pages/user/sub/totalGoalsDetail?id=',
-        '半全场':'/pages/user/sub/halfTimeDetail?id=',
-        '篮球胜负':'/pages/user/sub/basketballSf?id=',
-        '篮球胜分差':'/pages/user/sub/basketballSfc?id=',
-        '篮球让分胜负':'/pages/user/sub/basketballHandicapDetail?id=',
-        '篮球大小分':'/pages/user/sub/basketballOverUnderDetail?id='
+        '比分': '/pages/user/sub/scoreDetail?id=',
+        '足彩总进球': '/pages/user/sub/totalGoalsDetail?id=',
+        '半全场': '/pages/user/sub/halfTimeDetail?id=',
+        '篮球胜负': '/pages/user/sub/basketballSf?id=',
+        '篮球胜分差': '/pages/user/sub/basketballSfc?id=',
+        '篮球让分胜负': '/pages/user/sub/basketballHandicapDetail?id=',
+        '篮球大小分': '/pages/user/sub/basketballOverUnderDetail?id='
       };
-      uni.navigateTo({ 
-        url: (pathMap[item.entityType] || `/pages/user/sub/buyDetail?id=`) + id 
+      uni.navigateTo({
+        url: (pathMap[item.entityType] || `/pages/user/sub/buyDetail?id=`) + id
       });
     },
     async handleCancel(id) {
@@ -185,7 +227,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// 核心样式 - 极简
+// 核心全局页面样式
 .container {
   width: 100%;
   height: calc(100vh - (100rpx + env(safe-area-inset-bottom)));
@@ -194,7 +236,6 @@ export default {
   flex-direction: column;
   box-sizing: border-box;
 
-  // 头部（新增去充值按钮样式）
   .header {
     background: #fff;
     box-sizing: border-box;
@@ -224,12 +265,10 @@ export default {
       line-height: 1;
       position: absolute;
       right: 40rpx;
-      bottom:60rpx;
-      margin:atuo;
+      bottom: 60rpx;
     }
   }
 
-  // Tab栏
   .tab-bar {
     background: #fff;
     display: flex;
@@ -237,7 +276,6 @@ export default {
     align-items: center;
     padding-left: 20rpx;
     border-bottom: 1rpx solid #eaecef;
-
     .tab-item {
       font-size: 34rpx;
       color: #666;
@@ -260,7 +298,6 @@ export default {
     }
   }
 
-  // 内容区
   .content-scroll {
     touch-action: pan-y;
     flex: 1;
@@ -274,21 +311,18 @@ export default {
     // #endif
     box-sizing: border-box !important;
 
-    // 交易/充值通用样式
+    // ========== Tab1 分析原有样式 完全保留 ==========
     .record-section {
       display: flex;
       flex-direction: column;
-      
-      // 交易记录专属表头：窄高度、列宽和列表严格对齐
       .trade-header {
         display: flex;
         width: 100%;
-        height: 60rpx; // 小高度（比列表行矮）
+        height: 60rpx;
         background: #f8f9fa;
         border-radius: 12rpx 12rpx 0 0;
         margin-bottom: 2rpx;
         align-items: center;
-        
         .trade-header-col {
           font-size: 24rpx;
           color: #333;
@@ -299,20 +333,17 @@ export default {
           justify-content: center;
           height: 100%;
         }
-        
-        // 表头列宽和列表列1:1对齐
         .from-col { width: 100rpx; flex: none; }
         .type-col { width: 100rpx; flex: none; }
         .time-col { width: 240rpx; flex: none; }
         .match-col { flex: 1; }
       }
-
       .record-card {
         width: 100%;
         background: #fff;
         border-radius: 12rpx;
         margin-bottom: 16rpx;
-        box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+        box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
       }
       .record-row {
         display: flex;
@@ -340,8 +371,6 @@ export default {
       }
       .accent { color: #31926e; font-weight: 600; }
       .highlight { color: #d92929; font-weight: 600; }
-
-      // 交易记录列宽（和表头严格一致）
       .record-card:not(.recharge-card) {
         .record-row {
           .from-col {
@@ -379,8 +408,6 @@ export default {
           }
         }
       }
-
-      // 充值记录样式：完全保留，不受影响
       .recharge-card {
         .normal-col {
           flex: 1;
@@ -389,21 +416,18 @@ export default {
       }
     }
 
-    // （原代购）
     .purchase-section {
       .purchase-card {
         background: #fff;
         border-radius: 16rpx;
         padding: 30rpx;
         margin-bottom: 20rpx;
-        box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.05);
-
+        box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
         .bet-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 20rpx;
-
           .bet-nums {
             display: flex;
             gap: 30rpx;
@@ -481,19 +505,17 @@ export default {
       }
     }
 
-    // 图片预览
     .preview-mask {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0, 0, 0, 0.9);
       z-index: 9999;
       display: flex;
       align-items: center;
       justify-content: center;
-
       .preview-container {
         width: 90%;
         .close-btn {
@@ -503,7 +525,7 @@ export default {
           width: 60rpx;
           height: 60rpx;
           border-radius: 50%;
-          background: rgba(255,255,255,0.3);
+          background: rgba(255, 255, 255, 0.3);
           color: #fff;
           font-size: 40rpx;
           text-align: center;
@@ -515,10 +537,61 @@ export default {
         }
       }
     }
+
+    // ========== Tab2 试机号 完全独立样式，无任何共用class ==========
+    .machine-wrap {
+      width: 100%;
+      padding: 0;
+      .machine-table-head {
+        display: flex;
+        width: 100%;
+        height: 60rpx;
+        background-color: #f8f9fa;
+        border-radius: 12rpx 12rpx 0 0;
+        align-items: center;
+        .h-col {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          font-size: 24rpx;
+          color: #333;
+          font-weight: 600;
+        }
+        .h-period { width: 140rpx; flex: none; }
+        .h-num { flex: 1; }
+        .h-spe { width: 120rpx; flex: none; }
+        .h-type { width: 120rpx; flex: none; }
+        .h-build { width: 120rpx; flex: none; }
+      }
+      .machine-table-row {
+        display: flex;
+        width: 100%;
+        min-height: 80rpx;
+        background-color: #fff;
+        margin-bottom: 16rpx;
+        border-radius: 0 0 12rpx 12rpx;
+        align-items: center;
+        .r-col {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 22rpx;
+          color: #666;
+        }
+        .r-period { width: 140rpx; flex: none; }
+        .r-num { flex: 1; }
+        .r-spe { width: 120rpx; flex: none; }
+        .r-type { width: 120rpx; flex: none; }
+        .r-build { width: 120rpx; flex: none; }
+        .color-green {
+          color: #31926e;
+        }
+      }
+    }
   }
 }
 
-// 隐藏滚动条
 ::-webkit-scrollbar { display: none; }
 ::v-deep .tabbar-container {
   height: calc(100rpx + env(safe-area-inset-bottom)) !important;

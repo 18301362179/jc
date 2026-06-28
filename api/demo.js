@@ -131,7 +131,7 @@ export const queryFootBallLLottery = (data) => {
 
 export const queryBasketBallLLottery = (data) => {
     return request({
-        url: baseUrl + '/sports/basketball/lottery',
+        url: baseUrl + '/basketball/lottery',
         method: 'GET',
         data
     })
@@ -163,7 +163,7 @@ export const setCourseGoal = (data) => {
 
 export const checkSelect = (data) => {
     return request({
-        url: baseUrl + '/purchasing/football/lottery/checkSelect',
+        url: baseUrl + '/football/lottery/checkSelect',
         method: 'GET',
         data
     })
@@ -171,7 +171,7 @@ export const checkSelect = (data) => {
 
 export const checkSelectBasketball = (data) => {
     return request({
-        url: baseUrl + '/purchasing/football/lottery/checkSelect',
+        url: baseUrl + '/football/lottery/checkSelect',
         method: 'GET',
         data
     })
@@ -179,7 +179,7 @@ export const checkSelectBasketball = (data) => {
 
 export const purchasingLotteryApply = (data) => {
     return request({
-        url: baseUrl + '/purchasing/lottery/apply',
+        url: baseUrl + '/lottery/apply',
         method: 'POST',
         data
     })
@@ -187,7 +187,7 @@ export const purchasingLotteryApply = (data) => {
 
 export const purchasingLotteryConfirm = (data) => {
     return request({
-        url: baseUrl + '/purchasing/lottery/confirm',
+        url: baseUrl + '/lottery/confirm',
         method: 'GET',
         data
     })
@@ -195,7 +195,7 @@ export const purchasingLotteryConfirm = (data) => {
 
 export const purchasingLotteryQueryById = (data) => {
     return request({
-        url: baseUrl + '/purchasing/lottery/queryById',
+        url: baseUrl + '/lottery/queryById',
         method: 'GET',
         data
     })
@@ -203,7 +203,7 @@ export const purchasingLotteryQueryById = (data) => {
 
 export const queryHomeAndVisitingGoalOdds = (data) => {
     return request({
-        url: baseUrl + '/purchasing/football/lottery/homeAndVisitingGoalOdds',
+        url: baseUrl + '/football/lottery/homeAndVisitingGoalOdds',
         method: 'GET',
         data
     })
@@ -235,7 +235,7 @@ export const queryPlayer = (data) => {
 }
 export const queryHhgg = (data) => {
     return request({
-        url: baseUrl + '/sports/football/lottery/hhgg/zkqb',
+        url: baseUrl + '/football/lottery/hhgg/zkqb',
         method: 'GET',
         data
     })
@@ -270,14 +270,14 @@ export const userShare = (data) => {
 }
 export const footballLotteryTradition = (data) => {
     return request({
-        url: baseUrl + '/purchasing/football/lottery/tradition',
+        url: baseUrl + '/football/lottery/tradition',
         method: 'GET',
         data
     })
 }
 export const footballLotteryTraditionDrawNum = (data) => {
     return request({
-        url: baseUrl + '/purchasing/football/lottery/tradition/drawNum',
+        url: baseUrl + '/football/lottery/tradition/drawNum',
         method: 'GET',
         data
     })
@@ -306,14 +306,14 @@ export const shareGiveCoin = (data) => {
 }
 export const footLotteryLive = (data) => {
     return request({
-        url: baseUrl + "/purchasing/foot/lottery/live",
+        url: baseUrl + "/foot/lottery/live",
         method: 'GET',
         data
     })
 }
 export const basketLotteryLive = (data) => {
     return request({
-        url: baseUrl + "/purchasing/basket/lottery/live",
+        url: baseUrl + "/basket/lottery/live",
         method: 'GET',
         data
     })
@@ -343,7 +343,7 @@ export const teamInfo = (data) => {
 // 1. 足球录入接口
 export const footballLotteryEntry = (data) => {
     return request({
-        url: baseUrl + "/purchasing/football/lottery/entry",
+        url: baseUrl + "/football/lottery/entry",
         method: 'GET',
         data
     })
@@ -352,7 +352,7 @@ export const footballLotteryEntry = (data) => {
 // 2. 足球查询接口
 export const queryFootballForEntry = (data) => {
     return request({
-        url: baseUrl + "/purchasing/football/lottery/queryForEntry",
+        url: baseUrl + "/football/lottery/queryForEntry",
         method: 'GET',
         data
     })
@@ -361,7 +361,7 @@ export const queryFootballForEntry = (data) => {
 // 3. 篮球查询接口
 export const queryBasketballForEntry = (data) => {
     return request({
-        url: baseUrl + "/purchasing/basketball/lottery/queryForEntry",
+        url: baseUrl + "/basketball/lottery/queryForEntry",
         method: 'GET',
         data
     })
@@ -370,7 +370,7 @@ export const queryBasketballForEntry = (data) => {
 // 4. 篮球录入接口
 export const basketballLotteryEntry = (data) => {
     return request({
-        url: baseUrl + "/purchasing/basketball/lottery/entry",
+        url: baseUrl + "/basketball/lottery/entry",
         method: 'GET',
         data
     })
@@ -393,7 +393,7 @@ export const platformSysMessageRead = (data) => {
 // 足球竞彩+传统 明细接口
 export const purchasingFootballInfo = (data) => {
     return request({
-        url: baseUrl + "/purchasing/football/infoPageData",
+        url: baseUrl + "/football/infoPageData",
         method: 'GET',
         data
     })
@@ -402,7 +402,7 @@ export const purchasingFootballInfo = (data) => {
 // 篮球竞彩 明细接口
 export const purchasingBasketballInfo = (data) => {
     return request({
-        url: baseUrl + "/purchasing/basketball/infoPageData",
+        url: baseUrl + "/basketball/infoPageData",
         method: 'GET',
         data
     })
@@ -410,8 +410,15 @@ export const purchasingBasketballInfo = (data) => {
 
 export const purchasingFootballPoints = (data) => {
     return request({
-        url: baseUrl + "/purchasing/football/points",
+        url: baseUrl + "/football/points",
         method: 'GET',
         data
+    })
+}
+// 测机号预测接口 无参数
+export const getPredictNumbers = (data) => {
+    return request({
+        url: baseUrl + "/numbers/predict",
+        method: 'GET'
     })
 }

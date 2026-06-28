@@ -474,41 +474,72 @@ export default {
       }
     },
     // 确认比分选择
-    confirmSelection() {
-      if (!this.currentMatch || this.isLoading) return;
+confirmSelection() {
+  if (!this.currentMatch || this.isLoading) return;
 
-      // 查找当前选中的比赛项
-      let targetItem = null;
-      let targetDrawerIdx = -1;
-      let targetItemIdx = -1;
+  let targetItem = null;
+  let targetDrawerIdx = -1;
+  let targetItemIdx = -1;
 
-      this.finalDrawerList.forEach((drawer, dIdx) => {
-        const idx = drawer.lotteryList.findIndex((item) => item.id === this.currentMatch.id);
-        if (idx > -1) {
-          targetDrawerIdx = dIdx;
-          targetItemIdx = idx;
-          targetItem = drawer.lotteryList[idx];
-        }
-      });
+  this.finalDrawerList.forEach((drawer, dIdx) => {
+    const idx = drawer.lotteryList.findIndex((item) => item.id === this.currentMatch.id);
+    if (idx > -1) {
+      targetDrawerIdx = dIdx;
+      targetItemIdx = idx;
+      targetItem = drawer.lotteryList[idx];
+    }
+  });
 
-      // 更新选中的比分数据
-      if (targetItem) {
-        const updatedMatch = {
-          ...targetItem,
-          selectedScores: [...this.selectedScores],
-          oddsData: this.currentOddsData,
-          score_odds: this.currentMatch.score_odds || { winOther: "", drawOther: "", loseOther: "" },
-        };
+  if (targetItem) {
+    const updatedMatch = {
+      ...targetItem,
+      selectedScores: [...this.selectedScores],
+      oddsData: this.currentOddsData,
+      score_odds: this.currentMatch.score_odds || { winOther: "", drawOther: "", loseOther: "" },
+      // 同步全部赔率字段
+      sqt: this.currentOddsData.sqt || 0,
+      pqt: this.currentOddsData.pqt || 0,
+      fqt: this.currentOddsData.fqt || 0,
+      ybl: this.currentOddsData.ybl || 0,
+      ebl: this.currentOddsData.ebl || 0,
+      eby: this.currentOddsData.eby || 0,
+      sbl: this.currentOddsData.sbl || 0,
+      sby: this.currentOddsData.sby || 0,
+      sbe: this.currentOddsData.sbe || 0,
+      sibl: this.currentOddsData.sibl || 0,
+      siby: this.currentOddsData.siby || 0,
+      sibe: this.currentOddsData.sibe || 0,
+      wbl: this.currentOddsData.wbl || 0,
+      wby: this.currentOddsData.wby || 0,
+      wbe: this.currentOddsData.wbe || 0,
+      lbl: this.currentOddsData.lbl || 0,
+      yby: this.currentOddsData.yby || 0,
+      ebe: this.currentOddsData.ebe || 0,
+      sbs: this.currentOddsData.sbs || 0,
+      lby: this.currentOddsData.lby || 0,
+      lbe: this.currentOddsData.lbe || 0,
+      ybe: this.currentOddsData.ybe || 0,
+      lbs: this.currentOddsData.lbs || 0,
+      ybs: this.currentOddsData.ybs || 0,
+      ebs: this.currentOddsData.ebs || 0,
+      lbsi: this.currentOddsData.lbsi || 0,
+      ybsi: this.currentOddsData.ybsi || 0,
+      ebsi: this.currentOddsData.ebsi || 0,
+      lbw: this.currentOddsData.lbw || 0,
+      ybw: this.currentOddsData.ybw || 0,
+      ebw: this.currentOddsData.ebw || 0,
+    };
 
-        // 响应式更新数据
-        this.$set(this.finalDrawerList[targetDrawerIdx].lotteryList, targetItemIdx, updatedMatch);
-        // 向外派发选中事件
-        this.$emit("on-score-selected", this.finalDrawerList);
-      }
+    // 关键日志：确认弹窗存储完整赔率到赛事对象
+    console.log(`【${updatedMatch.serial_number}】弹窗确认，同步完整赔率，sqt/pqt/fqt：`, updatedMatch.sqt, updatedMatch.pqt, updatedMatch.fqt);
+    console.log(`【${updatedMatch.serial_number}】本次选中比分列表：`, [...this.selectedScores]);
 
-      // 关闭弹窗
-      this.closePopup();
-    },
+    this.$set(this.finalDrawerList[targetDrawerIdx].lotteryList, targetItemIdx, updatedMatch);
+    this.$emit("on-score-selected", this.finalDrawerList);
+  }
+
+  this.closePopup();
+},
     // 关闭比分选择弹窗
     closePopup() {
       this.isPopupShow = false;
