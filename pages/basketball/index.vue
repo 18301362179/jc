@@ -57,8 +57,7 @@ import MatchScore from "@/pages/commn/basketball/MatchScore.vue";
 import MatchHalfFull from "@/pages/commn/basketball/MatchHalfFull.vue";
 import MixedPassList from "@/pages/commn/basketball/MixedPassList.vue"; // 混合过关组件
 import CustomHeader from "@/components/CustomHeader.vue";
-import { queryBasketBallLLottery, checkCode, wxLogin, checkSelectBasketball, recharge } from "@/api/demo";
-import { formatTimeToMDWeekHM } from "@/utils/data";
+import { queryBasketBallLLottery,  wxLogin, recharge } from "@/api/demo";
 import TipsPopup from "@/pages/commn/playTip";
 import { validateBetInput } from "@/utils/validate";
 import EmptyStop from "@/pages/commn/emptyStop.vue";
