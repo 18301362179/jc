@@ -96,11 +96,11 @@ export default {
 
   data() {
     return {
-      activeTab: 1,
+      activeTab: 0,
       // 新增：玩法列表添加混合过关
       typesList: ["混合过关", "胜平负", "让球胜平负", "总进球", "半全场", "比分"],
-      selectedType: ["胜平负"],
-      currentPlay: "胜平负",
+      selectedType: ["混合过关"],
+      currentPlay: "混合过关",
       showModal: false,
       hasToken: false,
       isPopupShowType: false,
@@ -166,7 +166,7 @@ export default {
   },
   computed: {
     targetLotteryType() {
-      return this.playTypeMap[this.currentPlay] || "spf";
+      return this.playTypeMap[this.currentPlay] || "hhgg";
     },
     // 完整的选中场次计数逻辑（仅修复计算错误，不改动串关规则）
     selectedMatchCount() {
@@ -206,7 +206,7 @@ export default {
       if (this.currentPlay === "混合过关") {
         // 混合过关单独处理
         if (this.currentPlay === "混合过关") {
-          return this.drawerList.some((drawer) => drawer.lotteryList.some((match) => match.is_stop === false && match.betRows.some((row) => row.items.some((item) => item.isSelected))));
+          return this.drawerList.some((drawer) => drawer.lotteryList.some((match) =>  match.betRows.some((row) => row.items.some((item) => item.isSelected))));
         }
       }
 
@@ -326,7 +326,7 @@ export default {
       this.drawerList.forEach((drawer) => {
         if (!Array.isArray(drawer.lotteryList)) return;
         drawer.lotteryList.forEach((match) => {
-          if (match.is_stop || !match.id) return;
+          if (!match.id) return;
           // 兜底：没有数组则置为空数组，避免报错
           const spf = Array.isArray(match.selectedSpf) ? match.selectedSpf : [];
           const bifen = Array.isArray(match.selectedBifen) ? match.selectedBifen : [];
@@ -582,7 +582,6 @@ export default {
                   race_date: match.race_date,
                   home_name: match.home_name,
                   visiting_name: match.visiting_name,
-                  is_stop: match.is_stop,
                   home_win_rate: match.home_win_rate,
                   draw_rate: match.draw_rate,
                   visiting_win_rate: match.visiting_win_rate,
@@ -695,7 +694,6 @@ export default {
           race_date: item.race_date,
           home_name: item.home_name,
           visiting_name: item.visiting_name,
-          is_stop: item.is_stop,
           homeSelected: item.homeSelected,
           vsSelected: item.vsSelected,
           awaySelected: item.awaySelected,
@@ -936,7 +934,6 @@ export default {
                 visiting_name: "吉达联合",
                 home_win_rate: "65%", // 胜率字段
                 visiting_win_rate: "35%", // 胜率字段
-                is_stop: false, // 改为未停售
                 // ========== 核心新增：初始化所有玩法的选中数组 ==========
                 selectedSpf: [], // 胜平负/让球胜平负选中数组
                 selectedBifen: [], // 比分选中数组
@@ -985,7 +982,6 @@ export default {
             home_name: item.homeTeam || item.home_name || "",
             visiting_name: item.awayTeam || item.visiting_name || "",
             date_str: item.date_str,
-            is_stop: item.is_stop || false,
 
             // 完善betRows结构：补充赔率、value等字段
             betRows: item.betRows

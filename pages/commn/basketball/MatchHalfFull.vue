@@ -16,8 +16,7 @@
           <view class="match-status-row">
             <view class="status-left">
               <!-- 单场标签：无停时，根据is_sf_single显示 -->
-              <text class="single-tag" v-if="item.is_dxf_single == 1 && item.is_stop == 0">单</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <text class="single-tag" v-if="item.is_dxf_single == 1">单</text>
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
@@ -59,18 +58,18 @@
               </view>
 
               <!-- 大小分选项：样式统一，保留三列结构 -->
-              <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
-                <view class="odds-trigger-area" :class="{ 'disabled-trigger': item.is_stop == 1 }">
+              <view class="bottom-right">
+                <view class="odds-trigger-area">
 <view class="odds-row">
-                    <view class="match-cell home" :class="{ selected: item.awaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'awaySelected')"> 小分{{ item.dxf_x_multiplier || "--" }} 
+                    <view class="match-cell home" :class="{ selected: item.awaySelected }" @click="checkAndSelect(item, 'awaySelected')"> 小分{{ item.dxf_x_multiplier || "--" }} 
                       <text v-if="item.dxf_x_multiplier_c == 1" class="up">↑</text>
                       <text v-if="item.dxf_x_multiplier_c == -1" class="down">↓</text>
                     </view>
 
-                    <view class="match-cell middle" style="color: #999" :class="{ 'stop-cell': item.is_stop == 1 }">
+                    <view class="match-cell middle" style="color: #999">
                       {{ item.dxf_goal || "--" }}
                     </view>
-                    <view class="match-cell away" :class="{ selected: item.homeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'homeSelected')"> 大分{{ item.dxf_d_multiplier || "--" }} 
+                    <view class="match-cell away" :class="{ selected: item.homeSelected}" @click=" checkAndSelect(item, 'homeSelected')"> 大分{{ item.dxf_d_multiplier || "--" }} 
                       <text v-if="item.dxf_d_multiplier_c == 1" class="up">↑</text>
                       <text v-if="item.dxf_d_multiplier_c == -1" class="down">↓</text>
                     </view>

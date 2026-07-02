@@ -14,8 +14,8 @@
           <!-- 状态行 -->
           <view class="match-status-row">
             <view class="status-left">
-              <text class="single-tag" v-if="item.is_hhgg_single == 1 && item.is_stop == 0">单</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <text class="single-tag" v-if="item.is_hhgg_single == 1 ">单</text>
+              
               <image class="after-tag-icon" src="/static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
             </view>
             <view class="status-right">
@@ -69,19 +69,19 @@
                 <view class="spf-select-col">
                   <view class="spf-row">
                     <!-- 第一行：rowIndex=0，itemIndex依次0/1/2 -->
-                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_0'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_0', 0, 0)">
+                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_0')}]" @click="handleSpfMultiClick(item, 'home_0', 0, 0)">
                       <text class="spf-text">主胜</text>
                       <text class="spf-odds">{{ item.win_multiplier !== undefined && item.win_multiplier !== null ? item.win_multiplier : "--" }}</text>
                       <text v-if="item.win_multiplier_c == 1" class="up">↑</text>
                       <text v-if="item.win_multiplier_c == -1" class="down">↓</text>
                     </view>
-                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'draw_0'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'draw_0', 0, 1)">
+                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'draw_0')}]" @click="handleSpfMultiClick(item, 'draw_0', 0, 1)">
                       <text class="spf-text">平</text>
                       <text class="spf-odds">{{ item.draw_multiplier !== undefined && item.draw_multiplier !== null ? item.draw_multiplier : "--" }}</text>
                       <text v-if="item.draw_multiplier_c == 1" class="up">↑</text>
                       <text v-if="item.draw_multiplier_c == -1" class="down">↓</text>
                     </view>
-                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'away_0'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'away_0', 0, 2)">
+                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'away_0')}]" @click="handleSpfMultiClick(item, 'away_0', 0, 2)">
                       <text class="spf-text">主负</text>
                       <text class="spf-odds">{{ item.loss_multiplier !== undefined && item.loss_multiplier !== null ? item.loss_multiplier : "--" }}</text>
                       <text v-if="item.loss_multiplier_c == 1" class="up">↑</text>
@@ -90,19 +90,19 @@
                   </view>
                   <view class="spf-row">
                     <!-- 第二行：rowIndex=1，itemIndex依次0/1/2 -->
-                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_-1'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_-1', 1, 0)">
+                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_-1')}]" @click="handleSpfMultiClick(item, 'home_-1', 1, 0)">
                       <text class="spf-text">主胜</text>
                       <text class="spf-odds">{{ item.r_win_multiplier !== undefined && item.r_win_multiplier !== null ? item.r_win_multiplier : "--" }}</text>
                       <text v-if="item.r_win_multiplier_c == 1" class="up">↑</text>
                       <text v-if="item.r_win_multiplier_c == -1" class="down">↓</text>
                     </view>
-                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'draw_-1'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'draw_-1', 1, 1)">
+                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'draw_-1')}]" @click="handleSpfMultiClick(item, 'draw_-1', 1, 1)">
                       <text class="spf-text">平</text>
                       <text class="spf-odds">{{ item.r_draw_multiplier !== undefined && item.r_draw_multiplier !== null ? item.r_draw_multiplier : "--" }}</text>
                       <text v-if="item.r_draw_multiplier_c == 1" class="up">↑</text>
                       <text v-if="item.r_draw_multiplier_c == -1" class="down">↓</text>
                     </view>
-                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'away_-1'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'away_-1', 1, 2)">
+                    <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'away_-1')}]" @click="handleSpfMultiClick(item, 'away_-1', 1, 2)">
                       <text class="spf-text">主负</text>
                       <text class="spf-odds">{{ item.r_loss_multiplier !== undefined && item.r_loss_multiplier !== null ? item.r_loss_multiplier : "--" }}</text>
                       <text v-if="item.r_loss_multiplier_c == 1" class="up">↑</text>
@@ -111,7 +111,7 @@
                   </view>
                 </view>
                 <!-- 新增：展开按钮禁用 -->
-                <view class="expand-btn-col" @click="openScorePopup(item)" :class="[{ disabled: item.is_stop == 1 }]">
+                <view class="expand-btn-col" @click="openScorePopup(item)">
                   <text class="expand-text">展开</text>
                   <text class="expand-more">全部</text>
                 </view>
@@ -546,7 +546,7 @@
         <!-- 底部固定按钮栏 -->
         <view class="popup-btn-bar">
           <button class="cancel-btn" @click="closePopup" hover-class="none">取消</button>
-          <button class="confirm-btn" @click="confirmSelection" hover-class="none" :disabled="currentMatch.is_stop == 1">确定</button>
+          <button class="confirm-btn" @click="confirmSelection" hover-class="none" >确定</button>
         </view>
       </view>
     </view>
@@ -565,7 +565,7 @@ export default {
   data() {
     return {
       isPopupShow: false,
-      currentMatch: { data2: {}, r_goal: -1, is_stop: 0, selectedSpf: [], selectedBifen: [], selectedZjq: [], selectedBqc: [] },
+      currentMatch: { data2: {}, r_goal: -1,  selectedSpf: [], selectedBifen: [], selectedZjq: [], selectedBqc: [] },
       selectedScores: { bifen: [], zjq: [], bqc: [], spf: [], rspf: [] },
       MAX_SELECT_COUNT: 10,
       MAX_MATCH_COUNT: 8,
@@ -712,17 +712,11 @@ export default {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
     handleSpfMultiClick(item, selectType, rowIndex, itemIndex) {
-      // 停售判断
-      if (item.is_stop == 1) {
-        uni.showToast({ title: "该场次已停售", icon: "none" });
-        return;
-      }
       this.$emit("toggle-mixed-select", item, selectType);
     },
     getScoreClass(plate, value, multiplier) {
       const arr = this.selectedScores[plate] || [];
       const isDisabled = (() => {
-        if (this.currentMatch.is_stop == 1) return true;
         if (plate === "spf" && (multiplier === undefined || multiplier === null)) return true;
         return false;
       })();
@@ -736,7 +730,7 @@ export default {
       console.log(plate, value, 'liangge')
       try {
         // 2. 停售/加载中判断日志
-        if (this.isLoading || this.currentMatch.is_stop == 1) {
+        if (this.isLoading) {
           return;
         }
 
@@ -776,10 +770,7 @@ export default {
       }
     },
     openScorePopup(match) {
-      // 停售状态下禁止打开弹窗
-      if (match.is_stop == 1) {
-        return;
-      }
+
       // 深拷贝避免修改原数据
       this.currentMatch = this.deepClone(match);
       if (!this.currentMatch.data2) {
@@ -856,7 +847,7 @@ export default {
     },
 confirmSelection() {
   try {
-    if (!this.currentMatch || this.isLoading || this.currentMatch.is_stop == 1) {
+    if (!this.currentMatch || this.isLoading ) {
       uni.showToast({ title: "该场次已停售", icon: "none" });
       return;
     }

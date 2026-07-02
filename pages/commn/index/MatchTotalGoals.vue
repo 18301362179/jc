@@ -15,9 +15,9 @@
           <view class="match-status-row">
             <view class="status-left">
               <!-- 单场标签：无停时，根据is_zjq_single显示 -->
-              <text class="single-tag" v-if="item.is_zjq_single == 1 && item.is_stop == 0">单</text>
+              <text class="single-tag" v-if="item.is_zjq_single == 1 ">单</text>
               <!-- 新增：停售标签 -->
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 → 修复@tap.stop改为@click.stop -->
@@ -59,8 +59,7 @@
                     :key="gIdx"
                     class="goal-option"
                     :class="{
-                      selected: item.selectedGoals && item.selectedGoals.includes(goal.value),
-                      disabled: item.is_stop == 1, // 新增：停售禁用类
+                      selected: item.selectedGoals && item.selectedGoals.includes(goal.value)
                     }"
                     @click="() => checkAndSelect(item, goal.value)"
                   >
@@ -76,8 +75,7 @@
                     :key="gIdx"
                     class="goal-option"
                     :class="{
-                      selected: item.selectedGoals && item.selectedGoals.includes(goal.value),
-                      disabled: item.is_stop == 1, // 新增：停售禁用类
+                      selected: item.selectedGoals && item.selectedGoals.includes(goal.value)
                     }"
                     @click="() => checkAndSelect(item, goal.value)"
                   >
@@ -196,11 +194,6 @@ export default {
     },
     // 核心：校验8场限制 + 调用原有toggleGoalSelect
     checkAndSelect(item, goalValue) {
-      // 新增：停售状态直接返回，禁止点击
-      if (item.is_stop == 1) {
-        return;
-      }
-
       // 1. 判断当前比赛是否已被选中（总进球逻辑）
       const isCurrentMatchSelected = item.selectedGoals && item.selectedGoals.length > 0;
       // 2. 判断当前点击的是「取消选中」还是「新增选中」

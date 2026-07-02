@@ -16,8 +16,8 @@
           <!-- 新增：match-row 内部的状态行（第一行） -->
           <view class="match-status-row">
           <view class="status-left">
-            <text class="single-tag" v-if="item.is_spf_single == 1 && item.is_stop == 0">单</text>
-            <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+            <text class="single-tag" v-if="item.is_spf_single == 1 ">单</text>
+            
             <image class="after-tag-icon" src="/static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
           </view>
             <view class="status-right">
@@ -40,8 +40,7 @@
               <view
                 class="match-cell home"
                 :class="{
-                  selected: item.homeSelected,
-                  disabled: item.is_stop == 1, // 新增：停售时添加disabled类
+                  selected: item.homeSelected
                 }"
                 @click="() => checkAndSelect(item, 'homeSelected')"
               >
@@ -59,8 +58,7 @@
               <view
                 class="match-cell vs"
                 :class="{
-                  selected: item.vsSelected,
-                  disabled: item.is_stop == 1, // 新增：停售时添加disabled类
+                  selected: item.vsSelected
                 }"
                 @click="() => checkAndSelect(item, 'vsSelected')"
               >
@@ -78,8 +76,7 @@
               <view
                 class="match-cell away"
                 :class="{
-                  selected: item.awaySelected,
-                  disabled: item.is_stop == 1, // 新增：停售时添加disabled类
+                  selected: item.awaySelected
                 }"
                 @click="() => checkAndSelect(item, 'awaySelected')"
               >
@@ -184,10 +181,7 @@ export default {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
     checkAndSelect(item, selectType) {
-      // 新增：停售状态下直接返回，不执行选择逻辑
-      if (item.is_stop == 1) {
-        return;
-      }
+
 
       const isCancel = item[selectType];
       const isAdd = !isCancel;

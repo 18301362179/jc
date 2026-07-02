@@ -84,7 +84,7 @@ export default {
   },
   data() {
     return {
-      activeTab: 1,
+      activeTab: 0,
       typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
       selectedType: ["胜负"],
       currentPlay: "胜负",

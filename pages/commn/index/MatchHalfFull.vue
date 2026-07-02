@@ -16,8 +16,8 @@
           <!-- ========== 第一行：停/单场 + 分析按钮（和总进球一致） ========== -->
           <view class="match-status-row">
             <view class="status-left">
-              <text class="single-tag" v-if="item.is_bqc_single == 1 && item.is_stop == 0">单</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <text class="single-tag" v-if="item.is_bqc_single == 1 ">单</text>
+              
             </view>
             <view class="status-right">
               <!-- 仅改：@tap.stop 改为 @click.stop，其他不变 -->
@@ -54,13 +54,13 @@
                   <text class="rate-text away" v-if="item.visiting_win_rate&&$urlValue">胜率{{ item.visiting_win_rate || "--" }}</text>
                 </view>
               </view>
-              <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
+              <view class="bottom-right" >
                 <view
                   class="score-trigger-area"
-                  @click="item.is_stop != 1 && openScorePopup(item)"
+                  @click="openScorePopup(item)"
                   :class="{
-                    'selected-trigger': item.selectedScores && item.selectedScores.length > 0,
-                    'disabled-trigger': item.is_stop == 1,
+                    'selected-trigger': item.selectedScores && item.selectedScores.length > 0
+
                   }"
                 >
                   <text v-if="item.selectedScores && item.selectedScores.length > 0" class="selected-text">

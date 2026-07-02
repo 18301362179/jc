@@ -18,8 +18,8 @@
             <view class="status-left">
               <!-- 单场标签：样式统一 -->
               <!-- 单场标签：无停时，根据is_sf_single显示 -->
-              <text class="single-tag" v-if="item.is_sfc_single == 1 && item.is_stop == 0">单</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <text class="single-tag" v-if="item.is_sfc_single == 1 ">单</text>
+            
             </view>
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
@@ -62,8 +62,8 @@
               </view>
 
               <!-- 比分选择区：样式统一 -->
-              <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
-                <view class="score-trigger-area odds-trigger-area" @click="item.is_stop != 1 && openScorePopup(item)" :class="{ 'selected-trigger': item.selectedScores && item.selectedScores.length > 0, 'disabled-trigger': item.is_stop == 1 }" hover-class="none">
+              <view class="bottom-right" >
+                <view class="score-trigger-area odds-trigger-area" @click="openScorePopup(item)" :class="{ 'selected-trigger': item.selectedScores && item.selectedScores.length > 0}" hover-class="none">
                   <text v-if="item.selectedScores && item.selectedScores.length > 0" class="selected-text">
                     {{ item.selectedScores.join(",") }}
                   </text>

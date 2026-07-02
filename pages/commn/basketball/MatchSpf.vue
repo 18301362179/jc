@@ -17,8 +17,8 @@
             <view class="status-left">
               <!-- 单场标签：样式统一 -->
               <!-- 单场标签：无停时，根据is_sf_single显示 -->
-              <text class="single-tag" v-if="item.is_sf_single == 1 && item.is_stop == 0">单</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <text class="single-tag" v-if="item.is_sf_single == 1 ">单</text>
+              
               <image class="after-tag-icon" src="/static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
             </view>
             <view class="status-right">
@@ -65,12 +65,12 @@
               <view class="bottom-right">
                 <view class="odds-trigger-area">
 <view class="odds-row">
-    <view class="match-cell away" :class="{ selected: item.awaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'awaySelected')"> 
+    <view class="match-cell away" :class="{ selected: item.awaySelected}" @click="checkAndSelect(item, 'awaySelected')"> 
         主负{{ item.loss_multiplier || "--" }} 
         <text v-if="item.loss_multiplier_c == 1" class="up">↑</text>
         <text v-if="item.loss_multiplier_c == -1" class="down">↓</text>
     </view>
-    <view class="match-cell home" :class="{ selected: item.homeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'homeSelected')"> 
+    <view class="match-cell home" :class="{ selected: item.homeSelected}" @click="checkAndSelect(item, 'homeSelected')"> 
         主胜{{ item.win_multiplier || "--" }} 
         <text v-if="item.win_multiplier_c == 1" class="up">↑</text>
         <text v-if="item.win_multiplier_c == -1" class="down">↓</text>
