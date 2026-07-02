@@ -35,8 +35,7 @@ import EmptyStop from "@/pages/commn/emptyStop.vue";
 import BetBar from "@/pages/commn/betBar/index.vue";
 import DrawNumSelector from "@/pages/commn/DrawNumSelector/index.vue";
 // API和工具函数引入
-import { footballLotteryTradition, checkSelect, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
-import { formatTimeToMDWeekHM } from "@/utils/data";
+import { footballLotteryTradition, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
 
 export default {
   components: {
@@ -440,12 +439,11 @@ export default {
       try {
         this.showLoading();
         const reqParams = {
-          id: item.id,
+          matchId: item.match_id,
           isLottery: 1,
           isTradition: 1,
           beFrom: "football",
-          serialNumber: item.draw_num,
-          dateStr: item.match_num,
+
         };
         // 调用recharge接口
         const res = await recharge(reqParams);

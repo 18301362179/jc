@@ -36,9 +36,7 @@ import BetBar from "@/pages/commn/betBar/index.vue";
 import DrawNumSelector from "@/pages/commn/DrawNumSelector/index.vue"; // 🌟 新增
 
 // API和工具函数引入：🌟 新增footballLotteryTraditionDrawNum
-import { footballLotteryTradition, checkSelect, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
-import { formatTimeToMDWeekHM } from "@/utils/data";
-
+import { footballLotteryTradition, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
 export default {
   components: {
     List,
@@ -431,10 +429,8 @@ export default {
       try {
         this.showLoading();
         const reqParams = {
-          id: item.id,
+          matchId: item.match_id,
           beFrom: "football",
-          serialNumber: item.draw_num,
-          dateStr: item.match_num,
           isLottery: 1,
           playType: "半全场",
         };

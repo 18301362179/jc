@@ -71,7 +71,7 @@ import MatchHalfFull from "@/pages/commn/index/MatchHalfFull.vue";
 import CustomHeader from "@/components/CustomHeader.vue";
 // 新增：引入混合过关列表组件
 import MixedPassList from "@/pages/commn/index/MixedPassList.vue";
-import { queryFootBallLLottery, checkCode, wxLogin, checkSelect, recharge } from "@/api/demo";
+import { queryFootBallLLottery, wxLogin, recharge } from "@/api/demo";
 import { formatTimeToMDWeekHM } from "@/utils/data";
 import TipsPopup from "@/pages/commn/playTip";
 import { validateBetInput } from "@/utils/validate";
@@ -1182,10 +1182,8 @@ export default {
     async goToAiAnalysis(item) {
       // 组装接口参数
       const reqParams = {
-        id: item.id,
+        matchId: item.match_id,
         beFrom: "football",
-        serialNumber: item.serial_number || "",
-        dateStr: item.date_str,
         isLottery: 1,
       };
       // 调用recharge接口
