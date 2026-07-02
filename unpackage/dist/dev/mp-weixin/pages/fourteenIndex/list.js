@@ -132,7 +132,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 //
 //

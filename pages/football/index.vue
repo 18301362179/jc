@@ -95,8 +95,8 @@ export default {
       activeTab: 1,
       // 新增：玩法列表添加混合过关
       typesList: ["混合过关", "胜平负", "让胜平负", "总进球", "半全场", "比分"],
-      selectedType: ["胜平负"],
-      currentPlay: "胜平负",
+      selectedType: ["混合过关"],
+      currentPlay: "混合过关",
       showModal: false,
       hasToken: false,
       isPopupShowType: false,
@@ -155,7 +155,7 @@ export default {
   },
   computed: {
     targetLotteryType() {
-      return this.playTypeMap[this.currentPlay] || "spf";
+      return this.playTypeMap[this.currentPlay] || "hhgg";
     },
     // 完整的选中场次计数逻辑（仅修复计算错误，不改动串关规则）
 selectedMatchCount() {

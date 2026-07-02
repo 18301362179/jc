@@ -81,8 +81,8 @@ export default {
     return {
       activeTab: 1,
       typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
-      selectedType: ["胜负"],
-      currentPlay: "胜负",
+      selectedType: ["混合过关"],
+      currentPlay: "混合过关",
       hasToken: false,
       isPopupShowType: false,
       drawerList: [],
@@ -132,7 +132,7 @@ export default {
   },
   computed: {
     targetLotteryType() {
-      return this.playTypeMap[this.currentPlay] || "rsf";
+      return this.playTypeMap[this.currentPlay] || "hhgg";
     },
     
     selectedMatchCount() {

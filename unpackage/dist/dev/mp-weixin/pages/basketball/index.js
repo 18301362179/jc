@@ -271,8 +271,8 @@ var _default = {
     return {
       activeTab: 1,
       typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
-      selectedType: ["胜负"],
-      currentPlay: "胜负",
+      selectedType: ["混合过关"],
+      currentPlay: "混合过关",
       hasToken: false,
       isPopupShowType: false,
       drawerList: [],
@@ -345,7 +345,7 @@ var _default = {
   },
   computed: {
     targetLotteryType: function targetLotteryType() {
-      return this.playTypeMap[this.currentPlay] || "rsf";
+      return this.playTypeMap[this.currentPlay] || "hhgg";
     },
     selectedMatchCount: function selectedMatchCount() {
       var _this2 = this;
@@ -424,6 +424,7 @@ var _default = {
       var _this5 = this;
       this.selectedCombo = "";
       this.$nextTick(function () {
+        _this5.loadMatchData();
         _this5.$forceUpdate();
       });
     },

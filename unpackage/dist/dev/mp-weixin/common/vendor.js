@@ -10751,7 +10751,7 @@ var setCourseGoal = function setCourseGoal(data) {
 exports.setCourseGoal = setCourseGoal;
 var checkSelect = function checkSelect(data) {
   return (0, _request.default)({
-    url: baseUrl + '/purchasing/football/lottery/checkSelect',
+    url: baseUrl + '/football/lottery/checkSelect',
     method: 'GET',
     data: data
   });
@@ -10759,7 +10759,7 @@ var checkSelect = function checkSelect(data) {
 exports.checkSelect = checkSelect;
 var checkSelectBasketball = function checkSelectBasketball(data) {
   return (0, _request.default)({
-    url: baseUrl + '/purchasing/football/lottery/checkSelect',
+    url: baseUrl + '/football/lottery/checkSelect',
     method: 'GET',
     data: data
   });
@@ -10767,7 +10767,7 @@ var checkSelectBasketball = function checkSelectBasketball(data) {
 exports.checkSelectBasketball = checkSelectBasketball;
 var purchasingLotteryApply = function purchasingLotteryApply(data) {
   return (0, _request.default)({
-    url: baseUrl + '/purchasing/lottery/apply',
+    url: baseUrl + '/lottery/apply',
     method: 'POST',
     data: data
   });
@@ -10775,7 +10775,7 @@ var purchasingLotteryApply = function purchasingLotteryApply(data) {
 exports.purchasingLotteryApply = purchasingLotteryApply;
 var purchasingLotteryConfirm = function purchasingLotteryConfirm(data) {
   return (0, _request.default)({
-    url: baseUrl + '/purchasing/lottery/confirm',
+    url: baseUrl + '/lottery/confirm',
     method: 'GET',
     data: data
   });
@@ -10783,7 +10783,7 @@ var purchasingLotteryConfirm = function purchasingLotteryConfirm(data) {
 exports.purchasingLotteryConfirm = purchasingLotteryConfirm;
 var purchasingLotteryQueryById = function purchasingLotteryQueryById(data) {
   return (0, _request.default)({
-    url: baseUrl + '/purchasing/lottery/queryById',
+    url: baseUrl + '/lottery/queryById',
     method: 'GET',
     data: data
   });
@@ -10791,7 +10791,7 @@ var purchasingLotteryQueryById = function purchasingLotteryQueryById(data) {
 exports.purchasingLotteryQueryById = purchasingLotteryQueryById;
 var queryHomeAndVisitingGoalOdds = function queryHomeAndVisitingGoalOdds(data) {
   return (0, _request.default)({
-    url: baseUrl + '/purchasing/football/lottery/goalOdds',
+    url: baseUrl + '/football/lottery/goalOdds',
     method: 'GET',
     data: data
   });
@@ -10866,7 +10866,7 @@ var userShare = function userShare(data) {
 exports.userShare = userShare;
 var footballLotteryTradition = function footballLotteryTradition(data) {
   return (0, _request.default)({
-    url: baseUrl + '/purchasing/football/lottery/tradition',
+    url: baseUrl + '/football/lottery/tradition',
     method: 'GET',
     data: data
   });
@@ -10874,7 +10874,7 @@ var footballLotteryTradition = function footballLotteryTradition(data) {
 exports.footballLotteryTradition = footballLotteryTradition;
 var footballLotteryTraditionDrawNum = function footballLotteryTraditionDrawNum(data) {
   return (0, _request.default)({
-    url: baseUrl + '/purchasing/football/lottery/tradition/drawNum',
+    url: baseUrl + '/football/lottery/tradition/drawNum',
     method: 'GET',
     data: data
   });
@@ -10922,7 +10922,7 @@ var getTradeRecord = function getTradeRecord(data) {
 exports.getTradeRecord = getTradeRecord;
 var footLotteryLive = function footLotteryLive(data) {
   return (0, _request.default)({
-    url: baseUrl + "/purchasing/foot/lottery/live",
+    url: baseUrl + "/foot/lottery/live",
     method: 'GET',
     data: data
   });
@@ -10930,7 +10930,7 @@ var footLotteryLive = function footLotteryLive(data) {
 exports.footLotteryLive = footLotteryLive;
 var basketLotteryLive = function basketLotteryLive(data) {
   return (0, _request.default)({
-    url: baseUrl + "/purchasing/basket/lottery/live",
+    url: baseUrl + "/basket/lottery/live",
     method: 'GET',
     data: data
   });
@@ -10978,7 +10978,7 @@ var platformSysMessageRead = function platformSysMessageRead(data) {
 exports.platformSysMessageRead = platformSysMessageRead;
 var purchasingFootballInfo = function purchasingFootballInfo(data) {
   return (0, _request.default)({
-    url: baseUrl + "/purchasing/football/infoPageData",
+    url: baseUrl + "/football/infoPageData",
     method: 'GET',
     data: data
   });
@@ -10988,7 +10988,7 @@ var purchasingFootballInfo = function purchasingFootballInfo(data) {
 exports.purchasingFootballInfo = purchasingFootballInfo;
 var purchasingBasketballInfo = function purchasingBasketballInfo(data) {
   return (0, _request.default)({
-    url: baseUrl + "/purchasing/basketball/infoPageData",
+    url: baseUrl + "/basketball/infoPageData",
     method: 'GET',
     data: data
   });
@@ -10996,7 +10996,7 @@ var purchasingBasketballInfo = function purchasingBasketballInfo(data) {
 exports.purchasingBasketballInfo = purchasingBasketballInfo;
 var purchasingFootballPoints = function purchasingFootballPoints(data) {
   return (0, _request.default)({
-    url: baseUrl + "/purchasing/football/points",
+    url: baseUrl + "/football/points",
     method: 'GET',
     data: data
   });
