@@ -77,7 +77,6 @@
 </template>
 
 <script>
-import { queryHomeAndVisitingGoalOdds } from "@/api/demo";
 export default {
   props: {
     matchList: { type: Array, default: () => [] },
