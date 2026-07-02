@@ -211,6 +211,7 @@ export default {
     currentPlay() {
       this.selectedCombo = "";
       this.$nextTick(() => {
+        this.loadMatchData();
         this.$forceUpdate();
       });
     },
