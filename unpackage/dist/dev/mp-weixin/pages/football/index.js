@@ -1745,7 +1745,7 @@ var _default = {
                 reqParams = {
                   id: item.id,
                   beFrom: "football",
-                  serialNumber: item.serial_number || "",
+                  
                   dateStr: item.date_str,
                   isLottery: 1
                 }; // 调用recharge接口

@@ -356,12 +356,10 @@ export default {
       try {
         this.showLoading();
         const reqParams = {
-          id: item.id,
           isLottery: 0,
           isTradition: 1,
           beFrom: "football",
-          serialNumber: item.serial_number,
-          dateStr: item.date_str,
+          matchId: item.id
         };
         const res = await recharge(reqParams);
         if (res.data.status == "fail") {

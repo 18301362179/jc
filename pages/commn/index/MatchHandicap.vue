@@ -18,8 +18,7 @@
           <view class="match-status-row">
             <view class="status-left">
               <!-- 单场标签：无停时，根据is_rspf_single显示 -->
-              <text class="single" v-if="item.is_rspf_single == 1 && item.is_stop == 0">单</text>
-              <text class="single" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <text class="single" v-if="item.is_rspf_single == 1 ">单</text>
             </view>
             <view class="status-right">
               <!-- 右侧分析按钮：仅在有胜数据时显示 -->
@@ -43,7 +42,7 @@
             </view>
             <!-- 让胜平负玩法单元格（保留原有字段，点击事件替换为校验方法） -->
 <view class="match-cells" style="background: #fff">
-  <view class="match-cell home" :class="{ selected: item.handicapHomeSelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapHomeSelected')">
+  <view class="match-cell home" :class="{ selected: item.handicapHomeSelected}" @click=" checkAndSelect(item, 'handicapHomeSelected')">
     <view class="team-name">
       {{ item.home_name }}
       <text v-if="item.r_goal && item.r_goal !== ''" class="handicap-num">
@@ -70,7 +69,7 @@
     </text>
   </view>
 
-  <view class="match-cell vs" :class="{ selected: item.handicapVsSelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapVsSelected')">
+  <view class="match-cell vs" :class="{ selected: item.handicapVsSelected}" @click=" checkAndSelect(item, 'handicapVsSelected')">
     <text class="vs-text">VS</text>
     <text class="vs-odds" v-if="item.r_draw_multiplier">
       平{{ item.r_draw_multiplier }}
@@ -83,7 +82,7 @@
     </text>
   </view>
 
-  <view class="match-cell away" :class="{ selected: item.handicapAwaySelected, disabled: item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'handicapAwaySelected')">
+  <view class="match-cell away" :class="{ selected: item.handicapAwaySelected}" @click=" checkAndSelect(item, 'handicapAwaySelected')">
     <text class="team-name">{{ item.visiting_name }}</text>
     <text class="odds" v-if="item.r_loss_multiplier">
       主负{{ item.r_loss_multiplier }}
@@ -200,10 +199,6 @@ export default {
     },
     // 核心：校验8场限制 + 调用原有toggleSelect
     checkAndSelect(item, selectType) {
-      if (item.is_stop == 1) {
-        return;
-      }
-      // 1. 判断当前点击的是「取消选中」还是「新增选中」
       const isCancel = item[selectType]; // 已有选中状态 → 取消
       const isAdd = !isCancel; // 无选中状态 → 新增
 

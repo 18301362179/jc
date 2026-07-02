@@ -14,8 +14,7 @@
           <!-- 状态行 -->
           <view class="match-status-row">
             <view class="status-left">
-              <text class="single-tag" v-if="item.is_hhgg_single == 1 && item.is_stop == 0">单</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <text class="single-tag" v-if="item.is_hhgg_single == 1">单</text>
               <image class="after-tag-icon" src="https://www.tianjifu.com//static/jian.png" v-if="item.is_rec == 1" mode="widthFix"></image>
             </view>
             <view class="status-right">
@@ -67,13 +66,13 @@
                 </view>
                 <view class="spf-select-col">
 <view class="spf-row">
-  <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_lose'), disabled: item.is_stop == 1 || !item.loss_multiplier }]" @click="handleSpfMultiClick(item, 'home_lose')">
+  <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_lose'), disabled:  !item.loss_multiplier }]" @click="handleSpfMultiClick(item, 'home_lose')">
     <text class="spf-text">主负</text>
     <text class="spf-odds">{{ item.loss_multiplier !== undefined && item.loss_multiplier !== null ? item.loss_multiplier : "--" }}</text>
     <text v-if="item.loss_multiplier_c == 1" class="up">↑</text>
     <text v-if="item.loss_multiplier_c == -1" class="down">↓</text>
   </view>
-  <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_win'), disabled: item.is_stop == 1 || !item.win_multiplier }]" @click="handleSpfMultiClick(item, 'home_win')">
+  <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_win'), disabled:  !item.win_multiplier }]" @click="handleSpfMultiClick(item, 'home_win')">
     <text class="spf-text">主胜</text>
     <text class="spf-odds">{{ item.win_multiplier !== undefined && item.win_multiplier !== null ? item.win_multiplier : "--" }}</text>
     <text v-if="item.win_multiplier_c == 1" class="up">↑</text>
@@ -81,13 +80,13 @@
   </view>
 </view>
 <view class="spf-row">
-  <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_lose_r'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_lose_r')">
+  <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_lose_r') }]" @click="handleSpfMultiClick(item, 'home_lose_r')">
     <text class="spf-text">主负</text>
     <text class="spf-odds">{{ item.r_loss_multiplier !== undefined && item.r_loss_multiplier !== null ? item.r_loss_multiplier : "--" }}</text>
     <text v-if="item.r_loss_multiplier_c == 1" class="up">↑</text>
     <text v-if="item.r_loss_multiplier_c == -1" class="down">↓</text>
   </view>
-  <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_win_r'), disabled: item.is_stop == 1 }]" @click="handleSpfMultiClick(item, 'home_win_r')">
+  <view class="spf-btn" :class="[{ selected: checkSelected(item.selectedSpf, 'home_win_r') }]" @click="handleSpfMultiClick(item, 'home_win_r')">
     <text class="spf-text">主胜</text>
     <text class="spf-odds">{{ item.r_win_multiplier !== undefined && item.r_win_multiplier !== null ? item.r_win_multiplier : "--" }}</text>
     <text v-if="item.r_win_multiplier_c == 1" class="up">↑</text>
@@ -304,7 +303,7 @@
         <!-- 底部按钮栏 -->
         <view class="popup-btn-bar">
           <button class="cancel-btn" @click="closePopup" hover-class="none">取消</button>
-          <button class="confirm-btn" @click="confirmSelection" hover-class="none" :disabled="currentMatch.is_stop == 1">确定</button>
+          <button class="confirm-btn" @click="confirmSelection" hover-class="none">确定</button>
         </view>
       </view>
     </view>
@@ -335,7 +334,6 @@ export default {
       isPopupShow: false,
       currentMatch: {
         r_goal: -1,
-        is_stop: 0,
         selectedSpf: [],
         selectedDx: [],
         selectedSfc: [],
@@ -533,10 +531,6 @@ export default {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
     handleSpfMultiClick(item, spfType) {
-      if (item.is_stop == 1) {
-        uni.showToast({ title: "该场次已停售", icon: "none" });
-        return;
-      }
       // 胜负类型赔率判断
       var isSpfType = ["home_win", "home_lose"].indexOf(spfType) > -1;
       if (isSpfType) {
@@ -567,7 +561,7 @@ export default {
     getScoreClass(plate, value, multiplier) {
       // 1. 基础选中/禁用判断（和原有逻辑一致）
       const targetArr = this.selectedScores && this.selectedScores[plate] ? this.selectedScores[plate] : [];
-      let isDisabled = this.currentMatch && this.currentMatch.is_stop === 1;
+      let isDisabled = this.currentMatch ;
       // 胜负板块额外校验赔率是否存在
       if (plate === "spf" && (multiplier === undefined || multiplier === null || multiplier === "")) {
         isDisabled = true;
@@ -583,7 +577,7 @@ export default {
       return classStr.trim();
     },
     handleScoreToggle(plate, value) {
-      if (this.isLoading || this.currentMatch.is_stop == 1) {
+      if (this.isLoading) {
         uni.showToast({ title: "操作不可用", icon: "none" });
         return;
       }
@@ -629,9 +623,6 @@ export default {
       }
     },
     openScorePopup(match) {
-      if (match.is_stop == 1) {
-        return;
-      }
       // 深拷贝避免修改原数据
       this.currentMatch = JSON.parse(JSON.stringify(match));
       this.isLoading = false; // 无需加载，直接设为false
@@ -662,7 +653,7 @@ export default {
       };
     },
     confirmSelection() {
-      if (!this.currentMatch || this.isLoading || this.currentMatch.is_stop == 1) return;
+      if (!this.currentMatch || this.isLoading ) return;
       this.finalDrawerList.forEach(
         function (drawer) {
           drawer.lotteryList.forEach(

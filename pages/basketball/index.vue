@@ -444,12 +444,6 @@ export default {
           return;
         }
       }
-      // 5. 停售校验
-      const matchSerials = selectedMatches.map((item) => item.serial_number).join(",");
-      try {
-        this.showLoading();
-        const res = await checkSelectBasketball({ lotteryIds: matchSerials });
-        if (res.data && res.data.status == 1) {
           // 6. 玩法与编辑页面匹配
           const basketballPlayToPageMap = {
             "胜负": "/pages/edit/basketball/index",
@@ -478,41 +472,7 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
               });
             },
           });
-        } else {
-          uni.showModal({
-            title: "提示",
-            content: "抱歉存在停售场次，请重新选择!",
-            showCancel: false,
-            confirmText: "我知道了",
-            success: (modalRes) => {
-              if (modalRes.confirm) {
-                this.drawerList = [];
-                this.loadMatchData();
-                this.betCount = 1;
-                this.selectedCombo = "";
-              }
-            },
-          });
-        }
-      } catch (error) {
-        console.error("checkSelectBasketball接口调用失败:", error);
-        uni.showModal({
-          title: "错误",
-          content: "验证失败，请稍后重试",
-          showCancel: false,
-          confirmText: "我知道了",
-          success: (modalRes) => {
-            if (modalRes.confirm) {
-              this.drawerList = [];
-              this.loadMatchData();
-              this.betCount = 1;
-              this.selectedCombo = "";
-            }
-          },
-        });
-      } finally {
-        this.hideLoading();
-      }
+
     },
     syncUpdatedMatches(updatedData) {
       if (!updatedData || !updatedData.matches) return;
@@ -850,10 +810,8 @@ const editUrl = basketballPlayToPageMap[this.currentPlay] || "/pages/edit/basket
       try {
         this.showLoading();
         const reqParams = {
-          id: item.id,
+          matchId: item.match_id,
           beFrom: "basketball",
-          serialNumber: item.serial_number || "",
-          dateStr: item.date_str,
           isLottery: 1,
         };
         // 调用recharge接口

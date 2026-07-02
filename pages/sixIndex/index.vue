@@ -454,10 +454,8 @@ export default {
       try {
         this.showLoading();
         const reqParams = {
-          id: item.id,
+          matchId: item.match_id,
           beFrom:"football",
-          serialNumber: item.draw_num,
-          dateStr: item.match_num,
           isLottery: 1,
           playType: '半全场',
           

@@ -17,8 +17,8 @@
           <!-- ========== 第一行状态行（和半全场完全一致） ========== -->
           <view class="match-status-row">
             <view class="status-left">
-              <text class="single-tag" v-if="item.is_stop == 0 && item.is_bf_single == 1">单</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <text class="single-tag" v-if="item.is_bf_single == 1">单</text>
+              
             </view>
             <view class="status-right">
               <!-- 仅改：@tap.stop 改为 @click.stop -->
@@ -58,13 +58,12 @@
                 </view>
               </view>
               <!-- 复刻半全场的bottom-right：仅保留宽度+溢出约束 -->
-              <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
+              <view class="bottom-right" >
                 <view
                   class="odds-trigger-area"
-                  @click="item.is_stop != 1 && openScorePopup(item)"
+                  @click=" openScorePopup(item)"
                   :class="{
-                    'selected-trigger': item.selectedScores && item.selectedScores.length > 0,
-                    'disabled-trigger': item.is_stop == 1,
+                    'selected-trigger': item.selectedScores && item.selectedScores.length > 0
                   }"
                   hover-class="none"
                 >

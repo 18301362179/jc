@@ -17,8 +17,7 @@
             <view class="status-left">
               <!-- 单场标签：样式统一 -->
               <!-- 单场标签：无停时，根据is_sf_single显示 -->
-              <text class="single-tag" v-if="item.is_rsf_single == 1 && item.is_stop == 0">单</text>
-              <text class="single-tag" style="background: #dedede" v-if="item.is_stop == 1">停</text>
+              <text class="single-tag" v-if="item.is_rsf_single == 1">单</text>
             </view>
             <view class="status-right">
               <!-- 分析按钮：样式统一 -->
@@ -77,15 +76,15 @@
               </view>
 
               <!-- 让分胜负按钮：样式统一 -->
-              <view class="bottom-right" :class="{ 'stop-bg': item.is_stop == 1 }">
-                <view class="odds-trigger-area" :class="{ 'disabled-trigger': item.is_stop == 1 }">
+              <view class="bottom-right">
+                <view class="odds-trigger-area">
               <view class="odds-row">
-                  <view class="match-cell away" :class="{ selected: item.rAwaySelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'rAwaySelected')"> 
+                  <view class="match-cell away" :class="{ selected: item.rAwaySelected }" @click="checkAndSelect(item, 'rAwaySelected')"> 
                       主负{{ item.r_loss_multiplier || "--" }} 
                       <text v-if="item.r_loss_multiplier_c == 1" class="up">↑</text>
                       <text v-if="item.r_loss_multiplier_c == -1" class="down">↓</text>
                   </view>
-                  <view class="match-cell home" :class="{ selected: item.rHomeSelected, 'stop-cell': item.is_stop == 1 }" @click="item.is_stop != 1 && checkAndSelect(item, 'rHomeSelected')"> 
+                  <view class="match-cell home" :class="{ selected: item.rHomeSelected}" @click=" checkAndSelect(item, 'rHomeSelected')"> 
                       主胜{{ item.r_win_multiplier || "--" }} 
                       <text v-if="item.r_win_multiplier_c == 1" class="up">↑</text>
                       <text v-if="item.r_win_multiplier_c == -1" class="down">↓</text>
