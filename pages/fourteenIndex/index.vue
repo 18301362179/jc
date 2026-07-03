@@ -82,9 +82,6 @@ import DrawNumSelector from '@/pages/commn/DrawNumSelector/index.vue' // 新增�
 
 // API和工具函数引入：🌟 新增footballLotteryTraditionDrawNum
 import { footballLotteryTradition, recharge, footballLotteryTraditionDrawNum } from "@/api/demo";
-import { formatTimeToMDWeekHM } from "@/utils/data";
-
-
 export default {
    
   components: {

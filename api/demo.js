@@ -161,21 +161,8 @@ export const setCourseGoal = (data) => {
     })
 }
 
-export const checkSelect = (data) => {
-    return request({
-        url: baseUrl + '/football/lottery/checkSelect',
-        method: 'GET',
-        data
-    })
-}
 
-export const checkSelectBasketball = (data) => {
-    return request({
-        url: baseUrl + '/football/lottery/checkSelect',
-        method: 'GET',
-        data
-    })
-}
+
 
 export const purchasingLotteryApply = (data) => {
     return request({
