@@ -804,7 +804,7 @@ export default {
       };
 
       // 异步请求赔率数据
-      queryHhgg({ id: match.id, serialNumber: match.serial_number, dateStr: match.date_str })
+      queryHhgg({ matchId: match.match_id})
         .then((res) => {
           if (res && res.data) {
             // 更新当前匹配数据（拷贝数据）
