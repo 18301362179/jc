@@ -85,8 +85,8 @@ export default {
     return {
       activeTab: 0,
       typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
-      selectedType: ["胜负"],
-      currentPlay: "胜负",
+      selectedType: ["混合过关"],
+      currentPlay: "混合过关",
       hasToken: false,
       isPopupShowType: false,
       drawerList: [],
@@ -136,7 +136,7 @@ export default {
   },
   computed: {
     targetLotteryType() {
-      return this.playTypeMap[this.currentPlay] || "rsf";
+      return this.playTypeMap[this.currentPlay] || "hhgg";
     },
     // 核心修复：selectedMatchCount 实时精准统计，和足球逻辑完全对齐
     selectedMatchCount() {
