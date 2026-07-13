@@ -144,13 +144,6 @@ var render = function () {
         return _vm.myValue(item)
       })($event)
     }
-    _vm.e1 = function ($event, item) {
-      var _temp3 = arguments[arguments.length - 1].currentTarget.dataset,
-        _temp4 = _temp3.eventParams || _temp3["event-params"],
-        item = _temp4.item
-      var _temp3, _temp4
-      item.is_stop != 1 && _vm.openScorePopup(item)
-    }
   }
   _vm.$mp.data = Object.assign(
     {},

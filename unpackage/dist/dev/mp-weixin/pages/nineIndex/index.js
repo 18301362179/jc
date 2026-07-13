@@ -615,10 +615,8 @@ var _default = {
                 _context4.prev = 0;
                 _this8.showLoading();
                 reqParams = {
-                  id: item.id,
+                  matchId: item.match_id,
                   beFrom: "football",
-                  serialNumber: item.draw_num,
-                  dateStr: item.match_num,
                   isLottery: 1,
                   isTradition: 1
                 }; // 调用recharge接口

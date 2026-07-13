@@ -125,7 +125,6 @@ var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
-var _data = __webpack_require__(/*! @/utils/data */ 63);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var List = function List() {
@@ -600,12 +599,10 @@ var _default = {
                 _context4.prev = 0;
                 _this8.showLoading();
                 reqParams = {
-                  id: item.id,
+                  matchId: item.match_id,
                   isLottery: 1,
                   isTradition: 1,
-                  beFrom: "football",
-                  serialNumber: item.draw_num,
-                  dateStr: item.match_num
+                  beFrom: "football"
                 }; // 调用recharge接口
                 _context4.next = 5;
                 return (0, _demo.recharge)(reqParams);

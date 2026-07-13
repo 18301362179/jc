@@ -131,13 +131,6 @@ var render = function () {
         return _vm.myValue(item)
       })($event)
     }
-    _vm.e1 = function ($event, item) {
-      var _temp3 = arguments[arguments.length - 1].currentTarget.dataset,
-        _temp4 = _temp3.eventParams || _temp3["event-params"],
-        item = _temp4.item
-      var _temp3, _temp4
-      item.is_stop != 1 && _vm.openScorePopup(item)
-    }
   }
   _vm.$mp.data = Object.assign(
     {},
@@ -192,7 +185,6 @@ exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 30));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
-//
 //
 //
 //

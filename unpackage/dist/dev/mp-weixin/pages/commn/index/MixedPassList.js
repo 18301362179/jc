@@ -1479,7 +1479,6 @@ var _demo = __webpack_require__(/*! @/api/demo */ 35);
 //
 //
 //
-//
 var _default2 = {
   props: {
     matchList: {
@@ -1509,7 +1508,6 @@ var _default2 = {
       currentMatch: {
         data2: {},
         r_goal: -1,
-        is_stop: 0,
         selectedSpf: [],
         selectedBifen: [],
         selectedZjq: [],
@@ -1671,21 +1669,11 @@ var _default2 = {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
     handleSpfMultiClick: function handleSpfMultiClick(item, selectType, rowIndex, itemIndex) {
-      // 停售判断
-      if (item.is_stop == 1) {
-        uni.showToast({
-          title: "该场次已停售",
-          icon: "none"
-        });
-        return;
-      }
       this.$emit("toggle-mixed-select", item, selectType);
     },
     getScoreClass: function getScoreClass(plate, value, multiplier) {
-      var _this2 = this;
       var arr = this.selectedScores[plate] || [];
       var isDisabled = function () {
-        if (_this2.currentMatch.is_stop == 1) return true;
         if (plate === "spf" && (multiplier === undefined || multiplier === null)) return true;
         return false;
       }();
@@ -1698,7 +1686,7 @@ var _default2 = {
     handleScoreToggle: function handleScoreToggle(plate, value) {
       try {
         // 2. 停售/加载中判断日志
-        if (this.isLoading || this.currentMatch.is_stop == 1) {
+        if (this.isLoading) {
           return;
         }
 
@@ -1741,11 +1729,7 @@ var _default2 = {
       }
     },
     openScorePopup: function openScorePopup(match) {
-      var _this3 = this;
-      // 停售状态下禁止打开弹窗
-      if (match.is_stop == 1) {
-        return;
-      }
+      var _this2 = this;
       // 深拷贝避免修改原数据
       this.currentMatch = this.deepClone(match);
       if (!this.currentMatch.data2) {
@@ -1757,7 +1741,7 @@ var _default2 = {
       var initRspf = [];
       if (Array.isArray(match.selectedSpf) && match.selectedSpf.length > 0) {
         match.selectedSpf.forEach(function (val) {
-          var key = _this3.reverseSpfMapping[val];
+          var key = _this2.reverseSpfMapping[val];
           if (key) {
             if (key.indexOf("胜平负_") === 0) {
               initSpf.push(key);
@@ -1779,18 +1763,16 @@ var _default2 = {
 
       // 异步请求赔率数据
       (0, _demo.queryHhgg)({
-        id: match.id,
-        serialNumber: match.serial_number,
-        dateStr: match.date_str
+        matchId: match.match_id
       }).then(function (res) {
         if (res && res.data) {
           // 更新当前匹配数据（拷贝数据）
           Object.keys(res.data.data1 || {}).forEach(function (key) {
-            _this3.$set(_this3.currentMatch, key, res.data.data1[key]);
+            _this2.$set(_this2.currentMatch, key, res.data.data1[key]);
           });
           if (res.data.data2) {
             Object.keys(res.data.data2).forEach(function (key2) {
-              _this3.$set(_this3.currentMatch.data2, key2, res.data.data2[key2]);
+              _this2.$set(_this2.currentMatch.data2, key2, res.data.data2[key2]);
             });
           }
         }
@@ -1801,18 +1783,18 @@ var _default2 = {
           icon: "none"
         });
       }).finally(function () {
-        _this3.isLoading = false;
+        _this2.isLoading = false;
       });
     },
     // 深拷贝工具函数
     deepClone: function deepClone(obj) {
-      var _this4 = this;
+      var _this3 = this;
       if (obj === null || (0, _typeof2.default)(obj) !== "object") {
         return obj;
       }
       if (obj instanceof Array) {
         return obj.map(function (item) {
-          return _this4.deepClone(item);
+          return _this3.deepClone(item);
         });
       }
       if (obj instanceof Object) {
@@ -1827,9 +1809,9 @@ var _default2 = {
       return obj;
     },
     confirmSelection: function confirmSelection() {
-      var _this5 = this;
+      var _this4 = this;
       try {
-        if (!this.currentMatch || this.isLoading || this.currentMatch.is_stop == 1) {
+        if (!this.currentMatch || this.isLoading) {
           uni.showToast({
             title: "该场次已停售",
             icon: "none"
@@ -1841,7 +1823,7 @@ var _default2 = {
         var targetItem = null;
         this.finalDrawerList.some(function (drawer) {
           return drawer.lotteryList.some(function (item) {
-            if (item.id === _this5.currentMatch.id) {
+            if (item.id === _this4.currentMatch.id) {
               targetItem = item;
               return true;
             }
@@ -1852,10 +1834,10 @@ var _default2 = {
 
         // 2. 处理选中映射
         var mappedSpf = (this.selectedScores.spf || []).map(function (v) {
-          return _this5.spfMapping[v];
+          return _this4.spfMapping[v];
         }).filter(Boolean);
         var mappedRspf = (this.selectedScores.rspf || []).map(function (v) {
-          return _this5.spfMapping[v];
+          return _this4.spfMapping[v];
         }).filter(Boolean);
         var selectedAll = [].concat((0, _toConsumableArray2.default)(mappedSpf), (0, _toConsumableArray2.default)(mappedRspf), (0, _toConsumableArray2.default)(this.selectedScores.bifen || []), (0, _toConsumableArray2.default)(this.selectedScores.zjq || []), (0, _toConsumableArray2.default)(this.selectedScores.bqc || []));
 
@@ -1902,8 +1884,8 @@ var _default2 = {
         // 3. 更新列表
         this.finalDrawerList.forEach(function (drawer, di) {
           drawer.lotteryList.forEach(function (item, ii) {
-            if (item.id === _this5.currentMatch.id) {
-              _this5.$set(drawer.lotteryList, ii, updatedItem);
+            if (item.id === _this4.currentMatch.id) {
+              _this4.$set(drawer.lotteryList, ii, updatedItem);
             }
           });
         });

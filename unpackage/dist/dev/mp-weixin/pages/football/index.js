@@ -264,7 +264,7 @@ var _default = {
   },
   data: function data() {
     return {
-      activeTab: 1,
+      activeTab: 0,
       // 新增：玩法列表添加混合过关
       typesList: ["混合过关", "胜平负", "让胜平负", "总进球", "半全场", "比分"],
       selectedType: ["混合过关"],
@@ -399,7 +399,7 @@ var _default = {
         if (this.currentPlay === "混合过关") {
           return this.drawerList.some(function (drawer) {
             return drawer.lotteryList.some(function (match) {
-              return match.is_stop === false && match.betRows.some(function (row) {
+              return match.betRows.some(function (row) {
                 return row.items.some(function (item) {
                   return item.isSelected;
                 });
@@ -519,7 +519,7 @@ var _default = {
       this.drawerList.forEach(function (drawer) {
         if (!Array.isArray(drawer.lotteryList)) return;
         drawer.lotteryList.forEach(function (match) {
-          if (match.is_stop || !match.id) return;
+          if (!match.id) return;
           // 兜底：没有数组则置为空数组，避免报错
           var spf = Array.isArray(match.selectedSpf) ? match.selectedSpf : [];
           var bifen = Array.isArray(match.selectedBifen) ? match.selectedBifen : [];
@@ -800,7 +800,6 @@ var _default = {
                         race_date: match.race_date,
                         home_name: match.home_name,
                         visiting_name: match.visiting_name,
-                        is_stop: match.is_stop,
                         home_win_rate: match.home_win_rate,
                         draw_rate: match.draw_rate,
                         visiting_win_rate: match.visiting_win_rate,
@@ -914,7 +913,6 @@ var _default = {
                     race_date: item.race_date,
                     home_name: item.home_name,
                     visiting_name: item.visiting_name,
-                    is_stop: item.is_stop,
                     homeSelected: item.homeSelected,
                     vsSelected: item.vsSelected,
                     awaySelected: item.awaySelected,
@@ -1277,8 +1275,6 @@ var _default = {
             // 胜字段
             visiting_win_rate: "35%",
             // 胜字段
-            is_stop: false,
-            // 改为未停售
             // ========== 核心新增：初始化所有玩法的选中数组 ==========
             selectedSpf: [],
             // 胜平负/让球胜平负选中数组
@@ -1332,7 +1328,6 @@ var _default = {
               home_name: item.homeTeam || item.home_name || "",
               visiting_name: item.awayTeam || item.visiting_name || "",
               date_str: item.date_str,
-              is_stop: item.is_stop || false,
               // 完善betRows结构：补充赔率、value等字段
               betRows: item.betRows ? item.betRows.map(function (row) {
                 return _objectSpread(_objectSpread({}, row), {}, {
@@ -1743,10 +1738,8 @@ var _default = {
               case 0:
                 // 组装接口参数
                 reqParams = {
-                  id: item.id,
+                  matchId: item.match_id,
                   beFrom: "football",
-                  
-                  dateStr: item.date_str,
                   isLottery: 1
                 }; // 调用recharge接口
                 _context5.next = 3;

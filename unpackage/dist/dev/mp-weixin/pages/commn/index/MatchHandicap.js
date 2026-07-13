@@ -134,27 +134,6 @@ var render = function () {
         return _vm.myValue(item)
       })($event)
     }
-    _vm.e1 = function ($event, item) {
-      var _temp3 = arguments[arguments.length - 1].currentTarget.dataset,
-        _temp4 = _temp3.eventParams || _temp3["event-params"],
-        item = _temp4.item
-      var _temp3, _temp4
-      item.is_stop != 1 && _vm.checkAndSelect(item, "handicapHomeSelected")
-    }
-    _vm.e2 = function ($event, item) {
-      var _temp5 = arguments[arguments.length - 1].currentTarget.dataset,
-        _temp6 = _temp5.eventParams || _temp5["event-params"],
-        item = _temp6.item
-      var _temp5, _temp6
-      item.is_stop != 1 && _vm.checkAndSelect(item, "handicapVsSelected")
-    }
-    _vm.e3 = function ($event, item) {
-      var _temp7 = arguments[arguments.length - 1].currentTarget.dataset,
-        _temp8 = _temp7.eventParams || _temp7["event-params"],
-        item = _temp8.item
-      var _temp7, _temp8
-      item.is_stop != 1 && _vm.checkAndSelect(item, "handicapAwaySelected")
-    }
   }
   _vm.$mp.data = Object.assign(
     {},
@@ -204,7 +183,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _index = __webpack_require__(/*! @/utils/index.js */ 399);
-//
 //
 //
 //
@@ -429,10 +407,6 @@ var _default2 = {
     },
     // 核心：校验8场限制 + 调用原有toggleSelect
     checkAndSelect: function checkAndSelect(item, selectType) {
-      if (item.is_stop == 1) {
-        return;
-      }
-      // 1. 判断当前点击的是「取消选中」还是「新增选中」
       var isCancel = item[selectType]; // 已有选中状态 → 取消
       var isAdd = !isCancel; // 无选中状态 → 新增
 

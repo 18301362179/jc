@@ -625,7 +625,6 @@ exports.default = void 0;
 //
 //
 //
-//
 var _default2 = {
   props: {
     matchList: {
@@ -654,7 +653,6 @@ var _default2 = {
       isPopupShow: false,
       currentMatch: {
         r_goal: -1,
-        is_stop: 0,
         selectedSpf: [],
         selectedDx: [],
         selectedSfc: [],
@@ -852,13 +850,6 @@ var _default2 = {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
     handleSpfMultiClick: function handleSpfMultiClick(item, spfType) {
-      if (item.is_stop == 1) {
-        uni.showToast({
-          title: "该场次已停售",
-          icon: "none"
-        });
-        return;
-      }
       // 胜负类型赔率判断
       var isSpfType = ["home_win", "home_lose"].indexOf(spfType) > -1;
       if (isSpfType) {
@@ -892,7 +883,7 @@ var _default2 = {
     getScoreClass: function getScoreClass(plate, value, multiplier) {
       // 1. 基础选中/禁用判断（和原有逻辑一致）
       var targetArr = this.selectedScores && this.selectedScores[plate] ? this.selectedScores[plate] : [];
-      var isDisabled = this.currentMatch && this.currentMatch.is_stop === 1;
+      var isDisabled = this.currentMatch;
       // 胜负板块额外校验赔率是否存在
       if (plate === "spf" && (multiplier === undefined || multiplier === null || multiplier === "")) {
         isDisabled = true;
@@ -908,7 +899,7 @@ var _default2 = {
       return classStr.trim();
     },
     handleScoreToggle: function handleScoreToggle(plate, value) {
-      if (this.isLoading || this.currentMatch.is_stop == 1) {
+      if (this.isLoading) {
         uni.showToast({
           title: "操作不可用",
           icon: "none"
@@ -963,9 +954,6 @@ var _default2 = {
       }
     },
     openScorePopup: function openScorePopup(match) {
-      if (match.is_stop == 1) {
-        return;
-      }
       // 深拷贝避免修改原数据
       this.currentMatch = JSON.parse(JSON.stringify(match));
       this.isLoading = false; // 无需加载，直接设为false
@@ -992,7 +980,7 @@ var _default2 = {
       };
     },
     confirmSelection: function confirmSelection() {
-      if (!this.currentMatch || this.isLoading || this.currentMatch.is_stop == 1) return;
+      if (!this.currentMatch || this.isLoading) return;
       this.finalDrawerList.forEach(function (drawer) {
         drawer.lotteryList.forEach(function (item) {
           if (item.serial_number === this.currentMatch.serial_number) {

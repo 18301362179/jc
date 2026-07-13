@@ -291,8 +291,6 @@ exports.default = void 0;
 //
 //
 //
-//
-//
 var _default2 = {
   props: {
     // 原有props：完全保留总进球的原始定义
@@ -453,11 +451,6 @@ var _default2 = {
     },
     // 核心：校验8场限制 + 调用原有toggleGoalSelect
     checkAndSelect: function checkAndSelect(item, goalValue) {
-      // 新增：停售状态直接返回，禁止点击
-      if (item.is_stop == 1) {
-        return;
-      }
-
       // 1. 判断当前比赛是否已被选中（总进球逻辑）
       var isCurrentMatchSelected = item.selectedGoals && item.selectedGoals.length > 0;
       // 2. 判断当前点击的是「取消选中」还是「新增选中」

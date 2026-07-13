@@ -92,7 +92,7 @@ export default {
   },
   data() {
     return {
-      activeTab: 1,
+      activeTab: 0,
       // 新增：玩法列表添加混合过关
       typesList: ["混合过关", "胜平负", "让胜平负", "总进球", "半全场", "比分"],
       selectedType: ["混合过关"],

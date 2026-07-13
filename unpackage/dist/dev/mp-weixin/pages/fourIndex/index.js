@@ -654,12 +654,10 @@ var _default = {
                 _context4.prev = 0;
                 _this6.showLoading();
                 reqParams = {
-                  id: item.id,
+                  matchId: item.match_id,
                   isLottery: 1,
                   isTradition: 1,
-                  beFrom: "football",
-                  serialNumber: item.draw_num,
-                  dateStr: item.match_num
+                  beFrom: "football"
                 }; // 调用recharge接口
                 _context4.next = 5;
                 return (0, _demo.recharge)(reqParams);

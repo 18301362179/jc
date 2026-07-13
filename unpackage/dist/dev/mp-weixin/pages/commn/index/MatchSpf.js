@@ -315,9 +315,6 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 399);
 //
 //
 //
-//
-//
-//
 var _default2 = {
   props: {
     matchList: {
@@ -428,10 +425,6 @@ var _default2 = {
       this.$set(this.expandedDrawers, drawerIdx, !this.expandedDrawers[drawerIdx]);
     },
     checkAndSelect: function checkAndSelect(item, selectType) {
-      // 新增：停售状态下直接返回，不执行选择逻辑
-      if (item.is_stop == 1) {
-        return;
-      }
       var isCancel = item[selectType];
       var isAdd = !isCancel;
       if (isAdd) {

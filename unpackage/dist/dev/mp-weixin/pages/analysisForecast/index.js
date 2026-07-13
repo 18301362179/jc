@@ -473,12 +473,10 @@ var _default = {
                 _context2.prev = 0;
                 _this5.showLoading();
                 reqParams = {
-                  id: item.id,
                   isLottery: 0,
                   isTradition: 1,
                   beFrom: "football",
-                  serialNumber: item.serial_number,
-                  dateStr: item.date_str
+                  matchId: item.id
                 };
                 _context2.next = 5;
                 return (0, _demo.recharge)(reqParams);

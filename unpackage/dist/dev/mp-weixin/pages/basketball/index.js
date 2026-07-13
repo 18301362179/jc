@@ -199,7 +199,6 @@ var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/run
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
 var _demo = __webpack_require__(/*! @/api/demo */ 35);
-var _data = __webpack_require__(/*! @/utils/data */ 63);
 var _validate = __webpack_require__(/*! @/utils/validate */ 80);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -269,7 +268,7 @@ var _default = {
   },
   data: function data() {
     return {
-      activeTab: 1,
+      activeTab: 0,
       typesList: ["混合过关", "胜负", "让分胜负", "大小分", "胜分差"],
       selectedType: ["混合过关"],
       currentPlay: "混合过关",
@@ -632,7 +631,7 @@ var _default = {
     goToSchemeEdit: function goToSchemeEdit() {
       var _this9 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var selectedMatches, totalSelectedCount, hasSingleMatch, matchSerials, res, basketballPlayToPageMap, editUrl;
+        var selectedMatches, totalSelectedCount, hasSingleMatch, basketballPlayToPageMap, editUrl;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -678,90 +677,37 @@ var _default = {
                 });
                 return _context2.abrupt("return");
               case 15:
-                // 5. 停售校验
-                matchSerials = selectedMatches.map(function (item) {
-                  return item.serial_number;
-                }).join(",");
-                _context2.prev = 16;
-                _this9.showLoading();
-                _context2.next = 20;
-                return (0, _demo.checkSelectBasketball)({
-                  lotteryIds: matchSerials
-                });
-              case 20:
-                res = _context2.sent;
-                if (res.data && res.data.status == 1) {
-                  // 6. 玩法与编辑页面匹配
-                  basketballPlayToPageMap = {
-                    "胜负": "/pages/edit/basketball/index",
-                    "让分胜负": "/pages/edit/basketball/editHandicap",
-                    "胜分差": "/pages/edit/basketball/editScore",
-                    "大小分": "/pages/edit/basketball/editHalfFull",
-                    "混合过关": "/pages/edit/basketball/editHhgg"
-                  }; // 2. 一行取值（匹配不到则用默认值，对应原switch的default）
-                  editUrl = basketballPlayToPageMap[_this9.currentPlay] || "/pages/edit/basketball/index"; // 7. 传递完整数据（包含混合过关选中字段）
-                  uni.navigateTo({
-                    url: editUrl,
-                    events: {
-                      updateSelectedMatches: function updateSelectedMatches(updatedData) {
-                        return _this9.syncUpdatedMatches(updatedData);
-                      }
-                    },
-                    success: function success(res) {
-                      res.eventChannel.emit("selectedData", {
-                        matches: selectedMatches,
-                        betCount: _this9.betCount,
-                        combo: _this9.selectedCombo,
-                        playType: _this9.currentPlay
-                      });
+                // 6. 玩法与编辑页面匹配
+                basketballPlayToPageMap = {
+                  "胜负": "/pages/edit/basketball/index",
+                  "让分胜负": "/pages/edit/basketball/editHandicap",
+                  "胜分差": "/pages/edit/basketball/editScore",
+                  "大小分": "/pages/edit/basketball/editHalfFull",
+                  "混合过关": "/pages/edit/basketball/editHhgg"
+                }; // 2. 一行取值（匹配不到则用默认值，对应原switch的default）
+                editUrl = basketballPlayToPageMap[_this9.currentPlay] || "/pages/edit/basketball/index"; // 7. 传递完整数据（包含混合过关选中字段）
+                uni.navigateTo({
+                  url: editUrl,
+                  events: {
+                    updateSelectedMatches: function updateSelectedMatches(updatedData) {
+                      return _this9.syncUpdatedMatches(updatedData);
                     }
-                  });
-                } else {
-                  uni.showModal({
-                    title: "提示",
-                    content: "抱歉存在停售场次，请重新选择!",
-                    showCancel: false,
-                    confirmText: "我知道了",
-                    success: function success(modalRes) {
-                      if (modalRes.confirm) {
-                        _this9.drawerList = [];
-                        _this9.loadMatchData();
-                        _this9.betCount = 1;
-                        _this9.selectedCombo = "";
-                      }
-                    }
-                  });
-                }
-                _context2.next = 28;
-                break;
-              case 24:
-                _context2.prev = 24;
-                _context2.t0 = _context2["catch"](16);
-                console.error("checkSelectBasketball接口调用失败:", _context2.t0);
-                uni.showModal({
-                  title: "错误",
-                  content: "验证失败，请稍后重试",
-                  showCancel: false,
-                  confirmText: "我知道了",
-                  success: function success(modalRes) {
-                    if (modalRes.confirm) {
-                      _this9.drawerList = [];
-                      _this9.loadMatchData();
-                      _this9.betCount = 1;
-                      _this9.selectedCombo = "";
-                    }
+                  },
+                  success: function success(res) {
+                    res.eventChannel.emit("selectedData", {
+                      matches: selectedMatches,
+                      betCount: _this9.betCount,
+                      combo: _this9.selectedCombo,
+                      playType: _this9.currentPlay
+                    });
                   }
                 });
-              case 28:
-                _context2.prev = 28;
-                _this9.hideLoading();
-                return _context2.finish(28);
-              case 31:
+              case 18:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[16, 24, 28, 31]]);
+        }, _callee2);
       }))();
     },
     syncUpdatedMatches: function syncUpdatedMatches(updatedData) {
@@ -1193,10 +1139,8 @@ var _default = {
                 _context5.prev = 0;
                 _this19.showLoading();
                 reqParams = {
-                  id: item.id,
+                  matchId: item.match_id,
                   beFrom: "basketball",
-                  
-                  dateStr: item.date_str,
                   isLottery: 1
                 }; // 调用recharge接口
                 _context5.next = 5;
