@@ -18,38 +18,39 @@
       </view>
     </view>
     
-    <scroll-view class="list-scroll" scroll-y>
-      <view class="match-item" v-for="(item, index) in matchList" :key="index">
-        <view class="match-left">
-          <view class="league-tag">
-            <text class="league-text">{{ item.leagueName }}</text>
-          </view>
-          <text class="time-text">{{ formatTime(item.raceDate) }}</text>
-        </view>
-        
-        <view class="match-center">
-          <text class="match-num">{{ item.matchNum }}</text>
-          <view class="score-row">
-            <text class="team-name home">{{ item.homeName }}</text>
-            <text class="score">{{ item.sectionsNo999 }}</text>
-            <text class="team-name away">{{ item.awayName }}</text>
-          </view>
-          <text class="half-score">半&nbsp;场 {{ item.sectionsNo1 }}</text>
-        </view>
-        
-        <view class="match-right" v-if="urlValue">
-          <view class="status-wrapper">
-            <!-- 动图：showImage=1 显示，0 隐藏 -->
-            <image v-if="item.showImage == 1&& urlValue" class="gif-icon" src="https://www.tianjifu.com/static/fg.gif"></image>
-            <text class="status-text" v-if="urlValue">{{ item.statusName}}</text>
-          </view>
-        </view>
+<scroll-view class="list-scroll" scroll-y>
+  <view class="match-item" v-for="(item, index) in matchList" :key="index">
+    <view class="match-left">
+      <view class="league-tag">
+        <text class="league-text">{{ item.leagueAbbName }}</text>
       </view>
-      
-      <view class="empty-state" v-if="matchList.length === 0">
-        <text class="empty-text">暂无数据</text>
+      <text class="time-text">{{ formatTime(item.matchDate + ' ' + item.matchTime) }}</text>
+    </view>
+
+    <view class="match-center">
+      <text class="match-num">{{ item.matchNum }}</text>
+      <view class="score-row">
+        <text class="team-name home">{{ item.homeTeamAbbName }}</text>
+        <text class="score">{{ item.sectionsNo999 }}</text>
+        <text class="team-name away">{{ item.awayTeamAbbName }}</text>
       </view>
-    </scroll-view>
+      <text class="half-score">半&nbsp;场 {{ item.sectionsNo1 }}</text>
+    </view>
+
+    <view class="match-right" v-if="urlValue">
+      <view class="status-wrapper">
+        <!-- 动图：这里用liveEventMap判断是否有实时事件，有则显示gif -->
+        <image v-if="liveEventMap[item.matchNum] && liveEventMap[item.matchNum].length > 0 && urlValue" class="gif-icon" src="https://www.tianjifu.com/static/fg.gif"></image>
+        <text class="status-text" v-if="urlValue">{{ item.matchStatusName}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" v-if="matchList.length === 0">
+    <text class="empty-text">暂无数据</text>
+  </view>
+</scroll-view>
+
   </view>
 </template>
 
@@ -65,6 +66,8 @@ export default {
       matchList: [],
       dateTitle: "",
       urlValue:false,
+      // 新增：实时事件接口返回数据
+      liveEventMap: {},
     };
   },
   created() {
@@ -75,34 +78,70 @@ export default {
     async getMatchData() {
       uni.showLoading({ title: "加载中..." });
       try {
-        const res = await footLotteryLive();
-        if (res.data && res.data.length > 0) {
-          this.matchList = res.data || [];
-        }
+        // const res = await footLotteryLive();
+        // if (res.data && res.data.length > 0) {
+        //   this.matchList = res.data || [];
+        // }
+        // 请求进球/点球大战实时事件接口
+        await this.getMatchLiveEvent();
       } catch (err) {
         uni.showToast({ title: "网络异常", icon: "none" });
       } finally {
         uni.hideLoading();
       }
     },
-    
+
+    /**
+     * 请求实时进球、点球大战事件接口
+     * 接口地址：https://webapi.sporttery.cn/gateway/uniform/fb/getMatchLiveV1.qry?eventTc=goals,penalty_shootout&method=live
+     */
+    /**
+     * 请求实时进球、点球大战事件接口
+     * 接口地址：https://webapi.sporttery.cn/gateway/uniform/fb/getMatchLiveV1.qry?eventTc=goals,penalty_shootout&method=live
+     */
+async getMatchLiveEvent() {
+  try {
+    const liveRes = await uni.request({
+      url: "https://webapi.sporttery.cn/gateway/uniform/fb/getMatchLiveV1.qry",
+      method: "GET",
+      data: {
+        eventTc: "goals,penalty_shootout",
+        method: "live"
+      },
+      header: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://www.sporttery.cn/"
+      }
+    });
+    // 重点：uni.request返回 [null, response]，取第二个元素
+    const response = liveRes[1];
+    const resJson = response.data;
+    console.log(resJson, 'josn--------------------------')
+    const data = resJson.value;
+    this.matchList = data;
+  } catch (error) {
+    console.log("【getMatchLiveV1.qry】接口请求异常", error);
+  }
+},
     handleRefresh() {
       this.matchList = [];
       this.getMatchData();
       uni.showToast({ title: "刷新成功", icon: "success", duration: 1500 });
     },
     
-    formatTime(timeStr) {
-      if (!timeStr) return "";
-      const date = new Date(timeStr);
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      const day = date.getDate().toString().padStart(2, "0");
-      const hours = date.getHours().toString().padStart(2, "0");
-      const minutes = date.getMinutes().toString().padStart(2, "0");
-      return `${month}-${day}\n${hours}:${minutes}`;
-    },
+formatTime(timeStr) {
+  if (!timeStr) return "";
+  const date = new Date(timeStr);
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  return `${month}-${day}\n${hours}:${minutes}`;
+},
+
   }
 };
+
 </script>
 
 <style scoped lang="scss">

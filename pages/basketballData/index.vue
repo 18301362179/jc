@@ -19,36 +19,37 @@
       </view>
     </view>
     
-    <scroll-view class="list-scroll" scroll-y >
-      <view class="match-item" v-for="(item, index) in matchList" :key="index">
-        <view class="match-left">
-          <view class="league-tag">
-            <text class="league-text" >{{ item.leagueName }}</text>
-          </view>
-          <text class="time-text" >{{ item.raceDate }}</text>
-        </view>
-        
-        <view class="match-center">
-          <text class="match-num" >{{ item.matchNum }}</text>
-          <view class="score-row">
-            <text class="team-name home" >{{ item.homeName }}</text>
-            <text class="score" >{{ item.sectionsNo999 }}</text>
-            <text class="team-name away" >{{ item.awayName }}</text>
-          </view>
-        </view>
-        
-        <view class="match-right" >
-          <view class="status-wrapper">
-            <image v-if="item.showImage == 1&&urlValue" class="gif-icon" src="https://www.tianjifu.com/static/bg.gif"></image>
-            <text class="status-text" v-if="urlValue">{{ item.statusName}}</text>
-          </view>
-        </view>
+<scroll-view class="list-scroll" scroll-y >
+  <view class="match-item" v-for="(item, index) in matchList" :key="index">
+    <view class="match-left">
+      <view class="league-tag">
+        <text class="league-text" >{{ item.leagueAbbName }}</text>
       </view>
-      
-      <view class="empty-state" v-if="matchList.length === 0">
-        <text class="empty-text">暂无数据</text>
+      <text class="time-text" >{{ formatTime(item.matchDate + ' ' + item.matchTime) }}</text>
+    </view>
+
+    <view class="match-center">
+      <text class="match-num" >{{ item.matchNum }}</text>
+      <view class="score-row">
+        <text class="team-name home" >{{ item.homeTeamAbbName }}</text>
+        <text class="score" >{{ item.sectionsNo999 }}</text>
+        <text class="team-name away" >{{ item.awayTeamAbbName }}</text>
       </view>
-    </scroll-view>
+    </view>
+
+    <view class="match-right" >
+      <view class="status-wrapper">
+        <image v-if="liveEventMap[item.matchNum] && liveEventMap[item.matchNum].length > 0 && urlValue" class="gif-icon" src="https://www.tianjifu.com/static/bg.gif"></image>
+        <text class="status-text" v-if="urlValue">{{ item.matchStatusName}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" v-if="matchList.length === 0">
+    <text class="empty-text">暂无数据</text>
+  </view>
+</scroll-view>
+
   </view>
 </template>
 
@@ -65,28 +66,55 @@ export default {
       matchList: [],
       dateTitle: "",
       urlValue: false,
+      liveEventMap: {}, // 新增
     };
   },
   created() {
     this.getMatchData();
-        this.urlValue = uni.getStorageSync('urlValue');
+    this.urlValue = uni.getStorageSync('urlValue');
   },
   methods: {
     // 获取比赛数据
     async getMatchData() {
       uni.showLoading({ title: "加载中..." });
       try {
-        const res = await basketLotteryLive();
-        if (res.data && res.data.length > 0) {
-          this.matchList = res.data || [];
-        }
+        // 请求进球/点球大战实时事件接口
+        await this.getBasketballLiveEvent();
       } catch (err) {
         uni.showToast({ title: "网络异常", icon: "none" });
       } finally {
         uni.hideLoading();
       }
     },
-    
+    /**
+    * 篮球实时事件接口 bk/getMatchLiveV1.qry
+    */
+async getBasketballLiveEvent() {
+  try {
+    const liveRes = await uni.request({
+      url: "https://webapi.sporttery.cn/gateway/uniform/bk/getMatchLiveV1.qry",
+      method: "GET",
+      data: {
+        // 篮球先清空eventTc，不要足球的goals,penalty_shootout，后续确认篮球事件编码再回填
+        // eventTc: "",
+        method: "live"
+      },
+      header: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://www.sporttery.cn/"
+      }
+    });
+    // uni.request [err, response]
+    const response = liveRes[1];
+    const resJson = response.data;
+    console.log(resJson, 'bk接口返回--------------------------');
+    const data = resJson.value;
+    this.matchList = data;
+  } catch (err) {
+    console.error("【bk/getMatchLiveV1.qry】请求异常：", err);
+  }
+},
+
     // 刷新按钮点击事件
     handleRefresh() {
       // 清空旧数据（可选，提升体验）
@@ -95,6 +123,16 @@ export default {
       this.getMatchData();
       // 刷新成功提示
       uni.showToast({ title: "刷新成功", icon: "success", duration: 1500 });
+    },
+    // 新增时间格式化方法，和足球保持一致
+    formatTime(timeStr) {
+      if (!timeStr) return "";
+      const date = new Date(timeStr);
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const day = date.getDate().toString().padStart(2, "0");
+      const hours = date.getHours().toString().padStart(2, "0");
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      return `${month}-${day}\n${hours}:${minutes}`;
     },
   }
 };

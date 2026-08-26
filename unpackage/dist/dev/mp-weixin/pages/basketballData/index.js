@@ -102,12 +102,26 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = _vm.matchList.length
+  var l0 = _vm.__map(_vm.matchList, function (item, index) {
+    var $orig = _vm.__get_orig(item)
+    var m0 = _vm.formatTime(item.matchDate + " " + item.matchTime)
+    var g0 =
+      _vm.liveEventMap[item.matchNum] &&
+      _vm.liveEventMap[item.matchNum].length > 0 &&
+      _vm.urlValue
+    return {
+      $orig: $orig,
+      m0: m0,
+      g0: g0,
+    }
+  })
+  var g1 = _vm.matchList.length
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
-        g0: g0,
+        l0: l0,
+        g1: g1,
       },
     }
   )
@@ -167,7 +181,8 @@ var _default = {
     return {
       matchList: [],
       dateTitle: "",
-      urlValue: false
+      urlValue: false,
+      liveEventMap: {} // 新增
     };
   },
   created: function created() {
@@ -179,7 +194,6 @@ var _default = {
     getMatchData: function getMatchData() {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var res;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -189,31 +203,75 @@ var _default = {
                 });
                 _context.prev = 1;
                 _context.next = 4;
-                return (0, _demo.basketLotteryLive)();
+                return _this.getBasketballLiveEvent();
               case 4:
-                res = _context.sent;
-                if (res.data && res.data.length > 0) {
-                  _this.matchList = res.data || [];
-                }
-                _context.next = 11;
+                _context.next = 9;
                 break;
-              case 8:
-                _context.prev = 8;
+              case 6:
+                _context.prev = 6;
                 _context.t0 = _context["catch"](1);
                 uni.showToast({
                   title: "网络异常",
                   icon: "none"
                 });
-              case 11:
-                _context.prev = 11;
+              case 9:
+                _context.prev = 9;
                 uni.hideLoading();
-                return _context.finish(11);
-              case 14:
+                return _context.finish(9);
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 8, 11, 14]]);
+        }, _callee, null, [[1, 6, 9, 12]]);
+      }))();
+    },
+    /**
+    * 篮球实时事件接口 bk/getMatchLiveV1.qry
+    */
+    getBasketballLiveEvent: function getBasketballLiveEvent() {
+      var _this2 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+        var liveRes, response, resJson, data;
+        return _regenerator.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return uni.request({
+                  url: "https://webapi.sporttery.cn/gateway/uniform/bk/getMatchLiveV1.qry",
+                  method: "GET",
+                  data: {
+                    // 篮球先清空eventTc，不要足球的goals,penalty_shootout，后续确认篮球事件编码再回填
+                    // eventTc: "",
+                    method: "live"
+                  },
+                  header: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    "Referer": "https://www.sporttery.cn/"
+                  }
+                });
+              case 3:
+                liveRes = _context2.sent;
+                // uni.request [err, response]
+                response = liveRes[1];
+                resJson = response.data;
+                console.log(resJson, 'bk接口返回--------------------------');
+                data = resJson.value;
+                _this2.matchList = data;
+                _context2.next = 14;
+                break;
+              case 11:
+                _context2.prev = 11;
+                _context2.t0 = _context2["catch"](0);
+                console.error("【bk/getMatchLiveV1.qry】请求异常：", _context2.t0);
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 11]]);
       }))();
     },
     // 刷新按钮点击事件
@@ -228,6 +286,16 @@ var _default = {
         icon: "success",
         duration: 1500
       });
+    },
+    // 新增时间格式化方法，和足球保持一致
+    formatTime: function formatTime(timeStr) {
+      if (!timeStr) return "";
+      var date = new Date(timeStr);
+      var month = (date.getMonth() + 1).toString().padStart(2, "0");
+      var day = date.getDate().toString().padStart(2, "0");
+      var hours = date.getHours().toString().padStart(2, "0");
+      var minutes = date.getMinutes().toString().padStart(2, "0");
+      return "".concat(month, "-").concat(day, "\n").concat(hours, ":").concat(minutes);
     }
   }
 };

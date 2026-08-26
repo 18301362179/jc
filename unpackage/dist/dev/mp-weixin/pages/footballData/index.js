@@ -104,19 +104,25 @@ var render = function () {
   var _c = _vm._self._c || _h
   var l0 = _vm.__map(_vm.matchList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m0 = _vm.formatTime(item.raceDate)
+    var m0 = _vm.formatTime(item.matchDate + " " + item.matchTime)
+    var g0 = _vm.urlValue
+      ? _vm.liveEventMap[item.matchNum] &&
+        _vm.liveEventMap[item.matchNum].length > 0 &&
+        _vm.urlValue
+      : null
     return {
       $orig: $orig,
       m0: m0,
+      g0: g0,
     }
   })
-  var g0 = _vm.matchList.length
+  var g1 = _vm.matchList.length
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         l0: l0,
-        g0: g0,
+        g1: g1,
       },
     }
   )
@@ -176,7 +182,9 @@ var _default = {
     return {
       matchList: [],
       dateTitle: "",
-      urlValue: false
+      urlValue: false,
+      // 新增：实时事件接口返回数据
+      liveEventMap: {}
     };
   },
   created: function created() {
@@ -187,7 +195,6 @@ var _default = {
     getMatchData: function getMatchData() {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var res;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -197,31 +204,79 @@ var _default = {
                 });
                 _context.prev = 1;
                 _context.next = 4;
-                return (0, _demo.footLotteryLive)();
+                return _this.getMatchLiveEvent();
               case 4:
-                res = _context.sent;
-                if (res.data && res.data.length > 0) {
-                  _this.matchList = res.data || [];
-                }
-                _context.next = 11;
+                _context.next = 9;
                 break;
-              case 8:
-                _context.prev = 8;
+              case 6:
+                _context.prev = 6;
                 _context.t0 = _context["catch"](1);
                 uni.showToast({
                   title: "网络异常",
                   icon: "none"
                 });
-              case 11:
-                _context.prev = 11;
+              case 9:
+                _context.prev = 9;
                 uni.hideLoading();
-                return _context.finish(11);
-              case 14:
+                return _context.finish(9);
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 8, 11, 14]]);
+        }, _callee, null, [[1, 6, 9, 12]]);
+      }))();
+    },
+    /**
+     * 请求实时进球、点球大战事件接口
+     * 接口地址：https://webapi.sporttery.cn/gateway/uniform/fb/getMatchLiveV1.qry?eventTc=goals,penalty_shootout&method=live
+     */
+    /**
+     * 请求实时进球、点球大战事件接口
+     * 接口地址：https://webapi.sporttery.cn/gateway/uniform/fb/getMatchLiveV1.qry?eventTc=goals,penalty_shootout&method=live
+     */
+    getMatchLiveEvent: function getMatchLiveEvent() {
+      var _this2 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+        var liveRes, response, resJson, data;
+        return _regenerator.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return uni.request({
+                  url: "https://webapi.sporttery.cn/gateway/uniform/fb/getMatchLiveV1.qry",
+                  method: "GET",
+                  data: {
+                    eventTc: "goals,penalty_shootout",
+                    method: "live"
+                  },
+                  header: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    "Referer": "https://www.sporttery.cn/"
+                  }
+                });
+              case 3:
+                liveRes = _context2.sent;
+                // 重点：uni.request返回 [null, response]，取第二个元素
+                response = liveRes[1];
+                resJson = response.data;
+                console.log(resJson, 'josn--------------------------');
+                data = resJson.value;
+                _this2.matchList = data;
+                _context2.next = 14;
+                break;
+              case 11:
+                _context2.prev = 11;
+                _context2.t0 = _context2["catch"](0);
+                console.log("【getMatchLiveV1.qry】接口请求异常", _context2.t0);
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 11]]);
       }))();
     },
     handleRefresh: function handleRefresh() {

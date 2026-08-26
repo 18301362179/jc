@@ -116,9 +116,6 @@
         "pagePath": "pages/index/index"
       },
       {
-        "pagePath": "pages/analysisForecast/index"
-      },
-      {
         "pagePath": "pages/user/index"
       }
     ]
