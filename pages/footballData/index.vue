@@ -78,12 +78,12 @@ export default {
     async getMatchData() {
       uni.showLoading({ title: "加载中..." });
       try {
-        // const res = await footLotteryLive();
-        // if (res.data && res.data.length > 0) {
-        //   this.matchList = res.data || [];
-        // }
-        // 请求进球/点球大战实时事件接口
-        await this.getMatchLiveEvent();
+        const res = await footLotteryLive();
+        if (res.data && res.data.length > 0) {
+          this.matchList = res.data || [];
+        } else {
+           await this.getMatchLiveEvent();
+        }     
       } catch (err) {
         uni.showToast({ title: "网络异常", icon: "none" });
       } finally {

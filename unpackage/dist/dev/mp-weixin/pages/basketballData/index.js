@@ -194,6 +194,7 @@ var _default = {
     getMatchData: function getMatchData() {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+        var res;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -203,27 +204,39 @@ var _default = {
                 });
                 _context.prev = 1;
                 _context.next = 4;
-                return _this.getBasketballLiveEvent();
+                return (0, _demo.basketLotteryLive)();
               case 4:
-                _context.next = 9;
+                res = _context.sent;
+                if (!(res.data && res.data.length > 0)) {
+                  _context.next = 9;
+                  break;
+                }
+                _this.matchList = res.data || [];
+                _context.next = 11;
                 break;
-              case 6:
-                _context.prev = 6;
+              case 9:
+                _context.next = 11;
+                return _this.getBasketballLiveEvent();
+              case 11:
+                _context.next = 16;
+                break;
+              case 13:
+                _context.prev = 13;
                 _context.t0 = _context["catch"](1);
                 uni.showToast({
                   title: "网络异常",
                   icon: "none"
                 });
-              case 9:
-                _context.prev = 9;
+              case 16:
+                _context.prev = 16;
                 uni.hideLoading();
-                return _context.finish(9);
-              case 12:
+                return _context.finish(16);
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 6, 9, 12]]);
+        }, _callee, null, [[1, 13, 16, 19]]);
       }))();
     },
     /**

@@ -74,12 +74,18 @@ export default {
     this.urlValue = uni.getStorageSync('urlValue');
   },
   methods: {
+    
     // 获取比赛数据
     async getMatchData() {
       uni.showLoading({ title: "加载中..." });
       try {
+        const res = await basketLotteryLive();
+        if (res.data && res.data.length > 0) {
+          this.matchList = res.data || [];
+        } else {
         // 请求进球/点球大战实时事件接口
         await this.getBasketballLiveEvent();
+        }
       } catch (err) {
         uni.showToast({ title: "网络异常", icon: "none" });
       } finally {
