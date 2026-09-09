@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/data/index",
     "pages/user/index"
   ],
   "subPackages": [
@@ -114,6 +115,9 @@
     "list": [
       {
         "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/data/index"
       },
       {
         "pagePath": "pages/user/index"

@@ -18,6 +18,24 @@
 				}
 			}
 		},
+	{
+			"path": "pages/data/index",
+			"style": {
+				"navigationBarTitleText": "【云竟慧博体育】微信服务号",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#31926e",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				},
+				"mp-weixin": {
+					"disableScroll": true,
+					"navigationStyle": "custom"
+				}
+			}
+		},
 		{
 			"path": "pages/user/index",
 			"style": {
@@ -668,6 +686,9 @@
 		"list": [
 			{
 				"pagePath": "pages/index/index"
+			},
+						{
+				"pagePath": "pages/data/index"
 			},
 			{
 				"pagePath": "pages/user/index"

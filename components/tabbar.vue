@@ -26,6 +26,7 @@ export default {
     return {
       baseTabList: [
         { text: '首页', icon: 'https://www.tianjifu.com/static/home1.png', activeIcon: 'https://www.tianjifu.com/static/home.png', path: '/pages/index/index' },
+        { text: '数据', icon: 'https://www.tianjifu.com/static/home1.png', activeIcon: 'https://www.tianjifu.com/static/home.png', path: '/pages/data/index' },
         { text: '我的', icon: 'https://www.tianjifu.com/static/mine.png', activeIcon: 'https://www.tianjifu.com/static/mine1.png', path: '/pages/user/index' }
       ],
       iconCache: new Set()

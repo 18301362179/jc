@@ -1,65 +1,81 @@
 <template>
   <view class="football-data-page">
     <!-- 顶部导航栏 -->
-    <CustomHeader
-      :showBack="true"
-      :ballTitle="''"
-      :title="'KeepSeek'"
-      :isIndex="false"
-      :showIcon="false"
-      :isSelected="false"
-    />
-    
+    <CustomHeader :showBack="true" :ballTitle="''" :title="'KeepSeek'" :isIndex="false" :showIcon="false" :isSelected="false" />
+
     <!-- 特别提醒 + 刷新按钮 -->
     <view class="tip-bar">
       <!-- 刷新按钮 -->
       <view class="refresh-btn" @click="handleRefresh">
-        
         <text class="refresh-text">刷&nbsp;&nbsp;新</text>
       </view>
     </view>
-    
-<scroll-view class="list-scroll" scroll-y >
-  <view class="match-item" v-for="(item, index) in matchList" :key="index">
-    <view class="match-left">
-      <view class="league-tag">
-        <text class="league-text" >{{ item.leagueAbbName }}</text>
+
+    <scroll-view class="list-scroll" scroll-y>
+      <view class="match-item" v-if="!urlValue">
+        <view class="match-left">
+          <view class="league-tag">
+            <text class="league-text">电竞信息</text>
+          </view>
+          <text class="time-text"></text>
+        </view>
+
+        <view class="match-center">
+          <text class="match-num"></text>
+          <view class="score-row">
+            <text class="team-name home">上海区电竞信息</text>
+            <text class="score"></text>
+            <text class="team-name away">北京区电竞信息</text>
+          </view>
+        </view>
+
+        <view class="match-right">
+          <view class="status-wrapper">
+            <image v-if="liveEventMap[item.matchNum] && liveEventMap[item.matchNum].length > 0 && urlValue" class="gif-icon" src="https://www.tianjifu.com/static/bg.gif"></image>
+            <text class="status-text" v-if="urlValue">{{ item.matchStatusName }}</text>
+          </view>
+        </view>
       </view>
-      <text class="time-text" >{{ formatTime(item.matchDate + ' ' + item.matchTime) }}</text>
-    </view>
+      <view v-else>
+        <view class="match-item" v-for="(item, index) in matchList" :key="index">
+          <view class="match-left">
+            <view class="league-tag">
+              <text class="league-text">{{ item.leagueAbbName }}</text>
+            </view>
+            <text class="time-text">{{ formatTime(item.matchDate + " " + item.matchTime) }}</text>
+          </view>
 
-    <view class="match-center">
-      <text class="match-num" >{{ item.matchNum }}</text>
-      <view class="score-row">
-        <text class="team-name home" >{{ item.homeTeamAbbName }}</text>
-        <text class="score" >{{ item.sectionsNo999 }}</text>
-        <text class="team-name away" >{{ item.awayTeamAbbName }}</text>
+          <view class="match-center">
+            <text class="match-num">{{ item.matchNum }}</text>
+            <view class="score-row">
+              <text class="team-name home">{{ item.homeTeamAbbName }}</text>
+              <text class="score">{{ item.sectionsNo999 }}</text>
+              <text class="team-name away">{{ item.awayTeamAbbName }}</text>
+            </view>
+          </view>
+
+          <view class="match-right">
+            <view class="status-wrapper">
+              <image v-if="liveEventMap[item.matchNum] && liveEventMap[item.matchNum].length > 0 && urlValue" class="gif-icon" src="https://www.tianjifu.com/static/bg.gif"></image>
+              <text class="status-text" v-if="urlValue">{{ item.matchStatusName }}</text>
+            </view>
+          </view>
+        </view>
       </view>
-    </view>
-
-    <view class="match-right" >
-      <view class="status-wrapper">
-        <image v-if="liveEventMap[item.matchNum] && liveEventMap[item.matchNum].length > 0 && urlValue" class="gif-icon" src="https://www.tianjifu.com/static/bg.gif"></image>
-        <text class="status-text" v-if="urlValue">{{ item.matchStatusName}}</text>
+      <view class="empty-state" v-if="matchList.length === 0">
+        <text class="empty-text">暂无数据</text>
       </view>
-    </view>
-  </view>
-
-  <view class="empty-state" v-if="matchList.length === 0">
-    <text class="empty-text">暂无数据</text>
-  </view>
-</scroll-view>
-
+    </scroll-view>
   </view>
 </template>
 
 <script>
 import CustomHeader from "@/components/CustomHeader.vue";
 // 引入你封装好的接口方法
-import {basketLotteryLive} from '@/api/demo'
+import { basketLotteryLive } from "@/api/demo";
 export default {
   components: {
-    CustomHeader
+    CustomHeader,
   },
   data() {
     return {
@@ -71,10 +87,9 @@ export default {
   },
   created() {
     this.getMatchData();
-    this.urlValue = uni.getStorageSync('urlValue');
+    this.urlValue = uni.getStorageSync("urlValue");
   },
   methods: {
-    
     // 获取比赛数据
     async getMatchData() {
       uni.showLoading({ title: "加载中..." });
@@ -83,8 +98,8 @@ export default {
         if (res.data && res.data.length > 0) {
           this.matchList = res.data || [];
         } else {
-        // 请求进球/点球大战实时事件接口
-        await this.getBasketballLiveEvent();
+          // 请求进球/点球大战实时事件接口
+          await this.getBasketballLiveEvent();
         }
       } catch (err) {
         uni.showToast({ title: "网络异常", icon: "none" });
@@ -93,33 +108,33 @@ export default {
       }
     },
     /**
-    * 篮球实时事件接口 bk/getMatchLiveV1.qry
-    */
-async getBasketballLiveEvent() {
-  try {
-    const liveRes = await uni.request({
-      url: "https://webapi.sporttery.cn/gateway/uniform/bk/getMatchLiveV1.qry",
-      method: "GET",
-      data: {
-        // 篮球先清空eventTc，不要足球的goals,penalty_shootout，后续确认篮球事件编码再回填
-        // eventTc: "",
-        method: "live"
-      },
-      header: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Referer": "https://www.sporttery.cn/"
+     * 篮球实时事件接口 bk/getMatchLiveV1.qry
+     */
+    async getBasketballLiveEvent() {
+      try {
+        const liveRes = await uni.request({
+          url: "https://webapi.sporttery.cn/gateway/uniform/bk/getMatchLiveV1.qry",
+          method: "GET",
+          data: {
+            // 篮球先清空eventTc，不要足球的goals,penalty_shootout，后续确认篮球事件编码再回填
+            // eventTc: "",
+            method: "live",
+          },
+          header: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            Referer: "https://www.sporttery.cn/",
+          },
+        });
+        // uni.request [err, response]
+        const response = liveRes[1];
+        const resJson = response.data;
+        console.log(resJson, "bk接口返回--------------------------");
+        const data = resJson.value;
+        this.matchList = data;
+      } catch (err) {
+        console.error("【bk/getMatchLiveV1.qry】请求异常：", err);
       }
-    });
-    // uni.request [err, response]
-    const response = liveRes[1];
-    const resJson = response.data;
-    console.log(resJson, 'bk接口返回--------------------------');
-    const data = resJson.value;
-    this.matchList = data;
-  } catch (err) {
-    console.error("【bk/getMatchLiveV1.qry】请求异常：", err);
-  }
-},
+    },
 
     // 刷新按钮点击事件
     handleRefresh() {
@@ -140,10 +155,9 @@ async getBasketballLiveEvent() {
       const minutes = date.getMinutes().toString().padStart(2, "0");
       return `${month}-${day}\n${hours}:${minutes}`;
     },
-  }
+  },
 };
 </script>
-
 
 <style scoped lang="scss">
 .football-data-page {
@@ -161,13 +175,13 @@ async getBasketballLiveEvent() {
   justify-content: center;
   align-items: center;
   flex-shrink: 0; // 固定高度，不被压缩
-  
+
   .tip-text {
     font-size: 24rpx;
     color: #cc8800;
     line-height: 1.4;
   }
-  
+
   .refresh-btn {
     display: flex;
     justify-content: center;
@@ -177,14 +191,12 @@ async getBasketballLiveEvent() {
     padding: 8rpx 26rpx;
     border-radius: 8rpx;
     cursor: pointer;
-    
 
-    
     .refresh-text {
       font-size: 24rpx;
       font-weight: 500;
     }
-    
+
     &:active {
       background-color: #009924;
     }
@@ -200,7 +212,7 @@ async getBasketballLiveEvent() {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; // 标准写法
   -ms-overflow-style: none; // IE写法
-  
+
   // 微信小程序专属：隐藏滚动条
   &::-webkit-scrollbar {
     display: none !important;
@@ -224,19 +236,19 @@ async getBasketballLiveEvent() {
   flex-direction: column;
   align-items: center;
   padding: 10rpx 0;
-  
+
   .league-tag {
     padding: 4rpx 12rpx;
     border-radius: 8rpx;
     margin-bottom: 8rpx;
-    
+
     .league-text {
       font-size: 24rpx;
       color: #999;
       font-weight: 500;
     }
   }
-  
+
   .time-text {
     font-size: 22rpx;
     color: #999;
@@ -252,21 +264,21 @@ async getBasketballLiveEvent() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 160rpx; 
-  
+  min-height: 160rpx;
+
   .match-num {
     font-size: 24rpx;
     color: #999;
     margin-bottom: 12rpx;
   }
-  
+
   .score-row {
     display: flex;
-    align-items: center; 
+    align-items: center;
     justify-content: center;
     margin-bottom: 8rpx;
     width: 100%;
-    
+
     .team-name {
       font-size: 28rpx;
       color: #333;
@@ -278,7 +290,7 @@ async getBasketballLiveEvent() {
       text-align: center;
       flex: 1;
     }
-    
+
     .score {
       font-size: 40rpx;
       color: #333;
@@ -287,7 +299,7 @@ async getBasketballLiveEvent() {
       line-height: 1;
     }
   }
-  
+
   .half-score {
     font-size: 24rpx;
     color: #999;
@@ -299,19 +311,19 @@ async getBasketballLiveEvent() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   .status-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8rpx;
   }
-  
+
   .status-text {
     font-size: 20rpx;
     color: #cc3333;
   }
-  
+
   .gif-icon {
     width: 32rpx;
     height: 32rpx;
@@ -327,7 +339,7 @@ async getBasketballLiveEvent() {
 .empty-state {
   padding: 100rpx 0;
   text-align: center;
-  
+
   .empty-text {
     font-size: 28rpx;
     color: #999;

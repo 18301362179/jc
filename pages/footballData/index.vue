@@ -19,6 +19,25 @@
     </view>
     
 <scroll-view class="list-scroll" scroll-y>
+    <view class="match-item" v-if="!urlValue">
+    <view class="match-left">
+      <view class="league-tag">
+        <text class="league-text">电竞信息</text>
+      </view>
+      <text class="time-text"></text>
+    </view>
+
+    <view class="match-center">
+      <text class="match-num"></text>
+      <view class="score-row">
+        <text class="team-name home">上海区电竞信息</text>
+        <text class="score"></text>
+        <text class="team-name away">北京区电竞信息</text>
+      </view>
+      <text class="half-score">半&nbsp;场</text>
+    </view>
+  </view>
+  <template v-else>
   <view class="match-item" v-for="(item, index) in matchList" :key="index">
     <view class="match-left">
       <view class="league-tag">
@@ -45,6 +64,8 @@
       </view>
     </view>
   </view>
+  </template>
+
 
   <view class="empty-state" v-if="matchList.length === 0">
     <text class="empty-text">暂无数据</text>
@@ -68,11 +89,14 @@ export default {
       urlValue:false,
       // 新增：实时事件接口返回数据
       liveEventMap: {},
+      showText: false
     };
   },
   created() {
     this.getMatchData();
+
     this.urlValue = uni.getStorageSync('urlValue');
+    console.log(uni.getStorageSync('urlValue'), 'url----------')
   },
   methods: {
     async getMatchData() {

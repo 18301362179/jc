@@ -55,7 +55,7 @@
             <text class="game-name" v-if="showText">4&nbsp;&nbsp;进</text>
           </view>
         </view>
-        <view class="game-grid">
+        <!-- <view class="game-grid">
           <view class="game-item"  @click="goToGame('footballData/index')">
             <image class="game-icon" src="https://www.tianjifu.com/static/f.png" mode="widthFix"></image>
             <text class="game-name" v-if="showText">足&nbsp;&nbsp;数</text>
@@ -64,7 +64,7 @@
             <image class="game-icon" src="https://www.tianjifu.com/static/b.png" mode="widthFix"></image>
             <text class="game-name" v-if="showText">蓝&nbsp;&nbsp;数</text>
           </view>
-        </view>
+        </view> -->
       </view>
     </view>
     <TipsPopup
