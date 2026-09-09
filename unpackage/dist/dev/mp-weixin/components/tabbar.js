@@ -135,8 +135,8 @@ var _default = {
         path: '/pages/index/index'
       }, {
         text: '数据',
-        icon: 'https://www.tianjifu.com/static/home1.png',
-        activeIcon: 'https://www.tianjifu.com/static/home.png',
+        icon: 'https://www.tianjifu.com/static/yu.png',
+        activeIcon: 'https://www.tianjifu.com/static/yu1.png',
         path: '/pages/data/index'
       }, {
         text: '我的',
